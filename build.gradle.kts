@@ -1,12 +1,12 @@
 plugins {
     java
+    idea
     id("com.gradleup.shadow") version "8.3.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("xyz.jpenilla.run-paper") version "2.3.0"
 }
 
 group = "io.github.pylonmc"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -20,8 +20,26 @@ dependencies {
     // TODO: add pylon-core once BS done
 }
 
+idea {
+    module {
+        isDownloadJavadoc = true
+        isDownloadSources = true
+    }
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+tasks.shadowJar {
+    mergeServiceFiles()
+
+    fun doRelocate(lib: String) {
+        relocate(lib, "io.github.pylonmc.pylon.base.shadowlibs.$lib")
+    }
+
+    archiveBaseName = project.name
+    archiveClassifier = null
 }
 
 bukkit {

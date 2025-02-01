@@ -1,0 +1,31 @@
+name: Create GitHub Release & Publish to Maven Central
+
+on:
+  push:
+    tags: ['*']
+
+jobs:
+  build:
+    uses: ./.github/workflows/gradle.yml
+    with:
+      version: ${GITHUB_REF/refs\/tags\//}
+      
+  github-release:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download Pylon
+      uses: actions/download-artifact@v4.1.8
+      with:
+        name: pylon-base-${GITHUB_REF/refs\/tags\//}
+
+    - name: Create Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.ACCESS_TOKEN }}
+        draft: false
+        prerelease: false
+        automatic_release_tag: ${GITHUB_REF/refs\/tags\//}
+        title: Release ${GITHUB_REF/refs\/tags\//}
+        files: build/libs/pylon-base-*.jar
