@@ -1,4 +1,4 @@
-name: Create GitHub Release & Publish to Maven Central
+name: Create GitHub Release
 
 on:
   push:
