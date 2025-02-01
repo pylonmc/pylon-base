@@ -5,11 +5,11 @@ on:
     branches:
     - master
     paths:
-    - 'src/**'
+    - '*'
   pull_request:
     branches: [ "*" ]
     paths:
-    - 'src/**'
+    - '*'
   workflow_call:
     inputs:
       version:
