@@ -3,10 +3,8 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "master" ]
-    paths: [ "*" ]
   pull_request:
     branches: [ "*" ]
-    paths: [ "*" ]
   workflow_call:
     inputs:
       version:
