@@ -8,7 +8,7 @@ jobs:
   build:
     uses: ./.github/workflows/gradle.yml
     with:
-      version: ${GITHUB_REF/refs\/tags\//}
+      version: ${{ github.ref_name }}
       
   github-release:
     needs: [build]
@@ -18,7 +18,7 @@ jobs:
     - name: Download Pylon
       uses: actions/download-artifact@v4.1.8
       with:
-        name: pylon-base-${GITHUB_REF/refs\/tags\//}
+        name: pylon-base-${{ github.ref_name }}
 
     - name: Create Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -26,6 +26,6 @@ jobs:
         repo_token: ${{ secrets.ACCESS_TOKEN }}
         draft: false
         prerelease: false
-        automatic_release_tag: ${GITHUB_REF/refs\/tags\//}
-        title: Release ${GITHUB_REF/refs\/tags\//}
-        files: build/libs/pylon-base-*.jar
+        automatic_release_tag: ${{ github.ref_name }}
+        title: Release ${{ github.ref_name }}
+        files: pylon-base-*.jar
