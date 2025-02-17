@@ -1,4 +1,4 @@
-package io.github.pylonmc;
+package io.github.pylonmc.pylon.base;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

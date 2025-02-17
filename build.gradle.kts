@@ -51,6 +51,10 @@ bukkit {
 }
 
 tasks.runServer {
+    downloadPlugins {
+        val coreVersion = project.properties["pylon-core.version"] as String
+        github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
+    }
     maxHeapSize = "4G"
     minecraftVersion("1.21.4")
 }
