@@ -15,9 +15,11 @@ repositories {
     }
 }
 
+val coreVersion = project.properties["pylon-core.version"] as String
+
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    // TODO: add pylon-core once BS done
+    compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
 }
 
 idea {
@@ -52,7 +54,6 @@ bukkit {
 
 tasks.runServer {
     downloadPlugins {
-        val coreVersion = project.properties["pylon-core.version"] as String
         github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
     }
     maxHeapSize = "4G"
