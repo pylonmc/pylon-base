@@ -43,6 +43,36 @@ public class PylonItems {
             )
     );
 
+    public static final PylonItemSchema GOLD_SHEET = new BasicItemSchema<>(
+            pylonKey("gold_sheet"),
+            new ItemStackBuilder(Material.PAPER)
+                    .set(DataComponentTypes.ITEM_NAME, Component.text("Gold Sheet"))
+                    .build(),
+            Hammer.RECIPE_TYPE,
+            sheet -> new Hammer.Recipe(
+                    pylonKey("gold_sheet"),
+                    List.of(new ItemStack(Material.GOLD_INGOT)),
+                    sheet,
+                    MiningLevel.STONE,
+                    0.25f
+            )
+    );
+
+    public static final PylonItemSchema IRON_SHEET = new BasicItemSchema<>(
+            pylonKey("iron_sheet"),
+            new ItemStackBuilder(Material.PAPER)
+                    .set(DataComponentTypes.ITEM_NAME, Component.text("Iron Sheet"))
+                    .build(),
+            Hammer.RECIPE_TYPE,
+            sheet -> new Hammer.Recipe(
+                    pylonKey("iron_sheet"),
+                    List.of(new ItemStack(Material.IRON_INGOT)),
+                    sheet,
+                    MiningLevel.IRON,
+                    0.25f
+            )
+    );
+
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer STONE_HAMMER = new Hammer(
             pylonKey("stone_hammer"),
@@ -146,6 +176,8 @@ public class PylonItems {
 
     static void register() {
         COPPER_SHEET.register();
+        GOLD_SHEET.register();
+        IRON_SHEET.register();
         STONE_HAMMER.register();
         IRON_HAMMER.register();
         DIAMOND_HAMMER.register();
