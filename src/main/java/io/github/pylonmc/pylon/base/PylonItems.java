@@ -1,9 +1,11 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.BasicItemSchema;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.util.Components;
 import io.github.pylonmc.pylon.base.util.MiningLevel;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.ItemLore;
@@ -13,8 +15,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PylonItems {
@@ -23,6 +28,22 @@ public class PylonItems {
         throw new AssertionError("Utility class");
     }
 
+    public static final PylonItemSchema COPPER_SHEET = new BasicItemSchema<>(
+            pylonKey("copper_sheet"),
+            new ItemStackBuilder(Material.PAPER)
+                    .set(DataComponentTypes.ITEM_NAME, Component.text("Copper Sheet"))
+                    .build(),
+            Hammer.RECIPE_TYPE,
+            sheet -> new Hammer.Recipe(
+                    pylonKey("copper_sheet"),
+                    List.of(new ItemStack(Material.COPPER_INGOT)),
+                    sheet,
+                    MiningLevel.STONE,
+                    0.25f
+            )
+    );
+
+    //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer STONE_HAMMER = new Hammer(
             pylonKey("stone_hammer"),
             Hammer.Item.class,
@@ -121,8 +142,10 @@ public class PylonItems {
             MiningLevel.DIAMOND,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
+    //</editor-fold>
 
     static void register() {
+        COPPER_SHEET.register();
         STONE_HAMMER.register();
         IRON_HAMMER.register();
         DIAMOND_HAMMER.register();

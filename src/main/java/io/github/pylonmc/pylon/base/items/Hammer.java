@@ -14,17 +14,19 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNullByDefault;
 
 import java.util.ArrayList;
@@ -67,28 +69,30 @@ public class Hammer extends PylonItemSchema {
 
         @Override
         public void onUsedToRightClickBlock(PlayerInteractEvent event) {
+            event.setUseInteractedBlock(Event.Result.DENY);
+
             Player p = event.getPlayer();
-            // Kotlin's null safety would be real nice to have right about now...
             ItemStack hammer = event.getItem();
-            assert hammer != null;
+            if (p.hasCooldown(hammer)) return;
+
             Block clickedBlock = event.getClickedBlock();
-            assert clickedBlock != null;
+            World world = clickedBlock.getWorld();
 
             hammer.damage(1, p);
 
             if (event.getBlockFace() != BlockFace.UP) return;
 
             MiningLevel thisLevel = getSchema().miningLevel;
+            p.setCooldown(hammer, (5 - thisLevel.getNumericalLevel()) * 20);
             if (thisLevel.canMine(clickedBlock.getType())) {
                 p.sendMessage(Component.text("This block is too soft to use a hammer on").color(NamedTextColor.RED));
                 return;
             }
 
             Block blockAbove = clickedBlock.getRelative(BlockFace.UP);
-            Collection<Entity> dropped = clickedBlock.getWorld().getNearbyEntities(BoundingBox.of(blockAbove));
 
             List<ItemStack> items = new ArrayList<>();
-            for (Entity e : dropped) {
+            for (Entity e : world.getNearbyEntities(BoundingBox.of(blockAbove))) {
                 if (e instanceof org.bukkit.entity.Item entity) {
                     items.add(entity.getItemStack());
                     entity.remove();
@@ -105,7 +109,6 @@ public class Hammer extends PylonItemSchema {
                     }
 
                     float adjustedChance = recipe.chance() *
-                            p.getAttackCooldown() *
                             // Each tier is twice as likely to succeed as the previous one
                             (1 << thisLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
                     if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
@@ -125,7 +128,8 @@ public class Hammer extends PylonItemSchema {
             }
 
             for (ItemStack item : items) {
-                blockAbove.getWorld().dropItem(blockAbove.getLocation(), item);
+               world.dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), item)
+                       .setVelocity(new Vector(0, 0, 0));
             }
         }
     }
