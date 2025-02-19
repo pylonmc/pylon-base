@@ -13,6 +13,7 @@ public class PylonBase extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+        PylonItems.register();
     }
 
     @Override
