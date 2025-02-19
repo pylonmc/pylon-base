@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
-import io.github.pylonmc.pylon.base.util.ComponentUtils;
+import io.github.pylonmc.pylon.base.util.Components;
 import io.github.pylonmc.pylon.base.util.MiningLevel;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -28,9 +28,11 @@ public class PylonItems {
             Hammer.Item.class,
             new ItemStackBuilder(Material.STONE_PICKAXE)
                     .set(DataComponentTypes.ITEM_NAME, Component.text("Stone Hammer"))
-                    .set(DataComponentTypes.LORE, ItemLore.lore()
-                            .addLine(ComponentUtils.loreLine("A hammer made of stone"))
-                            .addLine(ComponentUtils.loreLine("Useful as a weapon in a pinch"))
+                    .set(DataComponentTypes.LORE,
+                            Components.createLore(
+                                    "A hammer made of stone",
+                                    "Useful as a weapon in a pinch"
+                            )
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -59,9 +61,11 @@ public class PylonItems {
             Hammer.Item.class,
             new ItemStackBuilder(Material.IRON_PICKAXE)
                     .set(DataComponentTypes.ITEM_NAME, Component.text("Iron Hammer"))
-                    .set(DataComponentTypes.LORE, ItemLore.lore()
-                            .addLine(ComponentUtils.loreLine("A hammer made of iron"))
-                            .addLine(ComponentUtils.loreLine("Stronger than a stone hammer"))
+                    .set(DataComponentTypes.LORE,
+                            Components.createLore(
+                                    "A hammer made of iron",
+                                    "Stronger than a stone hammer"
+                            )
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -90,9 +94,11 @@ public class PylonItems {
             Hammer.Item.class,
             new ItemStackBuilder(Material.DIAMOND_PICKAXE)
                     .set(DataComponentTypes.ITEM_NAME, Component.text("Diamond Hammer"))
-                    .set(DataComponentTypes.LORE, ItemLore.lore()
-                            .addLine(ComponentUtils.loreLine("A hammer made of diamond"))
-                            .addLine(ComponentUtils.loreLine("Only the richest can afford this"))
+                    .set(DataComponentTypes.LORE,
+                            Components.createLore(
+                                    "A hammer made of diamond",
+                                    "Only the richest can afford this"
+                            )
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(

@@ -1,15 +1,17 @@
 package io.github.pylonmc.pylon.base.util;
 
+import io.papermc.paper.datacomponent.item.ItemLore;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.util.EnumSet;
 
-public class ComponentUtils {
+@SuppressWarnings("UnstableApiUsage")
+public class Components {
 
-    private ComponentUtils() {
+    private Components() {
         throw new AssertionError("Utility class");
     }
 
@@ -28,5 +30,20 @@ public class ComponentUtils {
                 .decorations(EnumSet.allOf(TextDecoration.class), false)
                 .color(NamedTextColor.GRAY)
                 .append(text);
+    }
+
+    /**
+     * Creates a component from a string using MiniMessage
+     */
+    public static Component fromMM(String text) {
+        return MiniMessage.miniMessage().deserialize(text);
+    }
+
+    public static ItemLore createLore(String... lines) {
+        ItemLore.Builder lore = ItemLore.lore();
+        for (String line : lines) {
+            lore.addLine(loreLine(fromMM(line)));
+        }
+        return lore.build();
     }
 }
