@@ -61,12 +61,12 @@ public class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
                                     pylonKey("hammer_attack_speed"),
-                                    (1.0 / 2.3) - 4,
+                                    (1.0 / 2) - 4,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
                                     pylonKey("hammer_attack_knockback"),
-                                    1.3,
+                                    1.5,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                     )
@@ -87,12 +87,12 @@ public class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
                                     pylonKey("hammer_attack_speed"),
-                                    (1.0 / 1.5) - 4,
+                                    1 - 4,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
                                     pylonKey("hammer_attack_knockback"),
-                                    1.6,
+                                    2,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                     )
