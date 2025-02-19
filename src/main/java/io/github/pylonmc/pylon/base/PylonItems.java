@@ -43,6 +43,11 @@ public class PylonItems {
                                     1,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
+                            .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                                    pylonKey("hammer_attack_damage"),
+                                    1,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                     )
                     .build(),
             MiningLevel.STONE,
@@ -69,6 +74,11 @@ public class PylonItems {
                                     1.5,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
+                            .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                                    pylonKey("hammer_attack_damage"),
+                                    3,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                     )
                     .build(),
             MiningLevel.IRON,
@@ -93,6 +103,11 @@ public class PylonItems {
                             .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
                                     pylonKey("hammer_attack_knockback"),
                                     2,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                            .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                                    pylonKey("hammer_attack_damage"),
+                                    5,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                     )
