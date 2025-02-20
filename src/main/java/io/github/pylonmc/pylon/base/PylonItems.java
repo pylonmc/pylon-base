@@ -2,20 +2,22 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.BasicItemSchema;
 import io.github.pylonmc.pylon.base.items.Hammer;
+import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.util.Components;
+import io.github.pylonmc.pylon.base.util.FoodProperties;
 import io.github.pylonmc.pylon.base.util.MiningLevel;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.ItemLore;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 
@@ -172,8 +174,16 @@ public class PylonItems {
             MiningLevel.DIAMOND,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
-    //</editor-fold>
 
+    public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(pylonKey("monster_jerky"),
+            MonsterJerky.Item.class, new ItemStackBuilder(Material.COOKED_BEEF)
+            .set(DataComponentTypes.ITEM_NAME, Component.text("Monster Jerky"))
+            .set(DataComponentTypes.LORE, Components.createLore("Slightly tastier and more solidified rotten flesh.",
+                    "I wonder if this has uses beyond forcing regurgitation..."))
+            .set(DataComponentTypes.ITEM_MODEL, Key.key("rotten_flesh"))
+            .set(DataComponentTypes.FOOD, new FoodProperties(MonsterJerky.defaultNutrition, MonsterJerky.defaultSaturation, MonsterJerky.defaultCanAlwaysEat).toBukkitFoodProperties())
+            .build(), new FoodProperties(MonsterJerky.defaultNutrition, MonsterJerky.defaultSaturation, MonsterJerky.defaultCanAlwaysEat));
+    //</editor-fold>
     static void register() {
         COPPER_SHEET.register();
         GOLD_SHEET.register();
@@ -181,6 +191,7 @@ public class PylonItems {
         STONE_HAMMER.register();
         IRON_HAMMER.register();
         DIAMOND_HAMMER.register();
+        MONSTER_JERKY.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
