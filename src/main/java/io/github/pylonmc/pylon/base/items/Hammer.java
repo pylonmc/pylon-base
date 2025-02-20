@@ -99,14 +99,10 @@ public class Hammer extends PylonItemSchema {
                 }
             }
 
-            recipeLoop:
             for (Recipe recipe : RECIPE_TYPE) {
                 if (thisLevel.isAtLeast(recipe.level())) {
-                    for (ItemStack ingredient : recipe.ingredients()) {
-                        if (!containsAtLeast(items, ingredient)) {
-                            continue recipeLoop;
-                        }
-                    }
+
+                    if (!recipeMatches(items, recipe)) continue;
 
                     float adjustedChance = recipe.chance() *
                             // Each tier is twice as likely to succeed as the previous one
@@ -162,5 +158,15 @@ public class Hammer extends PylonItemSchema {
             }
         }
         return false;
+    }
+
+    private static boolean recipeMatches(List<ItemStack> items, Recipe recipe) {
+        for (ItemStack ingredient : recipe.ingredients()) {
+            if (!containsAtLeast(items, ingredient)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
