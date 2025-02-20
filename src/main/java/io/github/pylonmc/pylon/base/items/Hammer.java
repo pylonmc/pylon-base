@@ -163,12 +163,4 @@ public class Hammer extends PylonItemSchema {
         }
         return false;
     }
-
-    private static int twoPow(int exp) {
-        int result = 1;
-        for (int i = 0; i < exp; i++) {
-            result *= 2;
-        }
-        return result;
-    }
 }
