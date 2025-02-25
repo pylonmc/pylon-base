@@ -1,15 +1,12 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.BasicItemSchema;
 import io.github.pylonmc.pylon.base.items.Hammer;
-import io.github.pylonmc.pylon.base.util.Components;
-import io.github.pylonmc.pylon.base.util.MiningLevel;
+import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
-import io.papermc.paper.datacomponent.item.ItemLore;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -30,9 +27,7 @@ public class PylonItems {
 
     public static final PylonItemSchema COPPER_SHEET = new BasicItemSchema<>(
             pylonKey("copper_sheet"),
-            new ItemStackBuilder(Material.PAPER)
-                    .set(DataComponentTypes.ITEM_NAME, Component.text("Copper Sheet"))
-                    .build(),
+            new ItemStackBuilder(Material.PAPER).name("Copper Sheet").build(),
             Hammer.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("copper_sheet"),
@@ -45,9 +40,7 @@ public class PylonItems {
 
     public static final PylonItemSchema GOLD_SHEET = new BasicItemSchema<>(
             pylonKey("gold_sheet"),
-            new ItemStackBuilder(Material.PAPER)
-                    .set(DataComponentTypes.ITEM_NAME, Component.text("Gold Sheet"))
-                    .build(),
+            new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
             Hammer.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("gold_sheet"),
@@ -60,9 +53,7 @@ public class PylonItems {
 
     public static final PylonItemSchema IRON_SHEET = new BasicItemSchema<>(
             pylonKey("iron_sheet"),
-            new ItemStackBuilder(Material.PAPER)
-                    .set(DataComponentTypes.ITEM_NAME, Component.text("Iron Sheet"))
-                    .build(),
+            new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
             Hammer.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("iron_sheet"),
@@ -78,12 +69,10 @@ public class PylonItems {
             pylonKey("stone_hammer"),
             Hammer.Item.class,
             new ItemStackBuilder(Material.STONE_PICKAXE)
-                    .set(DataComponentTypes.ITEM_NAME, Component.text("Stone Hammer"))
-                    .set(DataComponentTypes.LORE,
-                            Components.createLore(
-                                    "A hammer made of stone",
-                                    "Useful as a weapon in a pinch"
-                            )
+                    .name("Stone Hammer")
+                    .lore(
+                            "A hammer made of stone",
+                            "Useful as a weapon in a pinch"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -111,12 +100,10 @@ public class PylonItems {
             pylonKey("iron_hammer"),
             Hammer.Item.class,
             new ItemStackBuilder(Material.IRON_PICKAXE)
-                    .set(DataComponentTypes.ITEM_NAME, Component.text("Iron Hammer"))
-                    .set(DataComponentTypes.LORE,
-                            Components.createLore(
-                                    "A hammer made of iron",
-                                    "Stronger than a stone hammer"
-                            )
+                    .name("Iron Hammer")
+                    .lore(
+                            "A hammer made of iron",
+                            "Stronger than a stone hammer"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -144,12 +131,10 @@ public class PylonItems {
             pylonKey("diamond_hammer"),
             Hammer.Item.class,
             new ItemStackBuilder(Material.DIAMOND_PICKAXE)
-                    .set(DataComponentTypes.ITEM_NAME, Component.text("Diamond Hammer"))
-                    .set(DataComponentTypes.LORE,
-                            Components.createLore(
-                                    "A hammer made of diamond",
-                                    "Only the richest can afford this"
-                            )
+                    .name("Diamond Hammer")
+                    .lore(
+                            "A hammer made of diamond",
+                            "Only the richest can afford this"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(

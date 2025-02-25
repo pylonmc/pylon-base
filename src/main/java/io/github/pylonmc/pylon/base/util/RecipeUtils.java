@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.util;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
