@@ -61,8 +61,8 @@ public final class Hammer extends PylonItemSchema {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
     }
 
-    public static class Item extends PylonItem<Hammer> implements BlockInteractor {
-        public Item(Hammer schema, ItemStack itemStack) {
+    public static class ItemInstance extends PylonItem<Hammer> implements BlockInteractor {
+        public ItemInstance(Hammer schema, ItemStack itemStack) {
             super(schema, itemStack);
         }
 

@@ -42,7 +42,7 @@ public record RightClickRecipe(NamespacedKey key, ItemType item, BlockType block
                                 if (recipe.item().matches(item) && recipe.block().matches(block)) {
                                     e.setCancelled(true);
                                     item.subtract();
-                                    recipe.result().set(block);
+                                    recipe.result().place(block);
                                     break;
                                 }
                             }

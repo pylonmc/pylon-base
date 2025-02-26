@@ -67,7 +67,7 @@ public final class PylonItems {
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer STONE_HAMMER = new Hammer(
             pylonKey("stone_hammer"),
-            Hammer.Item.class,
+            Hammer.ItemInstance.class,
             new ItemStackBuilder(Material.STONE_PICKAXE)
                     .name("Stone Hammer")
                     .lore(
@@ -98,7 +98,7 @@ public final class PylonItems {
 
     public static final Hammer IRON_HAMMER = new Hammer(
             pylonKey("iron_hammer"),
-            Hammer.Item.class,
+            Hammer.ItemInstance.class,
             new ItemStackBuilder(Material.IRON_PICKAXE)
                     .name("Iron Hammer")
                     .lore(
@@ -129,7 +129,7 @@ public final class PylonItems {
 
     public static final Hammer DIAMOND_HAMMER = new Hammer(
             pylonKey("diamond_hammer"),
-            Hammer.Item.class,
+            Hammer.ItemInstance.class,
             new ItemStackBuilder(Material.DIAMOND_PICKAXE)
                     .name("Diamond Hammer")
                     .lore(

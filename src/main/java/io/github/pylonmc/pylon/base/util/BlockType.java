@@ -14,7 +14,7 @@ public sealed interface BlockType {
 
     boolean matches(Block block);
 
-    void set(Block block);
+    void place(Block block);
 
     record Vanilla(Material material) implements BlockType {
         @Override
@@ -23,7 +23,7 @@ public sealed interface BlockType {
         }
 
         @Override
-        public void set(Block block) {
+        public void place(Block block) {
             block.setType(material);
         }
     }
@@ -36,7 +36,7 @@ public sealed interface BlockType {
         }
 
         @Override
-        public void set(Block block) {
+        public void place(Block block) {
             BlockStorage.set(block, PylonRegistry.BLOCKS.getOrThrow(key));
         }
     }
