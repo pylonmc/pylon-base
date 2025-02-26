@@ -7,7 +7,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import java.util.Arrays;
 import java.util.Map;
 
-public class RecipeUtils {
+public final class RecipeUtils {
 
     private RecipeUtils() {
         throw new AssertionError("Utility class");

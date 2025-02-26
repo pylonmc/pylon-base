@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -36,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("UnstableApiUsage")
 @NotNullByDefault
-public class Hammer extends PylonItemSchema {
+public final class Hammer extends PylonItemSchema {
 
     private final MiningLevel miningLevel;
 
@@ -148,7 +147,7 @@ public class Hammer extends PylonItemSchema {
     );
 
     static {
-        PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
+        RECIPE_TYPE.register();
     }
 
     private static boolean containsAtLeast(Collection<ItemStack> items, ItemStack item) {

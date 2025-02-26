@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class PylonItems {
+public final class PylonItems {
 
     private PylonItems() {
         throw new AssertionError("Utility class");
