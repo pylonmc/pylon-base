@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.FoodProperties;
-import io.github.pylonmc.pylon.base.util.MiningLevel;
+import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
