@@ -183,6 +183,7 @@ public class PylonItems {
         STONE_HAMMER.register();
         IRON_HAMMER.register();
         DIAMOND_HAMMER.register();
+        MONSTER_JERKY.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
