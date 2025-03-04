@@ -1,5 +1,9 @@
 package io.github.pylonmc.pylon.base.util;
 
+import org.jetbrains.annotations.NotNullByDefault;
+
+@SuppressWarnings("UnstableApiUsage")
+@NotNullByDefault
 public class FoodProperties {
     public FoodProperties(int nutrition, float saturation, boolean canAlwaysEat){
         this.nutrition = nutrition;

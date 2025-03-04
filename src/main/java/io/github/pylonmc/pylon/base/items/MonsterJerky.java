@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.FoodProperties;
 import io.github.pylonmc.pylon.base.util.MiningLevel;
+import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -14,12 +15,18 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.recipe.CookingBookCategory;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNullByDefault;
+
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("UnstableApiUsage")
+@NotNullByDefault
 public class MonsterJerky extends PylonItemSchema {
     private final FoodProperties foodProperties;
     public final static int experienceGain = 1;
@@ -35,6 +42,15 @@ public class MonsterJerky extends PylonItemSchema {
         FurnaceRecipe recipe = new FurnaceRecipe(id, template, Material.ROTTEN_FLESH, experienceGain, cookingTime);
         recipe.setCategory(CookingBookCategory.FOOD);
         RecipeTypes.VANILLA_FURNACE.addRecipe(recipe);
+        ShapedRecipe leatherRecipe = new ShapedRecipe(new NamespacedKey(PylonBase.getInstance(), "leather"), new ItemStackBuilder(Material.LEATHER).build());
+        leatherRecipe.shape(
+                "RR ",
+                "RR ",
+                "   "
+        );
+        leatherRecipe.setIngredient('R', template);
+        leatherRecipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(leatherRecipe);
     }
 
     public static class Item extends PylonItem<MonsterJerky> implements FoodComponent {
@@ -89,7 +105,7 @@ public class MonsterJerky extends PylonItemSchema {
         }
     }
 
-    public static final RecipeType<Hammer.Recipe> RECIPE_TYPE = new RecipeType<>(
+    public static final RecipeType<MonsterJerky.Recipe> RECIPE_TYPE = new RecipeType<>(
             new NamespacedKey(PylonBase.getInstance(), "monster_jerky")
     );
 
