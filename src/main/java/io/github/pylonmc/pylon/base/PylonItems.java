@@ -1,11 +1,13 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
+import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -156,6 +158,21 @@ public class PylonItems {
                     .build(),
             MiningLevel.DIAMOND,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
+    );
+
+    public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
+            pylonKey("monster_jerky"),
+            MonsterJerky.Item.class,
+            new ItemStackBuilder(Material.COOKED_BEEF)
+                    .name("Monster Jerky")
+                    .lore("A slightly tastier and tougher version of rotten flesh.")
+                    .set(DataComponentTypes.ITEM_MODEL, new NamespacedKey("minecraft", "rotten_flesh"))
+                    .set(DataComponentTypes.FOOD,  FoodProperties.food()
+                            .canAlwaysEat(MonsterJerky.DEFAULT_CAN_ALWAYS_EAT)
+                            .nutrition(MonsterJerky.DEFAULT_NUTRITION)
+                            .saturation(MonsterJerky.DEFAULT_SATURATION)
+                            .build())
+                    .build()
     );
     //</editor-fold>
 
