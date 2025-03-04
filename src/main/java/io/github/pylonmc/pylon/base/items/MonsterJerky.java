@@ -24,12 +24,12 @@ import java.util.List;
 @SuppressWarnings("UnstableApiUsage")
 @NotNullByDefault
 public class MonsterJerky extends PylonItemSchema {
-    public final static int EXPERIENCE_GAIN = 1;
-    public final static int COOKING_TIME = 3 * 20; // 3 secs
-    public final static int COOKING_TIME_SMOKER = 2 * 20; // 2 secs
-    public final static int DEFAULT_NUTRITION = 3;
-    public final static float DEFAULT_SATURATION = 1.25f;
-    public final static boolean DEFAULT_CAN_ALWAYS_EAT = false;
+    public static final int EXPERIENCE_GAIN = 1;
+    public static final int COOKING_TIME = 3 * 20; // 3 secs
+    public static final int COOKING_TIME_SMOKER = 2 * 20; // 2 secs
+    public static final int DEFAULT_NUTRITION = 3;
+    public static final float DEFAULT_SATURATION = 1.25f;
+    public static final boolean DEFAULT_CAN_ALWAYS_EAT = false;
 
     public MonsterJerky(NamespacedKey id, Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
                         ItemStack template){
