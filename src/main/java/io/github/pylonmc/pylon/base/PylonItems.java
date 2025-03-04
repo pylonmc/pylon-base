@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.FoodProperties;
@@ -162,7 +163,7 @@ public class PylonItems {
 
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
-            MonsterJerky.Item.class,
+            SimplePylonItem.class,
             new ItemStackBuilder(Material.COOKED_BEEF)
                     .name("Monster Jerky")
                     .lore("A slightly tastier and tougher version of rotten flesh.")

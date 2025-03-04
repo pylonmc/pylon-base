@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -31,7 +32,7 @@ public class MonsterJerky extends PylonItemSchema {
     public static final float DEFAULT_SATURATION = 1.25f;
     public static final boolean DEFAULT_CAN_ALWAYS_EAT = false;
 
-    public MonsterJerky(NamespacedKey id, Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
+    public MonsterJerky(NamespacedKey id, Class<? extends SimplePylonItem> itemClass,
                         ItemStack template){
         super(id, itemClass, template);
         FurnaceRecipe recipe = new FurnaceRecipe(new NamespacedKey(PylonBase.getInstance(), "monster_jerky_furnace"), template, Material.ROTTEN_FLESH, EXPERIENCE_GAIN, COOKING_TIME);
@@ -49,10 +50,6 @@ public class MonsterJerky extends PylonItemSchema {
         leatherRecipe.setIngredient('R', template);
         leatherRecipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(leatherRecipe);
-    }
-
-    public static class Item extends PylonItem<MonsterJerky> {
-        public Item(MonsterJerky schema, ItemStack itemStack) { super(schema, itemStack);}
     }
 
     public record Recipe(
