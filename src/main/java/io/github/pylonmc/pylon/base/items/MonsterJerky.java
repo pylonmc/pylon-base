@@ -51,25 +51,4 @@ public class MonsterJerky extends PylonItemSchema {
         leatherRecipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(leatherRecipe);
     }
-
-    public record Recipe(
-            NamespacedKey key,
-            List<ItemStack> ingredients,
-            ItemStack result,
-            MiningLevel level,
-            float chance
-    ) implements Keyed {
-        @Override
-        public NamespacedKey getKey() {
-            return key;
-        }
-    }
-
-    public static final RecipeType<MonsterJerky.Recipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "monster_jerky")
-    );
-
-    static {
-        PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-    }
 }
