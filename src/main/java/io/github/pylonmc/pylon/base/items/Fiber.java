@@ -11,6 +11,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNullByDefault;
 
+
 @SuppressWarnings("UnstableApiUsage")
 @NotNullByDefault
 public class Fiber extends PylonItemSchema {
@@ -19,14 +20,12 @@ public class Fiber extends PylonItemSchema {
         super(id, itemClass, template);
         ShapedRecipe craftingRecipe = new ShapedRecipe(id, template);
         craftingRecipe.shape(
-                "SS ",
-                "SS ",
+                "SSS",
+                "   ",
                 "   "
         );
         craftingRecipe.setIngredient('S', new ItemStackBuilder(Material.STRING).build());
         craftingRecipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(craftingRecipe);
     }
-
-    // need RECIPE_TYPE here because this is going to be used to make other items
 }

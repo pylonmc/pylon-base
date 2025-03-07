@@ -1,5 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.Bandage;
+import io.github.pylonmc.pylon.base.items.Fiber;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.core.item.BasicItemSchema;
@@ -11,6 +13,8 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.UseCooldown;
+import io.papermc.paper.datacomponent.item.UseRemainder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -176,6 +180,30 @@ public class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+
+    public static final Fiber FIBER = new Fiber(
+            pylonKey("fiber"),
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.BAMBOO_MOSAIC)
+                    .name("Fiber")
+                    .lore("More durable string for longer-lasting items.")
+                    .build()
+    );
+
+    public static final Bandage BANDAGE = new Bandage(
+            pylonKey("bandage"),
+            Bandage.Item.class,
+            new ItemStackBuilder(Material.WOODEN_PICKAXE)
+                    .name("Bandage")
+                    .lore("Right-Click to heal for " + Bandage.BANDAGE_HEAL_AMOUNT + " hearts")
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Bandage.COOLDOWN))
+                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                            .addModifier(Attribute.BLOCK_INTERACTION_RANGE, new AttributeModifier(
+                                    pylonKey("bandage_range"), 0, AttributeModifier.Operation.ADD_NUMBER)
+                            )
+                    )
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -186,6 +214,8 @@ public class PylonItems {
         IRON_HAMMER.register();
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
+        FIBER.register();
+        BANDAGE.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
