@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.items.Bandage;
 import io.github.pylonmc.pylon.base.items.Fiber;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -13,8 +14,10 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.PotionContents;
 import io.papermc.paper.datacomponent.item.UseCooldown;
 import io.papermc.paper.datacomponent.item.UseRemainder;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -22,6 +25,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -196,12 +200,50 @@ public class PylonItems {
             new ItemStackBuilder(Material.WOODEN_PICKAXE)
                     .name("Bandage")
                     .lore("Right-Click to heal for " + Bandage.BANDAGE_HEAL_AMOUNT + " hearts")
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Bandage.COOLDOWN))
-                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                            .addModifier(Attribute.BLOCK_INTERACTION_RANGE, new AttributeModifier(
-                                    pylonKey("bandage_range"), 0, AttributeModifier.Operation.ADD_NUMBER)
-                            )
+                    .build()
+    );
+
+    public static final Plaster PLASTER = new Plaster(
+            pylonKey("plaster"),
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
+                    .name("Plaster")
+                    .lore("Condensed form of clay.")
+                    .build()
+    );
+
+    public static final Splint SPLINT = new Splint(
+            pylonKey("splint"),
+            Splint.Item.class,
+            new ItemStackBuilder(Material.WOODEN_SHOVEL)
+                    .name("Splint")
+                    .lore("Early-game healing item used to recover from minor to medium injuries.")
+                    .build()
+    );
+
+    public static final Disinfectant DISINFECTANT = new Disinfectant(
+            pylonKey("disinfectant"),
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.SPLASH_POTION)
+                    .name("Disinfectant")
+                    .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                            .addCustomEffect(PotionEffectType.INSTANT_HEALTH.createEffect(0, 1))
+                                    .customColor(Color.GREEN)
+                                    .customName("Disinfectant")
+                                    .build()
                     )
+                    .lore("An item that can either be used on its own to disinfect a wound,",
+                            "or combined with other items to create a more powerful med kit. ")
+                    .build()
+    );
+
+    public static final Medkit MEDKIT = new Medkit(
+            pylonKey("medkit"),
+            Medkit.Item.class,
+            new ItemStackBuilder(Material.WOODEN_AXE)
+                    .name("Medkit")
+                    .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
+                    "Never leave home under equipped!")
                     .build()
     );
     //</editor-fold>
@@ -216,6 +258,10 @@ public class PylonItems {
         MONSTER_JERKY.register();
         FIBER.register();
         BANDAGE.register();
+        PLASTER.register();
+        SPLINT.register();
+        DISINFECTANT.register();
+        MEDKIT.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

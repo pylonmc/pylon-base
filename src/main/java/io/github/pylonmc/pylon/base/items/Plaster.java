@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
@@ -9,23 +8,19 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import org.jetbrains.annotations.NotNullByDefault;
 
-
-@SuppressWarnings("UnstableApiUsage")
-@NotNullByDefault
-public class Fiber extends PylonItemSchema {
-
-    public Fiber(NamespacedKey id, Class<? extends SimplePylonItem> itemClass, ItemStack template){
+public class Plaster extends PylonItemSchema {
+    public Plaster(NamespacedKey id, Class<? extends SimplePylonItem> itemClass, ItemStack template){
         super(id, itemClass, template);
         ShapedRecipe craftingRecipe = new ShapedRecipe(id, template);
         craftingRecipe.shape(
-                "SSS",
-                "   ",
+                "CC ",
+                "CC ",
                 "   "
         );
-        craftingRecipe.setIngredient('S', Material.STRING);
+        craftingRecipe.setIngredient('C', Material.CLAY);
         craftingRecipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(craftingRecipe);
     }
+
 }
