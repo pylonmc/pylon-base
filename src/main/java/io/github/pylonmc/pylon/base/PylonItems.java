@@ -32,7 +32,7 @@ public class PylonItems {
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Copper Sheet").build(),
-            Hammer.RECIPE_TYPE,
+            Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("copper_sheet"),
                     List.of(new ItemStack(Material.COPPER_INGOT)),
@@ -45,7 +45,7 @@ public class PylonItems {
     public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
-            Hammer.RECIPE_TYPE,
+            Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("gold_sheet"),
                     List.of(new ItemStack(Material.GOLD_INGOT)),
@@ -58,7 +58,7 @@ public class PylonItems {
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
-            Hammer.RECIPE_TYPE,
+            Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("iron_sheet"),
                     List.of(new ItemStack(Material.IRON_INGOT)),
@@ -69,9 +69,9 @@ public class PylonItems {
     );
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
-    public static final Hammer STONE_HAMMER = new Hammer(
+    public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
             pylonKey("stone_hammer"),
-            Hammer.Item.class,
+            Hammer.class,
             new ItemStackBuilder(Material.STONE_PICKAXE)
                     .name("Stone Hammer")
                     .lore(
@@ -100,9 +100,9 @@ public class PylonItems {
             new RecipeChoice.MaterialChoice(Tag.ITEMS_STONE_TOOL_MATERIALS)
     );
 
-    public static final Hammer IRON_HAMMER = new Hammer(
+    public static final Hammer.Schema IRON_HAMMER = new Hammer.Schema(
             pylonKey("iron_hammer"),
-            Hammer.Item.class,
+            Hammer.class,
             new ItemStackBuilder(Material.IRON_PICKAXE)
                     .name("Iron Hammer")
                     .lore(
@@ -131,9 +131,9 @@ public class PylonItems {
             new RecipeChoice.MaterialChoice(Material.IRON_INGOT)
     );
 
-    public static final Hammer DIAMOND_HAMMER = new Hammer(
+    public static final Hammer.Schema DIAMOND_HAMMER = new Hammer.Schema(
             pylonKey("diamond_hammer"),
-            Hammer.Item.class,
+            Hammer.class,
             new ItemStackBuilder(Material.DIAMOND_PICKAXE)
                     .name("Diamond Hammer")
                     .lore(
