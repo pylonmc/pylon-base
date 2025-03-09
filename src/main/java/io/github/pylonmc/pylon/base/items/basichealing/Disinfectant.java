@@ -10,6 +10,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 public class Disinfectant extends PylonItemSchema {
+    public static final int INSTANT_HEALTH_LEVEL = 1;
     public Disinfectant(NamespacedKey id, Class<? extends SimplePylonItem> itemClass, ItemStack template){
         super(id, itemClass, template);
         ShapedRecipe craftingRecipe = new ShapedRecipe(id, template);

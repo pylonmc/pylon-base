@@ -21,6 +21,7 @@ import static io.github.pylonmc.pylon.base.PylonItems.DISINFECTANT;
 
 public class Medkit extends PylonItemSchema {
     public static final double MEDKIT_HEAL_AMOUNT = 20;
+    public static final double ATTACK_SPEED = 3;
     public Medkit(NamespacedKey id, Class<? extends PylonItem<? extends PylonItemSchema>> itemClass, ItemStack template){
         super(id, itemClass, template);
         ShapedRecipe craftingRecipe = new ShapedRecipe(id, template);

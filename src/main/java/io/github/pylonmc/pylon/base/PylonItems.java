@@ -12,19 +12,19 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.BlockItemDataProperties;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
-import io.papermc.paper.datacomponent.item.PotionContents;
-import org.bukkit.Color;
+import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -196,8 +196,18 @@ public class PylonItems {
     public static final Bandage BANDAGE = new Bandage(
             pylonKey("bandage"),
             Bandage.Item.class,
-            new ItemStackBuilder(Material.WOODEN_PICKAXE)
+            new ItemStackBuilder(Material.BOW)
                     .name("Bandage")
+                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                            .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                                    pylonKey("bandage_attack_speed"),
+                                    Bandage.ATTACK_SPEED,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                    )
+                    .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments()
+                            .add(Enchantment.INFINITY, 2)
+                    )
                     .lore("Right-Click to heal for " + Bandage.BANDAGE_HEAL_AMOUNT + " hearts")
                     .build()
     );
@@ -214,8 +224,18 @@ public class PylonItems {
     public static final Splint SPLINT = new Splint(
             pylonKey("splint"),
             Splint.Item.class,
-            new ItemStackBuilder(Material.WOODEN_SHOVEL)
+            new ItemStackBuilder(Material.BOW)
                     .name("Splint")
+                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                            .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                                    pylonKey("bandage_attack_speed"),
+                                    Splint.ATTACK_SPEED,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                    )
+                    .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments()
+                            .add(Enchantment.INFINITY, 2)
+                    )
                     .lore("Early-game healing item used to recover from minor to medium injuries.")
                     .build()
     );
@@ -223,14 +243,8 @@ public class PylonItems {
     public static final Disinfectant DISINFECTANT = new Disinfectant(
             pylonKey("disinfectant"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.SPLASH_POTION)
+            new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
                     .name("Disinfectant")
-                    .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
-                            .addCustomEffect(PotionEffectType.INSTANT_HEALTH.createEffect(0, 1))
-                                    .customColor(Color.GREEN)
-                                    .customName("Disinfectant")
-                                    .build()
-                    )
                     .lore("An item that can either be used on its own to disinfect a wound,",
                             "or combined with other items to create a more powerful med kit. ")
                     .build()
@@ -239,8 +253,18 @@ public class PylonItems {
     public static final Medkit MEDKIT = new Medkit(
             pylonKey("medkit"),
             Medkit.Item.class,
-            new ItemStackBuilder(Material.WOODEN_AXE)
+            new ItemStackBuilder(Material.BOW)
                     .name("Medkit")
+                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                            .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                                    pylonKey("bandage_attack_speed"),
+                                    Medkit.ATTACK_SPEED,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                    )
+                    .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments()
+                            .add(Enchantment.INFINITY, 2)
+                    )
                     .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
                     "Never leave home under equipped!")
                     .build()

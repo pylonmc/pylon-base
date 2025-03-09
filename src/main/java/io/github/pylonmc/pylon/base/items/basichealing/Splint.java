@@ -19,6 +19,7 @@ import static io.github.pylonmc.pylon.base.PylonItems.PLASTER;
 
 public class Splint extends PylonItemSchema {
     public static final double SPLINT_HEAL_AMOUNT = 12;
+    public static final double ATTACK_SPEED = 3;
     public Splint(NamespacedKey id, Class<? extends PylonItem<? extends PylonItemSchema>> itemClass, ItemStack template){
         super(id, itemClass, template);
         ShapedRecipe craftingRecipe = new ShapedRecipe(id, template);
