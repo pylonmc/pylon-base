@@ -156,20 +156,13 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
     }
 
     private static boolean containsAtLeast(@NotNull Collection<ItemStack> items, ItemStack item) {
-        for (ItemStack i : items) {
-            if (i.isSimilar(item) && i.getAmount() >= item.getAmount()) {
-                return true;
-            }
-        }
-        return false;
+        return items.stream()
+                .anyMatch(i -> i.isSimilar(item) && i.getAmount() >= item.getAmount());
     }
 
     private static boolean recipeMatches(List<ItemStack> items, @NotNull Recipe recipe) {
-        for (ItemStack ingredient : recipe.ingredients()) {
-            if (!containsAtLeast(items, ingredient)) {
-                return false;
-            }
-        }
-        return true;
+        return recipe.ingredients()
+                .stream()
+                .allMatch(ingredient -> containsAtLeast(items, ingredient));
     }
 }
