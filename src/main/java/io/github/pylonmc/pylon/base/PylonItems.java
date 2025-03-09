@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import org.bukkit.Material;
@@ -164,15 +165,15 @@ public class PylonItems {
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.COOKED_BEEF)
+            new ItemStackBuilder(Material.ROTTEN_FLESH)
                     .name("Monster Jerky")
                     .lore("A slightly tastier and tougher version of rotten flesh.")
-                    .set(DataComponentTypes.ITEM_MODEL, new NamespacedKey("minecraft", "rotten_flesh"))
                     .set(DataComponentTypes.FOOD,  FoodProperties.food()
                             .canAlwaysEat(MonsterJerky.DEFAULT_CAN_ALWAYS_EAT)
                             .nutrition(MonsterJerky.DEFAULT_NUTRITION)
                             .saturation(MonsterJerky.DEFAULT_SATURATION)
                             .build())
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
     //</editor-fold>
