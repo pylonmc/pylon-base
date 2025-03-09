@@ -35,8 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-
-
 public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor {
 
     @SuppressWarnings("UnstableApiUsage")
