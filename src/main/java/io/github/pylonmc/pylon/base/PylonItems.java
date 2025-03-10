@@ -3,11 +3,11 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.base.items.basichealing.*;
 import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
@@ -24,8 +24,13 @@ import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -185,23 +190,24 @@ public class PylonItems {
                     .build()
     );
 
-    public static final Fiber FIBER = new Fiber(
+    public static final PylonItemSchema FIBER = new BasicItemSchema<CraftingRecipe>(
             pylonKey("fiber"),
-            SimplePylonItem.class,
-            new ItemStackBuilder(Material.BAMBOO_MOSAIC)
-                    .name("Fiber")
-                    .lore("More durable string for longer-lasting items.")
-                    .build()
+            new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable string for longer-lasting items.")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            fiber -> new ShapedRecipe(pylonKey("fiber"), fiber)
+                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING)
+            // You can't set the crafting category because it returns void so the calls can't be chained... good job mc :D
     );
 
-    public static final Bandage BANDAGE = new Bandage(
+    public static final PylonItemSchema BANDAGE = new BasicItemSchema<CraftingRecipe>(
             pylonKey("bandage"),
-            SimplePylonItem.class,
             new ItemStackBuilder(Material.COBWEB)
                     .name("Bandage")
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                            .addEffect(ConsumeEffect.applyStatusEffects(Bandage.CONSUME_EFFECTS, 1))
-                            .consumeSeconds(Bandage.CONSUME_TIME)
+                            .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                                    new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)), 1))
+                            .consumeSeconds(1.25f)
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
@@ -210,28 +216,32 @@ public class PylonItems {
                             .nutrition(0)
                             .canAlwaysEat(true)
                             .build())
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Bandage.USE_COOLDOWN))
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(10.0f))
                     .lore("Right-Click to heal hearts")
-                    .build()
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            bandage -> new ShapedRecipe(pylonKey("bandage"), bandage)
+                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack())
     );
 
-    public static final Plaster PLASTER = new Plaster(
+    public static final PylonItemSchema PLASTER = new BasicItemSchema<CraftingRecipe>(
             pylonKey("plaster"),
-            SimplePylonItem.class,
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Plaster")
                     .lore("Condensed form of clay.")
-                    .build()
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            plaster -> new ShapedRecipe(pylonKey("plaster"), plaster).shape("CC ", "CC ", "   ").setIngredient('C', Material.CLAY)
     );
 
-    public static final Splint SPLINT = new Splint(
+    public static final PylonItemSchema SPLINT = new BasicItemSchema<CraftingRecipe>(
             pylonKey("splint"),
-            SimplePylonItem.class,
             new ItemStackBuilder(Material.STICK)
                     .name("Splint")
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                            .addEffect(ConsumeEffect.applyStatusEffects(Splint.CONSUME_EFFECTS, 1))
-                            .consumeSeconds(Splint.CONSUME_TIME)
+                            .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                                    new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true)), 1))
+                            .consumeSeconds(3.0f)
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
@@ -240,21 +250,23 @@ public class PylonItems {
                             .nutrition(0)
                             .canAlwaysEat(true)
                             .build())
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Splint.COOLDOWN_TIME))
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(20.0f))
                     .lore("Early-game healing item used to recover from minor to medium injuries.")
-                    .build()
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            splint -> new ShapedRecipe(pylonKey("splint"), splint)
+                    .shape("PPP", "   ", "PPP").setIngredient('P', PLASTER.getItemStack())
     );
 
-    public static final Disinfectant DISINFECTANT = new Disinfectant(
+    public static final PylonItemSchema DISINFECTANT = new BasicItemSchema<CraftingRecipe>(
             pylonKey("disinfectant"),
-            SimplePylonItem.class,
             new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
                     .name("Disinfectant")
                     // Using the actual potion material doesn't let you set the name properly, gives you a class string of a nonexistant potion type for some reason
                     .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .hasConsumeParticles(false)
-                            .consumeSeconds(Disinfectant.CONSUME_TIME)
+                            .consumeSeconds(3.0f)
                             .animation(ItemUseAnimation.BOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .build())
@@ -263,15 +275,17 @@ public class PylonItems {
                             .saturation(0)
                             .canAlwaysEat(true)
                             .build())
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Disinfectant.USE_COOLDOWN))
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(15.0f))
                     .lore("An item that can either be used on its own to disinfect a wound,",
                             "or combined with other items to create a more powerful med kit. ")
-                    .build()
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            disinfectant -> new ShapedRecipe(pylonKey("disinfectant"), disinfectant)
+                    .shape("DDD", "D D", "DDD").setIngredient('D', Material.DRIPSTONE_BLOCK)
     );
 
-    public static final Medkit MEDKIT = new Medkit(
+    public static final PylonItemSchema MEDKIT = new BasicItemSchema<CraftingRecipe>(
             pylonKey("medkit"),
-            SimplePylonItem.class,
             new ItemStackBuilder(Material.SHULKER_SHELL)
                     .name("Medkit")
                     .set(DataComponentTypes.FOOD, FoodProperties.food()
@@ -280,16 +294,24 @@ public class PylonItems {
                             .canAlwaysEat(true)
                             .build())
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                            .consumeSeconds(Medkit.CONSUME_TIME)
+                            .consumeSeconds(7.0f)
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
-                            .addEffect(ConsumeEffect.applyStatusEffects(Medkit.CONSUME_EFFECTS, 1))
+                            .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                                    new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true),
+                                    new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
+                                    new PotionEffect(PotionEffectType.RESISTANCE, 10 * 20, 1, true)), 1))
                     )
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Medkit.USE_COOLDOWN))
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(30.0f))
                     .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
                     "Never leave home under equipped!")
-                    .build()
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            medkit -> new ShapedRecipe(pylonKey("medkit"), medkit)
+                    .shape("PFP", "DDD", "PFP").setIngredient('P', PLASTER.getItemStack())
+                    .setIngredient('D', DISINFECTANT.getItemStack())
+                    .setIngredient('F', FIBER.getItemStack())
     );
     //</editor-fold>
 
