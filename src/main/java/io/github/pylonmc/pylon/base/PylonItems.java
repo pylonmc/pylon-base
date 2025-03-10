@@ -197,7 +197,7 @@ public class PylonItems {
     public static final Bandage BANDAGE = new Bandage(
             pylonKey("bandage"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.COOKED_BEEF)
+            new ItemStackBuilder(Material.COBWEB)
                     .name("Bandage")
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(Bandage.CONSUME_EFFECTS, 1))
@@ -227,7 +227,7 @@ public class PylonItems {
     public static final Splint SPLINT = new Splint(
             pylonKey("splint"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.COOKED_CHICKEN)
+            new ItemStackBuilder(Material.STICK)
                     .name("Splint")
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(Splint.CONSUME_EFFECTS, 1))
@@ -248,8 +248,10 @@ public class PylonItems {
     public static final Disinfectant DISINFECTANT = new Disinfectant(
             pylonKey("disinfectant"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.COOKED_SALMON)
+            new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
                     .name("Disinfectant")
+                    // Using the actual potion material doesn't let you set the name properly, gives you a class string of a nonexistant potion type for some reason
+                    .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .hasConsumeParticles(false)
                             .consumeSeconds(Disinfectant.CONSUME_TIME)
@@ -270,7 +272,7 @@ public class PylonItems {
     public static final Medkit MEDKIT = new Medkit(
             pylonKey("medkit"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.COOKED_PORKCHOP)
+            new ItemStackBuilder(Material.SHULKER_SHELL)
                     .name("Medkit")
                     .set(DataComponentTypes.FOOD, FoodProperties.food()
                             .saturation(0)
