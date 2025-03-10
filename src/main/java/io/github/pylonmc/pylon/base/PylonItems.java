@@ -17,6 +17,7 @@ import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
+import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -201,6 +202,7 @@ public class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(Bandage.CONSUME_EFFECTS, 1))
                             .consumeSeconds(Bandage.CONSUME_TIME)
+                            .animation(ItemUseAnimation.CROSSBOW)
                             .hasConsumeParticles(false)
                             .build())
                     .set(DataComponentTypes.FOOD, FoodProperties.food()
@@ -230,6 +232,7 @@ public class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(Splint.CONSUME_EFFECTS, 1))
                             .consumeSeconds(Splint.CONSUME_TIME)
+                            .animation(ItemUseAnimation.CROSSBOW)
                             .hasConsumeParticles(false)
                             .build())
                     .set(DataComponentTypes.FOOD, FoodProperties.food()
@@ -250,6 +253,7 @@ public class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .hasConsumeParticles(false)
                             .consumeSeconds(Disinfectant.CONSUME_TIME)
+                            .animation(ItemUseAnimation.CROSSBOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .build())
                     .set(DataComponentTypes.FOOD, FoodProperties.food()
@@ -275,6 +279,7 @@ public class PylonItems {
                             .build())
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .consumeSeconds(Medkit.CONSUME_TIME)
+                            .animation(ItemUseAnimation.CROSSBOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .addEffect(ConsumeEffect.applyStatusEffects(Medkit.CONSUME_EFFECTS, 1))
                     )
