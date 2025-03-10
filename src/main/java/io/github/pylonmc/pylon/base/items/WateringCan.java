@@ -22,7 +22,8 @@ import java.util.Random;
 public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInteractor {
     public static final int RANGE = 4;
     private static final double CROP_CHANCE = 0.01;
-    private static final double SUGAR_CANE_CHANCE = 0.002;
+    private static final double SUGAR_CANE_CHANCE = 0.007;
+    private static final double CACTUSE_CHANCE = 0.01;
     private static final double SAPLING_CHANCE = 0.01;
 
     private static final Random random = new Random();
@@ -51,7 +52,10 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
                 while (block.getType().isEmpty()) {
                     block = block.getRelative(BlockFace.DOWN);
                 }
-                wasAnyTickAttempted = wasAnyTickAttempted || tryGrowBlock(event.getPlayer(), block);
+                // Cannot be an 'or' because the compiler optimises it out lol
+                if (tryGrowBlock(event.getPlayer(), block)) {
+                    wasAnyTickAttempted = true;
+                }
             }
         }
 
@@ -63,6 +67,9 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
     private static boolean tryGrowBlock(@NotNull Player player, @NotNull Block block) {
         if (block.getType() == Material.SUGAR_CANE) {
             return growSugarCane(block);
+        }
+        if (block.getType() == Material.CACTUS) {
+            return growCactus(block);
         }
         if (block.getBlockData() instanceof Ageable ageable && ageable.getAge() < ageable.getMaximumAge()) {
             return growCrop(block, ageable);
@@ -97,6 +104,38 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
 
             if (random.nextDouble() < SUGAR_CANE_CHANCE) {
                 topBlock.setType(Material.SUGAR_CANE);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean growCactus(@NotNull Block block) {
+        int height = 1;
+
+        Block bottomBlock = block.getRelative(BlockFace.DOWN);
+        while (bottomBlock.getType() == Material.CACTUS) {
+            height++;
+            bottomBlock = bottomBlock.getRelative(BlockFace.DOWN);
+        }
+
+        Block topBlock = block.getRelative(BlockFace.UP);
+        while (topBlock.getType() == Material.CACTUS) {
+            height++;
+            topBlock = topBlock.getRelative(BlockFace.UP);
+        }
+
+        if (height < 3 && topBlock.getType() == Material.AIR) {
+            new ParticleBuilder(Particle.HAPPY_VILLAGER)
+                    .count(1)
+                    .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
+                    .offset(0.3, 0.3, 0.3)
+                    .spawn();
+
+            if (random.nextDouble() < CACTUSE_CHANCE) {
+                topBlock.setType(Material.CACTUS);
             }
 
             return true;

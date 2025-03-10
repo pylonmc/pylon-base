@@ -176,9 +176,9 @@ public final class PylonItems {
             new ItemStackBuilder(Material.BUCKET)
                     .name("Watering Can")
                     .lore(
-                            "<yellow>Right click <gray>to speed up growth of crops, saplings,",
-                            "<gray>and sugar cane.",
-                            "<gray>Slow, but efficient at watering lots of crops at once.",
+                            "<yellow>Right click</yellow> to speed up growth of crops, saplings,",
+                            "and sugar cane.",
+                            "Slow, but efficient at watering lots of crops at once.",
                             "Range: <aqua>" + WateringCan.RANGE + " blocks"
                     )
                     .build()
