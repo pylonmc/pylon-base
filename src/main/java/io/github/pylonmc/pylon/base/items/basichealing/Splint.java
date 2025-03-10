@@ -24,6 +24,8 @@ import static io.github.pylonmc.pylon.base.PylonItems.PLASTER;
 
 public class Splint extends PylonItemSchema {
     public static final float CONSUME_TIME = 3.0f; // in secs
+    public static final float COOLDOWN_TIME = 20.0f; // in secs
+
     public static final List<PotionEffect> CONSUME_EFFECTS = Arrays.stream(new PotionEffect[]{
             new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true)}).toList();
 

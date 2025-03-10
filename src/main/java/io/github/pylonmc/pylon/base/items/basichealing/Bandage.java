@@ -30,6 +30,8 @@ import static io.github.pylonmc.pylon.base.PylonItems.FIBER;
 @NotNullByDefault
 public class Bandage extends PylonItemSchema {
     public static final float CONSUME_TIME = 1.25f; // in seconds
+    public static final float USE_COOLDOWN = 10.0f; // in seconds
+
     public static final List<PotionEffect> CONSUME_EFFECTS = Arrays.stream(new PotionEffect[]{
             new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)}).toList();
 

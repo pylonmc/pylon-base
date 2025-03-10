@@ -1,7 +1,5 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Bandage;
-import io.github.pylonmc.pylon.base.items.Fiber;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.*;
@@ -210,6 +208,7 @@ public class PylonItems {
                             .nutrition(0)
                             .canAlwaysEat(true)
                             .build())
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Bandage.USE_COOLDOWN))
                     .lore("Right-Click to heal hearts")
                     .build()
     );
@@ -238,6 +237,7 @@ public class PylonItems {
                             .nutrition(0)
                             .canAlwaysEat(true)
                             .build())
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Splint.COOLDOWN_TIME))
                     .lore("Early-game healing item used to recover from minor to medium injuries.")
                     .build()
     );
@@ -257,6 +257,7 @@ public class PylonItems {
                             .saturation(0)
                             .canAlwaysEat(true)
                             .build())
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Disinfectant.USE_COOLDOWN))
                     .lore("An item that can either be used on its own to disinfect a wound,",
                             "or combined with other items to create a more powerful med kit. ")
                     .build()
@@ -277,6 +278,7 @@ public class PylonItems {
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .addEffect(ConsumeEffect.applyStatusEffects(Medkit.CONSUME_EFFECTS, 1))
                     )
+                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Medkit.USE_COOLDOWN))
                     .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
                     "Never leave home under equipped!")
                     .build()

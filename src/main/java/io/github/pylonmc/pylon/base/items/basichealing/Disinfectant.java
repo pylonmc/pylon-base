@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionType;
 
 public class Disinfectant extends PylonItemSchema {
     public static final float CONSUME_TIME = 3.0f;
+    public static final float USE_COOLDOWN = 15.0f;
 
     public Disinfectant(NamespacedKey id, Class<? extends SimplePylonItem> itemClass, ItemStack template){
         super(id, itemClass, template);

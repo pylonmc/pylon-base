@@ -28,6 +28,8 @@ import static io.github.pylonmc.pylon.base.PylonItems.DISINFECTANT;
 
 public class Medkit extends PylonItemSchema {
     public static final float CONSUME_TIME = 7.0f; // in secs
+    public static final float USE_COOLDOWN = 30.0f; // in secs
+
     public static final List<PotionEffect> CONSUME_EFFECTS = Arrays.stream(new PotionEffect[]{
             new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true),
             new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
