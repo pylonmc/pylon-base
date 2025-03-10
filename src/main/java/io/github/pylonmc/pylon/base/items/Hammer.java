@@ -105,11 +105,8 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         Block clickedBlock = event.getClickedBlock();
         World world = clickedBlock.getWorld();
 
-        hammer.damage(1, p);
-
         if (event.getBlockFace() != BlockFace.UP) return;
 
-        p.setCooldown(hammer, (5 - getSchema().miningLevel.getNumericalLevel()) * 20);
         if (getSchema().requiredBlock != clickedBlock.getType()) {
             p.sendMessage(Component.text("You cannot use this hammer on this block!").color(NamedTextColor.RED));
             return;
@@ -125,10 +122,13 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
             }
         }
 
+        boolean anyRecipeAttempted = false;
         for (Recipe recipe : Recipe.RECIPE_TYPE) {
             if (getSchema().miningLevel.isAtLeast(recipe.level())) {
 
                 if (!recipeMatches(items, recipe)) continue;
+
+                anyRecipeAttempted = true;
 
                 float adjustedChance = recipe.chance() *
                         // Each tier is twice as likely to succeed as the previous one
@@ -148,6 +148,10 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
                 break;
             }
         }
+
+        p.setCooldown(hammer, (5 - getSchema().miningLevel.getNumericalLevel()) * 20);
+        hammer.damage(1, p);
+
 
         for (ItemStack item : items) {
             world.dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), item)
