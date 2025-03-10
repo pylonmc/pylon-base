@@ -14,6 +14,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -151,6 +152,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         if (anyRecipeAttempted) {
             p.setCooldown(hammer, Schema.COOLDOWN_TICKS);
             hammer.damage(1, p);
+            clickedBlock.getLocation().getWorld().playSound(clickedBlock.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5F, 0.5F);
         }
 
         for (ItemStack item : items) {
