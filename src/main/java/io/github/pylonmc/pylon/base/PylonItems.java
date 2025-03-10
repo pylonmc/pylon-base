@@ -76,7 +76,7 @@ public final class PylonItems {
                     .name("Stone Hammer")
                     .lore(
                             "Throw an item on top of a <yellow>stone block",
-                            "and <yellow>right click <gray>to use the hammer on it.",
+                            "and <yellow>right click</yellow> to use the hammer on it.",
                             "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -109,7 +109,7 @@ public final class PylonItems {
                     .name("Iron Hammer")
                     .lore(
                             "Throw an item on top of an <yellow>iron block",
-                            "and <yellow>right click <gray>to use the hammer on it.",
+                            "and <yellow>right click</yellow> to use the hammer on it.",
                             "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -142,7 +142,7 @@ public final class PylonItems {
                     .name("Diamond Hammer")
                     .lore(
                             "Throw an item on top of a <yellow>diamond block",
-                            "and <yellow>right click <gray>to use the hammer on it.",
+                            "and <yellow>right click</yellow> to use the hammer on it.",
                             "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
