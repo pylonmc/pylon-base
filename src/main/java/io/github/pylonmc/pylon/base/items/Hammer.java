@@ -124,34 +124,34 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
         boolean anyRecipeAttempted = false;
         for (Recipe recipe : Recipe.RECIPE_TYPE) {
-            if (getSchema().miningLevel.isAtLeast(recipe.level())) {
+            if (!getSchema().miningLevel.isAtLeast(recipe.level())) continue;
 
-                if (!recipeMatches(items, recipe)) continue;
+            if (!recipeMatches(items, recipe)) continue;
 
-                anyRecipeAttempted = true;
+            anyRecipeAttempted = true;
 
-                float adjustedChance = recipe.chance() *
-                        // Each tier is twice as likely to succeed as the previous one
-                        (1 << getSchema().miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
-                if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
+            float adjustedChance = recipe.chance() *
+                    // Each tier is twice as likely to succeed as the previous one
+                    (1 << getSchema().miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
+            if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
 
-                for (ItemStack ingredient : recipe.ingredients()) {
-                    for (ItemStack item : items) {
-                        if (item.isSimilar(ingredient)) {
-                            item.subtract(ingredient.getAmount());
-                            break;
-                        }
+            for (ItemStack ingredient : recipe.ingredients()) {
+                for (ItemStack item : items) {
+                    if (item.isSimilar(ingredient)) {
+                        item.subtract(ingredient.getAmount());
+                        break;
                     }
                 }
-                items.removeIf(item -> item.getAmount() <= 0);
-                items.add(recipe.result().clone());
-                break;
             }
+            items.removeIf(item -> item.getAmount() <= 0);
+            items.add(recipe.result().clone());
+            break;
         }
 
-        p.setCooldown(hammer, (5 - getSchema().miningLevel.getNumericalLevel()) * 20);
-        hammer.damage(1, p);
-
+        if (anyRecipeAttempted) {
+            p.setCooldown(hammer, (5 - getSchema().miningLevel.getNumericalLevel()) * 20);
+            hammer.damage(1, p);
+        }
 
         for (ItemStack item : items) {
             world.dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), item)
