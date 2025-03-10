@@ -43,6 +43,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
         private final MiningLevel miningLevel;
         private final Material requiredBlock;
+        private static final int COOLDOWN_TICKS = 2 * 20;
 
         public Schema(
                 NamespacedKey id,
@@ -57,15 +58,14 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
             this.requiredBlock = requiredBlock;
             ShapedRecipe recipe = new ShapedRecipe(id, template);
             recipe.shape(
-                    "III",
-                    "IS ",
-                    " S "
+                    " I ",
+                    " SI",
+                    "S  "
             );
             recipe.setIngredient('I', baseItem);
             recipe.setIngredient('S', Material.STICK);
             recipe.setCategory(CraftingBookCategory.EQUIPMENT);
             RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-            RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
         }
     }
 
@@ -149,7 +149,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         }
 
         if (anyRecipeAttempted) {
-            p.setCooldown(hammer, (5 - getSchema().miningLevel.getNumericalLevel()) * 20);
+            p.setCooldown(hammer, Schema.COOLDOWN_TICKS);
             hammer.damage(1, p);
         }
 
