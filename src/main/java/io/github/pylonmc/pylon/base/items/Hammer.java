@@ -42,16 +42,19 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
     public static class Schema extends PylonItemSchema {
 
         private final MiningLevel miningLevel;
+        private final Material requiredBlock;
 
         public Schema(
                 NamespacedKey id,
                 Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
                 ItemStack template,
                 MiningLevel miningLevel,
+                Material requiredBlock,
                 RecipeChoice baseItem
         ) {
             super(id, itemClass, template);
             this.miningLevel = miningLevel;
+            this.requiredBlock = requiredBlock;
             ShapedRecipe recipe = new ShapedRecipe(id, template);
             recipe.shape(
                     "III",
@@ -106,10 +109,9 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
         if (event.getBlockFace() != BlockFace.UP) return;
 
-        MiningLevel thisLevel = getSchema().miningLevel;
-        p.setCooldown(hammer, (5 - thisLevel.getNumericalLevel()) * 20);
-        if (thisLevel.canMine(clickedBlock.getType())) {
-            p.sendMessage(Component.text("This block is too soft to use a hammer on").color(NamedTextColor.RED));
+        p.setCooldown(hammer, (5 - getSchema().miningLevel.getNumericalLevel()) * 20);
+        if (getSchema().requiredBlock != clickedBlock.getType()) {
+            p.sendMessage(Component.text("You cannot use this hammer on this block!").color(NamedTextColor.RED));
             return;
         }
 
@@ -124,13 +126,13 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         }
 
         for (Recipe recipe : Recipe.RECIPE_TYPE) {
-            if (thisLevel.isAtLeast(recipe.level())) {
+            if (getSchema().miningLevel.isAtLeast(recipe.level())) {
 
                 if (!recipeMatches(items, recipe)) continue;
 
                 float adjustedChance = recipe.chance() *
                         // Each tier is twice as likely to succeed as the previous one
-                        (1 << thisLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
+                        (1 << getSchema().miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
                 if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
 
                 for (ItemStack ingredient : recipe.ingredients()) {

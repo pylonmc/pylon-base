@@ -75,8 +75,9 @@ public final class PylonItems {
             new ItemStackBuilder(Material.STONE_PICKAXE)
                     .name("Stone Hammer")
                     .lore(
-                            "A hammer made of stone",
-                            "Useful as a weapon in a pinch"
+                            "Throw an item on top of a <yellow>stone block",
+                            "and <yellow>right click <gray>to use the hammer on it.",
+                            "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -97,6 +98,7 @@ public final class PylonItems {
                     )
                     .build(),
             MiningLevel.STONE,
+            Material.STONE,
             new RecipeChoice.MaterialChoice(Tag.ITEMS_STONE_TOOL_MATERIALS)
     );
 
@@ -106,8 +108,9 @@ public final class PylonItems {
             new ItemStackBuilder(Material.IRON_PICKAXE)
                     .name("Iron Hammer")
                     .lore(
-                            "A hammer made of iron",
-                            "Stronger than a stone hammer"
+                            "Throw an item on top of an <yellow>iron block",
+                            "and <yellow>right click <gray>to use the hammer on it.",
+                            "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -128,6 +131,7 @@ public final class PylonItems {
                     )
                     .build(),
             MiningLevel.IRON,
+            Material.IRON_BLOCK,
             new RecipeChoice.MaterialChoice(Material.IRON_INGOT)
     );
 
@@ -137,8 +141,9 @@ public final class PylonItems {
             new ItemStackBuilder(Material.DIAMOND_PICKAXE)
                     .name("Diamond Hammer")
                     .lore(
-                            "A hammer made of diamond",
-                            "Only the richest can afford this"
+                            "Throw an item on top of a <yellow>diamond block",
+                            "and <yellow>right click <gray>to use the hammer on it.",
+                            "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -159,6 +164,7 @@ public final class PylonItems {
                     )
                     .build(),
             MiningLevel.DIAMOND,
+            Material.DIAMOND_BLOCK,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
 
