@@ -2,6 +2,8 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.WateringCan;
+import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
@@ -168,6 +170,20 @@ public final class PylonItems {
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
 
+    public static final PylonItemSchema WATERING_CAN = new PylonItemSchema(
+            pylonKey("watering_can"),
+            WateringCan.class,
+            new ItemStackBuilder(Material.BUCKET)
+                    .name("Watering Can")
+                    .lore(
+                            "<yellow>Right click <gray>to speed up growth of crops, saplings,",
+                            "<gray>and sugar cane.",
+                            "<gray>Slow, but efficient at watering lots of crops at once.",
+                            "Range: <aqua>" + WateringCan.RANGE + " blocks"
+                    )
+                    .build()
+    );
+
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
             SimplePylonItem.class,
@@ -192,6 +208,7 @@ public final class PylonItems {
         IRON_HAMMER.register();
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
+        WATERING_CAN.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
