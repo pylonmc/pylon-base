@@ -32,8 +32,8 @@ public class Bandage extends PylonItemSchema {
     public static final float CONSUME_TIME = 1.25f; // in seconds
     public static final float USE_COOLDOWN = 10.0f; // in seconds
 
-    public static final List<PotionEffect> CONSUME_EFFECTS = Arrays.stream(new PotionEffect[]{
-            new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)}).toList();
+    public static final List<PotionEffect> CONSUME_EFFECTS = List.of(
+            new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true));
 
     public Bandage(NamespacedKey id, Class<? extends SimplePylonItem> itemClass, ItemStack template){
         super(id, itemClass, template);
