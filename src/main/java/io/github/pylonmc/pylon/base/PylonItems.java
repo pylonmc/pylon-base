@@ -12,6 +12,8 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.*;
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.BlockItemDataProperties;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
@@ -195,20 +197,20 @@ public class PylonItems {
 
     public static final Bandage BANDAGE = new Bandage(
             pylonKey("bandage"),
-            Bandage.Item.class,
-            new ItemStackBuilder(Material.BOW)
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.COOKED_BEEF)
                     .name("Bandage")
-                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                            .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                                    pylonKey("bandage_attack_speed"),
-                                    Bandage.ATTACK_SPEED,
-                                    AttributeModifier.Operation.ADD_NUMBER
-                            ))
-                    )
-                    .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments()
-                            .add(Enchantment.INFINITY, 2)
-                    )
-                    .lore("Right-Click to heal for " + Bandage.BANDAGE_HEAL_AMOUNT + " hearts")
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .addEffect(ConsumeEffect.applyStatusEffects(Bandage.CONSUME_EFFECTS, 1))
+                            .consumeSeconds(Bandage.CONSUME_TIME)
+                            .hasConsumeParticles(false)
+                            .build())
+                    .set(DataComponentTypes.FOOD, FoodProperties.food()
+                            .saturation(0)
+                            .nutrition(0)
+                            .canAlwaysEat(true)
+                            .build())
+                    .lore("Right-Click to heal hearts")
                     .build()
     );
 
@@ -223,19 +225,19 @@ public class PylonItems {
 
     public static final Splint SPLINT = new Splint(
             pylonKey("splint"),
-            Splint.Item.class,
-            new ItemStackBuilder(Material.BOW)
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.COOKED_CHICKEN)
                     .name("Splint")
-                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                            .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                                    pylonKey("bandage_attack_speed"),
-                                    Splint.ATTACK_SPEED,
-                                    AttributeModifier.Operation.ADD_NUMBER
-                            ))
-                    )
-                    .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments()
-                            .add(Enchantment.INFINITY, 2)
-                    )
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .addEffect(ConsumeEffect.applyStatusEffects(Splint.CONSUME_EFFECTS, 1))
+                            .consumeSeconds(Splint.CONSUME_TIME)
+                            .hasConsumeParticles(false)
+                            .build())
+                    .set(DataComponentTypes.FOOD, FoodProperties.food()
+                            .saturation(0)
+                            .nutrition(0)
+                            .canAlwaysEat(true)
+                            .build())
                     .lore("Early-game healing item used to recover from minor to medium injuries.")
                     .build()
     );
@@ -243,8 +245,18 @@ public class PylonItems {
     public static final Disinfectant DISINFECTANT = new Disinfectant(
             pylonKey("disinfectant"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
+            new ItemStackBuilder(Material.COOKED_SALMON)
                     .name("Disinfectant")
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .hasConsumeParticles(false)
+                            .consumeSeconds(Disinfectant.CONSUME_TIME)
+                            .addEffect(ConsumeEffect.clearAllStatusEffects())
+                            .build())
+                    .set(DataComponentTypes.FOOD, FoodProperties.food()
+                            .nutrition(0)
+                            .saturation(0)
+                            .canAlwaysEat(true)
+                            .build())
                     .lore("An item that can either be used on its own to disinfect a wound,",
                             "or combined with other items to create a more powerful med kit. ")
                     .build()
@@ -252,18 +264,18 @@ public class PylonItems {
 
     public static final Medkit MEDKIT = new Medkit(
             pylonKey("medkit"),
-            Medkit.Item.class,
-            new ItemStackBuilder(Material.BOW)
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.COOKED_PORKCHOP)
                     .name("Medkit")
-                    .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                            .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                                    pylonKey("bandage_attack_speed"),
-                                    Medkit.ATTACK_SPEED,
-                                    AttributeModifier.Operation.ADD_NUMBER
-                            ))
-                    )
-                    .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments()
-                            .add(Enchantment.INFINITY, 2)
+                    .set(DataComponentTypes.FOOD, FoodProperties.food()
+                            .saturation(0)
+                            .nutrition(0)
+                            .canAlwaysEat(true)
+                            .build())
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .consumeSeconds(Medkit.CONSUME_TIME)
+                            .addEffect(ConsumeEffect.clearAllStatusEffects())
+                            .addEffect(ConsumeEffect.applyStatusEffects(Medkit.CONSUME_EFFECTS, 1))
                     )
                     .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
                     "Never leave home under equipped!")
