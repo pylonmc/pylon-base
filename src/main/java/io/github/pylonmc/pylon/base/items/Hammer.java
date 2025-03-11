@@ -99,9 +99,9 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
     public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
         event.setUseInteractedBlock(Event.Result.DENY);
 
-        Player p = event.getPlayer();
+        Player player = event.getPlayer();
         ItemStack hammer = event.getItem();
-        if (p.hasCooldown(hammer)) return;
+        if (player.hasCooldown(hammer)) return;
 
         Block clickedBlock = event.getClickedBlock();
         World world = clickedBlock.getWorld();
@@ -109,7 +109,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         if (event.getBlockFace() != BlockFace.UP) return;
 
         if (getSchema().requiredBlock != clickedBlock.getType()) {
-            p.sendMessage(Component.text("You cannot use this hammer on this block!").color(NamedTextColor.RED));
+            player.sendMessage(Component.text("You cannot use this hammer on this block!").color(NamedTextColor.RED));
             return;
         }
 
@@ -150,8 +150,8 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         }
 
         if (anyRecipeAttempted) {
-            p.setCooldown(hammer, Schema.COOLDOWN_TICKS);
-            hammer.damage(1, p);
+            player.setCooldown(hammer, Schema.COOLDOWN_TICKS);
+            hammer.damage(1, player);
             clickedBlock.getLocation().getWorld().playSound(clickedBlock.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5F, 0.5F);
         }
 
