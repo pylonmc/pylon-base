@@ -23,7 +23,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
     public static final int RANGE = 4;
     private static final double CROP_CHANCE = 0.01;
     private static final double SUGAR_CANE_CHANCE = 0.007;
-    private static final double CACTUSE_CHANCE = 0.01;
+    private static final double CACTUS_CHANCE = 0.01;
     private static final double SAPLING_CHANCE = 0.01;
 
     private static final Random random = new Random();
@@ -134,7 +134,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
                     .offset(0.3, 0.3, 0.3)
                     .spawn();
 
-            if (random.nextDouble() < CACTUSE_CHANCE) {
+            if (random.nextDouble() < CACTUS_CHANCE) {
                 topBlock.setType(Material.CACTUS);
             }
 
