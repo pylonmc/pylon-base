@@ -214,7 +214,6 @@ public class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(10.0f))
                     .lore("Right-Click to heal hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -251,7 +250,6 @@ public class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(20.0f))
                     .lore("Early-game healing item used to recover from minor to medium injuries.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -275,7 +273,6 @@ public class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .build())
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(15.0f))
                     .lore("An item that can either be used on its own to disinfect a wound,",
                             "or combined with other items to create a more powerful med kit. ")
                     .build(),
@@ -302,7 +299,6 @@ public class PylonItems {
                                     new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
                                     new PotionEffect(PotionEffectType.RESISTANCE, 10 * 20, 1, true)), 1))
                     )
-                    .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(30.0f))
                     .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
                     "Never leave home under equipped!")
                     .build(),
