@@ -195,9 +195,12 @@ public class PylonItems {
             new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable string for longer-lasting items.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            fiber -> new ShapedRecipe(pylonKey("fiber"), fiber)
-                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING)
-            // You can't set the crafting category because it returns void so the calls can't be chained... good job mc :D
+            fiber -> {
+                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
+                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
+                    recipe.setCategory(CraftingBookCategory.MISC);
+                    return recipe;
+            }
     );
 
     public static final PylonItemSchema BANDAGE = new BasicItemSchema<CraftingRecipe>(
@@ -215,8 +218,12 @@ public class PylonItems {
                     .lore("Right-Click to heal hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            bandage -> new ShapedRecipe(pylonKey("bandage"), bandage)
-                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack())
+            bandage -> {
+                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
+                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
+                    recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                    return recipe;
+            }
     );
 
     public static final PylonItemSchema PLASTER = new BasicItemSchema<CraftingRecipe>(
@@ -226,7 +233,11 @@ public class PylonItems {
                     .lore("Condensed form of clay.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            plaster -> new ShapedRecipe(pylonKey("plaster"), plaster).shape("CC ", "CC ", "   ").setIngredient('C', Material.CLAY)
+            plaster -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("plaster"), plaster).shape("CC ", "CC ", "   ").setIngredient('C', Material.CLAY);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
     );
 
     public static final PylonItemSchema SPLINT = new BasicItemSchema<CraftingRecipe>(
@@ -244,8 +255,12 @@ public class PylonItems {
                     .lore("Early-game healing item used to recover from minor to medium injuries.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            splint -> new ShapedRecipe(pylonKey("splint"), splint)
-                    .shape("PPP", "   ", "PPP").setIngredient('P', PLASTER.getItemStack())
+            splint -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("splint"), splint)
+                        .shape("PPP", "   ", "PPP").setIngredient('P', PLASTER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
     );
 
     public static final PylonItemSchema DISINFECTANT = new BasicItemSchema<CraftingRecipe>(
@@ -265,8 +280,12 @@ public class PylonItems {
                             "or combined with other items to create a more powerful med kit. ")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            disinfectant -> new ShapedRecipe(pylonKey("disinfectant"), disinfectant)
-                    .shape("DDD", "D D", "DDD").setIngredient('D', Material.DRIPSTONE_BLOCK)
+            disinfectant -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("disinfectant"), disinfectant)
+                        .shape("DDD", "D D", "DDD").setIngredient('D', Material.DRIPSTONE_BLOCK);
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
     );
 
     public static final PylonItemSchema MEDKIT = new BasicItemSchema<CraftingRecipe>(
@@ -288,10 +307,14 @@ public class PylonItems {
                     "Never leave home under equipped!")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            medkit -> new ShapedRecipe(pylonKey("medkit"), medkit)
-                    .shape("PFP", "DDD", "PFP").setIngredient('P', PLASTER.getItemStack())
-                    .setIngredient('D', DISINFECTANT.getItemStack())
-                    .setIngredient('F', FIBER.getItemStack())
+            medkit -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("medkit"), medkit)
+                        .shape("PFP", "DDD", "PFP").setIngredient('P', PLASTER.getItemStack())
+                        .setIngredient('D', DISINFECTANT.getItemStack())
+                        .setIngredient('F', FIBER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
     );
     //</editor-fold>
 
