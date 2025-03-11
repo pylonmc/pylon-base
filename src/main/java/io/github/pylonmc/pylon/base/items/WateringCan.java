@@ -67,14 +67,11 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
     private static boolean tryGrowBlock(@NotNull Player player, @NotNull Block block) {
         if (block.getType() == Material.SUGAR_CANE) {
             return growSugarCane(block);
-        }
-        if (block.getType() == Material.CACTUS) {
+        } else if (block.getType() == Material.CACTUS) {
             return growCactus(block);
-        }
-        if (block.getBlockData() instanceof Ageable ageable && ageable.getAge() < ageable.getMaximumAge()) {
+        } else if (block.getBlockData() instanceof Ageable ageable && ageable.getAge() < ageable.getMaximumAge()) {
             return growCrop(block, ageable);
-        }
-        if (Tag.SAPLINGS.isTagged(block.getType())) {
+        } else if (Tag.SAPLINGS.isTagged(block.getType())) {
             return growSapling(block, player);
         }
         return false;
