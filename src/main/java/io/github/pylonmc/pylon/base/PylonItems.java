@@ -2,9 +2,9 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
-import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -29,7 +29,7 @@ public class PylonItems {
         throw new AssertionError("Utility class");
     }
 
-    public static final PylonItemSchema COPPER_SHEET = new BasicItemSchema<>(
+    public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Copper Sheet").build(),
             Hammer.RECIPE_TYPE,
@@ -42,7 +42,7 @@ public class PylonItems {
             )
     );
 
-    public static final PylonItemSchema GOLD_SHEET = new BasicItemSchema<>(
+    public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
             Hammer.RECIPE_TYPE,
@@ -55,7 +55,7 @@ public class PylonItems {
             )
     );
 
-    public static final PylonItemSchema IRON_SHEET = new BasicItemSchema<>(
+    public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
             Hammer.RECIPE_TYPE,

@@ -68,7 +68,7 @@ public class Hammer extends PylonItemSchema {
         }
 
         @Override
-        public void onUsedToRightClickBlock(PlayerInteractEvent event) {
+        public void onUsedToClickBlock(PlayerInteractEvent event) {
             event.setUseInteractedBlock(Event.Result.DENY);
 
             Player p = event.getPlayer();
