@@ -33,7 +33,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
     }
 
     @Override
-    public void onUsedToRightClickBlock(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
         if (!event.getAction().isRightClick()) {
             return;
         }

@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.WateringCan;
-import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
