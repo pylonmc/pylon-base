@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class PylonItems {
+public final class PylonItems {
 
     private PylonItems() {
         throw new AssertionError("Utility class");
@@ -32,7 +32,7 @@ public class PylonItems {
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Copper Sheet").build(),
-            Hammer.RECIPE_TYPE,
+            Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("copper_sheet"),
                     List.of(new ItemStack(Material.COPPER_INGOT)),
@@ -45,7 +45,7 @@ public class PylonItems {
     public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
-            Hammer.RECIPE_TYPE,
+            Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("gold_sheet"),
                     List.of(new ItemStack(Material.GOLD_INGOT)),
@@ -58,7 +58,7 @@ public class PylonItems {
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
-            Hammer.RECIPE_TYPE,
+            Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("iron_sheet"),
                     List.of(new ItemStack(Material.IRON_INGOT)),
@@ -69,14 +69,15 @@ public class PylonItems {
     );
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
-    public static final Hammer STONE_HAMMER = new Hammer(
+    public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
             pylonKey("stone_hammer"),
-            Hammer.Item.class,
+            Hammer.class,
             new ItemStackBuilder(Material.STONE_PICKAXE)
                     .name("Stone Hammer")
                     .lore(
-                            "A hammer made of stone",
-                            "Useful as a weapon in a pinch"
+                            "Throw an item on top of a <yellow>stone block",
+                            "and <yellow>right click</yellow> to use the hammer on it.",
+                            "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -97,17 +98,19 @@ public class PylonItems {
                     )
                     .build(),
             MiningLevel.STONE,
+            Material.STONE,
             new RecipeChoice.MaterialChoice(Tag.ITEMS_STONE_TOOL_MATERIALS)
     );
 
-    public static final Hammer IRON_HAMMER = new Hammer(
+    public static final Hammer.Schema IRON_HAMMER = new Hammer.Schema(
             pylonKey("iron_hammer"),
-            Hammer.Item.class,
+            Hammer.class,
             new ItemStackBuilder(Material.IRON_PICKAXE)
                     .name("Iron Hammer")
                     .lore(
-                            "A hammer made of iron",
-                            "Stronger than a stone hammer"
+                            "Throw an item on top of an <yellow>iron block",
+                            "and <yellow>right click</yellow> to use the hammer on it.",
+                            "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -128,17 +131,19 @@ public class PylonItems {
                     )
                     .build(),
             MiningLevel.IRON,
+            Material.IRON_BLOCK,
             new RecipeChoice.MaterialChoice(Material.IRON_INGOT)
     );
 
-    public static final Hammer DIAMOND_HAMMER = new Hammer(
+    public static final Hammer.Schema DIAMOND_HAMMER = new Hammer.Schema(
             pylonKey("diamond_hammer"),
-            Hammer.Item.class,
+            Hammer.class,
             new ItemStackBuilder(Material.DIAMOND_PICKAXE)
                     .name("Diamond Hammer")
                     .lore(
-                            "A hammer made of diamond",
-                            "Only the richest can afford this"
+                            "Throw an item on top of a <yellow>diamond block",
+                            "and <yellow>right click</yellow> to use the hammer on it.",
+                            "Higher tier hammers are more likely to succeed!"
                     )
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
@@ -159,6 +164,7 @@ public class PylonItems {
                     )
                     .build(),
             MiningLevel.DIAMOND,
+            Material.DIAMOND_BLOCK,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
 
