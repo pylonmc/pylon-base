@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
@@ -47,17 +46,17 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         private static final int COOLDOWN_TICKS = 2 * 20;
 
         public Schema(
-                NamespacedKey id,
+                NamespacedKey key,
                 Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
                 ItemStack template,
                 MiningLevel miningLevel,
                 Material requiredBlock,
                 RecipeChoice baseItem
         ) {
-            super(id, itemClass, template);
+            super(key, itemClass, template);
             this.miningLevel = miningLevel;
             this.requiredBlock = requiredBlock;
-            ShapedRecipe recipe = new ShapedRecipe(id, template);
+            ShapedRecipe recipe = new ShapedRecipe(key, template);
             recipe.shape(
                     " I ",
                     " SI",
