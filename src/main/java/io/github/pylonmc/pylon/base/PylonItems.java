@@ -192,7 +192,8 @@ public class PylonItems {
 
     public static final PylonItemSchema FIBER = new BasicItemSchema<CraftingRecipe>(
             pylonKey("fiber"),
-            new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable string for longer-lasting items.")
+            new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable <yellow>string</yellow>.",
+                                                                            "A crafting material.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             fiber -> {
@@ -214,7 +215,8 @@ public class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .lore("Right-Click to heal hearts")
+                    .lore("Hold <yellow>Right-Click</yellow> for <red>1.25s</red> to <green>heal",
+                            "for <green>2 hearts. ")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             bandage -> {
@@ -229,7 +231,8 @@ public class PylonItems {
             pylonKey("plaster"),
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Plaster")
-                    .lore("Condensed form of clay.")
+                    .lore("Condensed form of <yellow>clay</yellow>.",
+                        "Used as a crafting material.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             plaster -> {
@@ -250,7 +253,8 @@ public class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .lore("Early-game healing item used to recover from minor to medium injuries.")
+                    .lore("Hold <yellow>Right-Click</yellow> for <red>3s</red> to <green>heal</green>",
+                            "for <green>4 hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             splint -> {
@@ -273,8 +277,8 @@ public class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .build())
-                    .lore("An item that can either be used on its own to disinfect a wound,",
-                            "or combined with other items to create a more powerful med kit. ")
+                    .lore("<green>Clears all status effects</green> when applied.",
+                            "Also used to craft <yellow>medkit")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             disinfectant -> {
@@ -299,8 +303,8 @@ public class PylonItems {
                                     new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
                                     new PotionEffect(PotionEffectType.RESISTANCE, 10 * 20, 1, true)), 1))
                     )
-                    .lore("An effective healing tool that can be used to treat almost any wound imaginable.",
-                    "Never leave home under equipped!")
+                    .lore("Hold <yellow>Right-Click</yellow> for <red>7s</red> to ",
+                            "<green>clear all effects</green> and <green>heal</green> for <green>4 hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             medkit -> {
