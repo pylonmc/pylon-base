@@ -4,7 +4,6 @@ import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.core.item.BasicItemSchema;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
@@ -212,7 +211,7 @@ public final class PylonItems {
                     .build()
     );
 
-    public static final PylonItemSchema FIBER = new BasicItemSchema<CraftingRecipe>(
+    public static final PylonItemSchema FIBER = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("fiber"),
             new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable <yellow>string</yellow>.",
                                                                             "A crafting material.")
@@ -226,7 +225,7 @@ public final class PylonItems {
             }
     );
 
-    public static final PylonItemSchema BANDAGE = new BasicItemSchema<CraftingRecipe>(
+    public static final PylonItemSchema BANDAGE = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("bandage"),
             new ItemStackBuilder(Material.COBWEB)
                     .name("Bandage")
@@ -249,7 +248,7 @@ public final class PylonItems {
             }
     );
 
-    public static final PylonItemSchema PLASTER = new BasicItemSchema<CraftingRecipe>(
+    public static final PylonItemSchema PLASTER = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("plaster"),
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Plaster")
@@ -264,7 +263,7 @@ public final class PylonItems {
             }
     );
 
-    public static final PylonItemSchema SPLINT = new BasicItemSchema<CraftingRecipe>(
+    public static final PylonItemSchema SPLINT = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("splint"),
             new ItemStackBuilder(Material.STICK)
                     .name("Splint")
@@ -287,7 +286,7 @@ public final class PylonItems {
             }
     );
 
-    public static final PylonItemSchema DISINFECTANT = new BasicItemSchema<CraftingRecipe>(
+    public static final PylonItemSchema DISINFECTANT = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("disinfectant"),
             new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
                     .name("Disinfectant")
@@ -311,7 +310,7 @@ public final class PylonItems {
             }
     );
 
-    public static final PylonItemSchema MEDKIT = new BasicItemSchema<CraftingRecipe>(
+    public static final PylonItemSchema MEDKIT = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("medkit"),
             new ItemStackBuilder(Material.SHULKER_SHELL)
                     .name("Medkit")
