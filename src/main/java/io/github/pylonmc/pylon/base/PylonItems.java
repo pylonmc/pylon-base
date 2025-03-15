@@ -324,8 +324,8 @@ public final class PylonItems {
                                     new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
                                     new PotionEffect(PotionEffectType.RESISTANCE, 10 * 20, 1, true)), 1))
                     )
-                    .lore("Hold <yellow>Right-Click</yellow> for 7s to ",
-                            "<green>clear all effects</green> and <green>heal</green> for <green>4 hearts")
+                    .lore("Hold <yellow>Right-Click</yellow> for 7 seconds to ",
+                            "<green>clear all effects</green> and heal for <green>4 hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             medkit -> {
