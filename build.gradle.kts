@@ -49,7 +49,7 @@ bukkit {
     main = "io.github.pylonmc.pylon.base.PylonBase"
     version = project.version.toString()
     apiVersion = "1.21"
-    depend = listOf("pylon-core")
+    depend = listOf("PylonCore")
 }
 
 tasks.runServer {
