@@ -45,11 +45,11 @@ tasks.shadowJar {
 }
 
 bukkit {
-    name = project.name
+    name = "PylonBase"
     main = "io.github.pylonmc.pylon.base.PylonBase"
     version = project.version.toString()
     apiVersion = "1.21"
-    depend = listOf("Pylon-Core")
+    depend = listOf("PylonCore")
 }
 
 tasks.runServer {
