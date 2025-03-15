@@ -249,7 +249,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
                                     pylonKey("ferroduralum_sword_damage"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -277,7 +277,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_axe_speed"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -305,7 +305,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_pickaxe_speed"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -333,7 +333,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_shovel_speed"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -361,7 +361,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_hoe_speed"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -389,7 +389,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_armor"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -416,7 +416,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_armor"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -443,7 +443,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_armor"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
@@ -470,7 +470,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_armor"),
-                                    1.05,
+                                    0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
                             .build())
