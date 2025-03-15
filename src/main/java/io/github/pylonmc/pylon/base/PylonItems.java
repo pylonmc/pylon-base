@@ -213,7 +213,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FIBER = new SimpleItemSchema<CraftingRecipe>(
             pylonKey("fiber"),
-            new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable <yellow>string</yellow>.",
+            new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable string.",
                                                                             "A crafting material.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
