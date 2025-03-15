@@ -274,7 +274,7 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .lore("Hold <yellow>Right-Click</yellow> for <red>3s</red> to <green>heal</green>",
+                    .lore("Hold <yellow>Right-Click</yellow> for 3 seconds to heal",
                             "for <green>4 hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
