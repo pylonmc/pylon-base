@@ -252,7 +252,7 @@ public final class PylonItems {
             pylonKey("plaster"),
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Plaster")
-                    .lore("Condensed form of <yellow>clay</yellow>.",
+                    .lore("Condensed form of clay.",
                         "Used as a crafting material.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
