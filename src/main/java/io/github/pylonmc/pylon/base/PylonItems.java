@@ -236,7 +236,7 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .lore("Hold <yellow>Right-Click</yellow> for 1.25 seconds toheal",
+                    .lore("Hold <yellow>Right-Click</yellow> for 1.25 seconds to heal",
                             "for <green>2 hearts. ")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -324,7 +324,7 @@ public final class PylonItems {
                                     new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
                                     new PotionEffect(PotionEffectType.RESISTANCE, 10 * 20, 1, true)), 1))
                     )
-                    .lore("Hold <yellow>Right-Click</yellow> for <red>7s</red> to ",
+                    .lore("Hold <yellow>Right-Click</yellow> for 7s to ",
                             "<green>clear all effects</green> and <green>heal</green> for <green>4 hearts")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
