@@ -202,7 +202,7 @@ public final class PylonItems {
     public static final PortableDustbin PORTABLE_DUSTBIN = new PortableDustbin(
             pylonKey("portable_dustbin"),
             PortableDustbin.Item.class,
-            new ItemStackBuilder(Material.STICK)
+            new ItemStackBuilder(Material.CAULDRON)
                     .name("Portable Dustbin")
                     .lore("Deletes unneeded items.",
                             "<yellow>Right-Click</yellow> to use.")
