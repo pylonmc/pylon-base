@@ -1,8 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Hammer;
-import io.github.pylonmc.pylon.base.items.MonsterJerky;
-import io.github.pylonmc.pylon.base.items.WateringCan;
+import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
@@ -197,6 +195,27 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+
+    // Need custom class to instantiate the many recipes
+    public static final CompressedWood COMPRESSED_WOOD = new CompressedWood(
+            pylonKey("compressed_wood"),
+            SimplePylonItem.class,
+            new ItemStackBuilder(Material.OAK_WOOD)
+                    .name("Compressed wood")
+                    .lore("Crafting material. ")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+    );
+
+    public static final PortableCraftingTable PORTABLE_CRAFTING_TABLE = new PortableCraftingTable(
+            pylonKey("portable_crafting_table"),
+            PortableCraftingTable.Item.class,
+            new ItemStackBuilder(Material.BLAZE_ROD)
+                    .name("Portable crafting table")
+                    .lore("<yellow>Right-Click</yellow> to open a",
+                            "crafting table interface.")
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -208,6 +227,8 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
+        COMPRESSED_WOOD.register();
+        PORTABLE_CRAFTING_TABLE.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
