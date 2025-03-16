@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.PortableDustbin;
 import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -197,6 +198,16 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+
+    public static final PortableDustbin PORTABLE_DUSTBIN = new PortableDustbin(
+            pylonKey("portable_dustbin"),
+            PortableDustbin.Item.class,
+            new ItemStackBuilder(Material.STICK)
+                    .name("Portable Dustbin")
+                    .lore("Deletes unneeded items.",
+                            "<yellow>Right-Click</yellow> to use.")
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -208,6 +219,7 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
+        PORTABLE_DUSTBIN.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
