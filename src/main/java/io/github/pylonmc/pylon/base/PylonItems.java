@@ -2,11 +2,13 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.PortableEnderChest;
 import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
@@ -19,6 +21,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -197,6 +201,37 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+
+    public static final PylonItemSchema COMPRESSED_OBSIDIAN = new SimpleItemSchema<>(
+            pylonKey("compressed_obsidian"),
+            new ItemStackBuilder(Material.OBSIDIAN)
+                    .name("Compressed Obsidian")
+                    .lore("A crafting material.")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            enchantedobi -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_obsidian"), enchantedobi);
+                recipe.shape(
+                        "OOO",
+                        "OOO",
+                        "OOO"
+                );
+                recipe.setIngredient('O', Material.OBSIDIAN);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
+    );
+
+    public static final PortableEnderChest PORTABLE_ENDER_CHEST = new PortableEnderChest(
+            pylonKey("portable_ender_chest"),
+            PortableEnderChest.Item.class,
+            new ItemStackBuilder(Material.ENDER_CHEST)
+                    .name("Portable Enderchest")
+                    .lore("<yellow>Right-Click</yellow> to open",
+                            "your enderchest.")
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -208,6 +243,7 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
+        PORTABLE_ENDER_CHEST.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
