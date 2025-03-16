@@ -210,7 +210,7 @@ public final class PylonItems {
     public static final PortableCraftingTable PORTABLE_CRAFTING_TABLE = new PortableCraftingTable(
             pylonKey("portable_crafting_table"),
             PortableCraftingTable.Item.class,
-            new ItemStackBuilder(Material.BLAZE_ROD)
+            new ItemStackBuilder(Material.CRAFTING_TABLE)
                     .name("Portable crafting table")
                     .lore("<yellow>Right-Click</yellow> to open a",
                             "crafting table interface.")
