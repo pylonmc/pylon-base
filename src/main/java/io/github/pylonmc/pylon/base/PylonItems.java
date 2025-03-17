@@ -224,11 +224,11 @@ public final class PylonItems {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("portability_catalyst"), catalyst);
                 recipe.shape(
                         "RRR",
-                        "RCR",
+                        "RPR",
                         "RRR"
                 );
                 recipe.setIngredient('R', Material.REDSTONE_BLOCK);
-                recipe.setIngredient('C', Material.COPPER_BLOCK);
+                recipe.setIngredient('P', Material.ENDER_PEARL);
                 recipe.setCategory(CraftingBookCategory.MISC);
                 return recipe;
             }
