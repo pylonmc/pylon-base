@@ -30,6 +30,10 @@ import java.util.List;
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
 
+    private PylonItems() {
+        throw new AssertionError("Utility class");
+    }
+
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Copper Sheet").build(),
