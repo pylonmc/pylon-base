@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.items;
 
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
@@ -21,11 +22,12 @@ public class PortableDustbin extends PylonItemSchema {
         ShapedRecipe recipe = new ShapedRecipe(id, template);
         recipe.shape(
                 "CCC",
-                "ICI",
+                "IAI",
                 "III"
         );
         recipe.setIngredient('I', Material.IRON_INGOT);
         recipe.setIngredient('C', Material.CACTUS);
+        recipe.setIngredient('A', PylonItems.PORTABILITY_CATALYST.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
