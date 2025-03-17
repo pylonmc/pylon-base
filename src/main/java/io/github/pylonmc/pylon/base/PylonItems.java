@@ -207,8 +207,7 @@ public final class PylonItems {
                         "WWW"
                 );
                 recipe.setIngredient('W',
-                        new RecipeChoice.MaterialChoice(Material.OAK_WOOD, Material.BIRCH_WOOD, Material.SPRUCE_WOOD, Material.JUNGLE_WOOD,
-                                Material.ACACIA_WOOD, Material.DARK_OAK_WOOD, Material.MANGROVE_WOOD, Material.CRIMSON_STEM));
+                        new RecipeChoice.MaterialChoice(Tag.LOGS));
                 recipe.setCategory(CraftingBookCategory.MISC);
                 return recipe;
             }
