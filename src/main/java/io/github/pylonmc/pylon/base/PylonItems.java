@@ -243,10 +243,6 @@ public final class PylonItems {
                             "crafting table interface.")
                     .build()
     );
-
-    private PylonItems() {
-        throw new AssertionError("Utility class");
-    }
     //</editor-fold>
 
     static void register() {
