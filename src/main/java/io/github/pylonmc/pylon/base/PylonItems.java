@@ -1,10 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.*;
+import io.github.pylonmc.pylon.base.items.Hammer;
+import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.PortableCraftingTable;
+import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
@@ -17,16 +21,14 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
-
-    private PylonItems() {
-        throw new AssertionError("Utility class");
-    }
 
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
@@ -40,7 +42,6 @@ public final class PylonItems {
                     0.25f
             )
     );
-
     public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
@@ -53,7 +54,6 @@ public final class PylonItems {
                     0.25f
             )
     );
-
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
@@ -66,7 +66,6 @@ public final class PylonItems {
                     0.25f
             )
     );
-
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
             pylonKey("stone_hammer"),
@@ -100,7 +99,6 @@ public final class PylonItems {
             Material.STONE,
             new RecipeChoice.MaterialChoice(Tag.ITEMS_STONE_TOOL_MATERIALS)
     );
-
     public static final Hammer.Schema IRON_HAMMER = new Hammer.Schema(
             pylonKey("iron_hammer"),
             Hammer.class,
@@ -133,7 +131,6 @@ public final class PylonItems {
             Material.IRON_BLOCK,
             new RecipeChoice.MaterialChoice(Material.IRON_INGOT)
     );
-
     public static final Hammer.Schema DIAMOND_HAMMER = new Hammer.Schema(
             pylonKey("diamond_hammer"),
             Hammer.class,
@@ -166,7 +163,6 @@ public final class PylonItems {
             Material.DIAMOND_BLOCK,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
-
     public static final PylonItemSchema WATERING_CAN = new PylonItemSchema(
             pylonKey("watering_can"),
             WateringCan.class,
@@ -180,7 +176,6 @@ public final class PylonItems {
                     )
                     .build()
     );
-
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
             SimplePylonItem.class,
@@ -195,18 +190,29 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
-
     // Need custom class to instantiate the many recipes
-    public static final CompressedWood COMPRESSED_WOOD = new CompressedWood(
+    public static final PylonItemSchema COMPRESSED_WOOD = new SimpleItemSchema<>(
             pylonKey("compressed_wood"),
-            SimplePylonItem.class,
             new ItemStackBuilder(Material.OAK_WOOD)
                     .name("Compressed wood")
                     .lore("Crafting material. ")
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .build()
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            compressedWood -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_wood"), compressedWood);
+                recipe.shape(
+                        "WWW",
+                        "WWW",
+                        "WWW"
+                );
+                recipe.setIngredient('W',
+                        new RecipeChoice.MaterialChoice(Material.OAK_WOOD, Material.BIRCH_WOOD, Material.SPRUCE_WOOD, Material.JUNGLE_WOOD,
+                                Material.ACACIA_WOOD, Material.DARK_OAK_WOOD, Material.MANGROVE_WOOD, Material.CRIMSON_STEM));
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
     );
-
     public static final PortableCraftingTable PORTABLE_CRAFTING_TABLE = new PortableCraftingTable(
             pylonKey("portable_crafting_table"),
             PortableCraftingTable.Item.class,
@@ -216,6 +222,10 @@ public final class PylonItems {
                             "crafting table interface.")
                     .build()
     );
+
+    private PylonItems() {
+        throw new AssertionError("Utility class");
+    }
     //</editor-fold>
 
     static void register() {
