@@ -18,10 +18,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
@@ -205,10 +202,12 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_ORE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_ore"),
-            new ItemStackBuilder(Material.IRON_ORE)
+            new ItemStackBuilder(Material.GOLD_ORE)
                     .name("Ferroduralum ore")
                     .lore("A crafting material to make",
                             "armor, weapons and tools.")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .set(DataComponentTypes.RARITY, ItemRarity.EPIC)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             ferroduralum -> {
@@ -219,7 +218,7 @@ public final class PylonItems {
                         "   "
                 );
                 recipe.setIngredient('C', Material.COPPER_ORE);
-                recipe.setIngredient('I', Material.IRON_ORE);
+                recipe.setIngredient('I', Material.GOLD_ORE);
                 recipe.setIngredient('R', Material.REDSTONE);
                 recipe.setCategory(CraftingBookCategory.MISC);
                 return recipe;
@@ -228,7 +227,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_INGOT = new SimpleItemSchema<>(
             pylonKey("ferroduralum_ingot"),
-            new ItemStackBuilder(Material.IRON_INGOT)
+            new ItemStackBuilder(Material.GOLD_INGOT)
                     .name("Ferroduralum ingot")
                     .lore("A crafting material to make",
                             "armor, weapons and tools.")
@@ -243,7 +242,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
             pylonKey("ferroduralum_sword"),
-            new ItemStackBuilder(Material.IRON_SWORD)
+            new ItemStackBuilder(Material.GOLDEN_SWORD)
                     .name("Ferroduralum sword")
                     .lore("A more powerful iron sword.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -271,7 +270,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_AXE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_axe"),
-            new ItemStackBuilder(Material.IRON_AXE)
+            new ItemStackBuilder(Material.GOLDEN_AXE)
                     .name("Ferroduralum axe")
                     .lore("A more powerful iron axe")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -299,7 +298,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_PICKAXE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_pickaxe"),
-            new ItemStackBuilder(Material.IRON_PICKAXE)
+            new ItemStackBuilder(Material.GOLDEN_PICKAXE)
                     .name("Ferroduralum pickaxe")
                     .lore("A more powerful iron pickaxe")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -327,7 +326,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_SHOVEL = new SimpleItemSchema<>(
             pylonKey("ferroduralum_shovel"),
-            new ItemStackBuilder(Material.IRON_SHOVEL)
+            new ItemStackBuilder(Material.GOLDEN_SHOVEL)
                     .name("Ferroduralum shovel")
                     .lore("A more powerful iron shovel.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -355,7 +354,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_HOE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_hoe"),
-            new ItemStackBuilder(Material.IRON_HOE)
+            new ItemStackBuilder(Material.GOLDEN_HOE)
                     .name("Ferroduralum hoe")
                     .lore("A more powerful iron hoe.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -383,7 +382,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_HELMET = new SimpleItemSchema<>(
             pylonKey("ferroduralum_helmet"),
-            new ItemStackBuilder(Material.IRON_HELMET)
+            new ItemStackBuilder(Material.GOLDEN_HELMET)
                     .name("Ferroduralum helmet")
                     .lore("A more powerful iron helmet.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -410,7 +409,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_CHESTPLATE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_chestplate"),
-            new ItemStackBuilder(Material.IRON_CHESTPLATE)
+            new ItemStackBuilder(Material.GOLDEN_CHESTPLATE)
                     .name("Ferroduralum chestplate")
                     .lore("A more powerful iron chestplate.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -437,7 +436,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_LEGGINGS = new SimpleItemSchema<>(
             pylonKey("ferroduralum_leggings"),
-            new ItemStackBuilder(Material.IRON_LEGGINGS)
+            new ItemStackBuilder(Material.GOLDEN_LEGGINGS)
                     .name("Ferroduralum leggings")
                     .lore("More powerful iron leggings.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -464,7 +463,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_BOOTS = new SimpleItemSchema<>(
             pylonKey("ferroduralum_boots"),
-            new ItemStackBuilder(Material.IRON_BOOTS)
+            new ItemStackBuilder(Material.GOLDEN_BOOTS)
                     .name("Ferroduralum boots")
                     .lore("More powerful iron boots.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
