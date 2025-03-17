@@ -55,7 +55,7 @@ public final class PylonItems {
                     0.25f
             )
     );
-    
+
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
@@ -228,10 +228,7 @@ public final class PylonItems {
                             "<yellow>Right-Click</yellow> to use.")
                     .build()
     );
-
-    private PylonItems() {
-        throw new AssertionError("Utility class");
-    }
+    
     //</editor-fold>
 
     static void register() {
