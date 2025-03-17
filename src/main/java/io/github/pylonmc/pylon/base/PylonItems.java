@@ -212,6 +212,28 @@ public final class PylonItems {
                 return recipe;
             }
     );
+
+    public static final PylonItemSchema PORTABILITY_CATALYST = new SimpleItemSchema<>(
+            pylonKey("portability_catalyst"),
+            new ItemStackBuilder(Material.AMETHYST_SHARD)
+                    .name("Portability Catalyst")
+                    .lore("Crafting material.")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            catalyst -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("portability_catalyst"), catalyst);
+                recipe.shape(
+                        "RRR",
+                        "RCR",
+                        "RRR"
+                );
+                recipe.setIngredient('R', Material.REDSTONE_BLOCK);
+                recipe.setIngredient('C', Material.COPPER_BLOCK);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
+    );
+
     public static final PortableCraftingTable PORTABLE_CRAFTING_TABLE = new PortableCraftingTable(
             pylonKey("portable_crafting_table"),
             PortableCraftingTable.Item.class,

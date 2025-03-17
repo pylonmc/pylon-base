@@ -19,11 +19,12 @@ public class PortableCraftingTable extends PylonItemSchema {
         super(id, itemClass, template);
         ShapedRecipe recipe = new ShapedRecipe(id, template);
         recipe.shape(
-                "WW ",
-                "WW ",
+                "WWW",
+                "WCW",
                 "   "
         );
         recipe.setIngredient('W', PylonItems.COMPRESSED_WOOD.getItemStack());
+        recipe.setIngredient('C', PylonItems.PORTABILITY_CATALYST.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
