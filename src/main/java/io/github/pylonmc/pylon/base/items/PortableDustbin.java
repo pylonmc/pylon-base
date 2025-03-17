@@ -25,7 +25,7 @@ public class PortableDustbin extends PylonItemSchema {
                 "IAI",
                 "III"
         );
-        recipe.setIngredient('I', Material.IRON_INGOT);
+        recipe.setIngredient('I', PylonItems.IRON_SHEET.getItemStack());
         recipe.setIngredient('C', Material.CACTUS);
         recipe.setIngredient('A', PylonItems.PORTABILITY_CATALYST.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);

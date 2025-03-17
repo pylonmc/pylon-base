@@ -228,7 +228,7 @@ public final class PylonItems {
                             "<yellow>Right-Click</yellow> to use.")
                     .build()
     );
-    
+
     //</editor-fold>
 
     static void register() {
