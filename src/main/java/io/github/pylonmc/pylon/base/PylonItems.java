@@ -186,6 +186,7 @@ public final class PylonItems {
                     )
                     .build()
     );
+    
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
             SimplePylonItem.class,
