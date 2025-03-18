@@ -255,7 +255,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_sword_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -288,7 +288,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_axe_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -321,7 +321,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_pickaxe_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -354,7 +354,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_shovel_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -387,7 +387,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_hoe_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -420,7 +420,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -452,7 +452,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -484,7 +484,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
@@ -516,7 +516,7 @@ public final class PylonItems {
                             ))
                             .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_durability"),
-                                    250,
+                                    250 * 1.15,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
