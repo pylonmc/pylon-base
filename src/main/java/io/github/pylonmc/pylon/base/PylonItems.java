@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.Sprinkler;
 import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -13,15 +14,16 @@ import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
@@ -197,6 +199,17 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+
+    public static final Sprinkler.SprinklerItem.Schema SPRINKLER = new Sprinkler.SprinklerItem.Schema(
+            pylonKey("sprinkler"),
+            Sprinkler.SprinklerItem.class,
+            new ItemStackBuilder(Material.FLOWER_POT)
+                    .name("Sprinkler")
+                    .lore(
+                            "Makes crops, saplings, sugar cane, and cactus go brrrr.",
+                            "Range: <aqua>" + Sprinkler.RANGE + " blocks")
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -208,9 +221,6 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
-    }
-
-    private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
-        return new NamespacedKey(PylonBase.getInstance(), key);
+        SPRINKLER.register();
     }
 }

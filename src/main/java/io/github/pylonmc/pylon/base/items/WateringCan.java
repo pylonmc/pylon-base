@@ -45,15 +45,19 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
             return;
         }
 
+        doWatering(center, RANGE);
+    }
+
+    public static void doWatering(Block center, int range) {
         boolean wasAnyTickAttempted = false;
-        for (int x = -RANGE; x < RANGE; x++) {
-            for (int z = -RANGE; z < RANGE; z++) {
+        for (int x = -range; x < range; x++) {
+            for (int z = -range; z < range; z++) {
                 Block block = center.getRelative(x, 0, z);
                 while (block.getType().isEmpty()) {
                     block = block.getRelative(BlockFace.DOWN);
                 }
                 // Cannot be an 'or' because the compiler optimises it out lol
-                if (tryGrowBlock(event.getPlayer(), block)) {
+                if (tryGrowBlock(block)) {
                     wasAnyTickAttempted = true;
                 }
             }
@@ -64,7 +68,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
         }
     }
 
-    private static boolean tryGrowBlock(@NotNull Player player, @NotNull Block block) {
+    private static boolean tryGrowBlock(@NotNull Block block) {
         if (block.getType() == Material.SUGAR_CANE) {
             return growSugarCane(block);
         } else if (block.getType() == Material.CACTUS) {
@@ -72,7 +76,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
         } else if (block.getBlockData() instanceof Ageable ageable && ageable.getAge() < ageable.getMaximumAge()) {
             return growCrop(block, ageable);
         } else if (Tag.SAPLINGS.isTagged(block.getType())) {
-            return growSapling(block, player);
+            return growSapling(block);
         }
         return false;
     }
@@ -156,9 +160,9 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
         return true;
     }
 
-    private static boolean growSapling(@NotNull Block block, @NotNull Player player) {
+    private static boolean growSapling(@NotNull Block block) {
         if (random.nextDouble() < SAPLING_CHANCE) {
-            block.applyBoneMeal(player.getFacing());
+            block.applyBoneMeal(BlockFace.UP);
         }
 
         return true;
