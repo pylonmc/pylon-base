@@ -253,6 +253,11 @@ public final class PylonItems {
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_sword_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                             .build())
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -280,6 +285,11 @@ public final class PylonItems {
                                     pylonKey("ferroduralum_axe_speed"),
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                            ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_axe_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .build(),
@@ -309,6 +319,11 @@ public final class PylonItems {
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_pickaxe_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                             .build())
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -336,6 +351,11 @@ public final class PylonItems {
                                     pylonKey("ferroduralum_shovel_speed"),
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                            ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_shovel_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .build(),
@@ -365,6 +385,11 @@ public final class PylonItems {
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_hoe_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                             .build())
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -393,6 +418,11 @@ public final class PylonItems {
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_helmet_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                             .build())
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -419,6 +449,11 @@ public final class PylonItems {
                                     pylonKey("ferroduralum_chestplate_armor"),
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                            ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_chestplate_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .build(),
@@ -447,6 +482,11 @@ public final class PylonItems {
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                             ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_leggings_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
                             .build())
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -473,6 +513,11 @@ public final class PylonItems {
                                     pylonKey("ferroduralum_boots_armor"),
                                     0.15,
                                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                            ))
+                            .addModifier(Attribute.MAX_HEALTH, new AttributeModifier(
+                                    pylonKey("ferroduralum_boots_durability"),
+                                    250,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .build(),
