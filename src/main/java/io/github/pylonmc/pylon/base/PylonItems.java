@@ -29,6 +29,10 @@ import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
+    
+    private PylonItems() {
+        throw new AssertionError("Utility class");
+    }
 
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
@@ -241,10 +245,6 @@ public final class PylonItems {
                             "your enderchest.")
                     .build()
     );
-
-    private PylonItems() {
-        throw new AssertionError("Utility class");
-    }
     //</editor-fold>
 
     static void register() {
