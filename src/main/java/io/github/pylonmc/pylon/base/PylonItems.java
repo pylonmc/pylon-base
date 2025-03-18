@@ -234,7 +234,7 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_FURNACE,
             ingot -> {
-                FurnaceRecipe recipe = new FurnaceRecipe(pylonKey("ferroduralum_ingot"), ingot, FERRODURALUM_ORE.getItemStack().getType(), 0.25f, 10 * 20);
+                FurnaceRecipe recipe = new FurnaceRecipe(pylonKey("ferroduralum_ingot"), ingot, new RecipeChoice.ExactChoice(FERRODURALUM_ORE.getItemStack()), 0.25f, 10 * 20);
                 recipe.setCategory(CookingBookCategory.MISC);
                 return recipe;
             }
