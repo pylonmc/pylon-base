@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.EnchantBooster;
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.WateringCan;
@@ -25,10 +26,6 @@ import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
-
-    private PylonItems() {
-        throw new AssertionError("Utility class");
-    }
 
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
@@ -197,6 +194,40 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+
+    public static final EnchantBooster SIMPLE_ENCHANT_BOOSTER = new EnchantBooster(
+            pylonKey("simple_enchant_booster"),
+            EnchantBooster.Item.class,
+            new ItemStackBuilder(Material.BOOK)
+                    .name("Enchant booster")
+                    .lore("<yellow>Right-Click</yellow> to boost an enchantment",
+                            "book's level by 1")
+                    .build()
+    );
+
+    public static final EnchantBooster ADVANCED_ENCHANT_BOOSTER = new EnchantBooster(
+            pylonKey("advanced_enchant_booster"),
+            EnchantBooster.Item.class,
+            new ItemStackBuilder(Material.BOOK)
+                    .name("Advanced enchant booster")
+                    .lore("<yellow>Right-Click</yellow> to boost an enchantment",
+                            "book's level by 2")
+                    .build()
+    );
+
+    public static final EnchantBooster ULTIMATE_ENCHANT_BOOSTER = new EnchantBooster(
+            pylonKey("ultimate_enchant_booster"),
+            EnchantBooster.Item.class,
+            new ItemStackBuilder(Material.BOOK)
+                    .name("Ultimate enchant booster")
+                    .lore("<yellow>Right-Click</yellow> to boost an enchantment",
+                            "book's level by 3.")
+                    .build()
+    );
+
+    private PylonItems() {
+        throw new AssertionError("Utility class");
+    }
     //</editor-fold>
 
     static void register() {
@@ -208,6 +239,9 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
+        SIMPLE_ENCHANT_BOOSTER.register();
+        ADVANCED_ENCHANT_BOOSTER.register();
+        ULTIMATE_ENCHANT_BOOSTER.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
