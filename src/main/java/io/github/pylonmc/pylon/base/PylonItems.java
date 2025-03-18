@@ -209,6 +209,7 @@ public final class PylonItems {
                     .name("Ferroduralum ore")
                     .lore("A crafting material to make",
                             "armor, weapons and tools.")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             ferroduralum -> {
