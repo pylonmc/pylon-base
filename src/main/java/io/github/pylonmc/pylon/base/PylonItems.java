@@ -222,6 +222,7 @@ public final class PylonItems {
             new ItemStackBuilder(Material.AMETHYST_SHARD)
                     .name("Portability Catalyst")
                     .lore("Crafting material.")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             catalyst -> {
