@@ -18,7 +18,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
@@ -206,8 +209,6 @@ public final class PylonItems {
                     .name("Ferroduralum ore")
                     .lore("A crafting material to make",
                             "armor, weapons and tools.")
-                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .set(DataComponentTypes.RARITY, ItemRarity.EPIC)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             ferroduralum -> {
