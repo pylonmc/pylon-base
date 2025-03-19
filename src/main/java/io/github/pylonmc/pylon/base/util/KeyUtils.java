@@ -6,7 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 
 public final class KeyUtils {
-    private KeyUtils() {}
+    private KeyUtils() {
+        throw new AssertionError("Utility class");
+    }
 
     public static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
