@@ -11,7 +11,6 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -45,10 +44,10 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
             return;
         }
 
-        doWatering(center, RANGE);
+        water(center, RANGE);
     }
 
-    public static void doWatering(Block center, int range) {
+    public static void water(Block center, int range) {
         boolean wasAnyTickAttempted = false;
         for (int x = -range; x < range; x++) {
             for (int z = -range; z < range; z++) {

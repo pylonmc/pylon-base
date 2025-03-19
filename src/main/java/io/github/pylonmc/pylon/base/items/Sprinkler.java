@@ -78,7 +78,7 @@ public interface Sprinkler {
                 return;
             }
 
-            WateringCan.doWatering(getBlock(), RANGE);
+            WateringCan.water(getBlock(), RANGE);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)
