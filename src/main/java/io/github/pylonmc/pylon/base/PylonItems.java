@@ -46,6 +46,7 @@ public final class PylonItems {
                     0.25f
             )
     );
+
     public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
@@ -58,6 +59,7 @@ public final class PylonItems {
                     0.25f
             )
     );
+
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
@@ -70,6 +72,7 @@ public final class PylonItems {
                     0.25f
             )
     );
+
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
             pylonKey("stone_hammer"),
@@ -103,6 +106,7 @@ public final class PylonItems {
             Material.STONE,
             new RecipeChoice.MaterialChoice(Tag.ITEMS_STONE_TOOL_MATERIALS)
     );
+
     public static final Hammer.Schema IRON_HAMMER = new Hammer.Schema(
             pylonKey("iron_hammer"),
             Hammer.class,
@@ -135,6 +139,7 @@ public final class PylonItems {
             Material.IRON_BLOCK,
             new RecipeChoice.MaterialChoice(Material.IRON_INGOT)
     );
+
     public static final Hammer.Schema DIAMOND_HAMMER = new Hammer.Schema(
             pylonKey("diamond_hammer"),
             Hammer.class,
@@ -167,6 +172,7 @@ public final class PylonItems {
             Material.DIAMOND_BLOCK,
             new RecipeChoice.MaterialChoice(Material.DIAMOND)
     );
+
     public static final PylonItemSchema WATERING_CAN = new PylonItemSchema(
             pylonKey("watering_can"),
             WateringCan.class,
@@ -180,6 +186,7 @@ public final class PylonItems {
                     )
                     .build()
     );
+
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
             SimplePylonItem.class,
@@ -194,7 +201,7 @@ public final class PylonItems {
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
-    // Need custom class to instantiate the many recipes
+
     public static final PylonItemSchema COMPRESSED_WOOD = new SimpleItemSchema<>(
             pylonKey("compressed_wood"),
             new ItemStackBuilder(Material.OAK_WOOD)
