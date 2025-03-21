@@ -1,5 +1,13 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.Hammer;
+import io.github.pylonmc.pylon.base.items.HealingTalisman;
+import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.Sprinkler;
+import io.github.pylonmc.pylon.base.items.PortableDustbin;
+import io.github.pylonmc.pylon.base.items.PortableEnderChest;
+import io.github.pylonmc.pylon.base.items.PortableCraftingTable;
+import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -767,30 +775,21 @@ public final class PylonItems {
     public static final HealingTalisman SIMPLE_HEALING_TALISMAN = new HealingTalisman(
             pylonKey("simple_healing_talisman"),
             HealingTalisman.Item.class,
-            new ItemStackBuilder(Material.AMETHYST_SHARD)
-                    .name("Simple Healing Talisman")
-                    .lore("Gain <yellow>+2</yellow> max health when in inventory.")
-                    .build(),
+            HealingTalisman.SIMPLE_TALISMAN_STACK,
             2
     );
 
     public static final HealingTalisman ADVANCED_HEALING_TALISMAN = new HealingTalisman(
             pylonKey("advanced_healing_talisman"),
             HealingTalisman.Item.class,
-            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
-                    .name("Advanced Healing Talisman")
-                    .lore("Gain <yellow>+6</yellow> max health when in inventory.")
-                    .build(),
+            HealingTalisman.ADVANCED_TALISMAN_STACK,
             6
     );
 
     public static final HealingTalisman ULTIMATE_HEALING_TALISMAN = new HealingTalisman(
             pylonKey("ultimate_healing_talisman"),
             HealingTalisman.Item.class,
-            new ItemStackBuilder(Material.BUDDING_AMETHYST)
-                    .name("Ultimate Healing Talisman")
-                    .lore("Gain <yellow>+10</yellow> max health when in inventory.")
-                    .build(),
+            HealingTalisman.ULTIMATE_TALISMAN_STACK,
             10
     );
     //</editor-fold>
@@ -826,6 +825,9 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        SIMPLE_HEALING_TALISMAN.register();
+        ADVANCED_HEALING_TALISMAN.register();
+        ULTIMATE_HEALING_TALISMAN.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
