@@ -204,15 +204,15 @@ public final class PylonItems {
     );
 
     public static final PylonItemSchema FERRODURALUM_ORE = new SimpleItemSchema<>(
-            pylonKey("ferroduralum_ore"),
+            pylonKey("raw_ferroduralum"),
             new ItemStackBuilder(Material.GOLD_ORE)
-                    .name("Ferroduralum ore")
+                    .name("Raw Ferroduralum")
                     .lore("A crafting material to make",
                             "armor, weapons and tools.")
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             ferroduralum -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_ore"), ferroduralum);
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("raw_ferroduralum"), ferroduralum);
                 recipe.shape(
                         "CIR",
                         "   ",
