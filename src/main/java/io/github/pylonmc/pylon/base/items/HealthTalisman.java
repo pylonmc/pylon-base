@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
-public class HealingTalisman extends PylonItemSchema {
+public class HealthTalisman extends PylonItemSchema {
     public int healthAmount;
     public static final ItemStack SIMPLE_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_SHARD)
             .name("Simple Healing Talisman")
@@ -28,7 +28,7 @@ public class HealingTalisman extends PylonItemSchema {
             .build();
     public static boolean recipesRegistered = false;
 
-    public HealingTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealingTalisman>> itemClass
+    public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
             , ItemStack template, int healthAmount) {
         super(id, itemClass, template);
         this.healthAmount = healthAmount;
@@ -65,9 +65,9 @@ public class HealingTalisman extends PylonItemSchema {
         }
     }
 
-    public static class Item extends PylonItem<HealingTalisman> implements InventoryItem {
-        HealingTalisman schema;
-        public Item(HealingTalisman schema, ItemStack itemStack) {
+    public static class Item extends PylonItem<HealthTalisman> implements InventoryItem {
+        HealthTalisman schema;
+        public Item(HealthTalisman schema, ItemStack itemStack) {
             super(schema, itemStack);
             this.schema = schema;
         }
