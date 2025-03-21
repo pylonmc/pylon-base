@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
-import io.github.pylonmc.pylon.base.items.HealingTalisman;
+import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
@@ -199,24 +199,24 @@ public final class PylonItems {
                     .build()
     );
 
-    public static final HealingTalisman SIMPLE_HEALING_TALISMAN = new HealingTalisman(
+    public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("simple_healing_talisman"),
-            HealingTalisman.Item.class,
-            HealingTalisman.SIMPLE_TALISMAN_STACK,
+            HealthTalisman.Item.class,
+            HealthTalisman.SIMPLE_TALISMAN_STACK,
             2
     );
 
-    public static final HealingTalisman ADVANCED_HEALING_TALISMAN = new HealingTalisman(
+    public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("advanced_healing_talisman"),
-            HealingTalisman.Item.class,
-            HealingTalisman.ADVANCED_TALISMAN_STACK,
+            HealthTalisman.Item.class,
+            HealthTalisman.ADVANCED_TALISMAN_STACK,
             6
     );
 
-    public static final HealingTalisman ULTIMATE_HEALING_TALISMAN = new HealingTalisman(
+    public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("ultimate_healing_talisman"),
-            HealingTalisman.Item.class,
-            HealingTalisman.ULTIMATE_TALISMAN_STACK,
+            HealthTalisman.Item.class,
+            HealthTalisman.ULTIMATE_TALISMAN_STACK,
             10
     );
     //</editor-fold>
@@ -230,9 +230,9 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
-        SIMPLE_HEALING_TALISMAN.register();
-        ADVANCED_HEALING_TALISMAN.register();
-        ULTIMATE_HEALING_TALISMAN.register();
+        SIMPLE_HEALTH_TALISMAN.register();
+        ADVANCED_HEALTH_TALISMAN.register();
+        ULTIMATE_HEALTH_TALISMAN.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
