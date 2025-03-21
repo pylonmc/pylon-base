@@ -763,6 +763,36 @@ public final class PylonItems {
                 return recipe;
             }
     );
+
+    public static final HealingTalisman SIMPLE_HEALING_TALISMAN = new HealingTalisman(
+            pylonKey("simple_healing_talisman"),
+            HealingTalisman.Item.class,
+            new ItemStackBuilder(Material.AMETHYST_SHARD)
+                    .name("Simple Healing Talisman")
+                    .lore("Gain <yellow>+2</yellow> max health when in inventory.")
+                    .build(),
+            2
+    );
+
+    public static final HealingTalisman ADVANCED_HEALING_TALISMAN = new HealingTalisman(
+            pylonKey("advanced_healing_talisman"),
+            HealingTalisman.Item.class,
+            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
+                    .name("Advanced Healing Talisman")
+                    .lore("Gain <yellow>+6</yellow> max health when in inventory.")
+                    .build(),
+            6
+    );
+
+    public static final HealingTalisman ULTIMATE_HEALING_TALISMAN = new HealingTalisman(
+            pylonKey("ultimate_healing_talisman"),
+            HealingTalisman.Item.class,
+            new ItemStackBuilder(Material.BUDDING_AMETHYST)
+                    .name("Ultimate Healing Talisman")
+                    .lore("Gain <yellow>+10</yellow> max health when in inventory.")
+                    .build(),
+            10
+    );
     //</editor-fold>
 
     static void register() {
