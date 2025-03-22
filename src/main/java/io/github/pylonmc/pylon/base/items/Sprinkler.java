@@ -19,11 +19,15 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 
-public interface Sprinkler {
+public final class Sprinkler {
 
-    int RANGE = 4;
+    public static final int RANGE = 4;
 
-    class SprinklerItem extends PylonItem<SprinklerItem.Schema> implements BlockPlacer {
+    private Sprinkler() {
+        throw new AssertionError("Container class");
+    }
+
+    public static class SprinklerItem extends PylonItem<SprinklerItem.Schema> implements BlockPlacer {
 
         @Override
         public @NotNull PylonBlockSchema getBlockSchema() {
@@ -46,7 +50,7 @@ public interface Sprinkler {
         }
     }
 
-    class SprinklerBlock extends PylonBlock<SprinklerBlock.Schema> implements Ticking {
+    public static class SprinklerBlock extends PylonBlock<SprinklerBlock.Schema> implements Ticking {
 
         public static class Schema extends PylonBlockSchema {
 
