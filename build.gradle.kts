@@ -1,3 +1,5 @@
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+
 plugins {
     java
     idea
@@ -45,11 +47,12 @@ tasks.shadowJar {
 }
 
 bukkit {
-    name = project.name
+    name = "PylonBase"
     main = "io.github.pylonmc.pylon.base.PylonBase"
     version = project.version.toString()
     apiVersion = "1.21"
-    depend = listOf("pylon-core")
+    depend = listOf("PylonCore")
+    load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 }
 
 tasks.runServer {
