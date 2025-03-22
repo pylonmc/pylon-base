@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.PortableDustbin;
 import io.github.pylonmc.pylon.base.items.PortableEnderChest;
 import io.github.pylonmc.pylon.base.items.PortableCraftingTable;
 import io.github.pylonmc.pylon.base.items.WateringCan;
+import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
@@ -13,18 +14,29 @@ import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.*;
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
+import io.papermc.paper.datacomponent.item.BlockItemDataProperties;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.ItemEnchantments;
+import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -298,6 +310,133 @@ public final class PylonItems {
                             "your enderchest.")
                     .build()
     );
+
+    public static final PylonItemSchema FIBER = new SimpleItemSchema<CraftingRecipe>(
+            pylonKey("fiber"),
+            new ItemStackBuilder(Material.BAMBOO_MOSAIC).name("Fiber").lore("More durable string.",
+                                                                            "A crafting material.")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            fiber -> {
+                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
+                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
+                    recipe.setCategory(CraftingBookCategory.MISC);
+                    return recipe;
+            }
+    );
+
+    public static final PylonItemSchema BANDAGE = new SimpleItemSchema<CraftingRecipe>(
+            pylonKey("bandage"),
+            new ItemStackBuilder(Material.COBWEB)
+                    .name("Bandage")
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                                    new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)), 1))
+                            .consumeSeconds(1.25f)
+                            .animation(ItemUseAnimation.BOW)
+                            .hasConsumeParticles(false)
+                            .build())
+                    .lore("Hold <yellow>Right-Click</yellow> for 1.25 seconds to heal",
+                            "for <green>2 hearts. ")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            bandage -> {
+                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
+                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
+                    recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                    return recipe;
+            }
+    );
+
+    public static final PylonItemSchema PLASTER = new SimpleItemSchema<CraftingRecipe>(
+            pylonKey("plaster"),
+            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
+                    .name("Plaster")
+                    .lore("Condensed form of clay.",
+                        "Used as a crafting material.")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            plaster -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("plaster"), plaster).shape("CC ", "CC ", "   ").setIngredient('C', Material.CLAY);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
+    );
+
+    public static final PylonItemSchema SPLINT = new SimpleItemSchema<CraftingRecipe>(
+            pylonKey("splint"),
+            new ItemStackBuilder(Material.STICK)
+                    .name("Splint")
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                                    new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true)), 1))
+                            .consumeSeconds(3.0f)
+                            .animation(ItemUseAnimation.BOW)
+                            .hasConsumeParticles(false)
+                            .build())
+                    .lore("Hold <yellow>Right-Click</yellow> for 3 seconds to heal",
+                            "for <green>4 hearts")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            splint -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("splint"), splint)
+                        .shape("PPP", "   ", "PPP").setIngredient('P', PLASTER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
+
+    public static final PylonItemSchema DISINFECTANT = new SimpleItemSchema<CraftingRecipe>(
+            pylonKey("disinfectant"),
+            new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
+                    .name("Disinfectant")
+                    // Using the actual potion material doesn't let you set the name properly, gives you a class string of a nonexistant potion type for some reason
+                    .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .hasConsumeParticles(false)
+                            .consumeSeconds(3.0f)
+                            .animation(ItemUseAnimation.BOW)
+                            .addEffect(ConsumeEffect.clearAllStatusEffects())
+                            .build())
+                    .lore("<green>Clears all status effects</green> when applied.",
+                            "Also used to craft <yellow>medkit")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            disinfectant -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("disinfectant"), disinfectant)
+                        .shape("DDD", "D D", "DDD").setIngredient('D', Material.DRIPSTONE_BLOCK);
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
+
+    public static final PylonItemSchema MEDKIT = new SimpleItemSchema<CraftingRecipe>(
+            pylonKey("medkit"),
+            new ItemStackBuilder(Material.SHULKER_SHELL)
+                    .name("Medkit")
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .consumeSeconds(7.0f)
+                            .animation(ItemUseAnimation.BOW)
+                            .hasConsumeParticles(false)
+                            .addEffect(ConsumeEffect.clearAllStatusEffects())
+                            .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                                    new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true),
+                                    new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 1, true),
+                                    new PotionEffect(PotionEffectType.RESISTANCE, 10 * 20, 1, true)), 1))
+                    )
+                    .lore("Hold <yellow>Right-Click</yellow> for 7 seconds to ",
+                            "<green>clear all effects</green> and heal for <green>4 hearts")
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            medkit -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("medkit"), medkit)
+                        .shape("PFP", "DDD", "PFP").setIngredient('P', PLASTER.getItemStack())
+                        .setIngredient('D', DISINFECTANT.getItemStack())
+                        .setIngredient('F', FIBER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
     //</editor-fold>
 
     static void register() {
@@ -313,6 +452,12 @@ public final class PylonItems {
         PORTABLE_CRAFTING_TABLE.register();
         PORTABLE_DUSTBIN.register();
         PORTABLE_ENDER_CHEST.register();
+        FIBER.register();
+        BANDAGE.register();
+        PLASTER.register();
+        SPLINT.register();
+        DISINFECTANT.register();
+        MEDKIT.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
