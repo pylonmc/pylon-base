@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Hammer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.PortableDustbin;
 import io.github.pylonmc.pylon.base.items.PortableEnderChest;
 import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
@@ -202,27 +203,6 @@ public final class PylonItems {
                     .build()
     );
 
-    public static final PylonItemSchema COMPRESSED_OBSIDIAN = new SimpleItemSchema<>(
-            pylonKey("compressed_obsidian"),
-            new ItemStackBuilder(Material.OBSIDIAN)
-                    .name("Compressed Obsidian")
-                    .lore("A crafting material.")
-                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            enchantedobi -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_obsidian"), enchantedobi);
-                recipe.shape(
-                        "OOO",
-                        "OOO",
-                        "OOO"
-                );
-                recipe.setIngredient('O', Material.OBSIDIAN);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
-    );
-
     public static final PylonItemSchema PORTABILITY_CATALYST = new SimpleItemSchema<>(
             pylonKey("portability_catalyst"),
             new ItemStackBuilder(Material.AMETHYST_SHARD)
@@ -240,6 +220,38 @@ public final class PylonItems {
                 );
                 recipe.setIngredient('R', Material.REDSTONE_BLOCK);
                 recipe.setIngredient('P', Material.ENDER_PEARL);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
+    );
+
+    public static final PortableDustbin PORTABLE_DUSTBIN = new PortableDustbin(
+            pylonKey("portable_dustbin"),
+            PortableDustbin.Item.class,
+            new ItemStackBuilder(Material.CAULDRON)
+                    .name("Portable Dustbin")
+                    .lore("Deletes unneeded items.",
+                            "<yellow>Right-Click</yellow> to use.")
+                    .build()
+    );
+
+
+    public static final PylonItemSchema COMPRESSED_OBSIDIAN = new SimpleItemSchema<>(
+            pylonKey("compressed_obsidian"),
+            new ItemStackBuilder(Material.OBSIDIAN)
+                    .name("Compressed Obsidian")
+                    .lore("A crafting material.")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            enchantedobi -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_obsidian"), enchantedobi);
+                recipe.shape(
+                        "OOO",
+                        "OOO",
+                        "OOO"
+                );
+                recipe.setIngredient('O', Material.OBSIDIAN);
                 recipe.setCategory(CraftingBookCategory.MISC);
                 return recipe;
             }
@@ -265,6 +277,7 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         MONSTER_JERKY.register();
         WATERING_CAN.register();
+        PORTABLE_DUSTBIN.register();
         PORTABLE_ENDER_CHEST.register();
     }
 
