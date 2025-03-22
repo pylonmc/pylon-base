@@ -1,3 +1,5 @@
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+
 plugins {
     java
     idea
@@ -50,6 +52,7 @@ bukkit {
     version = project.version.toString()
     apiVersion = "1.21"
     depend = listOf("PylonCore")
+    load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 }
 
 tasks.runServer {
