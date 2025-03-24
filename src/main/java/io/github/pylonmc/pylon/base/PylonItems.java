@@ -131,7 +131,7 @@ public final class PylonItems {
                             .instructionLine("Right click", "to use")
                             .arrow().text(" Speeds up growth of crops, saplings, sugar cane, and cactus").newline()
                             .arrow().text(" Slow, but can water lots of crops at once").newline()
-                            .attributeLine("Range", WateringCan.RANGE, Quantity.BLOCKS)
+                            .attributeLine("Range", WateringCan.HORIZONTAL_RANGE, Quantity.BLOCKS)
                     )
                     .build()
     );
@@ -666,7 +666,7 @@ public final class PylonItems {
                     .name("Sprinkler")
                     .lore(new LoreBuilder()
                             .arrow().text(" Makes crops, saplings, sugar cane, and cactus go brrr").newline()
-                            .attributeLine("Range", Sprinkler.RANGE, Quantity.BLOCKS))
+                            .attributeLine("Range", Sprinkler.HORIZONTAL_RANGE, Quantity.BLOCKS))
                     .build()
     );
     //</editor-fold>
