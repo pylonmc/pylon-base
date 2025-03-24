@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.LoreBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.Quantity;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
@@ -72,10 +71,9 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
                     new ItemStackBuilder(toolItem)
                             .name(name)
                             .lore(new LoreBuilder()
-                                    .instructionLine("Right click", "an item dropped on top of the hammer's")
-                                    .text("   base block to use the hammer on it").newline()
+                                    .arrow().instruction(" Right click").text(" an item dropped on top of a placed <white>").text(baseBlock).newline()
+                                    .text("   to use the hammer on it").newline()
                                     .arrow().text(" Higher tier hammers are more likely to succeed").newline()
-                                    .attributeLine("Base block", baseBlock, Quantity.NONE)
                             )
                             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                                     .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
