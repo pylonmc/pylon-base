@@ -105,7 +105,7 @@ public final class Sprinkler {
             int verticalRadiusToCheck = 2 * VERTICAL_RANGE;
             for (int x = -horizontalRadiusToCheck; x < horizontalRadiusToCheck; x++) {
                 for (int z = -horizontalRadiusToCheck; z < horizontalRadiusToCheck; z++) {
-                    for (int y = -verticalRadiusToCheck; y < 0; y++) {
+                    for (int y = -verticalRadiusToCheck; y < verticalRadiusToCheck; y++) {
                         if (!(BlockStorage.get(event.getBlock().getRelative(x, y, z)) instanceof SprinklerBlock)) {
                             continue;
                         }

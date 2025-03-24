@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +21,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         registerWithPylon();
         PylonItems.register();
         PylonBlocks.register();
+        Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
     }
 
     @Override
