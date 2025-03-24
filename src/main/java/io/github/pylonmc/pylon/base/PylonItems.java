@@ -643,7 +643,7 @@ public final class PylonItems {
                                     EquipmentSlotGroup.HEAD
                             ))
                             .build())
-                    .set(DataComponentTypes.MAX_DAMAGE, 300)
+                    .set(DataComponentTypes.MAX_DAMAGE, 190)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             helmet -> {
@@ -678,7 +678,7 @@ public final class PylonItems {
                                     EquipmentSlotGroup.CHEST
                             ))
                             .build())
-                    .set(DataComponentTypes.MAX_DAMAGE, 300)
+                    .set(DataComponentTypes.MAX_DAMAGE, 276)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             chestplate -> {
@@ -713,7 +713,7 @@ public final class PylonItems {
                                     EquipmentSlotGroup.LEGS
                             ))
                             .build())
-                    .set(DataComponentTypes.MAX_DAMAGE, 300)
+                    .set(DataComponentTypes.MAX_DAMAGE, 259)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             leggings -> {
@@ -748,7 +748,7 @@ public final class PylonItems {
                                     EquipmentSlotGroup.FEET
                             ))
                             .build())
-                    .set(DataComponentTypes.MAX_DAMAGE, 300)
+                    .set(DataComponentTypes.MAX_DAMAGE, 225)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             boots -> {
