@@ -9,9 +9,13 @@ import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class HealthTalisman extends PylonItemSchema {
     public int healthAmount;
@@ -28,6 +32,7 @@ public class HealthTalisman extends PylonItemSchema {
             .lore("Gain <yellow>+10</yellow> max health when in inventory.")
             .build();
     public static boolean recipesRegistered = false;
+    private List<HumanEntity> playersWithEffect = List.of();
 
     public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
             , ItemStack template, int healthAmount) {
@@ -73,12 +78,18 @@ public class HealthTalisman extends PylonItemSchema {
             this.schema = schema;
         }
 
-        public void onEnterInventory(HumanEntity player){
-            player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
+        public void onEnterInventory(@NotNull HumanEntity player){
+            if(!schema.playersWithEffect.contains(player)) {
+                player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
+                schema.playersWithEffect.add(player);
+            }
         }
 
-        public void onExitInventory(HumanEntity player){
-            player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
+        public void onExitInventory(@NotNull HumanEntity player){
+            if(schema.playersWithEffect.contains(player)) {
+                player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
+                schema.playersWithEffect.remove(player);
+            }
         }
     }
 }
