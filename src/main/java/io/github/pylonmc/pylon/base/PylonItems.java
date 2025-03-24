@@ -633,12 +633,14 @@ public final class PylonItems {
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_armor"),
                                     2.5,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.HEAD
                             ))
                             .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_toughness"),
                                     1,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.HEAD
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
@@ -666,12 +668,14 @@ public final class PylonItems {
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_armor"),
                                     7,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.CHEST
                             ))
                             .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_toughness"),
                                     1,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.CHEST
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
@@ -699,12 +703,14 @@ public final class PylonItems {
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_armor"),
                                     5.5,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.LEGS
                             ))
                             .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_toughness"),
                                     1,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.LEGS
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
@@ -729,16 +735,17 @@ public final class PylonItems {
                     .name("Ferroduralum boots")
                     .lore("More powerful iron boots.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                            // setting any attribute overrides the default only apply when equipped behavior
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_armor"),
                                     2.5,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.FEET
                             ))
                             .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_toughness"),
                                     1,
-                                    AttributeModifier.Operation.ADD_NUMBER
+                                    AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlotGroup.FEET
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
