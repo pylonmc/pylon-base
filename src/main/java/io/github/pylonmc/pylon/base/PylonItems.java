@@ -11,19 +11,26 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.set.RegistryKeySet;
+import net.kyori.adventure.util.TriState;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.BlockType;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
@@ -625,11 +632,15 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_armor"),
-                                    6,
+                                    2.5,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                            .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                                    pylonKey("ferroduralum_helmet_toughness"),
+                                    1,
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
-                    .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD).build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -654,8 +665,13 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_armor"),
-                                    0.15,
-                                    AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                                    7,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                            .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                                    pylonKey("ferroduralum_chestplate_toughness"),
+                                    1,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
@@ -682,8 +698,13 @@ public final class PylonItems {
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_armor"),
-                                    0.15,
-                                    AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                                    5.5,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                            .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                                    pylonKey("ferroduralum_leggings_toughness"),
+                                    1,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
@@ -708,10 +729,16 @@ public final class PylonItems {
                     .name("Ferroduralum boots")
                     .lore("More powerful iron boots.")
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                            // setting any attribute overrides the default only apply when equipped behavior
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_armor"),
-                                    0.15,
-                                    AttributeModifier.Operation.MULTIPLY_SCALAR_1
+                                    2.5,
+                                    AttributeModifier.Operation.ADD_NUMBER
+                            ))
+                            .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                                    pylonKey("ferroduralum_boots_toughness"),
+                                    1,
+                                    AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
