@@ -8,10 +8,7 @@ import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.ItemAdventurePredicate;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
@@ -632,6 +629,7 @@ public final class PylonItems {
                                     AttributeModifier.Operation.ADD_NUMBER
                             ))
                             .build())
+                    .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD).build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
