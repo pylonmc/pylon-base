@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.base.InventoryItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -72,11 +73,11 @@ public class HealthTalisman extends PylonItemSchema {
             this.schema = schema;
         }
 
-        public override void onEnterInventory(HumanEntity player){
+        public void onEnterInventory(HumanEntity player){
             player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
         }
 
-        public override void onExitInventory(HumanEntity player){
+        public void onExitInventory(HumanEntity player){
             player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
         }
     }
