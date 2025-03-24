@@ -442,7 +442,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_ORE = new SimpleItemSchema<>(
             pylonKey("raw_ferroduralum"),
-            new ItemStackBuilder(Material.GOLD_ORE)
+            new ItemStackBuilder(Material.RAW_GOLD)
                     .name("Raw Ferroduralum")
                     .lore("A crafting material to make",
                             "armor, weapons and tools.")
