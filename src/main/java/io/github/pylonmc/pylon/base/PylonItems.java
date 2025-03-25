@@ -764,21 +764,21 @@ public final class PylonItems {
             pylonKey("simple_healing_talisman"),
             HealthTalisman.Item.class,
             HealthTalisman.SIMPLE_TALISMAN_STACK,
-            2
+            6
     );
 
     public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("advanced_healing_talisman"),
             HealthTalisman.Item.class,
             HealthTalisman.ADVANCED_TALISMAN_STACK,
-            6
+            10
     );
 
     public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("ultimate_healing_talisman"),
             HealthTalisman.Item.class,
             HealthTalisman.ULTIMATE_TALISMAN_STACK,
-            10
+            14
     );
     //</editor-fold>
 
