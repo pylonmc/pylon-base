@@ -1,24 +1,33 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
-public class PylonBase extends JavaPlugin {
 
-    private static PylonBase INSTANCE;
+public class PylonBase extends JavaPlugin implements PylonAddon {
+
+    private static PylonBase instance;
 
     public static PylonBase getInstance() {
-        return INSTANCE;
+        return instance;
     }
 
     @Override
     public void onEnable() {
-        INSTANCE = this;
+        instance = this;
+        registerWithPylon();
         PylonItems.register();
         PylonBlocks.register();
     }
 
     @Override
-    public void onDisable() {
-        INSTANCE = null;
+    public @NotNull JavaPlugin getJavaPlugin() {
+        return instance;
+    }
+
+    @Override
+    public @NotNull String displayName() {
+        return "Base";
     }
 }
