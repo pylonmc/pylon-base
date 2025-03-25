@@ -8,6 +8,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -90,7 +91,7 @@ public class HealthTalisman extends PylonItemSchema {
             this.schema = schema;
         }
 
-        public void onEnterInventory(@NotNull HumanEntity player){
+        public void onEnterInventory(@NotNull Player player){
             if(!schema.numItemsPerPlayer.containsKey(player)){
                 schema.numItemsPerPlayer.put(player, 1);
                 player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
@@ -100,7 +101,7 @@ public class HealthTalisman extends PylonItemSchema {
             }
         }
 
-        public void onExitInventory(@NotNull HumanEntity player){
+        public void onExitInventory(@NotNull Player player){
             if(schema.numItemsPerPlayer.containsKey(player)) {
                 if(schema.numItemsPerPlayer.get(player) == 1) {
                     player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
