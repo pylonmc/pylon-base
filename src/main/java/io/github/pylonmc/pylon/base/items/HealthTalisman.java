@@ -1,9 +1,7 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.*;
 import io.github.pylonmc.pylon.core.item.base.InventoryItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -22,17 +20,26 @@ public class HealthTalisman extends PylonItemSchema {
     public int healthAmount;
     public static final ItemStack SIMPLE_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_SHARD)
             .name("Simple Healing Talisman")
-            .lore("Gain <yellow>+2</yellow> max health when in inventory.")
+            .lore(new LoreBuilder()
+                    .attributeLine("Max health increase", 6, Quantity.HEARTS)
+                    .text("Passive effect while in inventory")
+                    .text("Does not stack"))
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     public static final ItemStack ADVANCED_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_CLUSTER)
             .name("Advanced Healing Talisman")
-            .lore("Gain <yellow>+6</yellow> max health when in inventory.")
+            .lore(new LoreBuilder()
+                    .attributeLine("Max health increase", 6, Quantity.HEARTS)
+                    .text("Passive effect while in inventory")
+                    .text("Does not stack"))
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     public static final ItemStack ULTIMATE_TALISMAN_STACK = new ItemStackBuilder(Material.BUDDING_AMETHYST)
             .name("Ultimate Healing Talisman")
-            .lore("Gain <yellow>+10</yellow> max health when in inventory.")
+            .lore(new LoreBuilder()
+                    .attributeLine("Max health increase", 10, Quantity.HEARTS)
+                    .text("Passive effect while in inventory")
+                    .text("Does not stack"))
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     private static boolean recipesRegistered = false;
