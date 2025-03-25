@@ -6,14 +6,16 @@ import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.Ticking;
+import io.github.pylonmc.pylon.core.event.PylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
+import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +23,8 @@ import org.jetbrains.annotations.NotNull;
 
 public final class Sprinkler {
 
-    public static final int RANGE = 4;
+    public static final int HORIZONTAL_RANGE = 4;
+    public static final int VERTICAL_RANGE = 4;
 
     private Sprinkler() {
         throw new AssertionError("Container class");
@@ -82,12 +85,42 @@ public final class Sprinkler {
                 return;
             }
 
-            WateringCan.water(getBlock(), RANGE);
+            WateringCan.water(getBlock(), HORIZONTAL_RANGE, VERTICAL_RANGE);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)
                     .location(getBlock().getLocation().add(0.5, 0.5, 0.5))
                     .spawn();
+        }
+    }
+
+    public static class SprinklerPlaceListener implements Listener {
+        @EventHandler
+        private static void handle(@NotNull PylonBlockPlaceEvent event) {
+            if (!(event.getPylonBlock() instanceof SprinklerBlock)) {
+                return;
+            }
+
+            int horizontalRadiusToCheck = 2 * HORIZONTAL_RANGE;
+            int verticalRadiusToCheck = 2 * VERTICAL_RANGE;
+            for (int x = -horizontalRadiusToCheck; x < horizontalRadiusToCheck; x++) {
+                for (int z = -horizontalRadiusToCheck; z < horizontalRadiusToCheck; z++) {
+                    for (int y = -verticalRadiusToCheck; y < verticalRadiusToCheck; y++) {
+                        if (!(BlockStorage.get(event.getBlock().getRelative(x, y, z)) instanceof SprinklerBlock)) {
+                            continue;
+                        }
+
+                        event.setCancelled(true);
+                        if (event.getContext() instanceof BlockCreateContext.PlayerPlace context) {
+                            context.getPlayer().sendMessage(ChatColor.RED
+                                    + "You cannot place sprinklers within "
+                                    + horizontalRadiusToCheck
+                                    + " blocks of each other");
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 }
