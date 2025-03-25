@@ -1,13 +1,5 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Hammer;
-import io.github.pylonmc.pylon.base.items.HealthTalisman;
-import io.github.pylonmc.pylon.base.items.MonsterJerky;
-import io.github.pylonmc.pylon.base.items.Sprinkler;
-import io.github.pylonmc.pylon.base.items.PortableDustbin;
-import io.github.pylonmc.pylon.base.items.PortableEnderChest;
-import io.github.pylonmc.pylon.base.items.PortableCraftingTable;
-import io.github.pylonmc.pylon.base.items.WateringCan;
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -16,29 +8,25 @@ import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.*;
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.FoodProperties;
+import io.papermc.paper.datacomponent.item.ItemAdventurePredicate;
+import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
-import io.papermc.paper.registry.set.RegistryKeySet;
-import net.kyori.adventure.util.TriState;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.block.BlockType;
 import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.ArmorMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @SuppressWarnings("UnstableApiUsage")
 public final class PylonItems {
@@ -772,7 +760,6 @@ public final class PylonItems {
             }
     );
 
-    public static final HealingTalisman SIMPLE_HEALING_TALISMAN = new HealingTalisman(
     public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("simple_healing_talisman"),
             HealthTalisman.Item.class,
