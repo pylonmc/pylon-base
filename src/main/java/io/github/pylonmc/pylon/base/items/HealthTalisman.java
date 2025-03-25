@@ -6,38 +6,43 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.InventoryItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.HashMap;
 
+@SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItemSchema {
     public int healthAmount;
     public static final ItemStack SIMPLE_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_SHARD)
             .name("Simple Healing Talisman")
             .lore("Gain <yellow>+2</yellow> max health when in inventory.")
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     public static final ItemStack ADVANCED_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_CLUSTER)
             .name("Advanced Healing Talisman")
             .lore("Gain <yellow>+6</yellow> max health when in inventory.")
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     public static final ItemStack ULTIMATE_TALISMAN_STACK = new ItemStackBuilder(Material.BUDDING_AMETHYST)
             .name("Ultimate Healing Talisman")
             .lore("Gain <yellow>+10</yellow> max health when in inventory.")
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
-    public static boolean recipesRegistered = false;
-    private List<HumanEntity> playersWithEffect = List.of();
+    private static boolean recipesRegistered = false;
+    private final HashMap<HumanEntity, Integer> numItemsPerPlayer = new HashMap<>();
 
     public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
             , ItemStack template, int healthAmount) {
         super(id, itemClass, template);
         this.healthAmount = healthAmount;
+        assert template.getMaxStackSize() == 1;
         if(!recipesRegistered){
             ShapedRecipe simpleRecipe = new ShapedRecipe(new NamespacedKey(PylonBase.getInstance(), "simple_healing_talisman"), SIMPLE_TALISMAN_STACK);
             simpleRecipe.shape(
@@ -79,16 +84,24 @@ public class HealthTalisman extends PylonItemSchema {
         }
 
         public void onEnterInventory(@NotNull HumanEntity player){
-            if(!schema.playersWithEffect.contains(player)) {
+            if(!schema.numItemsPerPlayer.containsKey(player)){
+                schema.numItemsPerPlayer.put(player, 1);
                 player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
-                schema.playersWithEffect.add(player);
+            }
+            else{
+                schema.numItemsPerPlayer.put(player, schema.numItemsPerPlayer.get(player) + 1);
             }
         }
 
         public void onExitInventory(@NotNull HumanEntity player){
-            if(schema.playersWithEffect.contains(player)) {
-                player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
-                schema.playersWithEffect.remove(player);
+            if(schema.numItemsPerPlayer.containsKey(player)) {
+                if(schema.numItemsPerPlayer.get(player) == 1) {
+                    player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
+                    schema.numItemsPerPlayer.remove(player);
+                }
+                else{
+                    schema.numItemsPerPlayer.put(player, schema.numItemsPerPlayer.get(player) - 1);
+                }
             }
         }
     }
