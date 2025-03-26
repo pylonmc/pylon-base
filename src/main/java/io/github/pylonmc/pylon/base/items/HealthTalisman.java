@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.*;
-import io.github.pylonmc.pylon.core.item.base.InventoryItem;
+import io.github.pylonmc.pylon.core.item.base.TickingItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
@@ -15,6 +15,8 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItemSchema {
@@ -84,11 +86,32 @@ public class HealthTalisman extends PylonItemSchema {
         }
     }
 
-    public static class Item extends PylonItem<HealthTalisman> implements InventoryItem {
+    public static class Item extends PylonItem<HealthTalisman> implements TickingItem {
         HealthTalisman schema;
+        private List<Player> players = List.of();
+        private List<Player> playersToRemove = List.of();
+
         public Item(HealthTalisman schema, ItemStack itemStack) {
             super(schema, itemStack);
             this.schema = schema;
+        }
+
+        public void run() {
+            playersToRemove = players.stream().toList();
+            for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
+                for (ItemStack item : player.getInventory()) {
+                    if (item == schema.getItemStack()) {
+                        if (!players.contains(player)) {
+                            onEnterInventory(player);
+                            players.add(player);
+                        }
+                        playersToRemove.remove(player);
+                    }
+                }
+            }
+            for (Player player : playersToRemove) {
+                onExitInventory(player);
+            }
         }
 
         public void onEnterInventory(@NotNull Player player){
