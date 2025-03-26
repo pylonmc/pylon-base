@@ -7,17 +7,12 @@ import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItemSchema {
@@ -26,28 +21,28 @@ public class HealthTalisman extends PylonItemSchema {
             .name("Simple Healing Talisman")
             .lore(new LoreBuilder()
                     .attributeLine("Max health increase", 6, Quantity.HEARTS)
-                    .text("Passive effect while in inventory")
-                    .text("Does not stack"))
+                    .arrow().text("Passive effect while in inventory").newline()
+                    .arrow().text("Does not stack"))
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     public static final ItemStack ADVANCED_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_CLUSTER)
             .name("Advanced Healing Talisman")
             .lore(new LoreBuilder()
                     .attributeLine("Max health increase", 6, Quantity.HEARTS)
-                    .text("Passive effect while in inventory")
-                    .text("Does not stack"))
+                    .arrow().text("Passive effect while in inventory").newline()
+                    .arrow().text("Does not stack"))
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     public static final ItemStack ULTIMATE_TALISMAN_STACK = new ItemStackBuilder(Material.BUDDING_AMETHYST)
             .name("Ultimate Healing Talisman")
             .lore(new LoreBuilder()
                     .attributeLine("Max health increase", 10, Quantity.HEARTS)
-                    .text("Passive effect while in inventory")
-                    .text("Does not stack"))
+                    .arrow().text("Passive effect while in inventory").newline()
+                    .arrow().text("Does not stack"))
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     private static boolean recipesRegistered = false;
-    private final HashMap<HumanEntity, Integer> numItemsPerPlayer = new HashMap<>();
+    private final ArrayList<Player> players = new ArrayList<>();
 
     public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
             , ItemStack template, int healthAmount) {
@@ -89,7 +84,6 @@ public class HealthTalisman extends PylonItemSchema {
 
     public static class Item extends PylonItem<HealthTalisman> implements TickingItem {
         HealthTalisman schema;
-        private List<Player> players = List.of();
 
         public Item(HealthTalisman schema, ItemStack itemStack) {
             super(schema, itemStack);
@@ -97,42 +91,21 @@ public class HealthTalisman extends PylonItemSchema {
         }
 
         public void tick() {
-            List<Player> playersToRemove = new ArrayList<>(players);
+            ArrayList<Player> playersToRemove = new ArrayList<>(schema.players);
             for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
                 for (ItemStack item : player.getInventory()) {
-                    if (item == schema.getItemStack()) {
-                        if (!players.contains(player)) {
-                            onEnterInventory(player);
-                            players.add(player);
+                    if(item != null && item.equals(schema.getItemStack())){
+                        if (!schema.players.contains(player)) {
+                            player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
+                            schema.players.add(player);
                         }
                         playersToRemove.remove(player);
                     }
                 }
             }
             for (Player player : playersToRemove) {
-                onExitInventory(player);
-            }
-        }
-
-        public void onEnterInventory(@NotNull Player player){
-            if(!schema.numItemsPerPlayer.containsKey(player)){
-                schema.numItemsPerPlayer.put(player, 1);
-                player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
-            }
-            else{
-                schema.numItemsPerPlayer.put(player, schema.numItemsPerPlayer.get(player) + 1);
-            }
-        }
-
-        public void onExitInventory(@NotNull Player player){
-            if(schema.numItemsPerPlayer.containsKey(player)) {
-                if(schema.numItemsPerPlayer.get(player) == 1) {
-                    player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
-                    schema.numItemsPerPlayer.remove(player);
-                }
-                else{
-                    schema.numItemsPerPlayer.put(player, schema.numItemsPerPlayer.get(player) - 1);
-                }
+                player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
+                schema.players.remove(player);
             }
         }
     }
