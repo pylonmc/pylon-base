@@ -2,17 +2,13 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.*;
-import io.github.pylonmc.pylon.core.item.base.TickingItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-
-import java.util.ArrayList;
 
 @SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItemSchema {
@@ -42,7 +38,6 @@ public class HealthTalisman extends PylonItemSchema {
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     private static boolean recipesRegistered = false;
-    private final ArrayList<Player> players = new ArrayList<>();
 
     public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
             , ItemStack template, int healthAmount) {
@@ -82,7 +77,7 @@ public class HealthTalisman extends PylonItemSchema {
         }
     }
 
-    public static class Item extends PylonItem<HealthTalisman> implements TickingItem {
+    public static class Item extends PylonItem<HealthTalisman> implements HealthTalismanItem {
         HealthTalisman schema;
 
         public Item(HealthTalisman schema, ItemStack itemStack) {
@@ -90,23 +85,12 @@ public class HealthTalisman extends PylonItemSchema {
             this.schema = schema;
         }
 
-        public void tick() {
-            ArrayList<Player> playersToRemove = new ArrayList<>(schema.players);
-            for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
-                for (ItemStack item : player.getInventory()) {
-                    if(item != null && item.equals(schema.getItemStack())){
-                        if (!schema.players.contains(player)) {
-                            player.setMaxHealth(player.getMaxHealth() + schema.healthAmount);
-                            schema.players.add(player);
-                        }
-                        playersToRemove.remove(player);
-                    }
-                }
-            }
-            for (Player player : playersToRemove) {
-                player.setMaxHealth(player.getMaxHealth() - schema.healthAmount);
-                schema.players.remove(player);
-            }
+        public int getHealthIncrease(){
+            return schema.healthAmount;
         }
+    }
+
+    public static interface HealthTalismanItem {
+        public int getHealthIncrease();
     }
 }
