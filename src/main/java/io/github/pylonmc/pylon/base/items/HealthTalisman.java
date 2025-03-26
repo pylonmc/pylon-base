@@ -14,6 +14,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,15 +90,14 @@ public class HealthTalisman extends PylonItemSchema {
     public static class Item extends PylonItem<HealthTalisman> implements TickingItem {
         HealthTalisman schema;
         private List<Player> players = List.of();
-        private List<Player> playersToRemove = List.of();
 
         public Item(HealthTalisman schema, ItemStack itemStack) {
             super(schema, itemStack);
             this.schema = schema;
         }
 
-        public void run() {
-            playersToRemove = players.stream().toList();
+        public void tick() {
+            List<Player> playersToRemove = new ArrayList<>(players);
             for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
                 for (ItemStack item : player.getInventory()) {
                     if (item == schema.getItemStack()) {
