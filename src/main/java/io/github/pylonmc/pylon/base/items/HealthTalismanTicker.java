@@ -18,13 +18,20 @@ public class HealthTalismanTicker extends BukkitRunnable {
             for(ItemStack itemStack : player.getInventory()){
                 PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
                 if(pylonItem instanceof HealthTalisman.HealthTalismanItem){
+                    HealthTalisman.HealthTalismanItem talisman = ((HealthTalisman.HealthTalismanItem)pylonItem);
                     if(!player.getPersistentDataContainer().has(healthBoostedKey)){
-                        HealthTalisman.HealthTalismanItem talisman = ((HealthTalisman.HealthTalismanItem)pylonItem);
                         player.setMaxHealth(player.getMaxHealth() + talisman.getHealthIncrease());
                         player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
                     }
-                    foundItem = true;
-                    break;
+                    if(player.getPersistentDataContainer().has(healthBoostedKey) &&
+                            player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER) < talisman.getHealthIncrease()){
+                        player.setMaxHealth(player.getMaxHealth() - player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER));
+                        player.setMaxHealth(player.getMaxHealth() + talisman.getHealthIncrease());
+                        player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                    }
+                    if(talisman.getHealthIncrease() == player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER)){
+                        foundItem = true;
+                    }
                 }
             }
             if(foundItem == false){
