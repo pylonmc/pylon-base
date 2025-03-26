@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.item.LoreBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
@@ -8,6 +10,8 @@ import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Keyed;
@@ -15,6 +19,8 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -35,34 +41,70 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
+
 public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor {
 
     @SuppressWarnings("UnstableApiUsage")
     @NotNullByDefault
     public static class Schema extends PylonItemSchema {
 
-        private final MiningLevel miningLevel;
-        private final Material requiredBlock;
         private static final int COOLDOWN_TICKS = 2 * 20;
+
+        private final Material baseBlock;
+        private final MiningLevel miningLevel;
 
         public Schema(
                 NamespacedKey key,
-                Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                ItemStack template,
+                String name,
+                Material item,
+                Material baseBlock,
+                Material toolItem,
                 MiningLevel miningLevel,
-                Material requiredBlock,
-                RecipeChoice baseItem
+                double attackSpeed,
+                double knockback,
+                double attackDamage
         ) {
-            super(key, itemClass, template);
+            super(key,
+                    Hammer.class,
+                    new ItemStackBuilder(toolItem)
+                            .name(name)
+                            .lore(new LoreBuilder()
+                                    .arrow().instruction(" Right click").text(" an item dropped on top of a placed <white>").text(baseBlock).newline()
+                                    .text("   to use the hammer on it").newline()
+                                    .arrow().text(" Higher tier hammers are more likely to succeed").newline()
+                            )
+                            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                                    .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                                            pylonKey("hammer_attack_speed"),
+                                            attackSpeed,
+                                            AttributeModifier.Operation.ADD_NUMBER
+                                    ))
+                                    .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
+                                            pylonKey("hammer_attack_knockback"),
+                                            knockback,
+                                            AttributeModifier.Operation.ADD_NUMBER
+                                    ))
+                                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                                            pylonKey("hammer_attack_damage"),
+                                            attackDamage,
+                                            AttributeModifier.Operation.ADD_NUMBER
+                                    ))
+                            )
+                            .build()
+            );
+
+            this.baseBlock = baseBlock;
             this.miningLevel = miningLevel;
-            this.requiredBlock = requiredBlock;
-            ShapedRecipe recipe = new ShapedRecipe(key, template);
+
+            ShapedRecipe recipe = new ShapedRecipe(key, getItemStack());
             recipe.shape(
                     " I ",
                     " SI",
                     "S  "
             );
-            recipe.setIngredient('I', baseItem);
+            recipe.setIngredient('I', new RecipeChoice.ExactChoice(new ItemStack(item)));
             recipe.setIngredient('S', Material.STICK);
             recipe.setCategory(CraftingBookCategory.EQUIPMENT);
             RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
@@ -107,7 +149,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
         if (event.getBlockFace() != BlockFace.UP) return;
 
-        if (getSchema().requiredBlock != clickedBlock.getType()) {
+        if (getSchema().baseBlock != clickedBlock.getType()) {
             player.sendMessage(Component.text("You cannot use this hammer on this block!").color(NamedTextColor.RED));
             return;
         }

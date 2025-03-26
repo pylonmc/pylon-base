@@ -19,7 +19,9 @@ import java.util.Random;
 
 
 public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInteractor {
-    public static final int RANGE = 4;
+    public static final int HORIZONTAL_RANGE = 4;
+    public static final int VERTRICAL_RANGE = 2;
+
     private static final double CROP_CHANCE = 0.01;
     private static final double SUGAR_CANE_CHANCE = 0.007;
     private static final double CACTUS_CHANCE = 0.01;
@@ -44,17 +46,22 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
             return;
         }
 
-        water(center, RANGE);
+        water(center, HORIZONTAL_RANGE, VERTRICAL_RANGE);
     }
 
-    public static void water(Block center, int range) {
+    public static void water(Block center, int horizontalRange, int verticalRange) {
         boolean wasAnyTickAttempted = false;
-        for (int x = -range; x < range; x++) {
-            for (int z = -range; z < range; z++) {
+        for (int x = -horizontalRange; x < horizontalRange; x++) {
+            for (int z = -horizontalRange; z < horizontalRange; z++) {
                 Block block = center.getRelative(x, 0, z);
-                while (block.getType().isEmpty()) {
+
+                // Search down (for a maximum of RANGE blocks) to find the first solid block
+                int remainingYSteps = verticalRange;
+                while (block.getType().isEmpty() && remainingYSteps > 0) {
                     block = block.getRelative(BlockFace.DOWN);
+                    remainingYSteps--;
                 }
+
                 // Cannot be an 'or' because the compiler optimises it out lol
                 if (tryGrowBlock(block)) {
                     wasAnyTickAttempted = true;
