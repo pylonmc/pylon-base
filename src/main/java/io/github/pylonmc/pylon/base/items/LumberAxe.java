@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -40,17 +41,17 @@ public class LumberAxe extends PylonItemSchema {
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
             BreakAttachedWood(event.getBlock(), event.getPlayer());
-            event.setCancelled(true);
+            event.setCancelled(true); // Stop vanilla logic
         }
 
         @Override
         public void onUsedToDamageBlock(@NotNull BlockDamageEvent event) {
-
+            // Intentionally blank, have to implement
         }
 
         private void BreakAttachedWood(Block block, Player player){
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-            if(block.getType() == Material.OAK_LOG) {
+            if(Tag.LOGS.isTagged(block.getType())) {
                 player.give(block.getDrops(getStack()));
                 block.setType(Material.AIR);
                 for(BlockFace face : BlockFace.values()){
