@@ -5,7 +5,9 @@ import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
+import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -51,7 +53,7 @@ public class LumberAxe extends PylonItemSchema {
 
         private void BreakAttachedWood(Block block, Player player){
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-            if(Tag.LOGS.isTagged(block.getType())) {
+            if(Tag.LOGS.isTagged(block.getType()) && !BlockStorage.isPylonBlock(new BlockPosition(block))){
                 player.give(block.getDrops(getStack()));
                 block.setType(Material.AIR);
                 for(BlockFace face : BlockFace.values()){
