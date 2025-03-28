@@ -12,7 +12,6 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 @SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItemSchema {
-    public int healthAmount;
     public static final ItemStack SIMPLE_TALISMAN_STACK = new ItemStackBuilder(Material.AMETHYST_SHARD)
             .name("Simple Healing Talisman")
             .lore(new LoreBuilder()
@@ -38,6 +37,7 @@ public class HealthTalisman extends PylonItemSchema {
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     private static boolean recipesRegistered = false;
+    public int healthAmount;
 
     public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
             , ItemStack template, int healthAmount) {
