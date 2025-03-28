@@ -42,7 +42,7 @@ public class LumberAxe extends PylonItemSchema {
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
-            BreakAttachedWood(event.getBlock(), event.getPlayer());
+            BreakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
             event.setCancelled(true); // Stop vanilla logic
         }
 
@@ -51,13 +51,13 @@ public class LumberAxe extends PylonItemSchema {
             // Intentionally blank, have to implement
         }
 
-        private void BreakAttachedWood(Block block, Player player){
+        private void BreakAttachedWood(Block block, Player player, ItemStack tool){
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
             if(Tag.LOGS.isTagged(block.getType()) && !BlockStorage.isPylonBlock(new BlockPosition(block))){
-                player.give(block.getDrops(getStack()));
+                player.give(block.getDrops(tool));
                 block.setType(Material.AIR);
                 for(BlockFace face : BlockFace.values()){
-                    BreakAttachedWood(block.getRelative(face), player);
+                    BreakAttachedWood(block.getRelative(face), player, tool);
                 }
             }
         }
