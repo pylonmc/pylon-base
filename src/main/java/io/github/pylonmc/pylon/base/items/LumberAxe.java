@@ -74,7 +74,7 @@ public class LumberAxe extends PylonItemSchema {
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
             block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation(), 5);
             block.setType(Material.AIR);
-            new PlayerItemDamageEvent(player, tool, 1, 1).callEvent();
+            player.damageItemStack(tool, 1);
             for (BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS) {
                 BreakAttachedWood(block.getRelative(face), player, tool);
             }
