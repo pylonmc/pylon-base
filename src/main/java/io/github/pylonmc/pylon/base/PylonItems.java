@@ -690,6 +690,13 @@ public final class PylonItems {
                             .attributeLine("Range", Sprinkler.HORIZONTAL_RANGE, Quantity.BLOCKS))
                     .build()
     );
+
+    public static final LumberAxe LUMBER_AXE = new LumberAxe(
+            pylonKey("lumber_axe"),
+            LumberAxe.Item.class,
+            new ItemStackBuilder(Material.GOLDEN_AXE)
+                    .name("Lumber Axe")
+                    .build());
     //</editor-fold>
 
     static void register() {
@@ -723,6 +730,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        LUMBER_AXE.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
