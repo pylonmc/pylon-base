@@ -57,7 +57,7 @@ public class LumberAxe extends PylonItemSchema {
 
         private void breakAttachedWood(Block block, Player player, ItemStack tool){
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-            if(!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(new BlockPosition(block))){
+            if(!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block)){
                 return;
             }
             BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
