@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,6 +21,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,6 +72,9 @@ public class LumberAxe extends PylonItemSchema {
                 block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation(), 5);
                 if(new BlockBreakEvent(block, player).callEvent()) {
                     block.setType(Material.AIR);
+                    Damageable meta = (Damageable)tool.getItemMeta();
+                    meta.setHealth(meta.getHealth() - 1);
+                    tool.setItemMeta((ItemMeta) meta);
                 }
                 for(BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS){
                     BreakAttachedWood(block.getRelative(face), player, tool, dropItems);
