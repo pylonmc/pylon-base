@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.util.BlockUtils;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -56,7 +57,7 @@ public class LumberAxe extends PylonItemSchema {
             if(Tag.LOGS.isTagged(block.getType()) && !BlockStorage.isPylonBlock(new BlockPosition(block))){
                 player.give(block.getDrops(tool));
                 block.setType(Material.AIR);
-                for(BlockFace face : BlockFace.values()){
+                for(BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS){
                     BreakAttachedWood(block.getRelative(face), player, tool);
                 }
             }
