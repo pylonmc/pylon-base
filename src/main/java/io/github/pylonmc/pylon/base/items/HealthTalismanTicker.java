@@ -13,33 +13,32 @@ public class HealthTalismanTicker extends BukkitRunnable {
 
     @Override
     public void run() {
-        for(Player player : PylonBase.getInstance().getServer().getOnlinePlayers()){
+        for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
             boolean foundItem = false;
-            for(ItemStack itemStack : player.getInventory()){
+            for (ItemStack itemStack : player.getInventory()) {
                 PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
-                if(pylonItem instanceof HealthTalisman.HealthTalismanItem){
-                    HealthTalisman.HealthTalismanItem talisman = ((HealthTalisman.HealthTalismanItem)pylonItem);
-                    if(!player.getPersistentDataContainer().has(healthBoostedKey)){
-                        player.setMaxHealth(player.getMaxHealth() + talisman.getHealthIncrease());
-                        player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
-                    }
-                    if(player.getPersistentDataContainer().has(healthBoostedKey) &&
-                            player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER) < talisman.getHealthIncrease()){
-                        player.setMaxHealth(player.getMaxHealth() - player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER));
-                        player.setMaxHealth(player.getMaxHealth() + talisman.getHealthIncrease());
-                        player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
-                    }
-                    if(talisman.getHealthIncrease() == player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER)){
-                        foundItem = true;
-                    }
+                if (!(pylonItem instanceof HealthTalisman.HealthTalismanItem)) {
+                    continue;
+                }
+                HealthTalisman.HealthTalismanItem talisman = ((HealthTalisman.HealthTalismanItem) pylonItem);
+                if (!player.getPersistentDataContainer().has(healthBoostedKey)) {
+                    player.setMaxHealth(player.getMaxHealth() + talisman.getHealthIncrease());
+                    player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                }
+                else if (player.getPersistentDataContainer().has(healthBoostedKey) &&
+                        player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER) < talisman.getHealthIncrease()) {
+                    player.setMaxHealth(player.getMaxHealth() - player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER));
+                    player.setMaxHealth(player.getMaxHealth() + talisman.getHealthIncrease());
+                    player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                }
+                else if (talisman.getHealthIncrease() == player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER)) {
+                    foundItem = true;
                 }
             }
-            if(foundItem == false){
-                if(player.getPersistentDataContainer().has(healthBoostedKey)){
-                    // intellij lies, no NPE since I check if the key exists above
-                    player.setMaxHealth(player.getMaxHealth() - player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER));
-                    player.getPersistentDataContainer().remove(healthBoostedKey);
-                }
+            if (!foundItem && player.getPersistentDataContainer().has(healthBoostedKey)) {
+                // intellij lies, no NPE since I check if the key exists above
+                player.setMaxHealth(player.getMaxHealth() - player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER));
+                player.getPersistentDataContainer().remove(healthBoostedKey);
             }
         }
     }
