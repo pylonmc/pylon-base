@@ -18,6 +18,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -696,6 +697,9 @@ public final class PylonItems {
             LumberAxe.Item.class,
             new ItemStackBuilder(Material.GOLDEN_AXE)
                     .name("Lumber Axe")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Breaks an entire tree at once").newline())
+                    .set(DataComponentTypes.MAX_DAMAGE, 300)
                     .build());
     //</editor-fold>
 
