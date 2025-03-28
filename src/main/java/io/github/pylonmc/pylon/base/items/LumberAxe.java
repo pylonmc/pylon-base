@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.BlockUtils;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
@@ -13,19 +12,17 @@ import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class LumberAxe extends PylonItemSchema {
     public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, ItemStack template){
@@ -48,7 +45,7 @@ public class LumberAxe extends PylonItemSchema {
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
-            BreakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand(), event.isDropItems());
+            BreakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
             event.setCancelled(true); // Stop vanilla logic
         }
 
@@ -57,28 +54,29 @@ public class LumberAxe extends PylonItemSchema {
             // Intentionally blank, have to implement
         }
 
-        private void BreakAttachedWood(Block block, Player player, ItemStack tool, boolean dropItems){
+        private void BreakAttachedWood(Block block, Player player, ItemStack tool){
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-            if(Tag.LOGS.isTagged(block.getType()) && !BlockStorage.isPylonBlock(new BlockPosition(block))){
-                if(dropItems) {
-                    for (ItemStack itemStack : block.getDrops(tool)) {
-                        org.bukkit.entity.Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
-                        if(!new BlockDropItemEvent(block, block.getState(), player, List.of(item)).callEvent()){
-                            item.remove();
-                        }
-                    }
+            if(!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(new BlockPosition(block))){
+                return;
+            }
+            BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
+            if (!blockBreakEvent.callEvent()) {
+                return;
+            }
+            if(blockBreakEvent.isDropItems()) {
+                ArrayList<org.bukkit.entity.Item> itemsDropped = new ArrayList<>();
+                for (ItemStack itemStack : block.getDrops(tool)) {
+                    org.bukkit.entity.Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
+                    itemsDropped.add(item);
                 }
-                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
-                block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation(), 5);
-                if(new BlockBreakEvent(block, player).callEvent()) {
-                    block.setType(Material.AIR);
-                    Damageable meta = (Damageable)tool.getItemMeta();
-                    meta.setHealth(meta.getHealth() - 1);
-                    tool.setItemMeta((ItemMeta) meta);
-                }
-                for(BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS){
-                    BreakAttachedWood(block.getRelative(face), player, tool, dropItems);
-                }
+                new BlockDropItemEvent(block, block.getState(), player, itemsDropped).callEvent();
+            }
+            block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
+            block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation(), 5);
+            block.setType(Material.AIR);
+            new PlayerItemDamageEvent(player, tool, 1, 1).callEvent();
+            for (BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS) {
+                BreakAttachedWood(block.getRelative(face), player, tool);
             }
         }
     }
