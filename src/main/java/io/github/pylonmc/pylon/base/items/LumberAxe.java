@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -45,7 +44,7 @@ public class LumberAxe extends PylonItemSchema {
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
-            BreakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
+            breakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
             event.setCancelled(true); // Stop vanilla logic
         }
 
@@ -54,7 +53,7 @@ public class LumberAxe extends PylonItemSchema {
             // Intentionally blank, have to implement
         }
 
-        private void BreakAttachedWood(Block block, Player player, ItemStack tool){
+        private void breakAttachedWood(Block block, Player player, ItemStack tool){
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
             if(!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(new BlockPosition(block))){
                 return;
@@ -76,7 +75,7 @@ public class LumberAxe extends PylonItemSchema {
             block.setType(Material.AIR);
             player.damageItemStack(tool, 1);
             for (BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS) {
-                BreakAttachedWood(block.getRelative(face), player, tool);
+                breakAttachedWood(block.getRelative(face), player, tool);
             }
         }
     }
