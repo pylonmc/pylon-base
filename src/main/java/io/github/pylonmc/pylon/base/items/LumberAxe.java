@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -22,6 +23,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LumberAxe extends PylonItemSchema {
     public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, ItemStack template){
@@ -63,12 +65,16 @@ public class LumberAxe extends PylonItemSchema {
                 return;
             }
             if(blockBreakEvent.isDropItems()) {
-                ArrayList<org.bukkit.entity.Item> itemsDropped = new ArrayList<>();
+                List<org.bukkit.entity.Item> itemsDropped = new ArrayList<>();
                 for (ItemStack itemStack : block.getDrops(tool)) {
                     org.bukkit.entity.Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
                     itemsDropped.add(item);
                 }
-                new BlockDropItemEvent(block, block.getState(), player, itemsDropped).callEvent();
+                if(!new BlockDropItemEvent(block, block.getState(), player, itemsDropped).callEvent()){
+                    for(org.bukkit.entity.Item item : itemsDropped){
+                        item.remove();
+                    }
+                }
             }
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
             block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation(), 5);
