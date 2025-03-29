@@ -687,21 +687,42 @@ public final class PylonItems {
     public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("simple_healing_talisman"),
             HealthTalisman.Item.class,
-            HealthTalisman.SIMPLE_TALISMAN_STACK,
+            new ItemStackBuilder(Material.AMETHYST_SHARD)
+                    .name("Simple Healing Talisman")
+                    .lore(new LoreBuilder()
+                            .attributeLine("Max health increase", 6, Quantity.HEARTS)
+                            .arrow().text("Passive effect while in inventory").newline()
+                            .arrow().text("Does not stack"))
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
             6
     );
 
     public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("advanced_healing_talisman"),
             HealthTalisman.Item.class,
-            HealthTalisman.ADVANCED_TALISMAN_STACK,
+            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
+                    .name("Advanced Healing Talisman")
+                    .lore(new LoreBuilder()
+                            .attributeLine("Max health increase", 6, Quantity.HEARTS)
+                            .arrow().text("Passive effect while in inventory").newline()
+                            .arrow().text("Does not stack"))
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
             10
     );
 
     public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("ultimate_healing_talisman"),
             HealthTalisman.Item.class,
-            HealthTalisman.ULTIMATE_TALISMAN_STACK,
+            new ItemStackBuilder(Material.BUDDING_AMETHYST)
+                    .name("Ultimate Healing Talisman")
+                    .lore(new LoreBuilder()
+                            .attributeLine("Max health increase", 10, Quantity.HEARTS)
+                            .arrow().text("Passive effect while in inventory").newline()
+                            .arrow().text("Does not stack"))
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
             14
     );
     //</editor-fold>
