@@ -45,6 +45,26 @@ public class BeheadingSword extends PylonItemSchema {
                 head.setItemMeta(meta);
                 killer.give(head);
             }
+            else {
+                ItemStack head;
+                switch(event.getEntityType()){
+                    case EntityType.CREEPER:
+                        head = new ItemStackBuilder(Material.CREEPER_HEAD).build();
+                        break;
+                    case EntityType.ENDER_DRAGON:
+                        head = new ItemStackBuilder(Material.DRAGON_HEAD).build();
+                        break;
+                    case EntityType.PIGLIN:
+                        head = new ItemStackBuilder(Material.PIGLIN_HEAD).build();
+                        break;
+                    case EntityType.ZOMBIE:
+                        head = new ItemStackBuilder(Material.ZOMBIE_HEAD).build();
+                        break;
+                    default:
+                        return;
+                }
+                killer.give(head);
+            }
         }
     }
 }
