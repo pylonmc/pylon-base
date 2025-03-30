@@ -90,10 +90,7 @@ public class BeheadingSword extends PylonItemSchema {
                         return;
                 }
             }
-            org.bukkit.entity.Item itemDropped = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), head);
-            if(!new EntityDropItemEvent(event.getEntity(), itemDropped).callEvent()) {
-                itemDropped.remove();
-            }
+            event.getDrops().add(head);
         }
     }
 }
