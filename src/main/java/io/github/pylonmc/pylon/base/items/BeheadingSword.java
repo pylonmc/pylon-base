@@ -14,9 +14,11 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
@@ -62,16 +64,15 @@ public class BeheadingSword extends PylonItemSchema {
                 return;
             }
             // This cast is safe because PylonItemListener only calls this listener when the killer is a player
-            Player killer = ((Player) event.getDamageSource().getCausingEntity());
+            ItemStack head;
             if(event.getEntity().getType() == EntityType.PLAYER){
-                ItemStack head = new ItemStackBuilder(Material.PLAYER_HEAD).build();
+                Player killer = ((Player) event.getDamageSource().getCausingEntity());
+                head = new ItemStackBuilder(Material.PLAYER_HEAD).build();
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
                 meta.setOwningPlayer(killer);
                 head.setItemMeta(meta);
-                killer.give(head);
             }
             else {
-                ItemStack head;
                 switch(event.getEntityType()){
                     case EntityType.CREEPER:
                         head = new ItemStackBuilder(Material.CREEPER_HEAD).build();
@@ -88,7 +89,10 @@ public class BeheadingSword extends PylonItemSchema {
                     default:
                         return;
                 }
-                killer.give(head);
+            }
+            org.bukkit.entity.Item itemDropped = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), head);
+            if(!new EntityDropItemEvent(event.getEntity(), itemDropped).callEvent()) {
+                itemDropped.remove();
             }
         }
     }
