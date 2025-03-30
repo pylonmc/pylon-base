@@ -691,21 +691,22 @@ public final class PylonItems {
                     .build()
     );
 
-    public static final PylonItemSchema COMPRESSED_AMETHYST_BLOCK = new SimpleItemSchema<>(
+    public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
             pylonKey("compressed_amethyst_block"),
-            new ItemStackBuilder(Material.AMETHYST_BLOCK)
-                    .name("Compressed amethyst block")
+            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
+                    .name("Magic dust")
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
-            (block) -> {
+            block -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_amethyst_block"), block);
                 recipe.shape(
-                        "AAA",
-                        "AAA",
-                        "AAA"
+                        "AGA",
+                        "GGG",
+                        "AGA"
                 );
-                recipe.setIngredient('A', Material.AMETHYST_BLOCK);
+                recipe.setIngredient('A', new RecipeChoice.MaterialChoice(Material.AMETHYST_BLOCK, Material.AMETHYST_CLUSTER, Material.LARGE_AMETHYST_BUD, Material.MEDIUM_AMETHYST_BUD, Material.SMALL_AMETHYST_BUD));
+                recipe.setIngredient('G', Material.GLOWSTONE);
                 recipe.setCategory(CraftingBookCategory.MISC);
                 return recipe;
             }
@@ -752,6 +753,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        MAGIC_DUST.register();
         BEHEADING_SWORD.register();
     }
 

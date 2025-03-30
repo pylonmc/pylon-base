@@ -35,11 +35,11 @@ public class BeheadingSword extends PylonItemSchema {
         super(key, itemClass, template);
         ShapedRecipe recipe = new ShapedRecipe(key, template);
         recipe.shape(
-                "ABA",
-                "ASA",
-                "AHA"
+                "MBM",
+                "MSM",
+                "MHM"
         );
-        recipe.setIngredient('A', PylonItems.COMPRESSED_AMETHYST_BLOCK.getItemStack());
+        recipe.setIngredient('M', PylonItems.MAGIC_DUST.getItemStack());
         recipe.setIngredient('B', new RecipeChoice.ExactChoice(SILK_TOUCH_BOOK));
         recipe.setIngredient('S', Material.STICK);
         // Not allowing player heads to be used since too many plugins give player heads as custom items
