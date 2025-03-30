@@ -14,6 +14,8 @@ public class HealthTalismanTicker extends BukkitRunnable {
     private static final NamespacedKey healthBoostedKey = new NamespacedKey(PylonBase.getInstance(), "health_boosted");
 
     @Override
+    // Suppresses warnings from doing PDC.has() and then .get() and assuming .get is not null, and assuming that the player has the max health attribute
+    @SuppressWarnings("DataFlowIssue")
     public void run() {
         for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
             boolean foundItem = false;
@@ -48,7 +50,6 @@ public class HealthTalismanTicker extends BukkitRunnable {
                 }
             }
             if (!foundItem && player.getPersistentDataContainer().has(healthBoostedKey)) {
-                // intellij lies, no NPE since I check if the key exists above
                 player.getAttribute(Attribute.MAX_HEALTH).removeModifier(healthBoostedKey);
                 player.getPersistentDataContainer().remove(healthBoostedKey);
             }
