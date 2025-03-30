@@ -37,8 +37,4 @@ public class HealthTalisman extends PylonItemSchema {
             return schema.healthAmount;
         }
     }
-
-    public static interface HealthTalismanItem {
-        public int getHealthIncrease();
-    }
 }
