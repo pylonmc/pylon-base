@@ -11,46 +11,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
+import java.util.function.Function;
+
 public class HealthTalisman extends PylonItemSchema {
     private static boolean recipesRegistered = false;
     public int healthAmount;
 
     public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
-            , ItemStack template, int healthAmount) {
+            , ItemStack template, int healthAmount, Function<ItemStack, ShapedRecipe> recipeFunc) {
         super(id, itemClass, template);
         this.healthAmount = healthAmount;
         assert template.getMaxStackSize() == 1;
-        if(!recipesRegistered){
-            ShapedRecipe simpleRecipe = new ShapedRecipe(new NamespacedKey(PylonBase.getInstance(), "simple_healing_talisman"), PylonItems.SIMPLE_HEALTH_TALISMAN.getItemStack());
-            simpleRecipe.shape(
-                    "MMM",
-                    "MRM",
-                    "MMM"
-            );
-            simpleRecipe.setIngredient('M', Material.GLISTERING_MELON_SLICE);
-            simpleRecipe.setIngredient('R', Material.REDSTONE);
-            simpleRecipe.setCategory(CraftingBookCategory.EQUIPMENT);
-            RecipeTypes.VANILLA_CRAFTING.addRecipe(simpleRecipe);
-            ShapedRecipe advancedRecipe = new ShapedRecipe(new NamespacedKey(PylonBase.getInstance(), "advanced_healing_talisman"), PylonItems.ADVANCED_HEALTH_TALISMAN.getItemStack());
-            advancedRecipe.shape(
-                    "SSS",
-                    "SSS",
-                    "SSS"
-            );
-            advancedRecipe.setIngredient('S', PylonItems.SIMPLE_HEALTH_TALISMAN.getItemStack());
-            advancedRecipe.setCategory(CraftingBookCategory.EQUIPMENT);
-            RecipeTypes.VANILLA_CRAFTING.addRecipe(advancedRecipe);
-            ShapedRecipe ultimateRecipe = new ShapedRecipe(new NamespacedKey(PylonBase.getInstance(), "ultimate_healing_talisman"), PylonItems.ULTIMATE_HEALTH_TALISMAN.getItemStack());
-            ultimateRecipe.shape(
-                    "AAA",
-                    "AAA",
-                    "AAA"
-            );
-            ultimateRecipe.setIngredient('A', PylonItems.ADVANCED_HEALTH_TALISMAN.getItemStack());
-            ultimateRecipe.setCategory(CraftingBookCategory.EQUIPMENT);
-            RecipeTypes.VANILLA_CRAFTING.addRecipe(ultimateRecipe);
-            recipesRegistered = true;
-        }
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipeFunc.apply(template));
     }
 
     public static class Item extends PylonItem<HealthTalisman> implements HealthTalismanItem {

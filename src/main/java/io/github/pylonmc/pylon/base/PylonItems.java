@@ -695,7 +695,19 @@ public final class PylonItems {
                             .arrow().text("Does not stack"))
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            6
+            6,
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_healing_talisman"), talisman);
+                recipe.shape(
+                        "GGG",
+                        "GRG",
+                        "GGG"
+                );
+                recipe.setIngredient('G', Material.GLISTERING_MELON_SLICE);
+                recipe.setIngredient('R', Material.REDSTONE);
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
     );
 
     public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
@@ -709,7 +721,18 @@ public final class PylonItems {
                             .arrow().text("Does not stack"))
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            10
+            10,
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_healing_talisman"), talisman);
+                recipe.shape(
+                        "SSS",
+                        "SSS",
+                        "SSS"
+                );
+                recipe.setIngredient('S', SIMPLE_HEALTH_TALISMAN.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
     );
 
     public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
@@ -723,7 +746,18 @@ public final class PylonItems {
                             .arrow().text("Does not stack"))
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            14
+            14,
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_healing_talisman"), talisman);
+                recipe.shape(
+                        "AAA",
+                        "AAA",
+                        "AAA"
+                );
+                recipe.setIngredient('A', ADVANCED_HEALTH_TALISMAN.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
     );
     //</editor-fold>
 
