@@ -715,8 +715,11 @@ public final class PylonItems {
     public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
             pylonKey("beheading_sword"),
             BeheadingSword.Item.class,
-            new ItemStackBuilder(Material.IRON_SWORD)
-                    .name("remove neck")
+            new ItemStackBuilder(Material.DIAMOND_SWORD)
+                    .name("Beheading sword")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Gives you the heads of what you kill").newline()
+                            .attributeLine("Works with: ", "Players, Creepers, Piglins, Ender dragons and Zombies", Quantity.NONE))
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build()
     );

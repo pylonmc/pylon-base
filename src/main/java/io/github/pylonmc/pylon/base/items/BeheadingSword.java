@@ -41,7 +41,7 @@ public class BeheadingSword extends PylonItemSchema {
         );
         recipe.setIngredient('M', PylonItems.MAGIC_DUST.getItemStack());
         recipe.setIngredient('B', new RecipeChoice.ExactChoice(SILK_TOUCH_BOOK));
-        recipe.setIngredient('S', Material.STICK);
+        recipe.setIngredient('S', Material.DIAMOND_SWORD);
         // Not allowing player heads to be used since too many plugins give player heads as custom items
         recipe.setIngredient('H', new RecipeChoice.MaterialChoice(Material.CREEPER_HEAD, Material.ZOMBIE_HEAD, Material.PIGLIN_HEAD, Material.DRAGON_HEAD));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
