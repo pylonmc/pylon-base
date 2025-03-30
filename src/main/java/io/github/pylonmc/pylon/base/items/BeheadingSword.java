@@ -35,9 +35,9 @@ public class BeheadingSword extends PylonItemSchema {
         super(key, itemClass, template);
         ShapedRecipe recipe = new ShapedRecipe(key, template);
         recipe.shape(
+                "MHM",
                 "MBM",
-                "MSM",
-                "MHM"
+                "MSM"
         );
         recipe.setIngredient('M', PylonItems.MAGIC_DUST.getItemStack());
         recipe.setIngredient('B', new RecipeChoice.ExactChoice(SILK_TOUCH_BOOK));
