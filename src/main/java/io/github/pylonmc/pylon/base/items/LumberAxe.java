@@ -40,7 +40,6 @@ public class LumberAxe extends PylonItemSchema {
         recipe.setIngredient('I', Material.IRON_BLOCK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
     }
 
     public static class Item extends PylonItem<LumberAxe> implements Tool {
