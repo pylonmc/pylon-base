@@ -31,12 +31,13 @@ public class LumberAxe extends PylonItemSchema {
         super(key, itemClass, template);
         ShapedRecipe recipe = new ShapedRecipe(key, template);
         recipe.shape(
-                "WW ",
-                "WS ",
-                " S "
+                "WWW",
+                "WAW",
+                "III"
         );
         recipe.setIngredient('W', PylonItems.COMPRESSED_WOOD.getItemStack());
-        recipe.setIngredient('S', Material.STICK);
+        recipe.setIngredient('A', Material.WOODEN_AXE);
+        recipe.setIngredient('I', Material.IRON_BLOCK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
