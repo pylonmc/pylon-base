@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
@@ -42,10 +43,16 @@ public class LumberAxe extends PylonItemSchema {
     }
 
     public static class Item extends PylonItem<LumberAxe> implements Tool {
+        private static final List<Event> eventsToIgnore = new ArrayList<>();
+
         public Item(LumberAxe schema, ItemStack itemStack) { super(schema, itemStack); }
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
+            if(eventsToIgnore.contains(event)){
+                eventsToIgnore.remove(event);
+                return;
+            }
             breakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
             event.setCancelled(true); // Stop vanilla logic
         }
@@ -61,6 +68,7 @@ public class LumberAxe extends PylonItemSchema {
                 return;
             }
             BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
+            eventsToIgnore.add(blockBreakEvent);
             if (!blockBreakEvent.callEvent()) {
                 return;
             }
@@ -77,7 +85,6 @@ public class LumberAxe extends PylonItemSchema {
                 }
             }
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
-            block.getWorld().spawnParticle(Particle.BLOCK, block.getLocation(), 5);
             block.setType(Material.AIR);
             player.damageItemStack(tool, 1);
             for (BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS) {
