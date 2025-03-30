@@ -690,6 +690,14 @@ public final class PylonItems {
                             .attributeLine("Range", Sprinkler.HORIZONTAL_RANGE, Quantity.BLOCKS))
                     .build()
     );
+
+    public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
+            pylonKey("beheading_sword"),
+            BeheadingSword.Item.class,
+            new ItemStackBuilder(Material.IRON_SWORD)
+                    .name("remove neck")
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -723,6 +731,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        BEHEADING_SWORD.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
