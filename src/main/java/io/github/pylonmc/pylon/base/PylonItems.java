@@ -691,11 +691,32 @@ public final class PylonItems {
                     .build()
     );
 
+    public static final PylonItemSchema COMPRESSED_AMETHYST_BLOCK = new SimpleItemSchema<>(
+            pylonKey("compressed_amethyst_block"),
+            new ItemStackBuilder(Material.AMETHYST_BLOCK)
+                    .name("Compressed amethyst block")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            (block) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_amethyst_block"), block);
+                recipe.shape(
+                        "AAA",
+                        "AAA",
+                        "AAA"
+                );
+                recipe.setIngredient('A', Material.AMETHYST_BLOCK);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
+    );
+
     public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
             pylonKey("beheading_sword"),
             BeheadingSword.Item.class,
             new ItemStackBuilder(Material.IRON_SWORD)
                     .name("remove neck")
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build()
     );
     //</editor-fold>
