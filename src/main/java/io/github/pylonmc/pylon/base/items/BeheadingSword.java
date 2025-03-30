@@ -39,9 +39,7 @@ public class BeheadingSword extends PylonItemSchema {
             // This cast is safe because PylonItemListener only calls this listener when the killer is a player
             Player killer = ((Player) event.getDamageSource().getCausingEntity());
             if(event.getEntity().getType() == EntityType.PLAYER){
-                ItemStack head = new ItemStackBuilder(Material.PLAYER_HEAD)
-                        .name("head")
-                        .build();
+                ItemStack head = new ItemStackBuilder(Material.PLAYER_HEAD).build();
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
                 meta.setOwningPlayer(killer);
                 head.setItemMeta(meta);
