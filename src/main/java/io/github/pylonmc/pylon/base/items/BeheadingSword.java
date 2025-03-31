@@ -26,6 +26,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 public class BeheadingSword extends PylonItemSchema {
     private static final ItemStack SILK_TOUCH_BOOK = new ItemStackBuilder(Material.ENCHANTED_BOOK)
             .set(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantments.itemEnchantments()
@@ -51,6 +53,14 @@ public class BeheadingSword extends PylonItemSchema {
     }
 
     public static class Item extends PylonItem<BeheadingSword> implements Weapon {
+        private static final Map<EntityType, ItemStack> entityHeadMap = Map.of(
+                EntityType.CREEPER, new ItemStack(Material.CREEPER_HEAD),
+                EntityType.PIGLIN, new ItemStack(Material.PIGLIN_HEAD),
+                EntityType.ENDER_DRAGON, new ItemStack(Material.DRAGON_HEAD),
+                EntityType.ZOMBIE, new ItemStack(Material.ZOMBIE_HEAD),
+                EntityType.SKELETON, new ItemStack(Material.SKELETON_SKULL)
+        );
+
         public Item(BeheadingSword schema, ItemStack itemStack) { super(schema, itemStack); }
 
         @Override
@@ -73,22 +83,10 @@ public class BeheadingSword extends PylonItemSchema {
                 head.setItemMeta(meta);
             }
             else {
-                switch(event.getEntityType()){
-                    case EntityType.CREEPER:
-                        head = new ItemStackBuilder(Material.CREEPER_HEAD).build();
-                        break;
-                    case EntityType.ENDER_DRAGON:
-                        head = new ItemStackBuilder(Material.DRAGON_HEAD).build();
-                        break;
-                    case EntityType.PIGLIN:
-                        head = new ItemStackBuilder(Material.PIGLIN_HEAD).build();
-                        break;
-                    case EntityType.ZOMBIE:
-                        head = new ItemStackBuilder(Material.ZOMBIE_HEAD).build();
-                        break;
-                    default:
-                        return;
+                if(!entityHeadMap.containsKey(event.getEntityType())){
+                    return;
                 }
+                head = entityHeadMap.get(event.getEntityType());
             }
             event.getDrops().add(head);
         }

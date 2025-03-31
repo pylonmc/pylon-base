@@ -719,7 +719,7 @@ public final class PylonItems {
                     .name("Beheading sword")
                     .lore(new LoreBuilder()
                             .arrow().text(" Gives you the heads of what you kill").newline()
-                            .attributeLine("Works with: ", "players, creepers, piglins, ender dragons and zombies", Quantity.NONE))
+                            .attributeLine("Works with", "players, creepers, piglins, ender dragons, skeletons and zombies", Quantity.NONE))
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build()
     );
