@@ -694,7 +694,7 @@ public final class PylonItems {
     public static final LumberAxe LUMBER_AXE = new LumberAxe(
             pylonKey("lumber_axe"),
             LumberAxe.LumberAxeItem.class,
-            new ItemStackBuilder(Material.GOLDEN_AXE)
+            new ItemStackBuilder(Material.WOODEN_AXE)
                     .name("Lumber Axe")
                     .lore(new LoreBuilder()
                             .arrow().text(" Breaks an entire tree at once").newline())
