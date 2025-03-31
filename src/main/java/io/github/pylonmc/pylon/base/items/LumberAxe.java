@@ -2,13 +2,11 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.BlockUtils;
-import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -42,10 +40,10 @@ public class LumberAxe extends PylonItemSchema {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static class Item extends PylonItem<LumberAxe> implements Tool {
+    public static class LumberAxeItem extends PylonItem<LumberAxe> implements Tool {
         private static final List<Event> eventsToIgnore = new ArrayList<>();
 
-        public Item(LumberAxe schema, ItemStack itemStack) { super(schema, itemStack); }
+        public LumberAxeItem(LumberAxe schema, ItemStack itemStack) { super(schema, itemStack); }
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
@@ -69,17 +67,17 @@ public class LumberAxe extends PylonItemSchema {
             }
             BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
             eventsToIgnore.add(blockBreakEvent);
-            if (!blockBreakEvent.callEvent()) {
+            if ( !blockBreakEvent.callEvent() ) {
                 return;
             }
-            if(blockBreakEvent.isDropItems()) {
-                List<org.bukkit.entity.Item> itemsDropped = new ArrayList<>();
-                for (ItemStack itemStack : block.getDrops(tool)) {
-                    org.bukkit.entity.Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
+            if( blockBreakEvent.isDropItems() ) {
+                List<Item> itemsDropped = new ArrayList<>();
+                for ( ItemStack itemStack : block.getDrops(tool) ) {
+                    Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
                     itemsDropped.add(item);
                 }
-                if(!new BlockDropItemEvent(block, block.getState(), player, itemsDropped).callEvent()){
-                    for(org.bukkit.entity.Item item : itemsDropped){
+                if( !new BlockDropItemEvent(block, block.getState(), player, itemsDropped).callEvent() ){
+                    for(Item item : itemsDropped){
                         item.remove();
                     }
                 }
@@ -87,7 +85,7 @@ public class LumberAxe extends PylonItemSchema {
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
             block.setType(Material.AIR);
             player.damageItemStack(tool, 1);
-            for (BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS) {
+            for ( BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS ) {
                 breakAttachedWood(block.getRelative(face), player, tool);
             }
         }
