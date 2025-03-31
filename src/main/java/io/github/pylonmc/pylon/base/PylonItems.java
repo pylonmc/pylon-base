@@ -692,13 +692,13 @@ public final class PylonItems {
     );
 
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
-            pylonKey("recoil_bow"),
+            pylonKey("recoil_arrow"),
             RecoilArrow.Item.class,
             new ItemStackBuilder(Material.ARROW)
                     .name("Recoil bow")
                     .lore(new LoreBuilder()
                             .arrow().text(" Sends you backwards at the velocity of your arrow.").newline()
-                            .attributeLine("Efficiency: ", 75, Quantity.PERCENT))
+                            .attributeLine("Efficiency", 75, Quantity.PERCENT))
                     .amount(8)
                     .build(),
             0.75f
