@@ -22,13 +22,12 @@ public class RecoilArrow extends PylonItemSchema {
         super(key, itemClass, template);
         ShapedRecipe recipe = new ShapedRecipe(key, template);
         recipe.shape(
-                "   ",
-                "FIC",
-                "   "
+                "SSS",
+                "SAS",
+                "SSS"
         );
-        recipe.setIngredient('F', Material.FLINT);
-        recipe.setIngredient('I', PylonItems.FIBER.getItemStack());
-        recipe.setIngredient('C', Material.FEATHER);
+        recipe.setIngredient('S', Material.SLIME_BALL);
+        recipe.setIngredient('A', Material.ARROW);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));

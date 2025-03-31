@@ -699,7 +699,7 @@ public final class PylonItems {
                     .lore(new LoreBuilder()
                             .arrow().text(" Sends you backwards at the velocity of your arrow.").newline()
                             .attributeLine("Efficiency: ", 75, Quantity.PERCENT))
-                    .amount(3)
+                    .amount(8)
                     .build(),
             0.75f
     );
