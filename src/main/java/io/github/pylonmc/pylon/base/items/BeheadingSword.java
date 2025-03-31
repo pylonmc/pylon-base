@@ -27,6 +27,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BeheadingSword extends PylonItemSchema {
     private static final ItemStack SILK_TOUCH_BOOK = new ItemStackBuilder(Material.ENCHANTED_BOOK)
@@ -73,9 +74,18 @@ public class BeheadingSword extends PylonItemSchema {
             if(EntityTags.MINECARTS.isTagged(event.getEntityType())){
                 return;
             }
-            // This cast is safe because PylonItemListener only calls this listener when the killer is a player
+            if(event.getEntityType() == EntityType.WITHER_SKELETON){
+                if(ThreadLocalRandom.current().nextFloat() < 0.025){
+                    event.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+                }
+                return;
+            }
+            if(ThreadLocalRandom.current().nextFloat() > 0.015){
+                return;
+            }
             ItemStack head;
             if(event.getEntity().getType() == EntityType.PLAYER){
+                // This cast is safe because PylonItemListener only calls this listener when the killer is a player
                 Player killer = ((Player) event.getDamageSource().getCausingEntity());
                 head = new ItemStackBuilder(Material.PLAYER_HEAD).build();
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
