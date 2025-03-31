@@ -14,11 +14,13 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import java.util.function.Function;
 
 public class HealthTalisman extends PylonItemSchema {
-    private static boolean recipesRegistered = false;
     public int healthAmount;
 
-    public HealthTalisman(NamespacedKey id, Class<? extends PylonItem<? extends HealthTalisman>> itemClass
-            , ItemStack template, int healthAmount, Function<ItemStack, ShapedRecipe> recipeFunc) {
+    public HealthTalisman(NamespacedKey id,
+                          Class<? extends PylonItem<? extends HealthTalisman>> itemClass,
+                          ItemStack template,
+                          int healthAmount,
+                          Function<ItemStack, ShapedRecipe> recipeFunc) {
         super(id, itemClass, template);
         this.healthAmount = healthAmount;
         assert template.getMaxStackSize() == 1;
@@ -38,7 +40,7 @@ public class HealthTalisman extends PylonItemSchema {
         }
     }
 
-    public static interface HealthTalismanItem {
+    public interface HealthTalismanItem {
         public int getHealthIncrease();
     }
 }

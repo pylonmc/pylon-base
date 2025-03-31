@@ -7,11 +7,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HealthTalismanTicker extends BukkitRunnable {
-    private static final NamespacedKey healthBoostedKey = new NamespacedKey(PylonBase.getInstance(), "health_boosted");
+    private static final NamespacedKey healthBoostedKey = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
 
     @Override
     // Suppresses warnings from doing PDC.has() and then .get() and assuming .get is not null, and assuming that the player has the max health attribute
@@ -19,39 +21,40 @@ public class HealthTalismanTicker extends BukkitRunnable {
     public void run() {
         for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
             boolean foundItem = false;
+            PersistentDataContainer playerPDC = player.getPersistentDataContainer();
             for (ItemStack itemStack : player.getInventory()) {
                 PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
                 if (!(pylonItem instanceof HealthTalisman.HealthTalismanItem)) {
                     continue;
                 }
                 HealthTalisman.HealthTalismanItem talisman = ((HealthTalisman.HealthTalismanItem) pylonItem);
-                if (!player.getPersistentDataContainer().has(healthBoostedKey)) {
+                if (!playerPDC.has(healthBoostedKey)) {
                     player.getAttribute(Attribute.MAX_HEALTH).addModifier(new AttributeModifier(
                             healthBoostedKey,
                             talisman.getHealthIncrease(),
                             AttributeModifier.Operation.ADD_NUMBER
                     ));
-                    player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                    playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
                     foundItem = true;
                 }
-                else if (player.getPersistentDataContainer().has(healthBoostedKey) &&
-                        player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER) < talisman.getHealthIncrease()) {
+                else if (playerPDC.has(healthBoostedKey) &&
+                        playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER) < talisman.getHealthIncrease()) {
                     player.getAttribute(Attribute.MAX_HEALTH).removeModifier(healthBoostedKey);
                     player.getAttribute(Attribute.MAX_HEALTH).addModifier(new AttributeModifier(
                             healthBoostedKey,
                             talisman.getHealthIncrease(),
                             AttributeModifier.Operation.ADD_NUMBER
                     ));
-                    player.getPersistentDataContainer().set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                    playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
                     foundItem = true;
                 }
-                else if (talisman.getHealthIncrease() == player.getPersistentDataContainer().get(healthBoostedKey, PersistentDataType.INTEGER)) {
+                else if (talisman.getHealthIncrease() == playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER)) {
                     foundItem = true;
                 }
             }
-            if (!foundItem && player.getPersistentDataContainer().has(healthBoostedKey)) {
+            if (!foundItem && playerPDC.has(healthBoostedKey)) {
                 player.getAttribute(Attribute.MAX_HEALTH).removeModifier(healthBoostedKey);
-                player.getPersistentDataContainer().remove(healthBoostedKey);
+                playerPDC.remove(healthBoostedKey);
             }
         }
     }
