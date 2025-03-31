@@ -706,6 +706,16 @@ public final class PylonItems {
                     .build()
     );
 
+    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
+            pylonKey("magic_altar"),
+            MagicAltar.MagicAltarItem.class,
+            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
+                    .name("Magic Altar")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Spooky altar").newline())
+                    .build()
+    );
+
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
             pylonKey("recoil_arrow"),
             RecoilArrow.Item.class,
@@ -752,6 +762,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        MAGIC_ALTAR.register();
         RECOIL_ARROW.register();
     }
 

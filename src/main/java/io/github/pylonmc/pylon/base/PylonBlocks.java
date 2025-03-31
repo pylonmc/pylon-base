@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.MagicAltar;
 import io.github.pylonmc.pylon.base.items.Sprinkler;
 import org.bukkit.Material;
 
@@ -18,7 +19,14 @@ public final class PylonBlocks {
             Sprinkler.SprinklerBlock.class
     );
 
+    public static final MagicAltar.MagicAltarBlock.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarBlock.Schema(
+            pylonKey("magic_altar"),
+            Material.SMOOTH_STONE_SLAB,
+            MagicAltar.MagicAltarBlock.class
+    );
+
     static void register() {
         SPRINKLER.register();
+        MAGIC_ALTAR.register();
     }
 }
