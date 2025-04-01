@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -70,20 +71,21 @@ public class LumberAxe extends PylonItemSchema {
             if ( !blockBreakEvent.callEvent() ) {
                 return;
             }
+            BlockState blockState = block.getState();
+            block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
+            block.setType(Material.AIR);
             if( blockBreakEvent.isDropItems() ) {
                 List<Item> itemsDropped = new ArrayList<>();
                 for ( ItemStack itemStack : block.getDrops(tool) ) {
                     Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
                     itemsDropped.add(item);
                 }
-                if( !new BlockDropItemEvent(block, block.getState(), player, itemsDropped).callEvent() ){
+                if( !new BlockDropItemEvent(block, blockState, player, itemsDropped).callEvent() ){
                     for(Item item : itemsDropped){
                         item.remove();
                     }
                 }
             }
-            block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
-            block.setType(Material.AIR);
             player.damageItemStack(tool, 1);
             for ( BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS ) {
                 breakAttachedWood(block.getRelative(face), player, tool);
