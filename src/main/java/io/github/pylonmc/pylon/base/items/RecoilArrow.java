@@ -43,7 +43,7 @@ public class RecoilArrow extends PylonItemSchema {
 
         @Override
         public void onArrowShotFromBow(@NotNull EntityShootBowEvent event) {
-            event.getEntity().setVelocity(event.getProjectile().getVelocity().multiply(-1 * schema.efficiency));
+            event.getEntity().setVelocity(event.getEntity().getVelocity().add(event.getProjectile().getVelocity().multiply(-1 * schema.efficiency)));
         }
 
         @Override
