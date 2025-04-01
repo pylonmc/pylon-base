@@ -21,13 +21,13 @@ public class HealthTalismanTicker extends BukkitRunnable {
         for (Player player : PylonBase.getInstance().getServer().getOnlinePlayers()) {
             boolean foundItem = false;
             PersistentDataContainer playerPDC = player.getPersistentDataContainer();
+            Integer playerHealthBoost = playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER);
             for (ItemStack itemStack : player.getInventory()) {
                 PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
-                if (!(pylonItem instanceof HealthTalisman.HealthTalismanItem)) {
+                if (!(pylonItem instanceof HealthTalisman.HealthTalismanItem talisman)) {
                     continue;
                 }
-                HealthTalisman.HealthTalismanItem talisman = ((HealthTalisman.HealthTalismanItem) pylonItem);
-                if (!playerPDC.has(healthBoostedKey)) {
+                if (playerHealthBoost == null) {
                     player.getAttribute(Attribute.MAX_HEALTH).addModifier(new AttributeModifier(
                             healthBoostedKey,
                             talisman.getHealthIncrease(),
@@ -36,8 +36,7 @@ public class HealthTalismanTicker extends BukkitRunnable {
                     playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
                     foundItem = true;
                 }
-                else if (playerPDC.has(healthBoostedKey) &&
-                        playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER) < talisman.getHealthIncrease()) {
+                else if (playerHealthBoost < talisman.getHealthIncrease()) {
                     player.getAttribute(Attribute.MAX_HEALTH).removeModifier(healthBoostedKey);
                     player.getAttribute(Attribute.MAX_HEALTH).addModifier(new AttributeModifier(
                             healthBoostedKey,
@@ -46,12 +45,11 @@ public class HealthTalismanTicker extends BukkitRunnable {
                     ));
                     playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
                     foundItem = true;
-                }
-                else if (talisman.getHealthIncrease() == playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER)) {
+                } else if (talisman.getHealthIncrease() == playerHealthBoost) {
                     foundItem = true;
                 }
             }
-            if (!foundItem && playerPDC.has(healthBoostedKey)) {
+            if (!foundItem && playerHealthBoost != null) {
                 player.getAttribute(Attribute.MAX_HEALTH).removeModifier(healthBoostedKey);
                 playerPDC.remove(healthBoostedKey);
             }
