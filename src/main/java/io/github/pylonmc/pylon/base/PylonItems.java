@@ -1,16 +1,13 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.LoreBuilder;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.Quantity;
-import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
-import io.github.pylonmc.pylon.core.item.SimplePylonItem;
+import io.github.pylonmc.pylon.core.item.*;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.*;
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.FoodProperties;
+import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
@@ -18,12 +15,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -690,6 +683,82 @@ public final class PylonItems {
                             .attributeLine("Range", Sprinkler.HORIZONTAL_RANGE, Quantity.BLOCKS))
                     .build()
     );
+
+    public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("simple_healing_talisman"),
+            HealthTalisman.Item.class,
+            new ItemStackBuilder(Material.AMETHYST_SHARD)
+                    .name("Simple Healing Talisman")
+                    .lore(new LoreBuilder()
+                            .attributeLine("Max health increase", 6, Quantity.HEARTS)
+                            .arrow().text(" Passive effect while in inventory").newline()
+                            .arrow().text(" Does not stack"))
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
+            6,
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_healing_talisman"), talisman);
+                recipe.shape(
+                        "GGG",
+                        "GRG",
+                        "GGG"
+                );
+                recipe.setIngredient('G', Material.GLISTERING_MELON_SLICE);
+                recipe.setIngredient('R', Material.REDSTONE);
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
+
+    public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("advanced_healing_talisman"),
+            HealthTalisman.Item.class,
+            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
+                    .name("Advanced Healing Talisman")
+                    .lore(new LoreBuilder()
+                            .attributeLine("Max health increase", 10, Quantity.HEARTS)
+                            .arrow().text(" Passive effect while in inventory").newline()
+                            .arrow().text(" Does not stack"))
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
+            10,
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_healing_talisman"), talisman);
+                recipe.shape(
+                        "SSS",
+                        "SSS",
+                        "SSS"
+                );
+                recipe.setIngredient('S', SIMPLE_HEALTH_TALISMAN.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
+
+    public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("ultimate_healing_talisman"),
+            HealthTalisman.Item.class,
+            new ItemStackBuilder(Material.BUDDING_AMETHYST)
+                    .name("Ultimate Healing Talisman")
+                    .lore(new LoreBuilder()
+                            .attributeLine("Max health increase", 14, Quantity.HEARTS)
+                            .arrow().text(" Passive effect while in inventory").newline()
+                            .arrow().text(" Does not stack"))
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
+            14,
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_healing_talisman"), talisman);
+                recipe.shape(
+                        "AAA",
+                        "AAA",
+                        "AAA"
+                );
+                recipe.setIngredient('A', ADVANCED_HEALTH_TALISMAN.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
     //</editor-fold>
 
     static void register() {
@@ -723,6 +792,9 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        SIMPLE_HEALTH_TALISMAN.register();
+        ADVANCED_HEALTH_TALISMAN.register();
+        ULTIMATE_HEALTH_TALISMAN.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

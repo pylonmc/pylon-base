@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         PylonItems.register();
         PylonBlocks.register();
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
+        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 
     @Override
