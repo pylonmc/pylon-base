@@ -1,13 +1,11 @@
 package io.github.pylonmc.pylon.base.items;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
@@ -18,35 +16,43 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 
-public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInteractor {
-    public static final int HORIZONTAL_RANGE = 4;
-    public static final int VERTRICAL_RANGE = 2;
+public class WateringCan extends PylonItemSchema {
 
-    private static final double CROP_CHANCE = 0.01;
-    private static final double SUGAR_CANE_CHANCE = 0.007;
-    private static final double CACTUS_CHANCE = 0.01;
-    private static final double SAPLING_CHANCE = 0.01;
+    private final int horizontalRange = getSettings().getOrThrow("range.horizontal", Integer.class);
+    private final int verticalRange = getSettings().getOrThrow("range.vertical", Integer.class);
+
+    private final double cropChance = getSettings().getOrThrow("chances.crops", Double.class);
+    private final double sugarCaneChance = getSettings().getOrThrow("chances.sugar_cane", Double.class);
+    private final double cactusChance = getSettings().getOrThrow("chances.cactus", Double.class);
+    private final double saplingChance = getSettings().getOrThrow("chances.sapling", Double.class);
 
     private static final Random random = new Random();
 
-    public WateringCan(PylonItemSchema schema, ItemStack itemStack) {
-        super(schema, itemStack);
+    public WateringCan(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull ItemStack template) {
+        super(key, itemClass, template);
     }
 
-    @Override
-    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
-        if (!event.getAction().isRightClick()) {
-            return;
+    public static class WateringCanItem extends PylonItem<WateringCan> implements BlockInteractor {
+
+        public WateringCanItem(WateringCan schema, ItemStack itemStack) {
+            super(schema, itemStack);
         }
 
-        event.setCancelled(true);
+        @Override
+        public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
+            if (!event.getAction().isRightClick()) {
+                return;
+            }
 
-        Block center = event.getClickedBlock();
-        if (center == null) {
-            return;
+            event.setCancelled(true);
+
+            Block center = event.getClickedBlock();
+            if (center == null) {
+                return;
+            }
+
+            water(center, getSchema().horizontalRange, getSchema().verticalRange);
         }
-
-        water(center, HORIZONTAL_RANGE, VERTRICAL_RANGE);
     }
 
     public static void water(Block center, int horizontalRange, int verticalRange) {
@@ -109,7 +115,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
                     .offset(0.3, 0.3, 0.3)
                     .spawn();
 
-            if (random.nextDouble() < SUGAR_CANE_CHANCE) {
+            if (random.nextDouble() < PylonItems.WATERING_CAN.sugarCaneChance) {
                 topBlock.setType(Material.SUGAR_CANE);
             }
 
@@ -141,7 +147,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
                     .offset(0.3, 0.3, 0.3)
                     .spawn();
 
-            if (random.nextDouble() < CACTUS_CHANCE) {
+            if (random.nextDouble() < PylonItems.WATERING_CAN.cactusChance) {
                 topBlock.setType(Material.CACTUS);
             }
 
@@ -153,12 +159,12 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
 
     private static boolean growCrop(@NotNull Block block, @NotNull Ageable ageable) {
         new ParticleBuilder(Particle.SPLASH)
-                    .count(3)
-                    .location(block.getLocation().add(0.5, 0.0, 0.5))
-                    .offset(0.3, 0, 0.3)
-                    .spawn();
+                .count(3)
+                .location(block.getLocation().add(0.5, 0.0, 0.5))
+                .offset(0.3, 0, 0.3)
+                .spawn();
 
-        if (random.nextDouble() < CROP_CHANCE) {
+        if (random.nextDouble() < PylonItems.WATERING_CAN.cropChance) {
             ageable.setAge(ageable.getAge() + 1);
             block.setBlockData(ageable);
         }
@@ -167,7 +173,7 @@ public class WateringCan extends PylonItem<PylonItemSchema> implements BlockInte
     }
 
     private static boolean growSapling(@NotNull Block block) {
-        if (random.nextDouble() < SAPLING_CHANCE) {
+        if (random.nextDouble() < PylonItems.WATERING_CAN.saplingChance) {
             block.applyBoneMeal(BlockFace.UP);
         }
 
