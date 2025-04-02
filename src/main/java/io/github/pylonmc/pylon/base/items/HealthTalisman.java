@@ -32,21 +32,13 @@ public class HealthTalisman extends PylonItemSchema {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipeFunc.apply(template));
     }
 
-    public static class Item extends PylonItem<HealthTalisman> implements HealthTalismanItem {
+    public static class Item extends PylonItem<HealthTalisman> {
         HealthTalisman schema;
 
         public Item(HealthTalisman schema, ItemStack itemStack) {
             super(schema, itemStack);
             this.schema = schema;
         }
-
-        public int getHealthIncrease(){
-            return schema.healthAmount;
-        }
-    }
-
-    public interface HealthTalismanItem {
-        public int getHealthIncrease();
     }
 
     public static class HealthTalismanTicker extends BukkitRunnable {
@@ -62,28 +54,28 @@ public class HealthTalisman extends PylonItemSchema {
                 Integer playerHealthBoost = playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER);
                 for (ItemStack itemStack : player.getInventory()) {
                     PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
-                    if (!(pylonItem instanceof HealthTalisman.HealthTalismanItem talisman)) {
+                    if (!(pylonItem instanceof HealthTalisman.Item talisman)) {
                         continue;
                     }
                     if (playerHealthBoost == null) {
                         player.getAttribute(Attribute.MAX_HEALTH).addModifier(new AttributeModifier(
                                 healthBoostedKey,
-                                talisman.getHealthIncrease(),
+                                talisman.schema.healthAmount,
                                 AttributeModifier.Operation.ADD_NUMBER
                         ));
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.schema.healthAmount);
                         foundItem = true;
                     }
-                    else if (playerHealthBoost < talisman.getHealthIncrease()) {
+                    else if (playerHealthBoost < talisman.schema.healthAmount) {
                         player.getAttribute(Attribute.MAX_HEALTH).removeModifier(healthBoostedKey);
                         player.getAttribute(Attribute.MAX_HEALTH).addModifier(new AttributeModifier(
                                 healthBoostedKey,
-                                talisman.getHealthIncrease(),
+                                talisman.schema.healthAmount,
                                 AttributeModifier.Operation.ADD_NUMBER
                         ));
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getHealthIncrease());
+                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.schema.healthAmount);
                         foundItem = true;
-                    } else if (talisman.getHealthIncrease() == playerHealthBoost) {
+                    } else if (talisman.schema.healthAmount == playerHealthBoost) {
                         foundItem = true;
                     }
                 }
