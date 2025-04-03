@@ -7,6 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+import java.util.Set;
+
 
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
@@ -30,5 +33,10 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     @Override
     public @NotNull String displayName() {
         return "Base";
+    }
+
+    @Override
+    public @NotNull Set<@NotNull Locale> getLanguages() {
+        return Set.of();
     }
 }
