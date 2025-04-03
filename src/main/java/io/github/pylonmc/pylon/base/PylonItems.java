@@ -690,6 +690,19 @@ public final class PylonItems {
                             .attributeLine("Range", Sprinkler.HORIZONTAL_RANGE, Quantity.BLOCKS))
                     .build()
     );
+
+    public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
+            pylonKey("recoil_arrow"),
+            RecoilArrow.Item.class,
+            new ItemStackBuilder(Material.ARROW)
+                    .name("Recoil arrow")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Sends you backwards at the velocity of your arrow.").newline()
+                            .attributeLine("Efficiency", 75, Quantity.PERCENT))
+                    .amount(8)
+                    .build(),
+            0.75f
+    );
     //</editor-fold>
 
     static void register() {
@@ -723,6 +736,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        RECOIL_ARROW.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
