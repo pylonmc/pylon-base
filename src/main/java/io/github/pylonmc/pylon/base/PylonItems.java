@@ -1,16 +1,13 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.LoreBuilder;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.Quantity;
-import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
-import io.github.pylonmc.pylon.core.item.SimplePylonItem;
+import io.github.pylonmc.pylon.core.item.*;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.*;
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.FoodProperties;
+import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
@@ -18,12 +15,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -135,7 +128,7 @@ public final class PylonItems {
             new ItemStackBuilder(Material.ROTTEN_FLESH)
                     .name("Monster Jerky")
                     .lore(new LoreBuilder().arrow().text(" Slightly tastier and tougher than rotten flesh"))
-                    .set(DataComponentTypes.FOOD,  FoodProperties.food()
+                    .set(DataComponentTypes.FOOD, FoodProperties.food()
                             .canAlwaysEat(MonsterJerky.DEFAULT_CAN_ALWAYS_EAT)
                             .nutrition(MonsterJerky.DEFAULT_NUTRITION)
                             .saturation(MonsterJerky.DEFAULT_SATURATION)
@@ -552,10 +545,10 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             fiber -> {
-                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
-                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
-                    recipe.setCategory(CraftingBookCategory.MISC);
-                    return recipe;
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
+                        .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
             }
     );
 
@@ -591,10 +584,10 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             bandage -> {
-                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
-                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
-                    recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                    return recipe;
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
+                        .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
             }
     );
 
@@ -665,9 +658,9 @@ public final class PylonItems {
                             ), 1))
                     )
                     .lore(new LoreBuilder()
-                                    .instructionLine("Right click", "to use")
-                                    .arrow().text(" Clears all effects").newline()
-                                    .attributeLine("Heals", 10, Quantity.HEARTS))
+                            .instructionLine("Right click", "to use")
+                            .arrow().text(" Clears all effects").newline()
+                            .attributeLine("Heals", 10, Quantity.HEARTS))
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             medkit -> {
@@ -721,7 +714,7 @@ public final class PylonItems {
                             .arrow().text(" Gives you the heads of what you kill").newline()
                             .attributeLine("Works with", "players, creepers, piglins, ender dragons, skeletons and zombies", Quantity.NONE))
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .set(DataComponentTypes.MAX_DAMAGE, 100)
+                    .set(DataComponentTypes.MAX_DAMAGE, 300)
                     .build()
     );
     //</editor-fold>

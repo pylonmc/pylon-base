@@ -7,18 +7,15 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Weapon;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.CustomModelData;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.tag.EntityTags;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
@@ -36,7 +33,7 @@ public class BeheadingSword extends PylonItemSchema {
                     .build())
             .build();
 
-    public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, ItemStack template){
+    public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, ItemStack template) {
         super(key, itemClass, template);
         ShapedRecipe recipe = new ShapedRecipe(key, template);
         recipe.shape(
@@ -62,7 +59,9 @@ public class BeheadingSword extends PylonItemSchema {
                 EntityType.SKELETON, new ItemStack(Material.SKELETON_SKULL)
         );
 
-        public Item(BeheadingSword schema, ItemStack itemStack) { super(schema, itemStack); }
+        public Item(BeheadingSword schema, ItemStack itemStack) {
+            super(schema, itemStack);
+        }
 
         @Override
         public void onUsedToDamageEntity(@NotNull EntityDamageByEntityEvent event) {
@@ -71,29 +70,28 @@ public class BeheadingSword extends PylonItemSchema {
 
         @Override
         public void onUsedToKillEntity(@NotNull EntityDeathEvent event) {
-            if(EntityTags.MINECARTS.isTagged(event.getEntityType())){
+            if ( EntityTags.MINECARTS.isTagged(event.getEntityType()) ) {
                 return;
             }
-            if(event.getEntityType() == EntityType.WITHER_SKELETON){
-                if(ThreadLocalRandom.current().nextFloat() < 0.025){
+            if ( event.getEntityType() == EntityType.WITHER_SKELETON ) {
+                if ( ThreadLocalRandom.current().nextFloat() < 0.025 ) {
                     event.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
                 return;
             }
-            if(ThreadLocalRandom.current().nextFloat() > 0.015){
+            if ( ThreadLocalRandom.current().nextFloat() > 0.015 ) {
                 return;
             }
             ItemStack head;
-            if(event.getEntity().getType() == EntityType.PLAYER){
+            if ( event.getEntity().getType() == EntityType.PLAYER ) {
                 // This cast is safe because PylonItemListener only calls this listener when the killer is a player
                 Player killer = ((Player) event.getDamageSource().getCausingEntity());
                 head = new ItemStackBuilder(Material.PLAYER_HEAD).build();
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
                 meta.setOwningPlayer(killer);
                 head.setItemMeta(meta);
-            }
-            else {
-                if(!entityHeadMap.containsKey(event.getEntityType())){
+            } else {
+                if ( !entityHeadMap.containsKey(event.getEntityType()) ) {
                     return;
                 }
                 head = entityHeadMap.get(event.getEntityType());
