@@ -7,7 +7,10 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
-import org.bukkit.*;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -23,6 +26,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class LumberAxe extends PylonItemSchema {
@@ -72,11 +76,12 @@ public class LumberAxe extends PylonItemSchema {
                 return;
             }
             BlockState blockState = block.getState();
+            Collection<ItemStack> drops = block.getDrops(tool);
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
             block.setType(Material.AIR);
             if( blockBreakEvent.isDropItems() ) {
                 List<Item> itemsDropped = new ArrayList<>();
-                for ( ItemStack itemStack : block.getDrops(tool) ) {
+                for ( ItemStack itemStack : drops ) {
                     Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
                     itemsDropped.add(item);
                 }
