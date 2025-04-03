@@ -29,11 +29,11 @@ public class MonsterJerky extends PylonItemSchema {
         super(key, itemClass, template);
 
         int nutrition = getSettings().getOrThrow("nutrition", Integer.class);
-        float saturation = getSettings().getOrThrow("saturation", Float.class);
+        double saturation = getSettings().getOrThrow("saturation", Double.class);
         template.setData(DataComponentTypes.FOOD, FoodProperties.food()
                 .canAlwaysEat(false)
                 .nutrition(nutrition)
-                .saturation(saturation)
+                .saturation((float) saturation)
                 .build());
 
         FurnaceRecipe recipe = new FurnaceRecipe(new NamespacedKey(PylonBase.getInstance(), "monster_jerky_furnace"), template, Material.ROTTEN_FLESH, EXPERIENCE_GAIN, COOKING_TIME);
