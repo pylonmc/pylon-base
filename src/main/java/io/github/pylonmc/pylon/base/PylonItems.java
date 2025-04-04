@@ -78,6 +78,8 @@ public final class PylonItems {
             )
     );
 
+
+
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
             pylonKey("stone_hammer"),
@@ -178,6 +180,19 @@ public final class PylonItems {
                 recipe.setCategory(CookingBookCategory.MISC);
                 return recipe;
             }
+    );
+
+    public static final PylonItemSchema FERRODURALUM_SHEET = new SimpleItemSchema<>(
+            pylonKey("ferroduralum_sheet"),
+            new ItemStackBuilder(Material.PAPER).name("Ferroduralum Sheet").build(),
+            Hammer.Recipe.RECIPE_TYPE,
+            sheet -> new Hammer.Recipe(
+                    pylonKey("ferroduralum_sheet"),
+                    List.of(FERRODURALUM_INGOT.getItemStack()),
+                    sheet,
+                    MiningLevel.IRON,
+                    0.25f
+            )
     );
 
     public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
@@ -691,6 +706,16 @@ public final class PylonItems {
                     .build()
     );
 
+    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
+            pylonKey("magic_altar"),
+            MagicAltar.MagicAltarItem.class,
+            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
+                    .name("Magic Altar")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Spooky altar").newline())
+                    .build()
+    );
+
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
             pylonKey("recoil_arrow"),
             RecoilArrow.Item.class,
@@ -727,6 +752,7 @@ public final class PylonItems {
         MEDKIT.register();
         FERRODURALUM_ORE.register();
         FERRODURALUM_INGOT.register();
+        FERRODURALUM_SHEET.register();
         FERRODURALUM_SWORD.register();
         FERRODURALUM_AXE.register();
         FERRODURALUM_PICKAXE.register();
@@ -736,6 +762,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        MAGIC_ALTAR.register();
         RECOIL_ARROW.register();
     }
 
