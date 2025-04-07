@@ -684,6 +684,19 @@ public final class PylonItems {
                     .build()
     );
 
+    public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
+            pylonKey("recoil_arrow"),
+            RecoilArrow.Item.class,
+            new ItemStackBuilder(Material.ARROW)
+                    .name("Recoil arrow")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Sends you backwards at the velocity of your arrow.").newline()
+                            .attributeLine("Efficiency", 75, Quantity.PERCENT))
+                    .amount(8)
+                    .build(),
+            0.75f
+    );
+
     public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
             pylonKey("compressed_amethyst_block"),
             new ItemStackBuilder(Material.AMETHYST_CLUSTER)
@@ -750,6 +763,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        RECOIL_ARROW.register();
         MAGIC_DUST.register();
         BEHEADING_SWORD.register();
     }
