@@ -744,7 +744,6 @@ public final class PylonItems {
 
     public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
             pylonKey("magic_altar"),
-            MagicAltar.MagicAltarItem.class,
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Magic Altar")
                     .lore(new LoreBuilder()

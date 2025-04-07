@@ -35,8 +35,7 @@ public final class PylonBlocks {
 
     public static final MagicAltar.MagicAltarBlock.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarBlock.Schema(
             pylonKey("magic_altar"),
-            Material.SMOOTH_STONE_SLAB,
-            MagicAltar.MagicAltarBlock.class
+            Material.SMOOTH_STONE_SLAB
     );
 
     static void register() {
