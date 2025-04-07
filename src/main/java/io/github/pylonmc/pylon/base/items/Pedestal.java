@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -15,6 +14,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.block.Action;
@@ -35,14 +35,28 @@ public final class Pedestal {
         throw new AssertionError("Container class");
     }
 
-    public static class PedestalItem extends PylonItem<PylonItemSchema> implements BlockPlacer {
+    public static class PedestalItem extends PylonItem<PedestalItem.Schema> implements BlockPlacer {
+
+        public static class Schema extends PylonItemSchema {
+
+            private final PylonBlockSchema blockSchema;
+
+            public Schema(@NotNull NamespacedKey key, @NotNull ItemStack template, @NotNull PylonBlockSchema blockSchema) {
+                super(key, PedestalItem.class, template);
+                this.blockSchema = blockSchema;
+            }
+
+            public PylonBlockSchema getBlockSchema() {
+                return blockSchema;
+            }
+        }
 
         @Override
         public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.PEDESTAL;
+            return getSchema().getBlockSchema();
         }
 
-        public PedestalItem(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
+        public PedestalItem(@NotNull PedestalItem.Schema schema, @NotNull ItemStack stack) {
             super(schema, stack);
         }
     }

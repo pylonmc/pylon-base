@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.items;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonBlocks;
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -53,17 +53,19 @@ public final class MagicAltar {
 
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema> implements SimpleMultiblock, Ticking {
 
+        private static final Component MAGIC_PEDESTAL_COMPONENT = new SimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
+
         @Override
         public @NotNull Map<Vector3i, Component> getComponents() {
             return Map.of(
-                    new Vector3i(3, 0, 0), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(2, 0, 2), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(0, 0, 3), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(-2, 0, 2), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(-3, 0, 0), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(-2, 0, -2), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(0, 0, -3), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL),
-                    new Vector3i(2, 0, -2), new SimpleMultiblock.VanillaComponent(Material.STONE_BRICK_WALL)
+                    new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(2, 0, 2), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(0, 0, 3), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(-2, 0, 2), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(-3, 0, 0), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(-2, 0, -2), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(0, 0, -3), MAGIC_PEDESTAL_COMPONENT,
+                    new Vector3i(2, 0, -2), MAGIC_PEDESTAL_COMPONENT
             );
         }
 

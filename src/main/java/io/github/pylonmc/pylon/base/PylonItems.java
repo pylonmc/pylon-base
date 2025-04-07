@@ -706,16 +706,6 @@ public final class PylonItems {
                     .build()
     );
 
-    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
-            pylonKey("magic_altar"),
-            MagicAltar.MagicAltarItem.class,
-            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
-                    .name("Magic Altar")
-                    .lore(new LoreBuilder()
-                            .arrow().text(" Spooky altar").newline())
-                    .build()
-    );
-
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
             pylonKey("recoil_arrow"),
             RecoilArrow.Item.class,
@@ -729,15 +719,36 @@ public final class PylonItems {
             0.75f
     );
 
-    public static final PylonItemSchema PEDESTAL = new PylonItemSchema(
+    public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
             pylonKey("pedestal"),
-            Pedestal.PedestalItem.class,
             new ItemStackBuilder(Material.STONE_BRICK_WALL)
                     .name("Pedestal")
                     .lore(new LoreBuilder()
                             .instructionLine("Right click", "to set the displayed item")
                             .instructionLine("Shift right click", "to rotate the item"))
-                    .amount(1)
+                    .build(),
+            PylonBlocks.PEDESTAL
+    );
+
+    public static final Pedestal.PedestalItem.Schema MAGIC_PEDESTAL = new Pedestal.PedestalItem.Schema(
+            pylonKey("magic_pedestal"),
+            new ItemStackBuilder(Material.MOSSY_STONE_BRICK_WALL)
+                    .name("Magic Pedestal")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Used to build the Magic Altar")
+                            .instructionLine("Right click", "to set the displayed item")
+                            .instructionLine("Shift right click", "to rotate the item"))
+                    .build(),
+            PylonBlocks.MAGIC_PEDESTAL
+    );
+
+    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
+            pylonKey("magic_altar"),
+            MagicAltar.MagicAltarItem.class,
+            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
+                    .name("Magic Altar")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Spooky altar").newline())
                     .build()
     );
     //</editor-fold>
@@ -774,9 +785,10 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
-        MAGIC_ALTAR.register();
         RECOIL_ARROW.register();
         PEDESTAL.register();
+        MAGIC_PEDESTAL.register();
+        MAGIC_ALTAR.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

@@ -21,21 +21,28 @@ public final class PylonBlocks {
             Sprinkler.SprinklerBlock.class
     );
 
-    public static final MagicAltar.MagicAltarBlock.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarBlock.Schema(
-            pylonKey("magic_altar"),
-            Material.SMOOTH_STONE_SLAB,
-            MagicAltar.MagicAltarBlock.class
-    );
-
     public static final PylonBlockSchema PEDESTAL = new PylonBlockSchema(
             pylonKey("pedestal"),
             Material.STONE_BRICK_WALL,
             Pedestal.PedestalBlock.class
     );
 
+    public static final PylonBlockSchema MAGIC_PEDESTAL = new PylonBlockSchema(
+            pylonKey("magic_pedestal"),
+            Material.MOSSY_STONE_BRICK_WALL,
+            Pedestal.PedestalBlock.class
+    );
+
+    public static final MagicAltar.MagicAltarBlock.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarBlock.Schema(
+            pylonKey("magic_altar"),
+            Material.SMOOTH_STONE_SLAB,
+            MagicAltar.MagicAltarBlock.class
+    );
+
     static void register() {
         SPRINKLER.register();
         PEDESTAL.register();
+        MAGIC_PEDESTAL.register();
         MAGIC_ALTAR.register();
     }
 }
