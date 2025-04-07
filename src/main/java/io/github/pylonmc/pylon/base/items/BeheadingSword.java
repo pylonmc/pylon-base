@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+@SuppressWarnings("UnstableApiUsage")
 public class BeheadingSword extends PylonItemSchema {
     private static final ItemStack SILK_TOUCH_BOOK = new ItemStackBuilder(Material.ENCHANTED_BOOK)
             .set(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantments.itemEnchantments()
