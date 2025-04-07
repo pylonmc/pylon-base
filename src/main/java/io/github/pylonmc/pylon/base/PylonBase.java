@@ -31,7 +31,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     }
 
     @Override
-    public @NotNull String displayName() {
+    public @NotNull String getDisplayName() {
         return "Base";
     }
 
