@@ -728,6 +728,17 @@ public final class PylonItems {
                     .build(),
             0.75f
     );
+
+    public static final PylonItemSchema PEDESTAL = new PylonItemSchema(
+            pylonKey("pedestal"),
+            Pedestal.PedestalItem.class,
+            new ItemStackBuilder(Material.STONE_BRICK_WALL)
+                    .name("Pedestal")
+                    .lore(new LoreBuilder()
+                            .instructionLine("Right click", "to set the displayed item"))
+                    .amount(1)
+                    .build()
+    );
     //</editor-fold>
 
     static void register() {
@@ -764,6 +775,7 @@ public final class PylonItems {
         FERRODURALUM_BOOTS.register();
         MAGIC_ALTAR.register();
         RECOIL_ARROW.register();
+        PEDESTAL.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

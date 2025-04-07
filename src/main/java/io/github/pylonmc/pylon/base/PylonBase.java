@@ -21,6 +21,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         registerWithPylon();
         PylonItems.register();
         PylonBlocks.register();
+        PylonEntities.register();
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
     }
 
