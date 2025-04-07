@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.Ticking;
-import io.github.pylonmc.pylon.core.event.PylonBlockPlaceEvent;
+import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
@@ -96,7 +96,7 @@ public final class Sprinkler {
 
     public static class SprinklerPlaceListener implements Listener {
         @EventHandler
-        private static void handle(@NotNull PylonBlockPlaceEvent event) {
+        private static void handle(@NotNull PrePylonBlockPlaceEvent event) {
             if (!(event.getPylonBlock() instanceof SprinklerBlock)) {
                 return;
             }

@@ -684,6 +684,19 @@ public final class PylonItems {
                     .build()
     );
 
+    public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
+            pylonKey("recoil_arrow"),
+            RecoilArrow.Item.class,
+            new ItemStackBuilder(Material.ARROW)
+                    .name("Recoil arrow")
+                    .lore(new LoreBuilder()
+                            .arrow().text(" Sends you backwards at the velocity of your arrow.").newline()
+                            .attributeLine("Efficiency", 75, Quantity.PERCENT))
+                    .amount(8)
+                    .build(),
+            0.75f
+    );
+
     public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("simple_healing_talisman"),
             HealthTalisman.Item.class,
@@ -792,6 +805,7 @@ public final class PylonItems {
         FERRODURALUM_CHESTPLATE.register();
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
+        RECOIL_ARROW.register();
         SIMPLE_HEALTH_TALISMAN.register();
         ADVANCED_HEALTH_TALISMAN.register();
         ULTIMATE_HEALTH_TALISMAN.register();
