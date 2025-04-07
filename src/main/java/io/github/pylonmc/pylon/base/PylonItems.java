@@ -703,12 +703,12 @@ public final class PylonItems {
             new ItemStackBuilder(Material.AMETHYST_SHARD)
                     .name("Simple Healing Talisman")
                     .lore(new LoreBuilder()
-                            .attributeLine("Max health increase", 6, Quantity.HEARTS)
+                            .attributeLine("Max health increase", 4, Quantity.HEARTS)
                             .arrow().text(" Passive effect while in inventory").newline()
                             .arrow().text(" Does not stack"))
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            6,
+            4,
             (talisman) -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_healing_talisman"), talisman);
                 recipe.shape(
@@ -729,12 +729,12 @@ public final class PylonItems {
             new ItemStackBuilder(Material.AMETHYST_CLUSTER)
                     .name("Advanced Healing Talisman")
                     .lore(new LoreBuilder()
-                            .attributeLine("Max health increase", 10, Quantity.HEARTS)
+                            .attributeLine("Max health increase", 7, Quantity.HEARTS)
                             .arrow().text(" Passive effect while in inventory").newline()
                             .arrow().text(" Does not stack"))
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            10,
+            7,
             (talisman) -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_healing_talisman"), talisman);
                 recipe.shape(
@@ -754,12 +754,12 @@ public final class PylonItems {
             new ItemStackBuilder(Material.BUDDING_AMETHYST)
                     .name("Ultimate Healing Talisman")
                     .lore(new LoreBuilder()
-                            .attributeLine("Max health increase", 14, Quantity.HEARTS)
+                            .attributeLine("Max health increase", 10, Quantity.HEARTS)
                             .arrow().text(" Passive effect while in inventory").newline()
                             .arrow().text(" Does not stack"))
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            14,
+            10,
             (talisman) -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_healing_talisman"), talisman);
                 recipe.shape(
