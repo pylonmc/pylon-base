@@ -735,7 +735,8 @@ public final class PylonItems {
             new ItemStackBuilder(Material.STONE_BRICK_WALL)
                     .name("Pedestal")
                     .lore(new LoreBuilder()
-                            .instructionLine("Right click", "to set the displayed item"))
+                            .instructionLine("Right click", "to set the displayed item")
+                            .instructionLine("Shift right click", "to rotate the item"))
                     .amount(1)
                     .build()
     );
