@@ -139,20 +139,19 @@ public final class Pedestal {
 
             // drop old item
             ItemStack oldStack = display.getItemStack();
-            if (!oldStack.getType().isAir()) {
+            ItemStack newStack = event.getItem();
+            if (!oldStack.getType().isAir() && newStack == null) {
                 display.getWorld().dropItemNaturally(display.getLocation().toCenterLocation().add(0, 0.7, 0), oldStack);
+                display.setItemStack(null);
                 return;
             }
 
             // insert new item
-            ItemStack newStack = event.getItem();
             if (newStack != null) {
                 ItemStack stackToInsert = newStack.clone();
                 stackToInsert.setAmount(1);
                 display.setItemStack(stackToInsert);
                 newStack.subtract();
-            } else {
-                display.setItemStack(null);
             }
         }
 
