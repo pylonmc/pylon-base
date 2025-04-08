@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonEntities;
+import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -66,14 +67,17 @@ public final class Pedestal {
     public static class PedestalBlock extends PylonBlock<PylonBlockSchema>
             implements EntityHolderBlock<PedestalEntity>, PlayerInteractBlock {
 
-        private static final NamespacedKey ROTATION_KEY = new NamespacedKey(PylonBase.getInstance(), "rotation");
+        private static final NamespacedKey ROTATION_KEY = KeyUtils.pylonKey("rotation");
+        private static final NamespacedKey LOCKED_KEY = KeyUtils.pylonKey("locked");
         private double rotation;
+        private boolean locked;
         private UUID uuid;
 
         public PedestalBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
             super(schema, block);
 
             rotation = 0;
+            locked = false;
 
             ItemDisplay display = new ItemDisplayBuilder()
                     .transformation(transformBuilder().buildForItemDisplay())
@@ -88,6 +92,7 @@ public final class Pedestal {
             super(schema, block);
             loadEntity(pdc);
             rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
+            locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
         }
 
         public TransformBuilder transformBuilder() {
@@ -101,6 +106,7 @@ public final class Pedestal {
         public void write(@NotNull PersistentDataContainer pdc) {
             saveEntity(pdc);
             pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
+            pdc.set(LOCKED_KEY, PylonSerializers.BOOLEAN, locked);
         }
 
         @Override
@@ -115,15 +121,21 @@ public final class Pedestal {
 
         @Override
         public void onInteract(@NotNull PlayerInteractEvent event) {
-            if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (event.getPlayer().isSneaking()) {
-                    rotation += PI / 4;
-                    getEntity().getEntity().setTransformationMatrix(transformBuilder().buildForItemDisplay());
-                } else {
-                    getEntity().getEntity().setItemStack(event.getItem());
-                    event.setCancelled(true);
-                }
+            if (locked || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                return;
             }
+
+            if (event.getPlayer().isSneaking()) {
+                rotation += PI / 4;
+                getEntity().getEntity().setTransformationMatrix(transformBuilder().buildForItemDisplay());
+            } else {
+                getEntity().getEntity().setItemStack(event.getItem());
+                event.setCancelled(true);
+            }
+        }
+
+        public void setLocked(boolean locked) {
+            this.locked = locked;
         }
     }
 
