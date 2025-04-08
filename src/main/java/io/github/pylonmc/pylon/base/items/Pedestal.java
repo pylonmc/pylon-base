@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
+import io.github.pylonmc.pylon.core.block.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.UUID;
 
 import static java.lang.Math.PI;
@@ -148,6 +150,13 @@ public final class Pedestal {
             } else {
                 display.setItemStack(null);
             }
+        }
+
+        @Override
+        public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+            EntityHolderBlock.super.onBreak(drops, context);
+            ItemDisplay display = getEntity().getEntity();
+            display.getWorld().dropItemNaturally(display.getLocation(), display.getItemStack());
         }
 
         public void setLocked(boolean locked) {
