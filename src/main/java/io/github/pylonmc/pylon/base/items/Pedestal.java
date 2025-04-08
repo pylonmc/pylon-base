@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
@@ -125,12 +124,29 @@ public final class Pedestal {
                 return;
             }
 
+            event.setCancelled(true);
+
+            ItemDisplay display = getEntity().getEntity();
+
             if (event.getPlayer().isSneaking()) {
                 rotation += PI / 4;
-                getEntity().getEntity().setTransformationMatrix(transformBuilder().buildForItemDisplay());
+                display.setTransformationMatrix(transformBuilder().buildForItemDisplay());
+                return;
+            }
+
+            // drop old item
+            ItemStack oldStack = display.getItemStack();
+            if (!oldStack.getType().isAir()) {
+                display.getWorld().dropItemNaturally(display.getLocation(), oldStack);
+            }
+
+            // insert new item
+            ItemStack newStack = event.getItem();
+            if (newStack != null) {
+                display.setItemStack(newStack.clone());
+                newStack.subtract();
             } else {
-                getEntity().getEntity().setItemStack(event.getItem());
-                event.setCancelled(true);
+                display.setItemStack(null);
             }
         }
 
