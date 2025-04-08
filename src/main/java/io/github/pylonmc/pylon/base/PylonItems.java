@@ -29,6 +29,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -750,6 +752,31 @@ public final class PylonItems {
                             .arrow().text(" Spooky altar").newline())
                     .build()
     );
+
+    public static final PylonItemSchema CANDENT_REDSTONE = new SimpleItemSchema<>(
+            pylonKey("candent_redstone"),
+            new ItemStackBuilder(Material.REDSTONE)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .name("Candent Redstone")
+                    .build(),
+            MagicAltar.Recipe.RECIPE_TYPE,
+            item -> new MagicAltar.Recipe(
+                    pylonKey("candent_redstone"),
+                    new ArrayList<>(Arrays.asList(
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null
+                    )),
+                    new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)),
+                    item,
+                    5
+            )
+    );
     //</editor-fold>
 
     static void register() {
@@ -788,6 +815,7 @@ public final class PylonItems {
         PEDESTAL.register();
         MAGIC_PEDESTAL.register();
         MAGIC_ALTAR.register();
+        CANDENT_REDSTONE.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
