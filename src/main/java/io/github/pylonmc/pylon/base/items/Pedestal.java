@@ -141,7 +141,7 @@ public final class Pedestal {
             ItemStack oldStack = display.getItemStack();
             ItemStack newStack = event.getItem();
             if (!oldStack.getType().isAir()) {
-                display.getWorld().dropItemNaturally(display.getLocation().toCenterLocation().add(0, 0.7, 0), oldStack);
+                display.getWorld().dropItem(display.getLocation().toCenterLocation().add(0, 0.7, 0), oldStack);
                 display.setItemStack(null);
                 return;
             }
@@ -158,11 +158,15 @@ public final class Pedestal {
         @Override
         public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
             EntityHolderBlock.super.onBreak(drops, context);
-            drops.add(getEntity().getEntity().getItemStack());
+            drops.add(getItem());
         }
 
         public void setLocked(boolean locked) {
             this.locked = locked;
+        }
+
+        public @NotNull ItemStack getItem() {
+            return getEntity().getEntity().getItemStack();
         }
     }
 

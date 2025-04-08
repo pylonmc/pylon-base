@@ -19,6 +19,7 @@ import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -160,7 +161,7 @@ public final class MagicAltar {
 
             List<ItemStack> ingredients = new ArrayList<>();
             for (Pedestal.PedestalBlock pedestal : getPedestals()) {
-                ingredients.add(pedestal.getEntity().getEntity().getItemStack());
+                ingredients.add(pedestal.getItem());
             }
 
             for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
@@ -185,11 +186,6 @@ public final class MagicAltar {
                 }
                 return;
             }
-
-            new ParticleBuilder(Particle.SPLASH)
-                    .count(5)
-                    .location(getBlock().getLocation().add(0.5, 1.5, 0.5))
-                    .spawn();
 
             if (getCurrentRecipe() != null) {
                 if (remainingTimeSeconds <= 0.0) {
@@ -227,6 +223,18 @@ public final class MagicAltar {
 
         public void tickRecipe(double deltaSeconds) {
             remainingTimeSeconds -= deltaSeconds;
+
+            for (Pedestal.PedestalBlock pedestal : getPedestals()) {
+                if (!pedestal.getItem().getType().isAir()) {
+                    drawLine(
+                            pedestal.getBlock().getLocation().toCenterLocation().add(0.0, 0.7, 0.0),
+                            getBlock().getLocation().toCenterLocation().subtract(0.0, 0.3, 0.0),
+                            0.25,
+                            Particle.DUST,
+                            new Particle.DustOptions(Color.RED, 0.8F)
+                    );
+                }
+            }
         }
 
         public void finishRecipe() {
@@ -234,16 +242,32 @@ public final class MagicAltar {
                 pedestal.getEntity().getEntity().setItemStack(null);
                 pedestal.setLocked(false);
             }
-            getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), getCurrentRecipe().result);
+
+            getBlock().getWorld().dropItem(getBlock().getLocation().toCenterLocation(), getCurrentRecipe().result);
             processingRecipe = null;
+
+            new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+                    .count(20)
+                    .extra(0.02)
+                    .location(getBlock().getLocation().toCenterLocation())
+                    .spawn();
         }
 
         public void cancelRecipe() {
             for (Pedestal.PedestalBlock pedestal : getPedestals()) {
-                pedestal.getEntity().getEntity().setItemStack(null);
-                pedestal.setLocked(false);
+                if (pedestal != null) {
+                    pedestal.getEntity().getEntity().setItemStack(null);
+                    pedestal.setLocked(false);
+                }
             }
+
             processingRecipe = null;
+
+            new ParticleBuilder(Particle.WHITE_SMOKE)
+                    .count(20)
+                    .extra(0.05)
+                    .location(getBlock().getLocation().toCenterLocation())
+                    .spawn();
         }
     }
 
