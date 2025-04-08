@@ -18,6 +18,7 @@ import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,9 +37,10 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 
 
 public final class MagicAltar {
@@ -132,16 +134,17 @@ public final class MagicAltar {
 
         @Override
         public @NotNull Map<Vector3i, Component> getComponents() {
-            return Map.of(
-                    new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(2, 0, 2), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(0, 0, 3), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(-2, 0, 2), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(-3, 0, 0), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(-2, 0, -2), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(0, 0, -3), MAGIC_PEDESTAL_COMPONENT,
-                    new Vector3i(2, 0, -2), MAGIC_PEDESTAL_COMPONENT
-            );
+            // use linked to retain order of pedestals - important for recipes
+            Map<Vector3i, Component> map = new LinkedHashMap<>();
+            map.put(new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(2, 0, 2), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(0, 0, 3), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(-2, 0, 2), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(-3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(-2, 0, -2), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(0, 0, -3), MAGIC_PEDESTAL_COMPONENT);
+            map.put(new Vector3i(2, 0, -2), MAGIC_PEDESTAL_COMPONENT);
+            return map;
         }
 
         @Override
@@ -151,7 +154,7 @@ public final class MagicAltar {
             }
 
             ItemStack catalyst = event.getItem();
-            if (catalyst == null) {
+            if (catalyst == null || processingRecipe != null) {
                 return;
             }
 
@@ -162,6 +165,7 @@ public final class MagicAltar {
 
             for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
                 if (recipe.isValidRecipe(ingredients, catalyst)) {
+                    catalyst.subtract();
                     startRecipe(recipe);
                     break;
                 }
@@ -213,6 +217,7 @@ public final class MagicAltar {
         }
 
         public void startRecipe(Recipe recipe) {
+            assert processingRecipe == null;
             for (Pedestal.PedestalBlock pedestal : getPedestals()) {
                 pedestal.setLocked(true);
             }
@@ -244,12 +249,14 @@ public final class MagicAltar {
 
     /**
      * Ingredients list must be of size 8. Set an ingredient to null to leave that pedestal empty.
+     *
+     * Ingredients and catalyst must have an amount of 1
      */
     public record Recipe(
-            NamespacedKey key,
-            List<RecipeChoice> ingredients,
-            RecipeChoice catalyst,
-            ItemStack result,
+            @NotNull NamespacedKey key,
+            @NotNull List<RecipeChoice> ingredients,
+            @NotNull RecipeChoice catalyst,
+            @NotNull ItemStack result,
             double timeSeconds
     ) implements Keyed {
 
@@ -269,14 +276,25 @@ public final class MagicAltar {
         public boolean ingredientsMatch(@NotNull List<ItemStack> ingredients) {
             assert this.ingredients.size() == PEDESTAL_COUNT;
             assert ingredients.size() == PEDESTAL_COUNT;
+
             for (int i = 0; i < PEDESTAL_COUNT; i++) {
-                boolean allIngredientsMatch = IntStream.range(0, PEDESTAL_COUNT)
-                        .allMatch(j -> this.ingredients.get(j).test(ingredients.get(j)));
+
+                boolean allIngredientsMatch = true;
+                for (int j = 0; j < PEDESTAL_COUNT; j++) {
+                    RecipeChoice recipeChoice = this.ingredients.get(j);
+                    if (recipeChoice != null && !recipeChoice.test(ingredients.get(j))) {
+                        allIngredientsMatch = false;
+                        break;
+                    }
+                }
+
                 if (allIngredientsMatch) {
                     return true;
                 }
+
                 ingredients.add(ingredients.removeFirst());
             }
+
             return false;
         }
 
