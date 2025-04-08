@@ -130,6 +130,7 @@ public final class Pedestal {
 
             ItemDisplay display = getEntity().getEntity();
 
+            // rotate
             if (event.getPlayer().isSneaking()) {
                 rotation += PI / 4;
                 display.setTransformationMatrix(transformBuilder().buildForItemDisplay());
@@ -139,13 +140,16 @@ public final class Pedestal {
             // drop old item
             ItemStack oldStack = display.getItemStack();
             if (!oldStack.getType().isAir()) {
-                display.getWorld().dropItemNaturally(display.getLocation(), oldStack);
+                display.getWorld().dropItemNaturally(display.getLocation().toCenterLocation().add(0, 0.7, 0), oldStack);
+                return;
             }
 
             // insert new item
             ItemStack newStack = event.getItem();
             if (newStack != null) {
-                display.setItemStack(newStack.clone());
+                ItemStack stackToInsert = newStack.clone();
+                stackToInsert.setAmount(1);
+                display.setItemStack(stackToInsert);
                 newStack.subtract();
             } else {
                 display.setItemStack(null);
