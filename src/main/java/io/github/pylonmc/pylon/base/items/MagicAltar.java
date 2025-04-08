@@ -187,13 +187,12 @@ public final class MagicAltar {
                     .location(getBlock().getLocation().add(0.5, 1.5, 0.5))
                     .spawn();
 
-            if (remainingTimeSeconds <= 0.0) {
-                finishRecipe();
-                return;
-            }
-
             if (getCurrentRecipe() != null) {
-                tickRecipe(deltaSeconds);
+                if (remainingTimeSeconds <= 0.0) {
+                    finishRecipe();
+                } else {
+                    tickRecipe(deltaSeconds);
+                }
             }
         }
 
