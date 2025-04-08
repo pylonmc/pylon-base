@@ -140,7 +140,7 @@ public final class Pedestal {
             // drop old item
             ItemStack oldStack = display.getItemStack();
             ItemStack newStack = event.getItem();
-            if (!oldStack.getType().isAir() && newStack == null) {
+            if (!oldStack.getType().isAir()) {
                 display.getWorld().dropItemNaturally(display.getLocation().toCenterLocation().add(0, 0.7, 0), oldStack);
                 display.setItemStack(null);
                 return;
