@@ -155,8 +155,7 @@ public final class Pedestal {
         @Override
         public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
             EntityHolderBlock.super.onBreak(drops, context);
-            ItemDisplay display = getEntity().getEntity();
-            display.getWorld().dropItemNaturally(display.getLocation(), display.getItemStack());
+            drops.add(getEntity().getEntity().getItemStack());
         }
 
         public void setLocked(boolean locked) {
