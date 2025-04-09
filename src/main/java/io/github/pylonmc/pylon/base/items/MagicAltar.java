@@ -3,14 +3,19 @@ package io.github.pylonmc.pylon.base.items;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonBlocks;
+import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
+import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.SimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.Ticking;
+import io.github.pylonmc.pylon.core.entity.EntityStorage;
+import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
@@ -18,7 +23,6 @@ import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
@@ -26,6 +30,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -41,7 +46,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Random;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 
 public final class MagicAltar {
@@ -56,9 +63,8 @@ public final class MagicAltar {
             @NotNull Location start,
             @NotNull Location end,
             double spacing,
-            @NotNull Particle particle,
-            @Nullable Particle.DustOptions dustOptions
-    ) {
+            @NotNull Consumer<Location> spawnParticle
+            ) {
         double currentPoint = 0;
         Vector startToEnd = end.clone().subtract(start).toVector();
         Vector step = startToEnd.clone().normalize().multiply(spacing);
@@ -66,11 +72,7 @@ public final class MagicAltar {
         Location current = start.clone();
 
         while (currentPoint < length) {
-            if (dustOptions != null) {
-                start.getWorld().spawnParticle(particle, current.getX(), current.getY(), current.getZ(), 1, dustOptions);
-            } else {
-                start.getWorld().spawnParticle(particle, current.getX(), current.getY(), current.getZ(), 1);
-            }
+            spawnParticle.accept(current);
             currentPoint += spacing;
             current.add(step);
         }
@@ -96,13 +98,15 @@ public final class MagicAltar {
     }
 
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
-            implements SimpleMultiblock, Ticking, PlayerInteractBlock {
+            implements SimpleMultiblock, Ticking, PlayerInteractBlock, EntityHolderBlock<Pedestal.PedestalEntity> {
 
         private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
         private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
+        private static final Random random = new Random();
 
         private @Nullable NamespacedKey processingRecipe;
         private double remainingTimeSeconds;
+        private UUID uuid;
 
         private static final Component MAGIC_PEDESTAL_COMPONENT = new SimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
 
@@ -115,22 +119,46 @@ public final class MagicAltar {
 
         public MagicAltarBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
+
+            ItemDisplay display = new ItemDisplayBuilder()
+                    .transformation(new TransformBuilder()
+                            .translate(0, 0.3, 0)
+                            .scale(0.6)
+                            .buildForItemDisplay())
+                    .build(block.getLocation().toCenterLocation());
+
+            this.uuid = display.getUniqueId();
+
+            Pedestal.PedestalEntity pylonEntity = new Pedestal.PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
+            EntityStorage.add(pylonEntity);
         }
 
         public MagicAltarBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
+            loadEntity(pdc);
             processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);
             remainingTimeSeconds = pdc.get(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE);
         }
 
         @Override
         public void write(@NotNull PersistentDataContainer pdc) {
+            saveEntity(pdc);
             if (processingRecipe == null) {
                 pdc.remove(PROCESSING_RECIPE);
             } else {
                 pdc.set(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
             }
             pdc.set(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE, remainingTimeSeconds);
+        }
+
+        @Override
+        public @NotNull UUID getEntityUuid() {
+            return uuid;
+        }
+
+        @Override
+        public void setEntityUuid(@NotNull UUID uuid) {
+            this.uuid = uuid;
         }
 
         @Override
@@ -154,21 +182,34 @@ public final class MagicAltar {
                 return;
             }
 
-            ItemStack catalyst = event.getItem();
-            if (catalyst == null || processingRecipe != null) {
+            event.setCancelled(true);
+
+            // drop item if not processing and an item is already on the altar
+            ItemStack displayItem = getEntity().getEntity().getItemStack();
+            if (processingRecipe == null && !displayItem.getType().isAir()) {
+                Location location = getEntity().getEntity().getLocation().add(0, 0.5, 0);
+                location.getWorld().dropItemNaturally(location, displayItem);
+                getEntity().getEntity().setItemStack(new ItemStack(Material.AIR));
                 return;
             }
 
-            List<ItemStack> ingredients = new ArrayList<>();
-            for (Pedestal.PedestalBlock pedestal : getPedestals()) {
-                ingredients.add(pedestal.getItem());
-            }
+            // attempt to start recipe
+            ItemStack catalyst = event.getItem();
+            if (catalyst != null && processingRecipe == null) {
+                List<ItemStack> ingredients = new ArrayList<>();
+                for (Pedestal.PedestalBlock pedestal : getPedestals()) {
+                    ingredients.add(pedestal.getItem());
+                }
 
-            for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-                if (recipe.isValidRecipe(ingredients, catalyst)) {
-                    catalyst.subtract();
-                    startRecipe(recipe);
-                    break;
+                for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
+                    if (recipe.isValidRecipe(ingredients, catalyst)) {
+                        ItemStack stackToInsert = catalyst.clone();
+                        stackToInsert.setAmount(1);
+                        getEntity().getEntity().setItemStack(stackToInsert);
+                        catalyst.subtract();
+                        startRecipe(recipe);
+                        break;
+                    }
                 }
             }
         }
@@ -224,17 +265,43 @@ public final class MagicAltar {
         public void tickRecipe(double deltaSeconds) {
             remainingTimeSeconds -= deltaSeconds;
 
-            for (Pedestal.PedestalBlock pedestal : getPedestals()) {
-                if (!pedestal.getItem().getType().isAir()) {
-                    drawLine(
-                            pedestal.getBlock().getLocation().toCenterLocation().add(0.0, 0.7, 0.0),
-                            getBlock().getLocation().toCenterLocation().subtract(0.0, 0.3, 0.0),
-                            0.25,
-                            Particle.DUST,
-                            new Particle.DustOptions(Color.RED, 0.8F)
-                    );
-                }
+            List<Pedestal.PedestalBlock> usedPedestals = getPedestals()
+                    .stream()
+                    .filter(pedestal -> !pedestal.getItem().getType().isAir())
+                    .toList();
+
+            // dust line animation
+            for (Pedestal.PedestalBlock pedestal : usedPedestals) {
+                drawLine(
+                        pedestal.getBlock().getLocation().toCenterLocation().add(0.0, 0.7, 0.0),
+                        getBlock().getLocation().toCenterLocation().subtract(0.0, 0.3, 0.0),
+                        0.25,
+                        location -> new ParticleBuilder(Particle.DUST)
+                                .color(Color.RED)
+                                .extra(0.8F)
+                                .count(1)
+                                .location(location)
+                                .spawn()
+                );
             }
+
+            // end rod line animation
+            assert usedPedestals.size() > 1;
+            int from = random.nextInt(usedPedestals.size());
+            int to = random.nextInt(usedPedestals.size());
+            while (to == from) {
+                to = random.nextInt(usedPedestals.size());
+            }
+            drawLine(
+                    usedPedestals.get(from).getBlock().getLocation().toCenterLocation(),
+                    usedPedestals.get(to).getBlock().getLocation().toCenterLocation(),
+                    0.25,
+                    location -> new ParticleBuilder(Particle.END_ROD)
+                            .count(1)
+                            .extra(0.0)
+                            .location(location)
+                            .spawn()
+            );
         }
 
         public void finishRecipe() {
@@ -243,7 +310,7 @@ public final class MagicAltar {
                 pedestal.setLocked(false);
             }
 
-            getBlock().getWorld().dropItem(getBlock().getLocation().toCenterLocation(), getCurrentRecipe().result);
+            getEntity().getEntity().setItemStack(getCurrentRecipe().result);
             processingRecipe = null;
 
             new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
@@ -256,7 +323,6 @@ public final class MagicAltar {
         public void cancelRecipe() {
             for (Pedestal.PedestalBlock pedestal : getPedestals()) {
                 if (pedestal != null) {
-                    pedestal.getEntity().getEntity().setItemStack(null);
                     pedestal.setLocked(false);
                 }
             }

@@ -84,8 +84,9 @@ public final class Pedestal {
                     .transformation(transformBuilder().buildForItemDisplay())
                     .build(block.getLocation().toCenterLocation());
 
+            uuid = display.getUniqueId();
+
             PedestalEntity pylonEntity = new PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
-            uuid = pylonEntity.getEntity().getUniqueId();
             EntityStorage.add(pylonEntity);
         }
 
