@@ -749,7 +749,7 @@ public final class PylonItems {
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Magic Altar")
                     .lore(new LoreBuilder()
-                            .arrow().text(" Spooky altar").newline())
+                            .arrow().text(" Multiblock").newline())
                     .build()
     );
 
