@@ -787,7 +787,9 @@ public final class PylonItems {
             new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
                     .name("Grindstone")
                     .lore(new LoreBuilder()
-                            .arrow().text(" Multiblock").newline())
+                            .arrow().text(" Multiblock").newline()
+                            .instructionLine("Right click", "with an item to insert it")
+                            .instructionLine("Right click", "the grindstone handle to grind the item"))
                     .build()
     );
 
