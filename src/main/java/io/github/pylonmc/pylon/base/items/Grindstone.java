@@ -196,7 +196,7 @@ public final class Grindstone {
 
         @Override
         public void tick(double deltaSeconds) {
-            if (cyclesRemaining == null || recipe == null || cycleTicksRemaining == null) {
+            if (!isFormedAndFullyLoaded() || cyclesRemaining == null || recipe == null || cycleTicksRemaining == null) {
                 return;
             }
 
