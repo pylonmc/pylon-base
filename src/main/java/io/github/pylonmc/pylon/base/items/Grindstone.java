@@ -71,7 +71,6 @@ public final class Grindstone {
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
             implements SimpleMultiblock, EntityHolderBlock, PlayerInteractBlock, Ticking {
 
-        private static final NamespacedKey INPUT_KEY = KeyUtils.pylonKey("input");
         private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
         private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
         private static final NamespacedKey CYCLE_TICKS_REMAINING = KeyUtils.pylonKey("cycle_ticks_remaining");
@@ -114,7 +113,7 @@ public final class Grindstone {
         public GrindstoneBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
             entities = loadHeldEntities(pdc);
-            recipe = pdc.get(INPUT_KEY, PylonSerializers.NAMESPACED_KEY);
+            recipe = pdc.get(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
             cyclesRemaining = pdc.get(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER);
             cycleTicksRemaining = pdc.get(CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER);
         }
