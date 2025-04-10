@@ -1,12 +1,10 @@
 item:
   bandage:
     name: "Bandage"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> to use
-
-      <arrow> <attr:Heals>2 hearts</attr>
-
-      <arrow> <attr:Apply time>2s</attr>
+      <arrow> <attr:Heals:hearts>2</attr>
+      <arrow> <attr:Apply time:seconds>2</attr>
 
   compressed_obsidian:
     name: "Compressed Obsidian"
@@ -19,12 +17,10 @@ item:
 
   disinfectant:
     name: "Disinfectant"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> to use
-
       <arrow> Clears all effects
-
-      <arrow> <attr:Apply time>3s</attr>
+      <arrow> <attr:Apply time:seconds>3</attr>
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -65,23 +61,20 @@ item:
 
   hammer_diamond:
     name: "Diamond Hammer"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>diamond block</white> to use the hammer on it
-
       <arrow> Higher tier hammers are more likely to succeed
 
   hammer_iron:
     name: "Iron Hammer"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>iron block</white> to use the hammer on it
-
       <arrow> Higher tier hammers are more likely to succeed
 
   hammer_stone:
     name: "Stone Hammer"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
-
       <arrow> Higher tier hammers are more likely to succeed
 
   iron_sheet:
@@ -89,14 +82,11 @@ item:
 
   medkit:
     name: "Medkit"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> to use
-
       <arrow> Clears all effects
-
-      <arrow> <attr:Heals>10 hearts</attr>
-
-      <arrow> <attr:Apply time>7s</attr>
+      <arrow> <attr:Heals:hearts>10</attr>
+      <arrow> <attr:Apply time:seconds>7</attr>
 
   monster_jerky:
     name: "Monster Jerky"
@@ -126,34 +116,27 @@ item:
 
   recoil_arrow:
     name: "Recoil Arrow"
-    lore: >-
+    lore: |-
       <arrow> Sends you backwards at the velocity of your arrow
-
-      <arrow> <attr:Efficiency>75%</attr>
+      <arrow> <attr:Efficiency:percent>75</attr>
 
   splint:
     name: "Splint"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> to use
-
-      <arrow> <attr:Heals>7 hearts</attr>
-
-      <arrow> <attr:Apply time>3s</attr>
+      <arrow> <attr:Heals:hearts>7</attr>
+      <arrow> <attr:Apply time:seconds>3</attr>
 
   sprinkler:
     name: "Sprinkler"
-    lore: >-
+    lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
-
-      <arrow> <attr:Range>%range% blocks</attr>
+      <arrow> <attr:Range:blocks>%range%</attr>
 
   watering_can:
     name: "Watering Can"
-    lore: >-
+    lore: |-
       <arrow> <insn>Right click</insn> to water crops
-
       <arrow> Speeds up growth of crops, saplings, sugar cane, and cactus
-
       <arrow> Slow, but can water lots of crops at once
-
-      <arrow> <attr:Range>%range% blocks</attr>
+      <arrow> <attr:Range:blocks>%range%</attr>
