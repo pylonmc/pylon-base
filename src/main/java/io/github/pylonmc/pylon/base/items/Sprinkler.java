@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBlocks;
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -11,7 +12,10 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -85,7 +89,7 @@ public final class Sprinkler {
                 return;
             }
 
-            WateringCan.water(getBlock(), HORIZONTAL_RANGE, VERTICAL_RANGE);
+            WateringCan.WateringCanItem.water(getBlock(), HORIZONTAL_RANGE, VERTICAL_RANGE, PylonItems.WATERING_CAN);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)
