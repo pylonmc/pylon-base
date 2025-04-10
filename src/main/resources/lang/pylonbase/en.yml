@@ -4,9 +4,9 @@ item:
     lore: >-
       <arrow> <insn>Right click</insn> to use
 
-      <arrow> <attr:Heals>2 <q:hearts></attr>
+      <arrow> <attr:Heals>2 hearts</attr>
 
-      <arrow> <attr:Apply time>2 <q:seconds></attr>
+      <arrow> <attr:Apply time>2s</attr>
 
   compressed_obsidian:
     name: "Compressed Obsidian"
@@ -24,7 +24,7 @@ item:
 
       <arrow> Clears all effects
 
-      <arrow> <attr:Apply time>3 <q:seconds></attr>
+      <arrow> <attr:Apply time>3s</attr>
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -94,9 +94,9 @@ item:
 
       <arrow> Clears all effects
 
-      <arrow> <attr:Heals>10 <q:hearts></attr>
+      <arrow> <attr:Heals>10 hearts</attr>
 
-      <arrow> <attr:Apply time>7 <q:seconds></attr>
+      <arrow> <attr:Apply time>7s</attr>
 
   monster_jerky:
     name: "Monster Jerky"
@@ -129,23 +129,23 @@ item:
     lore: >-
       <arrow> Sends you backwards at the velocity of your arrow
 
-      <arrow> <attr:Efficiency>75<q:percent></attr>
+      <arrow> <attr:Efficiency>75%</attr>
 
   splint:
     name: "Splint"
     lore: >-
       <arrow> <insn>Right click</insn> to use
 
-      <arrow> <attr:Heals>7 <q:hearts></attr>
+      <arrow> <attr:Heals>7 hearts</attr>
 
-      <arrow> <attr:Apply time>3 <q:seconds></attr>
+      <arrow> <attr:Apply time>3s</attr>
 
   sprinkler:
     name: "Sprinkler"
     lore: >-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
 
-      <arrow> <attr:Range>%range% <q:blocks></attr>
+      <arrow> <attr:Range>%range% blocks</attr>
 
   watering_can:
     name: "Watering Can"
@@ -156,4 +156,4 @@ item:
 
       <arrow> Slow, but can water lots of crops at once
 
-      <arrow> <attr:Range>%range% <q:blocks></attr>
+      <arrow> <attr:Range>%range% blocks</attr>

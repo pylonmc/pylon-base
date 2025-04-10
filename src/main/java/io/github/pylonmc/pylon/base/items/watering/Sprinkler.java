@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.function.Function;
 
 
@@ -55,6 +57,11 @@ public final class Sprinkler {
 
         public SprinklerItem(@NotNull Schema schema, @NotNull ItemStack stack) {
             super(schema, stack);
+        }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+            return Map.of("range", Component.text(HORIZONTAL_RANGE));
         }
     }
 
