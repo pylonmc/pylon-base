@@ -21,28 +21,46 @@ import org.jetbrains.annotations.NotNullByDefault;
 @SuppressWarnings("UnstableApiUsage")
 @NotNullByDefault
 public class MonsterJerky extends PylonItemSchema {
-    public static final int EXPERIENCE_GAIN = 1;
-    public static final int COOKING_TIME = 3 * 20; // 3 secs
-    public static final int COOKING_TIME_SMOKER = 2 * 20; // 2 secs
 
     public MonsterJerky(NamespacedKey key, Class<? extends SimplePylonItem> itemClass, ItemStack template) {
         super(key, itemClass, template);
 
         int nutrition = getSettings().getOrThrow("nutrition", Integer.class);
-        double saturation = getSettings().getOrThrow("saturation", Double.class);
+        float saturation = getSettings().getOrThrow("saturation", Double.class).floatValue();
         template.setData(DataComponentTypes.FOOD, FoodProperties.food()
                 .canAlwaysEat(false)
                 .nutrition(nutrition)
-                .saturation((float) saturation)
+                .saturation(saturation)
                 .build());
 
-        FurnaceRecipe recipe = new FurnaceRecipe(new NamespacedKey(PylonBase.getInstance(), "monster_jerky_furnace"), template, Material.ROTTEN_FLESH, EXPERIENCE_GAIN, COOKING_TIME);
-        recipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_FURNACE.addRecipe(recipe);
-        SmokingRecipe recipeSmoking = new SmokingRecipe(new NamespacedKey(PylonBase.getInstance(), "monster_jerky_smoker"), template, Material.ROTTEN_FLESH, EXPERIENCE_GAIN, COOKING_TIME_SMOKER);
-        recipeSmoking.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_SMOKING.addRecipe(recipeSmoking);
-        ShapedRecipe leatherRecipe = new ShapedRecipe(new NamespacedKey(PylonBase.getInstance(), "leather"), new ItemStackBuilder(Material.LEATHER).build());
+        float xp = getSettings().getOrThrow("cooking.xp", Double.class).floatValue();
+
+        int furnaceCookingTime = getSettings().getOrThrow("cooking.time.furnace", Integer.class);
+        FurnaceRecipe furnaceRecipe = new FurnaceRecipe(
+                new NamespacedKey(PylonBase.getInstance(), "monster_jerky_furnace"),
+                template,
+                Material.ROTTEN_FLESH,
+                xp,
+                furnaceCookingTime
+        );
+        furnaceRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceRecipe);
+
+        int smokerCookingTime = getSettings().getOrThrow("cooking.time.smoker", Integer.class);
+        SmokingRecipe smokingRecipe = new SmokingRecipe(
+                new NamespacedKey(PylonBase.getInstance(), "monster_jerky_smoker"),
+                template,
+                Material.ROTTEN_FLESH,
+                xp,
+                smokerCookingTime
+        );
+        smokingRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_SMOKING.addRecipe(smokingRecipe);
+
+        ShapedRecipe leatherRecipe = new ShapedRecipe(
+                new NamespacedKey(PylonBase.getInstance(), "leather"),
+                new ItemStackBuilder(Material.LEATHER).build()
+        );
         leatherRecipe.shape(
                 "RR ",
                 "RR ",
