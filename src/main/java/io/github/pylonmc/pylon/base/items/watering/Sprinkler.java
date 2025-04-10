@@ -11,7 +11,10 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -19,6 +22,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
 
 
 public final class Sprinkler {
@@ -42,7 +47,7 @@ public final class Sprinkler {
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                    @NotNull ItemStack template
+                    @NotNull Function<NamespacedKey, ItemStack> template
             ) {
                 super(key, itemClass, template);
             }

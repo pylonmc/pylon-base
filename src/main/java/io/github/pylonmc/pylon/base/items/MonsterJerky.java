@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base.items;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import org.bukkit.Material;
@@ -15,24 +15,30 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.SmokingRecipe;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.NotNullByDefault;
+
+import java.util.function.Function;
 
 
 @SuppressWarnings("UnstableApiUsage")
 @NotNullByDefault
 public class MonsterJerky extends PylonItemSchema {
 
-    public MonsterJerky(NamespacedKey key, Class<? extends SimplePylonItem> itemClass, ItemStack template) {
+    public MonsterJerky(NamespacedKey key, Class<? extends SimplePylonItem> itemClass, Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
 
         int nutrition = getSettings().getOrThrow("nutrition", Integer.class);
         float saturation = getSettings().getOrThrow("saturation", Double.class).floatValue();
-        template.setData(DataComponentTypes.FOOD, FoodProperties.food()
+        this.template.setData(DataComponentTypes.FOOD, FoodProperties.food()
                 .canAlwaysEat(false)
                 .nutrition(nutrition)
                 .saturation(saturation)
                 .build());
+    }
 
+    @Override
+    public void onRegister(@NotNull PylonRegistry<?> registry) {
         float xp = getSettings().getOrThrow("cooking.xp", Double.class).floatValue();
 
         int furnaceCookingTime = getSettings().getOrThrow("cooking.time.furnace", Integer.class);

@@ -37,6 +37,6 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
     @Override
     public @NotNull Set<@NotNull Locale> getLanguages() {
-        return Set.of();
+        return Set.of(Locale.ENGLISH);
     }
 }

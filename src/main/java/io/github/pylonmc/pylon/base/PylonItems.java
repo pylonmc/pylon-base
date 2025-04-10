@@ -7,8 +7,6 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.builder.LoreBuilder;
-import io.github.pylonmc.pylon.core.item.builder.Quantity;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -40,7 +38,9 @@ public final class PylonItems {
 
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
-            new ItemStackBuilder(Material.PAPER).name("Copper Sheet").build(),
+            key -> ItemStackBuilder.of(Material.PAPER)
+                    .defaultTranslatableName(key)
+                    .build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("copper_sheet"),
@@ -53,7 +53,9 @@ public final class PylonItems {
 
     public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
-            new ItemStackBuilder(Material.PAPER).name("Gold Sheet").build(),
+            key -> ItemStackBuilder.of(Material.PAPER)
+                    .defaultTranslatableName(key)
+                    .build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("gold_sheet"),
@@ -66,7 +68,9 @@ public final class PylonItems {
 
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
-            new ItemStackBuilder(Material.PAPER).name("Iron Sheet").build(),
+            key -> ItemStackBuilder.of(Material.PAPER)
+                    .defaultTranslatableName(key)
+                    .build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("iron_sheet"),
@@ -79,8 +83,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
-            pylonKey("stone_hammer"),
-            "Stone Hammer",
+            pylonKey("hammer_stone"),
             Material.COBBLESTONE,
             Material.STONE,
             Material.STONE_PICKAXE,
@@ -91,8 +94,7 @@ public final class PylonItems {
     );
 
     public static final Hammer.Schema IRON_HAMMER = new Hammer.Schema(
-            pylonKey("iron_hammer"),
-            "Iron Hammer",
+            pylonKey("hammer_iron"),
             Material.IRON_INGOT,
             Material.IRON_BLOCK,
             Material.IRON_PICKAXE,
@@ -103,8 +105,7 @@ public final class PylonItems {
     );
 
     public static final Hammer.Schema DIAMOND_HAMMER = new Hammer.Schema(
-            pylonKey("diamond_hammer"),
-            "Diamond Hammer",
+            pylonKey("hammer_diamond"),
             Material.DIAMOND,
             Material.DIAMOND_BLOCK,
             Material.DIAMOND_PICKAXE,
@@ -117,33 +118,20 @@ public final class PylonItems {
     public static final WateringCan WATERING_CAN = new WateringCan(
             pylonKey("watering_can"),
             WateringCan.WateringCanItem.class,
-            new ItemStackBuilder(Material.BUCKET)
-                    .name("Watering Can")
-                    .lore(new LoreBuilder()
-                            .instructionLine("Right click", "to use")
-                            .arrow().text(" Speeds up growth of crops, saplings, sugar cane, and cactus").newline()
-                            .arrow().text(" Slow, but can water lots of crops at once").newline()
-                            .attributeLine("Range", 4, Quantity.BLOCKS) // TODO allow using setting in lore (fix when translation)
-                    )
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.BUCKET, key).build()
     );
 
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
             SimplePylonItem.class,
-            new ItemStackBuilder(Material.ROTTEN_FLESH)
-                    .name("Monster Jerky")
-                    .lore(new LoreBuilder().arrow().text(" Slightly tastier and tougher than rotten flesh"))
+            key -> ItemStackBuilder.defaultBuilder(Material.ROTTEN_FLESH, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
 
-    public static final PylonItemSchema FERRODURALUM_ORE = new SimpleItemSchema<>(
+    public static final PylonItemSchema RAW_FERRODURALUM = new SimpleItemSchema<>(
             pylonKey("raw_ferroduralum"),
-            new ItemStackBuilder(Material.GOLD_ORE)
-                    .name("Raw Ferroduralum")
-                    .lore("A primitive alloy")
-                    .build(),
+            key -> ItemStackBuilder.defaultBuilder(Material.RAW_GOLD, key).build(),
             RecipeTypes.VANILLA_CRAFTING,
             ferroduralum -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("raw_ferroduralum"), ferroduralum);
@@ -162,13 +150,10 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_INGOT = new SimpleItemSchema<>(
             pylonKey("ferroduralum_ingot"),
-            new ItemStackBuilder(Material.GOLD_INGOT)
-                    .name("Ferroduralum ingot")
-                    .lore("A primitive alloy")
-                    .build(),
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLD_INGOT, key).build(),
             RecipeTypes.VANILLA_FURNACE,
             ingot -> {
-                FurnaceRecipe recipe = new FurnaceRecipe(pylonKey("ferroduralum_ingot"), ingot, new RecipeChoice.ExactChoice(FERRODURALUM_ORE.getItemStack()), 0.25f, 10 * 20);
+                FurnaceRecipe recipe = new FurnaceRecipe(pylonKey("ferroduralum_ingot"), ingot, new RecipeChoice.ExactChoice(RAW_FERRODURALUM.getItemStack()), 0.25f, 10 * 20);
                 recipe.setCategory(CookingBookCategory.MISC);
                 return recipe;
             }
@@ -176,8 +161,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
             pylonKey("ferroduralum_sword"),
-            new ItemStackBuilder(Material.GOLDEN_SWORD)
-                    .name("Ferroduralum sword")
+            key -> ItemStackBuilder.of(Material.GOLDEN_SWORD)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
                                     pylonKey("ferroduralum_sword_damage"),
@@ -204,8 +189,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_AXE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_axe"),
-            new ItemStackBuilder(Material.GOLDEN_AXE)
-                    .name("Ferroduralum axe")
+            key -> ItemStackBuilder.of(Material.GOLDEN_AXE)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_axe_speed"),
@@ -232,8 +217,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_PICKAXE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_pickaxe"),
-            new ItemStackBuilder(Material.GOLDEN_PICKAXE)
-                    .name("Ferroduralum pickaxe")
+            key -> ItemStackBuilder.of(Material.GOLDEN_PICKAXE)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_pickaxe_speed"),
@@ -260,8 +245,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_SHOVEL = new SimpleItemSchema<>(
             pylonKey("ferroduralum_shovel"),
-            new ItemStackBuilder(Material.GOLDEN_SHOVEL)
-                    .name("Ferroduralum shovel")
+            key -> ItemStackBuilder.of(Material.GOLDEN_SHOVEL)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_shovel_speed"),
@@ -288,8 +273,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_HOE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_hoe"),
-            new ItemStackBuilder(Material.GOLDEN_HOE)
-                    .name("Ferroduralum hoe")
+            key -> ItemStackBuilder.of(Material.GOLDEN_HOE)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_hoe_speed"),
@@ -316,8 +301,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_HELMET = new SimpleItemSchema<>(
             pylonKey("ferroduralum_helmet"),
-            new ItemStackBuilder(Material.GOLDEN_HELMET)
-                    .name("Ferroduralum helmet")
+            key -> ItemStackBuilder.of(Material.GOLDEN_HELMET)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_armor"),
@@ -350,8 +335,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_CHESTPLATE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_chestplate"),
-            new ItemStackBuilder(Material.GOLDEN_CHESTPLATE)
-                    .name("Ferroduralum chestplate")
+            key -> ItemStackBuilder.of(Material.GOLDEN_CHESTPLATE)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_armor"),
@@ -384,8 +369,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_LEGGINGS = new SimpleItemSchema<>(
             pylonKey("ferroduralum_leggings"),
-            new ItemStackBuilder(Material.GOLDEN_LEGGINGS)
-                    .name("Ferroduralum leggings")
+            key -> ItemStackBuilder.of(Material.GOLDEN_LEGGINGS)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_armor"),
@@ -418,8 +403,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_BOOTS = new SimpleItemSchema<>(
             pylonKey("ferroduralum_boots"),
-            new ItemStackBuilder(Material.GOLDEN_BOOTS)
-                    .name("Ferroduralum boots")
+            key -> ItemStackBuilder.of(Material.GOLDEN_BOOTS)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_armor"),
@@ -452,8 +437,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema COMPRESSED_WOOD = new SimpleItemSchema<>(
             pylonKey("compressed_wood"),
-            new ItemStackBuilder(Material.OAK_WOOD)
-                    .name("Compressed wood")
+            key -> ItemStackBuilder.of(Material.OAK_WOOD)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -473,8 +458,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema PORTABILITY_CATALYST = new SimpleItemSchema<>(
             pylonKey("portability_catalyst"),
-            new ItemStackBuilder(Material.AMETHYST_SHARD)
-                    .name("Portability Catalyst")
+            key -> ItemStackBuilder.of(Material.AMETHYST_SHARD)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -494,8 +479,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema COMPRESSED_OBSIDIAN = new SimpleItemSchema<>(
             pylonKey("compressed_obsidian"),
-            new ItemStackBuilder(Material.OBSIDIAN)
-                    .name("Compressed Obsidian")
+            key -> ItemStackBuilder.of(Material.OBSIDIAN)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -515,34 +500,25 @@ public final class PylonItems {
     public static final PortableCraftingTable PORTABLE_CRAFTING_TABLE = new PortableCraftingTable(
             pylonKey("portable_crafting_table"),
             PortableCraftingTable.Item.class,
-            new ItemStackBuilder(Material.CRAFTING_TABLE)
-                    .name("Portable crafting table")
-                    .lore(new LoreBuilder().instructionLine("Right click", "to open"))
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.CRAFTING_TABLE, key).build()
     );
 
     public static final PortableDustbin PORTABLE_DUSTBIN = new PortableDustbin(
             pylonKey("portable_dustbin"),
             PortableDustbin.Item.class,
-            new ItemStackBuilder(Material.CAULDRON)
-                    .name("Portable Dustbin")
-                    .lore(new LoreBuilder().instructionLine("Right click", "to open"))
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.CAULDRON, key).build()
     );
 
     public static final PortableEnderChest PORTABLE_ENDER_CHEST = new PortableEnderChest(
             pylonKey("portable_ender_chest"),
             PortableEnderChest.Item.class,
-            new ItemStackBuilder(Material.ENDER_CHEST)
-                    .name("Portable Enderchest")
-                    .lore(new LoreBuilder().instructionLine("Right click", "to open"))
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.ENDER_CHEST, key).build()
     );
 
     public static final PylonItemSchema FIBER = new SimpleItemSchema<>(
             pylonKey("fiber"),
-            new ItemStackBuilder(Material.BAMBOO_MOSAIC)
-                    .name("Fiber")
+            key -> ItemStackBuilder.of(Material.BAMBOO_MOSAIC)
+                    .defaultTranslatableName(key)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             fiber -> {
@@ -555,8 +531,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema PLASTER = new SimpleItemSchema<>(
             pylonKey("plaster"),
-            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
-                    .name("Plaster")
+            key -> ItemStackBuilder.of(Material.SMOOTH_STONE_SLAB)
+                    .defaultTranslatableName(key)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             plaster -> {
@@ -568,8 +544,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema BANDAGE = new SimpleItemSchema<>(
             pylonKey("bandage"),
-            new ItemStackBuilder(Material.COBWEB)
-                    .name("Bandage")
+            key -> ItemStackBuilder.defaultBuilder(Material.COBWEB, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(List.of(
                                     new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)
@@ -578,10 +553,6 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .lore(new LoreBuilder()
-                            .instructionLine("Right click", "to use")
-                            .attributeLine("Heals", 2, Quantity.HEARTS)
-                            .attributeLine("Apply time", 1.25, 2, Quantity.SECONDS))
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             bandage -> {
@@ -594,8 +565,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema SPLINT = new SimpleItemSchema<>(
             pylonKey("splint"),
-            new ItemStackBuilder(Material.STICK)
-                    .name("Splint")
+            key -> ItemStackBuilder.defaultBuilder(Material.STICK, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(List.of(
                                     new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true)
@@ -604,10 +574,6 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .lore(new LoreBuilder()
-                            .instructionLine("Right click", "to use")
-                            .attributeLine("Heals", 7, Quantity.HEARTS)
-                            .attributeLine("Apply time", 3, Quantity.SECONDS))
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             splint -> {
@@ -620,8 +586,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema DISINFECTANT = new SimpleItemSchema<>(
             pylonKey("disinfectant"),
-            new ItemStackBuilder(Material.BREWER_POTTERY_SHERD)
-                    .name("<white>Disinfectant")
+            key -> ItemStackBuilder.defaultBuilder(Material.BREWER_POTTERY_SHERD, key)
                     // Using the actual potion material doesn't let you set the name properly, gives you a
                     // class string of a nonexistant potion type for some reason
                     .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
@@ -631,10 +596,6 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .build())
-                    .lore(new LoreBuilder()
-                            .instructionLine("Right click", "to use")
-                            .arrow().text(" Clears all effects").newline()
-                            .attributeLine("Apply time", 3, Quantity.SECONDS))
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             disinfectant -> {
@@ -647,8 +608,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema MEDKIT = new SimpleItemSchema<>(
             pylonKey("medkit"),
-            new ItemStackBuilder(Material.SHULKER_SHELL)
-                    .name("Medkit")
+            key -> ItemStackBuilder.defaultBuilder(Material.SHULKER_SHELL, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .consumeSeconds(7.0f)
                             .animation(ItemUseAnimation.BOW)
@@ -658,10 +618,6 @@ public final class PylonItems {
                                     new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 3, true)
                             ), 1))
                     )
-                    .lore(new LoreBuilder()
-                                    .instructionLine("Right click", "to use")
-                                    .arrow().text(" Clears all effects").newline()
-                                    .attributeLine("Heals", 10, Quantity.HEARTS))
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             medkit -> {
@@ -677,22 +633,13 @@ public final class PylonItems {
     public static final Sprinkler.SprinklerItem.Schema SPRINKLER = new Sprinkler.SprinklerItem.Schema(
             pylonKey("sprinkler"),
             Sprinkler.SprinklerItem.class,
-            new ItemStackBuilder(Material.FLOWER_POT)
-                    .name("Sprinkler")
-                    .lore(new LoreBuilder()
-                            .arrow().text(" Makes crops, saplings, sugar cane, and cactus go brrr").newline()
-                            .attributeLine("Range", Sprinkler.HORIZONTAL_RANGE, Quantity.BLOCKS))
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.FLOWER_POT, key).build()
     );
 
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
             pylonKey("recoil_arrow"),
             RecoilArrow.Item.class,
-            new ItemStackBuilder(Material.ARROW)
-                    .name("Recoil arrow")
-                    .lore(new LoreBuilder()
-                            .arrow().text(" Sends you backwards at the velocity of your arrow.").newline()
-                            .attributeLine("Efficiency", 75, Quantity.PERCENT))
+            key -> ItemStackBuilder.defaultBuilder(Material.ARROW, key)
                     .amount(8)
                     .build(),
             0.75f
@@ -719,7 +666,7 @@ public final class PylonItems {
         SPLINT.register();
         DISINFECTANT.register();
         MEDKIT.register();
-        FERRODURALUM_ORE.register();
+        RAW_FERRODURALUM.register();
         FERRODURALUM_INGOT.register();
         FERRODURALUM_SWORD.register();
         FERRODURALUM_AXE.register();

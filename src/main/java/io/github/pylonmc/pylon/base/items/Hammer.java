@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.builder.LoreBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -54,8 +53,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
         public Schema(
                 NamespacedKey key,
-                String name,
-                Material item,
+                Material toolMaterial,
                 Material baseBlock,
                 Material toolItem,
                 MiningLevel miningLevel,
@@ -65,13 +63,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         ) {
             super(key,
                     Hammer.class,
-                    new ItemStackBuilder(toolItem)
-                            .name(name)
-                            .lore(new LoreBuilder()
-                                    .arrow().instruction(" Right click").text(" an item dropped on top of a placed <white>").text(baseBlock).newline()
-                                    .text("   to use the hammer on it").newline()
-                                    .arrow().text(" Higher tier hammers are more likely to succeed").newline()
-                            )
+                    ItemStackBuilder.defaultBuilder(toolItem, key)
                             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                                     .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
                                             pylonKey("hammer_attack_speed"),
@@ -107,7 +99,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
                     " SI",
                     "S  "
             );
-            recipe.setIngredient('I', new RecipeChoice.ExactChoice(new ItemStack(item)));
+            recipe.setIngredient('I', new RecipeChoice.ExactChoice(new ItemStack(toolMaterial)));
             recipe.setIngredient('S', Material.STICK);
             recipe.setCategory(CraftingBookCategory.EQUIPMENT);
             RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
