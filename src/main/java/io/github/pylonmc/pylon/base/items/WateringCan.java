@@ -53,7 +53,7 @@ public class WateringCan extends PylonItemSchema {
             water(center, getSchema().horizontalRange, getSchema().verticalRange, getSchema());
         }
 
-        public static void water(Block center, int horizontalRange, int verticalRange, WateringCan wateringCan) {
+        public static void water(@NotNull Block center, int horizontalRange, int verticalRange, @NotNull WateringCan wateringCan) {
             boolean wasAnyTickAttempted = false;
             for (int x = -horizontalRange; x < horizontalRange; x++) {
                 for (int z = -horizontalRange; z < horizontalRange; z++) {
@@ -78,7 +78,7 @@ public class WateringCan extends PylonItemSchema {
             }
         }
 
-        private static boolean tryGrowBlock(@NotNull Block block, WateringCan wateringCan) {
+        private static boolean tryGrowBlock(Block block, WateringCan wateringCan) {
             if (block.getType() == Material.SUGAR_CANE) {
                 return growSugarCane(block, wateringCan);
             } else if (block.getType() == Material.CACTUS) {
