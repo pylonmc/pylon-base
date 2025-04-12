@@ -1,7 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.items.Grindstone;
 import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
+import io.github.pylonmc.pylon.base.items.MixingPot;
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.MagicAltar;
 import io.github.pylonmc.pylon.base.items.Sprinkler;
@@ -52,6 +54,18 @@ public final class PylonBlocks {
             GrindstoneHandle.GrindstoneHandleBlock.class
     );
 
+    public static final PylonBlockSchema ENRICHED_NETHERRACK = new PylonBlockSchema(
+            pylonKey("enriched_netherrack"),
+            Material.NETHERRACK,
+            EnrichedNetherrack.EnrichedNetherrackBlock.class
+    );
+
+    public static final PylonBlockSchema MIXING_POT = new PylonBlockSchema(
+            pylonKey("mixing_pot"),
+            Material.CAULDRON,
+            MixingPot.MixingPotBlock.class
+    );
+
     static void register() {
         SPRINKLER.register();
         PEDESTAL.register();
@@ -59,5 +73,7 @@ public final class PylonBlocks {
         MAGIC_ALTAR.register();
         GRINDSTONE.register();
         GRINDSTONE_HANDLE.register();
+        ENRICHED_NETHERRACK.register();
+        MIXING_POT.register();
     }
 }

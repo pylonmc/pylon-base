@@ -14,6 +14,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import kotlin.Pair;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -836,6 +837,41 @@ public final class PylonItems {
                     item
             )
     );
+
+    public static final PylonItemSchema MIXING_POT = new PylonItemSchema(
+            pylonKey("mixing_pot"),
+            MixingPot.MixingPotItem.class,
+            new ItemStackBuilder(Material.CAULDRON)
+                    .name("Mixing Pot")
+                    .build()
+    );
+
+    public static final PylonItemSchema ENRICHED_NETHERRACK = new PylonItemSchema(
+            pylonKey("enriched_netherrack"),
+            EnrichedNetherrack.EnrichedNetherrackItem.class,
+            new ItemStackBuilder(Material.NETHERRACK)
+                    .name("Enriched Netherrack")
+                    .build()
+    );
+
+    // TODO will be replaced in the next PR
+    public static final PylonItemSchema TEMP_MIXER_TEST_ITEM = new SimpleItemSchema<>(
+            pylonKey("temp_mixer_test_item"),
+            new ItemStackBuilder(Material.DEAD_BUSH)
+                    .name("Temp mixer test item")
+                    .build(),
+            MixingPot.Recipe.RECIPE_TYPE,
+            item -> new MixingPot.Recipe(
+                    pylonKey("temp_mixer_test_item"),
+                    List.of(
+                            new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)), 3),
+                            new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1)
+                    ),
+                    item,
+                    true,
+                    2
+            )
+    );
     //</editor-fold>
 
     static void register() {
@@ -879,6 +915,9 @@ public final class PylonItems {
         GRINDSTONE_HANDLE.register();
         FLOUR.register();
         DOUGH.register();
+        ENRICHED_NETHERRACK.register();
+        MIXING_POT.register();
+        TEMP_MIXER_TEST_ITEM.register();
 
         // TODO recipe refactor
         FurnaceRecipe furnaceDoughRecipe = new FurnaceRecipe(
