@@ -75,7 +75,7 @@ public class BeheadingSword extends PylonItemSchema {
                 return;
             }
             if ( event.getEntityType() == EntityType.WITHER_SKELETON ) {
-                if ( ThreadLocalRandom.current().nextFloat() < 0.025 ) {
+                if ( ThreadLocalRandom.current().nextFloat() < 0.025 && !event.getDrops().contains(new ItemStack(Material.WITHER_SKELETON_SKULL)) ) {
                     event.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
                 return;
