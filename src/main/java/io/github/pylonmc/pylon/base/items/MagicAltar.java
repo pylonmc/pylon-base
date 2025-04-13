@@ -11,8 +11,8 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.SimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.Ticking;
+import io.github.pylonmc.pylon.core.block.base.SimplePylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -98,7 +98,7 @@ public final class MagicAltar {
     }
 
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
-            implements SimpleMultiblock, Ticking, PlayerInteractBlock, EntityHolderBlock<Pedestal.PedestalEntity> {
+            implements SimplePylonMultiblock, PylonTickingBlock, PlayerInteractBlock, EntityHolderBlock<Pedestal.PedestalEntity> {
 
         private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
         private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
@@ -108,7 +108,7 @@ public final class MagicAltar {
         private double remainingTimeSeconds;
         private UUID uuid;
 
-        private static final Component MAGIC_PEDESTAL_COMPONENT = new SimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
+        private static final Component MAGIC_PEDESTAL_COMPONENT = new SimplePylonMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
 
         public static class Schema extends PylonBlockSchema {
 
