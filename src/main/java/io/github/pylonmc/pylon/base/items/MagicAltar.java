@@ -98,7 +98,7 @@ public final class MagicAltar {
     }
 
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
-            implements SimplePylonMultiblock, PylonTickingBlock, PlayerInteractBlock, EntityHolderBlock<Pedestal.PedestalEntity> {
+            implements SimplePylonMultiblock, PylonTickingBlock, PlayerInteractBlock, EntityHolderBlock {
 
         private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
         private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
@@ -106,7 +106,7 @@ public final class MagicAltar {
 
         private @Nullable NamespacedKey processingRecipe;
         private double remainingTimeSeconds;
-        private UUID uuid;
+        private final Map<String, UUID> entities;
 
         private static final Component MAGIC_PEDESTAL_COMPONENT = new SimplePylonMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
 
@@ -117,6 +117,7 @@ public final class MagicAltar {
             }
         }
 
+        @SuppressWarnings("unused")
         public MagicAltarBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
 
@@ -127,22 +128,23 @@ public final class MagicAltar {
                             .buildForItemDisplay())
                     .build(block.getLocation().toCenterLocation());
 
-            this.uuid = display.getUniqueId();
+            entities = Map.of("item", display.getUniqueId());
 
             Pedestal.PedestalEntity pylonEntity = new Pedestal.PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
             EntityStorage.add(pylonEntity);
         }
 
+        @SuppressWarnings({"unused", "DataFlowIssue"})
         public MagicAltarBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
-            loadEntity(pdc);
+            entities = loadHeldEntities(pdc);
             processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);
             remainingTimeSeconds = pdc.get(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE);
         }
 
         @Override
         public void write(@NotNull PersistentDataContainer pdc) {
-            saveEntity(pdc);
+            saveHeldEntities(pdc);
             if (processingRecipe == null) {
                 pdc.remove(PROCESSING_RECIPE);
             } else {
@@ -152,13 +154,8 @@ public final class MagicAltar {
         }
 
         @Override
-        public @NotNull UUID getEntityUuid() {
-            return uuid;
-        }
-
-        @Override
-        public void setEntityUuid(@NotNull UUID uuid) {
-            this.uuid = uuid;
+        public @NotNull Map<String, UUID> getHeldEntities() {
+            return entities;
         }
 
         @Override
@@ -184,12 +181,15 @@ public final class MagicAltar {
 
             event.setCancelled(true);
 
+            assert isHeldEntityPresent("item");
+            ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalEntity.class, "item").getEntity();
+
             // drop item if not processing and an item is already on the altar
-            ItemStack displayItem = getEntity().getEntity().getItemStack();
+            ItemStack displayItem = itemDisplay.getItemStack();
             if (processingRecipe == null && !displayItem.getType().isAir()) {
-                Location location = getEntity().getEntity().getLocation().add(0, 0.5, 0);
+                Location location = itemDisplay.getLocation().add(0, 0.5, 0);
                 location.getWorld().dropItemNaturally(location, displayItem);
-                getEntity().getEntity().setItemStack(new ItemStack(Material.AIR));
+                itemDisplay.setItemStack(new ItemStack(Material.AIR));
                 return;
             }
 
@@ -198,14 +198,14 @@ public final class MagicAltar {
             if (catalyst != null && processingRecipe == null) {
                 List<ItemStack> ingredients = new ArrayList<>();
                 for (Pedestal.PedestalBlock pedestal : getPedestals()) {
-                    ingredients.add(pedestal.getItem());
+                    ingredients.add(pedestal.getItemDisplay().getItemStack());
                 }
 
                 for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
                     if (recipe.isValidRecipe(ingredients, catalyst)) {
                         ItemStack stackToInsert = catalyst.clone();
                         stackToInsert.setAmount(1);
-                        getEntity().getEntity().setItemStack(stackToInsert);
+                        itemDisplay.setItemStack(stackToInsert);
                         catalyst.subtract();
                         startRecipe(recipe);
                         break;
@@ -267,7 +267,7 @@ public final class MagicAltar {
 
             List<Pedestal.PedestalBlock> usedPedestals = getPedestals()
                     .stream()
-                    .filter(pedestal -> !pedestal.getItem().getType().isAir())
+                    .filter(pedestal -> !pedestal.getItemDisplay().getItemStack().getType().isAir())
                     .toList();
 
             // dust line animation
@@ -305,12 +305,14 @@ public final class MagicAltar {
         }
 
         public void finishRecipe() {
+            ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalEntity.class, "item").getEntity();
+
             for (Pedestal.PedestalBlock pedestal : getPedestals()) {
-                pedestal.getEntity().getEntity().setItemStack(null);
+                pedestal.getItemDisplay().setItemStack(null);
                 pedestal.setLocked(false);
             }
 
-            getEntity().getEntity().setItemStack(getCurrentRecipe().result);
+            itemDisplay.setItemStack(getCurrentRecipe().result);
             processingRecipe = null;
 
             new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
