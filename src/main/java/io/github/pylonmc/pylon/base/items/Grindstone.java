@@ -11,8 +11,8 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.SimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.Ticking;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.SimplePylonMultiblock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
@@ -69,7 +69,7 @@ public final class Grindstone {
     }
 
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
-            implements SimpleMultiblock, EntityHolderBlock, PlayerInteractBlock, Ticking {
+            implements SimplePylonMultiblock, EntityHolderBlock, PlayerInteractBlock, PylonTickingBlock {
 
         private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
         private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
