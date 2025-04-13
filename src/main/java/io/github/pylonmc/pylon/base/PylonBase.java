@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -9,11 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
+    @Getter
     private static PylonBase instance;
-
-    public static PylonBase getInstance() {
-        return instance;
-    }
 
     @Override
     public void onEnable() {
