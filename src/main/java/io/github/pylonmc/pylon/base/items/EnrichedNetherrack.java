@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.Ticking;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
@@ -38,7 +38,7 @@ public final class EnrichedNetherrack {
         }
     }
 
-    public static class EnrichedNetherrackBlock extends PylonBlock<PylonBlockSchema> implements Ticking {
+    public static class EnrichedNetherrackBlock extends PylonBlock<PylonBlockSchema> implements PylonTickingBlock {
 
         public EnrichedNetherrackBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
             super(schema, block);
