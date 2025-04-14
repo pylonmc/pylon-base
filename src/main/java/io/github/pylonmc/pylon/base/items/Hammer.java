@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNullByDefault;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
@@ -49,6 +50,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         private final Material baseBlock;
         private final MiningLevel miningLevel;
         private final int cooldown;
+        private final Sound sound;
 
         public Schema(
                 NamespacedKey key,
@@ -93,6 +95,11 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
             this.baseBlock = baseBlock;
             this.miningLevel = miningLevel;
             this.cooldown = getSettings().getOrThrow("cooldown", Integer.class);
+            this.sound = Objects.requireNonNull(Registry.SOUNDS.get(
+                    Objects.requireNonNull(NamespacedKey.fromString(
+                            getSettings().getOrThrow("sound", String.class))
+                    )
+            ));
 
             ShapedRecipe recipe = new ShapedRecipe(key, getItemStack());
             recipe.shape(
