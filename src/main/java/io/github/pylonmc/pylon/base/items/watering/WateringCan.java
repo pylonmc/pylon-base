@@ -1,0 +1,183 @@
+package io.github.pylonmc.pylon.base.items.watering;
+
+import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
+
+
+public class WateringCan extends PylonItemSchema {
+
+    private final WateringSettings settings = WateringSettings.fromConfig(getSettings());
+
+    private static final Random random = new Random();
+
+    public WateringCan(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull ItemStack template) {
+        super(key, itemClass, template);
+    }
+
+    public static class WateringCanItem extends PylonItem<WateringCan> implements BlockInteractor {
+
+        public WateringCanItem(WateringCan schema, ItemStack itemStack) {
+            super(schema, itemStack);
+        }
+
+        @Override
+        public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
+            if (!event.getAction().isRightClick()) {
+                return;
+            }
+
+            event.setCancelled(true);
+
+            Block center = event.getClickedBlock();
+            if (center == null) {
+                return;
+            }
+
+            water(center, getSchema().settings);
+        }
+
+        public static void water(@NotNull Block center, @NotNull WateringSettings settings) {
+            boolean wasAnyTickAttempted = false;
+            int horizontalRange = settings.horizontalRange();
+            for (int x = -horizontalRange; x < horizontalRange; x++) {
+                for (int z = -horizontalRange; z < horizontalRange; z++) {
+                    Block block = center.getRelative(x, 0, z);
+
+                    // Search down (for a maximum of RANGE blocks) to find the first solid block
+                    int remainingYSteps = settings.verticalRange();
+                    while (block.getType().isEmpty() && remainingYSteps > 0) {
+                        block = block.getRelative(BlockFace.DOWN);
+                        remainingYSteps--;
+                    }
+
+                    // Cannot be an 'or' because the compiler optimises it out lol
+                    if (tryGrowBlock(block, settings)) {
+                        wasAnyTickAttempted = true;
+                    }
+                }
+            }
+
+            if (wasAnyTickAttempted) {
+                playSound(center, settings);
+            }
+        }
+
+        private static boolean tryGrowBlock(Block block, WateringSettings settings) {
+            if (block.getType() == Material.SUGAR_CANE) {
+                return growSugarCane(block, settings);
+            } else if (block.getType() == Material.CACTUS) {
+                return growCactus(block, settings);
+            } else if (block.getBlockData() instanceof Ageable ageable && ageable.getAge() < ageable.getMaximumAge()) {
+                return growCrop(block, ageable, settings);
+            } else if (Tag.SAPLINGS.isTagged(block.getType())) {
+                return growSapling(block, settings);
+            }
+            return false;
+        }
+
+        private static boolean growSugarCane(@NotNull Block block, WateringSettings settings) {
+            int height = 1;
+
+            Block bottomBlock = block.getRelative(BlockFace.DOWN);
+            while (bottomBlock.getType() == Material.SUGAR_CANE) {
+                height++;
+                bottomBlock = bottomBlock.getRelative(BlockFace.DOWN);
+            }
+
+            Block topBlock = block.getRelative(BlockFace.UP);
+            while (topBlock.getType() == Material.SUGAR_CANE) {
+                height++;
+                topBlock = topBlock.getRelative(BlockFace.UP);
+            }
+
+            if (height < 3 && topBlock.getType() == Material.AIR) {
+                new ParticleBuilder(Particle.HAPPY_VILLAGER)
+                        .count(1)
+                        .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
+                        .offset(0.3, 0.3, 0.3)
+                        .spawn();
+
+                if (random.nextDouble() < settings.sugarCaneChance()) {
+                    topBlock.setType(Material.SUGAR_CANE);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private static boolean growCactus(@NotNull Block block, WateringSettings settings) {
+            int height = 1;
+
+            Block bottomBlock = block.getRelative(BlockFace.DOWN);
+            while (bottomBlock.getType() == Material.CACTUS) {
+                height++;
+                bottomBlock = bottomBlock.getRelative(BlockFace.DOWN);
+            }
+
+            Block topBlock = block.getRelative(BlockFace.UP);
+            while (topBlock.getType() == Material.CACTUS) {
+                height++;
+                topBlock = topBlock.getRelative(BlockFace.UP);
+            }
+
+            if (height < 3 && topBlock.getType() == Material.AIR) {
+                new ParticleBuilder(Particle.HAPPY_VILLAGER)
+                        .count(1)
+                        .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
+                        .offset(0.3, 0.3, 0.3)
+                        .spawn();
+
+                if (random.nextDouble() < settings.cactusChance()) {
+                    topBlock.setType(Material.CACTUS);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private static boolean growCrop(@NotNull Block block, @NotNull Ageable ageable, WateringSettings settings) {
+            new ParticleBuilder(Particle.SPLASH)
+                    .count(3)
+                    .location(block.getLocation().add(0.5, 0.0, 0.5))
+                    .offset(0.3, 0, 0.3)
+                    .spawn();
+
+            if (random.nextDouble() < settings.cropChance()) {
+                ageable.setAge(ageable.getAge() + 1);
+                block.setBlockData(ageable);
+            }
+
+            return true;
+        }
+
+        private static boolean growSapling(@NotNull Block block, WateringSettings settings) {
+            if (random.nextDouble() < settings.saplingChance()) {
+                block.applyBoneMeal(BlockFace.UP);
+            }
+
+            return true;
+        }
+
+        private static void playSound(Block block, WateringSettings settings) {
+            block.getLocation().getWorld().playSound(block.getLocation(), settings.sound(), 0.3F, 1.0F);
+        }
+    }
+}

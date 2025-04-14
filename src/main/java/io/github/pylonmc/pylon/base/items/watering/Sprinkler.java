@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items;
+package io.github.pylonmc.pylon.base.items.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBlocks;
@@ -57,6 +57,17 @@ public final class Sprinkler {
 
         public static class Schema extends PylonBlockSchema {
 
+            // TODO make this configurable once block settings are a thing
+            private final WateringSettings settings = new WateringSettings(
+                    HORIZONTAL_RANGE,
+                    VERTICAL_RANGE,
+                    0.01,
+                    0.007,
+                    0.01,
+                    0.01,
+                    Sound.WEATHER_RAIN
+            );
+
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Material material,
@@ -85,7 +96,7 @@ public final class Sprinkler {
                 return;
             }
 
-            WateringCan.water(getBlock(), HORIZONTAL_RANGE, VERTICAL_RANGE);
+            WateringCan.WateringCanItem.water(getBlock(), getSchema().settings);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)
