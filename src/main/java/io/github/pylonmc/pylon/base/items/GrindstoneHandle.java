@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
@@ -37,7 +37,7 @@ public final class GrindstoneHandle {
         }
     }
 
-    public static class GrindstoneHandleBlock extends PylonBlock<PylonBlockSchema> implements PlayerInteractBlock {
+    public static class GrindstoneHandleBlock extends PylonBlock<PylonBlockSchema> implements PylonInteractableBlock {
 
         @SuppressWarnings("unused")
         public GrindstoneHandleBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {

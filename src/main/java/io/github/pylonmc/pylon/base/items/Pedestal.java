@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
@@ -67,7 +67,7 @@ public final class Pedestal {
     }
 
     public static class PedestalBlock extends PylonBlock<PylonBlockSchema>
-            implements EntityHolderBlock, PlayerInteractBlock {
+            implements EntityHolderBlock, PylonInteractableBlock {
 
         private static final NamespacedKey ROTATION_KEY = KeyUtils.pylonKey("rotation");
         private static final NamespacedKey LOCKED_KEY = KeyUtils.pylonKey("locked");
