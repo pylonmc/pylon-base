@@ -9,8 +9,7 @@ import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.SimplePylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
@@ -43,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +98,7 @@ public final class MagicAltar {
     }
 
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
-            implements SimplePylonMultiblock, PylonTickingBlock, PlayerInteractBlock, EntityHolderBlock {
+            implements SimplePylonMultiblock, PylonTickingBlock, PylonInteractableBlock {
 
         private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
         private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
@@ -117,6 +117,7 @@ public final class MagicAltar {
             }
         }
 
+        @SuppressWarnings("unused")
         public MagicAltarBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
 
@@ -127,7 +128,10 @@ public final class MagicAltar {
                             .buildForItemDisplay())
                     .build(block.getLocation().toCenterLocation());
 
-            entities = Map.of("item", display.getUniqueId());
+            entities = new HashMap<>();
+            entities.put("item", display.getUniqueId());
+
+            spawnMultiblockGhosts();
 
             Pedestal.PedestalEntity pylonEntity = new Pedestal.PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
             EntityStorage.add(pylonEntity);
@@ -136,6 +140,7 @@ public final class MagicAltar {
         @SuppressWarnings({"unused", "DataFlowIssue"})
         public MagicAltarBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
+
             entities = loadHeldEntities(pdc);
             processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);
             remainingTimeSeconds = pdc.get(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE);
@@ -178,13 +183,12 @@ public final class MagicAltar {
                 return;
             }
 
-            if (!isFormedAndFullyLoaded() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            if (event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                 return;
             }
 
             event.setCancelled(true);
 
-            assert isHeldEntityPresent("item");
             ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalEntity.class, "item").getEntity();
 
             // drop item if not processing and an item is already on the altar
@@ -193,6 +197,10 @@ public final class MagicAltar {
                 Location location = itemDisplay.getLocation().add(0, 0.5, 0);
                 location.getWorld().dropItemNaturally(location, displayItem);
                 itemDisplay.setItemStack(new ItemStack(Material.AIR));
+                return;
+            }
+
+            if (!isFormedAndFullyLoaded()) {
                 return;
             }
 
