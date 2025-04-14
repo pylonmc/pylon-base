@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -15,7 +16,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
 
 
 public class WateringCan extends PylonItemSchema {
@@ -24,7 +27,7 @@ public class WateringCan extends PylonItemSchema {
 
     private static final Random random = new Random();
 
-    public WateringCan(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull ItemStack template) {
+    public WateringCan(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
     }
 
@@ -32,6 +35,11 @@ public class WateringCan extends PylonItemSchema {
 
         public WateringCanItem(WateringCan schema, ItemStack itemStack) {
             super(schema, itemStack);
+        }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+            return Map.of("range", Component.text(getSchema().settings.horizontalRange()));
         }
 
         @Override
