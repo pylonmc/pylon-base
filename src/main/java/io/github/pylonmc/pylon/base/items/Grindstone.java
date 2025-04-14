@@ -9,8 +9,7 @@ import io.github.pylonmc.pylon.core.block.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.SimplePylonMultiblock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
@@ -42,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -69,7 +69,7 @@ public final class Grindstone {
     }
 
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
-            implements SimplePylonMultiblock, EntityHolderBlock, PlayerInteractBlock, PylonTickingBlock {
+            implements SimplePylonMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
         private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
         private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
@@ -103,10 +103,11 @@ public final class Grindstone {
             cyclesRemaining = null;
             cycleTicksRemaining = null;
 
-            entities = Map.of(
-                    "item", itemDisplay.getUniqueId(),
-                    "block", stoneDisplay.getUniqueId()
-            );
+            entities = new HashMap<>();
+            entities.put("item", itemDisplay.getUniqueId());
+            entities.put("block", stoneDisplay.getUniqueId());
+
+            spawnMultiblockGhosts();
         }
 
         @SuppressWarnings("unused")
@@ -188,7 +189,7 @@ public final class Grindstone {
 
         @Override
         public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-            EntityHolderBlock.super.onBreak(drops, context);
+            SimplePylonMultiblock.super.onBreak(drops, context);
             drops.add(getItemDisplay().getItemStack());
         }
 
