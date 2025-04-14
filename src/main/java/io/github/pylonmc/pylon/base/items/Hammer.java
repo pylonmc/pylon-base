@@ -14,11 +14,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Keyed;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
@@ -50,10 +46,9 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
     @NotNullByDefault
     public static class Schema extends PylonItemSchema {
 
-        private static final int COOLDOWN_TICKS = 2 * 20;
-
         private final Material baseBlock;
         private final MiningLevel miningLevel;
+        private final int cooldown;
 
         public Schema(
                 NamespacedKey key,
@@ -97,6 +92,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
             this.baseBlock = baseBlock;
             this.miningLevel = miningLevel;
+            this.cooldown = getSettings().getOrThrow("cooldown", Integer.class);
 
             ShapedRecipe recipe = new ShapedRecipe(key, getItemStack());
             recipe.shape(
@@ -191,7 +187,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         }
 
         if (anyRecipeAttempted) {
-            player.setCooldown(hammer, Schema.COOLDOWN_TICKS);
+            player.setCooldown(hammer, getSchema().cooldown);
             hammer.damage(1, player);
             clickedBlock.getLocation().getWorld().playSound(clickedBlock.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5F, 0.5F);
         }
