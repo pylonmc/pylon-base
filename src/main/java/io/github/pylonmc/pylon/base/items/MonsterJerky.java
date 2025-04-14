@@ -65,7 +65,7 @@ public class MonsterJerky extends PylonItemSchema {
 
         ShapedRecipe leatherRecipe = new ShapedRecipe(
                 new NamespacedKey(PylonBase.getInstance(), "leather"),
-                new ItemStackBuilder(Material.LEATHER).build()
+                new ItemStack(Material.LEATHER)
         );
         leatherRecipe.shape(
                 "RR ",
