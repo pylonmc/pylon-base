@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
+import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.core.item.*;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;

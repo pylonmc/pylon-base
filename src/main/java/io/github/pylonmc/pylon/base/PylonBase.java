@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Sprinkler;
+import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import lombok.Getter;
 import org.bukkit.Bukkit;

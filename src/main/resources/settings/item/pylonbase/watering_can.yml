@@ -7,3 +7,5 @@ chances:
   sugar_cane: 0.007
   cactus: 0.01
   sapling: 0.01
+
+sound: minecraft:weather.rain
