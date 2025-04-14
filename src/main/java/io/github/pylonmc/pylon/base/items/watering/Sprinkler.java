@@ -7,15 +7,16 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -135,10 +136,10 @@ public final class Sprinkler {
 
                         event.setCancelled(true);
                         if (event.getContext() instanceof BlockCreateContext.PlayerPlace context) {
-                            context.getPlayer().sendMessage(ChatColor.RED
-                                    + "You cannot place sprinklers within "
-                                    + horizontalRadiusToCheck
-                                    + " blocks of each other");
+                            context.getPlayer().sendMessage(Component.translatable(
+                                    "pylon.pylonbase.message.sprinkler_too_close",
+                                    PylonArgument.of("radius", Component.text(horizontalRadiusToCheck))
+                            ));
                         }
                         break;
                     }

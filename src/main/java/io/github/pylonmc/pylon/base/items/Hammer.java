@@ -12,7 +12,6 @@ import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -145,7 +144,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         if (event.getBlockFace() != BlockFace.UP) return;
 
         if (getSchema().baseBlock != clickedBlock.getType()) {
-            player.sendMessage(Component.text("You cannot use this hammer on this block!").color(NamedTextColor.RED));
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
             return;
         }
 
