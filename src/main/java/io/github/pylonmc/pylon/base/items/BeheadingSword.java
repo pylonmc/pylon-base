@@ -82,7 +82,7 @@ public class BeheadingSword extends PylonItemSchema {
                 }
                 return;
             }
-            if ( ThreadLocalRandom.current().nextFloat() > 0.015 ) {
+            if ( ThreadLocalRandom.current().nextFloat() > 0.15 ) {
                 return;
             }
             ItemStack head;
