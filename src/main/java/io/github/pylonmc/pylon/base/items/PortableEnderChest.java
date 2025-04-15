@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -12,10 +13,16 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Function;
+
 public class PortableEnderChest extends PylonItemSchema {
-    public PortableEnderChest(NamespacedKey id, Class<? extends PylonItem<? extends PortableEnderChest>> itemClass, ItemStack template){
+    public PortableEnderChest(NamespacedKey id, Class<? extends PylonItem<? extends PortableEnderChest>> itemClass, Function<NamespacedKey, ItemStack> template){
         super(id, itemClass, template);
-        ShapedRecipe recipe = new ShapedRecipe(id, template);
+    }
+
+    @Override
+    public void onRegister(@NotNull PylonRegistry<?> registry) {
+        ShapedRecipe recipe = new ShapedRecipe(getKey(), getItemStack());
         recipe.shape(
                 "OOO",
                 "OEO",
