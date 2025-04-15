@@ -141,6 +141,17 @@ item:
       <arrow> Slow, but can water lots of crops at once
       <arrow> <attr:Range:blocks>%range%</attr>
 
+  magic_dust:
+    name: "Magic dust"
+
+  beheading_sword:
+    name: "Beheading Sword"
+    lore: |-
+      <arrow> Gives you the heads of what you kill
+      <arrow> Causes players, creepers, piglins, ender dragons,
+        skeletons and zombies to drop their head with a 15% chance
+      <arrow> +2.5% chance for wither skeletons to drop their head
+
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"

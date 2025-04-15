@@ -7,14 +7,10 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.*;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
@@ -650,14 +646,13 @@ public final class PylonItems {
     );
 
     public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
-            pylonKey("compressed_amethyst_block"),
-            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
-                    .name("Magic dust")
+            pylonKey("magic_dust"),
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             block -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_amethyst_block"), block);
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_dust"), block);
                 recipe.shape(
                         "AGA",
                         "GGG",
@@ -673,13 +668,7 @@ public final class PylonItems {
     public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
             pylonKey("beheading_sword"),
             BeheadingSword.Item.class,
-            new ItemStackBuilder(Material.DIAMOND_SWORD)
-                    .name("Beheading sword")
-                    .lore(new LoreBuilder()
-                            .arrow().text(" Gives you the heads of what you kill").newline()
-                            .arrow().text(" Causes players, creepers, piglins, ender dragons,").newline()
-                            .text("skeletons and zombies to drop their head with a 15% chance").newline()
-                            .arrow().text(" +2.5% chance for wither skeletons to drop their head"))
+            key -> ItemStackBuilder.defaultBuilder(Material.DIAMOND_SWORD, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
                     .build()

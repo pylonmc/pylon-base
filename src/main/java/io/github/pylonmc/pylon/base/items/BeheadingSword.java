@@ -1,10 +1,11 @@
 package io.github.pylonmc.pylon.base.items;
 
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonItems;
-import io.github.pylonmc.pylon.core.item.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Weapon;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
@@ -25,18 +26,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 
 @SuppressWarnings("UnstableApiUsage")
 public class BeheadingSword extends PylonItemSchema {
-    private static final ItemStack SILK_TOUCH_BOOK = new ItemStackBuilder(Material.ENCHANTED_BOOK)
+    private static final ItemStack SILK_TOUCH_BOOK = ItemStackBuilder.defaultBuilder(Material.ENCHANTED_BOOK, new NamespacedKey(PylonBase.getInstance(), "silk_touch_book_beheading_sword"))
             .set(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantments.itemEnchantments()
                     .add(Enchantment.SILK_TOUCH, 1)
                     .build())
             .build();
 
-    public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, ItemStack template) {
+    public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
-        ShapedRecipe recipe = new ShapedRecipe(key, template);
+        ShapedRecipe recipe = new ShapedRecipe(key, template.apply(key));
         recipe.shape(
                 "MHM",
                 "MBM",
@@ -87,7 +89,7 @@ public class BeheadingSword extends PylonItemSchema {
             if ( event.getEntity().getType() == EntityType.PLAYER ) {
                 // This cast is safe because PylonItemListener only calls this listener when the killer is a player
                 Player killer = ((Player) event.getDamageSource().getCausingEntity());
-                head = new ItemStackBuilder(Material.PLAYER_HEAD).build();
+                head = new ItemStack(Material.PLAYER_HEAD);
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
                 meta.setOwningPlayer(killer);
                 head.setItemMeta(meta);
