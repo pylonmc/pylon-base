@@ -35,10 +35,14 @@ public class BeheadingSword extends PylonItemSchema {
                     .add(Enchantment.SILK_TOUCH, 1)
                     .build())
             .build();
+    private double normalEntityHeadChance = getSettings().getOrThrow("default-entity-head-chance", Double.class);
+    private double witherSkeletonHeadChance = getSettings().getOrThrow("wither-skeleton-head-chance", Double.class);
 
     public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
-        ShapedRecipe recipe = new ShapedRecipe(key, template.apply(key));
+        ItemStack templateStack = template.apply(key);
+        templateStack.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
+        ShapedRecipe recipe = new ShapedRecipe(key, templateStack);
         recipe.shape(
                 "MHM",
                 "MBM",
@@ -77,12 +81,12 @@ public class BeheadingSword extends PylonItemSchema {
                 return;
             }
             if ( event.getEntityType() == EntityType.WITHER_SKELETON ) {
-                if ( ThreadLocalRandom.current().nextFloat() < 0.025 && !event.getDrops().contains(new ItemStack(Material.WITHER_SKELETON_SKULL)) ) {
+                if ( ThreadLocalRandom.current().nextFloat() < getSchema().witherSkeletonHeadChance && !event.getDrops().contains(new ItemStack(Material.WITHER_SKELETON_SKULL)) ) {
                     event.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
                 return;
             }
-            if ( ThreadLocalRandom.current().nextFloat() > 0.15 ) {
+            if ( ThreadLocalRandom.current().nextFloat() > getSchema().normalEntityHeadChance ) {
                 return;
             }
             ItemStack head;

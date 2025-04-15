@@ -670,7 +670,6 @@ public final class PylonItems {
             BeheadingSword.Item.class,
             key -> ItemStackBuilder.defaultBuilder(Material.DIAMOND_SWORD, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .set(DataComponentTypes.MAX_DAMAGE, 300)
                     .build()
     );
     //</editor-fold>
