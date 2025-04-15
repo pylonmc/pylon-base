@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonItems;
-import io.github.pylonmc.pylon.base.util.BlockUtils;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
+import io.github.pylonmc.pylon.core.network.Network;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -94,7 +94,7 @@ public class LumberAxe extends PylonItemSchema {
                 }
             }
             player.damageItemStack(tool, 1);
-            for ( BlockFace face : BlockUtils.IMMEDIATE_FACES_WITH_DIAGONALS ) {
+            for ( BlockFace face : Network.IMMEDIATE_FACES ) {
                 breakAttachedWood(block.getRelative(face), player, tool);
             }
         }
