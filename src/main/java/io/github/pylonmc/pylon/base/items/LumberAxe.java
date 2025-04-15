@@ -26,9 +26,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -50,7 +48,7 @@ public class LumberAxe extends PylonItemSchema {
     }
 
     public static class LumberAxeItem extends PylonItem<LumberAxe> implements Tool {
-        private static final List<Event> eventsToIgnore = new ArrayList<>();
+        private static final Set<Event> eventsToIgnore = HashSet.newHashSet(0);
 
         public LumberAxeItem(LumberAxe schema, ItemStack itemStack) { super(schema, itemStack); }
 
