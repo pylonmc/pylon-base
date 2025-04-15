@@ -1,17 +1,22 @@
-package io.github.pylonmc.pylon.base.items;
+package io.github.pylonmc.pylon.base.items.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.Ticking;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
-import org.bukkit.*;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -19,6 +24,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.function.Function;
 
 
 public final class Sprinkler {
@@ -42,7 +50,7 @@ public final class Sprinkler {
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                    @NotNull ItemStack template
+                    @NotNull Function<NamespacedKey, ItemStack> template
             ) {
                 super(key, itemClass, template);
             }
@@ -51,11 +59,27 @@ public final class Sprinkler {
         public SprinklerItem(@NotNull Schema schema, @NotNull ItemStack stack) {
             super(schema, stack);
         }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+            return Map.of("range", Component.text(HORIZONTAL_RANGE));
+        }
     }
 
-    public static class SprinklerBlock extends PylonBlock<SprinklerBlock.Schema> implements Ticking {
+    public static class SprinklerBlock extends PylonBlock<SprinklerBlock.Schema> implements PylonTickingBlock {
 
         public static class Schema extends PylonBlockSchema {
+
+            // TODO make this configurable once block settings are a thing
+            private final WateringSettings settings = new WateringSettings(
+                    HORIZONTAL_RANGE,
+                    VERTICAL_RANGE,
+                    0.01,
+                    0.007,
+                    0.01,
+                    0.01,
+                    Sound.WEATHER_RAIN
+            );
 
             public Schema(
                     @NotNull NamespacedKey key,
@@ -85,7 +109,7 @@ public final class Sprinkler {
                 return;
             }
 
-            WateringCan.water(getBlock(), HORIZONTAL_RANGE, VERTICAL_RANGE);
+            WateringCan.WateringCanItem.water(getBlock(), getSchema().settings);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)
@@ -112,10 +136,10 @@ public final class Sprinkler {
 
                         event.setCancelled(true);
                         if (event.getContext() instanceof BlockCreateContext.PlayerPlace context) {
-                            context.getPlayer().sendMessage(ChatColor.RED
-                                    + "You cannot place sprinklers within "
-                                    + horizontalRadiusToCheck
-                                    + " blocks of each other");
+                            context.getPlayer().sendMessage(Component.translatable(
+                                    "pylon.pylonbase.message.sprinkler_too_close",
+                                    PylonArgument.of("radius", Component.text(horizontalRadiusToCheck))
+                            ));
                         }
                         break;
                     }
