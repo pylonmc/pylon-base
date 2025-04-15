@@ -40,9 +40,8 @@ public class BeheadingSword extends PylonItemSchema {
 
     public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
-        ItemStack templateStack = template.apply(key);
-        templateStack.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
-        ShapedRecipe recipe = new ShapedRecipe(key, templateStack);
+        this.template.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
+        ShapedRecipe recipe = new ShapedRecipe(key, this.template);
         recipe.shape(
                 "MHM",
                 "MBM",
