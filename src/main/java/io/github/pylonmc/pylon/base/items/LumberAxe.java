@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -28,11 +29,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
+@SuppressWarnings("UnstableApiUsage")
 public class LumberAxe extends PylonItemSchema {
-    public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, ItemStack template){
+    public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, Function<NamespacedKey, ItemStack> template){
         super(key, itemClass, template);
-        ShapedRecipe recipe = new ShapedRecipe(key, template);
+        this.template.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
+        ShapedRecipe recipe = new ShapedRecipe(key, this.template);
         recipe.shape(
                 "WWW",
                 "WAW",
