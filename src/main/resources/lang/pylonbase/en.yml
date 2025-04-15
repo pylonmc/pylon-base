@@ -144,21 +144,21 @@ item:
   simple_healing_talisman:
     name: "Simple Healing Talisman"
     lore: |-
-      <arrow> <attr:Max health increase:hearts>4</attr>
+      <arrow> <attr:Max health increase:hearts>4 </attr>
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
   advanced_healing_talisman:
     name: "Advanced Healing Talisman"
     lore: |-
-      <arrow> <attr:Max health increase:hearts>7</attr>
+      <arrow> <attr:Max health increase:hearts>7 </attr>
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
   ultimate_healing_talisman:
     name: "Ultimate Healing Talisman"
     lore: |-
-      <arrow> <attr:Max health increase:hearts>10</attr>
+      <arrow> <attr:Max health increase:hearts>10 </attr>
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
