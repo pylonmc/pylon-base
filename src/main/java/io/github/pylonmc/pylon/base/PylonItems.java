@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.core.item.*;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -11,9 +10,6 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
@@ -526,10 +522,10 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             fiber -> {
-                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
-                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
-                    recipe.setCategory(CraftingBookCategory.MISC);
-                    return recipe;
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
+                        .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
             }
     );
 
@@ -560,10 +556,10 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             bandage -> {
-                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
-                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
-                    recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                    return recipe;
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
+                        .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
             }
     );
 
@@ -652,15 +648,9 @@ public final class PylonItems {
     public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("simple_healing_talisman"),
             HealthTalisman.Item.class,
-            new ItemStackBuilder(Material.AMETHYST_SHARD)
-                    .name("Simple Healing Talisman")
-                    .lore(new LoreBuilder()
-                            .attributeLine("Max health increase", 4, Quantity.HEARTS)
-                            .arrow().text(" Passive effect while in inventory").newline()
-                            .arrow().text(" Does not stack"))
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            4,
             (talisman) -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_healing_talisman"), talisman);
                 recipe.shape(
@@ -678,15 +668,9 @@ public final class PylonItems {
     public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("advanced_healing_talisman"),
             HealthTalisman.Item.class,
-            new ItemStackBuilder(Material.AMETHYST_CLUSTER)
-                    .name("Advanced Healing Talisman")
-                    .lore(new LoreBuilder()
-                            .attributeLine("Max health increase", 7, Quantity.HEARTS)
-                            .arrow().text(" Passive effect while in inventory").newline()
-                            .arrow().text(" Does not stack"))
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            7,
             (talisman) -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_healing_talisman"), talisman);
                 recipe.shape(
@@ -703,15 +687,9 @@ public final class PylonItems {
     public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
             pylonKey("ultimate_healing_talisman"),
             HealthTalisman.Item.class,
-            new ItemStackBuilder(Material.BUDDING_AMETHYST)
-                    .name("Ultimate Healing Talisman")
-                    .lore(new LoreBuilder()
-                            .attributeLine("Max health increase", 10, Quantity.HEARTS)
-                            .arrow().text(" Passive effect while in inventory").newline()
-                            .arrow().text(" Does not stack"))
+            key -> ItemStackBuilder.defaultBuilder(Material.BUDDING_AMETHYST, key)
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build(),
-            10,
             (talisman) -> {
                 ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_healing_talisman"), talisman);
                 recipe.shape(

@@ -140,6 +140,27 @@ item:
       <arrow> Speeds up growth of crops, saplings, sugar cane, and cactus
       <arrow> Slow, but can water lots of crops at once
       <arrow> <attr:Range:blocks>%range%</attr>
+  
+  simple_healing_talisman:
+    name: "Simple Healing Talisman"
+    lore: |-
+      <arrow> <attr:Max health increase:hearts>4</attr>
+      <arrow> Passive effect while in inventory
+      <arrow> Does not stack
+
+  advanced_healing_talisman:
+    name: "Advanced Healing Talisman"
+    lore: |-
+      <arrow> <attr:Max health increase:hearts>7</attr>
+      <arrow> Passive effect while in inventory
+      <arrow> Does not stack
+
+  ultimate_healing_talisman:
+    name: "Ultimate Healing Talisman"
+    lore: |-
+      <arrow> <attr:Max health increase:hearts>10</attr>
+      <arrow> Passive effect while in inventory
+      <arrow> Does not stack
 
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
