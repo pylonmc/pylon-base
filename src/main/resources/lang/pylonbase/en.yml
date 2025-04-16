@@ -80,6 +80,17 @@ item:
   iron_sheet:
     name: "Iron Sheet"
 
+  magic_altar:
+    name: "Magic Altar"
+    lore: "<star> Multiblock"
+
+  magic_pedestal:
+    name: "Magic Pedestal"
+    lore: |-
+      <arrow> Used to build the Magic Altar
+      <arrow> <isn>Right click</isn> to set the displayed item
+      <arrow> <isn>Shift right click</isn> to rotate the item
+
   medkit:
     name: "Medkit"
     lore: |-
@@ -109,6 +120,12 @@ item:
   portable_ender_chest:
     name: "Portable Ender Chest"
     lore: "<insn>Right click</insn> to open an ender chest"
+
+  pedestal:
+    name: "Pedestal"
+    lore: |-
+      <arrow> <isn>Right click</isn> to set the displayed item
+      <arrow> <isn>Shift right click</isn> to rotate the item
 
   raw_ferroduralum:
     name: "Raw Ferroduralum"

@@ -165,7 +165,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FERRODURALUM_SHEET = new SimpleItemSchema<>(
             pylonKey("ferroduralum_sheet"),
-            new ItemStackBuilder(Material.PAPER).name("Ferroduralum Sheet").build(),
+            ItemStackBuilder.of(Material.PAPER).name("Ferroduralum Sheet").build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
                     pylonKey("ferroduralum_sheet"),
@@ -664,39 +664,25 @@ public final class PylonItems {
 
     public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
             pylonKey("pedestal"),
-            new ItemStackBuilder(Material.STONE_BRICK_WALL)
-                    .name("Pedestal")
-                    .lore(new LoreBuilder()
-                            .instructionLine("Right click", "to set the displayed item")
-                            .instructionLine("Shift right click", "to rotate the item"))
-                    .build(),
+            key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
             PylonBlocks.PEDESTAL
     );
 
     public static final Pedestal.PedestalItem.Schema MAGIC_PEDESTAL = new Pedestal.PedestalItem.Schema(
             pylonKey("magic_pedestal"),
-            new ItemStackBuilder(Material.MOSSY_STONE_BRICK_WALL)
-                    .name("Magic Pedestal")
-                    .lore(new LoreBuilder()
-                            .arrow().text(" Used to build the Magic Altar")
-                            .instructionLine("Right click", "to set the displayed item")
-                            .instructionLine("Shift right click", "to rotate the item"))
-                    .build(),
+            key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
             PylonBlocks.MAGIC_PEDESTAL
     );
 
     public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
             pylonKey("magic_altar"),
-            new ItemStackBuilder(Material.SMOOTH_STONE_SLAB)
-                    .name("Magic Altar")
-                    .lore(new LoreBuilder()
-                            .arrow().text(" Multiblock").newline())
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
     );
 
+    // This will be removed in a future PR, just here to test the altar
     public static final PylonItemSchema CANDENT_REDSTONE = new SimpleItemSchema<>(
             pylonKey("candent_redstone"),
-            new ItemStackBuilder(Material.REDSTONE)
+            ItemStackBuilder.of(Material.REDSTONE)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .name("Candent Redstone")
                     .build(),

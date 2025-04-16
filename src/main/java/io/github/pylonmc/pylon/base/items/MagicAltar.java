@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 public final class MagicAltar {
@@ -87,8 +88,8 @@ public final class MagicAltar {
 
         public static class Schema extends PylonItemSchema {
 
-            public Schema(@NotNull NamespacedKey key, @NotNull ItemStack template) {
-                super(key, MagicAltarItem.class, template);
+            public Schema(@NotNull NamespacedKey key, @NotNull Function<NamespacedKey, ItemStack> templateSupplier) {
+                super(key, MagicAltarItem.class, templateSupplier);
             }
         }
 
