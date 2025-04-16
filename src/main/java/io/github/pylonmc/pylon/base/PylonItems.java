@@ -647,7 +647,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
             pylonKey("magic_dust"),
-            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
+            key -> ItemStackBuilder.of(Material.AMETHYST_CLUSTER)
+                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
