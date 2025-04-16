@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.MagicAltar;
-import io.github.pylonmc.pylon.base.items.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
+import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import org.bukkit.Material;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
