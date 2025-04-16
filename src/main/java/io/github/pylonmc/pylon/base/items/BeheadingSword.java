@@ -71,20 +71,20 @@ public class BeheadingSword extends PylonItemSchema {
 
         @Override
         public void onUsedToKillEntity(@NotNull EntityDeathEvent event) {
-            if ( EntityTags.MINECARTS.isTagged(event.getEntityType()) ) {
+            if (EntityTags.MINECARTS.isTagged(event.getEntityType())) {
                 return;
             }
-            if ( event.getEntityType() == EntityType.WITHER_SKELETON ) {
-                if ( ThreadLocalRandom.current().nextFloat() < getSchema().witherSkeletonHeadChance && !event.getDrops().contains(new ItemStack(Material.WITHER_SKELETON_SKULL)) ) {
+            if (event.getEntityType() == EntityType.WITHER_SKELETON) {
+                if (ThreadLocalRandom.current().nextFloat() < getSchema().witherSkeletonHeadChance && !event.getDrops().contains(new ItemStack(Material.WITHER_SKELETON_SKULL))) {
                     event.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
                 return;
             }
-            if ( ThreadLocalRandom.current().nextFloat() > getSchema().normalEntityHeadChance ) {
+            if (ThreadLocalRandom.current().nextFloat() > getSchema().normalEntityHeadChance) {
                 return;
             }
             ItemStack head;
-            if ( event.getEntity().getType() == EntityType.PLAYER ) {
+            if (event.getEntity().getType() == EntityType.PLAYER) {
                 // This cast is safe because PylonItemListener only calls this listener when the killer is a player
                 Player killer = ((Player) event.getDamageSource().getCausingEntity());
                 head = new ItemStack(Material.PLAYER_HEAD);
@@ -92,7 +92,7 @@ public class BeheadingSword extends PylonItemSchema {
                 meta.setOwningPlayer(killer);
                 head.setItemMeta(meta);
             } else {
-                if ( !entityHeadMap.containsKey(event.getEntityType()) ) {
+                if (!entityHeadMap.containsKey(event.getEntityType())) {
                     return;
                 }
                 head = entityHeadMap.get(event.getEntityType());
