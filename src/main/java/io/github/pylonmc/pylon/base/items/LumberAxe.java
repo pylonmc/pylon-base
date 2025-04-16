@@ -56,7 +56,7 @@ public class LumberAxe extends PylonItemSchema {
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
-            if ( eventsToIgnore.contains(event) ) {
+            if (eventsToIgnore.contains(event)) {
                 eventsToIgnore.remove(event);
                 return;
             }
@@ -71,32 +71,32 @@ public class LumberAxe extends PylonItemSchema {
 
         private void breakAttachedWood(Block block, Player player, ItemStack tool) {
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-            if ( !Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block) ) {
+            if (!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block)) {
                 return;
             }
             BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
             eventsToIgnore.add(blockBreakEvent);
-            if ( !blockBreakEvent.callEvent() ) {
+            if (!blockBreakEvent.callEvent()) {
                 return;
             }
             BlockState blockState = block.getState();
             Collection<ItemStack> drops = block.getDrops(tool);
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
             block.setType(Material.AIR);
-            if ( blockBreakEvent.isDropItems() ) {
+            if (blockBreakEvent.isDropItems()) {
                 List<Item> itemsDropped = new ArrayList<>();
-                for ( ItemStack itemStack : drops ) {
+                for (ItemStack itemStack : drops) {
                     Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
                     itemsDropped.add(item);
                 }
-                if ( !new BlockDropItemEvent(block, blockState, player, itemsDropped).callEvent() ) {
-                    for ( Item item : itemsDropped ) {
+                if (!new BlockDropItemEvent(block, blockState, player, itemsDropped).callEvent()) {
+                    for (Item item : itemsDropped) {
                         item.remove();
                     }
                 }
             }
             player.damageItemStack(tool, 1);
-            for ( BlockFace face : Network.IMMEDIATE_FACES ) {
+            for (BlockFace face : Network.IMMEDIATE_FACES) {
                 breakAttachedWood(block.getRelative(face), player, tool);
             }
         }
