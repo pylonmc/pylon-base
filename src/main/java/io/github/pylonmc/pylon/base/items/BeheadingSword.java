@@ -70,11 +70,6 @@ public class BeheadingSword extends PylonItemSchema {
         }
 
         @Override
-        public void onUsedToDamageEntity(@NotNull EntityDamageByEntityEvent event) {
-            // Intentionally blank
-        }
-
-        @Override
         public void onUsedToKillEntity(@NotNull EntityDeathEvent event) {
             if ( EntityTags.MINECARTS.isTagged(event.getEntityType()) ) {
                 return;
