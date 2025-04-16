@@ -22,6 +22,7 @@ import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.PdcUtils;
 import org.bukkit.Color;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
@@ -65,7 +66,7 @@ public final class MagicAltar {
             @NotNull Location end,
             double spacing,
             @NotNull Consumer<Location> spawnParticle
-            ) {
+    ) {
         double currentPoint = 0;
         Vector startToEnd = end.clone().subtract(start).toVector();
         Vector step = startToEnd.clone().normalize().multiply(spacing);
@@ -150,12 +151,7 @@ public final class MagicAltar {
         @Override
         public void write(@NotNull PersistentDataContainer pdc) {
             saveHeldEntities(pdc);
-            if (processingRecipe == null) {
-                pdc.remove(PROCESSING_RECIPE);
-            } else {
-                pdc.set(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
-            }
-            pdc.set(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE, remainingTimeSeconds);
+            PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
         }
 
         @Override
@@ -266,7 +262,6 @@ public final class MagicAltar {
         }
 
         public void startRecipe(Recipe recipe) {
-            assert processingRecipe == null;
             for (Pedestal.PedestalBlock pedestal : getPedestals()) {
                 pedestal.setLocked(true);
             }
