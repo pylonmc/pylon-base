@@ -148,8 +148,7 @@ item:
     name: "Beheading Sword"
     lore: |-
       <arrow> Gives you the heads of what you kill
-      <arrow> Causes players, creepers, piglins, ender dragons,
-        skeletons and zombies to drop their head with a 15% chance
+      <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a 15% chance
       <arrow> +2.5% chance for wither skeletons to drop their head
 
 message:
