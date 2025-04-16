@@ -80,6 +80,11 @@ item:
   iron_sheet:
     name: "Iron Sheet"
 
+  lumber_axe:
+    name: "Lumber Axe"
+    lore: |-
+      <arrow> Breaks an entire tree at once
+
   medkit:
     name: "Medkit"
     lore: |-
@@ -140,11 +145,6 @@ item:
       <arrow> Speeds up growth of crops, saplings, sugar cane, and cactus
       <arrow> Slow, but can water lots of crops at once
       <arrow> <attr:Range:blocks>%range%</attr>
-
-  lumber_axe:
-    name: "Lumber Axe"
-    lore: |-
-      <arrow> Breaks an entire tree at once
 
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
