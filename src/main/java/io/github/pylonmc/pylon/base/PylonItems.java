@@ -15,7 +15,6 @@ import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
-import kotlin.Pair;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -37,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -779,10 +779,10 @@ public final class PylonItems {
             MixingPot.Recipe.RECIPE_TYPE,
             item -> new MixingPot.Recipe(
                     pylonKey("shimmer_dust_2"),
-                    List.of(
-                            new Pair<>(new RecipeChoice.ExactChoice(SHIMMER_DUST_1.getItemStack()), 1),
-                            new Pair<>(new RecipeChoice.ExactChoice(GOLD_DUST.getItemStack()), 1),
-                            new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1)
+                    Map.of(
+                            new RecipeChoice.ExactChoice(SHIMMER_DUST_1.getItemStack()), 1,
+                            new RecipeChoice.ExactChoice(GOLD_DUST.getItemStack()), 1,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
                     ),
                     item,
                     false,
@@ -802,10 +802,10 @@ public final class PylonItems {
                 output.setAmount(6);
                 return new MixingPot.Recipe(
                         pylonKey("covalent_binder"),
-                        List.of(
-                                new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.GUNPOWDER)), 4),
-                                new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.EMERALD)), 1),
-                                new Pair<>(new RecipeChoice.ExactChoice(SHIMMER_DUST_1.getItemStack()), 1)
+                        Map.of(
+                                new RecipeChoice.ExactChoice(new ItemStack(Material.GUNPOWDER)), 4,
+                                new RecipeChoice.ExactChoice(new ItemStack(Material.EMERALD)), 1,
+                                new RecipeChoice.ExactChoice(SHIMMER_DUST_1.getItemStack()), 1
                         ),
                         output,
                         true,
