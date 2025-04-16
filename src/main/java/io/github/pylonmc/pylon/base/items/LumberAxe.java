@@ -31,7 +31,7 @@ import java.util.function.Function;
 
 @SuppressWarnings("UnstableApiUsage")
 public class LumberAxe extends PylonItemSchema {
-    public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, Function<NamespacedKey, ItemStack> template){
+    public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
         this.template.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
         ShapedRecipe recipe = new ShapedRecipe(key, this.template);
@@ -50,11 +50,13 @@ public class LumberAxe extends PylonItemSchema {
     public static class LumberAxeItem extends PylonItem<LumberAxe> implements Tool {
         private static final Set<Event> eventsToIgnore = HashSet.newHashSet(0);
 
-        public LumberAxeItem(LumberAxe schema, ItemStack itemStack) { super(schema, itemStack); }
+        public LumberAxeItem(LumberAxe schema, ItemStack itemStack) {
+            super(schema, itemStack);
+        }
 
         @Override
         public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
-            if(eventsToIgnore.contains(event)){
+            if ( eventsToIgnore.contains(event) ) {
                 eventsToIgnore.remove(event);
                 return;
             }
@@ -67,9 +69,9 @@ public class LumberAxe extends PylonItemSchema {
             // Intentionally blank, have to implement
         }
 
-        private void breakAttachedWood(Block block, Player player, ItemStack tool){
+        private void breakAttachedWood(Block block, Player player, ItemStack tool) {
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-            if(!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block)){
+            if ( !Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block) ) {
                 return;
             }
             BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
@@ -81,14 +83,14 @@ public class LumberAxe extends PylonItemSchema {
             Collection<ItemStack> drops = block.getDrops(tool);
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getBlockData());
             block.setType(Material.AIR);
-            if( blockBreakEvent.isDropItems() ) {
+            if ( blockBreakEvent.isDropItems() ) {
                 List<Item> itemsDropped = new ArrayList<>();
                 for ( ItemStack itemStack : drops ) {
                     Item item = block.getWorld().dropItem(block.getLocation(), itemStack);
                     itemsDropped.add(item);
                 }
-                if( !new BlockDropItemEvent(block, blockState, player, itemsDropped).callEvent() ){
-                    for(Item item : itemsDropped){
+                if ( !new BlockDropItemEvent(block, blockState, player, itemsDropped).callEvent() ) {
+                    for ( Item item : itemsDropped ) {
                         item.remove();
                     }
                 }
