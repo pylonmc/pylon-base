@@ -50,7 +50,7 @@ public final class EnrichedNetherrack {
 
         @Override
         public int getCustomTickRate(int globalTickRate) {
-            return TICK_RATE;
+            return TICK_RATE * globalTickRate;
         }
 
         @Override

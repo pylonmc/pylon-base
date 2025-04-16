@@ -762,23 +762,19 @@ public final class PylonItems {
     public static final PylonItemSchema MIXING_POT = new PylonItemSchema(
             pylonKey("mixing_pot"),
             MixingPot.MixingPotItem.class,
-            new ItemStackBuilder(Material.CAULDRON)
-                    .name("Mixing Pot")
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.CAULDRON, key).build()
     );
 
     public static final PylonItemSchema ENRICHED_NETHERRACK = new PylonItemSchema(
             pylonKey("enriched_netherrack"),
             EnrichedNetherrack.EnrichedNetherrackItem.class,
-            new ItemStackBuilder(Material.NETHERRACK)
-                    .name("Enriched Netherrack")
-                    .build()
+            key -> ItemStackBuilder.defaultBuilder(Material.NETHERRACK, key).build()
     );
 
     // TODO will be replaced in the next PR
     public static final PylonItemSchema TEMP_MIXER_TEST_ITEM = new SimpleItemSchema<>(
             pylonKey("temp_mixer_test_item"),
-            new ItemStackBuilder(Material.DEAD_BUSH)
+            ItemStackBuilder.of(Material.DEAD_BUSH)
                     .name("Temp mixer test item")
                     .build(),
             MixingPot.Recipe.RECIPE_TYPE,

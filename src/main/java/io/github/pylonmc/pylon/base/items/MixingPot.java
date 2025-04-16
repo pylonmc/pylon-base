@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.PlayerInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -56,7 +56,7 @@ public final class MixingPot {
         }
     }
 
-    public static class MixingPotBlock extends PylonBlock<PylonBlockSchema> implements PylonMultiblock, PlayerInteractBlock {
+    public static class MixingPotBlock extends PylonBlock<PylonBlockSchema> implements PylonMultiblock, PylonInteractableBlock {
 
         @SuppressWarnings("unused")
         public MixingPotBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {

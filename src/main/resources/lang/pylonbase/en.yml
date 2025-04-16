@@ -25,6 +25,10 @@ item:
   dough:
     name: "Dough"
 
+  enriched_netherrack:
+    name: "Enriched netherrack"
+    lore: "<arrow> Burns hotter than netherrack"
+
   ferroduralum_axe:
     name: "Ferroduralum Axe"
 
@@ -115,6 +119,13 @@ item:
       <arrow> Clears all effects
       <arrow> <attr:Heals:hearts>10</attr>
       <arrow> <attr:Apply time:seconds>7</attr>
+
+  mixing_pot:
+    name: "Mixing Pot"
+    lore: |-
+      <arrow> Place items in the pot and <insn>right click</insn> to mix them together
+      <arrow> Requires a fire underneath to work
+      <arrow> Some recipes require <white>Enriched Netherrack</white> fire to work
 
   monster_jerky:
     name: "Monster Jerky"
