@@ -1,20 +1,21 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Sprinkler;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
+import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+import java.util.Set;
+
 
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
+    @Getter
     private static PylonBase instance;
-
-    public static PylonBase getInstance() {
-        return instance;
-    }
 
     @Override
     public void onEnable() {
@@ -33,7 +34,12 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     }
 
     @Override
-    public @NotNull String displayName() {
+    public @NotNull String getDisplayName() {
         return "Base";
+    }
+
+    @Override
+    public @NotNull Set<@NotNull Locale> getLanguages() {
+        return Set.of(Locale.ENGLISH);
     }
 }

@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
+import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 import static java.lang.Math.PI;
 
@@ -46,8 +48,12 @@ public final class Pedestal {
 
             private final PylonBlockSchema blockSchema;
 
-            public Schema(@NotNull NamespacedKey key, @NotNull ItemStack template, @NotNull PylonBlockSchema blockSchema) {
-                super(key, PedestalItem.class, template);
+            public Schema(
+                    @NotNull NamespacedKey key,
+                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier,
+                    @NotNull PylonBlockSchema blockSchema
+            ) {
+                super(key, PedestalItem.class, templateSupplier);
                 this.blockSchema = blockSchema;
             }
 
@@ -72,6 +78,7 @@ public final class Pedestal {
         private static final NamespacedKey ROTATION_KEY = KeyUtils.pylonKey("rotation");
         private static final NamespacedKey LOCKED_KEY = KeyUtils.pylonKey("locked");
         private double rotation;
+        @Setter
         private boolean locked;
         private final Map<String, UUID> entities;
 
@@ -158,10 +165,6 @@ public final class Pedestal {
         public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
             EntityHolderBlock.super.onBreak(drops, context);
             drops.add(getItemDisplay().getItemStack());
-        }
-
-        public void setLocked(boolean locked) {
-            this.locked = locked;
         }
 
         public @NotNull ItemDisplay getItemDisplay() {
