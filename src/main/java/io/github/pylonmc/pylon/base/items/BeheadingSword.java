@@ -30,7 +30,7 @@ import java.util.function.Function;
 
 @SuppressWarnings("UnstableApiUsage")
 public class BeheadingSword extends PylonItemSchema {
-    private static final ItemStack SILK_TOUCH_BOOK = ItemStackBuilder.defaultBuilder(Material.ENCHANTED_BOOK, new NamespacedKey(PylonBase.getInstance(), "silk_touch_book_beheading_sword"))
+    private static final ItemStack SILK_TOUCH_BOOK = ItemStackBuilder.of(Material.ENCHANTED_BOOK)
             .set(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantments.itemEnchantments()
                     .add(Enchantment.SILK_TOUCH, 1)
                     .build())
