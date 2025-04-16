@@ -32,7 +32,7 @@ public class HealthTalisman extends PylonItemSchema {
                           Function<NamespacedKey, ItemStack> template,
                           Function<ItemStack, ShapedRecipe> recipeFunc) {
         super(id, itemClass, template);
-        if ( this.template.getMaxStackSize() != 1 ) {
+        if (this.template.getMaxStackSize() != 1) {
             throw new IllegalArgumentException("Max stack size for health talisman must be equal to 1");
         }
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipeFunc.apply(this.template));
@@ -53,30 +53,30 @@ public class HealthTalisman extends PylonItemSchema {
         // Suppresses warnings from doing PDC.has() and then .get() and assuming .get is not null, and assuming that the player has the max health attribute
         @SuppressWarnings("DataFlowIssue")
         public void run() {
-            for ( Player player : Bukkit.getOnlinePlayers() ) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 boolean foundItem = false;
                 PersistentDataContainer playerPDC = player.getPersistentDataContainer();
                 AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
                 Integer playerHealthBoost = playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER);
-                for ( ItemStack itemStack : player.getInventory() ) {
+                for (ItemStack itemStack : player.getInventory()) {
                     PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
-                    if ( !(pylonItem instanceof HealthTalisman.Item talisman) ) {
+                    if (!(pylonItem instanceof HealthTalisman.Item talisman)) {
                         continue;
                     }
-                    if ( playerHealthBoost == null ) {
+                    if (playerHealthBoost == null) {
                         playerHealth.addModifier(talisman.getSchema().healthModifier);
                         playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.schema.healthAmount);
                         foundItem = true;
-                    } else if ( playerHealthBoost < talisman.schema.healthAmount ) {
+                    } else if (playerHealthBoost < talisman.schema.healthAmount) {
                         playerHealth.removeModifier(healthBoostedKey);
                         playerHealth.addModifier(talisman.getSchema().healthModifier);
                         playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.schema.healthAmount);
                         foundItem = true;
-                    } else if ( talisman.schema.healthAmount == playerHealthBoost ) {
+                    } else if (talisman.schema.healthAmount == playerHealthBoost) {
                         foundItem = true;
                     }
                 }
-                if ( !foundItem && playerHealthBoost != null ) {
+                if (!foundItem && playerHealthBoost != null) {
                     playerHealth.removeModifier(healthBoostedKey);
                     playerPDC.remove(healthBoostedKey);
                 }
