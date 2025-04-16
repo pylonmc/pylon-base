@@ -15,7 +15,6 @@ import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
-import kotlin.Pair;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -37,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -780,9 +780,9 @@ public final class PylonItems {
             MixingPot.Recipe.RECIPE_TYPE,
             item -> new MixingPot.Recipe(
                     pylonKey("temp_mixer_test_item"),
-                    List.of(
-                            new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)), 3),
-                            new Pair<>(new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1)
+                    Map.of(
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)), 3,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
                     ),
                     item,
                     true,

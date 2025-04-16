@@ -17,7 +17,6 @@ import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import kotlin.Pair;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -35,6 +34,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -161,7 +161,7 @@ public final class MixingPot {
      */
     public record Recipe(
             @NotNull NamespacedKey key,
-            @NotNull List<Pair<RecipeChoice, Integer>> input,
+            @NotNull Map<RecipeChoice, Integer> input,
             @NotNull ItemStack output,
             boolean requiresEnrichedFire,
             int waterAmount
@@ -189,10 +189,10 @@ public final class MixingPot {
                 return false;
             }
 
-            for (Pair<RecipeChoice, Integer> choice : this.input) {
+            for (Map.Entry<RecipeChoice, Integer> choice : this.input.entrySet()) {
                 boolean anyMatches = false;
                 for (ItemStack stack : input) {
-                    if (choice.getFirst().test(stack) && stack.getAmount() >= choice.getSecond()) {
+                    if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
                         anyMatches = true;
                         break;
                     }
@@ -218,11 +218,11 @@ public final class MixingPot {
                 block.setBlockData(levelled);
             }
 
-            for (Pair<RecipeChoice, Integer> choice : input) {
+            for (Map.Entry<RecipeChoice, Integer> choice : input.entrySet()) {
                 for (Item item : items) {
                     ItemStack stack = item.getItemStack();
-                    if (choice.getFirst().test(stack) && stack.getAmount() >= choice.getSecond()) {
-                        item.setItemStack(stack.subtract(choice.getSecond()));
+                    if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
+                        item.setItemStack(stack.subtract(choice.getValue()));
                         break;
                     }
                 }
