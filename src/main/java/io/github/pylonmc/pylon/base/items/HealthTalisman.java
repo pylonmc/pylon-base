@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -15,7 +16,9 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.function.Function;
 
 public class HealthTalisman extends PylonItemSchema {
@@ -39,11 +42,14 @@ public class HealthTalisman extends PylonItemSchema {
     }
 
     public static class Item extends PylonItem<HealthTalisman> {
-        HealthTalisman schema;
 
         public Item(HealthTalisman schema, ItemStack itemStack) {
             super(schema, itemStack);
-            this.schema = schema;
+        }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+            return Map.of("health-boost", Component.text(getSchema().healthAmount));
         }
     }
 
@@ -65,14 +71,14 @@ public class HealthTalisman extends PylonItemSchema {
                     }
                     if (playerHealthBoost == null) {
                         playerHealth.addModifier(talisman.getSchema().healthModifier);
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.schema.healthAmount);
+                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().healthAmount);
                         foundItem = true;
-                    } else if (playerHealthBoost < talisman.schema.healthAmount) {
+                    } else if (playerHealthBoost < talisman.getSchema().healthAmount) {
                         playerHealth.removeModifier(healthBoostedKey);
                         playerHealth.addModifier(talisman.getSchema().healthModifier);
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.schema.healthAmount);
+                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().healthAmount);
                         foundItem = true;
-                    } else if (talisman.schema.healthAmount == playerHealthBoost) {
+                    } else if (talisman.getSchema().healthAmount == playerHealthBoost) {
                         foundItem = true;
                     }
                 }
