@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.tag.EntityTags;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -35,8 +36,8 @@ public class BeheadingSword extends PylonItemSchema {
                     .add(Enchantment.SILK_TOUCH, 1)
                     .build())
             .build();
-    private double normalEntityHeadChance = getSettings().getOrThrow("default-entity-head-chance", Double.class);
-    private double witherSkeletonHeadChance = getSettings().getOrThrow("wither-skeleton-head-chance", Double.class);
+    private final double normalEntityHeadChance = getSettings().getOrThrow("default-entity-head-chance", Double.class);
+    private final double witherSkeletonHeadChance = getSettings().getOrThrow("wither-skeleton-head-chance", Double.class);
 
     public BeheadingSword(NamespacedKey key, Class<? extends PylonItem<? extends BeheadingSword>> itemClass, Function<NamespacedKey, ItemStack> template) {
         super(key, itemClass, template);
@@ -98,6 +99,12 @@ public class BeheadingSword extends PylonItemSchema {
                 head = entityHeadMap.get(event.getEntityType());
             }
             event.getDrops().add(head);
+        }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+            return Map.of("default-chance", Component.text(getSchema().normalEntityHeadChance * 100),
+                          "wither-skeleton-chance", Component.text(getSchema().witherSkeletonHeadChance * 100));
         }
     }
 }
