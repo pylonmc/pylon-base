@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.PdcUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -123,23 +124,9 @@ public final class Grindstone {
         public void write(@NotNull PersistentDataContainer pdc) {
             saveHeldEntities(pdc);
 
-            if (recipe != null) {
-                pdc.set(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, recipe);
-            } else {
-                pdc.remove(RECIPE_KEY);
-            }
-
-            if (cyclesRemaining != null) {
-                pdc.set(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER, cyclesRemaining);
-            } else {
-                pdc.remove(CYCLES_REMAINING_KEY);
-            }
-
-            if (cycleTicksRemaining != null) {
-                pdc.set(CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER, cycleTicksRemaining);
-            } else {
-                pdc.remove(CYCLE_TICKS_REMAINING);
-            }
+            PdcUtils.setNullable(pdc, RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, recipe);
+            PdcUtils.setNullable(pdc, CYCLES_REMAINING_KEY, PylonSerializers.INTEGER, cyclesRemaining);
+            PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER, cycleTicksRemaining);
         }
 
         @Override
