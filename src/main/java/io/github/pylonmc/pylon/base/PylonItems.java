@@ -917,6 +917,18 @@ public final class PylonItems {
         SHIMMER_SKULL.register();
 
         // TODO recipe refactor
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(
+                new ShapedRecipe(pylonKey("enriched_netherrack"), ENRICHED_NETHERRACK.getItemStack())
+                        .shape(
+                                " s ",
+                                "sns",
+                                " s "
+                        )
+                        .setIngredient('n', new ItemStack(Material.NETHERRACK))
+                        .setIngredient('s', SHIMMER_DUST_2.getItemStack())
+        );
+
+        // TODO recipe refactor
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(
                 new Grindstone.Recipe(
                         pylonKey("copper_dust_from_copper_ingot"),
