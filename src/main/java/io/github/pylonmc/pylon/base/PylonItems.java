@@ -669,6 +669,35 @@ public final class PylonItems {
             0.75f
     );
 
+    public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
+            pylonKey("magic_dust"),
+            key -> ItemStackBuilder.of(Material.AMETHYST_CLUSTER)
+                    .defaultTranslatableName(key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build(),
+            RecipeTypes.VANILLA_CRAFTING,
+            block -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_dust"), block);
+                recipe.shape(
+                        "AGA",
+                        "GGG",
+                        "AGA"
+                );
+                recipe.setIngredient('A', new RecipeChoice.MaterialChoice(Material.AMETHYST_BLOCK, Material.AMETHYST_CLUSTER, Material.LARGE_AMETHYST_BUD, Material.MEDIUM_AMETHYST_BUD, Material.SMALL_AMETHYST_BUD));
+                recipe.setIngredient('G', Material.GLOWSTONE);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
+            }
+    );
+
+    public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
+            pylonKey("beheading_sword"),
+            BeheadingSword.Item.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.DIAMOND_SWORD, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+    );
+
     public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
             pylonKey("pedestal"),
             key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
@@ -792,6 +821,8 @@ public final class PylonItems {
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
         RECOIL_ARROW.register();
+        MAGIC_DUST.register();
+        BEHEADING_SWORD.register();
         PEDESTAL.register();
         MAGIC_PEDESTAL.register();
         MAGIC_ALTAR.register();

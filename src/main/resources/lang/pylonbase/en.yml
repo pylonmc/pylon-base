@@ -6,6 +6,13 @@ item:
       <arrow> <attr:Heals:hearts>2</attr>
       <arrow> <attr:Apply time:seconds>2</attr>
 
+  beheading_sword:
+    name: "Beheading Sword"
+    lore: |-
+      <arrow> Gives you the heads of what you kill
+      <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
+      <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
+
   compressed_obsidian:
     name: "Compressed Obsidian"
 
@@ -96,6 +103,9 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
+
+  magic_dust:
+    name: "Magic dust"
 
   magic_altar:
     name: "Magic Altar"
