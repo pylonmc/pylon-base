@@ -4,8 +4,8 @@ import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
+import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
@@ -21,7 +22,7 @@ import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.BlockData;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -33,8 +34,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,146 +44,207 @@ public final class PylonItems {
         throw new AssertionError("Utility class");
     }
 
-    public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
+    //<editor-fold desc="Sheets" defaultstate=collapsed>
+    public static final PylonItemSchema COPPER_SHEET = new PylonItemSchema(
             pylonKey("copper_sheet"),
-            key -> ItemStackBuilder.of(Material.PAPER)
-                    .defaultTranslatableName(key)
-                    .build(),
-            Hammer.Recipe.RECIPE_TYPE,
-            sheet -> new Hammer.Recipe(
-                    pylonKey("copper_sheet"),
-                    List.of(new ItemStack(Material.COPPER_INGOT)),
-                    sheet,
-                    MiningLevel.STONE,
-                    0.25f
-            )
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.PAPER, key).build()
     );
+    static {
+        COPPER_SHEET.register();
+        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+                pylonKey("copper_sheet"),
+                List.of(new ItemStack(Material.COPPER_INGOT)),
+                COPPER_SHEET.getItemStack(),
+                MiningLevel.STONE,
+                0.25f
+        ));
+    }
 
-    public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
+    public static final PylonItemSchema GOLD_SHEET = new PylonItemSchema(
             pylonKey("gold_sheet"),
-            key -> ItemStackBuilder.of(Material.PAPER)
-                    .defaultTranslatableName(key)
-                    .build(),
-            Hammer.Recipe.RECIPE_TYPE,
-            sheet -> new Hammer.Recipe(
-                    pylonKey("gold_sheet"),
-                    List.of(new ItemStack(Material.GOLD_INGOT)),
-                    sheet,
-                    MiningLevel.STONE,
-                    0.25f
-            )
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.PAPER, key).build()
     );
+    static {
+        GOLD_SHEET.register();
+        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+                pylonKey("gold_sheet"),
+                List.of(new ItemStack(Material.GOLD_INGOT)),
+                GOLD_SHEET.getItemStack(),
+                MiningLevel.STONE,
+                0.25f
+        ));
+    }
 
-    public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
+    public static final PylonItemSchema IRON_SHEET = new PylonItemSchema(
             pylonKey("iron_sheet"),
-            key -> ItemStackBuilder.of(Material.PAPER)
-                    .defaultTranslatableName(key)
-                    .build(),
-            Hammer.Recipe.RECIPE_TYPE,
-            sheet -> new Hammer.Recipe(
-                    pylonKey("iron_sheet"),
-                    List.of(new ItemStack(Material.IRON_INGOT)),
-                    sheet,
-                    MiningLevel.IRON,
-                    0.25f
-            )
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.PAPER, key).build()
+
     );
-
-
+    static {
+        IRON_SHEET.register();
+        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+                pylonKey("iron_sheet"),
+                List.of(new ItemStack(Material.IRON_INGOT)),
+                IRON_SHEET.getItemStack(),
+                MiningLevel.IRON,
+                0.25f
+        ));
+    }
+    //</editor-fold>
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
             pylonKey("hammer_stone"),
+            key -> ItemStackBuilder.defaultBuilder(Material.STONE_PICKAXE, key).build(),
             Material.COBBLESTONE,
             Material.STONE,
-            Material.STONE_PICKAXE,
             MiningLevel.STONE,
             (1.0 / 3) - 4,
             1,
             1
     );
+    static {
+        STONE_HAMMER.register();
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(STONE_HAMMER.getRecipe());
+    }
 
     public static final Hammer.Schema IRON_HAMMER = new Hammer.Schema(
             pylonKey("hammer_iron"),
+            key -> ItemStackBuilder.defaultBuilder(Material.IRON_PICKAXE, key).build(),
             Material.IRON_INGOT,
             Material.IRON_BLOCK,
-            Material.IRON_PICKAXE,
             MiningLevel.IRON,
             (1.0 / 2) - 4,
             1.5,
             3
     );
+    static {
+        IRON_HAMMER.register();
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(IRON_HAMMER.getRecipe());
+    }
 
     public static final Hammer.Schema DIAMOND_HAMMER = new Hammer.Schema(
             pylonKey("hammer_diamond"),
+            key -> ItemStackBuilder.defaultBuilder(Material.DIAMOND_PICKAXE, key).build(),
             Material.DIAMOND,
             Material.DIAMOND_BLOCK,
-            Material.DIAMOND_PICKAXE,
             MiningLevel.DIAMOND,
             1 - 4,
             2,
             5
     );
+    static {
+        DIAMOND_HAMMER.register();
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(DIAMOND_HAMMER.getRecipe());
+    }
+    //</editor-fold>
 
     public static final WateringCan WATERING_CAN = new WateringCan(
             pylonKey("watering_can"),
-            WateringCan.WateringCanItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.BUCKET, key).build()
     );
+    static {
+        WATERING_CAN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("watering_can"), WATERING_CAN.getItemStack())
+                .shape("  S", "S S", " S ")
+                .setIngredient('S', IRON_SHEET.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
             pylonKey("monster_jerky"),
-            SimplePylonItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.ROTTEN_FLESH, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
                     .build()
     );
+    static {
+        MONSTER_JERKY.register();
 
-    public static final PylonItemSchema RAW_FERRODURALUM = new SimpleItemSchema<>(
+        FurnaceRecipe furnaceRecipe = new FurnaceRecipe(
+                pylonKey("monster_jerky_furnace"),
+                MONSTER_JERKY.getItemStack(),
+                Material.ROTTEN_FLESH,
+                MONSTER_JERKY.getCookingXp(),
+                RecipeUtils.DEFAULT_FURNACE_TIME_TICKS
+        );
+        furnaceRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceRecipe);
+
+        SmokingRecipe smokingRecipe = new SmokingRecipe(
+                pylonKey("monster_jerky_smoker"),
+                MONSTER_JERKY.getItemStack(),
+                Material.ROTTEN_FLESH,
+                MONSTER_JERKY.getCookingXp(),
+                RecipeUtils.DEFAULT_SMOKER_TIME_TICKS
+        );
+        smokingRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_SMOKING.addRecipe(smokingRecipe);
+
+        ShapedRecipe leatherRecipe = new ShapedRecipe(pylonKey("leather"), new ItemStack(Material.LEATHER))
+                .shape("RR ", "RR ", "   ")
+                .setIngredient('R', MONSTER_JERKY.getItemStack());
+        leatherRecipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(leatherRecipe);
+    }
+
+    //<editor-fold desc="Ferroduralum" defaultstate=collapsed>
+    public static final PylonItemSchema RAW_FERRODURALUM = new PylonItemSchema(
             pylonKey("raw_ferroduralum"),
-            key -> ItemStackBuilder.defaultBuilder(Material.RAW_GOLD, key).build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            ferroduralum -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("raw_ferroduralum"), ferroduralum);
-                recipe.shape(
-                        "CIR",
-                        "   ",
-                        "   "
-                );
-                recipe.setIngredient('C', Material.COPPER_ORE);
-                recipe.setIngredient('I', Material.GOLD_ORE);
-                recipe.setIngredient('R', Material.REDSTONE);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.RAW_GOLD, key).build()
     );
+    static {
+        RAW_FERRODURALUM.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("raw_ferroduralum"), RAW_FERRODURALUM.getItemStack())
+                .shape("CGR", "   ", "   ")
+                .setIngredient('C', Material.COPPER_ORE)
+                .setIngredient('G', Material.GOLD_ORE)
+                .setIngredient('R', Material.REDSTONE);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_INGOT = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_INGOT = new PylonItemSchema(
             pylonKey("ferroduralum_ingot"),
-            key -> ItemStackBuilder.defaultBuilder(Material.GOLD_INGOT, key).build(),
-            RecipeTypes.VANILLA_FURNACE,
-            ingot -> {
-                FurnaceRecipe recipe = new FurnaceRecipe(pylonKey("ferroduralum_ingot"), ingot, new RecipeChoice.ExactChoice(RAW_FERRODURALUM.getItemStack()), 0.25f, 10 * 20);
-                recipe.setCategory(CookingBookCategory.MISC);
-                return recipe;
-            }
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLD_INGOT, key).build()
     );
+    static {
+        FERRODURALUM_INGOT.register();
+        FurnaceRecipe recipe = new FurnaceRecipe(
+                pylonKey("ferroduralum_ingot"),
+                FERRODURALUM_INGOT.getItemStack(),
+                new RecipeChoice.ExactChoice(RAW_FERRODURALUM.getItemStack()),
+                FERRODURALUM_INGOT.getSettings().getOrThrow("cooking.xp", Double.class).floatValue(),
+                RecipeUtils.DEFAULT_FURNACE_TIME_TICKS
+        );
+        recipe.setCategory(CookingBookCategory.MISC);
+        RecipeTypes.VANILLA_FURNACE.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_SHEET = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_SHEET = new PylonItemSchema(
             pylonKey("ferroduralum_sheet"),
-            ItemStackBuilder.of(Material.PAPER).name("Ferroduralum Sheet").build(),
-            Hammer.Recipe.RECIPE_TYPE,
-            sheet -> new Hammer.Recipe(
-                    pylonKey("ferroduralum_sheet"),
-                    List.of(FERRODURALUM_INGOT.getItemStack()),
-                    sheet,
-                    MiningLevel.IRON,
-                    0.25f
-            )
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.PAPER, key).build()
     );
+    static {
+        FERRODURALUM_SHEET.register();
+        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+                pylonKey("ferroduralum_sheet"),
+                List.of(FERRODURALUM_INGOT.getItemStack()),
+                FERRODURALUM_SHEET.getItemStack(),
+                MiningLevel.IRON,
+                0.25f
+        ));
+    }
 
-    public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_SWORD = new PylonItemSchema(
             pylonKey("ferroduralum_sword"),
+            SimplePylonItem.class,
             key -> ItemStackBuilder.of(Material.GOLDEN_SWORD)
                     .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -195,26 +255,22 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            sword -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_sword"), sword);
-                recipe.shape(
-                        " F ",
-                        " F ",
-                        " S "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setIngredient('S', Material.STICK);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_SWORD.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_sword"), FERRODURALUM_SWORD.getItemStack())
+                .shape(" F ", " F ", " S ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('S', Material.STICK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_AXE = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_AXE = new PylonItemSchema(
             pylonKey("ferroduralum_axe"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_AXE)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_AXE, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_axe_speed"),
@@ -223,26 +279,22 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            axe -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_axe"), axe);
-                recipe.shape(
-                        "FF ",
-                        "FS ",
-                        " S "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setIngredient('S', Material.STICK);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_AXE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_axe"), FERRODURALUM_AXE.getItemStack())
+                .shape("FF ", "FS ", " S ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('S', Material.STICK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_PICKAXE = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_PICKAXE = new PylonItemSchema(
             pylonKey("ferroduralum_pickaxe"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_PICKAXE)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_PICKAXE, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_pickaxe_speed"),
@@ -251,26 +303,22 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            pick -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_pickaxe"), pick);
-                recipe.shape(
-                        "FFF",
-                        " S ",
-                        " S "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setIngredient('S', Material.STICK);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_PICKAXE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_pickaxe"), FERRODURALUM_PICKAXE.getItemStack())
+                .shape("FFF", " S ", " S ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('S', Material.STICK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_SHOVEL = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_SHOVEL = new PylonItemSchema(
             pylonKey("ferroduralum_shovel"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_SHOVEL)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_SHOVEL, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_shovel_speed"),
@@ -279,26 +327,22 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            shovel -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_shovel"), shovel);
-                recipe.shape(
-                        " F ",
-                        " S ",
-                        " S "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setIngredient('S', Material.STICK);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_SHOVEL.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_shovel"), FERRODURALUM_SHOVEL.getItemStack())
+                .shape(" F ", " S ", " S ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('S', Material.STICK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_HOE = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_HOE = new PylonItemSchema(
             pylonKey("ferroduralum_hoe"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_HOE)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_HOE, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_hoe_speed"),
@@ -307,26 +351,22 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 300)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            hoe -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_hoe"), hoe);
-                recipe.shape(
-                        "FF ",
-                        " S ",
-                        " S "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setIngredient('S', Material.STICK);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_HOE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_hoe"), FERRODURALUM_HOE.getItemStack())
+                .shape("FF ", " S ", " S ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('S', Material.STICK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_HELMET = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_HELMET = new PylonItemSchema(
             pylonKey("ferroduralum_helmet"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_HELMET)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_HELMET, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_armor"),
@@ -342,23 +382,20 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 190)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            helmet -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_helmet"), helmet);
-                recipe.shape(
-                        "FFF",
-                        "F F",
-                        "   "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_HELMET.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_helmet"), FERRODURALUM_HELMET.getItemStack())
+                .shape("FFF", "F F", "   ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_CHESTPLATE = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_CHESTPLATE = new PylonItemSchema(
             pylonKey("ferroduralum_chestplate"),
+            SimplePylonItem.class,
             key -> ItemStackBuilder.of(Material.GOLDEN_CHESTPLATE)
                     .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
@@ -376,24 +413,21 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 276)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            chestplate -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_chestplate"), chestplate);
-                recipe.shape(
-                        "F F",
-                        "FFF",
-                        "FFF"
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_CHESTPLATE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_chestplate"), FERRODURALUM_CHESTPLATE.getItemStack())
+                .shape("F F", "FFF", "FFF")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_LEGGINGS = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_LEGGINGS = new PylonItemSchema(
             pylonKey("ferroduralum_leggings"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_LEGGINGS)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_LEGGINGS, key)
                     .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -410,25 +444,21 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 259)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            leggings -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_leggings"), leggings);
-                recipe.shape(
-                        "FFF",
-                        "F F",
-                        "F F"
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        FERRODURALUM_LEGGINGS.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_leggings"), FERRODURALUM_LEGGINGS.getItemStack())
+                .shape("FFF", "F F", "F F")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FERRODURALUM_BOOTS = new SimpleItemSchema<>(
+    public static final PylonItemSchema FERRODURALUM_BOOTS = new PylonItemSchema(
             pylonKey("ferroduralum_boots"),
-            key -> ItemStackBuilder.of(Material.GOLDEN_BOOTS)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_BOOTS, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_armor"),
@@ -444,130 +474,143 @@ public final class PylonItems {
                             ))
                             .build())
                     .set(DataComponentTypes.MAX_DAMAGE, 225)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            boots -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_boots"), boots);
-                recipe.shape(
-                        "F F",
-                        "F F",
-                        "   "
-                );
-                recipe.setIngredient('F', FERRODURALUM_INGOT.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_boots"), FERRODURALUM_BOOTS.getItemStack())
+                .shape("F F", "F F", "   ")
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+    //</editor-fold>
 
-    public static final PylonItemSchema COMPRESSED_WOOD = new SimpleItemSchema<>(
+    public static final PylonItemSchema COMPRESSED_WOOD = new PylonItemSchema(
             pylonKey("compressed_wood"),
-            key -> ItemStackBuilder.of(Material.OAK_WOOD)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.OAK_WOOD, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            compressedWood -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_wood"), compressedWood);
-                recipe.shape(
-                        "WWW",
-                        "WWW",
-                        "WWW"
-                );
-                recipe.setIngredient('W',
-                        new RecipeChoice.MaterialChoice(Tag.LOGS));
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        COMPRESSED_WOOD.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_wood"), COMPRESSED_WOOD.getItemStack())
+                .shape("WWW", "WWW", "WWW")
+                .setIngredient('W', new RecipeChoice.MaterialChoice(Tag.LOGS));
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema PORTABILITY_CATALYST = new SimpleItemSchema<>(
+    public static final PylonItemSchema PORTABILITY_CATALYST = new PylonItemSchema(
             pylonKey("portability_catalyst"),
-            key -> ItemStackBuilder.of(Material.AMETHYST_SHARD)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            catalyst -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("portability_catalyst"), catalyst);
-                recipe.shape(
-                        "RRR",
-                        "RPR",
-                        "RRR"
-                );
-                recipe.setIngredient('R', Material.REDSTONE_BLOCK);
-                recipe.setIngredient('P', Material.ENDER_PEARL);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        PORTABILITY_CATALYST.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("portability_catalyst"), PORTABILITY_CATALYST.getItemStack())
+                .shape("RRR", "RPR", "RRR")
+                .setIngredient('R', Material.REDSTONE_BLOCK)
+                .setIngredient('P', Material.ENDER_PEARL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema COMPRESSED_OBSIDIAN = new SimpleItemSchema<>(
+    public static final PylonItemSchema COMPRESSED_OBSIDIAN = new PylonItemSchema(
             pylonKey("compressed_obsidian"),
-            key -> ItemStackBuilder.of(Material.OBSIDIAN)
-                    .defaultTranslatableName(key)
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.OBSIDIAN, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            enchantedobi -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_obsidian"), enchantedobi);
-                recipe.shape(
-                        "OOO",
-                        "OOO",
-                        "OOO"
-                );
-                recipe.setIngredient('O', Material.OBSIDIAN);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        COMPRESSED_OBSIDIAN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("compressed_obsidian"), COMPRESSED_OBSIDIAN.getItemStack())
+                .shape("OOO", "OOO", "OOO")
+                .setIngredient('O', Material.OBSIDIAN);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PortableCraftingTable PORTABLE_CRAFTING_TABLE = new PortableCraftingTable(
+    public static final PylonItemSchema PORTABLE_CRAFTING_TABLE = new PylonItemSchema(
             pylonKey("portable_crafting_table"),
-            PortableCraftingTable.Item.class,
+            PortableCraftingTable.class,
             key -> ItemStackBuilder.defaultBuilder(Material.CRAFTING_TABLE, key).build()
     );
+    static {
+        PORTABLE_CRAFTING_TABLE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("portable_crafting_table"), PORTABLE_CRAFTING_TABLE.getItemStack())
+                .shape("WWW", "WCW", "   ")
+                .setIngredient('W', COMPRESSED_WOOD.getItemStack())
+                .setIngredient('C', PORTABILITY_CATALYST.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PortableDustbin PORTABLE_DUSTBIN = new PortableDustbin(
+    public static final PylonItemSchema PORTABLE_DUSTBIN = new PylonItemSchema(
             pylonKey("portable_dustbin"),
-            PortableDustbin.Item.class,
+            PortableDustbin.class,
             key -> ItemStackBuilder.defaultBuilder(Material.CAULDRON, key).build()
     );
+    static {
+        PORTABLE_DUSTBIN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("portable_dustbin"), PORTABLE_DUSTBIN.getItemStack())
+                .shape("CCC", "IAI", "III")
+                .setIngredient('I', IRON_SHEET.getItemStack())
+                .setIngredient('C', Material.CACTUS)
+                .setIngredient('A', PORTABILITY_CATALYST.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PortableEnderChest PORTABLE_ENDER_CHEST = new PortableEnderChest(
+    public static final PylonItemSchema PORTABLE_ENDER_CHEST = new PylonItemSchema(
             pylonKey("portable_ender_chest"),
-            PortableEnderChest.Item.class,
+            PortableEnderChest.class,
             key -> ItemStackBuilder.defaultBuilder(Material.ENDER_CHEST, key).build()
     );
+    static {
+        PORTABLE_ENDER_CHEST.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("portable_ender_chest"), PORTABLE_ENDER_CHEST.getItemStack())
+                .shape("OOO", "OEO", "OOO")
+                .setIngredient('O', COMPRESSED_OBSIDIAN.getItemStack())
+                .setIngredient('E', PORTABILITY_CATALYST.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema FIBER = new SimpleItemSchema<>(
+    public static final PylonItemSchema FIBER = new PylonItemSchema(
             pylonKey("fiber"),
-            key -> ItemStackBuilder.of(Material.BAMBOO_MOSAIC)
-                    .defaultTranslatableName(key)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            fiber -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
-                        .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.BAMBOO_MOSAIC, key).build()
     );
+    static {
+        FIBER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), FIBER.getItemStack())
+                .shape("SSS", "   ", "   ")
+                .setIngredient('S', Material.STRING);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema PLASTER = new SimpleItemSchema<>(
+    public static final PylonItemSchema PLASTER = new PylonItemSchema(
             pylonKey("plaster"),
-            key -> ItemStackBuilder.of(Material.SMOOTH_STONE_SLAB)
-                    .defaultTranslatableName(key)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            plaster -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("plaster"), plaster).shape("CC ", "CC ", "   ").setIngredient('C', Material.CLAY);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
     );
+    static {
+        PLASTER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("plaster"), PLASTER.getItemStack())
+                .shape("CC ", "CC ", "   ")
+                .setIngredient('C', Material.CLAY);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema BANDAGE = new SimpleItemSchema<>(
+    public static final PylonItemSchema BANDAGE = new PylonItemSchema(
             pylonKey("bandage"),
+            SimplePylonItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.COBWEB, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(List.of(
@@ -577,18 +620,21 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            bandage -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
-                        .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
-    );
+                    .build()
 
-    public static final PylonItemSchema SPLINT = new SimpleItemSchema<>(
+    );
+    static {
+        BANDAGE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), BANDAGE.getItemStack())
+                .shape("FF ", "FF ", "   ")
+                .setIngredient('F', FIBER.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema SPLINT = new PylonItemSchema(
             pylonKey("splint"),
+            SimplePylonItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.STICK, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .addEffect(ConsumeEffect.applyStatusEffects(List.of(
@@ -598,18 +644,20 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .hasConsumeParticles(false)
                             .build())
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            splint -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("splint"), splint)
-                        .shape("PPP", "   ", "PPP").setIngredient('P', PLASTER.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        SPLINT.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("splint"), SPLINT.getItemStack())
+                .shape("PPP", "   ", "PPP")
+                .setIngredient('P', PLASTER.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema DISINFECTANT = new SimpleItemSchema<>(
+    public static final PylonItemSchema DISINFECTANT = new PylonItemSchema(
             pylonKey("disinfectant"),
+            SimplePylonItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.BREWER_POTTERY_SHERD, key)
                     // Using the actual potion material doesn't let you set the name properly, gives you a
                     // class string of a nonexistant potion type for some reason
@@ -620,18 +668,20 @@ public final class PylonItems {
                             .animation(ItemUseAnimation.BOW)
                             .addEffect(ConsumeEffect.clearAllStatusEffects())
                             .build())
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            disinfectant -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("disinfectant"), disinfectant)
-                        .shape("DDD", "D D", "DDD").setIngredient('D', Material.DRIPSTONE_BLOCK);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        DISINFECTANT.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("disinfectant"), DISINFECTANT.getItemStack())
+                .shape("DDD", "D D", "DDD")
+                .setIngredient('D', Material.DRIPSTONE_BLOCK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
-    public static final PylonItemSchema MEDKIT = new SimpleItemSchema<>(
+    public static final PylonItemSchema MEDKIT = new PylonItemSchema(
             pylonKey("medkit"),
+            SimplePylonItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.SHULKER_SHELL, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .consumeSeconds(7.0f)
@@ -642,285 +692,271 @@ public final class PylonItems {
                                     new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 3, true)
                             ), 1))
                     )
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            medkit -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("medkit"), medkit)
-                        .shape("PFP", "DDD", "PFP").setIngredient('P', PLASTER.getItemStack())
-                        .setIngredient('D', DISINFECTANT.getItemStack())
-                        .setIngredient('F', FIBER.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
+                    .build()
     );
+    static {
+        MEDKIT.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("medkit"), MEDKIT.getItemStack())
+                .shape("PFP", "DDD", "PFP")
+                .setIngredient('P', PLASTER.getItemStack())
+                .setIngredient('D', DISINFECTANT.getItemStack())
+                .setIngredient('F', FIBER.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
     public static final Sprinkler.SprinklerItem.Schema SPRINKLER = new Sprinkler.SprinklerItem.Schema(
             pylonKey("sprinkler"),
             Sprinkler.SprinklerItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.FLOWER_POT, key).build()
     );
+    static {
+        SPRINKLER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("sprinkler"), SPRINKLER.getItemStack())
+                .shape("B B", "B B", "FRF")
+                .setIngredient('B', new ItemStack(Material.BRICK))
+                .setIngredient('F', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('R', new ItemStack(Material.REPEATER));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
             pylonKey("recoil_arrow"),
-            RecoilArrow.Item.class,
             key -> ItemStackBuilder.defaultBuilder(Material.ARROW, key)
                     .amount(8)
                     .build(),
             0.75f
     );
+    static {
+        RECOIL_ARROW.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("recoil_arrow"), RECOIL_ARROW.getItemStack())
+                .shape("SSS", "SAS", "SSS")
+                .setIngredient('S', Material.SLIME_BALL)
+                .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
+    }
 
     public static final LumberAxe LUMBER_AXE = new LumberAxe(
             pylonKey("lumber_axe"),
-            LumberAxe.LumberAxeItem.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.WOODEN_AXE, key)
-                    .build());
-
-    public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
-            pylonKey("magic_dust"),
-            key -> ItemStackBuilder.of(Material.AMETHYST_CLUSTER)
-                    .defaultTranslatableName(key)
-                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .build(),
-            RecipeTypes.VANILLA_CRAFTING,
-            block -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_dust"), block);
-                recipe.shape(
-                        "AGA",
-                        "GGG",
-                        "AGA"
-                );
-                recipe.setIngredient('A', new RecipeChoice.MaterialChoice(Material.AMETHYST_BLOCK, Material.AMETHYST_CLUSTER, Material.LARGE_AMETHYST_BUD, Material.MEDIUM_AMETHYST_BUD, Material.SMALL_AMETHYST_BUD));
-                recipe.setIngredient('G', Material.GLOWSTONE);
-                recipe.setCategory(CraftingBookCategory.MISC);
-                return recipe;
-            }
+            key -> ItemStackBuilder.defaultBuilder(Material.WOODEN_AXE, key).build()
     );
+    static {
+        LUMBER_AXE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("lumber_axe"), LUMBER_AXE.getItemStack())
+                .shape("WWW", "WAW", "III")
+                .setIngredient('W', COMPRESSED_WOOD.getItemStack())
+                .setIngredient('A', Material.WOODEN_AXE)
+                .setIngredient('I', Material.IRON_BLOCK);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema MAGIC_DUST = new PylonItemSchema(
+            pylonKey("magic_dust"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+    );
+    static {
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_dust"), MAGIC_DUST.getItemStack());
+        recipe.shape("AGA", "GGG", "AGA")
+                .setIngredient('A', new RecipeChoice.MaterialChoice(
+                        Material.AMETHYST_BLOCK,
+                        Material.AMETHYST_CLUSTER,
+                        Material.LARGE_AMETHYST_BUD,
+                        Material.MEDIUM_AMETHYST_BUD,
+                        Material.SMALL_AMETHYST_BUD)
+                )
+                .setIngredient('G', Material.GLOWSTONE);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
     public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
             pylonKey("beheading_sword"),
-            BeheadingSword.Item.class,
             key -> ItemStackBuilder.defaultBuilder(Material.DIAMOND_SWORD, key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build()
     );
+    static {
+        BEHEADING_SWORD.register();
+        ItemStack silkTouchBook = ItemStackBuilder.of(Material.ENCHANTED_BOOK)
+                .set(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantments.itemEnchantments()
+                        .add(Enchantment.SILK_TOUCH, 1)
+                        .build())
+                .build();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("beheading_sword"), BEHEADING_SWORD.getItemStack())
+                .shape("MHM", "MBM", "MSM")
+                .setIngredient('M', MAGIC_DUST.getItemStack())
+                .setIngredient('B', new RecipeChoice.ExactChoice(silkTouchBook))
+                .setIngredient('S', Material.DIAMOND_SWORD)
+                // Not allowing player heads to be used since too many plugins give player heads as custom items
+                .setIngredient('H', new RecipeChoice.MaterialChoice(
+                        Material.CREEPER_HEAD,
+                        Material.ZOMBIE_HEAD,
+                        Material.PIGLIN_HEAD,
+                        Material.DRAGON_HEAD)
+                );
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
 
     public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
             pylonKey("pedestal"),
             key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
             PylonBlocks.PEDESTAL
     );
+    static {
+        PEDESTAL.register();
+        // TODO recipe
+    }
 
     public static final Pedestal.PedestalItem.Schema MAGIC_PEDESTAL = new Pedestal.PedestalItem.Schema(
             pylonKey("magic_pedestal"),
             key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
             PylonBlocks.MAGIC_PEDESTAL
     );
+    static {
+        MAGIC_PEDESTAL.register();
+        // TODO recipe
+    }
 
     public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
             pylonKey("magic_altar"),
             key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
     );
-
-    // This will be removed in a future PR, just here to test the altar
-    public static final PylonItemSchema CANDENT_REDSTONE = new SimpleItemSchema<>(
-            pylonKey("candent_redstone"),
-            ItemStackBuilder.of(Material.REDSTONE)
-                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .name("Candent Redstone")
-                    .build(),
-            MagicAltar.Recipe.RECIPE_TYPE,
-            item -> new MagicAltar.Recipe(
-                    pylonKey("candent_redstone"),
-                    new ArrayList<>(Arrays.asList(
-                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
-                            null,
-                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
-                            null,
-                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
-                            null,
-                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
-                            null
-                    )),
-                    new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)),
-                    item,
-                    5
-            )
-    );
+    static {
+        MAGIC_ALTAR.register();
+        // TODO recipe
+    }
 
     public static final PylonItemSchema GRINDSTONE = new PylonItemSchema(
             pylonKey("grindstone"),
             Grindstone.GrindstoneItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
     );
+    static {
+        GRINDSTONE.register();
+        // TODO recipe
+    }
 
     public static final PylonItemSchema GRINDSTONE_HANDLE = new PylonItemSchema(
             pylonKey("grindstone_handle"),
             GrindstoneHandle.GrindstoneHandleItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.OAK_FENCE, key).build()
     );
-
-    // TODO recipe refactor will clean this up
-    private static final BlockData wheatGrindingBlockData = Material.WHEAT.createBlockData(data -> {
-        Ageable ageable = (Ageable) data;
-        ageable.setAge(ageable.getMaximumAge());
-    });
-    public static final PylonItemSchema FLOUR = new SimpleItemSchema<>(
-            pylonKey("flour"),
-            key -> ItemStackBuilder.of(Material.SUGAR)
-                    .defaultTranslatableName(key)
-                    .build(),
-            Grindstone.Recipe.RECIPE_TYPE,
-            item -> new Grindstone.Recipe(
-                    pylonKey("flour"),
-                    new RecipeChoice.ExactChoice(new ItemStack(Material.WHEAT)),
-                    2,
-                    item,
-                    2,
-                    wheatGrindingBlockData
-            )
-    );
-
-    public static final PylonItemSchema DOUGH = new SimpleItemSchema<>(
-            pylonKey("dough"),
-            key -> ItemStackBuilder.of(Material.YELLOW_DYE)
-                    .defaultTranslatableName(key)
-                    .build(),
-            WaterCauldronRightClickRecipe.RECIPE_TYPE,
-            item -> new WaterCauldronRightClickRecipe(
-                    pylonKey("dough"),
-                    new RecipeChoice.ExactChoice(FLOUR.getItemStack()),
-                    item
-            )
-    );
-
-    public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
-            pylonKey("simple_healing_talisman"),
-            HealthTalisman.Item.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
-                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-                    .build(),
-            (talisman) -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_healing_talisman"), talisman);
-                recipe.shape(
-                        "GGG",
-                        "GRG",
-                        "GGG"
-                );
-                recipe.setIngredient('G', Material.GLISTERING_MELON_SLICE);
-                recipe.setIngredient('R', Material.REDSTONE);
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
-    );
-
-    public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
-            pylonKey("advanced_healing_talisman"),
-            HealthTalisman.Item.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
-                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-                    .build(),
-            (talisman) -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_healing_talisman"), talisman);
-                recipe.shape(
-                        "SSS",
-                        "SSS",
-                        "SSS"
-                );
-                recipe.setIngredient('S', SIMPLE_HEALTH_TALISMAN.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
-    );
-
-    public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
-            pylonKey("ultimate_healing_talisman"),
-            HealthTalisman.Item.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.BUDDING_AMETHYST, key)
-                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-                    .build(),
-            (talisman) -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_healing_talisman"), talisman);
-                recipe.shape(
-                        "AAA",
-                        "AAA",
-                        "AAA"
-                );
-                recipe.setIngredient('A', ADVANCED_HEALTH_TALISMAN.getItemStack());
-                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                return recipe;
-            }
-    );
-    //</editor-fold>
-
-    static void register() {
-        COPPER_SHEET.register();
-        GOLD_SHEET.register();
-        IRON_SHEET.register();
-        STONE_HAMMER.register();
-        IRON_HAMMER.register();
-        DIAMOND_HAMMER.register();
-        MONSTER_JERKY.register();
-        WATERING_CAN.register();
-        SPRINKLER.register();
-        COMPRESSED_WOOD.register();
-        PORTABLE_CRAFTING_TABLE.register();
-        PORTABLE_DUSTBIN.register();
-        PORTABLE_ENDER_CHEST.register();
-        FIBER.register();
-        BANDAGE.register();
-        PLASTER.register();
-        SPLINT.register();
-        DISINFECTANT.register();
-        MEDKIT.register();
-        RAW_FERRODURALUM.register();
-        FERRODURALUM_INGOT.register();
-        FERRODURALUM_SHEET.register();
-        FERRODURALUM_SWORD.register();
-        FERRODURALUM_AXE.register();
-        FERRODURALUM_PICKAXE.register();
-        FERRODURALUM_SHOVEL.register();
-        FERRODURALUM_HOE.register();
-        FERRODURALUM_HELMET.register();
-        FERRODURALUM_CHESTPLATE.register();
-        FERRODURALUM_LEGGINGS.register();
-        FERRODURALUM_BOOTS.register();
-        RECOIL_ARROW.register();
-        LUMBER_AXE.register();
-        MAGIC_DUST.register();
-        BEHEADING_SWORD.register();
-        PEDESTAL.register();
-        MAGIC_PEDESTAL.register();
-        MAGIC_ALTAR.register();
-        CANDENT_REDSTONE.register();
-        GRINDSTONE.register();
+    static {
         GRINDSTONE_HANDLE.register();
+        // TODO recipe
+    }
+
+    public static final PylonItemSchema FLOUR = new PylonItemSchema(
+            pylonKey("flour"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.SUGAR, key).build()
+    );
+    static {
         FLOUR.register();
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("flour"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.WHEAT)),
+                2,
+                FLOUR.getItemStack(),
+                2,
+                Material.WHEAT.createBlockData(data -> {
+                    Ageable ageable = (Ageable) data;
+                    ageable.setAge(ageable.getMaximumAge());
+                })
+        ));
+    }
+
+    public static final PylonItemSchema DOUGH = new PylonItemSchema(
+            pylonKey("dough"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.YELLOW_DYE, key).build()
+    );
+    static {
         DOUGH.register();
 
-        // TODO recipe refactor
-        FurnaceRecipe furnaceDoughRecipe = new FurnaceRecipe(
+        WaterCauldronRightClickRecipe.RECIPE_TYPE.addRecipe(new WaterCauldronRightClickRecipe(
+                pylonKey("dough"),
+                new RecipeChoice.ExactChoice(FLOUR.getItemStack()),
+                DOUGH.getItemStack()
+        ));
+
+        FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
                 pylonKey("bread_from_dough_furnace"),
                 new ItemStack(Material.BREAD),
                 new RecipeChoice.ExactChoice(DOUGH.getItemStack()),
                 0.2F,
                 10 * 20);
-        furnaceDoughRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceDoughRecipe);
+        furnaceBreadRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceBreadRecipe);
 
-        SmokingRecipe smokerDoughRecipe = new SmokingRecipe(
+        SmokingRecipe smokerBreadRecipe = new SmokingRecipe(
                 pylonKey("bread_from_dough_smoker"),
                 new ItemStack(Material.BREAD),
                 new RecipeChoice.ExactChoice(DOUGH.getItemStack()),
                 0.2F,
                 5 * 20);
-        smokerDoughRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_SMOKING.addRecipe(smokerDoughRecipe);
+        smokerBreadRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
+    }
+
+    public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("simple_health_talisman"),
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build()
+    );
+    static {
         SIMPLE_HEALTH_TALISMAN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_health_talisman"), SIMPLE_HEALTH_TALISMAN.getItemStack())
+                .shape("GGG", "GRG", "GGG")
+                .setIngredient('G', Material.GLISTERING_MELON_SLICE)
+                .setIngredient('R', Material.REDSTONE);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("advanced_health_talisman"),
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build()
+    );
+    static {
         ADVANCED_HEALTH_TALISMAN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_health_talisman"), ADVANCED_HEALTH_TALISMAN.getItemStack())
+                .shape("SSS", "SSS", "SSS")
+                .setIngredient('S', SIMPLE_HEALTH_TALISMAN.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("ultimate_health_talisman"),
+            key -> ItemStackBuilder.defaultBuilder(Material.BUDDING_AMETHYST, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build()
+    );
+    static {
         ULTIMATE_HEALTH_TALISMAN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_health_talisman"), ULTIMATE_HEALTH_TALISMAN.getItemStack())
+                .shape("AAA", "AAA", "AAA")
+                .setIngredient('A', ADVANCED_HEALTH_TALISMAN.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }
+
+    // Calling this method forces all the static blocks to run, which initialises our items
+    public static void initialize() {}
 }
