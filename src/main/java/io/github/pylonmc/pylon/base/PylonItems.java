@@ -850,6 +850,25 @@ public final class PylonItems {
                 return recipe;
             }
     );
+
+    public static ExplosiveTarget.ExplosiveTargetItem.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("explosive_target"),
+            ExplosiveTarget.ExplosiveTargetItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            target -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), target);
+                recipe.shape(
+                        "TTT",
+                        "TXT",
+                        "TTT"
+                );
+                recipe.setIngredient('T', Material.TNT);
+                recipe.setIngredient('X', Material.TARGET);
+                recipe.setCategory(CraftingBookCategory.BUILDING);
+                return recipe;
+            }
+    );
     //</editor-fold>
 
     static void register() {
@@ -896,6 +915,7 @@ public final class PylonItems {
         GRINDSTONE_HANDLE.register();
         FLOUR.register();
         DOUGH.register();
+        EXPLOSIVE_TARGET.register();
 
         // TODO recipe refactor
         FurnaceRecipe furnaceDoughRecipe = new FurnaceRecipe(

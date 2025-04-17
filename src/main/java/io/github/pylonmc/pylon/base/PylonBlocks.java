@@ -1,9 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Grindstone;
-import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
-import io.github.pylonmc.pylon.base.items.Pedestal;
-import io.github.pylonmc.pylon.base.items.MagicAltar;
+import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import org.bukkit.Material;
@@ -52,6 +49,12 @@ public final class PylonBlocks {
             GrindstoneHandle.GrindstoneHandleBlock.class
     );
 
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("explosive_target"),
+            Material.TARGET,
+            ExplosiveTarget.ExplosiveTargetBlock.class
+    );
+
     static void register() {
         SPRINKLER.register();
         PEDESTAL.register();
@@ -59,5 +62,6 @@ public final class PylonBlocks {
         MAGIC_ALTAR.register();
         GRINDSTONE.register();
         GRINDSTONE_HANDLE.register();
+        EXPLOSIVE_TARGET.register();
     }
 }
