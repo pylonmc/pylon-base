@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
-import io.github.pylonmc.pylon.core.network.Network;
-import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.BlockUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
