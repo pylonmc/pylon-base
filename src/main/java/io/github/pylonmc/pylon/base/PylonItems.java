@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
+import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -19,13 +20,21 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.*;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CookingBookCategory;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -80,6 +89,8 @@ public final class PylonItems {
                     0.25f
             )
     );
+
+
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
@@ -157,6 +168,19 @@ public final class PylonItems {
                 recipe.setCategory(CookingBookCategory.MISC);
                 return recipe;
             }
+    );
+
+    public static final PylonItemSchema FERRODURALUM_SHEET = new SimpleItemSchema<>(
+            pylonKey("ferroduralum_sheet"),
+            ItemStackBuilder.of(Material.PAPER).name("Ferroduralum Sheet").build(),
+            Hammer.Recipe.RECIPE_TYPE,
+            sheet -> new Hammer.Recipe(
+                    pylonKey("ferroduralum_sheet"),
+                    List.of(FERRODURALUM_INGOT.getItemStack()),
+                    sheet,
+                    MiningLevel.IRON,
+                    0.25f
+            )
     );
 
     public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
@@ -673,6 +697,95 @@ public final class PylonItems {
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build()
     );
+
+    public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
+            pylonKey("pedestal"),
+            key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
+            PylonBlocks.PEDESTAL
+    );
+
+    public static final Pedestal.PedestalItem.Schema MAGIC_PEDESTAL = new Pedestal.PedestalItem.Schema(
+            pylonKey("magic_pedestal"),
+            key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
+            PylonBlocks.MAGIC_PEDESTAL
+    );
+
+    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
+            pylonKey("magic_altar"),
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
+    );
+
+    // This will be removed in a future PR, just here to test the altar
+    public static final PylonItemSchema CANDENT_REDSTONE = new SimpleItemSchema<>(
+            pylonKey("candent_redstone"),
+            ItemStackBuilder.of(Material.REDSTONE)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .name("Candent Redstone")
+                    .build(),
+            MagicAltar.Recipe.RECIPE_TYPE,
+            item -> new MagicAltar.Recipe(
+                    pylonKey("candent_redstone"),
+                    new ArrayList<>(Arrays.asList(
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null
+                    )),
+                    new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)),
+                    item,
+                    5
+            )
+    );
+
+    public static final PylonItemSchema GRINDSTONE = new PylonItemSchema(
+            pylonKey("grindstone"),
+            Grindstone.GrindstoneItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
+    );
+
+    public static final PylonItemSchema GRINDSTONE_HANDLE = new PylonItemSchema(
+            pylonKey("grindstone_handle"),
+            GrindstoneHandle.GrindstoneHandleItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.OAK_FENCE, key).build()
+    );
+
+    // TODO recipe refactor will clean this up
+    private static final BlockData wheatGrindingBlockData = Material.WHEAT.createBlockData(data -> {
+        Ageable ageable = (Ageable) data;
+        ageable.setAge(ageable.getMaximumAge());
+    });
+    public static final PylonItemSchema FLOUR = new SimpleItemSchema<>(
+            pylonKey("flour"),
+            key -> ItemStackBuilder.of(Material.SUGAR)
+                    .defaultTranslatableName(key)
+                    .build(),
+            Grindstone.Recipe.RECIPE_TYPE,
+            item -> new Grindstone.Recipe(
+                    pylonKey("flour"),
+                    new RecipeChoice.ExactChoice(new ItemStack(Material.WHEAT)),
+                    2,
+                    item,
+                    2,
+                    wheatGrindingBlockData
+            )
+    );
+
+    public static final PylonItemSchema DOUGH = new SimpleItemSchema<>(
+            pylonKey("dough"),
+            key -> ItemStackBuilder.of(Material.YELLOW_DYE)
+                    .defaultTranslatableName(key)
+                    .build(),
+            WaterCauldronRightClickRecipe.RECIPE_TYPE,
+            item -> new WaterCauldronRightClickRecipe(
+                    pylonKey("dough"),
+                    new RecipeChoice.ExactChoice(FLOUR.getItemStack()),
+                    item
+            )
+    );
     //</editor-fold>
 
     static void register() {
@@ -697,6 +810,7 @@ public final class PylonItems {
         MEDKIT.register();
         RAW_FERRODURALUM.register();
         FERRODURALUM_INGOT.register();
+        FERRODURALUM_SHEET.register();
         FERRODURALUM_SWORD.register();
         FERRODURALUM_AXE.register();
         FERRODURALUM_PICKAXE.register();
@@ -709,6 +823,33 @@ public final class PylonItems {
         RECOIL_ARROW.register();
         MAGIC_DUST.register();
         BEHEADING_SWORD.register();
+        PEDESTAL.register();
+        MAGIC_PEDESTAL.register();
+        MAGIC_ALTAR.register();
+        CANDENT_REDSTONE.register();
+        GRINDSTONE.register();
+        GRINDSTONE_HANDLE.register();
+        FLOUR.register();
+        DOUGH.register();
+
+        // TODO recipe refactor
+        FurnaceRecipe furnaceDoughRecipe = new FurnaceRecipe(
+                pylonKey("bread_from_dough_furnace"),
+                new ItemStack(Material.BREAD),
+                new RecipeChoice.ExactChoice(DOUGH.getItemStack()),
+                0.2F,
+                10 * 20);
+        furnaceDoughRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceDoughRecipe);
+
+        SmokingRecipe smokerDoughRecipe = new SmokingRecipe(
+                pylonKey("bread_from_dough_smoker"),
+                new ItemStack(Material.BREAD),
+                new RecipeChoice.ExactChoice(DOUGH.getItemStack()),
+                0.2F,
+                5 * 20);
+        smokerDoughRecipe.setCategory(CookingBookCategory.FOOD);
+        RecipeTypes.VANILLA_SMOKING.addRecipe(smokerDoughRecipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

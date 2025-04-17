@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import lombok.Getter;
@@ -22,7 +23,9 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         registerWithPylon();
         PylonItems.register();
         PylonBlocks.register();
+        PylonEntities.register();
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WaterCauldronRightClickRecipe.CauldronListener(), this);
     }
 
     @Override
