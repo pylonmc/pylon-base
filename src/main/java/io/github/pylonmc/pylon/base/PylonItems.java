@@ -26,6 +26,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -80,6 +82,8 @@ public final class PylonItems {
                     0.25f
             )
     );
+
+
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final Hammer.Schema STONE_HAMMER = new Hammer.Schema(
@@ -157,6 +161,19 @@ public final class PylonItems {
                 recipe.setCategory(CookingBookCategory.MISC);
                 return recipe;
             }
+    );
+
+    public static final PylonItemSchema FERRODURALUM_SHEET = new SimpleItemSchema<>(
+            pylonKey("ferroduralum_sheet"),
+            ItemStackBuilder.of(Material.PAPER).name("Ferroduralum Sheet").build(),
+            Hammer.Recipe.RECIPE_TYPE,
+            sheet -> new Hammer.Recipe(
+                    pylonKey("ferroduralum_sheet"),
+                    List.of(FERRODURALUM_INGOT.getItemStack()),
+                    sheet,
+                    MiningLevel.IRON,
+                    0.25f
+            )
     );
 
     public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
@@ -644,6 +661,49 @@ public final class PylonItems {
                     .build(),
             0.75f
     );
+
+    public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
+            pylonKey("pedestal"),
+            key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
+            PylonBlocks.PEDESTAL
+    );
+
+    public static final Pedestal.PedestalItem.Schema MAGIC_PEDESTAL = new Pedestal.PedestalItem.Schema(
+            pylonKey("magic_pedestal"),
+            key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
+            PylonBlocks.MAGIC_PEDESTAL
+    );
+
+    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
+            pylonKey("magic_altar"),
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
+    );
+
+    // This will be removed in a future PR, just here to test the altar
+    public static final PylonItemSchema CANDENT_REDSTONE = new SimpleItemSchema<>(
+            pylonKey("candent_redstone"),
+            ItemStackBuilder.of(Material.REDSTONE)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .name("Candent Redstone")
+                    .build(),
+            MagicAltar.Recipe.RECIPE_TYPE,
+            item -> new MagicAltar.Recipe(
+                    pylonKey("candent_redstone"),
+                    new ArrayList<>(Arrays.asList(
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)),
+                            null
+                    )),
+                    new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)),
+                    item,
+                    5
+            )
+    );
     //</editor-fold>
 
     static void register() {
@@ -668,6 +728,7 @@ public final class PylonItems {
         MEDKIT.register();
         RAW_FERRODURALUM.register();
         FERRODURALUM_INGOT.register();
+        FERRODURALUM_SHEET.register();
         FERRODURALUM_SWORD.register();
         FERRODURALUM_AXE.register();
         FERRODURALUM_PICKAXE.register();
@@ -678,6 +739,10 @@ public final class PylonItems {
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
         RECOIL_ARROW.register();
+        PEDESTAL.register();
+        MAGIC_PEDESTAL.register();
+        MAGIC_ALTAR.register();
+        CANDENT_REDSTONE.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
