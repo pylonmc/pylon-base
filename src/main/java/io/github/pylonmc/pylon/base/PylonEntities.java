@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.Grindstone;
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
-import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.ItemDisplay;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;

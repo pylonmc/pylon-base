@@ -6,20 +6,20 @@ import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
-import io.github.pylonmc.pylon.core.block.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
-import io.github.pylonmc.pylon.core.block.base.SimplePylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
-import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
-import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -100,7 +100,7 @@ public final class MagicAltar {
     }
 
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
-            implements SimplePylonMultiblock, PylonTickingBlock, PylonInteractableBlock {
+            implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractableBlock {
 
         private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
         private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
@@ -110,7 +110,7 @@ public final class MagicAltar {
         private double remainingTimeSeconds;
         private final Map<String, UUID> entities;
 
-        private static final Component MAGIC_PEDESTAL_COMPONENT = new SimplePylonMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
+        private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
 
         public static class Schema extends PylonBlockSchema {
 

@@ -2,12 +2,13 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
-import io.github.pylonmc.pylon.core.block.BlockBreakContext;
-import io.github.pylonmc.pylon.core.block.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.EntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
@@ -16,7 +17,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
-import io.github.pylonmc.pylon.core.persistence.datatypes.PylonSerializers;
 import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -73,7 +73,7 @@ public final class Pedestal {
     }
 
     public static class PedestalBlock extends PylonBlock<PylonBlockSchema>
-            implements EntityHolderBlock, PylonInteractableBlock {
+            implements PylonEntityHolderBlock, PylonInteractableBlock {
 
         private static final NamespacedKey ROTATION_KEY = KeyUtils.pylonKey("rotation");
         private static final NamespacedKey LOCKED_KEY = KeyUtils.pylonKey("locked");
@@ -163,7 +163,7 @@ public final class Pedestal {
 
         @Override
         public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-            EntityHolderBlock.super.onBreak(drops, context);
+            PylonEntityHolderBlock.super.onBreak(drops, context);
             drops.add(getItemDisplay().getItemStack());
         }
 
