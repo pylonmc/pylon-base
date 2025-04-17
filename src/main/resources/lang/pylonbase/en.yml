@@ -32,6 +32,13 @@ item:
   dough:
     name: "Dough"
 
+  explosive_target:
+    name: "Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion range: %explosion-power%
+      <arrow> %fire-enabled% create fire
+
   ferroduralum_axe:
     name: "Ferroduralum Axe"
 

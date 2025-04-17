@@ -1,14 +1,17 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBlocks;
-import io.github.pylonmc.pylon.core.block.BlockCreateContext;
+import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTargetBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.papermc.paper.event.block.TargetHitEvent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -16,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -30,6 +34,8 @@ public class ExplosiveTarget {
         }
 
         public static class Schema extends PylonItemSchema {
+            private final double explosionPower = getSettings().getOrThrow("explosion-power", Double.class);
+            private final boolean createsFire = getSettings().getOrThrow("fire-enabled", Boolean.class);
 
             public Schema(
                     @NotNull NamespacedKey key,
@@ -41,11 +47,15 @@ public class ExplosiveTarget {
         }
 
         public ExplosiveTargetItem(@NotNull Schema schema, @NotNull ItemStack itemStack) { super(schema, itemStack); }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+            return Map.of("explosion-power", Component.text(getSchema().explosionPower),
+                    "fire-enabled", getSchema().createsFire ? Component.text("Does") : Component.text("Doesn't"));
+        }
     }
 
     public static class ExplosiveTargetBlock extends PylonBlock<ExplosiveTargetBlock.Schema> implements PylonTargetBlock {
-        private static final float EXPLOSION_POWER = 15.0f;
-        private static final boolean EXPLOSION_HAS_FIRE = true;
 
         public static class Schema extends PylonBlockSchema {
             public Schema(
@@ -65,8 +75,12 @@ public class ExplosiveTarget {
 
         @Override
         public void onHit(@NotNull TargetHitEvent event) {
+            event.setCancelled(true);
+            BlockStorage.breakBlock(getBlock());
             // This is called when a target block is hit, so this should never be null
-            Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(), EXPLOSION_POWER, EXPLOSION_HAS_FIRE);
+            Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(),
+                    (float) PylonItems.EXPLOSIVE_TARGET.explosionPower,
+                    PylonItems.EXPLOSIVE_TARGET.createsFire);
         }
     }
 }
