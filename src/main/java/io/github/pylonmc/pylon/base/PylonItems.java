@@ -669,6 +669,12 @@ public final class PylonItems {
             0.75f
     );
 
+    public static final LumberAxe LUMBER_AXE = new LumberAxe(
+            pylonKey("lumber_axe"),
+            LumberAxe.LumberAxeItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.WOODEN_AXE, key)
+                    .build());
+
     public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
             pylonKey("magic_dust"),
             key -> ItemStackBuilder.of(Material.AMETHYST_CLUSTER)
@@ -821,6 +827,7 @@ public final class PylonItems {
         FERRODURALUM_LEGGINGS.register();
         FERRODURALUM_BOOTS.register();
         RECOIL_ARROW.register();
+        LUMBER_AXE.register();
         MAGIC_DUST.register();
         BEHEADING_SWORD.register();
         PEDESTAL.register();

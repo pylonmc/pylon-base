@@ -104,6 +104,11 @@ item:
   iron_sheet:
     name: "Iron Sheet"
 
+  lumber_axe:
+    name: "Lumber Axe"
+    lore: |-
+      <arrow> Breaks an entire tree at once
+
   magic_dust:
     name: "Magic dust"
 
