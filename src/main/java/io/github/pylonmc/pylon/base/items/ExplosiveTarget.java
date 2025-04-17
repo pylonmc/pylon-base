@@ -10,12 +10,14 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
+import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.papermc.paper.event.block.TargetHitEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,9 +42,11 @@ public class ExplosiveTarget {
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                    @NotNull Function<NamespacedKey, ItemStack> template
+                    @NotNull Function<NamespacedKey, ItemStack> template,
+                    @NotNull Function<ItemStack, ShapedRecipe> recipe
                     ) {
                 super(key, itemClass, template);
+                RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe.apply(this.template));
             }
         }
 

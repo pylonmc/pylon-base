@@ -855,7 +855,19 @@ public final class PylonItems {
             pylonKey("explosive_target"),
             ExplosiveTarget.ExplosiveTargetItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
-                    .build()
+                    .build(),
+            target -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), target);
+                recipe.shape(
+                        "TTT",
+                        "TXT",
+                        "TTT"
+                );
+                recipe.setIngredient('T', Material.TNT);
+                recipe.setIngredient('X', Material.TARGET);
+                recipe.setCategory(CraftingBookCategory.BUILDING);
+                return recipe;
+            }
     );
     //</editor-fold>
 
