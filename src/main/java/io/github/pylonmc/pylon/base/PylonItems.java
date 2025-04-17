@@ -546,10 +546,10 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             fiber -> {
-                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
-                    .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
-                    recipe.setCategory(CraftingBookCategory.MISC);
-                    return recipe;
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("fiber"), fiber)
+                        .shape("SSS", "   ", "   ").setIngredient('S', Material.STRING);
+                recipe.setCategory(CraftingBookCategory.MISC);
+                return recipe;
             }
     );
 
@@ -580,10 +580,10 @@ public final class PylonItems {
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             bandage -> {
-                    ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
-                    .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
-                    recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-                    return recipe;
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("bandage"), bandage)
+                        .shape("FF ", "FF ", "   ").setIngredient('F', FIBER.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
             }
     );
 
@@ -792,6 +792,64 @@ public final class PylonItems {
                     item
             )
     );
+
+    public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("simple_healing_talisman"),
+            HealthTalisman.Item.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_healing_talisman"), talisman);
+                recipe.shape(
+                        "GGG",
+                        "GRG",
+                        "GGG"
+                );
+                recipe.setIngredient('G', Material.GLISTERING_MELON_SLICE);
+                recipe.setIngredient('R', Material.REDSTONE);
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
+
+    public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("advanced_healing_talisman"),
+            HealthTalisman.Item.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_healing_talisman"), talisman);
+                recipe.shape(
+                        "SSS",
+                        "SSS",
+                        "SSS"
+                );
+                recipe.setIngredient('S', SIMPLE_HEALTH_TALISMAN.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
+
+    public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
+            pylonKey("ultimate_healing_talisman"),
+            HealthTalisman.Item.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.BUDDING_AMETHYST, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build(),
+            (talisman) -> {
+                ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_healing_talisman"), talisman);
+                recipe.shape(
+                        "AAA",
+                        "AAA",
+                        "AAA"
+                );
+                recipe.setIngredient('A', ADVANCED_HEALTH_TALISMAN.getItemStack());
+                recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+                return recipe;
+            }
+    );
     //</editor-fold>
 
     static void register() {
@@ -857,6 +915,9 @@ public final class PylonItems {
                 5 * 20);
         smokerDoughRecipe.setCategory(CookingBookCategory.FOOD);
         RecipeTypes.VANILLA_SMOKING.addRecipe(smokerDoughRecipe);
+        SIMPLE_HEALTH_TALISMAN.register();
+        ADVANCED_HEALTH_TALISMAN.register();
+        ULTIMATE_HEALTH_TALISMAN.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

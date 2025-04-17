@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
@@ -26,6 +27,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         PylonEntities.register();
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         Bukkit.getPluginManager().registerEvents(new WaterCauldronRightClickRecipe.CauldronListener(), this);
+        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 
     @Override

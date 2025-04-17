@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.network.Network;
 import io.github.pylonmc.pylon.core.persistence.blockstorage.BlockStorage;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.github.pylonmc.pylon.core.util.BlockUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -96,7 +97,7 @@ public class LumberAxe extends PylonItemSchema {
                 }
             }
             player.damageItemStack(tool, 1);
-            for (BlockFace face : Network.IMMEDIATE_FACES) {
+            for (BlockFace face : BlockUtils.IMMEDIATE_FACES) {
                 breakAttachedWood(block.getRelative(face), player, tool);
             }
         }
