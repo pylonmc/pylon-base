@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
+import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
@@ -22,12 +22,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -48,7 +44,7 @@ public final class PylonItems {
     public static final PylonItemSchema COPPER_SHEET = new SimpleItemSchema<>(
             pylonKey("copper_sheet"),
             key -> ItemStackBuilder.of(Material.PAPER)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
@@ -63,7 +59,7 @@ public final class PylonItems {
     public static final PylonItemSchema GOLD_SHEET = new SimpleItemSchema<>(
             pylonKey("gold_sheet"),
             key -> ItemStackBuilder.of(Material.PAPER)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
@@ -78,7 +74,7 @@ public final class PylonItems {
     public static final PylonItemSchema IRON_SHEET = new SimpleItemSchema<>(
             pylonKey("iron_sheet"),
             key -> ItemStackBuilder.of(Material.PAPER)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             Hammer.Recipe.RECIPE_TYPE,
             sheet -> new Hammer.Recipe(
@@ -186,7 +182,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_SWORD = new SimpleItemSchema<>(
             pylonKey("ferroduralum_sword"),
             key -> ItemStackBuilder.of(Material.GOLDEN_SWORD)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
                                     pylonKey("ferroduralum_sword_damage"),
@@ -214,7 +210,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_AXE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_axe"),
             key -> ItemStackBuilder.of(Material.GOLDEN_AXE)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_axe_speed"),
@@ -242,7 +238,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_PICKAXE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_pickaxe"),
             key -> ItemStackBuilder.of(Material.GOLDEN_PICKAXE)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_pickaxe_speed"),
@@ -270,7 +266,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_SHOVEL = new SimpleItemSchema<>(
             pylonKey("ferroduralum_shovel"),
             key -> ItemStackBuilder.of(Material.GOLDEN_SHOVEL)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_shovel_speed"),
@@ -298,7 +294,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_HOE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_hoe"),
             key -> ItemStackBuilder.of(Material.GOLDEN_HOE)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                                     pylonKey("ferroduralum_hoe_speed"),
@@ -326,7 +322,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_HELMET = new SimpleItemSchema<>(
             pylonKey("ferroduralum_helmet"),
             key -> ItemStackBuilder.of(Material.GOLDEN_HELMET)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_helmet_armor"),
@@ -360,7 +356,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_CHESTPLATE = new SimpleItemSchema<>(
             pylonKey("ferroduralum_chestplate"),
             key -> ItemStackBuilder.of(Material.GOLDEN_CHESTPLATE)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_armor"),
@@ -394,7 +390,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_LEGGINGS = new SimpleItemSchema<>(
             pylonKey("ferroduralum_leggings"),
             key -> ItemStackBuilder.of(Material.GOLDEN_LEGGINGS)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_armor"),
@@ -428,7 +424,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_BOOTS = new SimpleItemSchema<>(
             pylonKey("ferroduralum_boots"),
             key -> ItemStackBuilder.of(Material.GOLDEN_BOOTS)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_boots_armor"),
@@ -462,7 +458,7 @@ public final class PylonItems {
     public static final PylonItemSchema COMPRESSED_WOOD = new SimpleItemSchema<>(
             pylonKey("compressed_wood"),
             key -> ItemStackBuilder.of(Material.OAK_WOOD)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -483,7 +479,7 @@ public final class PylonItems {
     public static final PylonItemSchema PORTABILITY_CATALYST = new SimpleItemSchema<>(
             pylonKey("portability_catalyst"),
             key -> ItemStackBuilder.of(Material.AMETHYST_SHARD)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -504,7 +500,7 @@ public final class PylonItems {
     public static final PylonItemSchema COMPRESSED_OBSIDIAN = new SimpleItemSchema<>(
             pylonKey("compressed_obsidian"),
             key -> ItemStackBuilder.of(Material.OBSIDIAN)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -542,7 +538,7 @@ public final class PylonItems {
     public static final PylonItemSchema FIBER = new SimpleItemSchema<>(
             pylonKey("fiber"),
             key -> ItemStackBuilder.of(Material.BAMBOO_MOSAIC)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             fiber -> {
@@ -556,7 +552,7 @@ public final class PylonItems {
     public static final PylonItemSchema PLASTER = new SimpleItemSchema<>(
             pylonKey("plaster"),
             key -> ItemStackBuilder.of(Material.SMOOTH_STONE_SLAB)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
             plaster -> {
@@ -678,7 +674,7 @@ public final class PylonItems {
     public static final PylonItemSchema MAGIC_DUST = new SimpleItemSchema<>(
             pylonKey("magic_dust"),
             key -> ItemStackBuilder.of(Material.AMETHYST_CLUSTER)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build(),
             RecipeTypes.VANILLA_CRAFTING,
@@ -767,7 +763,7 @@ public final class PylonItems {
     public static final PylonItemSchema FLOUR = new SimpleItemSchema<>(
             pylonKey("flour"),
             key -> ItemStackBuilder.of(Material.SUGAR)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             Grindstone.Recipe.RECIPE_TYPE,
             item -> new Grindstone.Recipe(
@@ -783,7 +779,7 @@ public final class PylonItems {
     public static final PylonItemSchema DOUGH = new SimpleItemSchema<>(
             pylonKey("dough"),
             key -> ItemStackBuilder.of(Material.YELLOW_DYE)
-                    .defaultTranslatableName(key)
+                    .defaultLocalizedName(key)
                     .build(),
             WaterCauldronRightClickRecipe.RECIPE_TYPE,
             item -> new WaterCauldronRightClickRecipe(
