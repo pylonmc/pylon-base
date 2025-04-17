@@ -22,6 +22,9 @@ item:
       <arrow> Clears all effects
       <arrow> <attr:Apply time:seconds>3</attr>
 
+  dough:
+    name: "Dough"
+
   ferroduralum_axe:
     name: "Ferroduralum Axe"
 
@@ -56,8 +59,22 @@ item:
   fiber:
     name: "Fiber"
 
+  flour:
+    name: "Flour"
+
   gold_sheet:
     name: "Gold Sheet"
+
+  grindstone:
+    name: "Grindstone"
+    lore: |-
+      <arrow> <star> Multiblock
+      <arrow> <insn>Right click</insn> with an item to insert it
+      <arrow> <insn>Right click</insn> the grindstone handle to grind the item
+
+  grindstone_handle:
+    name: "Grindstone Handle"
+    lore: "<arrow> Component of the Grindstone multiblock"
 
   hammer_diamond:
     name: "Diamond Hammer"

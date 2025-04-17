@@ -176,6 +176,10 @@ public final class MagicAltar {
 
         @Override
         public void onInteract(@NotNull PlayerInteractEvent event) {
+            if (event.getPlayer().isSneaking()) {
+                return;
+            }
+
             if (event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                 return;
             }
