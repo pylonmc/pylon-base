@@ -9,6 +9,10 @@ import java.util.Map;
 
 public final class RecipeUtils {
 
+    public static final int DEFAULT_FURNACE_TIME_TICKS = 20 * 10;
+    public static final int DEFAULT_SMOKER_TIME_TICKS = 20 * 5;
+    public static final int DEFAULT_BLAST_FURNACE_TIME_TICKS = 20 * 5;
+
     private RecipeUtils() {
         throw new AssertionError("Utility class");
     }

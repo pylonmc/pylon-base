@@ -1,11 +1,9 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
-import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.BlockUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Effect;
@@ -22,8 +20,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -31,27 +27,18 @@ import java.util.function.Function;
 
 @SuppressWarnings("UnstableApiUsage")
 public class LumberAxe extends PylonItemSchema {
-    public LumberAxe(NamespacedKey key, Class<? extends PylonItem<? extends LumberAxe>> itemClass, Function<NamespacedKey, ItemStack> template) {
-        super(key, itemClass, template);
-        this.template.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
-        ShapedRecipe recipe = new ShapedRecipe(key, this.template);
-        recipe.shape(
-                "WWW",
-                "WAW",
-                "III"
-        );
-        recipe.setIngredient('W', PylonItems.COMPRESSED_WOOD.getItemStack());
-        recipe.setIngredient('A', Material.WOODEN_AXE);
-        recipe.setIngredient('I', Material.IRON_BLOCK);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+    public LumberAxe(NamespacedKey key, Function<NamespacedKey, ItemStack> templateSupplier) {
+        super(key, LumberAxeItem.class, templateSupplier);
+        template.setData(DataComponentTypes.MAX_DAMAGE, getSettings().getOrThrow("durability", Integer.class));
     }
 
     public static class LumberAxeItem extends PylonItem<LumberAxe> implements Tool {
+
         private static final Set<Event> eventsToIgnore = HashSet.newHashSet(0);
 
-        public LumberAxeItem(LumberAxe schema, ItemStack itemStack) {
-            super(schema, itemStack);
+        public LumberAxeItem(LumberAxe schema, ItemStack stack) {
+            super(schema, stack);
         }
 
         @Override
@@ -69,7 +56,7 @@ public class LumberAxe extends PylonItemSchema {
             // Intentionally blank, have to implement
         }
 
-        private void breakAttachedWood(Block block, Player player, ItemStack tool) {
+        private static void breakAttachedWood(Block block, Player player, ItemStack tool) {
             // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
             if (!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block)) {
                 return;

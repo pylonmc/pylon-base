@@ -50,9 +50,9 @@ public final class Sprinkler {
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                    @NotNull Function<NamespacedKey, ItemStack> template
+                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier
             ) {
-                super(key, itemClass, template);
+                super(key, itemClass, templateSupplier);
             }
         }
 
@@ -90,10 +90,12 @@ public final class Sprinkler {
             }
         }
 
+        @SuppressWarnings("unused")
         public SprinklerBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
         }
 
+        @SuppressWarnings("unused")
         public SprinklerBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
         }

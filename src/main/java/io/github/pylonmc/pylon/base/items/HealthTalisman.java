@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -12,7 +11,6 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,34 +20,31 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class HealthTalisman extends PylonItemSchema {
-    public final int healthAmount = getSettings().getOrThrow("max-health-boost", Integer.class);
+
+    public final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", Integer.class);
     private static final NamespacedKey healthBoostedKey = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
     public final AttributeModifier healthModifier = new AttributeModifier(
             healthBoostedKey,
-            healthAmount,
+            maxHealthBoost,
             AttributeModifier.Operation.ADD_NUMBER
     );
 
-    public HealthTalisman(NamespacedKey id,
-                          Class<? extends PylonItem<? extends HealthTalisman>> itemClass,
-                          Function<NamespacedKey, ItemStack> template,
-                          Function<ItemStack, ShapedRecipe> recipeFunc) {
-        super(id, itemClass, template);
-        if (this.template.getMaxStackSize() != 1) {
+    public HealthTalisman(NamespacedKey key, Function<NamespacedKey, ItemStack> templateSupplier) {
+        super(key, HealthTalismanItem.class, templateSupplier);
+        if (template.getMaxStackSize() != 1) {
             throw new IllegalArgumentException("Max stack size for health talisman must be equal to 1");
         }
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipeFunc.apply(this.template));
     }
 
-    public static class Item extends PylonItem<HealthTalisman> {
+    public static class HealthTalismanItem extends PylonItem<HealthTalisman> {
 
-        public Item(HealthTalisman schema, ItemStack itemStack) {
-            super(schema, itemStack);
+        public HealthTalismanItem(HealthTalisman schema, ItemStack stack) {
+            super(schema, stack);
         }
 
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("health-boost", Component.text(getSchema().healthAmount));
+            return Map.of("health-boost", Component.text(getSchema().maxHealthBoost));
         }
     }
 
@@ -66,19 +61,19 @@ public class HealthTalisman extends PylonItemSchema {
                 Integer playerHealthBoost = playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER);
                 for (ItemStack itemStack : player.getInventory()) {
                     PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
-                    if (!(pylonItem instanceof HealthTalisman.Item talisman)) {
+                    if (!(pylonItem instanceof HealthTalismanItem talisman)) {
                         continue;
                     }
                     if (playerHealthBoost == null) {
                         playerHealth.addModifier(talisman.getSchema().healthModifier);
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().healthAmount);
+                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().maxHealthBoost);
                         foundItem = true;
-                    } else if (playerHealthBoost < talisman.getSchema().healthAmount) {
+                    } else if (playerHealthBoost < talisman.getSchema().maxHealthBoost) {
                         playerHealth.removeModifier(healthBoostedKey);
                         playerHealth.addModifier(talisman.getSchema().healthModifier);
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().healthAmount);
+                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().maxHealthBoost);
                         foundItem = true;
-                    } else if (talisman.getSchema().healthAmount == playerHealthBoost) {
+                    } else if (talisman.getSchema().maxHealthBoost == playerHealthBoost) {
                         foundItem = true;
                     }
                 }

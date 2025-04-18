@@ -15,12 +15,15 @@ item:
 
   compressed_obsidian:
     name: "Compressed Obsidian"
+    lore: []
 
   compressed_wood:
     name: "Compressed Wood"
+    lore: []
 
   copper_sheet:
     name: "Copper Sheet"
+    lore: []
 
   disinfectant:
     name: "Disinfectant"
@@ -31,21 +34,27 @@ item:
 
   dough:
     name: "Dough"
+    lore: []
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
+    lore: []
 
   ferroduralum_boots:
     name: "Ferroduralum Boots"
+    lore: []
 
   ferroduralum_chestplate:
     name: "Ferroduralum Chestplate"
+    lore: []
 
   ferroduralum_helmet:
     name: "Ferroduralum Helmet"
+    lore: []
 
   ferroduralum_hoe:
     name: "Ferroduralum Hoe"
+    lore: []
 
   ferroduralum_ingot:
     name: "Ferroduralum Ingot"
@@ -53,24 +62,35 @@ item:
 
   ferroduralum_leggings:
     name: "Ferroduralum Leggings"
+    lore: []
 
   ferroduralum_pickaxe:
     name: "Ferroduralum Pickaxe"
+    lore: []
+
+  ferroduralum_sheet:
+    name: "Ferroduralum Sheet"
+    lore: []
 
   ferroduralum_shovel:
     name: "Ferroduralum Shovel"
+    lore: []
 
   ferroduralum_sword:
     name: "Ferroduralum Sword"
+    lore: []
 
   fiber:
     name: "Fiber"
+    lore: []
 
   flour:
     name: "Flour"
+    lore: []
 
   gold_sheet:
     name: "Gold Sheet"
+    lore: []
 
   grindstone:
     name: "Grindstone"
@@ -103,6 +123,7 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
+    lore: []
 
   lumber_axe:
     name: "Lumber Axe"
@@ -111,6 +132,7 @@ item:
 
   magic_dust:
     name: "Magic dust"
+    lore: []
 
   magic_altar:
     name: "Magic Altar"
@@ -137,9 +159,11 @@ item:
 
   plaster:
     name: "Plaster"
+    lore: []
 
   portability_catalyst:
     name: "Portability Catalyst"
+    lore: []
 
   portable_crafting_table:
     name: "Portable Crafting Table"

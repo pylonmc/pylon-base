@@ -1,3 +1,4 @@
 durability: 300
-default-entity-head-chance: 0.15
-wither-skeleton-head-chance: 0.025
+head-chance:
+  normal-entity: 0.15
+  wither-skeleton: 0.025

@@ -1,8 +1,4 @@
 nutrition: 3
 saturation: 1.25
 cooking:
-  xp: 1.0
-  # Times are in Minecraft ticks
-  time:
-    smoker: 40
-    furnace: 60
+  xp: 0.15
