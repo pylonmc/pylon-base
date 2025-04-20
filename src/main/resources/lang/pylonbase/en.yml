@@ -36,7 +36,7 @@ item:
     name: "Explosive Target"
     lore: |-
       <arrow> Explodes when shot.
-      <arrow> Explosion range: %explosion-power%
+      <arrow> Explosion power: %explosion-power%
       <arrow> %fire-enabled% create fire
 
   ferroduralum_axe:
