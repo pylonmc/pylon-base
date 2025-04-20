@@ -853,7 +853,6 @@ public final class PylonItems {
 
     public static ExplosiveTarget.ExplosiveTargetItem.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
             pylonKey("explosive_target"),
-            ExplosiveTarget.ExplosiveTargetItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
             target -> {

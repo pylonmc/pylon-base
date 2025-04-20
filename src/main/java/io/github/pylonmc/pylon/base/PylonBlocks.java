@@ -49,7 +49,7 @@ public final class PylonBlocks {
             GrindstoneHandle.GrindstoneHandleBlock.class
     );
 
-    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+    public static final PylonBlockSchema EXPLOSIVE_TARGET = new PylonBlockSchema(
             pylonKey("explosive_target"),
             Material.TARGET,
             ExplosiveTarget.ExplosiveTargetBlock.class
