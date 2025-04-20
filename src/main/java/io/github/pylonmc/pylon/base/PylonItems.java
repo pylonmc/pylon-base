@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
+import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
@@ -22,12 +22,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -851,7 +847,7 @@ public final class PylonItems {
             }
     );
 
-    public static ExplosiveTarget.ExplosiveTargetItem.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
             pylonKey("explosive_target"),
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
@@ -866,7 +862,49 @@ public final class PylonItems {
                 recipe.setIngredient('X', Material.TARGET);
                 recipe.setCategory(CraftingBookCategory.BUILDING);
                 return recipe;
-            }
+            },
+            PylonBlocks.EXPLOSIVE_TARGET
+    );
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("fiery_explosive_target"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            target -> {
+                ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("fiery_explosive_target"), target);
+                recipe.addIngredient(EXPLOSIVE_TARGET.getItemStack());
+                recipe.addIngredient(Material.FLINT_AND_STEEL);
+                recipe.setCategory(CraftingBookCategory.BUILDING);
+                return recipe;
+            },
+            PylonBlocks.FIERY_EXPLOSIVE_TARGET
+    );
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("super_explosive_target"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            target -> {
+                ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_explosive_target"), target);
+                recipe.addIngredient(4, EXPLOSIVE_TARGET.getItemStack());
+                recipe.setCategory(CraftingBookCategory.BUILDING);
+                return recipe;
+            },
+            PylonBlocks.SUPER_EXPLOSIVE_TARGET
+    );
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("super_fiery_explosive_target"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            target -> {
+                ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_fiery_explosive_target"), target);
+                recipe.addIngredient(SUPER_EXPLOSIVE_TARGET.getItemStack());
+                recipe.addIngredient(Material.FLINT_AND_STEEL);
+                recipe.setCategory(CraftingBookCategory.BUILDING);
+                return recipe;
+            },
+            PylonBlocks.SUPER_FIERY_EXPLOSIVE_TARGET
     );
     //</editor-fold>
 
@@ -914,7 +952,6 @@ public final class PylonItems {
         GRINDSTONE_HANDLE.register();
         FLOUR.register();
         DOUGH.register();
-        EXPLOSIVE_TARGET.register();
 
         // TODO recipe refactor
         FurnaceRecipe furnaceDoughRecipe = new FurnaceRecipe(
@@ -937,6 +974,10 @@ public final class PylonItems {
         SIMPLE_HEALTH_TALISMAN.register();
         ADVANCED_HEALTH_TALISMAN.register();
         ULTIMATE_HEALTH_TALISMAN.register();
+        EXPLOSIVE_TARGET.register();
+        FIERY_EXPLOSIVE_TARGET.register();
+        SUPER_EXPLOSIVE_TARGET.register();
+        SUPER_FIERY_EXPLOSIVE_TARGET.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

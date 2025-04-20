@@ -49,10 +49,32 @@ public final class PylonBlocks {
             GrindstoneHandle.GrindstoneHandleBlock.class
     );
 
-    public static final PylonBlockSchema EXPLOSIVE_TARGET = new PylonBlockSchema(
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
             pylonKey("explosive_target"),
             Material.TARGET,
-            ExplosiveTarget.ExplosiveTargetBlock.class
+            5.0f,
+            false
+    );
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("fiery_explosive_target"),
+            Material.TARGET,
+            5.0f,
+            true
+    );
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("super_explosive_target"),
+            Material.TARGET,
+            15.0f,
+            false
+    );
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("super_fiery_explosive_target"),
+            Material.TARGET,
+            15.0f,
+            true
     );
 
     static void register() {
@@ -63,5 +85,8 @@ public final class PylonBlocks {
         GRINDSTONE.register();
         GRINDSTONE_HANDLE.register();
         EXPLOSIVE_TARGET.register();
+        FIERY_EXPLOSIVE_TARGET.register();
+        SUPER_EXPLOSIVE_TARGET.register();
+        SUPER_FIERY_EXPLOSIVE_TARGET.register();
     }
 }

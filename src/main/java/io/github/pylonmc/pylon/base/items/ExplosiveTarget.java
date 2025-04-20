@@ -1,7 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.PylonBlocks;
-import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -16,8 +14,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,20 +29,20 @@ public class ExplosiveTarget {
     public static class ExplosiveTargetItem extends PylonItem<ExplosiveTargetItem.Schema> implements BlockPlacer {
 
         @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.EXPLOSIVE_TARGET;
+        public @NotNull ExplosiveTargetBlock.Schema getBlockSchema() {
+            return getSchema().blockSchema;
         }
 
         public static class Schema extends PylonItemSchema {
-            private final double explosionPower = getSettings().getOrThrow("explosion-power", Double.class);
-            private final boolean createsFire = getSettings().getOrThrow("fire-enabled", Boolean.class);
-
+            private final ExplosiveTargetBlock.Schema blockSchema;
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Function<NamespacedKey, ItemStack> template,
-                    @NotNull Function<ItemStack, ShapedRecipe> recipe
+                    @NotNull Function<ItemStack, CraftingRecipe> recipe,
+                    ExplosiveTargetBlock.Schema blockSchema
                     ) {
                 super(key, ExplosiveTargetItem.class, template);
+                this.blockSchema = blockSchema;
                 RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe.apply(this.template));
             }
         }
@@ -54,27 +52,40 @@ public class ExplosiveTarget {
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
             return Map.of(
-                    "explosion-power", Component.text(getSchema().explosionPower),
-                    "fire-enabled", Component.text(getSchema().createsFire ? "Does" : "Doesn't")
+                    "explosion-power", Component.text(getSchema().blockSchema.explosivePower),
+                    "fire-enabled", Component.text(getSchema().blockSchema.createsFire ? "Does" : "Doesn't")
             );
         }
     }
 
-    public static class ExplosiveTargetBlock extends PylonBlock<PylonBlockSchema> implements PylonTargetBlock {
+    public static class ExplosiveTargetBlock extends PylonBlock<ExplosiveTargetBlock.Schema> implements PylonTargetBlock {
+
+        public static class Schema extends PylonBlockSchema {
+            public final float explosivePower;
+            public final boolean createsFire;
+            public Schema(NamespacedKey key,
+                          Material material,
+                          float explosivePower,
+                          boolean createsFire){
+                super(key, material, ExplosiveTargetBlock.class);
+                this.explosivePower = explosivePower;
+                this.createsFire = createsFire;
+            }
+        }
 
         @SuppressWarnings("unused")
-        public ExplosiveTargetBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) { super(schema, block); }
+        public ExplosiveTargetBlock(ExplosiveTargetBlock.Schema schema, Block block, BlockCreateContext context) { super(schema, block); }
 
         @SuppressWarnings("unused")
-        public ExplosiveTargetBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) { super(schema, block); }
+        public ExplosiveTargetBlock(ExplosiveTargetBlock.Schema schema, Block block, PersistentDataContainer pdc) { super(schema, block); }
 
         @Override
         public void onHit(@NotNull TargetHitEvent event) {
             event.setCancelled(true);
             // Returns false if BlockExplodeEvent is cancelled
             if(!Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(),
-                    (float) PylonItems.EXPLOSIVE_TARGET.explosionPower,
-                    PylonItems.EXPLOSIVE_TARGET.createsFire)){
+                    getSchema().explosivePower,
+                    getSchema().createsFire)){
                 return;
             }
             BlockStorage.breakBlock(getBlock());

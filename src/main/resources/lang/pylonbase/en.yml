@@ -73,6 +73,13 @@ item:
   fiber:
     name: "Fiber"
 
+  fiery_explosive_target:
+    name: "Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion power: %explosion-power%
+      <arrow> %fire-enabled% create fire
+
   flour:
     name: "Flour"
 
@@ -188,6 +195,20 @@ item:
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
       <arrow> <attr:Range:blocks>%range%</attr>
+
+  super_explosive_target:
+    name: "Super Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion power: %explosion-power%
+      <arrow> %fire-enabled% create fire
+
+  super_fiery_explosive_target:
+    name: "Super Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion power: %explosion-power%
+      <arrow> %fire-enabled% create fire
 
   watering_can:
     name: "Watering Can"
