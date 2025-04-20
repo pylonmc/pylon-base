@@ -873,7 +873,7 @@ public final class PylonItems {
             target -> {
                 ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("fiery_explosive_target"), target);
                 recipe.addIngredient(EXPLOSIVE_TARGET.getItemStack());
-                recipe.addIngredient(Material.FLINT_AND_STEEL);
+                recipe.addIngredient(Material.FIRE_CHARGE);
                 recipe.setCategory(CraftingBookCategory.BUILDING);
                 return recipe;
             },
@@ -900,7 +900,7 @@ public final class PylonItems {
             target -> {
                 ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_fiery_explosive_target"), target);
                 recipe.addIngredient(SUPER_EXPLOSIVE_TARGET.getItemStack());
-                recipe.addIngredient(Material.FLINT_AND_STEEL);
+                recipe.addIngredient(Material.FIRE_CHARGE);
                 recipe.setCategory(CraftingBookCategory.BUILDING);
                 return recipe;
             },
