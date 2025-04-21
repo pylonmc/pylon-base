@@ -132,6 +132,10 @@ public final class Grindstone {
 
             event.setCancelled(true);
 
+            if (!isFormedAndFullyLoaded()) {
+                return;
+            }
+
             if (recipe != null) {
                 return;
             }
