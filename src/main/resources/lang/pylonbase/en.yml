@@ -214,21 +214,21 @@ item:
       <arrow> Slow, but can water lots of crops at once
       <arrow> <attr:Range:blocks>%range%</attr>
   
-  simple_healing_talisman:
-    name: "Simple Healing Talisman"
+  health_talisman_simple:
+    name: "Simple Health Talisman"
     lore: |-
       <arrow> <attr:Max health increase:hearts>%health-boost% </attr>
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
-  advanced_healing_talisman:
-    name: "Advanced Healing Talisman"
+  health_talisman_advanced:
+    name: "Advanced Health Talisman"
     lore: |-
       <arrow> <attr:Max health increase:hearts>%health-boost% </attr>
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
-  ultimate_healing_talisman:
+  health_talisman_ultimate:
     name: "Ultimate Healing Talisman"
     lore: |-
       <arrow> <attr:Max health increase:hearts>%health-boost% </attr>

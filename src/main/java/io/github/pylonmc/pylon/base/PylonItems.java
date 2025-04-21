@@ -907,15 +907,15 @@ public final class PylonItems {
         RecipeTypes.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
     }
 
-    public static final HealthTalisman SIMPLE_HEALTH_TALISMAN = new HealthTalisman(
-            pylonKey("simple_health_talisman"),
+    public static final HealthTalisman HEALTH_TALISMAN_SIMPLE = new HealthTalisman(
+            pylonKey("health_talisman_simple"),
             key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build()
     );
     static {
-        SIMPLE_HEALTH_TALISMAN.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("simple_health_talisman"), SIMPLE_HEALTH_TALISMAN.getItemStack())
+        HEALTH_TALISMAN_SIMPLE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("health_talisman_simple"), HEALTH_TALISMAN_SIMPLE.getItemStack())
                 .shape("GGG", "GRG", "GGG")
                 .setIngredient('G', Material.GLISTERING_MELON_SLICE)
                 .setIngredient('R', Material.REDSTONE);
@@ -923,32 +923,32 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final HealthTalisman ADVANCED_HEALTH_TALISMAN = new HealthTalisman(
-            pylonKey("advanced_health_talisman"),
+    public static final HealthTalisman HEALTH_TALISMAN_ADVANCED = new HealthTalisman(
+            pylonKey("health_talisman_advanced"),
             key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, key)
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build()
     );
     static {
-        ADVANCED_HEALTH_TALISMAN.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("advanced_health_talisman"), ADVANCED_HEALTH_TALISMAN.getItemStack())
+        HEALTH_TALISMAN_ADVANCED.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("health_talisman_advanced"), HEALTH_TALISMAN_ADVANCED.getItemStack())
                 .shape("SSS", "SSS", "SSS")
-                .setIngredient('S', SIMPLE_HEALTH_TALISMAN.getItemStack());
+                .setIngredient('S', HEALTH_TALISMAN_SIMPLE.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final HealthTalisman ULTIMATE_HEALTH_TALISMAN = new HealthTalisman(
-            pylonKey("ultimate_health_talisman"),
+    public static final HealthTalisman HEALTH_TALISMAN_ULTIMATE = new HealthTalisman(
+            pylonKey("health_talisman_ultimate"),
             key -> ItemStackBuilder.defaultBuilder(Material.BUDDING_AMETHYST, key)
                     .set(DataComponentTypes.MAX_STACK_SIZE, 1)
                     .build()
     );
     static {
-        ULTIMATE_HEALTH_TALISMAN.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("ultimate_health_talisman"), ULTIMATE_HEALTH_TALISMAN.getItemStack())
+        HEALTH_TALISMAN_ULTIMATE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("health_talisman_ultimate"), HEALTH_TALISMAN_ULTIMATE.getItemStack())
                 .shape("AAA", "AAA", "AAA")
-                .setIngredient('A', ADVANCED_HEALTH_TALISMAN.getItemStack());
+                .setIngredient('A', HEALTH_TALISMAN_ADVANCED.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
