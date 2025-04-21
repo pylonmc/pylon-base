@@ -36,6 +36,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -953,6 +954,46 @@ public final class PylonItems {
                 .setIngredient('A', HEALTH_TALISMAN_ADVANCED.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema MIXING_POT = new SimpleBlockPlacerItemSchema(
+            pylonKey("mixing_pot"),
+            key -> ItemStackBuilder.defaultBuilder(Material.CAULDRON, key).build(),
+            PylonBlocks.MIXING_POT
+    );
+    static {
+        MIXING_POT.register();
+    }
+
+    public static final PylonItemSchema ENRICHED_NETHERRACK = new SimpleBlockPlacerItemSchema(
+            pylonKey("enriched_netherrack"),
+            key -> ItemStackBuilder.defaultBuilder(Material.NETHERRACK, key).build(),
+            PylonBlocks.ENRICHED_NETHERRACK
+    );
+    static {
+        ENRICHED_NETHERRACK.register();
+    }
+
+    // TODO will be replaced in the next PR
+    public static final PylonItemSchema TEMP_MIXER_TEST_ITEM = new PylonItemSchema(
+            pylonKey("temp_mixer_test_item"),
+            SimplePylonItem.class,
+            ItemStackBuilder.of(Material.DEAD_BUSH)
+                    .name("Temp mixer test item")
+                    .build()
+    );
+    static {
+        TEMP_MIXER_TEST_ITEM.register();
+        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+                    pylonKey("temp_mixer_test_item"),
+                    Map.of(
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)), 3,
+                            new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
+                    ),
+                    TEMP_MIXER_TEST_ITEM.getItemStack(),
+                    true,
+                    2
+            ));
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
