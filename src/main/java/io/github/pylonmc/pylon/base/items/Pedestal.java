@@ -14,9 +14,6 @@ import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -31,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 
 import static java.lang.Math.PI;
 
@@ -40,36 +36,6 @@ public final class Pedestal {
 
     private Pedestal() {
         throw new AssertionError("Container class");
-    }
-
-    public static class PedestalItem extends PylonItem<PedestalItem.Schema> implements BlockPlacer {
-
-        public static class Schema extends PylonItemSchema {
-
-            private final PylonBlockSchema blockSchema;
-
-            public Schema(
-                    @NotNull NamespacedKey key,
-                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier,
-                    @NotNull PylonBlockSchema blockSchema
-            ) {
-                super(key, PedestalItem.class, templateSupplier);
-                this.blockSchema = blockSchema;
-            }
-
-            public PylonBlockSchema getBlockSchema() {
-                return blockSchema;
-            }
-        }
-
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return getSchema().getBlockSchema();
-        }
-
-        public PedestalItem(@NotNull PedestalItem.Schema schema, @NotNull ItemStack stack) {
-            super(schema, stack);
-        }
     }
 
     public static class PedestalBlock extends PylonBlock<PylonBlockSchema>

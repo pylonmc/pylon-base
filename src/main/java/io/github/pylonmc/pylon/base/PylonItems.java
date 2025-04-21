@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.SimpleBlockPlacerItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
@@ -805,7 +806,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final Pedestal.PedestalItem.Schema PEDESTAL = new Pedestal.PedestalItem.Schema(
+    public static final PylonItemSchema PEDESTAL = new SimpleBlockPlacerItemSchema(
             pylonKey("pedestal"),
             key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
             PylonBlocks.PEDESTAL
@@ -815,7 +816,7 @@ public final class PylonItems {
         // TODO recipe
     }
 
-    public static final Pedestal.PedestalItem.Schema MAGIC_PEDESTAL = new Pedestal.PedestalItem.Schema(
+    public static final PylonItemSchema MAGIC_PEDESTAL = new SimpleBlockPlacerItemSchema(
             pylonKey("magic_pedestal"),
             key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
             PylonBlocks.MAGIC_PEDESTAL
@@ -825,29 +826,30 @@ public final class PylonItems {
         // TODO recipe
     }
 
-    public static final MagicAltar.MagicAltarItem.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarItem.Schema(
+    public static final PylonItemSchema MAGIC_ALTAR = new SimpleBlockPlacerItemSchema(
             pylonKey("magic_altar"),
-            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build(),
+            PylonBlocks.MAGIC_ALTAR
     );
     static {
         MAGIC_ALTAR.register();
         // TODO recipe
     }
 
-    public static final PylonItemSchema GRINDSTONE = new PylonItemSchema(
+    public static final PylonItemSchema GRINDSTONE = new SimpleBlockPlacerItemSchema(
             pylonKey("grindstone"),
-            Grindstone.GrindstoneItem.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build()
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build(),
+            PylonBlocks.GRINDSTONE
     );
     static {
         GRINDSTONE.register();
         // TODO recipe
     }
 
-    public static final PylonItemSchema GRINDSTONE_HANDLE = new PylonItemSchema(
+    public static final PylonItemSchema GRINDSTONE_HANDLE = new SimpleBlockPlacerItemSchema(
             pylonKey("grindstone_handle"),
-            GrindstoneHandle.GrindstoneHandleItem.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.OAK_FENCE, key).build()
+            key -> ItemStackBuilder.defaultBuilder(Material.OAK_FENCE, key).build(),
+            PylonBlocks.GRINDSTONE_HANDLE
     );
     static {
         GRINDSTONE_HANDLE.register();

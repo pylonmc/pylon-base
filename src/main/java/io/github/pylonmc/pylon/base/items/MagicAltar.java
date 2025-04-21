@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
@@ -17,9 +16,6 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -50,7 +46,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 
 public final class MagicAltar {
@@ -77,25 +72,6 @@ public final class MagicAltar {
             spawnParticle.accept(current);
             currentPoint += spacing;
             current.add(step);
-        }
-    }
-
-    public static class MagicAltarItem extends PylonItem<MagicAltarItem.Schema> implements BlockPlacer {
-
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.MAGIC_ALTAR;
-        }
-
-        public static class Schema extends PylonItemSchema {
-
-            public Schema(@NotNull NamespacedKey key, @NotNull Function<NamespacedKey, ItemStack> templateSupplier) {
-                super(key, MagicAltarItem.class, templateSupplier);
-            }
-        }
-
-        public MagicAltarItem(@NotNull Schema schema, @NotNull ItemStack stack) {
-            super(schema, stack);
         }
     }
 
