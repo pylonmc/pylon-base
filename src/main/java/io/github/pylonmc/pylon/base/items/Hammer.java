@@ -4,9 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -35,6 +33,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -45,6 +44,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
     @NotNullByDefault
     public static class Schema extends PylonItemSchema {
 
+        private final Material toolMaterial;
         private final Material baseBlock;
         private final MiningLevel miningLevel;
         private final int cooldown;
@@ -52,37 +52,34 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
 
         public Schema(
                 NamespacedKey key,
+                Function<NamespacedKey, ItemStack> templateSupplier,
                 Material toolMaterial,
                 Material baseBlock,
-                Material toolItem,
                 MiningLevel miningLevel,
                 double attackSpeed,
                 double knockback,
                 double attackDamage
         ) {
-            super(key,
-                    Hammer.class,
-                    ItemStackBuilder.defaultBuilder(toolItem, key)
-                            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                                    .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                                            pylonKey("hammer_attack_speed"),
-                                            attackSpeed,
-                                            AttributeModifier.Operation.ADD_NUMBER
-                                    ))
-                                    .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
-                                            pylonKey("hammer_attack_knockback"),
-                                            knockback,
-                                            AttributeModifier.Operation.ADD_NUMBER
-                                    ))
-                                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                                            pylonKey("hammer_attack_damage"),
-                                            attackDamage,
-                                            AttributeModifier.Operation.ADD_NUMBER
-                                    ))
-                            )
-                            .build()
+            super(key, Hammer.class, templateSupplier);
+            template.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                    .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                            pylonKey("hammer_attack_speed"),
+                            attackSpeed,
+                            AttributeModifier.Operation.ADD_NUMBER
+                    ))
+                    .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
+                            pylonKey("hammer_attack_knockback"),
+                            knockback,
+                            AttributeModifier.Operation.ADD_NUMBER
+                    ))
+                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                            pylonKey("hammer_attack_damage"),
+                            attackDamage,
+                            AttributeModifier.Operation.ADD_NUMBER
+                    ))
             );
 
+            this.toolMaterial = toolMaterial;
             this.baseBlock = baseBlock;
             this.miningLevel = miningLevel;
             this.cooldown = getSettings().getOrThrow("cooldown", Integer.class);
@@ -91,8 +88,10 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
                             getSettings().getOrThrow("sound", String.class))
                     )
             ));
+        }
 
-            ShapedRecipe recipe = new ShapedRecipe(key, getItemStack());
+        public @NotNull ShapedRecipe getRecipe() {
+            ShapedRecipe recipe = new ShapedRecipe(getKey(), getItemStack());
             recipe.shape(
                     " I ",
                     " SI",
@@ -101,7 +100,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
             recipe.setIngredient('I', new RecipeChoice.ExactChoice(new ItemStack(toolMaterial)));
             recipe.setIngredient('S', Material.STICK);
             recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-            RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+            return recipe;
         }
     }
 
@@ -126,8 +125,8 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         }
     }
 
-    public Hammer(Schema schema, ItemStack itemStack) {
-        super(schema, itemStack);
+    public Hammer(Schema schema, ItemStack stack) {
+        super(schema, stack);
     }
 
     @Override
@@ -187,7 +186,7 @@ public class Hammer extends PylonItem<Hammer.Schema> implements BlockInteractor 
         if (anyRecipeAttempted) {
             player.setCooldown(hammer, getSchema().cooldown);
             hammer.damage(1, player);
-            clickedBlock.getLocation().getWorld().playSound(clickedBlock.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5F, 0.5F);
+            clickedBlock.getLocation().getWorld().playSound(clickedBlock.getLocation(), getSchema().sound, 0.5F, 0.5F);
         }
 
         for (ItemStack item : items) {

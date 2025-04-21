@@ -19,22 +19,27 @@ public final class PylonEntities {
             ItemDisplay.class,
             Pedestal.PedestalEntity.class
     );
+    static {
+        PEDESTAL_ITEM.register();
+    }
 
     public static final PylonEntitySchema GRINDSTONE_ITEM = new PylonEntitySchema(
             pylonKey("grindstone_item"),
             ItemDisplay.class,
             Grindstone.GrindstoneItemEntity.class
     );
+    static {
+        GRINDSTONE_ITEM.register();
+    }
 
     public static final PylonEntitySchema GRINDSTONE_BLOCK = new PylonEntitySchema(
             pylonKey("grindstone_block"),
             ItemDisplay.class,
             Grindstone.GrindstoneBlockEntity.class
     );
-
-    static void register() {
-        PEDESTAL_ITEM.register();
-        GRINDSTONE_ITEM.register();
+    static {
         GRINDSTONE_BLOCK.register();
     }
+
+    public static void initialize() {}
 }

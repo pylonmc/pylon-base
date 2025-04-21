@@ -27,14 +27,14 @@ public class WateringCan extends PylonItemSchema {
 
     private static final Random random = new Random();
 
-    public WateringCan(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull Function<NamespacedKey, ItemStack> template) {
-        super(key, itemClass, template);
+    public WateringCan(@NotNull NamespacedKey key, @NotNull Function<NamespacedKey, ItemStack> templateSupplier) {
+        super(key, WateringCanItem.class, templateSupplier);
     }
 
     public static class WateringCanItem extends PylonItem<WateringCan> implements BlockInteractor {
 
-        public WateringCanItem(WateringCan schema, ItemStack itemStack) {
-            super(schema, itemStack);
+        public WateringCanItem(WateringCan schema, ItemStack stack) {
+            super(schema, stack);
         }
 
         @Override

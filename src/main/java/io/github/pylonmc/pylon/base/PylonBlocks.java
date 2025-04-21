@@ -22,42 +22,53 @@ public final class PylonBlocks {
             Material.FLOWER_POT,
             Sprinkler.SprinklerBlock.class
     );
+    static {
+        SPRINKLER.register();
+    }
 
     public static final PylonBlockSchema PEDESTAL = new PylonBlockSchema(
             pylonKey("pedestal"),
             Material.STONE_BRICK_WALL,
             Pedestal.PedestalBlock.class
     );
+    static {
+        PEDESTAL.register();
+    }
 
     public static final PylonBlockSchema MAGIC_PEDESTAL = new PylonBlockSchema(
             pylonKey("magic_pedestal"),
             Material.MOSSY_STONE_BRICK_WALL,
             Pedestal.PedestalBlock.class
     );
+    static {
+        MAGIC_PEDESTAL.register();
+    }
 
     public static final MagicAltar.MagicAltarBlock.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarBlock.Schema(
             pylonKey("magic_altar"),
             Material.SMOOTH_STONE_SLAB
     );
+    static {
+        MAGIC_ALTAR.register();
+    }
 
     public static final PylonBlockSchema GRINDSTONE = new PylonBlockSchema(
             pylonKey("grindstone"),
             Material.SMOOTH_STONE_SLAB,
             Grindstone.GrindstoneBlock.class
     );
+    static {
+        GRINDSTONE.register();
+    }
 
     public static final PylonBlockSchema GRINDSTONE_HANDLE = new PylonBlockSchema(
             pylonKey("grindstone_handle"),
             Material.OAK_FENCE,
             GrindstoneHandle.GrindstoneHandleBlock.class
     );
-
-    static void register() {
-        SPRINKLER.register();
-        PEDESTAL.register();
-        MAGIC_PEDESTAL.register();
-        MAGIC_ALTAR.register();
-        GRINDSTONE.register();
+    static {
         GRINDSTONE_HANDLE.register();
     }
+
+    public static void initialize() {}
 }
