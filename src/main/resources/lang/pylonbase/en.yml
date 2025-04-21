@@ -15,15 +15,15 @@ item:
 
   compressed_obsidian:
     name: "Compressed Obsidian"
-    lore: []
+    lore: ""
 
   compressed_wood:
     name: "Compressed Wood"
-    lore: []
+    lore: ""
 
   copper_sheet:
     name: "Copper Sheet"
-    lore: []
+    lore: ""
 
   disinfectant:
     name: "Disinfectant"
@@ -34,27 +34,27 @@ item:
 
   dough:
     name: "Dough"
-    lore: []
+    lore: ""
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
-    lore: []
+    lore: ""
 
   ferroduralum_boots:
     name: "Ferroduralum Boots"
-    lore: []
+    lore: ""
 
   ferroduralum_chestplate:
     name: "Ferroduralum Chestplate"
-    lore: []
+    lore: ""
 
   ferroduralum_helmet:
     name: "Ferroduralum Helmet"
-    lore: []
+    lore: ""
 
   ferroduralum_hoe:
     name: "Ferroduralum Hoe"
-    lore: []
+    lore: ""
 
   ferroduralum_ingot:
     name: "Ferroduralum Ingot"
@@ -62,35 +62,35 @@ item:
 
   ferroduralum_leggings:
     name: "Ferroduralum Leggings"
-    lore: []
+    lore: ""
 
   ferroduralum_pickaxe:
     name: "Ferroduralum Pickaxe"
-    lore: []
+    lore: ""
 
   ferroduralum_sheet:
     name: "Ferroduralum Sheet"
-    lore: []
+    lore: ""
 
   ferroduralum_shovel:
     name: "Ferroduralum Shovel"
-    lore: []
+    lore: ""
 
   ferroduralum_sword:
     name: "Ferroduralum Sword"
-    lore: []
+    lore: ""
 
   fiber:
     name: "Fiber"
-    lore: []
+    lore: ""
 
   flour:
     name: "Flour"
-    lore: []
+    lore: ""
 
   gold_sheet:
     name: "Gold Sheet"
-    lore: []
+    lore: ""
 
   grindstone:
     name: "Grindstone"
@@ -123,7 +123,7 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
-    lore: []
+    lore: ""
 
   lumber_axe:
     name: "Lumber Axe"
@@ -132,7 +132,7 @@ item:
 
   magic_dust:
     name: "Magic dust"
-    lore: []
+    lore: ""
 
   magic_altar:
     name: "Magic Altar"
@@ -159,11 +159,11 @@ item:
 
   plaster:
     name: "Plaster"
-    lore: []
+    lore: ""
 
   portability_catalyst:
     name: "Portability Catalyst"
-    lore: []
+    lore: ""
 
   portable_crafting_table:
     name: "Portable Crafting Table"
