@@ -37,7 +37,7 @@ item:
     lore: |-
       <arrow> Explodes when shot.
       <arrow> Explosion power: %explosion-power%
-      <arrow> %fire-enabled% create fire
+      <arrow> Doesn't create fire
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -78,7 +78,7 @@ item:
     lore: |-
       <arrow> Explodes when shot.
       <arrow> Explosion power: %explosion-power%
-      <arrow> %fire-enabled% create fire
+      <arrow> Does create fire
 
   flour:
     name: "Flour"
@@ -201,14 +201,14 @@ item:
     lore: |-
       <arrow> Explodes when shot.
       <arrow> Explosion power: %explosion-power%
-      <arrow> %fire-enabled% create fire
+      <arrow> Doesn't create fire
 
   super_fiery_explosive_target:
     name: "Super Fiery Explosive Target"
     lore: |-
       <arrow> Explodes when shot.
       <arrow> Explosion power: %explosion-power%
-      <arrow> %fire-enabled% create fire
+      <arrow> Does create fire
 
   watering_can:
     name: "Watering Can"

@@ -52,8 +52,7 @@ public class ExplosiveTarget {
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
             return Map.of(
-                    "explosion-power", Component.text(getSchema().blockSchema.explosivePower),
-                    "fire-enabled", Component.text(getSchema().blockSchema.createsFire ? "Does" : "Doesn't")
+                    "explosion-power", Component.text(getSchema().blockSchema.explosivePower)
             );
         }
     }
