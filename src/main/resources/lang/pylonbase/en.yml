@@ -100,7 +100,7 @@ item:
     lore: |-
       <arrow> Explodes when shot.
       <arrow> Explosion power: %explosion-power%
-      <arrow> Does create fire
+      <arrow> Creates fire
 
   flour:
     name: "Flour"
@@ -243,7 +243,7 @@ item:
     lore: |-
       <arrow> Explodes when shot.
       <arrow> Explosion power: %explosion-power%
-      <arrow> Does create fire
+      <arrow> Creates fire 
 
   watering_can:
     name: "Watering Can"
