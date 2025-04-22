@@ -870,7 +870,7 @@ public final class PylonItems {
     static {
         GRINDSTONE.register();
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("grindstone"), BEHEADING_SWORD.getItemStack())
-                .shape("STS")
+                .shape("STS", "   ", "   ")
                 .setIngredient('T', new ItemStack(Material.SMOOTH_STONE))
                 .setIngredient('S', new ItemStack(Material.SMOOTH_STONE_SLAB));
         recipe.setCategory(CraftingBookCategory.BUILDING);
@@ -885,7 +885,7 @@ public final class PylonItems {
     static {
         GRINDSTONE_HANDLE.register();
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("grindstone_handle"), BEHEADING_SWORD.getItemStack())
-                .shape("F", "F", "F")
+                .shape("F  ", "F  ", "F  ")
                 .setIngredient('F', new RecipeChoice.MaterialChoice(Tag.FENCES));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
@@ -997,6 +997,11 @@ public final class PylonItems {
     );
     static {
         MIXING_POT.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("mixing_pot"), MIXING_POT.getItemStack())
+                .shape("f f", "f f", "fff")
+                .setIngredient('f', FERRODURALUM_INGOT.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final PylonItemSchema SHIMMER_DUST_1 = new PylonItemSchema(
@@ -1139,7 +1144,11 @@ public final class PylonItems {
     );
     static {
         PEDESTAL.register();
-        // TODO recipe
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("pedestal"), PEDESTAL.getItemStack())
+                .shape("s  ", "s  ", "s  ")
+                .setIngredient('s', new ItemStack(Material.STONE_BRICK_WALL));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final PylonItemSchema MAGIC_PEDESTAL = new SimpleBlockPlacerItemSchema(
