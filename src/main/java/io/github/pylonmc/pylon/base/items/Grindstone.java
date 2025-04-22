@@ -18,9 +18,6 @@ import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -55,18 +52,6 @@ public final class Grindstone {
 
     private Grindstone() {
         throw new AssertionError("Container class");
-    }
-
-    public static class GrindstoneItem extends PylonItem<PylonItemSchema> implements BlockPlacer {
-
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.GRINDSTONE;
-        }
-
-        public GrindstoneItem(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-            super(schema, stack);
-        }
     }
 
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
@@ -146,6 +131,10 @@ public final class Grindstone {
             }
 
             event.setCancelled(true);
+
+            if (!isFormedAndFullyLoaded()) {
+                return;
+            }
 
             if (recipe != null) {
                 return;
