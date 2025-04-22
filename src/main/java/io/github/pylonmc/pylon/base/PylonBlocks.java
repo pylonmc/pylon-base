@@ -87,9 +87,7 @@ public final class PylonBlocks {
 
     public static final ExplosiveTarget.ExplosiveTargetBlock.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
             pylonKey("explosive_target"),
-            Material.TARGET,
-            5.0f,
-            false
+            Material.TARGET
     );
     static {
         EXPLOSIVE_TARGET.register();
@@ -97,9 +95,7 @@ public final class PylonBlocks {
 
     public static final ExplosiveTarget.ExplosiveTargetBlock.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
             pylonKey("fiery_explosive_target"),
-            Material.TARGET,
-            5.0f,
-            true
+            Material.TARGET
     );
     static {
         FIERY_EXPLOSIVE_TARGET.register();
@@ -107,9 +103,7 @@ public final class PylonBlocks {
 
     public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
             pylonKey("super_explosive_target"),
-            Material.TARGET,
-            15.0f,
-            false
+            Material.TARGET
     );
     static {
         SUPER_EXPLOSIVE_TARGET.register();
@@ -117,9 +111,7 @@ public final class PylonBlocks {
 
     public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
             pylonKey("super_fiery_explosive_target"),
-            Material.TARGET,
-            15.0f,
-            true
+            Material.TARGET
     );
     static {
         SUPER_FIERY_EXPLOSIVE_TARGET.register();

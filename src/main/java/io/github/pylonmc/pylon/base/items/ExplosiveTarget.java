@@ -60,15 +60,11 @@ public class ExplosiveTarget {
     public static class ExplosiveTargetBlock extends PylonBlock<ExplosiveTargetBlock.Schema> implements PylonTargetBlock {
 
         public static class Schema extends PylonBlockSchema {
-            public final float explosivePower;
-            public final boolean createsFire;
+            public final double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
+            public final boolean createsFire = getSettings().getOrThrow("creates-fire", Boolean.class);
             public Schema(NamespacedKey key,
-                          Material material,
-                          float explosivePower,
-                          boolean createsFire){
+                          Material material){
                 super(key, material, ExplosiveTargetBlock.class);
-                this.explosivePower = explosivePower;
-                this.createsFire = createsFire;
             }
         }
 
@@ -83,7 +79,7 @@ public class ExplosiveTarget {
             event.setCancelled(true);
             // Returns false if BlockExplodeEvent is cancelled
             if(!Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(),
-                    getSchema().explosivePower,
+                    (float) getSchema().explosivePower,
                     getSchema().createsFire)){
                 return;
             }
