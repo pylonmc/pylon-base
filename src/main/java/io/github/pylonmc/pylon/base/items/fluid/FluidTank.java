@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.PdcUtils;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -65,13 +66,14 @@ public final class FluidTank {
 
             entities = loadHeldEntities(pdc);
             fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.INTEGER);
-            fluidType = PylonRegistry.FLUIDS.get(pdc.get(FLUID_TYPE_KEY, PylonSerializers.NAMESPACED_KEY));
+            fluidType = pdc.get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
         }
 
         @Override
         public void write(@NotNull PersistentDataContainer pdc) {
             saveHeldEntities(pdc);
             pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.INTEGER, fluidAmount);
+            PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluidType);
         }
 
         @Override
