@@ -11,7 +11,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -19,12 +18,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
-import org.bukkit.Color;
-import org.bukkit.Keyed;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.block.Action;
@@ -38,13 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 
@@ -75,7 +63,7 @@ public final class MagicAltar {
         }
     }
 
-    public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
+    public static class MagicAltarBlock extends PylonBlock<PylonBlockSchema>
             implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractableBlock {
 
         private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
@@ -88,15 +76,7 @@ public final class MagicAltar {
 
         private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
 
-        public static class Schema extends PylonBlockSchema {
-
-            public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
-                super(key, material, MagicAltarBlock.class);
-            }
-        }
-
-        @SuppressWarnings("unused")
-        public MagicAltarBlock(Schema schema, Block block, BlockCreateContext context) {
+        public MagicAltarBlock(PylonBlockSchema schema, Block block) {
             super(schema, block);
 
             ItemDisplay display = new ItemDisplayBuilder()
@@ -116,7 +96,7 @@ public final class MagicAltar {
         }
 
         @SuppressWarnings({"unused", "DataFlowIssue"})
-        public MagicAltarBlock(Schema schema, Block block, PersistentDataContainer pdc) {
+        public MagicAltarBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
 
             entities = loadHeldEntities(pdc);

@@ -3,10 +3,10 @@ package io.github.pylonmc.pylon.base.items.watering;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -81,22 +81,22 @@ public final class Sprinkler {
                     Sound.WEATHER_RAIN
             );
 
-            public Schema(
-                    @NotNull NamespacedKey key,
-                    @NotNull Material material,
-                    @NotNull Class<? extends PylonBlock<?>> blockClass
-            ) {
-                super(key, material, blockClass);
+            public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
+                super(key, material);
+            }
+
+            @Override
+            public @NotNull PylonBlock<?> createBlock(@NotNull Block block, @NotNull BlockCreateContext context) {
+                return new SprinklerBlock(this, block);
+            }
+
+            @Override
+            public @NotNull PylonBlock<?> loadBlock(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+                return new SprinklerBlock(this, block);
             }
         }
 
-        @SuppressWarnings("unused")
-        public SprinklerBlock(Schema schema, Block block, BlockCreateContext context) {
-            super(schema, block);
-        }
-
-        @SuppressWarnings("unused")
-        public SprinklerBlock(Schema schema, Block block, PersistentDataContainer pdc) {
+        public SprinklerBlock(Schema schema, Block block) {
             super(schema, block);
         }
 

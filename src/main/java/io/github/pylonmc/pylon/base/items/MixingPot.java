@@ -2,17 +2,12 @@ package io.github.pylonmc.pylon.base.items;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -30,7 +25,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -46,13 +40,7 @@ public final class MixingPot {
 
     public static class MixingPotBlock extends PylonBlock<PylonBlockSchema> implements PylonMultiblock, PylonInteractableBlock {
 
-        @SuppressWarnings("unused")
-        public MixingPotBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-            super(schema, block);
-        }
-
-        @SuppressWarnings("unused")
-        public MixingPotBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        public MixingPotBlock(@NotNull PylonBlockSchema schema, @NotNull Block block) {
             super(schema, block);
         }
 

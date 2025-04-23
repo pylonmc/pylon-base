@@ -4,13 +4,11 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -22,13 +20,7 @@ public final class GrindstoneHandle {
 
     public static class GrindstoneHandleBlock extends PylonBlock<PylonBlockSchema> implements PylonInteractableBlock {
 
-        @SuppressWarnings("unused")
-        public GrindstoneHandleBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-            super(schema, block);
-        }
-
-        @SuppressWarnings("unused")
-        public GrindstoneHandleBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
+        public GrindstoneHandleBlock(PylonBlockSchema schema, Block block) {
             super(schema, block);
         }
 

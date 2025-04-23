@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -48,8 +47,7 @@ public final class Pedestal {
         private boolean locked;
         private final Map<String, UUID> entities;
 
-        @SuppressWarnings("unused")
-        public PedestalBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
+        public PedestalBlock(PylonBlockSchema schema, Block block) {
             super(schema, block);
 
             rotation = 0;

@@ -11,7 +11,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -21,11 +20,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Keyed;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ItemDisplay;
@@ -66,8 +61,7 @@ public final class Grindstone {
         private @Nullable Integer cyclesRemaining;
         private @Nullable Integer cycleTicksRemaining;
 
-        @SuppressWarnings("unused")
-        public GrindstoneBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
+        public GrindstoneBlock(PylonBlockSchema schema, Block block) {
             super(schema, block);
 
             ItemDisplay itemDisplay = new ItemDisplayBuilder()
@@ -96,7 +90,6 @@ public final class Grindstone {
             spawnMultiblockGhosts();
         }
 
-        @SuppressWarnings("unused")
         public GrindstoneBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
             entities = loadHeldEntities(pdc);
