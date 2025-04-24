@@ -22,7 +22,7 @@ public final class PylonBlocks {
         SPRINKLER.register();
     }
 
-    public static final PylonBlockSchema PEDESTAL = PylonBlockSchema.withSimpleAndLoad(
+    public static final PylonBlockSchema PEDESTAL = PylonBlockSchema.simple(
             pylonKey("pedestal"),
             Material.STONE_BRICK_WALL,
             Pedestal.PedestalBlock::new,
@@ -32,7 +32,7 @@ public final class PylonBlocks {
         PEDESTAL.register();
     }
 
-    public static final PylonBlockSchema MAGIC_PEDESTAL = PylonBlockSchema.withSimpleAndLoad(
+    public static final PylonBlockSchema MAGIC_PEDESTAL = PylonBlockSchema.simple(
             pylonKey("magic_pedestal"),
             Material.MOSSY_STONE_BRICK_WALL,
             Pedestal.PedestalBlock::new,
@@ -42,7 +42,7 @@ public final class PylonBlocks {
         MAGIC_PEDESTAL.register();
     }
 
-    public static final PylonBlockSchema MAGIC_ALTAR = PylonBlockSchema.withSimpleAndLoad(
+    public static final PylonBlockSchema MAGIC_ALTAR = PylonBlockSchema.simple(
             pylonKey("magic_altar"),
             Material.SMOOTH_STONE_SLAB,
             MagicAltar.MagicAltarBlock::new,
@@ -52,7 +52,7 @@ public final class PylonBlocks {
         MAGIC_ALTAR.register();
     }
 
-    public static final PylonBlockSchema GRINDSTONE = PylonBlockSchema.withSimpleAndLoad(
+    public static final PylonBlockSchema GRINDSTONE = PylonBlockSchema.simple(
             pylonKey("grindstone"),
             Material.SMOOTH_STONE_SLAB,
             Grindstone.GrindstoneBlock::new,
@@ -62,7 +62,7 @@ public final class PylonBlocks {
         GRINDSTONE.register();
     }
 
-    public static final PylonBlockSchema GRINDSTONE_HANDLE = PylonBlockSchema.withSimple(
+    public static final PylonBlockSchema GRINDSTONE_HANDLE = PylonBlockSchema.simple(
             pylonKey("grindstone_handle"),
             Material.OAK_FENCE,
             GrindstoneHandle.GrindstoneHandleBlock::new
@@ -71,7 +71,7 @@ public final class PylonBlocks {
         GRINDSTONE_HANDLE.register();
     }
 
-    public static final PylonBlockSchema ENRICHED_NETHERRACK = PylonBlockSchema.withSimple(
+    public static final PylonBlockSchema ENRICHED_NETHERRACK = PylonBlockSchema.simple(
             pylonKey("enriched_netherrack"),
             Material.NETHERRACK,
             EnrichedNetherrack.EnrichedNetherrackBlock::new
@@ -80,7 +80,7 @@ public final class PylonBlocks {
         ENRICHED_NETHERRACK.register();
     }
 
-    public static final PylonBlockSchema MIXING_POT = PylonBlockSchema.withSimple(
+    public static final PylonBlockSchema MIXING_POT = PylonBlockSchema.simple(
             pylonKey("mixing_pot"),
             Material.CAULDRON,
             MixingPot.MixingPotBlock::new
