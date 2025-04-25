@@ -1,0 +1,63 @@
+package io.github.pylonmc.pylon.base.items.fluid;
+
+import io.github.pylonmc.pylon.base.PylonEntities;
+import io.github.pylonmc.pylon.core.entity.EntityStorage;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
+import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
+import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3d;
+
+
+public class FluidConnectionDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay> {
+
+    @SuppressWarnings("unused")
+    public FluidConnectionDisplay(@NotNull PylonEntitySchema schema, @NotNull ItemDisplay entity) {
+        super(schema, entity);
+    }
+
+    public FluidConnectionDisplay(@NotNull FluidConnectionPoint point, @NotNull BlockFace face) {
+        super(
+                PylonEntities.FLUID_CONNECTION_POINT_DISPLAY,
+                makeDisplay(point, face.getDirection().clone().multiply(0.5).toVector3d())
+        );
+    }
+
+    private static @NotNull Material materialFromType(@NotNull FluidConnectionPoint.Type type) {
+        switch (type) {
+            case INPUT -> {
+                return Material.LIME_CONCRETE;
+            }
+            case OUTPUT -> {
+                return Material.RED_CONCRETE;
+            }
+            case CONNECTOR -> {
+                return Material.GRAY_CONCRETE;
+            }
+        }
+        throw new IllegalStateException("shut up intellij");
+    }
+
+    private static @NotNull ItemDisplay makeDisplay(@NotNull FluidConnectionPoint point, @NotNull Vector3d translation) {
+        return new ItemDisplayBuilder()
+                .material(materialFromType(point.getType()))
+                .transformation(new TransformBuilder()
+                        .translate(translation)
+                        .scale(0.12))
+                .build(point.getPosition().getLocation().toCenterLocation());
+    }
+
+    /**
+     * Convenience function that constructs the display, but then also adds it to EntityStorage
+     */
+    public static @NotNull FluidConnectionDisplay make(@NotNull FluidConnectionPoint point, @NotNull BlockFace face) {
+        FluidConnectionDisplay display = new FluidConnectionDisplay(point, face);
+        EntityStorage.add(display);
+        return display;
+    }
+}

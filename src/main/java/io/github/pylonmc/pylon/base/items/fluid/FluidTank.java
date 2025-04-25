@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -15,6 +16,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,16 +54,24 @@ public final class FluidTank {
         private @Nullable PylonFluid fluidType;
 
         @SuppressWarnings("unused")
-        protected FluidTankBlock(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+        public FluidTankBlock(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
             super(schema, block);
 
-            entities = Map.of();
+            FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
+            FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
+
+            entities = Map.of(
+                    "input", FluidConnectionInteraction.make(input, BlockFace.UP).getUuid(),
+                    "input_display", FluidConnectionDisplay.make(input, BlockFace.UP).getUuid(),
+                    "output", FluidConnectionInteraction.make(output, BlockFace.DOWN).getUuid(),
+                    "output_display", FluidConnectionDisplay.make(output, BlockFace.DOWN).getUuid()
+            );
             fluidAmount = 0;
             fluidType = null;
         }
 
         @SuppressWarnings("unused")
-        protected FluidTankBlock(@NotNull Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        public FluidTankBlock(@NotNull Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
             super(schema, block);
 
             entities = loadHeldEntities(pdc);

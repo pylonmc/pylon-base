@@ -2,7 +2,10 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Grindstone;
 import io.github.pylonmc.pylon.base.items.Pedestal;
+import io.github.pylonmc.pylon.base.items.fluid.FluidConnectionDisplay;
+import io.github.pylonmc.pylon.base.items.fluid.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
+import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
@@ -39,6 +42,24 @@ public final class PylonEntities {
     );
     static {
         GRINDSTONE_BLOCK.register();
+    }
+
+    public static final PylonEntitySchema FLUID_CONNECTION_POINT_DISPLAY = new PylonEntitySchema(
+            pylonKey("fluid_connection_point_display"),
+            ItemDisplay.class,
+            FluidConnectionDisplay.class
+    );
+    static {
+        FLUID_CONNECTION_POINT_DISPLAY.register();
+    }
+
+    public static final PylonEntitySchema FLUID_CONNECTION_POINT_INTERACTION = new PylonEntitySchema(
+            pylonKey("fluid_connection_point_interaction"),
+            Interaction.class,
+            FluidConnectionInteraction.class
+    );
+    static {
+        FLUID_CONNECTION_POINT_INTERACTION.register();
     }
 
     public static void initialize() {}

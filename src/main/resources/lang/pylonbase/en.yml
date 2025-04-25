@@ -100,6 +100,17 @@ item:
     name: "Flour"
     lore: ""
 
+  fluid_pipe:
+    name: "Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point or another pipe to start placing
+      <arrow> <insn>Right click</insn> again to finish placing
+      <arrow> <insn>Deselect</insn> the pipe to cancel placing
+
+  fluid_tank_1:
+    name: "Fluid Tank I"
+    lore: "<arrow> Capacity: 4000" # TODO placeholders
+
   gold_dust:
     name: "Gold Dust"
     lore: ""
@@ -283,6 +294,8 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
+  fluid_pipe: "Fluid Pipe"
+  fluid_tank_1: "Fluid Tank I" # TODO placeholders
 
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"

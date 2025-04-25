@@ -1182,6 +1182,24 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    public static final PylonItemSchema FLUID_PIPE = new PylonItemSchema(
+            pylonKey("fluid_pipe"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GRAY_CONCRETE, key).build()
+    );
+    static {
+        FLUID_PIPE.register();
+    }
+
+    public static final PylonItemSchema FLUID_TANK_1 = new SimpleBlockPlacerItemSchema(
+            pylonKey("fluid_tank_1"),
+            key -> ItemStackBuilder.defaultBuilder(Material.GLASS, key).build(),
+            PylonBlocks.FLUID_TANK_1
+    );
+    static {
+        FLUID_TANK_1.register();
+    }
+
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }
