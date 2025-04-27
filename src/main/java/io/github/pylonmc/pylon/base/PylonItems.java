@@ -143,7 +143,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("newtons_second_law"),
-                5,
+                5L,
                 STONE_HAMMER,
                 IRON_HAMMER,
                 DIAMOND_HAMMER
@@ -165,7 +165,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("plant_growth"),
-                5,
+                5L,
                 WATERING_CAN
         ).register();
     }
@@ -207,7 +207,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("food_preservation"),
-                2,
+                2L,
                 MONSTER_JERKY
         ).register();
     }
@@ -250,7 +250,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("primitive_alloying"),
-                8,
+                8L,
                 RAW_FERRODURALUM,
                 FERRODURALUM_INGOT
         ).register();
@@ -275,7 +275,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("metal_ductility"),
-                5,
+                5L,
                 COPPER_SHEET,
                 GOLD_SHEET,
                 IRON_SHEET,
@@ -407,7 +407,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("primitive_alloy_tools"),
-                10,
+                10L,
                 FERRODURALUM_SWORD,
                 FERRODURALUM_AXE,
                 FERRODURALUM_PICKAXE,
@@ -540,7 +540,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("primitive_alloy_armor"),
-                10,
+                10L,
                 FERRODURALUM_HELMET,
                 FERRODURALUM_CHESTPLATE,
                 FERRODURALUM_LEGGINGS,
@@ -601,7 +601,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("compression"),
-                5,
+                5L,
                 COMPRESSED_WOOD,
                 COMPRESSED_OBSIDIAN
         ).register();
@@ -656,7 +656,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("portability"),
-                7,
+                7L,
                 PORTABILITY_CATALYST,
                 PORTABLE_CRAFTING_TABLE,
                 PORTABLE_DUSTBIN,
@@ -742,7 +742,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("first_aid"),
-                5,
+                5L,
                 BANDAGE,
                 SPLINT
         ).register();
@@ -801,7 +801,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("medicine"),
-                10,
+                10L,
                 DISINFECTANT,
                 MEDKIT
         ).register();
@@ -824,7 +824,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("plant_growth_automated"),
-                10,
+                10L,
                 SPRINKLER
         ).register();
     }
@@ -848,7 +848,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("newtons_third_law"),
-                15,
+                15L,
                 RECOIL_ARROW
         ).register();
     }
@@ -869,7 +869,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("gravity"),
-                10,
+                10L,
                 LUMBER_AXE
         ).register();
     }
@@ -897,7 +897,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("fairies"),
-                5,
+                5L,
                 MAGIC_DUST
         ).register();
     }
@@ -932,7 +932,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("french_revolution"),
-                10,
+                10L,
                 BEHEADING_SWORD
         ).register();
     }
@@ -948,7 +948,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("showing_off"),
-                2,
+                2L,
                 PEDESTAL
         ).register();
     }
@@ -976,7 +976,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("magic"),
-                6,
+                6L,
                 MAGIC_PEDESTAL,
                 MAGIC_ALTAR
         ).register();
@@ -1005,7 +1005,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("grinding"),
-                5,
+                5L,
                 GRINDSTONE,
                 GRINDSTONE_HANDLE
         ).register();
@@ -1067,7 +1067,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("baking"),
-                2,
+                2L,
                 FLOUR,
                 DOUGH
         ).register();
@@ -1122,7 +1122,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("better_health"),
-                10,
+                10L,
                 HEALTH_TALISMAN_SIMPLE,
                 HEALTH_TALISMAN_ADVANCED,
                 HEALTH_TALISMAN_ULTIMATE
@@ -1139,7 +1139,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("homogeneity"),
-                6,
+                6L,
                 MIXING_POT
         ).register();
     }
