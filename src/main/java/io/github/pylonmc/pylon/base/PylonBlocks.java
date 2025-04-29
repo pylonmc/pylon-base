@@ -1,13 +1,8 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.EnrichedNetherrack;
-import io.github.pylonmc.pylon.base.items.Grindstone;
-import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
-import io.github.pylonmc.pylon.base.items.MixingPot;
-import io.github.pylonmc.pylon.base.items.Pedestal;
-import io.github.pylonmc.pylon.base.items.MagicAltar;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
+import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
+import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import org.bukkit.Material;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
@@ -88,6 +83,38 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("explosive_target"),
+            Material.TARGET
+    );
+    static {
+        EXPLOSIVE_TARGET.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("fiery_explosive_target"),
+            Material.TARGET
+    );
+    static {
+        FIERY_EXPLOSIVE_TARGET.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("super_explosive_target"),
+            Material.TARGET
+    );
+    static {
+        SUPER_EXPLOSIVE_TARGET.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("super_fiery_explosive_target"),
+            Material.TARGET
+    );
+    static {
+        SUPER_FIERY_EXPLOSIVE_TARGET.register();
     }
 
     public static void initialize() {}
