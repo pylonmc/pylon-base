@@ -15,6 +15,7 @@ import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Interaction;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,8 +41,8 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
     }
 
     @Override
-    public void write() {
-        getEntity().getPersistentDataContainer().set(CONNECTION_POINT_KEY, PylonSerializers.FLUID_CONNECTION_POINT, point);
+    public void write(@NotNull PersistentDataContainer pdc) {
+        pdc.set(CONNECTION_POINT_KEY, PylonSerializers.FLUID_CONNECTION_POINT, point);
     }
 
     private static @NotNull Interaction makeInteraction(@NotNull FluidConnectionPoint point, @NotNull Vector translation) {
