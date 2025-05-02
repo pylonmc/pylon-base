@@ -92,14 +92,14 @@ public final class FluidTank {
         }
 
         @Override
-        public @NotNull Map<PylonFluid, Integer> getAvailableFluids(@NotNull String connectionPoint) {
+        public @NotNull Map<PylonFluid, Integer> getSuppliedFluids(@NotNull String connectionPoint) {
             return fluidType == null
                     ? Map.of()
                     : Map.of(fluidType, fluidAmount);
         }
 
         @Override
-        public @NotNull Map<PylonFluid, Integer> getFluidCapacities(@NotNull String connectionPoint) {
+        public @NotNull Map<PylonFluid, Integer> getRequestedFluids(@NotNull String connectionPoint) {
             // If no fluid contained, allow any fluid to be added, otherwise, only allow more of the stored fluid to be added
             return fluidType == null
                     ? PylonRegistry.FLUIDS.getValues()

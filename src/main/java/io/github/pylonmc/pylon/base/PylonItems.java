@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
+import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
@@ -1184,7 +1185,7 @@ public final class PylonItems {
 
     public static final PylonItemSchema FLUID_PIPE = new PylonItemSchema(
             pylonKey("fluid_pipe"),
-            SimplePylonItem.class,
+            FluidPipe.class,
             key -> ItemStackBuilder.defaultBuilder(Material.GRAY_CONCRETE, key).build()
     );
     static {

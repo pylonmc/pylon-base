@@ -122,7 +122,7 @@ item:
   grindstone:
     name: "Grindstone"
     lore: |-
-      <arrow> <star> Multiblock
+      <star> Multiblock
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
 
