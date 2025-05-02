@@ -129,6 +129,14 @@ item:
     name: "Iron Sheet"
     lore: ""
 
+  loupe:
+    name: "Loupe"
+    lore: |-
+      <arrow> <insn>Right click</insn> with an item in the offhand to examine it
+      <arrow> Examining items will give research points based on the vanilla rarity of the item
+      <arrow> The rarer the item, the more times you can examine it
+      <arrow> <bold>The examined item will be consumed</bold>
+
   lumber_axe:
     name: "Lumber Axe"
     lore: |-
@@ -283,3 +291,9 @@ research:
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
+  loupe:
+    nothing: "<red>You look at your hand. It is not very interesting"
+    already_examined: "<red>You cannot find any more interesting things about this item"
+    examined: |-
+      <green>As you examine the %item%, you get a sudden flash of insight
+      <green>You have gained %points% research points

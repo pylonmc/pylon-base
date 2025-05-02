@@ -1175,6 +1175,28 @@ public final class PylonItems {
             ));
     }
 
+    public static final PylonItemSchema LOUPE = new Loupe(
+            pylonKey("loupe"),
+            Loupe.LoupeItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, key)
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .animation(ItemUseAnimation.SPYGLASS)
+                            .hasConsumeParticles(false)
+                            .consumeSeconds(3)
+                    )
+                    .build()
+    );
+
+    static {
+        LOUPE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), LOUPE.getItemStack())
+                .shape(" C ", "CGC", " C ")
+                .setIngredient('C', Material.COPPER_INGOT)
+                .setIngredient('G', Material.GLASS);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }
