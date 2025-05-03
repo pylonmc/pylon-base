@@ -212,6 +212,12 @@ item:
       <arrow> Sends you backwards at the velocity of your arrow
       <arrow> <attr:Efficiency:percent>75</attr>
 
+  research_pack_1:
+    name: "Research Pack"
+    lore: |-
+      <arrow> <insn>Right click</insn> to open
+      <arrow> <attr:Research points:points>%points%</attr>
+
   splint:
     name: "Splint"
     lore: |-
@@ -291,9 +297,15 @@ research:
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
+  gained_research_points: "<green>You have gained %points% research points"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
     already_examined: "<red>You cannot find any more interesting things about this item"
-    examined: |-
-      <green>As you examine the %item%, you get a sudden flash of insight
-      <green>You have gained %points% research points
+    examined: "<green>As you examine the %item%, you get a sudden flash of insight"
+  research_pack:
+    message: "As you open the research pack, %happening%"
+    happening:
+      0: "the contents, surprisingly, do not explode in your face"
+      1: "you find that a seemingly living gelatinous substance has formed in the pack"
+      2: "a strange, glowing liquid spills out"
+      3: "full of anticipation, you are disappointed to find that nothing happens"

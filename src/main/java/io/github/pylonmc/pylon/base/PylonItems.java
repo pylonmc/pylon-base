@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
+import io.github.pylonmc.pylon.base.items.research.ResearchPack;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
@@ -1176,7 +1177,7 @@ public final class PylonItems {
             ));
     }
 
-    public static final PylonItemSchema LOUPE = new Loupe.Schema(
+    public static final Loupe.Schema LOUPE = new Loupe.Schema(
             pylonKey("loupe"),
             Loupe.class,
             key -> ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, key)
@@ -1196,6 +1197,18 @@ public final class PylonItems {
                 .setIngredient('G', Material.GLASS);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final ResearchPack.Schema RESEARCH_PACK_1 = new ResearchPack.Schema(
+            pylonKey("research_pack_1"),
+            ResearchPack.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.BOOK, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build()
+    );
+    static {
+        RESEARCH_PACK_1.register();
+        // TODO recipe when fluid api is done
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

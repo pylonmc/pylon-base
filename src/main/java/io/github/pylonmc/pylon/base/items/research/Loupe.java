@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.item.base.Consumable;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -45,9 +46,10 @@ public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consum
 
     public static class Schema extends PylonItemSchema {
 
-        final Map<ItemRarity, ItemConfig> itemConfigs = new EnumMap<>(ItemRarity.class);
+        @Getter
+        private final Map<ItemRarity, ItemConfig> itemConfigs = new EnumMap<>(ItemRarity.class);
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull Function<@NotNull NamespacedKey, @NotNull ItemStack> templateSupplier) {
+        public Schema(@NotNull NamespacedKey key, @NotNull Class<Loupe> itemClass, @NotNull Function<@NotNull NamespacedKey, @NotNull ItemStack> templateSupplier) {
             super(key, itemClass, templateSupplier);
 
             for (ItemRarity rarity : ItemRarity.values()) {
@@ -100,14 +102,17 @@ public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consum
 
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.loupe.examined",
-                PylonArgument.of("item", offhand.effectiveName()),
+                PylonArgument.of("item", offhand.effectiveName())
+        ));
+        player.sendMessage(Component.translatable(
+                "pylon.pylonbase.message.gained_research_points",
                 PylonArgument.of("points", config.points)
         ));
         offhand.subtract();
         player.setCooldown(getStack(), 20);
     }
 
-    record ItemConfig(int uses, int points) {
+    public record ItemConfig(int uses, int points) {
         public static ItemConfig loadFrom(ConfigSection section) {
             return new ItemConfig(
                     section.getOrThrow("uses", Integer.class),
