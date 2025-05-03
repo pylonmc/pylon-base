@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
+import io.github.pylonmc.pylon.base.items.research.Loupe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
@@ -1175,9 +1176,9 @@ public final class PylonItems {
             ));
     }
 
-    public static final PylonItemSchema LOUPE = new Loupe(
+    public static final PylonItemSchema LOUPE = new Loupe.Schema(
             pylonKey("loupe"),
-            Loupe.LoupeItem.class,
+            Loupe.class,
             key -> ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, key)
                     .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                             .animation(ItemUseAnimation.SPYGLASS)
