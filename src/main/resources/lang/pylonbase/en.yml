@@ -21,8 +21,16 @@ item:
     name: "Compressed Wood"
     lore: ""
 
+  copper_dust:
+    name: "Copper Dust"
+    lore: ""
+
   copper_sheet:
     name: "Copper Sheet"
+    lore: ""
+
+  covalent_binder:
+    name: "Covalent Binder"
     lore: ""
 
   disinfectant:
@@ -90,6 +98,10 @@ item:
 
   flour:
     name: "Flour"
+    lore: ""
+
+  gold_dust:
+    name: "Gold Dust"
     lore: ""
 
   gold_sheet:
@@ -170,7 +182,7 @@ item:
     lore: |-
       <arrow> Place items in the pot and <insn>right click</insn> to mix them together
       <arrow> Requires a fire underneath to work
-      <arrow> Some recipes require <white>Enriched Netherrack</white> fire to work
+      <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
 
   monster_jerky:
     name: "Monster Jerky"
@@ -217,6 +229,22 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to open
       <arrow> <attr:Research points:research_points>%points%</attr>
+
+  shimmer_dust_1:
+    name: "Shimmer Dust I"
+    lore: ""
+
+  shimmer_dust_2:
+    name: "Shimmer Dust II"
+    lore: ""
+
+  shimmer_dust_3:
+    name: "Shimmer Dust III"
+    lore: ""
+
+  shimmer_skull:
+    name: "Shimmer Skull"
+    lore: ""
 
   splint:
     name: "Splint"
@@ -278,6 +306,7 @@ research:
   first_aid: "<dark_red>first aid"
   food_preservation: "<#483b29>food preservation"
   french_revolution: "<gradient:#0055a4:white:#ef4135>the French revolution"
+  glitter: "<gold>glitter"
   gravity: "<blue>gravity"
   grinding: "<dark_gray>grinding"
   homogeneity: "<blue>homogeneity"

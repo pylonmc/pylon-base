@@ -34,6 +34,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,58 @@ public final class PylonItems {
     private PylonItems() {
         throw new AssertionError("Utility class");
     }
+
+    //<editor-fold desc="Dusts" defaultstate=collapsed>
+    public static final PylonItemSchema COPPER_DUST = new PylonItemSchema(
+            pylonKey("copper_dust"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GLOWSTONE_DUST, key).build()
+    );
+    static {
+        COPPER_DUST.register();
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("copper_dust_from_copper_ingot"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.COPPER_INGOT)),
+                1,
+                COPPER_DUST.getItemStack(),
+                2,
+                Material.COPPER_BLOCK.createBlockData()
+        ));
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("copper_dust_from_raw_copper"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_COPPER)),
+                1,
+                COPPER_DUST.getItemStack(),
+                2,
+                Material.COPPER_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final PylonItemSchema GOLD_DUST = new PylonItemSchema(
+            pylonKey("gold_dust"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GLOWSTONE_DUST, key).build()
+    );
+    static {
+        GOLD_DUST.register();
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("gold_dust_from_gold_ingot"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.GOLD_INGOT)),
+                1,
+                GOLD_DUST.getItemStack(),
+                2,
+                Material.GOLD_BLOCK.createBlockData()
+        ));
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("gold_dust_from_raw_gold"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_GOLD)),
+                1,
+                GOLD_DUST.getItemStack(),
+                2,
+                Material.GOLD_BLOCK.createBlockData()
+        ));
+    }
+    //</editor-fold>
 
     //<editor-fold desc="Sheets" defaultstate=collapsed>
     public static final PylonItemSchema COPPER_SHEET = new PylonItemSchema(
@@ -288,8 +342,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_SWORD = new PylonItemSchema(
             pylonKey("ferroduralum_sword"),
             SimplePylonItem.class,
-            key -> ItemStackBuilder.of(Material.GOLDEN_SWORD)
-                    .defaultTranslatableName(key)
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_SWORD, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
                                     pylonKey("ferroduralum_sword_damage"),
@@ -451,8 +504,7 @@ public final class PylonItems {
     public static final PylonItemSchema FERRODURALUM_CHESTPLATE = new PylonItemSchema(
             pylonKey("ferroduralum_chestplate"),
             SimplePylonItem.class,
-            key -> ItemStackBuilder.of(Material.GOLDEN_CHESTPLATE)
-                    .defaultTranslatableName(key)
+            key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_CHESTPLATE, key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_chestplate_armor"),
@@ -483,7 +535,6 @@ public final class PylonItems {
             pylonKey("ferroduralum_leggings"),
             SimplePylonItem.class,
             key -> ItemStackBuilder.defaultBuilder(Material.GOLDEN_LEGGINGS, key)
-                    .defaultTranslatableName(key)
                     .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                             .addModifier(Attribute.ARMOR, new AttributeModifier(
                                     pylonKey("ferroduralum_leggings_armor"),
@@ -567,6 +618,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    //<editor-fold desc="Portable Items" defaultstate=collapsed>
     public static final PylonItemSchema PORTABILITY_CATALYST = new PylonItemSchema(
             pylonKey("portability_catalyst"),
             SimplePylonItem.class,
@@ -654,6 +706,7 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+    //</editor-fold>
 
     static {
         new Research(
@@ -666,6 +719,7 @@ public final class PylonItems {
         ).register();
     }
 
+    //<editor-fold desc="Medical items" defaultstate=collapsed>
     public static final PylonItemSchema FIBER = new PylonItemSchema(
             pylonKey("fiber"),
             SimplePylonItem.class,
@@ -799,6 +853,7 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+    //</editor-fold>
 
     static {
         new Research(
@@ -927,8 +982,8 @@ public final class PylonItems {
                         Material.CREEPER_HEAD,
                         Material.ZOMBIE_HEAD,
                         Material.PIGLIN_HEAD,
-                        Material.DRAGON_HEAD)
-                );
+                        Material.DRAGON_HEAD
+                ));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
 
@@ -939,51 +994,6 @@ public final class PylonItems {
         ).register();
     }
 
-    public static final PylonItemSchema PEDESTAL = new SimpleBlockPlacerItemSchema(
-            pylonKey("pedestal"),
-            key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
-            PylonBlocks.PEDESTAL
-    );
-    static {
-        PEDESTAL.register();
-        // TODO recipe
-
-        new Research(
-                pylonKey("showing_off"),
-                2L,
-                PEDESTAL
-        ).register();
-    }
-
-    public static final PylonItemSchema MAGIC_PEDESTAL = new SimpleBlockPlacerItemSchema(
-            pylonKey("magic_pedestal"),
-            key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
-            PylonBlocks.MAGIC_PEDESTAL
-    );
-    static {
-        MAGIC_PEDESTAL.register();
-        // TODO recipe
-    }
-
-    public static final PylonItemSchema MAGIC_ALTAR = new SimpleBlockPlacerItemSchema(
-            pylonKey("magic_altar"),
-            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build(),
-            PylonBlocks.MAGIC_ALTAR
-    );
-    static {
-        MAGIC_ALTAR.register();
-        // TODO recipe
-    }
-
-    static {
-        new Research(
-                pylonKey("magic"),
-                6L,
-                MAGIC_PEDESTAL,
-                MAGIC_ALTAR
-        ).register();
-    }
-
     public static final PylonItemSchema GRINDSTONE = new SimpleBlockPlacerItemSchema(
             pylonKey("grindstone"),
             key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build(),
@@ -991,7 +1001,12 @@ public final class PylonItems {
     );
     static {
         GRINDSTONE.register();
-        // TODO recipe
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("grindstone"), BEHEADING_SWORD.getItemStack())
+                .shape("STS", "   ", "   ")
+                .setIngredient('T', new ItemStack(Material.SMOOTH_STONE))
+                .setIngredient('S', new ItemStack(Material.SMOOTH_STONE_SLAB));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final PylonItemSchema GRINDSTONE_HANDLE = new SimpleBlockPlacerItemSchema(
@@ -1001,7 +1016,11 @@ public final class PylonItems {
     );
     static {
         GRINDSTONE_HANDLE.register();
-        // TODO recipe
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("grindstone_handle"), BEHEADING_SWORD.getItemStack())
+                .shape("F  ", "F  ", "F  ")
+                .setIngredient('F', new RecipeChoice.MaterialChoice(Tag.FENCES));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     static {
@@ -1138,12 +1157,56 @@ public final class PylonItems {
     );
     static {
         MIXING_POT.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("mixing_pot"), MIXING_POT.getItemStack())
+                .shape("f f", "f f", "fff")
+                .setIngredient('f', FERRODURALUM_INGOT.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
 
         new Research(
                 pylonKey("homogeneity"),
                 6L,
                 MIXING_POT
         ).register();
+    }
+
+    public static final PylonItemSchema SHIMMER_DUST_1 = new PylonItemSchema(
+            pylonKey("shimmer_dust_1"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.SUGAR, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+    );
+    static {
+        SHIMMER_DUST_1.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("shimmer_dust_1"), SHIMMER_DUST_1.getItemStack())
+                .addIngredient(COPPER_DUST.getItemStack())
+                .addIngredient(Material.FLINT)
+                .addIngredient(Material.CLAY_BALL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema SHIMMER_DUST_2 = new PylonItemSchema(
+            pylonKey("shimmer_dust_2"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.SUGAR, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+    );
+    static {
+        SHIMMER_DUST_2.register();
+        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+                pylonKey("shimmer_dust_2"),
+                Map.of(
+                        new RecipeChoice.ExactChoice(SHIMMER_DUST_1.getItemStack()), 1,
+                        new RecipeChoice.ExactChoice(GOLD_DUST.getItemStack()), 1,
+                        new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
+                ),
+                SHIMMER_DUST_2.getItemStack(),
+                false,
+                1
+        ));
     }
 
     public static final PylonItemSchema ENRICHED_NETHERRACK = new SimpleBlockPlacerItemSchema(
@@ -1153,28 +1216,163 @@ public final class PylonItems {
     );
     static {
         ENRICHED_NETHERRACK.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("enriched_netherrack"), ENRICHED_NETHERRACK.getItemStack())
+                        .shape(" s ", "sns", " s ")
+                        .setIngredient('n', new ItemStack(Material.NETHERRACK))
+                        .setIngredient('s', SHIMMER_DUST_2.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    // TODO will be replaced in the next PR
-    public static final PylonItemSchema TEMP_MIXER_TEST_ITEM = new PylonItemSchema(
-            pylonKey("temp_mixer_test_item"),
+    public static final PylonItemSchema COVALENT_BINDER = new PylonItemSchema(
+            pylonKey("covalent_binder"),
             SimplePylonItem.class,
-            ItemStackBuilder.of(Material.DEAD_BUSH)
-                    .name("Temp mixer test item")
+            key -> ItemStackBuilder.defaultBuilder(Material.LIGHT_BLUE_DYE, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .build()
     );
     static {
-        TEMP_MIXER_TEST_ITEM.register();
+        COVALENT_BINDER.register();
+        ItemStack output = COVALENT_BINDER.getItemStack().clone();
+        output.setAmount(6);
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
-                    pylonKey("temp_mixer_test_item"),
-                    Map.of(
-                            new RecipeChoice.ExactChoice(new ItemStack(Material.GLOWSTONE_DUST)), 3,
-                            new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
-                    ),
-                    TEMP_MIXER_TEST_ITEM.getItemStack(),
-                    true,
-                    2
-            ));
+                pylonKey("covalent_binder"),
+                Map.of(
+                        new RecipeChoice.ExactChoice(new ItemStack(Material.GUNPOWDER)), 4,
+                        new RecipeChoice.ExactChoice(new ItemStack(Material.EMERALD)), 1,
+                        new RecipeChoice.ExactChoice(SHIMMER_DUST_1.getItemStack()), 1
+                ),
+                output,
+                true,
+                3
+        ));
+    }
+
+    public static final PylonItemSchema SHIMMER_DUST_3 = new PylonItemSchema(
+            pylonKey("shimmer_dust_3"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.SUGAR, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+
+    );
+    static {
+        SHIMMER_DUST_3.register();
+        MagicAltar.Recipe.RECIPE_TYPE.addRecipe(new MagicAltar.Recipe(
+                pylonKey("shimmer_dust_3"),
+                new ArrayList<>(Arrays.asList(
+                        new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE_BLOCK)),
+                        null,
+                        new RecipeChoice.ExactChoice(COVALENT_BINDER.getItemStack()),
+                        new RecipeChoice.ExactChoice(COVALENT_BINDER.getItemStack()),
+                        null,
+                        new RecipeChoice.ExactChoice(COVALENT_BINDER.getItemStack()),
+                        new RecipeChoice.ExactChoice(COVALENT_BINDER.getItemStack()),
+                        null
+                )),
+                new RecipeChoice.ExactChoice(SHIMMER_DUST_2.getItemStack()),
+                SHIMMER_DUST_3.getItemStack(),
+                5
+        ));
+    }
+
+    public static final PylonItemSchema SHIMMER_SKULL = new PylonItemSchema(
+            pylonKey("shimmer_skull"),
+            SimplePylonItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.WITHER_SKELETON_SKULL, key)
+                    .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .build()
+    );
+    static {
+        SHIMMER_SKULL.register();
+        MagicAltar.Recipe.RECIPE_TYPE.addRecipe(new MagicAltar.Recipe(
+                pylonKey("shimmer_skull"),
+                new ArrayList<>(Arrays.asList(
+                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3.getItemStack()),
+                        null,
+                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3.getItemStack()),
+                        null,
+                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3.getItemStack()),
+                        null,
+                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3.getItemStack()),
+                        null
+                )),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.WITHER_SKELETON_SKULL)),
+                SHIMMER_SKULL.getItemStack(),
+                30
+        ));
+    }
+
+    static {
+        new Research(
+                pylonKey("glitter"),
+                5L,
+                SHIMMER_DUST_1,
+                SHIMMER_DUST_2,
+                SHIMMER_DUST_3,
+                SHIMMER_SKULL
+        ).register();
+    }
+
+    public static final PylonItemSchema PEDESTAL = new SimpleBlockPlacerItemSchema(
+            pylonKey("pedestal"),
+            key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
+            PylonBlocks.PEDESTAL
+    );
+    static {
+        PEDESTAL.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("pedestal"), PEDESTAL.getItemStack())
+                .shape("s  ", "s  ", "s  ")
+                .setIngredient('s', new ItemStack(Material.STONE_BRICK_WALL));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("showing_off"),
+                2L,
+                PEDESTAL
+        ).register();
+    }
+
+    public static final PylonItemSchema MAGIC_PEDESTAL = new SimpleBlockPlacerItemSchema(
+            pylonKey("magic_pedestal"),
+            key -> ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, key).build(),
+            PylonBlocks.MAGIC_PEDESTAL
+    );
+    static {
+        MAGIC_PEDESTAL.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_pedestal"), MAGIC_PEDESTAL.getItemStack())
+                .shape("c c", " p ", "c c")
+                .setIngredient('p', PEDESTAL.getItemStack())
+                .setIngredient('c', COVALENT_BINDER.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema MAGIC_ALTAR = new SimpleBlockPlacerItemSchema(
+            pylonKey("magic_altar"),
+            key -> ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, key).build(),
+            PylonBlocks.MAGIC_ALTAR
+    );
+    static {
+        MAGIC_ALTAR.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_altar"), MAGIC_ALTAR.getItemStack())
+                        .shape("   ", "dpd", "dsd")
+                        .setIngredient('p', PEDESTAL.getItemStack())
+                        .setIngredient('s', new ItemStack(Material.SMOOTH_STONE_SLAB))
+                        .setIngredient('d', SHIMMER_DUST_2.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        new Research(
+                pylonKey("magic"),
+                6L,
+                MAGIC_PEDESTAL,
+                MAGIC_ALTAR,
+                COVALENT_BINDER
+        ).register();
     }
 
     public static final Loupe.Schema LOUPE = new Loupe.Schema(
