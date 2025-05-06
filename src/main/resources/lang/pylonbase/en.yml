@@ -132,7 +132,7 @@ item:
   loupe:
     name: "Loupe"
     lore: |-
-      <arrow> <insn>Right click</insn> with an item in the offhand to examine it
+      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
       <arrow> Examining items will give research points based on the vanilla rarity of the item
       <arrow> The rarer the item, the more times you can examine it
       <arrow> <bold>The examined item will be consumed</bold>
@@ -213,10 +213,10 @@ item:
       <arrow> <attr:Efficiency:percent>75</attr>
 
   research_pack_1:
-    name: "Research Pack"
+    name: "Research Pack I"
     lore: |-
       <arrow> <insn>Right click</insn> to open
-      <arrow> <attr:Research points:points>%points%</attr>
+      <arrow> <attr:Research points:research_points>%points%</attr>
 
   splint:
     name: "Splint"
@@ -297,7 +297,7 @@ research:
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
-  gained_research_points: "<green>You have gained %points% research points"
+  gained_research_points: "<green>+%points% research points"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
     already_examined: "<red>You cannot find any more interesting things about this item"

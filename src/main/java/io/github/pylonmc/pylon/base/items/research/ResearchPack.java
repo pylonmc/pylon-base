@@ -28,9 +28,6 @@ public class ResearchPack extends PylonItem<ResearchPack.Schema> implements Inte
         @Getter
         private final int points = getSettings().getOrThrow("points", Integer.class);
 
-        @Getter
-        private final int happenings = getSettings().getOrThrow("happenings", Integer.class);
-
         public Schema(@NotNull NamespacedKey key, @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass, @NotNull Function<@NotNull NamespacedKey, @NotNull ItemStack> templateSupplier) {
             super(key, itemClass, templateSupplier);
         }
@@ -43,7 +40,7 @@ public class ResearchPack extends PylonItem<ResearchPack.Schema> implements Inte
         long originalPoints = Research.getResearchPoints(player);
         Research.setResearchPoints(player, originalPoints + points);
 
-        int happeningNum = ThreadLocalRandom.current().nextInt(getSchema().getHappenings());
+        int happeningNum = ThreadLocalRandom.current().nextInt(4);
         Component happening = Component.translatable(
                 "pylon.pylonbase.message.research_pack.happening." + happeningNum
         );
