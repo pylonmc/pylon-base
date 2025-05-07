@@ -3,10 +3,10 @@ package io.github.pylonmc.pylon.base.items.watering;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -140,7 +140,7 @@ public final class Sprinkler {
                         if (event.getContext() instanceof BlockCreateContext.PlayerPlace context) {
                             context.getPlayer().sendMessage(Component.translatable(
                                     "pylon.pylonbase.message.sprinkler_too_close",
-                                    PylonArgument.of("radius", Component.text(horizontalRadiusToCheck))
+                                    PylonArgument.of("radius", horizontalRadiusToCheck)
                             ));
                         }
                         break;

@@ -1,0 +1,15 @@
+common:
+  uses: 1
+  points: 1
+
+uncommon:
+  uses: 3
+  points: 5
+
+rare:
+  uses: 5
+  points: 10
+
+epic:
+  uses: 10
+  points: 25
