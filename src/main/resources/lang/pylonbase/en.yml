@@ -147,7 +147,7 @@ item:
       <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
       <arrow> Examining items will give research points based on the vanilla rarity of the item
       <arrow> The rarer the item, the more times you can examine it
-      <arrow> <bold>The examined item will be consumed</bold>
+      <arrow> <red>The examined item will be consumed</red>
 
   lumber_axe:
     name: "Lumber Axe"
@@ -330,6 +330,7 @@ message:
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
     already_examined: "<red>You cannot find any more interesting things about this item"
+    is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
     examined: "<green>As you examine the %item%, you get a sudden flash of insight"
   research_pack:
     message: "As you open the research pack, %happening%"

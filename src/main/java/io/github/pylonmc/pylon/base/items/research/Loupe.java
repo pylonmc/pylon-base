@@ -71,6 +71,12 @@ public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consum
             player.setCooldown(getStack(), 20);
             return;
         }
+        if (PylonItem.fromStack(offhand) != null) {
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
+            event.setCancelled(true);
+            player.setCooldown(getStack(), 20);
+            return;
+        }
         ItemRarity rarity = offhand.getType().getDefaultData(DataComponentTypes.RARITY);
         int maxUses = getSchema().itemConfigs.get(rarity).uses;
 
