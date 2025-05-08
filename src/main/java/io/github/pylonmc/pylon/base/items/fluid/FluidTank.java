@@ -38,9 +38,9 @@ public final class FluidTank {
         public static class Schema extends PylonBlockSchema {
 
             @Getter
-            private final int capacity;
+            private final long capacity;
 
-            public Schema(@NotNull NamespacedKey key, @NotNull Material material, int capacity) {
+            public Schema(@NotNull NamespacedKey key, @NotNull Material material, long capacity) {
                 super(key, material, FluidTankBlock.class);
                 this.capacity = capacity;
             }
@@ -50,7 +50,7 @@ public final class FluidTank {
         private static final NamespacedKey FLUID_TYPE_KEY = KeyUtils.pylonKey("fluid_type");
 
         private final Map<String, UUID> entities;
-        private int fluidAmount;
+        private long fluidAmount;
         private @Nullable PylonFluid fluidType;
 
         @SuppressWarnings("unused")
@@ -75,14 +75,14 @@ public final class FluidTank {
             super(schema, block);
 
             entities = loadHeldEntities(pdc);
-            fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.INTEGER);
+            fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.LONG);
             fluidType = pdc.get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
         }
 
         @Override
         public void write(@NotNull PersistentDataContainer pdc) {
             saveHeldEntities(pdc);
-            pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.INTEGER, fluidAmount);
+            pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.LONG, fluidAmount);
             PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluidType);
         }
 
@@ -92,14 +92,14 @@ public final class FluidTank {
         }
 
         @Override
-        public @NotNull Map<PylonFluid, Integer> getSuppliedFluids(@NotNull String connectionPoint) {
+        public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
             return fluidType == null
                     ? Map.of()
                     : Map.of(fluidType, fluidAmount);
         }
 
         @Override
-        public @NotNull Map<PylonFluid, Integer> getRequestedFluids(@NotNull String connectionPoint) {
+        public @NotNull Map<PylonFluid, Long> getRequestedFluids(@NotNull String connectionPoint) {
             // If no fluid contained, allow any fluid to be added, otherwise, only allow more of the stored fluid to be added
             return fluidType == null
                     ? PylonRegistry.FLUIDS.getValues()
@@ -109,7 +109,7 @@ public final class FluidTank {
         }
 
         @Override
-        public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, int amount) {
+        public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
             if (!fluid.equals(fluidType)) {
                 Preconditions.checkState(fluidAmount == 0, "Attempt to assign a new fluid when the tank already contains a fluid");
                 fluidType = fluid;
@@ -118,7 +118,7 @@ public final class FluidTank {
         }
 
         @Override
-        public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, int amount) {
+        public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
             fluidAmount -= amount;
             if (fluidAmount == 0) {
                 fluidType = null;
