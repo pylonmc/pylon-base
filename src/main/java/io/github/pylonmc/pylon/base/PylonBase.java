@@ -25,6 +25,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         PylonItems.initialize();
         PylonBlocks.initialize();
         PylonEntities.initialize();
+        PylonFluids.initialize();
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         Bukkit.getPluginManager().registerEvents(new WaterCauldronRightClickRecipe.CauldronListener(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);

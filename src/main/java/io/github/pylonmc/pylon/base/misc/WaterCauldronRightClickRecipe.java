@@ -21,6 +21,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 
 
+// TODO probably remove this and change its user(s) to just use the mixing pot
 /**
  * Input quantity is assumed to be 1.
  */

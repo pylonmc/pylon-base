@@ -24,6 +24,7 @@ public class PipeConnectorService implements Listener {
     private static final Map<Player, FluidConnectionPoint> connectionsInProgress = new HashMap<>();
 
     public static void startConnection(@NotNull Player player, @NotNull FluidConnectionPoint startPoint) {
+        player.sendMessage("started connection");
         connectionsInProgress.put(player, startPoint);
     }
 
@@ -31,10 +32,12 @@ public class PipeConnectorService implements Listener {
         FluidConnectionPoint startPoint = connectionsInProgress.remove(player);
         Preconditions.checkState(startPoint != null, "Attempt to finish a connection with no start point");
         FluidManager.connect(startPoint, endPoint);
+        player.sendMessage("connected");
     }
 
     public static void cancelConnection(@NotNull Player player) {
         connectionsInProgress.remove(player);
+        player.sendMessage("cancelled connection");
     }
 
     public static @Nullable FluidConnectionPoint getOrigin(@NotNull Player player) {

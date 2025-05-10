@@ -1,0 +1,4 @@
+fluid-per-second: 500
+temperature:
+  min: 0
+  max: 190

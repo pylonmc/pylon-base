@@ -58,11 +58,10 @@ public final class Pedestal {
             ItemDisplay display = new ItemDisplayBuilder()
                     .transformation(transformBuilder().buildForItemDisplay())
                     .build(block.getLocation().toCenterLocation());
-
-            entities = Map.of("item", display.getUniqueId());
-
             PedestalEntity pylonEntity = new PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
             EntityStorage.add(pylonEntity);
+
+            entities = Map.of("item", pylonEntity.getUuid());
         }
 
         @SuppressWarnings({"unused", "DataFlowIssue"})

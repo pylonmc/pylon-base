@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.items.Grindstone;
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.fluid.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.items.fluid.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
@@ -60,6 +61,16 @@ public final class PylonEntities {
     );
     static {
         FLUID_CONNECTION_POINT_INTERACTION.register();
+    }
+
+
+    public static final PylonEntitySchema FLUID_TANK_DISPLAY = new PylonEntitySchema(
+            pylonKey("fluid_tank_display"),
+            ItemDisplay.class,
+            FluidTank.FluidTankEntity.class
+    );
+    static {
+        FLUID_TANK_DISPLAY.register();
     }
 
     public static void initialize() {}

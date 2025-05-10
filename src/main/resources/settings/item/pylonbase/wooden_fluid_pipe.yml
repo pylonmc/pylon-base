@@ -1,0 +1,4 @@
+fluid-per-second: 250
+temperature:
+  min: 0
+  max: 80

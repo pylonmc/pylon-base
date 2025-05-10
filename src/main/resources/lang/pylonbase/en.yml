@@ -109,7 +109,10 @@ item:
 
   fluid_tank_1:
     name: "Fluid Tank I"
-    lore: "<arrow> Capacity: 4000" # TODO placeholders
+    # TODO fix placeholders
+    lore: |- 
+      <arrow> <attr:Capacity:capacity>%capacity</attr>
+      <arrow> <attr:Fluid/s:fluid_per_second>%fluid_per_second</attr>
 
   gold_dust:
     name: "Gold Dust"
@@ -295,7 +298,7 @@ block:
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
   fluid_pipe: "Fluid Pipe"
-  fluid_tank_1: "Fluid Tank I" # TODO placeholders
+  fluid_tank_1: "Fluid Tank I"
 
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
