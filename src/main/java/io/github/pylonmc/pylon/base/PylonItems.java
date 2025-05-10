@@ -1184,14 +1184,14 @@ public final class PylonItems {
     }
 
     public static final FluidPipe.Schema WOODEN_FLUID_PIPE = new FluidPipe.Schema(
-            pylonKey("wooden_fluid_pipe"),
-            key -> ItemStackBuilder.defaultBuilder(Material.GRAY_CONCRETE, key).build()
+            pylonKey("fluid_pipe_wooden"),
+            key -> ItemStackBuilder.defaultBuilder(Material.BROWN_CONCRETE, key).build()
     );
     static {
         WOODEN_FLUID_PIPE.register();
         ItemStack output = new ItemStack(WOODEN_FLUID_PIPE.getItemStack());
         output.setAmount(4);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("wooden_fluid_pipe"), output)
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_wooden"), output)
                         .shape("www", "   ", "www")
                         .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
@@ -1199,14 +1199,14 @@ public final class PylonItems {
     }
 
     public static final FluidPipe.Schema COPPER_FLUID_PIPE = new FluidPipe.Schema(
-            pylonKey("copper_fluid_pipe"),
-            key -> ItemStackBuilder.defaultBuilder(Material.GRAY_CONCRETE, key).build()
+            pylonKey("fluid_pipe_copper"),
+            key -> ItemStackBuilder.defaultBuilder(Material.ORANGE_CONCRETE, key).build()
     );
     static {
         COPPER_FLUID_PIPE.register();
         ItemStack output = new ItemStack(COPPER_FLUID_PIPE.getItemStack());
         output.setAmount(4);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("copper_fluid_pipe"), output)
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_copper"), output)
                         .shape("ccc", "   ", "ccc")
                         .setIngredient('c', COPPER_SHEET.getItemStack());
         recipe.setCategory(CraftingBookCategory.BUILDING);
@@ -1214,13 +1214,13 @@ public final class PylonItems {
     }
 
     public static final PylonItemSchema WOODEN_FLUID_TANK = new SimpleBlockPlacerItemSchema(
-            pylonKey("wooden_fluid_tank"),
+            pylonKey("fluid_tank_wooden"),
             key -> ItemStackBuilder.defaultBuilder(Material.BROWN_STAINED_GLASS, key).build(),
-            PylonBlocks.FLUID_TANK_1
+            PylonBlocks.FLUID_TANK_WOODEN
     );
     static {
         WOODEN_FLUID_TANK.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("wooden_fluid_tank"), WOODEN_FLUID_TANK.getItemStack())
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), WOODEN_FLUID_TANK.getItemStack())
                         .shape("gwg", "w w", "gwg")
                         .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
                         .setIngredient('g', new ItemStack(Material.GLASS));

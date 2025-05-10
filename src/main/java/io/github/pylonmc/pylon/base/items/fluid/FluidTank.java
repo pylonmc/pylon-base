@@ -64,7 +64,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder()
-                .material(Material.BLUE_CONCRETE) // TODO remove
+                .material(Material.ORANGE_CONCRETE) // TODO remove
                 .transformation(new TransformBuilder() // TODO remove
                         .translate(0.0, -0.5 + 0.5 / 2, 0.0) // TODO remove
                         .scale(0.9, 0.5, 0.9) // TODO remove
@@ -81,7 +81,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
                 "output_display", FluidConnectionDisplay.make(output, BlockFace.DOWN).getUuid()
         );
         fluidAmount = getSchema().capacity / 2;
-        fluidType = PylonFluids.WATER;
+        fluidType = PylonFluids.LAVA;
     }
 
     @SuppressWarnings("unused")
@@ -157,11 +157,11 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     }
 
     public void updateFluidDisplay() {
-        float scale = (float) fluidAmount / getSchema().capacity;
+        float scale = 0.9F * (float) fluidAmount / getSchema().capacity;
         ItemDisplay display = getFluidDisplay();
         if (display != null) {
             display.setTransformationMatrix(new TransformBuilder()
-                .translate(0.0, -0.5 + scale / 2 + 0.05, 0.0)
+                .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
                 .buildForItemDisplay());
         }

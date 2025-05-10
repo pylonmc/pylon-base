@@ -23,7 +23,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
 
     public static class Schema extends PylonItemSchema {
 
-        @Getter private final long fluidPerTick = getSettings().get("fluid-per-second", Long.class) / 20;
+        @Getter private final long fluidPerTick = getSettings().get("fluid-per-second", Integer.class) / 20;
         private final int minTemperature = getSettings().get("temperature.min", Integer.class);
         private final int maxTemperature = getSettings().get("temperature.max", Integer.class);
 

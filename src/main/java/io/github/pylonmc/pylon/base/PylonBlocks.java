@@ -91,14 +91,14 @@ public final class PylonBlocks {
         MIXING_POT.register();
     }
 
-    public static final FluidTank.Schema FLUID_TANK_1 = new FluidTank.Schema(
-            pylonKey("fluid_tank_1"),
-            Material.GLASS,
+    public static final FluidTank.Schema FLUID_TANK_WOODEN = new FluidTank.Schema(
+            pylonKey("fluid_tank_wooden"),
+            Material.BROWN_STAINED_GLASS,
             4000,
             1000
     );
     static {
-        FLUID_TANK_1.register();
+        FLUID_TANK_WOODEN.register();
     }
 
     public static void initialize() {}
