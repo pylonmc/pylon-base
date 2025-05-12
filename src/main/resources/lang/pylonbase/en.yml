@@ -217,6 +217,17 @@ item:
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
       <arrow> <attr:Range:blocks>%range%</attr>
 
+  structure_locator_desert_pyramid:
+    name: "Structure Locator"
+    lore: |-
+      <arrow> Navigates to the nearest %struct%
+      <arrow> <insn>Right click</insn> to refresh
+      <arrow> <attr:Range:chunks>%range%</attr>
+    find_fail: |-
+      <red>Failed to find a %struct% within %range% chunks
+    refreshed: |-
+      <green>Compass reprogrammed!
+
   watering_can:
     name: "Watering Can"
     lore: |-

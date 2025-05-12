@@ -24,6 +24,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.generator.structure.Structure;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -994,6 +995,17 @@ public final class PylonItems {
                     true,
                     2
             ));
+    }
+
+    public static final StructureLocator.Schema STRUCTURE_LOCATOR_DESERT_PYRAMID = new StructureLocator.Schema(
+            pylonKey("structure_locator_desert_pyramid"),
+            StructureLocator.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.COMPASS, key)
+                    .build(),
+            Structure.DESERT_PYRAMID
+    );
+    static {
+        STRUCTURE_LOCATOR_DESERT_PYRAMID.register();
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
