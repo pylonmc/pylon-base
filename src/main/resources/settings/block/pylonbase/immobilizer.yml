@@ -1,4 +1,4 @@
 # in seconds
 duration: 200
 radius: 15.0
-cooldown: 10.0
+cooldown: 400

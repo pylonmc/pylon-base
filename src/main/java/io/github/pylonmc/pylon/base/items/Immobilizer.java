@@ -9,6 +9,8 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -34,6 +36,8 @@ public class Immobilizer {
 
     public static class ImmobilizerBlock extends PylonBlock<ImmobilizerBlock.Schema> implements PylonPiston {
         public static Set<Player> frozenPlayers = new HashSet<>();
+        private int cooldownTickNo;
+        private final TranslatableComponent cooldownMsg = Component.translatable("cooldown");
 
         public ImmobilizerBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
@@ -46,16 +50,23 @@ public class Immobilizer {
         @Override
         public void onExtend(@NotNull BlockPistonExtendEvent event) {
             event.setCancelled(true);
+            if(Bukkit.getCurrentTick() < cooldownTickNo + getSchema().cooldown){
+                for(Player player : event.getBlock().getLocation().getNearbyPlayers(getSchema().radius)){
+                    player.sendMessage(cooldownMsg.color(NamedTextColor.RED));
+                }
+                return;
+            }
             for (Player player : event.getBlock().getLocation().getNearbyPlayers(getSchema().radius)) {
                 frozenPlayers.add(player);
                 Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new UnfreezePlayer(player), getSchema().duration);
             }
+            cooldownTickNo = Bukkit.getCurrentTick();
         }
 
         public static class Schema extends PylonBlockSchema {
             public final double radius = getSettings().getOrThrow("radius", Double.class);
             public final int duration = getSettings().getOrThrow("duration", Integer.class);
-            public final double cooldown = getSettings().getOrThrow("cooldown", Double.class);
+            public final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
 
             public Schema(@NotNull NamespacedKey key, @NotNull Material material, @NotNull Class<? extends @NotNull PylonBlock<?>> blockClass) {
                 super(key, material, blockClass);
