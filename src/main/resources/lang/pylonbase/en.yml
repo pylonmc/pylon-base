@@ -1,3 +1,8 @@
+pipe:
+  connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
+  connected: "<green>Pipe placed"
+  cancelled: "<red>Placement cancelled"
+
 item:
   bandage:
     name: "Bandage"

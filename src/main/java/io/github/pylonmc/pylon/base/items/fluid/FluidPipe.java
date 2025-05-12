@@ -57,12 +57,12 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
             return;
         }
 
-        if (PipeConnectorService.getOrigin(event.getPlayer()) != null) {
+        if (PipeConnectorService.isConnecting(event.getPlayer())) {
             PipeConnectorService.finishConnection(event.getPlayer(), interaction.getPoint());
             FluidManager.setFluidPerTick(interaction.getPoint().getSegment(), getSchema().fluidPerTick);
             FluidManager.setFluidPredicate(interaction.getPoint().getSegment(), getSchema().getPredicate());
         } else {
-            PipeConnectorService.startConnection(event.getPlayer(), interaction.getPoint());
+            PipeConnectorService.startConnection(event.getPlayer(), interaction.getPoint(), interaction.getFace());
         }
     }
 }
