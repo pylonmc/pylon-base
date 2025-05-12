@@ -1042,14 +1042,14 @@ public final class PylonItems {
     }
 
     public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
-            pylonKey("explosive_target_fiery_super"),
+            pylonKey("explosive_target_super_fiery"),
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
             PylonBlocks.SUPER_FIERY_EXPLOSIVE_TARGET
     );
     static {
         SUPER_FIERY_EXPLOSIVE_TARGET.register();
-        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_fiery_super"), SUPER_FIERY_EXPLOSIVE_TARGET.getItemStack());
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super_fiery"), SUPER_FIERY_EXPLOSIVE_TARGET.getItemStack());
         recipe.addIngredient(SUPER_EXPLOSIVE_TARGET.getItemStack());
         recipe.addIngredient(Material.FIRE_CHARGE);
         recipe.setCategory(CraftingBookCategory.BUILDING);

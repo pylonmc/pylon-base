@@ -47,6 +47,27 @@ item:
       <arrow> Explosion power: %explosion-power%
       <arrow> Doesn't create fire
 
+  explosive_target_fiery:
+    name: "Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Creates fire
+
+  explosive_target_super:
+    name: "Super Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Doesn't create fire
+
+  explosive_target_super_fiery:
+    name: "Super Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot.
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Creates fire
+
   ferroduralum_axe:
     name: "Ferroduralum Axe"
     lore: ""
@@ -94,13 +115,6 @@ item:
   fiber:
     name: "Fiber"
     lore: ""
-
-  fiery_explosive_target:
-    name: "Fiery Explosive Target"
-    lore: |-
-      <arrow> Explodes when shot.
-      <arrow> Explosion power: %explosion-power%
-      <arrow> Creates fire
 
   flour:
     name: "Flour"
@@ -229,21 +243,7 @@ item:
     name: "Sprinkler"
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
-      <arrow> <attr:Range:blocks>%range%</attr>
-
-  super_explosive_target:
-    name: "Super Explosive Target"
-    lore: |-
-      <arrow> Explodes when shot.
-      <arrow> Explosion power: %explosion-power%
-      <arrow> Doesn't create fire
-
-  super_fiery_explosive_target:
-    name: "Super Fiery Explosive Target"
-    lore: |-
-      <arrow> Explodes when shot.
-      <arrow> Explosion power: %explosion-power%
-      <arrow> Creates fire 
+      <arrow> <attr:Range:blocks>%range%</attr> 
 
   watering_can:
     name: "Watering Can"
