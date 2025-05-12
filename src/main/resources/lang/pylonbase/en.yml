@@ -137,6 +137,15 @@ item:
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
+  immobilizer:
+    name: "Immobilizer"
+    lore: |-
+      <arrow> Immobilizes players in a range
+      <arrow> Triggered by a redstone signal
+      <attr:Duration:seconds>%duration%</attr>
+      <attr:Radius:blocks>%radius%</attr>
+      <attr:Cooldown:seconds>%cooldown%</attr>
+
   iron_sheet:
     name: "Iron Sheet"
     lore: ""

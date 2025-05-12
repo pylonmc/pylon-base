@@ -1416,6 +1416,18 @@ public final class PylonItems {
         // TODO recipe when fluid api is done
     }
 
+    public static final Immobilizer.ImmobilizerItem.Schema IMMOBILIZER = new Immobilizer.ImmobilizerItem.Schema(
+            pylonKey("immobilizer"),
+            Immobilizer.ImmobilizerItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.PISTON, key)
+                    .build(),
+            PylonBlocks.IMMOBILIZER
+    );
+
+    static {
+        IMMOBILIZER.register();
+    }
+
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }

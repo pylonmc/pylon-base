@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -83,6 +84,16 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final Immobilizer.ImmobilizerBlock.Schema IMMOBILIZER = new Immobilizer.ImmobilizerBlock.Schema(
+            pylonKey("immobilizer"),
+            Material.PISTON,
+            Immobilizer.ImmobilizerBlock.class
+    );
+
+    static {
+        IMMOBILIZER.register();
     }
 
     public static void initialize() {}
