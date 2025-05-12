@@ -996,72 +996,64 @@ public final class PylonItems {
             pylonKey("explosive_target"),
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
-            target -> {
-                ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), target);
-                recipe.shape(
-                        "TTT",
-                        "TXT",
-                        "TTT"
-                );
-                recipe.setIngredient('T', Material.TNT);
-                recipe.setIngredient('X', Material.TARGET);
-                recipe.setCategory(CraftingBookCategory.BUILDING);
-                return recipe;
-            },
             PylonBlocks.EXPLOSIVE_TARGET
     );
     static {
         EXPLOSIVE_TARGET.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), target);
+        recipe.shape(
+                "TTT",
+                "TXT",
+                "TTT"
+        );
+        recipe.setIngredient('T', Material.TNT);
+        recipe.setIngredient('X', Material.TARGET);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final ExplosiveTarget.ExplosiveTargetItem.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
             pylonKey("fiery_explosive_target"),
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
-            target -> {
-                ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("fiery_explosive_target"), target);
-                recipe.addIngredient(EXPLOSIVE_TARGET.getItemStack());
-                recipe.addIngredient(Material.FIRE_CHARGE);
-                recipe.setCategory(CraftingBookCategory.BUILDING);
-                return recipe;
-            },
             PylonBlocks.FIERY_EXPLOSIVE_TARGET
     );
     static {
         FIERY_EXPLOSIVE_TARGET.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("fiery_explosive_target"), target);
+        recipe.addIngredient(EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
             pylonKey("super_explosive_target"),
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
-            target -> {
-                ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_explosive_target"), target);
-                recipe.addIngredient(4, EXPLOSIVE_TARGET.getItemStack());
-                recipe.setCategory(CraftingBookCategory.BUILDING);
-                return recipe;
-            },
             PylonBlocks.SUPER_EXPLOSIVE_TARGET
     );
     static {
         SUPER_EXPLOSIVE_TARGET.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_explosive_target"), target);
+        recipe.addIngredient(4, EXPLOSIVE_TARGET.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
             pylonKey("super_fiery_explosive_target"),
             key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
                     .build(),
-            target -> {
-                ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_fiery_explosive_target"), target);
-                recipe.addIngredient(SUPER_EXPLOSIVE_TARGET.getItemStack());
-                recipe.addIngredient(Material.FIRE_CHARGE);
-                recipe.setCategory(CraftingBookCategory.BUILDING);
-                return recipe;
-            },
             PylonBlocks.SUPER_FIERY_EXPLOSIVE_TARGET
     );
     static {
         SUPER_FIERY_EXPLOSIVE_TARGET.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("super_fiery_explosive_target"), target);
+        recipe.addIngredient(SUPER_EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

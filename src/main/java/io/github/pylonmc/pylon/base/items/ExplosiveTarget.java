@@ -41,12 +41,10 @@ public class ExplosiveTarget {
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Function<NamespacedKey, ItemStack> template,
-                    @NotNull Function<ItemStack, CraftingRecipe> recipe,
                     ExplosiveTargetBlock.Schema blockSchema
             ) {
                 super(key, ExplosiveTargetItem.class, template);
                 this.blockSchema = blockSchema;
-                RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe.apply(this.template));
             }
         }
 
