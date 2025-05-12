@@ -66,7 +66,7 @@ public final class PylonBlocks {
         GRINDSTONE.register();
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
             pylonKey("string_from_bamboo"),
-            new RecipeChoice.ExactChoice(new ItemStack(Material.BAMBOO)),
+            new RecipeChoice.MaterialChoice(Material.BAMBOO),
             3,
             new ItemStack(Material.STRING),
             3,
