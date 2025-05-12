@@ -24,7 +24,9 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class ExplosiveTarget {
-    private ExplosiveTarget() { throw new AssertionError("Container class"); }
+    private ExplosiveTarget() {
+        throw new AssertionError("Container class");
+    }
 
     public static class ExplosiveTargetItem extends PylonItem<ExplosiveTargetItem.Schema> implements BlockPlacer {
 
@@ -35,19 +37,22 @@ public class ExplosiveTarget {
 
         public static class Schema extends PylonItemSchema {
             private final ExplosiveTargetBlock.Schema blockSchema;
+
             public Schema(
                     @NotNull NamespacedKey key,
                     @NotNull Function<NamespacedKey, ItemStack> template,
                     @NotNull Function<ItemStack, CraftingRecipe> recipe,
                     ExplosiveTargetBlock.Schema blockSchema
-                    ) {
+            ) {
                 super(key, ExplosiveTargetItem.class, template);
                 this.blockSchema = blockSchema;
                 RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe.apply(this.template));
             }
         }
 
-        public ExplosiveTargetItem(@NotNull Schema schema, @NotNull ItemStack itemStack) { super(schema, itemStack); }
+        public ExplosiveTargetItem(@NotNull Schema schema, @NotNull ItemStack itemStack) {
+            super(schema, itemStack);
+        }
 
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
@@ -62,25 +67,30 @@ public class ExplosiveTarget {
         public static class Schema extends PylonBlockSchema {
             public final double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
             public final boolean createsFire = getSettings().getOrThrow("creates-fire", Boolean.class);
+
             public Schema(NamespacedKey key,
-                          Material material){
+                          Material material) {
                 super(key, material, ExplosiveTargetBlock.class);
             }
         }
 
         @SuppressWarnings("unused")
-        public ExplosiveTargetBlock(ExplosiveTargetBlock.Schema schema, Block block, BlockCreateContext context) { super(schema, block); }
+        public ExplosiveTargetBlock(ExplosiveTargetBlock.Schema schema, Block block, BlockCreateContext context) {
+            super(schema, block);
+        }
 
         @SuppressWarnings("unused")
-        public ExplosiveTargetBlock(ExplosiveTargetBlock.Schema schema, Block block, PersistentDataContainer pdc) { super(schema, block); }
+        public ExplosiveTargetBlock(ExplosiveTargetBlock.Schema schema, Block block, PersistentDataContainer pdc) {
+            super(schema, block);
+        }
 
         @Override
         public void onHit(@NotNull TargetHitEvent event) {
             event.setCancelled(true);
             // Returns false if BlockExplodeEvent is cancelled
-            if(!Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(),
+            if (!Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(),
                     (float) getSchema().explosivePower,
-                    getSchema().createsFire)){
+                    getSchema().createsFire)) {
                 return;
             }
             BlockStorage.breakBlock(getBlock());
