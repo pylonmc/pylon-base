@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.BottomlessBarrel;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
@@ -1414,6 +1415,22 @@ public final class PylonItems {
     static {
         RESEARCH_PACK_1.register();
         // TODO recipe when fluid api is done
+    }
+
+    public static final PylonItemSchema BOTTOMLESS_BARREL = new PylonItemSchema(
+            pylonKey("bottomless_barrel"),
+            BottomlessBarrel.BottomlessBarrelItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.BARREL, key).build()
+    );
+    static {
+        BOTTOMLESS_BARREL.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("bottomless_barrel"), BOTTOMLESS_BARREL.getItemStack())
+                .shape("CBC", "BEB", "CBC")
+                .setIngredient('C', COVALENT_BINDER.getItemStack())
+                .setIngredient('B', Material.BARREL)
+                .setIngredient('E', Material.ENDER_EYE);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

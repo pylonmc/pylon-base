@@ -13,6 +13,12 @@ item:
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
 
+  bottomless_barrel:
+    name: "Bottomless Barrel"
+    lore: |-
+      <arrow> Uses the power of extra dimensions to store more items
+      <arrow> <attr:Size>%size%</attr>
+
   compressed_obsidian:
     name: "Compressed Obsidian"
     lore: ""
@@ -289,6 +295,7 @@ item:
       <arrow> Does not stack
 
 block:
+  bottomless_barrel: "Bottomless Barrel"
   enriched_netherrack: "Enriched Netherrack"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
@@ -297,6 +304,13 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
+
+gui:
+  scroll:
+    up: "Scroll up"
+    down: "Scroll down"
+    left: "Scroll left"
+    right: "Scroll right"
 
 research:
   baking: "<gold>baking"

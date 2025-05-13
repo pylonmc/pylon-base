@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.BottomlessBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -83,6 +84,15 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final BottomlessBarrel.BottomlessBarrelBlock.Schema BOTTOMLESS_BARREL = new BottomlessBarrel.BottomlessBarrelBlock.Schema(
+            pylonKey("bottomless_barrel"),
+            Material.BARREL,
+            BottomlessBarrel.BottomlessBarrelBlock.class
+    );
+    static {
+        BOTTOMLESS_BARREL.register();
     }
 
     public static void initialize() {}
