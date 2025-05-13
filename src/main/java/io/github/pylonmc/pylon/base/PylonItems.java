@@ -1,10 +1,17 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.*;
+import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
+import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
+import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
 import io.github.pylonmc.pylon.base.items.research.ResearchPack;
-import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
-import io.github.pylonmc.pylon.base.items.watering.WateringCan;
+import io.github.pylonmc.pylon.base.items.tools.*;
+import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
+import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
