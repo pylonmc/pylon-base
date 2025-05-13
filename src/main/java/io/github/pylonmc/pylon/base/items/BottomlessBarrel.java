@@ -42,7 +42,7 @@ public class BottomlessBarrel {
         }
 
         @Override
-        public @NotNull Gui getGui() {
+        protected @NotNull Gui createGui() {
             return ScrollGui.inventories()
                     .setStructure(
                             "x x x x x x x x ^",
