@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.MagicAltar;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
+import io.github.pylonmc.pylon.core.block.SimplePylonBlock;
 import org.bukkit.Material;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
@@ -88,6 +89,15 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final PylonBlockSchema WITHER_PROOF_OBSIDIAN = new PylonBlockSchema(
+            pylonKey("wither_proof_obsidian"),
+            Material.OBSIDIAN,
+            SimplePylonBlock.class
+    );
+    static {
+        WITHER_PROOF_OBSIDIAN.register();
     }
 
     public static void initialize() {}
