@@ -23,7 +23,7 @@ public final class PylonFluids {
 
     public static final PylonFluid LAVA = new PylonFluid(
             pylonKey("lava"),
-            Material.BLUE_CONCRETE
+            Material.ORANGE_CONCRETE
     ).withTag(new FluidTemperature(900));
     static {
         LAVA.register();

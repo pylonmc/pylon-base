@@ -75,10 +75,9 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
 
         entities = Map.of(
                 "fluid", fluidTankEntity.getUuid(),
-                "input", FluidConnectionInteraction.make(input, BlockFace.UP).getUuid(),
-                "input_display", FluidConnectionDisplay.make(input, BlockFace.UP).getUuid(),
-                "output", FluidConnectionInteraction.make(output, BlockFace.DOWN).getUuid(),
-                "output_display", FluidConnectionDisplay.make(output, BlockFace.DOWN).getUuid()
+                // TODO the face doesn't respect the direction we place it aaaaaaaaaaaaaaaaaaaa
+                "input", FluidConnectionInteraction.make(input, BlockFace.UP, 0.5F).getUuid(),
+                "output", FluidConnectionInteraction.make(output, BlockFace.NORTH, 0.5F).getUuid()
         );
         fluidAmount = getSchema().capacity / 2;
         fluidType = PylonFluids.LAVA;

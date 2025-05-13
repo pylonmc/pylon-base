@@ -2,6 +2,8 @@ pipe:
   connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
   connected: "<green>Pipe placed"
   cancelled: "<red>Placement cancelled"
+  cannot-place-in-block: "<red>You cannot place a pipe inside a block"
+  cannot-connect-to-same-point: "<red>You cannot connect a pipe to the same point"
 
 item:
   bandage:
@@ -304,8 +306,10 @@ item:
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
+# TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
   enriched_netherrack: "Enriched Netherrack"
+  fluid_connector: "Fluid Connector"
   fluid_pipe_wooden: "Wooden Fluid Pipe"
   fluid_pipe_copper: "Copper Fluid Pipe"
   fluid_tank_wooden: "Wooden Fluid Tank"

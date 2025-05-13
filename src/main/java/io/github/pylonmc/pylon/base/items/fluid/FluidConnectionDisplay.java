@@ -21,10 +21,17 @@ public class FluidConnectionDisplay extends PylonEntity<PylonEntitySchema, ItemD
         super(schema, entity);
     }
 
-    public FluidConnectionDisplay(@NotNull FluidConnectionPoint point, @NotNull BlockFace face) {
+    public FluidConnectionDisplay(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
         super(
                 PylonEntities.FLUID_CONNECTION_POINT_DISPLAY,
-                makeDisplay(point, face.getDirection().clone().multiply(0.5).toVector3d())
+                makeDisplay(point, face.getDirection().clone().multiply(radius).toVector3d())
+        );
+    }
+
+    public FluidConnectionDisplay(@NotNull FluidConnectionPoint point) {
+        super(
+                PylonEntities.FLUID_CONNECTION_POINT_DISPLAY,
+                makeDisplay(point, new Vector3d(0, 0, 0))
         );
     }
 
@@ -55,8 +62,17 @@ public class FluidConnectionDisplay extends PylonEntity<PylonEntitySchema, ItemD
     /**
      * Convenience function that constructs the display, but then also adds it to EntityStorage
      */
-    public static @NotNull FluidConnectionDisplay make(@NotNull FluidConnectionPoint point, @NotNull BlockFace face) {
-        FluidConnectionDisplay display = new FluidConnectionDisplay(point, face);
+    public static @NotNull FluidConnectionDisplay make(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
+        FluidConnectionDisplay display = new FluidConnectionDisplay(point, face, radius);
+        EntityStorage.add(display);
+        return display;
+    }
+
+    /**
+     * Convenience function that constructs the display, but then also adds it to EntityStorage
+     */
+    public static @NotNull FluidConnectionDisplay make(@NotNull FluidConnectionPoint point) {
+        FluidConnectionDisplay display = new FluidConnectionDisplay(point);
         EntityStorage.add(display);
         return display;
     }

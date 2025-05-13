@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
 import io.github.pylonmc.pylon.base.items.MixingPot;
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.MagicAltar;
+import io.github.pylonmc.pylon.base.items.fluid.FluidConnector;
 import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
@@ -89,6 +90,15 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final PylonBlockSchema FLUID_CONNECTOR = new PylonBlockSchema(
+            pylonKey("fluid_connector"),
+            Material.STRUCTURE_VOID,
+            FluidConnector.class
+    );
+    static {
+        FLUID_CONNECTOR.register();
     }
 
     public static final FluidTank.Schema FLUID_TANK_WOODEN = new FluidTank.Schema(
