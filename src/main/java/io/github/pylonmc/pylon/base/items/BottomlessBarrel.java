@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.PylonBlocks;
-import io.github.pylonmc.pylon.base.util.gui.DefaultItems;
+import io.github.pylonmc.pylon.base.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
@@ -16,15 +15,17 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.ScrollGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.Map;
+import java.util.function.Function;
 
 // Totally not a test item for inventory saving
+@NullMarked
 public class BottomlessBarrel {
 
     private BottomlessBarrel() {
@@ -33,16 +34,16 @@ public class BottomlessBarrel {
 
     public static class BottomlessBarrelBlock extends PylonInventoryBlock<BottomlessBarrelBlock.Schema> {
 
-        public BottomlessBarrelBlock(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+        public BottomlessBarrelBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
         }
 
-        public BottomlessBarrelBlock(@NotNull Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        public BottomlessBarrelBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block, pdc);
         }
 
         @Override
-        protected @NotNull Gui createGui() {
+        protected Gui createGui() {
             return ScrollGui.inventories()
                     .setStructure(
                             "x x x x x x x x ^",
@@ -53,9 +54,9 @@ public class BottomlessBarrel {
                             "x x x x x x x x v"
                     )
                     .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-                    .addIngredient('^', DefaultItems.scrollUp())
-                    .addIngredient('v', DefaultItems.scrollDown())
-                    .addIngredient('#', DefaultItems.background())
+                    .addIngredient('^', GuiItems.scrollUp())
+                    .addIngredient('v', GuiItems.scrollDown())
+                    .addIngredient('#', GuiItems.background())
                     .addContent(new VirtualInventory(getSchema().size))
                     .build();
         }
@@ -65,27 +66,41 @@ public class BottomlessBarrel {
             @Getter
             private final int size = getSettings().getOrThrow("size", Integer.class);
 
-            public Schema(@NotNull NamespacedKey key, @NotNull Material material, @NotNull Class<? extends @NotNull PylonBlock<?>> blockClass) {
+            public Schema(NamespacedKey key, Material material, Class<? extends PylonBlock<?>> blockClass) {
                 super(key, material, blockClass);
             }
         }
     }
 
-    public static final class BottomlessBarrelItem extends PylonItem<PylonItemSchema> implements BlockPlacer {
+    public static final class BottomlessBarrelItem extends PylonItem<BottomlessBarrelItem.Schema> implements BlockPlacer {
 
-        public BottomlessBarrelItem(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
+        public static final class Schema extends PylonItemSchema {
+
+            private final BottomlessBarrelBlock.Schema blockSchema;
+
+            public Schema(
+                    NamespacedKey key,
+                    Class<? extends PylonItem<? extends BottomlessBarrelItem.Schema>> itemClass,
+                    BottomlessBarrelBlock.Schema blockSchema,
+                    Function<NamespacedKey, ItemStack> templateSupplier
+            ) {
+                super(key, itemClass, templateSupplier);
+                this.blockSchema = blockSchema;
+            }
+        }
+
+        public BottomlessBarrelItem(BottomlessBarrelItem.Schema schema, ItemStack stack) {
             super(schema, stack);
         }
 
         @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.BOTTOMLESS_BARREL;
+        public BottomlessBarrel.BottomlessBarrelBlock.Schema getBlockSchema() {
+            return getSchema().blockSchema;
         }
 
         @Override
-        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("size", Component.text(PylonBlocks.BOTTOMLESS_BARREL.size));
+        public Map<String, Component> getPlaceholders() {
+            return Map.of("size", Component.text(getBlockSchema().size));
         }
     }
-
 }
