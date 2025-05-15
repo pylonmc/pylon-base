@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.util.gui.DefaultItems;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.PylonInventoryBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
