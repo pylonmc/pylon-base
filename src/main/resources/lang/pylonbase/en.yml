@@ -305,13 +305,6 @@ block:
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
 
-gui:
-  scroll:
-    up: "Scroll up"
-    down: "Scroll down"
-    left: "Scroll left"
-    right: "Scroll right"
-
 research:
   baking: "<gold>baking"
   better_health: "<green>better health"

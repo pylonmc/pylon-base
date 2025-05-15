@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.base.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
@@ -8,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
