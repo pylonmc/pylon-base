@@ -1,7 +1,8 @@
-package io.github.pylonmc.pylon.base.items.fluid;
+package io.github.pylonmc.pylon.base.items.fluid.items;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -24,6 +25,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -73,11 +75,15 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         FluidTankEntity fluidTankEntity = new FluidTankEntity(PylonEntities.FLUID_TANK_DISPLAY, fluidDisplay);
         EntityStorage.add(fluidTankEntity);
 
+        Player player = null;
+        if (context instanceof BlockCreateContext.PlayerPlace ctx) {
+            player = ctx.getPlayer();
+        }
+
         entities = Map.of(
                 "fluid", fluidTankEntity.getUuid(),
-                // TODO the face doesn't respect the direction we place it aaaaaaaaaaaaaaaaaaaa
-                "input", FluidConnectionInteraction.make(input, BlockFace.UP, 0.5F).getUuid(),
-                "output", FluidConnectionInteraction.make(output, BlockFace.NORTH, 0.5F).getUuid()
+                "input", FluidConnectionInteraction.make(player, input, BlockFace.UP, 0.5F).getUuid(),
+                "output", FluidConnectionInteraction.make(player, output, BlockFace.NORTH, 0.5F).getUuid()
         );
         fluidAmount = getSchema().capacity / 2;
         fluidType = PylonFluids.LAVA;

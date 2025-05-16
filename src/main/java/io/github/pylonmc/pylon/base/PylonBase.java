@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
-import io.github.pylonmc.pylon.base.items.fluid.FluidConnector;
-import io.github.pylonmc.pylon.base.misc.PipeConnectorService;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeListener;
+import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
@@ -29,15 +29,15 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         PylonEntities.initialize();
         PylonFluids.initialize();
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
-        Bukkit.getPluginManager().registerEvents(new FluidConnector.FluidConnectorBreakListener(), this);
+        Bukkit.getPluginManager().registerEvents(new FluidPipeListener(), this);
         Bukkit.getPluginManager().registerEvents(new WaterCauldronRightClickRecipe.CauldronListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PipeConnectorService(), this);
+        Bukkit.getPluginManager().registerEvents(new ConnectingService(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 
     @Override
     public void onDisable() {
-        PipeConnectorService.cleanup();
+        ConnectingService.cleanup();
     }
 
     @Override

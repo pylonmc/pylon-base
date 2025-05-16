@@ -6,8 +6,9 @@ import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
 import io.github.pylonmc.pylon.base.items.MixingPot;
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.MagicAltar;
-import io.github.pylonmc.pylon.base.items.fluid.FluidConnector;
-import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import org.bukkit.Material;
@@ -92,10 +93,19 @@ public final class PylonBlocks {
         MIXING_POT.register();
     }
 
-    public static final PylonBlockSchema FLUID_CONNECTOR = new PylonBlockSchema(
-            pylonKey("fluid_connector"),
+    public static final PylonBlockSchema FLUID_PIPE_MARKER = new PylonBlockSchema(
+            pylonKey("fluid_pipe_marker"),
             Material.STRUCTURE_VOID,
-            FluidConnector.class
+            FluidPipeMarker.class
+    );
+    static {
+        FLUID_PIPE_MARKER.register();
+    }
+
+    public static final PylonBlockSchema FLUID_CONNECTOR = new PylonBlockSchema(
+            pylonKey("fluid_pipe_connector"),
+            Material.STRUCTURE_VOID,
+            FluidPipeConnector.class
     );
     static {
         FLUID_CONNECTOR.register();

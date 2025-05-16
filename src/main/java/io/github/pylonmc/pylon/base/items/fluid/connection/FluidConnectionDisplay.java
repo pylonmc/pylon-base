@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.fluid;
+package io.github.pylonmc.pylon.base.items.fluid.connection;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;

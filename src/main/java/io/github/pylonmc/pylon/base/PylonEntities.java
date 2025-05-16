@@ -2,9 +2,10 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.Grindstone;
 import io.github.pylonmc.pylon.base.items.Pedestal;
-import io.github.pylonmc.pylon.base.items.fluid.FluidConnectionDisplay;
-import io.github.pylonmc.pylon.base.items.fluid.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionDisplay;
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
@@ -63,6 +64,14 @@ public final class PylonEntities {
         FLUID_CONNECTION_POINT_INTERACTION.register();
     }
 
+    public static final PylonEntitySchema FLUID_PIPE_DISPLAY = new PylonEntitySchema(
+            pylonKey("fluid_pipe_display"),
+            ItemDisplay.class,
+            FluidPipeDisplay.class
+    );
+    static {
+        FLUID_PIPE_DISPLAY .register();
+    }
 
     public static final PylonEntitySchema FLUID_TANK_DISPLAY = new PylonEntitySchema(
             pylonKey("fluid_tank_display"),

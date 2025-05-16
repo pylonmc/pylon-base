@@ -1,6 +1,7 @@
-package io.github.pylonmc.pylon.base.items.fluid;
+package io.github.pylonmc.pylon.base.items.fluid.pipe;
 
-import io.github.pylonmc.pylon.base.misc.PipeConnectorService;
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
@@ -8,7 +9,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import lombok.Getter;
@@ -55,19 +55,19 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
 
     @Override
     public void onUsedToRightClickEntity(@NotNull PlayerInteractEntityEvent event) {
-        if (event.getHand() != EquipmentSlot.HAND || PipeConnectorService.isConnecting(event.getPlayer())) {
+        if (event.getHand() != EquipmentSlot.HAND) {
             return;
         }
 
         if (EntityStorage.get(event.getRightClicked()) instanceof FluidConnectionInteraction interaction) {
-            if (!PipeConnectorService.isConnecting(event.getPlayer())) {
-                PipeConnectorService.startConnection(event.getPlayer(), interaction);
+            if (!ConnectingService.isConnecting(event.getPlayer())) {
+                ConnectingService.startConnection(event.getPlayer(), interaction, getSchema());
                 return;
             }
         }
 
-        if (PipeConnectorService.isConnecting(event.getPlayer())) {
-            UUID segment = PipeConnectorService.finishConnection(event.getPlayer());
+        if (ConnectingService.isConnecting(event.getPlayer())) {
+            UUID segment = ConnectingService.finishConnection(event.getPlayer());
             if (segment != null) {
                 FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
                 FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
@@ -82,17 +82,17 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         }
 
         if (event.getClickedBlock() != null && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (!PipeConnectorService.isConnecting(event.getPlayer())) {
-                if (BlockStorage.get(event.getClickedBlock()) instanceof FluidConnector connector) {
-                    PipeConnectorService.startConnection(event.getPlayer(), connector.getFluidConnectionInteraction());
+            if (!ConnectingService.isConnecting(event.getPlayer())) {
+                if (BlockStorage.get(event.getClickedBlock()) instanceof FluidPipeConnector connector) {
+                    ConnectingService.startConnection(event.getPlayer(), connector.getFluidConnectionInteraction(), getSchema());
                     return;
                 }
             }
         }
 
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (PipeConnectorService.isConnecting(event.getPlayer())) {
-                UUID segment = PipeConnectorService.finishConnection(event.getPlayer());
+            if (ConnectingService.isConnecting(event.getPlayer())) {
+                UUID segment = ConnectingService.finishConnection(event.getPlayer());
                 if (segment != null) {
                     FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
                     FluidManager.setFluidPredicate(segment, getSchema().getPredicate());

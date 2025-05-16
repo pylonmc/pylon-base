@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.fluid;
+package io.github.pylonmc.pylon.base.items.fluid.connection;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
@@ -12,10 +12,12 @@ import io.github.pylonmc.pylon.core.event.PylonEntityUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Interaction;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +69,7 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONNECTION_POINT_KEY, PylonSerializers.FLUID_CONNECTION_POINT, point);
+        PdcUtils.setNullable(pdc, DISPLAY_KEY, PylonSerializers.UUID, display);
         PdcUtils.setNullable(pdc, FACE_KEY, PylonSerializers.BLOCK_FACE, face);
         PdcUtils.setNullable(pdc, RADIUS_KEY, PylonSerializers.FLOAT, radius);
     }
@@ -82,11 +85,16 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
      * Convenience function that constructs the interaction, but then also adds it to EntityStorage
      */
     public static @NotNull FluidConnectionInteraction make(
+            @Nullable Player player,
             @NotNull FluidConnectionPoint point,
             @NotNull BlockFace face,
             float radius
     ) {
-        FluidConnectionInteraction interaction = new FluidConnectionInteraction(point, face, radius);
+        BlockFace finalFace = face;
+        if (player != null) {
+            finalFace = PylonUtils.rotateToPlayerFacing(player, face);
+        }
+        FluidConnectionInteraction interaction = new FluidConnectionInteraction(point, finalFace, radius);
         EntityStorage.add(interaction);
         return interaction;
     }

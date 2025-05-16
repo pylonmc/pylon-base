@@ -4,6 +4,7 @@ pipe:
   cancelled: "<red>Placement cancelled"
   cannot-place-in-block: "<red>You cannot place a pipe inside a block"
   cannot-connect-to-same-point: "<red>You cannot connect a pipe to the same point"
+  already-connected: "<red>These points are already connected to each other"
 
 item:
   bandage:
@@ -309,9 +310,9 @@ item:
 # TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
   enriched_netherrack: "Enriched Netherrack"
-  fluid_connector: "Fluid Connector"
-  fluid_pipe_wooden: "Wooden Fluid Pipe"
-  fluid_pipe_copper: "Copper Fluid Pipe"
+  # TODO add the pipe type as a placeholder?
+  fluid_pipe_connector: "Pipe"
+  fluid_pipe_marker: "Pipe"
   fluid_tank_wooden: "Wooden Fluid Tank"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
