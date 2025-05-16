@@ -11,7 +11,8 @@ public class WitherProofObsidianListener implements Listener {
 
     @EventHandler
     private void onExplode(PrePylonBlockBreakEvent event) {
-        if (!event.getPylonBlock().getSchema().equals(PylonBlocks.WITHER_PROOF_OBSIDIAN)) {
+        var key = event.getPylonBlock().getSchema().getKey();
+        if (!key.equals(PylonBlocks.WITHER_PROOF_OBSIDIAN.getKey())) {
             return;
         }
 
