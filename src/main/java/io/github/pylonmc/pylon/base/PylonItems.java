@@ -1417,9 +1417,10 @@ public final class PylonItems {
         // TODO recipe when fluid api is done
     }
 
-    public static final PylonItemSchema BOTTOMLESS_BARREL = new PylonItemSchema(
+    public static final BottomlessBarrel.BottomlessBarrelItem.Schema BOTTOMLESS_BARREL = new BottomlessBarrel.BottomlessBarrelItem.Schema(
             pylonKey("bottomless_barrel"),
             BottomlessBarrel.BottomlessBarrelItem.class,
+            PylonBlocks.BOTTOMLESS_BARREL,
             key -> ItemStackBuilder.defaultBuilder(Material.BARREL, key).build()
     );
     static {
