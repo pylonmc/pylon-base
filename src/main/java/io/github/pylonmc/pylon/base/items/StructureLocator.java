@@ -5,11 +5,9 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
-import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.generator.structure.Structure;
-import org.bukkit.generator.structure.StructureType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.util.StructureSearchResult;
@@ -19,8 +17,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class StructureLocator extends PylonItem<StructureLocator.Schema> implements Interactor {
-    private final TranslatableComponent FAILED_TO_FIND = Component.translatable("find_fail");
-    private final TranslatableComponent REFRESHED_LOCATION = Component.translatable("refreshed");
+    private final TranslatableComponent FAILED_TO_FIND = Component.translatable("pylon.pylonbase.message.structurecompasss_find_fail");
+    private final TranslatableComponent REFRESHED_LOCATION = Component.translatable("pylon.pylonbase.message.structurecompass_refreshed");
 
     public StructureLocator(@NotNull Schema schema, @NotNull ItemStack stack) {
         super(schema, stack);
@@ -29,14 +27,15 @@ public class StructureLocator extends PylonItem<StructureLocator.Schema> impleme
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         // No NPE since PylonItemListener uses event.getItem() already and does the null check
-        CompassMeta meta = (CompassMeta)event.getItem().getItemMeta();
+        assert event.getItem() != null;
+        CompassMeta meta = (CompassMeta) event.getItem().getItemMeta();
         StructureSearchResult structLocation = event.getPlayer().getWorld().locateNearestStructure(
                 event.getPlayer().getLocation(),
                 getSchema().structure,
                 getSchema().radius,
                 true
         );
-        if(structLocation == null){
+        if (structLocation == null) {
             event.getPlayer().sendMessage(FAILED_TO_FIND);
             return;
         }
@@ -48,8 +47,20 @@ public class StructureLocator extends PylonItem<StructureLocator.Schema> impleme
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-        return Map.of("struct", Component.text(getSchema().structure.toString()),
+        return Map.of("struct", Component.text(keyToDisplayStr(getSchema().structure.getStructureType().getKey().getKey())),
                 "range", Component.text(getSchema().radius));
+    }
+
+    private String keyToDisplayStr(String messyKey) {
+        StringBuilder strBuilder = new StringBuilder();
+        for (char character : messyKey.toCharArray()) {
+            if (character != '_') {
+                strBuilder.append(character);
+            } else {
+                strBuilder.append(' ');
+            }
+        }
+        return strBuilder.toString();
     }
 
     public static class Schema extends PylonItemSchema {

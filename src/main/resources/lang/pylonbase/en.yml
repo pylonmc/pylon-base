@@ -223,10 +223,6 @@ item:
       <arrow> Navigates to the nearest %struct%
       <arrow> <insn>Right click</insn> to refresh
       <arrow> <attr:Range:chunks>%range%</attr>
-    find_fail: |-
-      <red>Failed to find a %struct% within %range% chunks
-    refreshed: |-
-      <green>Compass reprogrammed!
 
   watering_can:
     name: "Watering Can"
@@ -270,3 +266,5 @@ block:
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
+  structurecompass_find_fail: "<red>Failed to find a %struct% within %range% chunks"
+  structurecompass_refreshed: "<green>Compass reprogrammed!"
