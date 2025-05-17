@@ -48,6 +48,34 @@ item:
     name: "Enriched netherrack"
     lore: "<arrow> Burns hotter than netherrack"
 
+  explosive_target:
+    name: "Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Doesn't create fire
+
+  explosive_target_fiery:
+    name: "Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Creates fire
+
+  explosive_target_super:
+    name: "Super Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Doesn't create fire
+
+  explosive_target_super_fiery:
+    name: "Super Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosion-power%
+      <arrow> Creates fire
+
   ferroduralum_axe:
     name: "Ferroduralum Axe"
     lore: ""
@@ -257,7 +285,7 @@ item:
     name: "Sprinkler"
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
-      <arrow> <attr:Range:blocks>%range%</attr>
+      <arrow> <attr:Range:blocks>%range%</attr> 
 
   watering_can:
     name: "Watering Can"
