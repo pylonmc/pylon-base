@@ -145,8 +145,6 @@ item:
       <attr:Duration:seconds>%duration%</attr>
       <attr:Radius:blocks>%radius%</attr>
       <attr:Cooldown:seconds>%cooldown%</attr>
-    cooldown: |-
-      <red>This block is on cooldown!
 
   iron_sheet:
     name: "Iron Sheet"
@@ -350,3 +348,4 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+  immobilizer_on_cooldown: "<red>The immobilizer is on cooldown!"

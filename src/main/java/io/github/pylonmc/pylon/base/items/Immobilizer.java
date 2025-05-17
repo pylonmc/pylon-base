@@ -14,6 +14,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,7 +38,7 @@ public class Immobilizer {
     public static class ImmobilizerBlock extends PylonBlock<ImmobilizerBlock.Schema> implements PylonPiston {
         public static Set<Player> frozenPlayers = new HashSet<>();
         private int cooldownTickNo;
-        private final TranslatableComponent cooldownMsg = Component.translatable("cooldown");
+        private final TranslatableComponent cooldownMsg = Component.translatable("pylon.pylonbase.message.immobilizer_on_cooldown");
 
         public ImmobilizerBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
@@ -53,20 +54,46 @@ public class Immobilizer {
             if(Bukkit.getCurrentTick() < cooldownTickNo + getSchema().cooldown){
                 for(Player player : event.getBlock().getLocation().getNearbyPlayers(getSchema().radius)){
                     player.sendMessage(cooldownMsg.color(NamedTextColor.RED));
+                    new PlayerVFX(player, Particle.LARGE_SMOKE, getSchema()).run();
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new PlayerVFX(player, Particle.LARGE_SMOKE, getSchema()), getSchema().particlePeriod / 2);
                 }
                 return;
             }
             for (Player player : event.getBlock().getLocation().getNearbyPlayers(getSchema().radius)) {
                 frozenPlayers.add(player);
+                for(int i = 0; i < getSchema().duration / getSchema().particlePeriod; i++){
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new PlayerVFX(player, Particle.ELECTRIC_SPARK, getSchema()), (long) i * getSchema().particlePeriod);
+                }
                 Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new UnfreezePlayer(player), getSchema().duration);
             }
             cooldownTickNo = Bukkit.getCurrentTick();
+        }
+
+        public static class PlayerVFX implements Runnable {
+            private final Player player;
+            private final Particle particle;
+            private final Schema schema;
+
+            public PlayerVFX(Player player, Particle particle, Schema schema){
+                this.player = player;
+                this.particle = particle;
+                this.schema = schema;
+            }
+
+            @Override
+            public void run() {
+                player.spawnParticle(particle, player.getLocation(), schema.particleCount,
+                        schema.particleRadius, schema.particleRadius, schema.particleRadius);
+            }
         }
 
         public static class Schema extends PylonBlockSchema {
             public final double radius = getSettings().getOrThrow("radius", Double.class);
             public final int duration = getSettings().getOrThrow("duration", Integer.class);
             public final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
+            public final int particleCount = getSettings().getOrThrow("particle-count", Integer.class);
+            public final double particleRadius = getSettings().getOrThrow("particle-radius", Double.class);
+            public final int particlePeriod = getSettings().getOrThrow("particle-period", Integer.class);
 
             public Schema(@NotNull NamespacedKey key, @NotNull Material material, @NotNull Class<? extends @NotNull PylonBlock<?>> blockClass) {
                 super(key, material, blockClass);
