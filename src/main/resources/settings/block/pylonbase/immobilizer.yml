@@ -1,7 +1,7 @@
 # in seconds
 duration: 200
 radius: 15.0
-cooldown: 400
+cooldown: 600
 particle-count: 15
 particle-radius: 0.75
 particle-period: 30

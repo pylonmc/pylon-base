@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -55,6 +56,7 @@ public class Immobilizer {
                 for(Player player : event.getBlock().getLocation().getNearbyPlayers(getSchema().radius)){
                     player.sendMessage(cooldownMsg.color(NamedTextColor.RED));
                     new PlayerVFX(player, Particle.LARGE_SMOKE, getSchema()).run();
+                    // particles are packets-based so they should be okay to run async
                     Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new PlayerVFX(player, Particle.LARGE_SMOKE, getSchema()), getSchema().particlePeriod / 2);
                 }
                 return;
@@ -120,6 +122,7 @@ public class Immobilizer {
 
             @Override
             public void run() {
+                // Removes if present so not a problem if onRetract is called
                 frozenPlayers.remove(player);
             }
         }

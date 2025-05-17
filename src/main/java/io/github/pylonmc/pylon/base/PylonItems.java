@@ -946,6 +946,7 @@ public final class PylonItems {
                     .build()
     );
     static {
+        MAGIC_DUST.register();
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_dust"), MAGIC_DUST.getItemStack());
         recipe.shape("AGA", "GGG", "AGA")
                 .setIngredient('A', new RecipeChoice.MaterialChoice(
@@ -1426,6 +1427,15 @@ public final class PylonItems {
 
     static {
         IMMOBILIZER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("immobilizer"), IMMOBILIZER.getItemStack());
+        recipe.shape(
+                "NNN",
+                "DCD",
+                "DDD"
+        );
+        recipe.setIngredient('N', Material.NETHER_STAR);
+        recipe.setIngredient('D', MAGIC_DUST.getItemStack());
+        recipe.setIngredient('C', Material.HEAVY_CORE);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
