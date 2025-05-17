@@ -224,6 +224,13 @@ item:
       <arrow> <insn>Right click</insn> to refresh
       <arrow> <attr:Range:chunks>%range%</attr>
 
+  structure_locator_nether_fortress:
+    name: "Structure Locator"
+    lore: |-
+      <arrow> Navigates to the nearest %struct%
+      <arrow> <insn>Right click</insn> to refresh
+      <arrow> <attr:Range:chunks>%range%</attr>
+
   watering_can:
     name: "Watering Can"
     lore: |-

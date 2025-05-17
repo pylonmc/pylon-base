@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.items;
 
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
@@ -7,7 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.generator.structure.Structure;
+import org.bukkit.generator.structure.StructureType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.util.StructureSearchResult;
@@ -17,7 +18,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class StructureLocator extends PylonItem<StructureLocator.Schema> implements Interactor {
-    private final TranslatableComponent FAILED_TO_FIND = Component.translatable("pylon.pylonbase.message.structurecompasss_find_fail");
+    private final TranslatableComponent FAILED_TO_FIND = Component.translatable("pylon.pylonbase.message.structurecompass_find_fail").arguments(
+            PylonArgument.of("struct", Component.text(keyToDisplayStr(getSchema().structure.getKey().getKey()))),
+            PylonArgument.of("range", Component.text(getSchema().radius))
+    );
     private final TranslatableComponent REFRESHED_LOCATION = Component.translatable("pylon.pylonbase.message.structurecompass_refreshed");
 
     public StructureLocator(@NotNull Schema schema, @NotNull ItemStack stack) {
@@ -47,7 +51,7 @@ public class StructureLocator extends PylonItem<StructureLocator.Schema> impleme
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-        return Map.of("struct", Component.text(keyToDisplayStr(getSchema().structure.getStructureType().getKey().getKey())),
+        return Map.of("struct", Component.text(keyToDisplayStr(getSchema().structure.getKey().getKey())),
                 "range", Component.text(getSchema().radius));
     }
 
@@ -64,14 +68,13 @@ public class StructureLocator extends PylonItem<StructureLocator.Schema> impleme
     }
 
     public static class Schema extends PylonItemSchema {
-        public final Structure structure;
+        public final StructureType structure;
         public final int radius = getSettings().getOrThrow("radius", Integer.class);
 
         public Schema(@NotNull NamespacedKey key,
-                      @NotNull Class<? extends @NotNull PylonItem<? extends @NotNull PylonItemSchema>> itemClass,
                       @NotNull Function<@NotNull NamespacedKey, @NotNull ItemStack> templateSupplier,
-                      @NotNull Structure structure) {
-            super(key, itemClass, templateSupplier);
+                      @NotNull StructureType structure) {
+            super(key, StructureLocator.class, templateSupplier);
             this.structure = structure;
         }
     }
