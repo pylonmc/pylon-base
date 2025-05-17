@@ -2,6 +2,7 @@
 duration: 200
 radius: 15.0
 cooldown: 600
-particle-count: 15
-particle-radius: 0.75
-particle-period: 30
+particle:
+  count: 15
+  radius: 0.75
+  period: 30

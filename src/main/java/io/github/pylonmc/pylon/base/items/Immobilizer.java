@@ -66,8 +66,8 @@ public class Immobilizer {
                 for(int i = 0; i < getSchema().duration / getSchema().particlePeriod; i++){
                     Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new PlayerVFX(player, Particle.ELECTRIC_SPARK, getSchema()), (long) i * getSchema().particlePeriod);
                 }
-                Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new UnfreezePlayer(player), getSchema().duration);
             }
+            Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), () -> frozenPlayers.clear(), getSchema().duration);
             cooldownTickNo = Bukkit.getCurrentTick();
         }
 
@@ -90,12 +90,12 @@ public class Immobilizer {
         }
 
         public static class Schema extends PylonBlockSchema {
-            public final double radius = getSettings().getOrThrow("radius", Double.class);
-            public final int duration = getSettings().getOrThrow("duration", Integer.class);
-            public final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
-            public final int particleCount = getSettings().getOrThrow("particle-count", Integer.class);
-            public final double particleRadius = getSettings().getOrThrow("particle-radius", Double.class);
-            public final int particlePeriod = getSettings().getOrThrow("particle-period", Integer.class);
+            private final double radius = getSettings().getOrThrow("radius", Double.class);
+            private final int duration = getSettings().getOrThrow("duration", Integer.class);
+            private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
+            private final int particleCount = getSettings().getOrThrow("particle.count", Integer.class);
+            private final double particleRadius = getSettings().getOrThrow("particle.radius", Double.class);
+            private final int particlePeriod = getSettings().getOrThrow("particle.period", Integer.class);
 
             public Schema(@NotNull NamespacedKey key, @NotNull Material material, @NotNull Class<? extends @NotNull PylonBlock<?>> blockClass) {
                 super(key, material, blockClass);
@@ -110,20 +110,6 @@ public class Immobilizer {
                 if (event.hasExplicitlyChangedPosition() && frozenPlayers.contains(event.getPlayer())) {
                     event.setCancelled(true);
                 }
-            }
-        }
-
-        public static class UnfreezePlayer implements Runnable {
-            private final Player player;
-
-            public UnfreezePlayer(Player player) {
-                this.player = player;
-            }
-
-            @Override
-            public void run() {
-                // Removes if present so not a problem if onRetract is called
-                frozenPlayers.remove(player);
             }
         }
     }
