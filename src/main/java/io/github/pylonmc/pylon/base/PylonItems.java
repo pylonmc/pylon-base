@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
@@ -946,6 +947,7 @@ public final class PylonItems {
                     .build()
     );
     static {
+        MAGIC_DUST.register();
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_dust"), MAGIC_DUST.getItemStack());
         recipe.shape("AGA", "GGG", "AGA")
                 .setIngredient('A', new RecipeChoice.MaterialChoice(
@@ -1414,6 +1416,29 @@ public final class PylonItems {
     static {
         RESEARCH_PACK_1.register();
         // TODO recipe when fluid api is done
+    }
+
+    public static final Immobilizer.ImmobilizerItem.Schema IMMOBILIZER = new Immobilizer.ImmobilizerItem.Schema(
+            pylonKey("immobilizer"),
+            Immobilizer.ImmobilizerItem.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.PISTON, key)
+                    .build(),
+            PylonBlocks.IMMOBILIZER
+    );
+
+    static {
+        IMMOBILIZER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("immobilizer"), IMMOBILIZER.getItemStack());
+        recipe.shape(
+                "NNN",
+                "DCD",
+                "DDD"
+        );
+        recipe.setIngredient('N', Material.NETHER_STAR);
+        recipe.setIngredient('D', SHIMMER_DUST_3.getItemStack());
+        recipe.setIngredient('C', Material.HEAVY_CORE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
