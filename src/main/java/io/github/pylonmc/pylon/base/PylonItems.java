@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
@@ -1434,8 +1435,10 @@ public final class PylonItems {
                 "DDD"
         );
         recipe.setIngredient('N', Material.NETHER_STAR);
-        recipe.setIngredient('D', MAGIC_DUST.getItemStack());
+        recipe.setIngredient('D', SHIMMER_DUST_3.getItemStack());
         recipe.setIngredient('C', Material.HEAVY_CORE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

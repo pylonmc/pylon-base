@@ -149,7 +149,9 @@ public class Immobilizer {
 
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("radius", Component.text(getSchema().block.radius), "duration", Component.text(getSchema().block.duration));
+            return Map.of("radius", Component.text(getSchema().block.radius),
+                          "duration", Component.text(getSchema().block.duration / 20),
+                          "cooldown", Component.text(getSchema().block.cooldown / 20));
         }
     }
 }
