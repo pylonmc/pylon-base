@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items;
+package io.github.pylonmc.pylon.base.items.weapons;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;

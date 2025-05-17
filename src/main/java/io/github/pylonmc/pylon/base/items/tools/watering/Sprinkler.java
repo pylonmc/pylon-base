@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.watering;
+package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBlocks;

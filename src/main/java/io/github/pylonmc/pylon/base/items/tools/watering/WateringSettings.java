@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.watering;
+package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import org.bukkit.NamespacedKey;
