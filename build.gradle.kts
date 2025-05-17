@@ -16,6 +16,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/") {
         name = "papermc"
     }
+    maven("https://repo.xenondevs.xyz/releases")
 }
 
 val coreVersion = project.properties["pylon-core.version"] as String
