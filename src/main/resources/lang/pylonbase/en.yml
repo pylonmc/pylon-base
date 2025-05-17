@@ -306,6 +306,7 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
+  immobilizer: "Immobilizer"
 
 research:
   baking: "<gold>baking"
