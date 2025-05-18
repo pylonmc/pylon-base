@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
@@ -1414,6 +1415,70 @@ public final class PylonItems {
     static {
         RESEARCH_PACK_1.register();
         // TODO recipe when fluid api is done
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("explosive_target"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            PylonBlocks.EXPLOSIVE_TARGET
+    );
+    static {
+        EXPLOSIVE_TARGET.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), EXPLOSIVE_TARGET.getItemStack());
+        recipe.shape(
+                "TTT",
+                "TXT",
+                "TTT"
+        );
+        recipe.setIngredient('T', Material.TNT);
+        recipe.setIngredient('X', Material.TARGET);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("explosive_target_fiery"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            PylonBlocks.FIERY_EXPLOSIVE_TARGET
+    );
+    static {
+        FIERY_EXPLOSIVE_TARGET.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_fiery"), FIERY_EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("explosive_target_super"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            PylonBlocks.SUPER_EXPLOSIVE_TARGET
+    );
+    static {
+        SUPER_EXPLOSIVE_TARGET.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super"), SUPER_EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(4, EXPLOSIVE_TARGET.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetItem.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetItem.Schema(
+            pylonKey("explosive_target_super_fiery"),
+            key -> ItemStackBuilder.defaultBuilder(Material.TARGET, key)
+                    .build(),
+            PylonBlocks.SUPER_FIERY_EXPLOSIVE_TARGET
+    );
+    static {
+        SUPER_FIERY_EXPLOSIVE_TARGET.register();
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super_fiery"), SUPER_FIERY_EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(SUPER_EXPLOSIVE_TARGET.getItemStack());
+        recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

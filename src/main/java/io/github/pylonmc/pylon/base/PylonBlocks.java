@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -97,6 +98,38 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("explosive_target"),
+            Material.TARGET
+    );
+    static {
+        EXPLOSIVE_TARGET.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("fiery_explosive_target"),
+            Material.TARGET
+    );
+    static {
+        FIERY_EXPLOSIVE_TARGET.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("super_explosive_target"),
+            Material.TARGET
+    );
+    static {
+        SUPER_EXPLOSIVE_TARGET.register();
+    }
+
+    public static final ExplosiveTarget.ExplosiveTargetBlock.Schema SUPER_FIERY_EXPLOSIVE_TARGET = new ExplosiveTarget.ExplosiveTargetBlock.Schema(
+            pylonKey("super_fiery_explosive_target"),
+            Material.TARGET
+    );
+    static {
+        SUPER_FIERY_EXPLOSIVE_TARGET.register();
     }
 
     public static void initialize() {}
