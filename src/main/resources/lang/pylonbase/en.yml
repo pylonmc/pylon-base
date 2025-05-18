@@ -107,24 +107,36 @@ item:
 
   fluid_pipe_wooden:
     name: "Wooden Fluid Pipe"
-    # TODO add placeholders for flow rate / etc
     lore: |-
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
+      <arrow> <attr:Fluid:fluid_per_second>%fluid_per_second%</attr>
+      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
+      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
 
   fluid_pipe_copper:
     name: "Copper Fluid Pipe"
-    # TODO add placeholders for flow rate / etc
     lore: |-
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
+      <arrow> <attr:Fluid:fluid_per_second>%fluid_per_second%</attr>
+      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
+      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
+
+  fluid_pipe_obsidian:
+    name: "Obsidian Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr:Fluid:fluid_per_second>%fluid_per_second%</attr>
+      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
+      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
 
   fluid_tank_wooden:
     name: "Wooden Fluid Tank"
-    # TODO fix placeholders
+    # TODO fix placeholder
     lore: |- 
       <arrow> <attr:Capacity:capacity>%capacity</attr>
-      <arrow> <attr:Fluid/s:fluid_per_second>%fluid_per_second</attr>
 
   gold_dust:
     name: "Gold Dust"

@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -63,6 +65,15 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
 
     public FluidPipe(@NotNull Schema schema, @NotNull ItemStack stack) {
         super(schema, stack);
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+        return Map.of(
+                "fluid_per_second", Component.text(getSchema().fluidPerTick * 20),
+                "min_temperature", Component.text(getSchema().minTemperature),
+                "max_temperature", Component.text(getSchema().maxTemperature)
+        );
     }
 
     @Override

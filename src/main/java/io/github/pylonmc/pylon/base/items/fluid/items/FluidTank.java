@@ -42,12 +42,10 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     public static class Schema extends PylonBlockSchema {
 
         @Getter private final long capacity;
-        @Getter private final long flowRatePerSecond;
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Material material, long capacity, long flowRatePerSecond) {
+        public Schema(@NotNull NamespacedKey key, @NotNull Material material, long capacity) {
             super(key, material, FluidTank.class);
             this.capacity = capacity;
-            this.flowRatePerSecond = flowRatePerSecond;
         }
     }
 
@@ -62,16 +60,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     public FluidTank(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
         super(schema, block);
 
-        FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
-        FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
-
-        ItemDisplay fluidDisplay = new ItemDisplayBuilder()
-                .material(Material.ORANGE_CONCRETE) // TODO remove
-                .transformation(new TransformBuilder() // TODO remove
-                        .translate(0.0, -0.5 + 0.5 / 2, 0.0) // TODO remove
-                        .scale(0.9, 0.5, 0.9) // TODO remove
-                        .buildForItemDisplay()) // TODO remove
-                .build(block.getLocation().toCenterLocation());
+        ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(block.getLocation().toCenterLocation());
         FluidTankEntity fluidTankEntity = new FluidTankEntity(PylonEntities.FLUID_TANK_DISPLAY, fluidDisplay);
         EntityStorage.add(fluidTankEntity);
 
@@ -79,6 +68,9 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         if (context instanceof BlockCreateContext.PlayerPlace ctx) {
             player = ctx.getPlayer();
         }
+
+        FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
+        FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
 
         entities = Map.of(
                 "fluid", fluidTankEntity.getUuid(),
@@ -123,7 +115,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
                     .stream()
-                    .collect(Collectors.toMap(Function.identity(), key -> getSchema().flowRatePerSecond / 20));
+                    .collect(Collectors.toMap(Function.identity(), key -> getSchema().capacity));
         }
 
         // If tank full, don't request anything
@@ -132,7 +124,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         }
 
         // Otherwise, only allow more of the stored fluid to be added
-        return Map.of(fluidType, Math.min(getSchema().capacity - fluidAmount, getSchema().flowRatePerSecond / 20));
+        return Map.of(fluidType, getSchema().capacity - fluidAmount);
     }
 
     @Override
@@ -162,7 +154,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     }
 
     public void updateFluidDisplay() {
-        float scale = 0.9F * (float) fluidAmount / getSchema().capacity;
+        float scale = 0.9F * fluidAmount / getSchema().capacity;
         ItemDisplay display = getFluidDisplay();
         if (display != null) {
             display.setTransformationMatrix(new TransformBuilder()

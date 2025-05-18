@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items.fluid.connection;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonEntities;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
@@ -127,6 +128,12 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
 
     @Override
     public void onDeath(@NotNull PylonEntityDeathEvent event) {
+        for (UUID uuid : connectedPipeDisplays) {
+            FluidPipeDisplay pipeDisplay = EntityStorage.getAs(FluidPipeDisplay.class, uuid);
+            if (pipeDisplay != null) {
+                pipeDisplay.delete(true, null);
+            }
+        }
         FluidManager.remove(point);
         FluidConnectionDisplay displayEntity = EntityStorage.getAs(FluidConnectionDisplay.class, display);
         Preconditions.checkState(displayEntity != null);

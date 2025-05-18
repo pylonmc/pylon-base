@@ -134,7 +134,5 @@ public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay
         }
 
         ConnectingService.disconnect(from, to, removeMarkersIfEmpty);
-
-
     }
 }

@@ -1219,6 +1219,24 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    public static final FluidPipe.Schema OBSIDIAN_FLUID_PIPE = new FluidPipe.Schema(
+            pylonKey("fluid_pipe_obsidian"),
+            key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
+                    .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+                    .build(),
+            Material.BLACK_TERRACOTTA
+    );
+    static {
+        OBSIDIAN_FLUID_PIPE.register();
+        ItemStack output = new ItemStack(OBSIDIAN_FLUID_PIPE.getItemStack());
+        output.setAmount(4);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_obsidian"), output)
+                        .shape("ooo", "   ", "ooo")
+                        .setIngredient('o', new ItemStack(Material.OBSIDIAN));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
     public static final PylonItemSchema WOODEN_FLUID_TANK = new SimpleBlockPlacerItemSchema(
             pylonKey("fluid_tank_wooden"),
             key -> ItemStackBuilder.defaultBuilder(Material.BROWN_STAINED_GLASS, key)

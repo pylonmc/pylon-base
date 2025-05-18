@@ -114,8 +114,7 @@ public final class PylonBlocks {
     public static final FluidTank.Schema FLUID_TANK_WOODEN = new FluidTank.Schema(
             pylonKey("fluid_tank_wooden"),
             Material.BROWN_STAINED_GLASS,
-            4000,
-            1000
+            4000
     );
     static {
         FLUID_TANK_WOODEN.register();
