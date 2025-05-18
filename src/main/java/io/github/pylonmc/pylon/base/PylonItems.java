@@ -1,15 +1,25 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
+import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
+import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
+import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
+import io.github.pylonmc.pylon.base.items.research.Loupe;
+import io.github.pylonmc.pylon.base.items.research.ResearchPack;
+import io.github.pylonmc.pylon.base.items.tools.*;
+import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
+import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
-import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
-import io.github.pylonmc.pylon.base.items.watering.WateringCan;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleBlockPlacerItemSchema;
 import io.github.pylonmc.pylon.core.item.SimplePylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.item.research.Research;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -25,12 +35,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -197,6 +203,16 @@ public final class PylonItems {
         DIAMOND_HAMMER.register();
         RecipeTypes.VANILLA_CRAFTING.addRecipe(DIAMOND_HAMMER.getRecipe());
     }
+
+    static {
+        new Research(
+                pylonKey("newtons_second_law"),
+                5L,
+                STONE_HAMMER,
+                IRON_HAMMER,
+                DIAMOND_HAMMER
+        ).register();
+    }
     //</editor-fold>
 
     public static final WateringCan WATERING_CAN = new WateringCan(
@@ -210,6 +226,12 @@ public final class PylonItems {
                 .setIngredient('S', IRON_SHEET.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("plant_growth"),
+                5L,
+                WATERING_CAN
+        ).register();
     }
 
     public static final MonsterJerky MONSTER_JERKY = new MonsterJerky(
@@ -246,6 +268,12 @@ public final class PylonItems {
                 .setIngredient('R', MONSTER_JERKY.getItemStack());
         leatherRecipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(leatherRecipe);
+
+        new Research(
+                pylonKey("food_preservation"),
+                2L,
+                MONSTER_JERKY
+        ).register();
     }
 
     //<editor-fold desc="Ferroduralum" defaultstate=collapsed>
@@ -283,6 +311,15 @@ public final class PylonItems {
         RecipeTypes.VANILLA_FURNACE.addRecipe(recipe);
     }
 
+    static {
+        new Research(
+                pylonKey("primitive_alloying"),
+                8L,
+                RAW_FERRODURALUM,
+                FERRODURALUM_INGOT
+        ).register();
+    }
+
     public static final PylonItemSchema FERRODURALUM_SHEET = new PylonItemSchema(
             pylonKey("ferroduralum_sheet"),
             SimplePylonItem.class,
@@ -297,6 +334,17 @@ public final class PylonItems {
                 MiningLevel.IRON,
                 0.25f
         ));
+    }
+
+    static {
+        new Research(
+                pylonKey("metal_ductility"),
+                5L,
+                COPPER_SHEET,
+                GOLD_SHEET,
+                IRON_SHEET,
+                FERRODURALUM_SHEET
+        ).register();
     }
 
     public static final PylonItemSchema FERRODURALUM_SWORD = new PylonItemSchema(
@@ -419,6 +467,18 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    static {
+        new Research(
+                pylonKey("primitive_alloy_tools"),
+                10L,
+                FERRODURALUM_SWORD,
+                FERRODURALUM_AXE,
+                FERRODURALUM_PICKAXE,
+                FERRODURALUM_SHOVEL,
+                FERRODURALUM_HOE
+        ).register();
+    }
+
     public static final PylonItemSchema FERRODURALUM_HELMET = new PylonItemSchema(
             pylonKey("ferroduralum_helmet"),
             SimplePylonItem.class,
@@ -537,6 +597,17 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+
+    static {
+        new Research(
+                pylonKey("primitive_alloy_armor"),
+                10L,
+                FERRODURALUM_HELMET,
+                FERRODURALUM_CHESTPLATE,
+                FERRODURALUM_LEGGINGS,
+                FERRODURALUM_BOOTS
+        ).register();
+    }
     //</editor-fold>
 
     public static final PylonItemSchema COMPRESSED_WOOD = new PylonItemSchema(
@@ -589,6 +660,15 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    static {
+        new Research(
+                pylonKey("compression"),
+                5L,
+                COMPRESSED_WOOD,
+                COMPRESSED_OBSIDIAN
+        ).register();
+    }
+
     public static final PylonItemSchema PORTABLE_CRAFTING_TABLE = new PylonItemSchema(
             pylonKey("portable_crafting_table"),
             PortableCraftingTable.class,
@@ -635,6 +715,17 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
     //</editor-fold>
+
+    static {
+        new Research(
+                pylonKey("portability"),
+                7L,
+                PORTABILITY_CATALYST,
+                PORTABLE_CRAFTING_TABLE,
+                PORTABLE_DUSTBIN,
+                PORTABLE_ENDER_CHEST
+        ).register();
+    }
 
     //<editor-fold desc="Medical items" defaultstate=collapsed>
     public static final PylonItemSchema FIBER = new PylonItemSchema(
@@ -712,6 +803,15 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    static {
+        new Research(
+                pylonKey("first_aid"),
+                5L,
+                BANDAGE,
+                SPLINT
+        ).register();
+    }
+
     public static final PylonItemSchema DISINFECTANT = new PylonItemSchema(
             pylonKey("disinfectant"),
             SimplePylonItem.class,
@@ -763,6 +863,15 @@ public final class PylonItems {
     }
     //</editor-fold>
 
+    static {
+        new Research(
+                pylonKey("medicine"),
+                10L,
+                DISINFECTANT,
+                MEDKIT
+        ).register();
+    }
+
     public static final Sprinkler.SprinklerItem.Schema SPRINKLER = new Sprinkler.SprinklerItem.Schema(
             pylonKey("sprinkler"),
             Sprinkler.SprinklerItem.class,
@@ -777,6 +886,12 @@ public final class PylonItems {
                 .setIngredient('R', new ItemStack(Material.REPEATER));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("plant_growth_automated"),
+                10L,
+                SPRINKLER
+        ).register();
     }
 
     public static final RecoilArrow RECOIL_ARROW = new RecoilArrow(
@@ -795,6 +910,12 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
+
+        new Research(
+                pylonKey("newtons_third_law"),
+                15L,
+                RECOIL_ARROW
+        ).register();
     }
 
     public static final LumberAxe LUMBER_AXE = new LumberAxe(
@@ -810,6 +931,12 @@ public final class PylonItems {
                 .setIngredient('I', Material.IRON_BLOCK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("gravity"),
+                10L,
+                LUMBER_AXE
+        ).register();
     }
 
     public static final PylonItemSchema MAGIC_DUST = new PylonItemSchema(
@@ -832,6 +959,12 @@ public final class PylonItems {
                 .setIngredient('G', Material.GLOWSTONE);
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("fairies"),
+                5L,
+                MAGIC_DUST
+        ).register();
     }
 
     public static final BeheadingSword BEHEADING_SWORD = new BeheadingSword(
@@ -861,6 +994,12 @@ public final class PylonItems {
                 ));
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("french_revolution"),
+                10L,
+                BEHEADING_SWORD
+        ).register();
     }
 
     public static final PylonItemSchema GRINDSTONE = new SimpleBlockPlacerItemSchema(
@@ -890,6 +1029,15 @@ public final class PylonItems {
                 .setIngredient('F', new RecipeChoice.MaterialChoice(Tag.FENCES));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        new Research(
+                pylonKey("grinding"),
+                5L,
+                GRINDSTONE,
+                GRINDSTONE_HANDLE
+        ).register();
     }
 
     public static final PylonItemSchema FLOUR = new PylonItemSchema(
@@ -945,6 +1093,15 @@ public final class PylonItems {
         RecipeTypes.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
     }
 
+    static {
+        new Research(
+                pylonKey("baking"),
+                2L,
+                FLOUR,
+                DOUGH
+        ).register();
+    }
+
     public static final HealthTalisman HEALTH_TALISMAN_SIMPLE = new HealthTalisman(
             pylonKey("health_talisman_simple"),
             key -> ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, key)
@@ -991,6 +1148,16 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    static {
+        new Research(
+                pylonKey("better_health"),
+                10L,
+                HEALTH_TALISMAN_SIMPLE,
+                HEALTH_TALISMAN_ADVANCED,
+                HEALTH_TALISMAN_ULTIMATE
+        ).register();
+    }
+
     public static final PylonItemSchema MIXING_POT = new SimpleBlockPlacerItemSchema(
             pylonKey("mixing_pot"),
             key -> ItemStackBuilder.defaultBuilder(Material.CAULDRON, key).build(),
@@ -1003,6 +1170,12 @@ public final class PylonItems {
                 .setIngredient('f', FERRODURALUM_INGOT.getItemStack());
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("homogeneity"),
+                6L,
+                MIXING_POT
+        ).register();
     }
 
     public static final PylonItemSchema SHIMMER_DUST_1 = new PylonItemSchema(
@@ -1138,6 +1311,17 @@ public final class PylonItems {
         ));
     }
 
+    static {
+        new Research(
+                pylonKey("glitter"),
+                5L,
+                SHIMMER_DUST_1,
+                SHIMMER_DUST_2,
+                SHIMMER_DUST_3,
+                SHIMMER_SKULL
+        ).register();
+    }
+
     public static final PylonItemSchema PEDESTAL = new SimpleBlockPlacerItemSchema(
             pylonKey("pedestal"),
             key -> ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, key).build(),
@@ -1150,6 +1334,12 @@ public final class PylonItems {
                 .setIngredient('s', new ItemStack(Material.STONE_BRICK_WALL));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+
+        new Research(
+                pylonKey("showing_off"),
+                2L,
+                PEDESTAL
+        ).register();
     }
 
     public static final PylonItemSchema MAGIC_PEDESTAL = new SimpleBlockPlacerItemSchema(
@@ -1181,6 +1371,16 @@ public final class PylonItems {
                         .setIngredient('d', SHIMMER_DUST_2.getItemStack());
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        new Research(
+                pylonKey("magic"),
+                6L,
+                MAGIC_PEDESTAL,
+                MAGIC_ALTAR,
+                COVALENT_BINDER
+        ).register();
     }
 
     public static final FluidPipe.Schema WOODEN_FLUID_PIPE = new FluidPipe.Schema(
@@ -1284,6 +1484,40 @@ public final class PylonItems {
                 .setIngredient('b', new ItemStack(Material.BUCKET));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final Loupe.Schema LOUPE = new Loupe.Schema(
+            pylonKey("loupe"),
+            Loupe.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, key)
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .animation(ItemUseAnimation.SPYGLASS)
+                            .hasConsumeParticles(false)
+                            .consumeSeconds(3)
+                    )
+                    .build()
+    );
+
+    static {
+        LOUPE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), LOUPE.getItemStack())
+                .shape(" C ", "CGC", " C ")
+                .setIngredient('C', Material.COPPER_INGOT)
+                .setIngredient('G', Material.GLASS);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final ResearchPack.Schema RESEARCH_PACK_1 = new ResearchPack.Schema(
+            pylonKey("research_pack_1"),
+            ResearchPack.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.BOOK, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build()
+    );
+    static {
+        RESEARCH_PACK_1.register();
+        // TODO recipe when fluid api is done
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

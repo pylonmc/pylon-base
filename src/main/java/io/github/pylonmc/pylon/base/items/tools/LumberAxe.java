@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items;
+package io.github.pylonmc.pylon.base.items.tools;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.item.PylonItem;

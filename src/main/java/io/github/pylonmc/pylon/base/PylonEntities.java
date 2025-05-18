@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.Grindstone;
-import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
+import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
+import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
