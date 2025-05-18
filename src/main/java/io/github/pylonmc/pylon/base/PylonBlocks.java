@@ -102,13 +102,13 @@ public final class PylonBlocks {
         FLUID_PIPE_MARKER.register();
     }
 
-    public static final PylonBlockSchema FLUID_CONNECTOR = new PylonBlockSchema(
+    public static final PylonBlockSchema FLUID_PIPE_CONNECTOR = new PylonBlockSchema(
             pylonKey("fluid_pipe_connector"),
             Material.STRUCTURE_VOID,
             FluidPipeConnector.class
     );
     static {
-        FLUID_CONNECTOR.register();
+        FLUID_PIPE_CONNECTOR.register();
     }
 
     public static final FluidTank.Schema FLUID_TANK_WOODEN = new FluidTank.Schema(

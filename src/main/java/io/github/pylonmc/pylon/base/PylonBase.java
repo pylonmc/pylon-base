@@ -23,15 +23,21 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     @Override
     public void onEnable() {
         instance = this;
+
         registerWithPylon();
+
+        saveDefaultConfig();
+
         PylonItems.initialize();
         PylonBlocks.initialize();
         PylonEntities.initialize();
         PylonFluids.initialize();
+
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         Bukkit.getPluginManager().registerEvents(new FluidPipeListener(), this);
         Bukkit.getPluginManager().registerEvents(new WaterCauldronRightClickRecipe.CauldronListener(), this);
         Bukkit.getPluginManager().registerEvents(new ConnectingService(), this);
+
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 

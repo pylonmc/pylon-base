@@ -1,10 +1,7 @@
 pipe:
   connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-  connected: "<green>Pipe placed"
-  cancelled: "<red>Placement cancelled"
-  cannot-place-in-block: "<red>You cannot place a pipe inside a block"
-  cannot-connect-to-same-point: "<red>You cannot connect a pipe to the same point"
-  already-connected: "<red>These points are already connected to each other"
+  cannot-place-here: "<red>You cannot place a pipe here"
+  not-enough-pipes: "<red>Not enough pipes"
 
 item:
   bandage:
@@ -112,18 +109,14 @@ item:
     name: "Wooden Fluid Pipe"
     # TODO add placeholders for flow rate / etc
     lore: |-
-      <arrow> <insn>Right click</insn> a connection point or another pipe to start placing
-      <arrow> <insn>Right click</insn> again to finish placing
-      <arrow> <insn>Deselect</insn> the pipe to cancel placing
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
 
   fluid_pipe_copper:
     name: "Copper Fluid Pipe"
     # TODO add placeholders for flow rate / etc
     lore: |-
-      <arrow> <insn>Right click</insn> a connection point or another pipe to start placing
-      <arrow> <insn>Right click</insn> again to finish placing
-      <arrow> <insn>Deselect</insn> the pipe to cancel placing
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
 
   fluid_tank_wooden:

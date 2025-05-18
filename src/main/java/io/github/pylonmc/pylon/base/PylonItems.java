@@ -1185,7 +1185,10 @@ public final class PylonItems {
 
     public static final FluidPipe.Schema WOODEN_FLUID_PIPE = new FluidPipe.Schema(
             pylonKey("fluid_pipe_wooden"),
-            key -> ItemStackBuilder.defaultBuilder(Material.BROWN_CONCRETE, key).build()
+            key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
+                    .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
+                    .build(),
+            Material.BROWN_TERRACOTTA
     );
     static {
         WOODEN_FLUID_PIPE.register();
@@ -1200,7 +1203,10 @@ public final class PylonItems {
 
     public static final FluidPipe.Schema COPPER_FLUID_PIPE = new FluidPipe.Schema(
             pylonKey("fluid_pipe_copper"),
-            key -> ItemStackBuilder.defaultBuilder(Material.ORANGE_CONCRETE, key).build()
+            key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
+                    .set(DataComponentTypes.ITEM_MODEL, Material.ORANGE_TERRACOTTA.getKey())
+                    .build(),
+            Material.ORANGE_TERRACOTTA
     );
     static {
         COPPER_FLUID_PIPE.register();
@@ -1215,7 +1221,8 @@ public final class PylonItems {
 
     public static final PylonItemSchema WOODEN_FLUID_TANK = new SimpleBlockPlacerItemSchema(
             pylonKey("fluid_tank_wooden"),
-            key -> ItemStackBuilder.defaultBuilder(Material.BROWN_STAINED_GLASS, key).build(),
+            key -> ItemStackBuilder.defaultBuilder(Material.BROWN_STAINED_GLASS, key)
+                    .build(),
             PylonBlocks.FLUID_TANK_WOODEN
     );
     static {
