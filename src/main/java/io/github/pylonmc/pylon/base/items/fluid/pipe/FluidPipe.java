@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid.pipe;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointNewBlock;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointPipeConnector;
@@ -109,12 +110,22 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
                 && !ConnectingService.isConnecting(event.getPlayer())
         ) {
             if (BlockStorage.get(event.getClickedBlock()) instanceof FluidPipeConnector connector) {
+                if (!connector.getPipe().equals(getSchema())) {
+                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-of-same-type"));
+                    return;
+                }
                 ConnectingPointPipeConnector connectingPoint = new ConnectingPointPipeConnector(connector);
                 ConnectingService.startConnection(event.getPlayer(), connectingPoint, getSchema());
                 return;
             }
 
             if (BlockStorage.get(event.getClickedBlock()) instanceof FluidPipeMarker marker) {
+                FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
+                Preconditions.checkState(pipeDisplay != null);
+                if (!pipeDisplay.getPipe().equals(getSchema())) {
+                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-of-same-type"));
+                    return;
+                }
                 ConnectingPointPipeMarker connectingPoint = new ConnectingPointPipeMarker(marker);
                 ConnectingService.startConnection(event.getPlayer(), connectingPoint, getSchema());
                 return;

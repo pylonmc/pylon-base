@@ -101,17 +101,22 @@ public class ConnectingTask {
 
         recalculateTo();
 
-        isValid = isValidState();
         if (player.getGameMode() != GameMode.CREATIVE
                 && pipesUsed(from.position(), to.position()) > player.getInventory().getItem(EquipmentSlot.HAND).getAmount()
         ) {
             isValid = false;
             player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-enough-pipes"));
             display.setItemStack(new ItemStack(Material.RED_CONCRETE));
-        } else if (!isValid) {
+        } else if (!isPipeTypeValid()) {
+            isValid = false;
+            player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-of-same-type"));
+            display.setItemStack(new ItemStack(Material.RED_CONCRETE));
+        } else if (!isPlacementValid()) {
+            isValid = false;
             player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.cannot-place-here"));
             display.setItemStack(new ItemStack(Material.RED_CONCRETE));
         } else {
+            isValid = true;
             player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.connecting"));
             display.setItemStack(new ItemStack(Material.WHITE_CONCRETE));
         }
@@ -261,7 +266,22 @@ public class ConnectingTask {
         return null;
     }
 
-    private boolean isValidState() {
+    private boolean isPipeTypeValid() {
+        if (to instanceof ConnectingPointPipeMarker(FluidPipeMarker marker)) {
+            FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
+            Preconditions.checkState(pipeDisplay != null);
+            return pipeDisplay.getPipe().equals(pipe);
+        }
+
+        //noinspection SimplifiableIfStatement (not actually simpler)
+        if (to instanceof ConnectingPointPipeConnector(FluidPipeConnector connector)) {
+            return connector.getPipe().equals(pipe);
+        }
+
+        return true;
+    }
+
+    private boolean isPlacementValid() {
         Set<UUID> intersection = new HashSet<>(from.getConnectedInteractions());
         intersection.retainAll(to.getConnectedInteractions());
         boolean startAndEndNotAlreadyConnected = intersection.isEmpty();

@@ -76,4 +76,14 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
 
         PylonEntityHolderBlock.super.onBreak(drops, context);
     }
+
+    public @NotNull FluidPipe.Schema getPipe() {
+        FluidConnectionInteraction interaction = getFluidConnectionInteraction();
+        Preconditions.checkState(interaction != null);
+        Preconditions.checkState(!interaction.getConnectedPipeDisplays().isEmpty());
+        UUID uuid = interaction.getConnectedPipeDisplays().iterator().next();
+        FluidPipeDisplay pipeDisplay = EntityStorage.getAs(FluidPipeDisplay.class, uuid);
+        Preconditions.checkState(pipeDisplay != null);
+        return pipeDisplay.getPipe();
+    }
 }
