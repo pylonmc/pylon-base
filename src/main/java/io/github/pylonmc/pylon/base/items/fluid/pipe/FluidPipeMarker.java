@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -80,7 +81,13 @@ public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements Pyl
         if (!(context instanceof BlockBreakContext.PluginBreak)) {
             FluidPipeDisplay pipeDisplay = getPipeDisplay();
             Preconditions.checkState(pipeDisplay != null);
-            pipeDisplay.delete(true);
+
+            Player player = null;
+            if (context instanceof BlockBreakContext.PlayerBreak breakContext) {
+                player = breakContext.getEvent().getPlayer();
+            }
+
+            pipeDisplay.delete(true, player);
         }
     }
 }

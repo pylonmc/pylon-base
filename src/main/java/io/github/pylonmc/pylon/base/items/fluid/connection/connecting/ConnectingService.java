@@ -100,8 +100,10 @@ public class ConnectingService implements Listener {
         FluidConnectionInteraction originInteraction = from.create();
         FluidConnectionInteraction targetInteraction = to.create();
 
+        int pipeAmount = ConnectingTask.pipesUsed(from.position(), to.position());
+
         FluidPipeDisplay pipeDisplay
-                = FluidPipeDisplay.make(PylonEntities.FLUID_PIPE_DISPLAY, pipe, originInteraction, targetInteraction);
+                = FluidPipeDisplay.make(PylonEntities.FLUID_PIPE_DISPLAY, pipe, pipeAmount, originInteraction, targetInteraction);
 
         originInteraction.getConnectedPipeDisplays().add(pipeDisplay.getUuid());
         targetInteraction.getConnectedPipeDisplays().add(pipeDisplay.getUuid());

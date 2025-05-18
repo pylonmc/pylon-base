@@ -12,9 +12,12 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import lombok.Getter;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,20 +28,23 @@ import java.util.UUID;
 
 public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay> {
 
+    private static final NamespacedKey AMOUNT_KEY = KeyUtils.pylonKey("amount");
     private static final NamespacedKey PIPE_KEY = KeyUtils.pylonKey("pipe");
     private static final NamespacedKey FROM_KEY = KeyUtils.pylonKey("from");
     private static final NamespacedKey TO_KEY = KeyUtils.pylonKey("to");
 
     @Getter private final FluidPipe.Schema pipe;
+    private final int amount;
     private final UUID from;
     private final UUID to;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public FluidPipeDisplay(@NotNull PylonEntitySchema schema, @NotNull ItemDisplay entity) {
         super(schema, entity);
         PersistentDataContainer pdc = entity.getPersistentDataContainer();
         // will fail to load if schema not found; no way around this
         pipe = (FluidPipe.Schema) PylonRegistry.ITEMS.get(pdc.get(PIPE_KEY, PylonSerializers.NAMESPACED_KEY));
+        this.amount = pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER);
         from = pdc.get(FROM_KEY, PylonSerializers.UUID);
         to = pdc.get(TO_KEY, PylonSerializers.UUID);
     }
@@ -46,11 +52,13 @@ public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay
     public FluidPipeDisplay(
             @NotNull PylonEntitySchema schema,
             @NotNull FluidPipe.Schema pipe,
+            int amount,
             @NotNull FluidConnectionInteraction from,
             @NotNull FluidConnectionInteraction to
     ) {
         super(schema, makeDisplay(pipe, from, to));
         this.pipe = pipe;
+        this.amount = amount;
         this.from = from.getUuid();
         this.to = to.getUuid();
     }
@@ -58,6 +66,7 @@ public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(PIPE_KEY, PylonSerializers.NAMESPACED_KEY, pipe.getKey());
+        pdc.set(AMOUNT_KEY, PylonSerializers.INTEGER, amount);
         pdc.set(FROM_KEY, PylonSerializers.UUID, from);
         pdc.set(TO_KEY, PylonSerializers.UUID, to);
     }
@@ -90,10 +99,11 @@ public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay
     public static @NotNull FluidPipeDisplay make(
             @NotNull PylonEntitySchema schema,
             @NotNull FluidPipe.Schema pipe,
+            int amount,
             @NotNull FluidConnectionInteraction from,
             @NotNull FluidConnectionInteraction to
     ) {
-        FluidPipeDisplay display = new FluidPipeDisplay(schema, pipe, from, to);
+        FluidPipeDisplay display = new FluidPipeDisplay(schema, pipe, amount, from, to);
         EntityStorage.add(display);
         return display;
     }
@@ -106,11 +116,25 @@ public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay
         return EntityStorage.getAs(FluidConnectionInteraction.class, to);
     }
 
-    public void delete(boolean removeMarkersIfEmpty) {
+    public void delete(boolean removeMarkersIfEmpty, @Nullable Player player) {
         FluidConnectionInteraction from = getFrom();
         FluidConnectionInteraction to = getTo();
         Preconditions.checkState(from != null);
         Preconditions.checkState(to != null);
+
+        ItemStack itemToGive = pipe.getItemStack();
+        itemToGive.setAmount(amount);
+        if (player != null) {
+            if (player.getGameMode() != GameMode.CREATIVE) {
+                player.give(itemToGive);
+            }
+        } else {
+            Location location = to.getPoint().getPosition().plus(from.getPoint().getPosition()).getLocation().multiply(0.5);
+            location.getWorld().dropItemNaturally(location, itemToGive);
+        }
+
         ConnectingService.disconnect(from, to, removeMarkersIfEmpty);
+
+
     }
 }

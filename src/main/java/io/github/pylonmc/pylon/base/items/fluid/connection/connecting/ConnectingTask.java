@@ -103,7 +103,7 @@ public class ConnectingTask {
 
         isValid = isValidState();
         if (player.getGameMode() != GameMode.CREATIVE
-                && pipesUsed() > player.getInventory().getItem(EquipmentSlot.HAND).getAmount()
+                && pipesUsed(from.position(), to.position()) > player.getInventory().getItem(EquipmentSlot.HAND).getAmount()
         ) {
             isValid = false;
             player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-enough-pipes"));
@@ -152,7 +152,7 @@ public class ConnectingTask {
         FluidPipeDisplay pipeDisplay = ConnectingService.connect(from, to, pipe);
         FluidConnectionInteraction toInteraction = pipeDisplay.getTo();
         Preconditions.checkState(toInteraction != null);
-        return new Result(toInteraction, pipesUsed());
+        return new Result(toInteraction, pipesUsed(from.position(), to.position()));
     }
 
     public boolean pathIntersectsBlocks() {
@@ -160,8 +160,8 @@ public class ConnectingTask {
                 || to instanceof ConnectingPointNewBlock && !to.position().getBlock().getType().isAir();
     }
 
-    public int pipesUsed() {
-        return blocksOnPath(from.position(), to.position()).size() + 1;
+    public static int pipesUsed(@NotNull BlockPosition from, @NotNull BlockPosition to) {
+        return blocksOnPath(from, to).size() + 1;
     }
 
     private static boolean isCardinalDirection(@NotNull Vector3i vector) {
