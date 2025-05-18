@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeListener;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
@@ -34,7 +33,6 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         PylonFluids.initialize();
 
         Bukkit.getPluginManager().registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
-        Bukkit.getPluginManager().registerEvents(new FluidPipeListener(), this);
         Bukkit.getPluginManager().registerEvents(new WaterCauldronRightClickRecipe.CauldronListener(), this);
         Bukkit.getPluginManager().registerEvents(new ConnectingService(), this);
 
