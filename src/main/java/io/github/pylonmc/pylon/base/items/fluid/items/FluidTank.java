@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid.items;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
-import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -75,10 +74,8 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         entities = Map.of(
                 "fluid", fluidTankEntity.getUuid(),
                 "input", FluidConnectionInteraction.make(player, input, BlockFace.UP, 0.5F).getUuid(),
-                "output", FluidConnectionInteraction.make(player, output, BlockFace.NORTH, 0.5F).getUuid()
+                "output", FluidConnectionInteraction.make(player, output, BlockFace.DOWN, 0.5F).getUuid()
         );
-        fluidAmount = getSchema().capacity / 2;
-        fluidType = PylonFluids.LAVA;
     }
 
     @SuppressWarnings("unused")

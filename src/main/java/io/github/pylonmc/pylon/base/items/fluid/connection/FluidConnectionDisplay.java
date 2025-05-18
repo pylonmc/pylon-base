@@ -53,9 +53,10 @@ public class FluidConnectionDisplay extends PylonEntity<PylonEntitySchema, ItemD
     private static @NotNull ItemDisplay makeDisplay(@NotNull FluidConnectionPoint point, @NotNull Vector3d translation) {
         return new ItemDisplayBuilder()
                 .material(materialFromType(point.getType()))
+                .brightness(7)
                 .transformation(new TransformBuilder()
                         .translate(translation)
-                        .scale(0.12))
+                        .scale(FluidConnectionInteraction.POINT_SIZE))
                 .build(point.getPosition().getLocation().toCenterLocation());
     }
 

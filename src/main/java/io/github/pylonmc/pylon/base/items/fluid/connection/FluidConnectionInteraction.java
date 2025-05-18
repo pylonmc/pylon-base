@@ -32,6 +32,8 @@ import java.util.UUID;
 
 public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction> implements PylonDeathEntity {
 
+    public static final float POINT_SIZE = 0.12F;
+
     private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = KeyUtils.pylonKey("connected_pipe_displays");
     private static final NamespacedKey CONNECTION_POINT_KEY = KeyUtils.pylonKey("connection_point");
     private static final NamespacedKey DISPLAY_KEY = KeyUtils.pylonKey("display");
@@ -60,7 +62,10 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
-        super(PylonEntities.FLUID_CONNECTION_POINT_INTERACTION, makeInteraction(point, face.getDirection().clone().multiply(radius)));
+        super(PylonEntities.FLUID_CONNECTION_POINT_INTERACTION, makeInteraction(
+                point,
+                face.getDirection().clone().multiply(radius)
+        ));
 
         this.connectedPipeDisplays = new HashSet<>();
         this.point = point;
@@ -94,8 +99,8 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
 
     private static @NotNull Interaction makeInteraction(@NotNull FluidConnectionPoint point, @NotNull Vector translation) {
         return new InteractionBuilder()
-                .width(0.12F)
-                .height(0.12F)
+                .width(POINT_SIZE)
+                .height(POINT_SIZE)
                 .build(point.getPosition().getLocation().toCenterLocation().add(translation));
     }
 

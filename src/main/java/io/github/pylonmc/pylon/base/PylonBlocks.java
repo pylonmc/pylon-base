@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
 import io.github.pylonmc.pylon.base.items.MixingPot;
 import io.github.pylonmc.pylon.base.items.Pedestal;
 import io.github.pylonmc.pylon.base.items.MagicAltar;
+import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
@@ -111,6 +112,7 @@ public final class PylonBlocks {
         FLUID_PIPE_CONNECTOR.register();
     }
 
+    // TODO block settings
     public static final FluidTank.Schema FLUID_TANK_WOODEN = new FluidTank.Schema(
             pylonKey("fluid_tank_wooden"),
             Material.BROWN_STAINED_GLASS,
@@ -118,6 +120,23 @@ public final class PylonBlocks {
     );
     static {
         FLUID_TANK_WOODEN.register();
+    }
+
+    public static final FluidTank.Schema FLUID_TANK_COPPER = new FluidTank.Schema(
+            pylonKey("fluid_tank_copper"),
+            Material.ORANGE_STAINED_GLASS,
+            8000
+    );
+    static {
+        FLUID_TANK_COPPER.register();
+    }
+
+    public static final WaterPump.Schema WATER_PUMP = new WaterPump.Schema(
+            pylonKey("water_pump"),
+            Material.BLUE_TERRACOTTA
+    );
+    static {
+        WATER_PUMP.register();
     }
 
     public static void initialize() {}

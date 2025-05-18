@@ -137,7 +137,13 @@ item:
     name: "Wooden Fluid Tank"
     # TODO fix placeholder
     lore: |- 
-      <arrow> <attr:Capacity:capacity>%capacity</attr>
+      <arrow> <attr:Capacity:capacity>%capacity%</attr>
+
+  fluid_tank_copper:
+    name: "Copper Fluid Tank"
+    # TODO fix placeholder
+    lore: |- 
+      <arrow> <attr:Capacity:capacity>%capacity%</attr>
 
   gold_dust:
     name: "Gold Dust"
@@ -313,6 +319,12 @@ item:
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
+  water_pump:
+    name: "Water pump"
+    # TODO fix placeholder
+    lore: |- 
+      <arrow> <attr:Pump rate:fluid_per_second>%pump_rate%</attr>
+
 # TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
   enriched_netherrack: "Enriched Netherrack"
@@ -320,6 +332,7 @@ block:
   fluid_pipe_connector: "Pipe"
   fluid_pipe_marker: "Pipe"
   fluid_tank_wooden: "Wooden Fluid Tank"
+  fluid_tank_copper: "Copper Fluid Tank"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"
@@ -327,6 +340,7 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
+  water_pump: "Water Pump"
 
 message:
   hammer_cant_use: "<red>You cannot use this hammer on this block"
