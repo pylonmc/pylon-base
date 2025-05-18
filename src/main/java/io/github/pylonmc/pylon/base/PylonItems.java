@@ -1384,7 +1384,7 @@ public final class PylonItems {
     }
 
     public static final FluidPipe.Schema WOODEN_FLUID_PIPE = new FluidPipe.Schema(
-            pylonKey("fluid_pipe_wooden"),
+            pylonKey("fluid_pipe_wood"),
             key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
                     .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
                     .build(),
@@ -1394,7 +1394,7 @@ public final class PylonItems {
         WOODEN_FLUID_PIPE.register();
         ItemStack output = new ItemStack(WOODEN_FLUID_PIPE.getItemStack());
         output.setAmount(4);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_wooden"), output)
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_wood"), output)
                         .shape("www", "   ", "www")
                         .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
         recipe.setCategory(CraftingBookCategory.BUILDING);

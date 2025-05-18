@@ -106,7 +106,7 @@ item:
     name: "Flour"
     lore: ""
 
-  fluid_pipe_wooden:
+  fluid_pipe_wood:
     name: "Wooden Fluid Pipe"
     lore: |-
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
@@ -133,7 +133,7 @@ item:
       <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
       <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
 
-  fluid_tank_wooden:
+  fluid_tank_wood:
     name: "Wooden Fluid Tank"
     # TODO fix placeholder
     lore: |- 
