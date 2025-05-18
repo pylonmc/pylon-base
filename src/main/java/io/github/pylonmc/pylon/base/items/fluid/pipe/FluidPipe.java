@@ -111,7 +111,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         ) {
             if (BlockStorage.get(event.getClickedBlock()) instanceof FluidPipeConnector connector) {
                 if (!connector.getPipe().equals(getSchema())) {
-                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-of-same-type"));
+                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
                     return;
                 }
                 ConnectingPointPipeConnector connectingPoint = new ConnectingPointPipeConnector(connector);
@@ -123,7 +123,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
                 FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
                 Preconditions.checkState(pipeDisplay != null);
                 if (!pipeDisplay.getPipe().equals(getSchema())) {
-                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not-of-same-type"));
+                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
                     return;
                 }
                 ConnectingPointPipeMarker connectingPoint = new ConnectingPointPipeMarker(marker);

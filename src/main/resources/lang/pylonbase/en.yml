@@ -1,8 +1,8 @@
 pipe:
   connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-  cannot-place-here: "<red>You cannot place a pipe here"
-  not-enough-pipes: "<red>Not enough pipes"
-  not-of-same-type: "<red>Pipes are of different types"
+  cannot_place_here: "<red>You cannot place a pipe here"
+  not_enough_pipes: "<red>Not enough pipes"
+  not_of_same_type: "<red>Pipes are of different types"
 
 item:
   bandage:
