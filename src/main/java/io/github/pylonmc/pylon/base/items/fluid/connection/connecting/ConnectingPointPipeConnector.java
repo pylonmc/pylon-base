@@ -21,20 +21,17 @@ public record ConnectingPointPipeConnector(@NotNull FluidPipeConnector connector
     }
 
     @Override
-    @NotNull
-    public BlockPosition position() {
+    public @NotNull BlockPosition position() {
         return new BlockPosition(connector.getBlock());
     }
 
     @Override
-    @NotNull
-    public Vector3f offset() {
+    public @NotNull Vector3f offset() {
         return new Vector3f(0, 0, 0);
     }
 
     @Override
-    @Nullable
-    public BlockFace allowedFace() {
+    public @Nullable  BlockFace allowedFace() {
         return null;
     }
 

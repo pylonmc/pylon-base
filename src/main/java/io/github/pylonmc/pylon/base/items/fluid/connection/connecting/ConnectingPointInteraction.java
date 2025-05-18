@@ -18,14 +18,12 @@ public record ConnectingPointInteraction(@NotNull FluidConnectionInteraction int
     }
 
     @Override
-    @NotNull
-    public BlockPosition position() {
+    public @NotNull BlockPosition position() {
         return interaction.getPoint().getPosition();
     }
 
     @Override
-    @NotNull
-    public Vector3f offset() {
+    public @NotNull Vector3f offset() {
         if (interaction.getFace() != null && interaction.getRadius() != null) {
             return interaction.getFace().getDirection().toVector3f().mul(interaction.getRadius());
         }
@@ -33,8 +31,7 @@ public record ConnectingPointInteraction(@NotNull FluidConnectionInteraction int
     }
 
     @Override
-    @Nullable
-    public BlockFace allowedFace() {
+    public @Nullable BlockFace allowedFace() {
         return interaction.getFace();
     }
 

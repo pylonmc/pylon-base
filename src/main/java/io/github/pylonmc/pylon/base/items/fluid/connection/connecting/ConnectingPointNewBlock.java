@@ -18,17 +18,17 @@ import java.util.UUID;
 public record ConnectingPointNewBlock(@NotNull BlockPosition position) implements ConnectingPoint {
 
     @Override
-    @NotNull public BlockPosition position() {
+    public @NotNull BlockPosition position() {
         return position;
     }
 
     @Override
-    @NotNull public Vector3f offset() {
+    public @NotNull Vector3f offset() {
         return new Vector3f(0, 0, 0);
     }
 
     @Override
-    @Nullable public BlockFace allowedFace() {
+    public @Nullable BlockFace allowedFace() {
         return null;
     }
 
@@ -38,7 +38,7 @@ public record ConnectingPointNewBlock(@NotNull BlockPosition position) implement
     }
 
     @Override
-    @NotNull public FluidConnectionInteraction create() {
+    public @NotNull FluidConnectionInteraction create() {
         FluidPipeConnector connector = (FluidPipeConnector) BlockStorage.placeBlock(position, PylonBlocks.FLUID_PIPE_CONNECTOR);
         Preconditions.checkState(connector != null);
         FluidConnectionInteraction interaction = connector.getFluidConnectionInteraction();
