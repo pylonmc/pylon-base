@@ -36,18 +36,11 @@ public class FluidConnectionDisplay extends PylonEntity<PylonEntitySchema, ItemD
     }
 
     private static @NotNull Material materialFromType(@NotNull FluidConnectionPoint.Type type) {
-        switch (type) {
-            case INPUT -> {
-                return Material.LIME_CONCRETE;
-            }
-            case OUTPUT -> {
-                return Material.RED_CONCRETE;
-            }
-            case CONNECTOR -> {
-                return Material.GRAY_CONCRETE;
-            }
-        }
-        throw new IllegalStateException("shut up intellij");
+        return switch (type) {
+            case INPUT -> Material.LIME_CONCRETE;
+            case OUTPUT -> Material.RED_CONCRETE;
+            case CONNECTOR -> Material.GRAY_CONCRETE;
+        };
     }
 
     private static @NotNull ItemDisplay makeDisplay(@NotNull FluidConnectionPoint point, @NotNull Vector3d translation) {
