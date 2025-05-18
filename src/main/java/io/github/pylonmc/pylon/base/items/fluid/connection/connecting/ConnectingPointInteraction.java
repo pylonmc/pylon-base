@@ -40,7 +40,7 @@ public record ConnectingPointInteraction(@NotNull FluidConnectionInteraction int
 
     @Override
     public boolean isStillValid() {
-        return !interaction.getEntity().isDead();
+        return interaction.getEntity().isValid();
     }
 
     @Override
