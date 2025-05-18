@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.StructureLocator;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
@@ -34,6 +35,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.generator.structure.Structure;
+import org.bukkit.generator.structure.StructureType;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -1414,6 +1422,45 @@ public final class PylonItems {
     static {
         RESEARCH_PACK_1.register();
         // TODO recipe when fluid api is done
+    }
+
+    public static final StructureLocator.Schema STRUCTURE_LOCATOR_DESERT_PYRAMID = new StructureLocator.Schema(
+            pylonKey("structure_locator_desert_pyramid"),
+            key -> ItemStackBuilder.defaultBuilder(Material.COMPASS, key).build(),
+            StructureType.DESERT_PYRAMID
+    );
+    static {
+        STRUCTURE_LOCATOR_DESERT_PYRAMID.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("structure_locator_desert_pyramid"), STRUCTURE_LOCATOR_DESERT_PYRAMID.getItemStack());
+        recipe.shape(
+                "GGG",
+                "DAD",
+                "DDD"
+        );
+        recipe.setIngredient('G', Material.GOLD_BLOCK);
+        recipe.setIngredient('A', Material.ENCHANTED_GOLDEN_APPLE);
+        recipe.setIngredient('D', SHIMMER_DUST_2.getItemStack());
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final StructureLocator.Schema STRUCTURE_LOCATOR_NETHER_FORTRESS = new StructureLocator.Schema(
+            pylonKey("structure_locator_nether_fortress"),
+            key -> ItemStackBuilder.defaultBuilder(Material.COMPASS, key).build(),
+            StructureType.FORTRESS
+    );
+    static{
+        STRUCTURE_LOCATOR_NETHER_FORTRESS.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("structure_locator_nether_fortress"), STRUCTURE_LOCATOR_NETHER_FORTRESS.getItemStack());
+        recipe.shape(
+                "DDD",
+                "SSS",
+                "DDD"
+        );
+        recipe.setIngredient('D', SHIMMER_DUST_2.getItemStack());
+        recipe.setIngredient('S', Material.WITHER_SKELETON_SKULL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
