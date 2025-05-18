@@ -353,5 +353,6 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
-  structurecompass_find_fail: "<red>Failed to find a %struct% within %range% chunks"
-  structurecompass_refreshed: "<green>Compass reprogrammed!"
+  structurecompass:
+    find_fail: "<red>Failed to find a %struct% within %range% chunks"
+    refreshed: "<green>Compass reprogrammed!"

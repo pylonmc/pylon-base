@@ -18,11 +18,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class StructureLocator extends PylonItem<StructureLocator.Schema> implements Interactor {
-    private final TranslatableComponent FAILED_TO_FIND = Component.translatable("pylon.pylonbase.message.structurecompass_find_fail").arguments(
-            PylonArgument.of("struct", Component.text(keyToDisplayStr(getSchema().structure.getKey().getKey()))),
+    private final TranslatableComponent FAILED_TO_FIND = Component.translatable("pylon.pylonbase.message.structurecompass.find_fail").arguments(
+            PylonArgument.of("struct", Component.text(getSchema().structure.getKey().getKey().replace('_', ' '))),
             PylonArgument.of("range", Component.text(getSchema().radius))
     );
-    private final TranslatableComponent REFRESHED_LOCATION = Component.translatable("pylon.pylonbase.message.structurecompass_refreshed");
+    private final TranslatableComponent REFRESHED_LOCATION = Component.translatable("pylon.pylonbase.message.structurecompass.refreshed");
 
     public StructureLocator(@NotNull Schema schema, @NotNull ItemStack stack) {
         super(schema, stack);
@@ -51,21 +51,10 @@ public class StructureLocator extends PylonItem<StructureLocator.Schema> impleme
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-        return Map.of("struct", Component.text(keyToDisplayStr(getSchema().structure.getKey().getKey())),
+        return Map.of("struct", Component.text(getSchema().structure.getKey().getKey().replace('_', ' ')),
                 "range", Component.text(getSchema().radius));
     }
 
-    private String keyToDisplayStr(String messyKey) {
-        StringBuilder strBuilder = new StringBuilder();
-        for (char character : messyKey.toCharArray()) {
-            if (character != '_') {
-                strBuilder.append(character);
-            } else {
-                strBuilder.append(' ');
-            }
-        }
-        return strBuilder.toString();
-    }
 
     public static class Schema extends PylonItemSchema {
         public final StructureType structure;
