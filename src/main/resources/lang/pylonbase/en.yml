@@ -184,6 +184,9 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
 
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+
   monster_jerky:
     name: "Monster Jerky"
     lore: "Slightly tastier and tougher than rotten flesh"
@@ -297,6 +300,7 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
+  wither_proof_obsidian: "Wither Proof Obsidian"
 
 research:
   baking: "<gold>baking"
