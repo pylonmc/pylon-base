@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
@@ -1213,6 +1213,7 @@ public final class PylonItems {
                 ),
                 SHIMMER_DUST_2.getItemStack(),
                 false,
+                PylonFluids.WATER,
                 1
         ));
     }
@@ -1252,6 +1253,7 @@ public final class PylonItems {
                 ),
                 output,
                 true,
+                PylonFluids.WATER,
                 3
         ));
     }

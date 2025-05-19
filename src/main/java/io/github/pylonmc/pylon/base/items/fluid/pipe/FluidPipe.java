@@ -2,11 +2,7 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointNewBlock;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointPipeMarker;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
+import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.*;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
@@ -59,7 +55,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
                 if (temperatureTag == null) {
                     return false;
                 }
-                int temperature = temperatureTag.getValue();
+                int temperature = temperatureTag.getTemperature();
                 return temperature > minTemperature && temperature < maxTemperature;
             };
         }

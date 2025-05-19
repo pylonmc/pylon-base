@@ -356,6 +356,10 @@ block:
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
 
+fluid:
+  water: "<blue>Water"
+  lava: "<#fc4e03>Lava"
+
 research:
   baking: "<gold>baking"
   better_health: "<green>better health"
