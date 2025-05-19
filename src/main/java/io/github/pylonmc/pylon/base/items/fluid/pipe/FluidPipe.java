@@ -22,6 +22,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -105,48 +106,54 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
             return;
         }
 
-        if (event.getClickedBlock() != null
-                && event.getAction() == Action.RIGHT_CLICK_BLOCK
-                && !ConnectingService.isConnecting(event.getPlayer())
-        ) {
-            if (BlockStorage.get(event.getClickedBlock()) instanceof FluidPipeConnector connector) {
-                if (!connector.getPipe().equals(getSchema())) {
-                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
-                    return;
-                }
-                ConnectingPointPipeConnector connectingPoint = new ConnectingPointPipeConnector(connector);
-                ConnectingService.startConnection(event.getPlayer(), connectingPoint, getSchema());
-                return;
-            }
+        Action action = event.getAction();
+        Block block = event.getClickedBlock();
+        Player player = event.getPlayer();
 
-            if (BlockStorage.get(event.getClickedBlock()) instanceof FluidPipeMarker marker) {
-                FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
-                Preconditions.checkState(pipeDisplay != null);
-                if (!pipeDisplay.getPipe().equals(getSchema())) {
-                    event.getPlayer().sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
-                    return;
-                }
-                ConnectingPointPipeMarker connectingPoint = new ConnectingPointPipeMarker(marker);
-                ConnectingService.startConnection(event.getPlayer(), connectingPoint, getSchema());
-                return;
-            }
-
-            Block placementBlock = event.getClickedBlock().getRelative(event.getBlockFace());
-            if (placementBlock.getType().isAir()) {
-                ConnectingPointNewBlock connectingPoint = new ConnectingPointNewBlock(new BlockPosition(placementBlock));
-                ConnectingService.startConnection(event.getPlayer(), connectingPoint, getSchema());
-                return;
+        if (block != null && action == Action.RIGHT_CLICK_BLOCK && !ConnectingService.isConnecting(player)) {
+            if (!tryStartConnection(player, block)) {
+                tryStartConnection(player, block.getRelative(event.getBlockFace()));
             }
         }
 
-        if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-                && ConnectingService.isConnecting(event.getPlayer())
-        ) {
-            UUID segment = ConnectingService.placeConnection(event.getPlayer());
+        if ((action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) && ConnectingService.isConnecting(player)) {
+            UUID segment = ConnectingService.placeConnection(player);
             if (segment != null) {
                 FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
                 FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
             }
         }
+    }
+
+    private boolean tryStartConnection(@NotNull Player player, @NotNull Block block) {
+        if (BlockStorage.get(block) instanceof FluidPipeConnector connector) {
+            if (!connector.getPipe().equals(getSchema())) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
+                return true;
+            }
+            ConnectingPointPipeConnector connectingPoint = new ConnectingPointPipeConnector(connector);
+            ConnectingService.startConnection(player, connectingPoint, getSchema());
+            return true;
+        }
+
+        if (BlockStorage.get(block) instanceof FluidPipeMarker marker) {
+            FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
+            Preconditions.checkState(pipeDisplay != null);
+            if (!pipeDisplay.getPipe().equals(getSchema())) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
+                return true;
+            }
+            ConnectingPointPipeMarker connectingPoint = new ConnectingPointPipeMarker(marker);
+            ConnectingService.startConnection(player, connectingPoint, getSchema());
+            return true;
+        }
+
+        if (block.getType().isAir()) {
+            ConnectingPointNewBlock connectingPoint = new ConnectingPointNewBlock(new BlockPosition(block));
+            ConnectingService.startConnection(player, connectingPoint, getSchema());
+            return true;
+        }
+
+        return false;
     }
 }
