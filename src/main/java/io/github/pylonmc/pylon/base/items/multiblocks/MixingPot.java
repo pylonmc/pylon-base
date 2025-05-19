@@ -139,7 +139,7 @@ public final class MixingPot {
         public Map<PylonFluid, Long> getSuppliedFluids(String connectionPoint) {
             return fluidType == null
                     ? Map.of()
-                    : Map.of(fluidType, (long) fluidAmount);
+                    : Map.of(fluidType, fluidAmount);
         }
 
         @Override
@@ -175,8 +175,14 @@ public final class MixingPot {
         }
 
         private void updateCauldron() {
+            int level = (int) fluidAmount / 333;
+            if (level > 0 && getBlock().getType() == Material.CAULDRON) {
+                getBlock().setType(Material.WATER_CAULDRON);
+            } else if (level == 0) {
+                getBlock().setType(Material.CAULDRON);
+            }
             if (getBlock().getBlockData() instanceof Levelled levelled) {
-                levelled.setLevel((int) (fluidAmount / 250));
+                levelled.setLevel(level);
                 getBlock().setBlockData(levelled);
             }
         }
