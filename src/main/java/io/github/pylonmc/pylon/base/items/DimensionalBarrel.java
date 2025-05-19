@@ -26,19 +26,19 @@ import java.util.function.Function;
 
 // Totally not a test item for inventory saving
 @NullMarked
-public class BottomlessBarrel {
+public class DimensionalBarrel {
 
-    private BottomlessBarrel() {
+    private DimensionalBarrel() {
         throw new AssertionError("Container class");
     }
 
-    public static class BottomlessBarrelBlock extends PylonInventoryBlock<BottomlessBarrelBlock.Schema> {
+    public static class DimensionalBarrelBlock extends PylonInventoryBlock<DimensionalBarrelBlock.Schema> {
 
-        public BottomlessBarrelBlock(Schema schema, Block block, BlockCreateContext context) {
+        public DimensionalBarrelBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
         }
 
-        public BottomlessBarrelBlock(Schema schema, Block block, PersistentDataContainer pdc) {
+        public DimensionalBarrelBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block, pdc);
         }
 
@@ -72,16 +72,16 @@ public class BottomlessBarrel {
         }
     }
 
-    public static final class BottomlessBarrelItem extends PylonItem<BottomlessBarrelItem.Schema> implements BlockPlacer {
+    public static final class DimensionalBarrelItem extends PylonItem<DimensionalBarrelItem.Schema> implements BlockPlacer {
 
         public static final class Schema extends PylonItemSchema {
 
-            private final BottomlessBarrelBlock.Schema blockSchema;
+            private final DimensionalBarrelBlock.Schema blockSchema;
 
             public Schema(
                     NamespacedKey key,
-                    Class<? extends PylonItem<? extends BottomlessBarrelItem.Schema>> itemClass,
-                    BottomlessBarrelBlock.Schema blockSchema,
+                    Class<? extends PylonItem<? extends DimensionalBarrelItem.Schema>> itemClass,
+                    DimensionalBarrelBlock.Schema blockSchema,
                     Function<NamespacedKey, ItemStack> templateSupplier
             ) {
                 super(key, itemClass, templateSupplier);
@@ -89,12 +89,12 @@ public class BottomlessBarrel {
             }
         }
 
-        public BottomlessBarrelItem(BottomlessBarrelItem.Schema schema, ItemStack stack) {
+        public DimensionalBarrelItem(DimensionalBarrelItem.Schema schema, ItemStack stack) {
             super(schema, stack);
         }
 
         @Override
-        public BottomlessBarrel.BottomlessBarrelBlock.Schema getBlockSchema() {
+        public DimensionalBarrelBlock.Schema getBlockSchema() {
             return getSchema().blockSchema;
         }
 

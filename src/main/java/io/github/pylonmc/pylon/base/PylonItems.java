@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.BottomlessBarrel;
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
@@ -1417,15 +1417,15 @@ public final class PylonItems {
         // TODO recipe when fluid api is done
     }
 
-    public static final BottomlessBarrel.BottomlessBarrelItem.Schema BOTTOMLESS_BARREL = new BottomlessBarrel.BottomlessBarrelItem.Schema(
-            pylonKey("bottomless_barrel"),
-            BottomlessBarrel.BottomlessBarrelItem.class,
-            PylonBlocks.BOTTOMLESS_BARREL,
+    public static final DimensionalBarrel.DimensionalBarrelItem.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelItem.Schema(
+            pylonKey("dimensional_barrel"),
+            DimensionalBarrel.DimensionalBarrelItem.class,
+            PylonBlocks.DIMENSIONAL_BARREL,
             key -> ItemStackBuilder.defaultBuilder(Material.BARREL, key).build()
     );
     static {
-        BOTTOMLESS_BARREL.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("bottomless_barrel"), BOTTOMLESS_BARREL.getItemStack())
+        DIMENSIONAL_BARREL.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL.getItemStack())
                 .shape("CBC", "BEB", "CBC")
                 .setIngredient('C', COVALENT_BINDER.getItemStack())
                 .setIngredient('B', Material.BARREL)
