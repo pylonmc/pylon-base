@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.gui.ScrollGui;
+import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
@@ -44,7 +44,7 @@ public class DimensionalBarrel {
 
         @Override
         protected Gui createGui() {
-            return ScrollGui.inventories()
+            return PagedGui.inventories()
                     .setStructure(
                             "x x x x x x x x ^",
                             "x x x x x x x x #",
@@ -54,8 +54,8 @@ public class DimensionalBarrel {
                             "x x x x x x x x v"
                     )
                     .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-                    .addIngredient('^', GuiItems.scrollUp())
-                    .addIngredient('v', GuiItems.scrollDown())
+                    .addIngredient('^', GuiItems.pagePrevious())
+                    .addIngredient('v', GuiItems.pageNext())
                     .addIngredient('#', GuiItems.background())
                     .addContent(new VirtualInventory(getSchema().size))
                     .build();
