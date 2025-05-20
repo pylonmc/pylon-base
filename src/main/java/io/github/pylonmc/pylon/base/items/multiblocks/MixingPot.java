@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -294,7 +295,11 @@ public final class MixingPot {
 
         private void doRecipe(Recipe recipe, List<Item> items) {
             recipe.takeIngredients(items, getBlock());
-            getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), recipe.output);
+            switch (recipe.output()) {
+                case Either.Left(ItemStack item) -> getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+                case Either.Right(PylonFluid fluid) -> fluidType = fluid;
+            }
+
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(20)
@@ -324,11 +329,33 @@ public final class MixingPot {
     public record Recipe(
             NamespacedKey key,
             Map<RecipeChoice, Integer> input,
-            ItemStack output,
+            Either<ItemStack, PylonFluid> output,
             boolean requiresEnrichedFire,
             PylonFluid fluid,
             int fluidAmount
     ) implements Keyed {
+
+        public Recipe(
+                NamespacedKey key,
+                Map<RecipeChoice, Integer> input,
+                ItemStack output,
+                boolean requiresEnrichedFire,
+                PylonFluid fluid,
+                int fluidAmount
+        ) {
+            this(key, input, new Either.Left<>(output), requiresEnrichedFire, fluid, fluidAmount);
+        }
+
+        public Recipe(
+                NamespacedKey key,
+                Map<RecipeChoice, Integer> input,
+                PylonFluid output,
+                boolean requiresEnrichedFire,
+                PylonFluid fluid,
+                int fluidAmount
+        ) {
+            this(key, input, new Either.Right<>(output), requiresEnrichedFire, fluid, fluidAmount);
+        }
 
         @Override
         public NamespacedKey getKey() {
