@@ -58,24 +58,26 @@ public class ConnectingService implements Listener {
     public static @Nullable UUID placeConnection(@NotNull Player player) {
         ConnectingTask connectingTask = connectionsInProgress.get(player);
         Preconditions.checkState(connectingTask != null);
+
         ConnectingTask.Result result = connectingTask.finish();
-        if (result != null) {
-            if (player.getGameMode() != GameMode.CREATIVE) {
-                player.getInventory().getItem(EquipmentSlot.HAND).subtract(result.pipesUsed());
-            }
-
-            connectionsInProgress.remove(player);
-
-            PylonItem<?> pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
-            if (result.to().getFace() == null && pylonItem instanceof FluidPipe) {
-                // start new connection from the point we just placed if it didn't have a face
-                // if it does have a face, we can't go any further so don't bother starting a new connection
-                ConnectingPointInteraction connectingPoint = new ConnectingPointInteraction(result.to());
-                connectionsInProgress.put(player, new ConnectingTask(player, connectingPoint, connectingTask.getPipe()));
-            }
-            return result.to().getPoint().getSegment();
+        if (result == null) {
+            return null;
         }
-        return null;
+
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            player.getInventory().getItem(EquipmentSlot.HAND).subtract(result.pipesUsed());
+        }
+
+        connectionsInProgress.remove(player);
+
+        PylonItem<?> pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
+        if (result.to().getFace() == null && pylonItem instanceof FluidPipe) {
+            // start new connection from the point we just placed if it didn't have a face
+            // if it does have a face, we can't go any further so don't bother starting a new connection
+            ConnectingPointInteraction connectingPoint = new ConnectingPointInteraction(result.to());
+            connectionsInProgress.put(player, new ConnectingTask(player, connectingPoint, connectingTask.getPipe()));
+        }
+        return result.to().getPoint().getSegment();
     }
 
     public static boolean isConnecting(@NotNull Player player) {
