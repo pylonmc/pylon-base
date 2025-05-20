@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -97,6 +98,15 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final DimensionalBarrel.DimensionalBarrelBlock.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelBlock.Schema(
+            pylonKey("dimensional_barrel"),
+            Material.BARREL,
+            DimensionalBarrel.DimensionalBarrelBlock.class
+    );
+    static {
+        DIMENSIONAL_BARREL.register();
     }
 
     public static void initialize() {}

@@ -33,6 +33,12 @@ item:
     name: "Covalent Binder"
     lore: ""
 
+  dimensional_barrel:
+    name: "Dimensional Barrel"
+    lore: |-
+      <arrow> Uses the power of extra dimensions to store more items
+      <arrow> <attr:Size>%size%</attr>
+
   disinfectant:
     name: "Disinfectant"
     lore: |-
@@ -289,6 +295,7 @@ item:
       <arrow> Does not stack
 
 block:
+  dimensional_barrel: "Dimensional Barrel"
   enriched_netherrack: "Enriched Netherrack"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
