@@ -17,30 +17,36 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.Map;
 import java.util.UUID;
 
-
+@NullMarked
 public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
 
     public static class Schema extends PylonBlockSchema {
 
-        @SuppressWarnings("DataFlowIssue")
         // TODO settings
         @Getter private final long fluidPerTick = 500 / 20;
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
+        public Schema(NamespacedKey key, Material material) {
             super(key, material, WaterPump.class);
         }
     }
 
-    private final Map<String, UUID> entities;
+    @SuppressWarnings("unused")
+    public WaterPump(Schema schema, Block block, BlockCreateContext context) {
+        super(schema, block);
+    }
 
     @SuppressWarnings("unused")
-    public WaterPump(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+    public WaterPump(Schema schema, Block block, PersistentDataContainer pdc) {
         super(schema, block);
+    }
 
+    @Override
+    public Map<String, UUID> createEntities(BlockCreateContext context) {
         Player player = null;
         if (context instanceof BlockCreateContext.PlayerPlace ctx) {
             player = ctx.getPlayer();
@@ -48,30 +54,13 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
 
         FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
 
-        entities = Map.of(
+        return Map.of(
                 "output", FluidConnectionInteraction.make(player, output, BlockFace.UP, 0.5F).getUuid()
         );
     }
 
-    @SuppressWarnings("unused")
-    public WaterPump(@NotNull Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
-
-        entities = loadHeldEntities(pdc);
-    }
-
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
-    }
-
-    @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
+    public Map<PylonFluid, Long> getSuppliedFluids(String connectionPoint) {
         if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
             return Map.of();
         }
@@ -79,7 +68,7 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
+    public void removeFluid(String connectionPoint, PylonFluid fluid, long amount) {
         // nothing, water block is treated as infinite lol
     }
 }

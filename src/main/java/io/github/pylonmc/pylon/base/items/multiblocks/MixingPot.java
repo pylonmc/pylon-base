@@ -79,12 +79,30 @@ public final class MixingPot {
         @Setter
         private long fluidAmount;
 
-        private final Map<String, UUID> entities;
-
         @SuppressWarnings("unused")
         public MixingPotBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
             super(schema, block);
 
+            fluidType = null;
+            fluidAmount = 0;
+        }
+
+        @SuppressWarnings("unused")
+        public MixingPotBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
+            super(schema, block);
+
+            fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+            fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.LONG, 0L);
+        }
+
+        @Override
+        public void write(PersistentDataContainer pdc) {
+            PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
+            pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.LONG, fluidAmount);
+        }
+
+        @Override
+        public Map<String, UUID> createEntities(BlockCreateContext context) {
             Player player = null;
             if (context instanceof BlockCreateContext.PlayerPlace ctx) {
                 player = ctx.getPlayer();
@@ -95,30 +113,12 @@ public final class MixingPot {
             var outputEast = new FluidConnectionPoint(getBlock(), "output_east", FluidConnectionPoint.Type.OUTPUT);
             var outputWest = new FluidConnectionPoint(getBlock(), "output_west", FluidConnectionPoint.Type.OUTPUT);
 
-            entities = Map.of(
+            return Map.of(
                     "input_north", FluidConnectionInteraction.make(player, inputNorth, BlockFace.NORTH, 0.5F).getUuid(),
                     "input_south", FluidConnectionInteraction.make(player, inputSouth, BlockFace.SOUTH, 0.5F).getUuid(),
                     "output_east", FluidConnectionInteraction.make(player, outputEast, BlockFace.EAST, 0.5F).getUuid(),
                     "output_west", FluidConnectionInteraction.make(player, outputWest, BlockFace.WEST, 0.5F).getUuid()
             );
-            fluidType = null;
-            fluidAmount = 0;
-        }
-
-        @SuppressWarnings("unused")
-        public MixingPotBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-            super(schema, block);
-
-            entities = loadHeldEntities(pdc);
-            fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
-            fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.LONG, 0L);
-        }
-
-        @Override
-        public void write(PersistentDataContainer pdc) {
-            saveHeldEntities(pdc);
-            PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
-            pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.LONG, fluidAmount);
         }
 
         @Override
@@ -189,12 +189,7 @@ public final class MixingPot {
         }
 
         @Override
-        public Map<String, UUID> getHeldEntities() {
-            return entities;
-        }
-
-        @Override
-        public WailaConfig getWaila(@NotNull Player player) {
+        public WailaConfig getWaila(Player player) {
             Component text = Component.text("").append(getName());
             if (fluidType != null) {
                 text = text.append(Component.text(" | "))

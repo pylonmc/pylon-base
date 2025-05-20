@@ -15,43 +15,32 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
+@NullMarked
 public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements PylonEntityHolderBlock {
 
-    private final Map<String, UUID> entities;
+    @SuppressWarnings("unused")
+    public FluidPipeConnector(PylonBlockSchema schema, Block block, BlockCreateContext context) {
+        super(schema, block);
+    }
 
     @SuppressWarnings("unused")
-    public FluidPipeConnector(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+    public FluidPipeConnector(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
         super(schema, block);
+    }
 
-        FluidConnectionPoint point = new FluidConnectionPoint(block, "connector", FluidConnectionPoint.Type.CONNECTOR);
-
-        entities = Map.of(
+    @Override
+    public Map<String, UUID> createEntities(BlockCreateContext context) {
+        FluidConnectionPoint point = new FluidConnectionPoint(getBlock(), "connector", FluidConnectionPoint.Type.CONNECTOR);
+        return Map.of(
                 "connector", FluidConnectionInteraction.make(point).getUuid()
         );
-    }
-
-    @SuppressWarnings("unused")
-    public FluidPipeConnector(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
-
-        entities = loadHeldEntities(pdc);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
-    }
-
-    @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
     }
 
     public @Nullable FluidConnectionInteraction getFluidConnectionInteraction() {
@@ -59,7 +48,7 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
     }
 
     @Override
-    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+    public void onBreak(List<ItemStack> drops, BlockBreakContext context) {
         FluidConnectionInteraction interaction = getFluidConnectionInteraction();
         Preconditions.checkState(interaction != null);
         // Clone to prevent ConcurrentModificationException if pipeDisplay.delete modified connectedPipeDisplays
@@ -77,7 +66,7 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
         PylonEntityHolderBlock.super.onBreak(drops, context);
     }
 
-    public @NotNull FluidPipe.Schema getPipe() {
+    public FluidPipe.Schema getPipe() {
         FluidConnectionInteraction interaction = getFluidConnectionInteraction();
         Preconditions.checkState(interaction != null);
         Preconditions.checkState(!interaction.getConnectedPipeDisplays().isEmpty());

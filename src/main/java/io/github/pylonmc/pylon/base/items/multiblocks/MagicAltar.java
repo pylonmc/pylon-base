@@ -32,11 +32,12 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-
+@NullMarked
 public final class MagicAltar {
 
     private MagicAltar() {
@@ -46,10 +47,10 @@ public final class MagicAltar {
     private static final int PEDESTAL_COUNT = 8;
 
     public static void drawLine(
-            @NotNull Location start,
-            @NotNull Location end,
+            Location start,
+            Location end,
             double spacing,
-            @NotNull Consumer<Location> spawnParticle
+            Consumer<Location> spawnParticle
     ) {
         double currentPoint = 0;
         Vector startToEnd = end.clone().subtract(start).toVector();
@@ -73,13 +74,12 @@ public final class MagicAltar {
 
         private @Nullable NamespacedKey processingRecipe;
         private double remainingTimeSeconds;
-        private final Map<String, UUID> entities;
 
         private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL.getKey());
 
         public static class Schema extends PylonBlockSchema {
 
-            public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
+            public Schema(NamespacedKey key, Material material) {
                 super(key, material, MagicAltarBlock.class);
             }
         }
@@ -87,45 +87,38 @@ public final class MagicAltar {
         @SuppressWarnings("unused")
         public MagicAltarBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
-
-            ItemDisplay display = new ItemDisplayBuilder()
-                    .transformation(new TransformBuilder()
-                            .translate(0, 0.3, 0)
-                            .scale(0.6)
-                            .buildForItemDisplay())
-                    .build(block.getLocation().toCenterLocation());
-
-            entities = new HashMap<>();
-            entities.put("item", display.getUniqueId());
-
-            spawnMultiblockGhosts();
-
-            Pedestal.PedestalEntity pylonEntity = new Pedestal.PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
-            EntityStorage.add(pylonEntity);
         }
 
         @SuppressWarnings({"unused", "DataFlowIssue"})
         public MagicAltarBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
 
-            entities = loadHeldEntities(pdc);
             processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);
             remainingTimeSeconds = pdc.get(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE);
         }
 
         @Override
-        public void write(@NotNull PersistentDataContainer pdc) {
-            saveHeldEntities(pdc);
+        public Map<String, UUID> createEntities(BlockCreateContext context) {
+            ItemDisplay display = new ItemDisplayBuilder()
+                    .transformation(new TransformBuilder()
+                            .translate(0, 0.3, 0)
+                            .scale(0.6)
+                            .buildForItemDisplay())
+                    .build(getBlock().getLocation().toCenterLocation());
+
+            Pedestal.PedestalEntity pylonEntity = new Pedestal.PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
+            EntityStorage.add(pylonEntity);
+
+            return Map.of("item", display.getUniqueId());
+        }
+
+        @Override
+        public void write(PersistentDataContainer pdc) {
             PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
         }
 
         @Override
-        public @NotNull Map<String, UUID> getHeldEntities() {
-            return entities;
-        }
-
-        @Override
-        public @NotNull Map<Vector3i, Component> getComponents() {
+        public Map<Vector3i, Component> getComponents() {
             // use linked to retain order of pedestals - important for recipes
             Map<Vector3i, Component> map = new LinkedHashMap<>();
             map.put(new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
@@ -140,7 +133,7 @@ public final class MagicAltar {
         }
 
         @Override
-        public void onInteract(@NotNull PlayerInteractEvent event) {
+        public void onInteract(PlayerInteractEvent event) {
             if (event.getPlayer().isSneaking()) {
                 return;
             }
@@ -317,15 +310,15 @@ public final class MagicAltar {
      * Ingredients and catalyst must have an amount of 1
      */
     public record Recipe(
-            @NotNull NamespacedKey key,
-            @NotNull List<RecipeChoice> ingredients,
-            @NotNull RecipeChoice catalyst,
-            @NotNull ItemStack result,
+            NamespacedKey key,
+            List<RecipeChoice> ingredients,
+            RecipeChoice catalyst,
+            ItemStack result,
             double timeSeconds
     ) implements Keyed {
 
         @Override
-        public @NotNull NamespacedKey getKey() {
+        public NamespacedKey getKey() {
             return key;
         }
 
@@ -337,7 +330,7 @@ public final class MagicAltar {
             PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
         }
 
-        public boolean ingredientsMatch(@NotNull List<ItemStack> ingredients) {
+        public boolean ingredientsMatch(List<ItemStack> ingredients) {
             assert this.ingredients.size() == PEDESTAL_COUNT;
             assert ingredients.size() == PEDESTAL_COUNT;
 
@@ -362,7 +355,7 @@ public final class MagicAltar {
             return false;
         }
 
-        public boolean isValidRecipe(@NotNull List<ItemStack> ingredients, ItemStack catalyst) {
+        public boolean isValidRecipe(List<ItemStack> ingredients, ItemStack catalyst) {
             return ingredientsMatch(ingredients) && this.catalyst.test(catalyst);
         }
     }

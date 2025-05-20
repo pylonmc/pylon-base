@@ -24,6 +24,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ import java.util.UUID;
 
 import static java.lang.Math.PI;
 
-
+@NullMarked
 public final class Pedestal {
 
     private Pedestal() {
@@ -46,7 +47,6 @@ public final class Pedestal {
         private double rotation;
         @Setter
         private boolean locked;
-        private final Map<String, UUID> entities;
 
         @SuppressWarnings("unused")
         public PedestalBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
@@ -54,22 +54,24 @@ public final class Pedestal {
 
             rotation = 0;
             locked = false;
-
-            ItemDisplay display = new ItemDisplayBuilder()
-                    .transformation(transformBuilder().buildForItemDisplay())
-                    .build(block.getLocation().toCenterLocation());
-            PedestalEntity pylonEntity = new PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
-            EntityStorage.add(pylonEntity);
-
-            entities = Map.of("item", pylonEntity.getUuid());
         }
 
         @SuppressWarnings({"unused", "DataFlowIssue"})
         public PedestalBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
-            entities = loadHeldEntities(pdc);
+
             rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
             locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
+        }
+
+        @Override
+        public Map<String, UUID> createEntities(BlockCreateContext context) {
+            ItemDisplay display = new ItemDisplayBuilder()
+                    .transformation(transformBuilder().buildForItemDisplay())
+                    .build(getBlock().getLocation().toCenterLocation());
+            PedestalEntity pylonEntity = new PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
+            EntityStorage.add(pylonEntity);
+            return Map.of("item", pylonEntity.getUuid());
         }
 
         public TransformBuilder transformBuilder() {
@@ -80,19 +82,13 @@ public final class Pedestal {
         }
 
         @Override
-        public void write(@NotNull PersistentDataContainer pdc) {
-            saveHeldEntities(pdc);
+        public void write(PersistentDataContainer pdc) {
             pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
             pdc.set(LOCKED_KEY, PylonSerializers.BOOLEAN, locked);
         }
 
         @Override
-        public @NotNull Map<String, UUID> getHeldEntities() {
-            return entities;
-        }
-
-        @Override
-        public void onInteract(@NotNull PlayerInteractEvent event) {
+        public void onInteract(PlayerInteractEvent event) {
             if (locked || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                 return;
             }
@@ -127,19 +123,19 @@ public final class Pedestal {
         }
 
         @Override
-        public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        public void onBreak(List<ItemStack> drops, BlockBreakContext context) {
             PylonEntityHolderBlock.super.onBreak(drops, context);
             drops.add(getItemDisplay().getItemStack());
         }
 
-        public @NotNull ItemDisplay getItemDisplay() {
+        public ItemDisplay getItemDisplay() {
             return getHeldEntity(PedestalEntity.class, "item").getEntity();
         }
     }
 
     public static class PedestalEntity extends PylonEntity<PylonEntitySchema, ItemDisplay> {
 
-        public PedestalEntity(@NotNull PylonEntitySchema schema, @NotNull ItemDisplay entity) {
+        public PedestalEntity(PylonEntitySchema schema, ItemDisplay entity) {
             super(schema, entity);
         }
     }
