@@ -22,6 +22,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -52,7 +53,6 @@ public class ConnectingTask {
     public record Result(FluidConnectionInteraction to, int pipesUsed) {}
 
     private static final int MAX_PIPE_PLACEMENT_DISTANCE = 5;
-    private static final int PLAYER_SIGHT_RANGE = 5;
 
     @Getter private final Player player;
     @Getter private final BukkitTask task;
@@ -249,13 +249,14 @@ public class ConnectingTask {
         Vector3f playerLookPosition = player.getEyeLocation().toVector().toVector3f();
         Vector3f playerLookDirection = player.getEyeLocation().getDirection().toVector3f();
 
-        List<Entity> entities = player.getNearbyEntities(PLAYER_SIGHT_RANGE, PLAYER_SIGHT_RANGE, PLAYER_SIGHT_RANGE);
+        double range = player.getAttribute(Attribute.ENTITY_INTERACTION_RANGE).getValue();
+        List<Entity> entities = player.getNearbyEntities(range, range, range);
 
         for (Entity entity : entities) {
             RayTraceResult result = entity.getBoundingBox().rayTrace(
                     Vector.fromJOML(playerLookPosition),
                     Vector.fromJOML(playerLookDirection),
-                    PLAYER_SIGHT_RANGE
+                    range
             );
             //noinspection VariableNotUsedInsideIf
             if (result != null) {
