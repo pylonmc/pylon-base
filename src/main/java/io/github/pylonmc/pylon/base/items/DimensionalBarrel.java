@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -32,18 +32,21 @@ public class DimensionalBarrel {
         throw new AssertionError("Container class");
     }
 
-    public static class DimensionalBarrelBlock extends PylonInventoryBlock<DimensionalBarrelBlock.Schema> {
+    public static class DimensionalBarrelBlock extends PylonBlock<DimensionalBarrelBlock.Schema>
+            implements PylonGuiBlock {
 
+        @SuppressWarnings("unused")
         public DimensionalBarrelBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
         }
 
+        @SuppressWarnings("unused")
         public DimensionalBarrelBlock(Schema schema, Block block, PersistentDataContainer pdc) {
-            super(schema, block, pdc);
+            super(schema, block);
         }
 
         @Override
-        protected Gui createGui() {
+        public Gui createGui() {
             return PagedGui.inventories()
                     .setStructure(
                             "x x x x x x x x ^",
