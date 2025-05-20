@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -65,7 +66,9 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
         // Clone to prevent ConcurrentModificationException if pipeDisplay.delete modified connectedPipeDisplays
         for (UUID pipeDisplayId : new HashSet<>(interaction.getConnectedPipeDisplays())) {
             FluidPipeDisplay pipeDisplay = EntityStorage.getAs(FluidPipeDisplay.class, pipeDisplayId);
-            if (pipeDisplay != null) { // prefer silent fail over inconsistent state
+            if (pipeDisplay != null) {
+                // use exception to get stack trace
+                Bukkit.getLogger().warning(" " + new RuntimeException("Failed to remove pipe display on block break"));
                 Player player = null;
                 if (context instanceof BlockBreakContext.PlayerBreak breakContext) {
                     player = breakContext.getEvent().getPlayer();
