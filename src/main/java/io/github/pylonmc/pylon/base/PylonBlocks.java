@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -101,6 +102,15 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final DimensionalBarrel.DimensionalBarrelBlock.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelBlock.Schema(
+            pylonKey("dimensional_barrel"),
+            Material.BARREL,
+            DimensionalBarrel.DimensionalBarrelBlock.class
+    );
+    static {
+        DIMENSIONAL_BARREL.register();
     }
 
     public static final PylonBlockSchema FLUID_PIPE_MARKER = new PylonBlockSchema(
