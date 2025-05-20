@@ -1,1 +1,6 @@
-pipe-placement-task-interval-ticks: 1
+pipe-placement:
+  task-interval-ticks: 1
+
+  # Recommended to keep this low to make pipe placement easier
+  # Might break pipe placement if set very high due to chunkloading mechanics
+  max-distance: 5

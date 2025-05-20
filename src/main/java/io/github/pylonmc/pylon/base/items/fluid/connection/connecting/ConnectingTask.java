@@ -52,8 +52,6 @@ public class ConnectingTask {
 
     public record Result(FluidConnectionInteraction to, int pipesUsed) {}
 
-    private static final int MAX_PIPE_PLACEMENT_DISTANCE = 5;
-
     @Getter private final Player player;
     @Getter private final BukkitTask task;
     @Getter private final FluidPipe.Schema pipe;
@@ -316,7 +314,11 @@ public class ConnectingTask {
             Vector3i axis
     ) {
         float solution = findClosestPointBetweenSkewLines(playerLookPosition, playerLookDirection, origin, new Vector3f(axis));
-        int lambda = Math.clamp(Math.round(solution), -MAX_PIPE_PLACEMENT_DISTANCE, MAX_PIPE_PLACEMENT_DISTANCE);
+        int lambda = Math.clamp(
+                Math.round(solution),
+                -PylonBaseConfig.PIPE_PLACEMENT_MAX_DISTANCE,
+                PylonBaseConfig.PIPE_PLACEMENT_MAX_DISTANCE
+        );
         return new Vector3f(axis).mul(lambda);
     }
 
