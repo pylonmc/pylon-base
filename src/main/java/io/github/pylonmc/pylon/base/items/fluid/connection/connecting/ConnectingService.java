@@ -81,7 +81,7 @@ public class ConnectingService implements Listener {
     }
 
     public static boolean isConnecting(@NotNull Player player) {
-        return connectionsInProgress.get(player) != null;
+        return connectionsInProgress.containsKey(player);
     }
 
     public static void cleanup() {
