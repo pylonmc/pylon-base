@@ -22,12 +22,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements PylonBreakHandler {
 
-    private static final NamespacedKey PIPE_DISPLAY_KEY = KeyUtils.pylonKey("pipe_display");
-    private static final NamespacedKey FROM_KEY = KeyUtils.pylonKey("from");
-    private static final NamespacedKey TO_KEY = KeyUtils.pylonKey("to");
+    private static final NamespacedKey PIPE_DISPLAY_KEY = pylonKey("pipe_display");
+    private static final NamespacedKey FROM_KEY = pylonKey("from");
+    private static final NamespacedKey TO_KEY = pylonKey("to");
 
     // Should always be set immediately after the marker has been placed
     @Setter private UUID pipeDisplay;

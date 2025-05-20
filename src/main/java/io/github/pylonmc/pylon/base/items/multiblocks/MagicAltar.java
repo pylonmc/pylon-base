@@ -36,6 +36,8 @@ import org.joml.Vector3i;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public final class MagicAltar {
 
@@ -67,8 +69,8 @@ public final class MagicAltar {
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
             implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractableBlock {
 
-        private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
-        private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
+        private static final NamespacedKey PROCESSING_RECIPE = pylonKey("processing_recipe");
+        private static final NamespacedKey REMAINING_TIME_SECONDS = pylonKey("remaining_time_seconds");
         private static final Random random = new Random();
 
         private @Nullable NamespacedKey processingRecipe;

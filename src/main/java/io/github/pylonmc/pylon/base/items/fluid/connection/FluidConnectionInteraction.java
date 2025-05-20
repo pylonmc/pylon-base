@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.connection;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -29,16 +28,18 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction> implements PylonDeathEntity {
 
     public static final float POINT_SIZE = 0.12F;
 
-    private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = KeyUtils.pylonKey("connected_pipe_displays");
-    private static final NamespacedKey CONNECTION_POINT_KEY = KeyUtils.pylonKey("connection_point");
-    private static final NamespacedKey DISPLAY_KEY = KeyUtils.pylonKey("display");
-    private static final NamespacedKey FACE_KEY = KeyUtils.pylonKey("face");
-    private static final NamespacedKey RADIUS_KEY = KeyUtils.pylonKey("radius");
+    private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = pylonKey("connected_pipe_displays");
+    private static final NamespacedKey CONNECTION_POINT_KEY = pylonKey("connection_point");
+    private static final NamespacedKey DISPLAY_KEY = pylonKey("display");
+    private static final NamespacedKey FACE_KEY = pylonKey("face");
+    private static final NamespacedKey RADIUS_KEY = pylonKey("radius");
 
     @Getter private final Set<UUID> connectedPipeDisplays;
     @Getter private final FluidConnectionPoint point;

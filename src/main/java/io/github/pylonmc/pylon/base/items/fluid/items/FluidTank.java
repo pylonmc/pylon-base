@@ -35,6 +35,8 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
 
@@ -48,8 +50,8 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         }
     }
 
-    private static final NamespacedKey FLUID_AMOUNT_KEY = KeyUtils.pylonKey("fluid_amount");
-    private static final NamespacedKey FLUID_TYPE_KEY = KeyUtils.pylonKey("fluid_type");
+    private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
+    private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
 
     private final Map<String, UUID> entities;
     private long fluidAmount;

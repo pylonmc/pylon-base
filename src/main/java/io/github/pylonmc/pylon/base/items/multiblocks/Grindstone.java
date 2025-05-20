@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public final class Grindstone {
 
@@ -53,9 +55,9 @@ public final class Grindstone {
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
             implements PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-        private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
-        private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
-        private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = KeyUtils.pylonKey("cycle_ticks_remaining");
+        private static final NamespacedKey RECIPE_KEY = pylonKey("recipe");
+        private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
+        private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = pylonKey("cycle_ticks_remaining");
 
         private final Map<String, UUID> entities;
         private @Nullable NamespacedKey recipe;
