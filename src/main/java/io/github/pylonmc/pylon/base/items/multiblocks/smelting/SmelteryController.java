@@ -73,7 +73,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
     private int volume;
 
     private int height;
-    private final Set<BlockPosition> components;
+    private final Set<BlockPosition> components = new HashSet<>();
 
     @SuppressWarnings("unused")
     public SmelteryController(PylonBlockSchema schema, Block block, BlockCreateContext context) {
@@ -83,7 +83,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         running = false;
         height = 0;
         volume = 0;
-        components = Set.of(new BlockPosition(getBlock()));
+        components.add(new BlockPosition(getBlock()));
 
         fluids.defaultReturnValue(-1);
     }
@@ -96,12 +96,10 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
         height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
         volume = pdc.getOrDefault(VOLUME_KEY, PylonSerializers.INTEGER, 0);
-        components = pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of());
+        components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
+        fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.INTEGER), Map.of()));
 
-        Map<PylonFluid, Integer> fluids = pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.INTEGER), Map.of());
-        this.fluids.putAll(fluids);
-
-        this.fluids.defaultReturnValue(-1);
+        fluids.defaultReturnValue(-1);
     }
 
     @Override
