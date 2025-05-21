@@ -78,7 +78,7 @@ public final class PylonBlocks {
         ));
     }
 
-    public static final PylonBlockSchema GRINDSTONE_HANDLE = new PylonBlockSchema(
+    public static final Grindstone.GrindstoneBlock.Schema GRINDSTONE_HANDLE = new Grindstone.GrindstoneBlock.Schema(
             pylonKey("grindstone_handle"),
             Material.OAK_FENCE,
             GrindstoneHandle.GrindstoneHandleBlock.class
@@ -87,7 +87,7 @@ public final class PylonBlocks {
         GRINDSTONE_HANDLE.register();
     }
 
-    public static final PylonBlockSchema ENRICHED_NETHERRACK = new PylonBlockSchema(
+    public static final EnrichedNetherrack.Schema ENRICHED_NETHERRACK = new EnrichedNetherrack.Schema(
             pylonKey("enriched_netherrack"),
             Material.NETHERRACK,
             EnrichedNetherrack.EnrichedNetherrackBlock.class

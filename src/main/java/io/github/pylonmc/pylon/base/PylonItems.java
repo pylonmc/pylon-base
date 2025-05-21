@@ -1220,13 +1220,13 @@ public final class PylonItems {
     }
 
     public static final PylonItemSchema ENRICHED_NETHERRACK = new SimpleBlockPlacerItemSchema(
-            pylonKey("enriched_netherrack"),
+            pylonKey("enriched_netherrack.yml"),
             key -> ItemStackBuilder.defaultBuilder(Material.NETHERRACK, key).build(),
             PylonBlocks.ENRICHED_NETHERRACK
     );
     static {
         ENRICHED_NETHERRACK.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("enriched_netherrack"), ENRICHED_NETHERRACK.getItemStack())
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("enriched_netherrack.yml"), ENRICHED_NETHERRACK.getItemStack())
                         .shape(" s ", "sns", " s ")
                         .setIngredient('n', new ItemStack(Material.NETHERRACK))
                         .setIngredient('s', SHIMMER_DUST_2.getItemStack());
