@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.fluid.items;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -16,6 +15,7 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import lombok.Getter;
@@ -42,11 +42,12 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
 
     public static class Schema extends PylonBlockSchema {
 
-        @Getter private final long capacity;
+        @Getter private final long capacity = getSettings().get("capacity", Integer.class);
+        @Getter private final long minTemp = getSettings().get("temperature.min", Integer.class);
+        @Getter private final long maxTemp = getSettings().get("temperature.max", Integer.class);
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Material material, long capacity) {
+        public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
             super(key, material, FluidTank.class);
-            this.capacity = capacity;
         }
     }
 
@@ -114,6 +115,9 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
                     .stream()
+                    .filter(fluid -> fluid.hasTag(FluidTemperature.class))
+                    .filter(fluid -> fluid.getTag(FluidTemperature.class).getValue() > getSchema().minTemp
+                        && fluid.getTag(FluidTemperature.class).getValue() < getSchema().maxTemp)
                     .collect(Collectors.toMap(Function.identity(), key -> getSchema().capacity));
         }
 

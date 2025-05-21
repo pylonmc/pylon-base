@@ -1,0 +1,4 @@
+capacity: 4000
+temperature:
+  min: 0
+  max: 80
