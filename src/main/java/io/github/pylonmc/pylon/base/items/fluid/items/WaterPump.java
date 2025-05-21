@@ -27,8 +27,7 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
     public static class Schema extends PylonBlockSchema {
 
         @SuppressWarnings("DataFlowIssue")
-        // TODO settings
-        @Getter private final long fluidPerTick = 500 / 20;
+        @Getter private final long waterPerTick = getSettings().get("water-per-second", Integer.class) / 20;
 
         public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
             super(key, material, WaterPump.class);
@@ -75,7 +74,7 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
         if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
             return Map.of();
         }
-        return Map.of(PylonFluids.WATER, getSchema().fluidPerTick);
+        return Map.of(PylonFluids.WATER, getSchema().waterPerTick);
     }
 
     @Override
