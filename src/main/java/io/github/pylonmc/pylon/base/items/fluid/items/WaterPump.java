@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.items.fluid.items;
 
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.items.fluid.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
@@ -14,16 +14,14 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NullMarked;
 
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @NullMarked
-public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
+public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonFluidInteractionBlock, PylonFluidBlock {
 
     public static class Schema extends PylonBlockSchema {
 
@@ -46,17 +44,8 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
     }
 
     @Override
-    public Map<String, UUID> createEntities(BlockCreateContext context) {
-        Player player = null;
-        if (context instanceof BlockCreateContext.PlayerPlace ctx) {
-            player = ctx.getPlayer();
-        }
-
-        FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
-
-        return Map.of(
-                "output", FluidConnectionInteraction.make(player, output, BlockFace.UP, 0.5F).getUuid()
-        );
+    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints() {
+        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.UP));
     }
 
     @Override

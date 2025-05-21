@@ -4,13 +4,13 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.PylonItems;
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.items.fluid.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
@@ -45,14 +45,12 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionType;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,7 +63,7 @@ public final class MixingPot {
     }
 
     public static class MixingPotBlock extends PylonBlock<PylonBlockSchema>
-            implements PylonMultiblock, PylonInteractableBlock, PylonFluidBlock, PylonEntityHolderBlock {
+            implements PylonMultiblock, PylonInteractableBlock, PylonFluidBlock, PylonFluidInteractionBlock {
 
         private static final NamespacedKey FLUID_KEY = KeyUtils.pylonKey("fluid");
         private static final NamespacedKey FLUID_AMOUNT_KEY = KeyUtils.pylonKey("fluid_amount");
@@ -102,22 +100,12 @@ public final class MixingPot {
         }
 
         @Override
-        public Map<String, UUID> createEntities(BlockCreateContext context) {
-            Player player = null;
-            if (context instanceof BlockCreateContext.PlayerPlace ctx) {
-                player = ctx.getPlayer();
-            }
-
-            var inputNorth = new FluidConnectionPoint(getBlock(), "input_north", FluidConnectionPoint.Type.INPUT);
-            var inputSouth = new FluidConnectionPoint(getBlock(), "input_south", FluidConnectionPoint.Type.INPUT);
-            var outputEast = new FluidConnectionPoint(getBlock(), "output_east", FluidConnectionPoint.Type.OUTPUT);
-            var outputWest = new FluidConnectionPoint(getBlock(), "output_west", FluidConnectionPoint.Type.OUTPUT);
-
-            return Map.of(
-                    "input_north", FluidConnectionInteraction.make(player, inputNorth, BlockFace.NORTH, 0.5F).getUuid(),
-                    "input_south", FluidConnectionInteraction.make(player, inputSouth, BlockFace.SOUTH, 0.5F).getUuid(),
-                    "output_east", FluidConnectionInteraction.make(player, outputEast, BlockFace.EAST, 0.5F).getUuid(),
-                    "output_west", FluidConnectionInteraction.make(player, outputWest, BlockFace.WEST, 0.5F).getUuid()
+        public List<SimpleFluidConnectionPoint> createFluidConnectionPoints() {
+            return List.of(
+                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
+                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.SOUTH),
+                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.EAST),
+                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST)
             );
         }
 
