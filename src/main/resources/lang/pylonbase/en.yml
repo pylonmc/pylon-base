@@ -275,6 +275,10 @@ item:
       <arrow> Sends you backwards at the velocity of your arrow
       <arrow> <attr:Efficiency:percent>75</attr>
 
+  refractory_brick:
+    name: "Refractory Brick"
+    lore: ""
+
   research_pack_1:
     name: "Research Pack I"
     lore: |-
@@ -296,6 +300,12 @@ item:
   shimmer_skull:
     name: "Shimmer Skull"
     lore: ""
+
+  smeltery_controller:
+    name: "Smeltery Controller"
+    lore: |-
+      <star> Multiblock
+      <arrow> <insn>Right click</insn> to open the smeltery GUI
 
   splint:
     name: "Splint"
@@ -360,6 +370,8 @@ block:
   magic_pedestal: "Magic Pedestal"
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
+  refractory_brick: "Refractory Brick"
+  smeltery_controller: "Smeltery Controller"
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
 
@@ -408,3 +420,13 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+
+gui:
+  smeltery:
+    status:
+      name: "Status"
+      running: "<green>Running"
+      not_running: "<yellow>Not running"
+      incomplete: "<red>Multiblock incomplete"
+      height: "<attr:Height:blocks>%height%</attr>"
+      volume: "<attr:Capacity:fluid>%capacity%</attr>"

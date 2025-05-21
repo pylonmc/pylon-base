@@ -30,7 +30,6 @@ import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -41,12 +40,13 @@ import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -1540,10 +1540,40 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
-        return new NamespacedKey(PylonBase.getInstance(), key);
+    //<editor-fold desc="Smeltery" defaultstate="collapsed">
+    public static final PylonItemSchema REFRACTORY_BRICK = new SimpleBlockPlacerItemSchema(
+            pylonKey("refractory_brick"),
+            key -> ItemStackBuilder.defaultBuilder(Material.DEEPSLATE_TILES, key).build(),
+            PylonBlocks.REFRACTORY_BRICK
+    );
+    static {
+        REFRACTORY_BRICK.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("refractory_brick"), REFRACTORY_BRICK.getItemStack().asQuantity(4))
+                .shape("BBB", "NRN", "BBB")
+                .setIngredient('B', Material.BRICK)
+                .setIngredient('N', Material.NETHER_BRICK)
+                .setIngredient('R', Material.RED_NETHER_BRICKS);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    // Calling this method forces all the static blocks to run, which initialises our items
+    public static final PylonItemSchema SMELTERY_CONTROLLER = new SimpleBlockPlacerItemSchema(
+            pylonKey("smeltery_controller"),
+            key -> ItemStackBuilder.defaultBuilder(Material.BLAST_FURNACE, key).build(),
+            PylonBlocks.SMELTERY_CONTROLLER
+    );
+    static {
+        SMELTERY_CONTROLLER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_controller"), SMELTERY_CONTROLLER.getItemStack())
+                .shape("RBR", "BFB", "RBR")
+                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
+                .setIngredient('F', Material.BLAST_FURNACE)
+                .setIngredient('R', Material.REDSTONE);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+    //</editor-fold>
+
+    // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {}
 }

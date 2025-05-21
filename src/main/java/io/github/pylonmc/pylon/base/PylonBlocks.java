@@ -6,6 +6,8 @@ import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.RefractoryBrick;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import org.bukkit.Material;
@@ -156,6 +158,24 @@ public final class PylonBlocks {
     );
     static {
         WATER_PUMP.register();
+    }
+
+    public static final PylonBlockSchema REFRACTORY_BRICK = new PylonBlockSchema(
+            pylonKey("refractory_brick"),
+            Material.DEEPSLATE_TILES,
+            RefractoryBrick.class
+    );
+    static {
+        REFRACTORY_BRICK.register();
+    }
+
+    public static final PylonBlockSchema SMELTERY_CONTROLLER = new PylonBlockSchema(
+            pylonKey("smeltery_controller"),
+            Material.BLAST_FURNACE,
+            SmelteryController.class
+    );
+    static {
+        SMELTERY_CONTROLLER.register();
     }
 
     public static void initialize() {}
