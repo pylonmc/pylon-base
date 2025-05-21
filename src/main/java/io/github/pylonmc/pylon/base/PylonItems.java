@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
+import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;

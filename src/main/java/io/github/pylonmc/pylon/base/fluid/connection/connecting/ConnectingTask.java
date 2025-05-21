@@ -1,13 +1,13 @@
-package io.github.pylonmc.pylon.base.items.fluid.connection.connecting;
+package io.github.pylonmc.pylon.base.fluid.connection.connecting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonBaseConfig;
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;

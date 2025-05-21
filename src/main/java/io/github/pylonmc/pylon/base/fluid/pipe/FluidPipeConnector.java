@@ -1,7 +1,8 @@
-package io.github.pylonmc.pylon.base.items.fluid.pipe;
+package io.github.pylonmc.pylon.base.fluid.pipe;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -13,7 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 

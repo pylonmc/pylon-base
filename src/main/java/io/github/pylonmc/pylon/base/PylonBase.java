@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
+import io.github.pylonmc.pylon.base.fluid.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;

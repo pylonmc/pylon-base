@@ -1,6 +1,6 @@
-package io.github.pylonmc.pylon.base.items.fluid;
+package io.github.pylonmc.pylon.base.fluid;
 
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;

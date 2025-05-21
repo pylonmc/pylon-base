@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
-import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.RefractoryBrick;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
