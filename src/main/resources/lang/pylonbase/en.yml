@@ -429,4 +429,4 @@ gui:
       not_running: "<yellow>Not running"
       incomplete: "<red>Multiblock incomplete"
       height: "<attr:Height:blocks>%height%</attr>"
-      volume: "<attr:Capacity:fluid>%capacity%</attr>"
+      capacity: "<attr:Capacity:fluid>%capacity%</attr>"

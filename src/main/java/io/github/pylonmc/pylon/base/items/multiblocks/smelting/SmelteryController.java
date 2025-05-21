@@ -48,7 +48,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
     private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");
     private static final NamespacedKey RUNNING_KEY = pylonKey("running");
     private static final NamespacedKey HEIGHT_KEY = pylonKey("height");
-    private static final NamespacedKey VOLUME_KEY = pylonKey("volume");
+    private static final NamespacedKey CAPACITY_KEY = pylonKey("capacity");
     private static final NamespacedKey COMPONENTS_KEY = pylonKey("components");
     private static final NamespacedKey FLUIDS_KEY = pylonKey("fluids");
 
@@ -70,7 +70,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
     });
 
     @Getter
-    private int volume;
+    private int capacity;
 
     private int height;
     private final Set<BlockPosition> components = new HashSet<>();
@@ -82,7 +82,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         temperature = 20;
         running = false;
         height = 0;
-        volume = 0;
+        capacity = 0;
         components.add(new BlockPosition(getBlock()));
 
         fluids.defaultReturnValue(-1);
@@ -95,7 +95,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, 20.0);
         running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
         height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
-        volume = pdc.getOrDefault(VOLUME_KEY, PylonSerializers.INTEGER, 0);
+        capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.INTEGER, 0);
         components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
         fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.INTEGER), Map.of()));
 
@@ -107,7 +107,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
         pdc.set(HEIGHT_KEY, PylonSerializers.INTEGER, height);
-        pdc.set(VOLUME_KEY, PylonSerializers.INTEGER, volume);
+        pdc.set(CAPACITY_KEY, PylonSerializers.INTEGER, capacity);
         pdc.set(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), components);
         pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.INTEGER), fluids);
     }
@@ -149,8 +149,8 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
                         PylonArgument.of("height", height)
                 ));
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.status.volume",
-                        PylonArgument.of("capacity", volume)
+                        "pylon.pylonbase.gui.smeltery.status.capacity",
+                        PylonArgument.of("capacity", capacity)
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
@@ -228,7 +228,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
     @Override
     public boolean checkFormed() {
         height = 0;
-        volume = 0;
+        capacity = 0;
 
         for (BlockPosition pos : components) {
             if (BlockStorage.get(pos) instanceof SmelteryComponent<?> component) {
@@ -243,7 +243,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         for (int i = 0; i < getBlock().getWorld().getMaxHeight(); i++) {
             if (checkAllComponent(addY(multiblockPositions, i))) {
                 height++;
-                volume += countAir(addY(insidePositions, i)) * 1000;
+                capacity += countAir(addY(insidePositions, i)) * 1000;
             } else {
                 break;
             }
@@ -298,7 +298,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
-        int amountToAdd = Math.min(amount, volume - getTotalFluid());
+        int amountToAdd = Math.min(amount, capacity - getTotalFluid());
         fluids.mergeInt(fluid, amountToAdd, Integer::sum);
     }
 
