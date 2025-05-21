@@ -13,7 +13,6 @@ import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
 import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
 import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
-import io.github.pylonmc.pylon.base.misc.WaterCauldronRightClickRecipe;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.SimpleBlockPlacerItemSchema;
@@ -1068,10 +1067,12 @@ public final class PylonItems {
     static {
         DOUGH.register();
 
-        WaterCauldronRightClickRecipe.RECIPE_TYPE.addRecipe(new WaterCauldronRightClickRecipe(
+        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
                 pylonKey("dough"),
-                new RecipeChoice.ExactChoice(FLOUR.getItemStack()),
-                DOUGH.getItemStack()
+                Map.of(new RecipeChoice.ExactChoice(FLOUR.getItemStack()), 1),
+                DOUGH.getItemStack(),
+                false,
+                1
         ));
 
         FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
