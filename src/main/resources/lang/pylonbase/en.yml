@@ -307,6 +307,11 @@ item:
       <star> Multiblock
       <arrow> <insn>Right click</insn> to open the smeltery GUI
 
+  smeltery_input_hatch:
+    name: "Smeltery Input Hatch"
+    lore: |-
+      <arrow> Serves as fluid input for the smeltery
+
   splint:
     name: "Splint"
     lore: |-
@@ -372,6 +377,7 @@ block:
   pedestal: "Pedestal"
   refractory_brick: "Refractory Brick"
   smeltery_controller: "Smeltery Controller"
+  smeltery_input_hatch: "Smeltery Input Hatch"
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
 
@@ -427,6 +433,11 @@ gui:
       name: "Status"
       running: "<green>Running"
       not_running: "<yellow>Not running"
+      toggle: "<insn>Click</insn> to toggle the smeltery on/off"
       incomplete: "<red>Multiblock incomplete"
-      height: "<attr:Height:blocks>%height%</attr>"
-      capacity: "<attr:Capacity:fluid>%capacity%</attr>"
+      height: "<attr:Height:blocks>%height%"
+      capacity: "<attr:Capacity:fluid>%capacity%"
+      temperature: "<attr:Temperature:temperature>%temperature%"
+    contents:
+      name: "Contents"
+      fluid: "%amount% of %fluid% (%temperature%)"

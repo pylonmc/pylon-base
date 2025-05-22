@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.util.ColorUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -12,14 +13,17 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.item.builder.Quantity;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntRBTreeMap;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongRBTreeMap;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -60,17 +64,17 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
     @Setter
     private boolean running;
 
-    private final Object2IntMap<PylonFluid> fluids = new Object2IntRBTreeMap<>((a, b) -> {
+    private final Object2LongMap<PylonFluid> fluids = new Object2LongRBTreeMap<>((a, b) -> {
         FluidTemperature temperatureA = a.getTag(FluidTemperature.class);
         FluidTemperature temperatureB = b.getTag(FluidTemperature.class);
         if (temperatureA == null || temperatureB == null) {
             throw new IllegalStateException("Fluid does not have a temperature tag");
         }
-        return Integer.compare(temperatureA.getTemperature(), temperatureB.getTemperature());
+        return -Integer.compare(temperatureA.getTemperature(), temperatureB.getTemperature());
     });
 
     @Getter
-    private int capacity;
+    private long capacity;
 
     private int height;
     private final Set<BlockPosition> components = new HashSet<>();
@@ -95,9 +99,9 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, 20.0);
         running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
         height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
-        capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.INTEGER, 0);
+        capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.LONG, 0L);
         components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
-        fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.INTEGER), Map.of()));
+        fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.LONG), Map.of()));
 
         fluids.defaultReturnValue(-1);
     }
@@ -107,9 +111,18 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
         pdc.set(HEIGHT_KEY, PylonSerializers.INTEGER, height);
-        pdc.set(CAPACITY_KEY, PylonSerializers.INTEGER, capacity);
+        pdc.set(CAPACITY_KEY, PylonSerializers.LONG, capacity);
         pdc.set(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), components);
-        pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.INTEGER), fluids);
+        pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.LONG), fluids);
+    }
+
+    @Override
+    public void postBreak() {
+        for (BlockPosition pos : components) {
+            if (BlockStorage.get(pos) instanceof SmelteryComponent<?> component) {
+                component.setController(null);
+            }
+        }
     }
 
     // <editor-fold desc="GUI" defaultstate="collapsed">
@@ -144,6 +157,8 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
                     material = Material.YELLOW_STAINED_GLASS_PANE;
                     lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.status.not_running"));
                 }
+                lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.status.toggle"));
+                lore.add(Component.empty());
                 lore.add(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.status.height",
                         PylonArgument.of("height", height)
@@ -151,6 +166,10 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
                 lore.add(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.status.capacity",
                         PylonArgument.of("capacity", capacity)
+                ));
+                lore.add(Component.translatable(
+                        "pylon.pylonbase.gui.smeltery.status.temperature",
+                        PylonArgument.of("temperature", temperature)
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
@@ -172,9 +191,29 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
 
     private class ContentsItem extends AbstractItem {
 
+        private static final Map<PylonFluid, TextColor> fluidColors = new HashMap<>();
+
         @Override
         public ItemProvider getItemProvider() {
-            return ItemStackBuilder.of(Material.LAVA_BUCKET);
+            List<Component> lore = new ArrayList<>();
+            for (Object2LongMap.Entry<PylonFluid> entry : fluids.object2LongEntrySet()) {
+                PylonFluid fluid = entry.getKey();
+                int temperature = Objects.requireNonNull(fluid.getTag(FluidTemperature.class)).getTemperature();
+                long amount = entry.getLongValue();
+                TextColor color = fluidColors.computeIfAbsent(
+                        fluid,
+                        f -> TextColor.color(ColorUtils.colorFromTemperature(temperature).asRGB())
+                );
+                lore.add(Component.text().color(color).build().append(Component.translatable(
+                        "pylon.pylonbase.gui.smeltery.contents.fluid",
+                        PylonArgument.of("amount", Component.text(amount).append(Quantity.FLUID.style(Style.empty()))),
+                        PylonArgument.of("fluid", fluid.getName()),
+                        PylonArgument.of("temperature", Component.text(temperature).append(Quantity.TEMPERATURE.style(Style.empty())))
+                )));
+            }
+            return ItemStackBuilder.of(Material.LAVA_BUCKET)
+                    .name(Component.translatable("pylon.pylonbase.gui.smeltery.contents.name"))
+                    .lore(lore);
         }
 
         @Override
@@ -243,7 +282,7 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         for (int i = 0; i < getBlock().getWorld().getMaxHeight(); i++) {
             if (checkAllComponent(addY(multiblockPositions, i))) {
                 height++;
-                capacity += countAir(addY(insidePositions, i)) * 1000;
+                capacity += countAir(addY(insidePositions, i)) * 1000L;
             } else {
                 break;
             }
@@ -294,31 +333,31 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
     // </editor-fold>
 
     // <editor-fold desc="Fluid" defaultstate="collapsed">
-    public void addFluid(PylonFluid fluid, int amount) {
+    public void addFluid(PylonFluid fluid, long amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
-        int amountToAdd = Math.min(amount, capacity - getTotalFluid());
-        fluids.mergeInt(fluid, amountToAdd, Integer::sum);
+        long amountToAdd = Math.min(amount, capacity - getTotalFluid());
+        fluids.mergeLong(fluid, amountToAdd, Long::sum);
     }
 
-    public void removeFluid(PylonFluid fluid, int amount) {
+    public void removeFluid(PylonFluid fluid, long amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
-        fluids.mergeInt(fluid, -amount, Integer::sum);
-        if (fluids.getInt(fluid) <= 0) {
-            fluids.removeInt(fluid);
+        fluids.mergeLong(fluid, -amount, Long::sum);
+        if (fluids.getLong(fluid) <= 0) {
+            fluids.removeLong(fluid);
         }
     }
 
-    public int getFluidAmount(PylonFluid fluid) {
-        return fluids.getInt(fluid);
+    public long getFluidAmount(PylonFluid fluid) {
+        return fluids.getLong(fluid);
     }
 
-    public int getTotalFluid() {
-        int sum = 0;
-        for (int value : fluids.values()) {
+    public long getTotalFluid() {
+        long sum = 0;
+        for (long value : fluids.values()) {
             sum += value;
         }
         return sum;
@@ -327,7 +366,11 @@ public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
 
     @Override
     public void tick(double deltaSeconds) {
+        if (isFormedAndFullyLoaded()) {
+            contentsItem.notifyWindows();
+        } else {
+            running = false;
+        }
         infoItem.notifyWindows();
-        contentsItem.notifyWindows();
     }
 }

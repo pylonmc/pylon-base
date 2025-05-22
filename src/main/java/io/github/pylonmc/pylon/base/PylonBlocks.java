@@ -1,13 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
-import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.RefractoryBrick;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryInputHatch;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import org.bukkit.Material;
@@ -160,6 +161,7 @@ public final class PylonBlocks {
         WATER_PUMP.register();
     }
 
+    // <editor-fold desc="Smeltery">
     public static final PylonBlockSchema REFRACTORY_BRICK = new PylonBlockSchema(
             pylonKey("refractory_brick"),
             Material.DEEPSLATE_TILES,
@@ -177,6 +179,16 @@ public final class PylonBlocks {
     static {
         SMELTERY_CONTROLLER.register();
     }
+
+    public static final PylonBlockSchema SMELTERY_INPUT_HATCH = new PylonBlockSchema(
+            pylonKey("smeltery_input_hatch"),
+            Material.CYAN_TERRACOTTA,
+            SmelteryInputHatch.class
+    );
+    static {
+        SMELTERY_INPUT_HATCH.register();
+    }
+    // </editor-fold>
 
     public static void initialize() {}
 }

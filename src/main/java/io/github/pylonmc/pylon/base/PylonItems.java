@@ -1073,7 +1073,8 @@ public final class PylonItems {
                 Map.of(new RecipeChoice.ExactChoice(FLOUR.getItemStack()), 1),
                 DOUGH.getItemStack(),
                 false,
-                1
+                PylonFluids.WATER,
+                333
         ));
 
         FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
@@ -1570,6 +1571,21 @@ public final class PylonItems {
                 .setIngredient('B', REFRACTORY_BRICK.getItemStack())
                 .setIngredient('F', Material.BLAST_FURNACE)
                 .setIngredient('R', Material.REDSTONE);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema SMELTERY_INPUT_HATCH = new SimpleBlockPlacerItemSchema(
+            pylonKey("smeltery_input_hatch"),
+            key -> ItemStackBuilder.defaultBuilder(Material.CYAN_TERRACOTTA, key).build(),
+            PylonBlocks.SMELTERY_INPUT_HATCH
+    );
+    static {
+        SMELTERY_INPUT_HATCH.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_input_hatch"), SMELTERY_INPUT_HATCH.getItemStack())
+                .shape("IBI", "B B", "IBI")
+                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
+                .setIngredient('I', IRON_SHEET.getItemStack());
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }

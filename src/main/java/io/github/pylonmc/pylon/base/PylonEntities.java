@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
+import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
