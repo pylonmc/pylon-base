@@ -100,7 +100,7 @@ public final class MixingPot {
         }
 
         @Override
-        public List<SimpleFluidConnectionPoint> createFluidConnectionPoints() {
+        public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
             return List.of(
                     new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
                     new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.SOUTH),

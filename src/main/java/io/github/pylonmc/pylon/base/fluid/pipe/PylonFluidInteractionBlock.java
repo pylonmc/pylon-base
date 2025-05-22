@@ -17,12 +17,12 @@ import java.util.UUID;
 @NullMarked
 public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, PylonFluidBlock {
 
-    List<SimpleFluidConnectionPoint> createFluidConnectionPoints();
+    List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context);
 
     @Override
     @MustBeInvokedByOverriders
     default Map<String, UUID> createEntities(BlockCreateContext context) {
-        List<SimpleFluidConnectionPoint> connectionPoints = createFluidConnectionPoints();
+        List<SimpleFluidConnectionPoint> connectionPoints = createFluidConnectionPoints(context);
         Map<String, UUID> entities = new HashMap<>(connectionPoints.size());
         Player player = null;
         if (context instanceof BlockCreateContext.PlayerPlace ctx) {

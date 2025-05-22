@@ -44,7 +44,7 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonFlui
     }
 
     @Override
-    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints() {
+    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
         return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.UP));
     }
 

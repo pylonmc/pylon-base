@@ -30,7 +30,7 @@ public final class SmelteryInputHatch extends SmelteryComponent<PylonBlockSchema
     }
 
     @Override
-    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints() {
+    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
         return Arrays.stream(BlockFaces.ORTHOGONAL)
                 .map(face -> new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, face))
                 .toList();
