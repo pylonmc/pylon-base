@@ -8,8 +8,10 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.base.PylonDeathEntity;
+import io.github.pylonmc.pylon.core.entity.base.PylonUnloadEntity;
 import io.github.pylonmc.pylon.core.entity.display.InteractionBuilder;
 import io.github.pylonmc.pylon.core.event.PylonEntityDeathEvent;
+import io.github.pylonmc.pylon.core.event.PylonEntityUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -31,7 +33,8 @@ import java.util.UUID;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction> implements PylonDeathEntity {
+public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction>
+        implements PylonDeathEntity, PylonUnloadEntity {
 
     public static final float POINT_SIZE = 0.12F;
 
@@ -60,6 +63,13 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
 
         Preconditions.checkState(point != null);
         FluidManager.add(point);
+
+        for (UUID otherUuid : point.getConnectedPoints()) {
+            FluidConnectionPoint otherPoint = FluidManager.getById(otherUuid);
+            if (otherPoint != null) {
+                FluidManager.connect(point, otherPoint);
+            }
+        }
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
@@ -140,12 +150,14 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
                 pipeDisplay.delete(true, null);
             }
         }
-        FluidManager.remove(point);
         FluidConnectionDisplay displayEntity = EntityStorage.getAs(FluidConnectionDisplay.class, display);
         Preconditions.checkState(displayEntity != null);
-        if (getEntity().isDead()) {
-            displayEntity.getEntity().remove();
-        }
+        displayEntity.getEntity().remove();
+    }
+
+    @Override
+    public void onUnload(@NotNull PylonEntityUnloadEvent event) {
+        FluidManager.remove(point);
     }
 
     public @Nullable FluidConnectionDisplay getDisplay() {
