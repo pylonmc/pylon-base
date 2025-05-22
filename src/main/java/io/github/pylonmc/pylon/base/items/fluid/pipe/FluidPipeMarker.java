@@ -2,12 +2,12 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import lombok.Setter;
@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
@@ -91,5 +92,12 @@ public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements Pyl
 
             pipeDisplay.delete(true, player);
         }
+    }
+
+    @Override
+    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+        FluidPipeDisplay pipeDisplay = getPipeDisplay();
+        Preconditions.checkState(pipeDisplay != null);
+        return new WailaConfig(getName(), Map.of("pipe", pipeDisplay.getPipe().getItemStack().displayName()));
     }
 }

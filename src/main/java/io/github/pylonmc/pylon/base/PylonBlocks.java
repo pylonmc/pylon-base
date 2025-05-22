@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
@@ -141,7 +141,7 @@ public final class PylonBlocks {
     }
 
     // TODO block settings
-    public static final FluidTank.Schema FLUID_TANK_WOODEN = new FluidTank.Schema(
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_WOODEN = new FluidTank.FluidTankBlock.Schema(
             pylonKey("fluid_tank_wooden"),
             Material.BROWN_STAINED_GLASS
     );
@@ -149,7 +149,7 @@ public final class PylonBlocks {
         FLUID_TANK_WOODEN.register();
     }
 
-    public static final FluidTank.Schema FLUID_TANK_COPPER = new FluidTank.Schema(
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_COPPER = new FluidTank.FluidTankBlock.Schema(
             pylonKey("fluid_tank_copper"),
             Material.ORANGE_STAINED_GLASS
     );
