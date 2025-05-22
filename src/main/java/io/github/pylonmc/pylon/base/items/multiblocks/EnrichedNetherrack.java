@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;

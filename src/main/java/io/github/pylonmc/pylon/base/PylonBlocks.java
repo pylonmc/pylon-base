@@ -58,10 +58,9 @@ public final class PylonBlocks {
         MAGIC_ALTAR.register();
     }
 
-    public static final PylonBlockSchema GRINDSTONE = new PylonBlockSchema(
+    public static final Grindstone.GrindstoneBlock.Schema GRINDSTONE = new Grindstone.GrindstoneBlock.Schema(
             pylonKey("grindstone"),
-            Material.SMOOTH_STONE_SLAB,
-            Grindstone.GrindstoneBlock.class
+            Material.SMOOTH_STONE_SLAB
     );
     static {
         GRINDSTONE.register();
@@ -78,7 +77,7 @@ public final class PylonBlocks {
         ));
     }
 
-    public static final Grindstone.GrindstoneBlock.Schema GRINDSTONE_HANDLE = new Grindstone.GrindstoneBlock.Schema(
+    public static final PylonBlockSchema GRINDSTONE_HANDLE = new PylonBlockSchema(
             pylonKey("grindstone_handle"),
             Material.OAK_FENCE,
             GrindstoneHandle.GrindstoneHandleBlock.class

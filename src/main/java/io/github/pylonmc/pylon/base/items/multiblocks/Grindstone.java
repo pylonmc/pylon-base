@@ -21,6 +21,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -57,8 +58,8 @@ public final class Grindstone {
             @Getter private final int tickRate = getSettings().getOrThrow("tick-rate", Integer.class);
             @Getter private final int cycleTimeTicks = getSettings().getOrThrow("cycle-time-ticks", Integer.class);
 
-            public Schema(NamespacedKey key, Material material, Class<? extends PylonBlock<?>> blockClass) {
-                super(key, material, blockClass);
+            public Schema(NamespacedKey key, Material material) {
+                super(key, material, Grindstone.GrindstoneBlock.class);
             }
         }
 
