@@ -1375,6 +1375,22 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    public static final PylonItemSchema WITHER_PROOF_OBSIDIAN = new SimpleBlockPlacerItemSchema(
+            pylonKey("wither_proof_obsidian"),
+            key -> ItemStackBuilder.defaultBuilder(Material.OBSIDIAN, key).build(),
+            PylonBlocks.WITHER_PROOF_OBSIDIAN
+    );
+    static {
+        WITHER_PROOF_OBSIDIAN.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("wither_proof_obsidian"), WITHER_PROOF_OBSIDIAN.getItemStack())
+                .shape("fbf", "bob", "fbf")
+                .setIngredient('f', FERRODURALUM_INGOT.getItemStack())
+                .setIngredient('b', new ItemStack(Material.IRON_BARS))
+                .setIngredient('o', COMPRESSED_OBSIDIAN.getItemStack());
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
     static {
         new Research(
                 pylonKey("magic"),
