@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public class SmelteryComponent<S extends PylonBlockSchema> extends PylonBlock<S> {
+public abstract class SmelteryComponent<S extends PylonBlockSchema> extends PylonBlock<S> {
 
     @Getter
     @Setter(AccessLevel.PACKAGE)

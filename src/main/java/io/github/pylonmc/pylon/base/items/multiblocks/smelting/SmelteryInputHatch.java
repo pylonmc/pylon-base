@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @NullMarked
-public class SmelteryInputHatch extends SmelteryComponent<PylonBlockSchema> implements PylonFluidInteractionBlock {
+public final class SmelteryInputHatch extends SmelteryComponent<PylonBlockSchema> implements PylonFluidInteractionBlock {
 
     public SmelteryInputHatch(PylonBlockSchema schema, Block block, BlockCreateContext context) {
         super(schema, block, context);

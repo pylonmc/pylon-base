@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
-public class SmelteryController extends SmelteryComponent<PylonBlockSchema>
+public final class SmelteryController extends SmelteryComponent<PylonBlockSchema>
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
 
     private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");

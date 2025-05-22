@@ -7,7 +7,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public class RefractoryBrick extends SmelteryComponent<PylonBlockSchema> {
+public final class RefractoryBrick extends SmelteryComponent<PylonBlockSchema> {
 
     public RefractoryBrick(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
         super(schema, block, pdc);
