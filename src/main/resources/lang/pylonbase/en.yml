@@ -186,6 +186,7 @@ item:
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"
+    lore: ""
 
   monster_jerky:
     name: "Monster Jerky"
