@@ -1589,6 +1589,21 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+
+    public static final PylonItemSchema SMELTERY_HOPPER = new SimpleBlockPlacerItemSchema(
+            pylonKey("smeltery_hopper"),
+            key -> ItemStackBuilder.defaultBuilder(Material.HOPPER, key).build(),
+            PylonBlocks.SMELTERY_HOPPER
+    );
+    static {
+        SMELTERY_HOPPER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_hopper"), SMELTERY_HOPPER.getItemStack())
+                .shape("I I", "IBI", " B ")
+                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
+                .setIngredient('I', IRON_SHEET.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
     //</editor-fold>
 
     // Calling this method forces all the static blocks to run, which initializes our items

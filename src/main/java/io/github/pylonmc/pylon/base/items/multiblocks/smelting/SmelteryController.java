@@ -198,7 +198,7 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
             List<Component> lore = new ArrayList<>();
             for (Object2LongMap.Entry<PylonFluid> entry : fluids.object2LongEntrySet()) {
                 PylonFluid fluid = entry.getKey();
-                int temperature = Objects.requireNonNull(fluid.getTag(FluidTemperature.class)).getTemperature();
+                int temperature = fluid.getTag(FluidTemperature.class).getTemperature();
                 long amount = entry.getLongValue();
                 TextColor color = fluidColors.computeIfAbsent(
                         fluid,

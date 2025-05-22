@@ -305,11 +305,19 @@ item:
     name: "Smeltery Controller"
     lore: |-
       <star> Multiblock
+      <star> Smeltery component
       <arrow> <insn>Right click</insn> to open the smeltery GUI
+
+  smeltery_hopper:
+    name: "Smeltery Hopper"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as item input for the smeltery
 
   smeltery_input_hatch:
     name: "Smeltery Input Hatch"
     lore: |-
+      <star> Smeltery component
       <arrow> Serves as fluid input for the smeltery
 
   splint:
@@ -377,6 +385,7 @@ block:
   pedestal: "Pedestal"
   refractory_brick: "Refractory Brick"
   smeltery_controller: "Smeltery Controller"
+  smeltery_hopper: "Smeltery Hopper"
   smeltery_input_hatch: "Smeltery Input Hatch"
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
