@@ -1,15 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.EnrichedNetherrack;
-import io.github.pylonmc.pylon.base.items.Grindstone;
-import io.github.pylonmc.pylon.base.items.GrindstoneHandle;
-import io.github.pylonmc.pylon.base.items.MixingPot;
-import io.github.pylonmc.pylon.base.items.Pedestal;
-import io.github.pylonmc.pylon.base.items.MagicAltar;
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.multiblocks.*;
+import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.base.items.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.SimplePylonBlock;
 import org.bukkit.Material;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -62,6 +61,17 @@ public final class PylonBlocks {
     );
     static {
         GRINDSTONE.register();
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+            pylonKey("string_from_bamboo"),
+            new RecipeChoice.MaterialChoice(Material.BAMBOO),
+            4,
+            new ItemStack(Material.STRING),
+            3,
+            Material.BAMBOO.createBlockData(data -> {
+                Ageable ageable = (Ageable) data;
+                ageable.setAge(ageable.getMaximumAge());
+            })
+        ));
     }
 
     public static final PylonBlockSchema GRINDSTONE_HANDLE = new PylonBlockSchema(
@@ -98,6 +108,15 @@ public final class PylonBlocks {
     );
     static {
         WITHER_PROOF_OBSIDIAN.register();
+    }
+
+    public static final DimensionalBarrel.DimensionalBarrelBlock.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelBlock.Schema(
+            pylonKey("dimensional_barrel"),
+            Material.BARREL,
+            DimensionalBarrel.DimensionalBarrelBlock.class
+    );
+    static {
+        DIMENSIONAL_BARREL.register();
     }
 
     public static void initialize() {}
