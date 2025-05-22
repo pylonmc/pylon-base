@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.fluid;
+package io.github.pylonmc.pylon.base.fluid.pipe;
 
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import org.bukkit.block.BlockFace;

@@ -1,6 +1,6 @@
-package io.github.pylonmc.pylon.base.fluid.connection.connecting;
+package io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting;
 
-import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;

@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidInteractionBlock;
-import io.github.pylonmc.pylon.base.fluid.SimpleFluidConnectionPoint;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;

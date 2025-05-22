@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.fluid.connection.connecting.*;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.*;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;

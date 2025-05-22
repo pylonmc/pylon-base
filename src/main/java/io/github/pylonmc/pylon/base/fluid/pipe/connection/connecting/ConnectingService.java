@@ -1,9 +1,9 @@
-package io.github.pylonmc.pylon.base.fluid.connection.connecting;
+package io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
-import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.github.pylonmc.pylon.base.fluid.connection.connecting.ConnectingTask.blocksOnPath;
+import static io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingTask.blocksOnPath;
 
 
 public class ConnectingService implements Listener {

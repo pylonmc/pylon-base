@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.fluid.connection;
+package io.github.pylonmc.pylon.base.fluid.pipe.connection;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonEntities;

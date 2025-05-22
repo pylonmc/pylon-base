@@ -1,8 +1,7 @@
-package io.github.pylonmc.pylon.base.fluid.connection.connecting;
+package io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonBlocks;
-import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -15,11 +14,15 @@ import java.util.Set;
 import java.util.UUID;
 
 
-public record ConnectingPointNewBlock(@NotNull BlockPosition position) implements ConnectingPoint {
+public record ConnectingPointPipeConnector(@NotNull FluidPipeConnector connector) implements ConnectingPoint {
+
+    public ConnectingPointPipeConnector(@NotNull FluidPipeConnector connector) {
+        this.connector = connector;
+    }
 
     @Override
     public @NotNull BlockPosition position() {
-        return position;
+        return new BlockPosition(connector.getBlock());
     }
 
     @Override
@@ -28,19 +31,17 @@ public record ConnectingPointNewBlock(@NotNull BlockPosition position) implement
     }
 
     @Override
-    public @Nullable BlockFace allowedFace() {
+    public @Nullable  BlockFace allowedFace() {
         return null;
     }
 
     @Override
     public boolean isStillValid() {
-        return true;
+        return BlockStorage.get(connector.getBlock()) instanceof FluidPipeConnector;
     }
 
     @Override
     public @NotNull FluidConnectionInteraction create() {
-        FluidPipeConnector connector = (FluidPipeConnector) BlockStorage.placeBlock(position, PylonBlocks.FLUID_PIPE_CONNECTOR);
-        Preconditions.checkState(connector != null);
         FluidConnectionInteraction interaction = connector.getFluidConnectionInteraction();
         Preconditions.checkState(interaction != null);
         return interaction;
@@ -48,6 +49,8 @@ public record ConnectingPointNewBlock(@NotNull BlockPosition position) implement
 
     @Override
     public @NotNull Set<UUID> getConnectedInteractions() {
-        return Set.of();
+        FluidConnectionInteraction interaction = connector.getFluidConnectionInteraction();
+        Preconditions.checkState(interaction != null);
+        return Set.of(interaction.getUuid());
     }
 }

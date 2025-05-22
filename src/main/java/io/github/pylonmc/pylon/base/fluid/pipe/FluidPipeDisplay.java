@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.fluid.pipe;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.fluid.connection.connecting.ConnectingService;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;

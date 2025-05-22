@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
-import io.github.pylonmc.pylon.base.fluid.PylonFluidInteractionBlock;
-import io.github.pylonmc.pylon.base.fluid.SimpleFluidConnectionPoint;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.BlockFaces;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
