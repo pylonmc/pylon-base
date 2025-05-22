@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static java.lang.Math.PI;
 
 
@@ -41,8 +42,8 @@ public final class Pedestal {
     public static class PedestalBlock extends PylonBlock<PylonBlockSchema>
             implements PylonEntityHolderBlock, PylonInteractableBlock {
 
-        private static final NamespacedKey ROTATION_KEY = KeyUtils.pylonKey("rotation");
-        private static final NamespacedKey LOCKED_KEY = KeyUtils.pylonKey("locked");
+        private static final NamespacedKey ROTATION_KEY = pylonKey("rotation");
+        private static final NamespacedKey LOCKED_KEY = pylonKey("locked");
         private double rotation;
         @Setter
         private boolean locked;
@@ -58,11 +59,10 @@ public final class Pedestal {
             ItemDisplay display = new ItemDisplayBuilder()
                     .transformation(transformBuilder().buildForItemDisplay())
                     .build(block.getLocation().toCenterLocation());
-
-            entities = Map.of("item", display.getUniqueId());
-
             PedestalEntity pylonEntity = new PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
             EntityStorage.add(pylonEntity);
+
+            entities = Map.of("item", pylonEntity.getUuid());
         }
 
         @SuppressWarnings({"unused", "DataFlowIssue"})

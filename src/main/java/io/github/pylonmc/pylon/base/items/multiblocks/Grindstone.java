@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public final class Grindstone {
 
@@ -53,9 +55,9 @@ public final class Grindstone {
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
             implements PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-        private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
-        private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
-        private static final NamespacedKey CYCLE_TICKS_REMAINING = KeyUtils.pylonKey("cycle_ticks_remaining");
+        private static final NamespacedKey RECIPE_KEY = pylonKey("recipe");
+        private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
+        private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = pylonKey("cycle_ticks_remaining");
 
         private final Map<String, UUID> entities;
         private @Nullable NamespacedKey recipe;
@@ -98,7 +100,7 @@ public final class Grindstone {
             entities = loadHeldEntities(pdc);
             recipe = pdc.get(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
             cyclesRemaining = pdc.get(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER);
-            cycleTicksRemaining = pdc.get(CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER);
+            cycleTicksRemaining = pdc.get(CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
         }
 
         @Override
@@ -107,7 +109,7 @@ public final class Grindstone {
 
             PdcUtils.setNullable(pdc, RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, recipe);
             PdcUtils.setNullable(pdc, CYCLES_REMAINING_KEY, PylonSerializers.INTEGER, cyclesRemaining);
-            PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER, cycleTicksRemaining);
+            PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, cycleTicksRemaining);
         }
 
         @Override

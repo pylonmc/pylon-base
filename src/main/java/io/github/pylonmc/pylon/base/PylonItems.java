@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
@@ -1398,6 +1399,109 @@ public final class PylonItems {
                 MAGIC_ALTAR,
                 COVALENT_BINDER
         ).register();
+    }
+
+    public static final FluidPipe.Schema WOODEN_FLUID_PIPE = new FluidPipe.Schema(
+            pylonKey("fluid_pipe_wood"),
+            key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
+                    .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
+                    .build(),
+            Material.BROWN_TERRACOTTA
+    );
+    static {
+        WOODEN_FLUID_PIPE.register();
+        ItemStack output = new ItemStack(WOODEN_FLUID_PIPE.getItemStack());
+        output.setAmount(4);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_wood"), output)
+                        .shape("www", "   ", "www")
+                        .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final FluidPipe.Schema COPPER_FLUID_PIPE = new FluidPipe.Schema(
+            pylonKey("fluid_pipe_copper"),
+            key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
+                    .set(DataComponentTypes.ITEM_MODEL, Material.ORANGE_TERRACOTTA.getKey())
+                    .build(),
+            Material.ORANGE_TERRACOTTA
+    );
+    static {
+        COPPER_FLUID_PIPE.register();
+        ItemStack output = new ItemStack(COPPER_FLUID_PIPE.getItemStack());
+        output.setAmount(4);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_copper"), output)
+                        .shape("ccc", "   ", "ccc")
+                        .setIngredient('c', COPPER_SHEET.getItemStack());
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final FluidPipe.Schema OBSIDIAN_FLUID_PIPE = new FluidPipe.Schema(
+            pylonKey("fluid_pipe_obsidian"),
+            key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
+                    .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+                    .build(),
+            Material.BLACK_TERRACOTTA
+    );
+    static {
+        OBSIDIAN_FLUID_PIPE.register();
+        ItemStack output = new ItemStack(OBSIDIAN_FLUID_PIPE.getItemStack());
+        output.setAmount(4);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_obsidian"), output)
+                .shape("ooo", "   ", "ooo")
+                .setIngredient('o', new ItemStack(Material.OBSIDIAN));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema WOODEN_FLUID_TANK = new SimpleBlockPlacerItemSchema(
+            pylonKey("fluid_tank_wooden"),
+            key -> ItemStackBuilder.defaultBuilder(Material.BROWN_STAINED_GLASS, key)
+                    .build(),
+            PylonBlocks.FLUID_TANK_WOODEN
+    );
+    static {
+        WOODEN_FLUID_TANK.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), WOODEN_FLUID_TANK.getItemStack())
+                .shape("gwg", "w w", "gwg")
+                .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
+                .setIngredient('g', new ItemStack(Material.GLASS));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema COPPER_FLUID_TANK = new SimpleBlockPlacerItemSchema(
+            pylonKey("fluid_tank_copper"),
+            key -> ItemStackBuilder.defaultBuilder(Material.ORANGE_STAINED_GLASS, key)
+                    .build(),
+            PylonBlocks.FLUID_TANK_COPPER
+    );
+    static {
+        COPPER_FLUID_TANK.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_copper"), COPPER_FLUID_TANK.getItemStack())
+                .shape("gcg", "c c", "gcg")
+                .setIngredient('c', COPPER_SHEET.getItemStack())
+                .setIngredient('g', new ItemStack(Material.GLASS));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema WATER_PUMP = new SimpleBlockPlacerItemSchema(
+            pylonKey("water_pump"),
+            key -> ItemStackBuilder.defaultBuilder(Material.BLUE_TERRACOTTA, key)
+                    .build(),
+            PylonBlocks.WATER_PUMP
+    );
+    static {
+        WATER_PUMP.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("water_pump"), WATER_PUMP.getItemStack())
+                .shape("iii", "ibi", "ipi")
+                .setIngredient('i', IRON_SHEET.getItemStack())
+                .setIngredient('p', COPPER_FLUID_PIPE.getItemStack())
+                .setIngredient('b', new ItemStack(Material.BUCKET));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     public static final Loupe.Schema LOUPE = new Loupe.Schema(
