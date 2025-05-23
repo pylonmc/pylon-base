@@ -94,7 +94,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         if (ConnectingService.isConnecting(event.getPlayer())) {
             UUID segment = ConnectingService.placeConnection(event.getPlayer());
             if (segment != null) {
-                FluidManager.setFluidPerSecond(segment, getSchema().fluidPerTick);
+                FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
                 FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
             }
         }
@@ -119,7 +119,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         if ((action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) && ConnectingService.isConnecting(player)) {
             UUID segment = ConnectingService.placeConnection(player);
             if (segment != null) {
-                FluidManager.setFluidPerSecond(segment, getSchema().fluidPerTick);
+                FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
                 FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
             }
         }
