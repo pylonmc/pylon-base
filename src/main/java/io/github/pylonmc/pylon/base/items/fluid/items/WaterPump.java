@@ -58,7 +58,7 @@ public class WaterPump {
         @Override
         public @NotNull Map<String, Component> getPlaceholders() {
             return Map.of(
-                    "water_per_second", Component.text(getSchema().block.waterPerSecond)
+                    "water_per_second", Component.text(getSchema().block.getWaterPerSecond())
             );
         }
     }
@@ -67,8 +67,9 @@ public class WaterPump {
 
         public static class Schema extends PylonBlockSchema {
 
-            @SuppressWarnings("DataFlowIssue")
-            @Getter private final long waterPerSecond = getSettings().get("water-per-second", Integer.class);
+            // TODO settings
+            @Getter
+            private final double waterPerSecond = getSettings().getOrThrow("water-per-second", Double.class);
 
             public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
                 super(key, material, WaterPumpBlock.class);
@@ -111,15 +112,15 @@ public class WaterPump {
         }
 
         @Override
-        public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
+        public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
             if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
                 return Map.of();
             }
-            return Map.of(PylonFluids.WATER, getSchema().waterPerSecond / 20);
+            return Map.of(PylonFluids.WATER, getSchema().waterPerSecond);
         }
 
         @Override
-        public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
+        public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
             // nothing, water block is treated as infinite lol
         }
     }

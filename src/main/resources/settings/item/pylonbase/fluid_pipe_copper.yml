@@ -1,4 +1,4 @@
-fluid-per-second: 500
+fluid-per-second: 500.0
 temperature:
   min: 0
   max: 900
