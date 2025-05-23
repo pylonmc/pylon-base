@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.health.talisman.HealthTalisman;
 import io.github.pylonmc.pylon.base.listeners.WitherProofObsidianListener;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;

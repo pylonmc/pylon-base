@@ -94,13 +94,13 @@ public class DimensionalBarrel {
         }
 
         @Override
-        public DimensionalBarrelBlock.Schema getBlockSchema() {
+        public DimensionalBarrelBlock.Schema getBlock() {
             return getSchema().blockSchema;
         }
 
         @Override
         public Map<String, Component> getPlaceholders() {
-            return Map.of("size", Component.text(getBlockSchema().size));
+            return Map.of("size", Component.text(getBlock().size));
         }
     }
 }

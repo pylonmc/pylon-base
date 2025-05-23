@@ -4,42 +4,36 @@ import com.destroystokyo.paper.event.player.PlayerReadyArrowEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Arrow;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class RecoilArrow extends PylonItemSchema {
 
-    public final double efficiency;
+public class RecoilArrow extends PylonItem implements Arrow {
 
-    public RecoilArrow(
-            NamespacedKey key,
-            Function<NamespacedKey, ItemStack> templateSupplier,
-            double efficiency
-    ) {
-        super(key, RecoilArrowItem.class, templateSupplier);
-        this.efficiency = efficiency;
+    public static final NamespacedKey KEY = pylonKey("recoil_arrow");
+
+    public static final double EFFICIENCY = getSettings(KEY).getOrThrow("efficiency", Double.class);
+
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.ARROW, KEY)
+            .build();
+
+    public RecoilArrow(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
+        super(schema, stack);
     }
 
-    public static class RecoilArrowItem extends PylonItem<RecoilArrow> implements Arrow {
+    @Override
+    public void onArrowShotFromBow(@NotNull EntityShootBowEvent event) {
+        event.getEntity().setVelocity(event.getEntity().getVelocity().add(event.getProjectile().getVelocity().multiply(-EFFICIENCY)));
+    }
 
-        private final RecoilArrow schema;
-        public RecoilArrowItem(RecoilArrow schema, ItemStack stack) {
-            super(schema, stack);
-            this.schema = schema;
-        }
-
-        @Override
-        public void onArrowShotFromBow(@NotNull EntityShootBowEvent event) {
-            event.getEntity().setVelocity(event.getEntity().getVelocity().add(event.getProjectile().getVelocity().multiply(-1 * schema.efficiency)));
-        }
-
-        @Override
-        public void onArrowReady(@NotNull PlayerReadyArrowEvent event) {
-            // Intentionally blank
-        }
+    @Override
+    public void onArrowReady(@NotNull PlayerReadyArrowEvent event) {
+        // Intentionally blank
     }
 }

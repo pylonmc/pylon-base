@@ -1,15 +1,24 @@
-package io.github.pylonmc.pylon.base.items.tools;
+package io.github.pylonmc.pylon.base.items.tools.portable;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MenuType;
 import org.jetbrains.annotations.NotNull;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class PortableCraftingTable extends PylonItem<PylonItemSchema> implements Interactor {
+
+public class PortableCraftingTable extends PylonItem implements Interactor {
+
+    public static final NamespacedKey KEY = pylonKey("portable_crafting_table");
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.CRAFTING_TABLE, KEY)
+            .build();
 
     public PortableCraftingTable(PylonItemSchema schema, ItemStack stack) {
         super(schema, stack);
