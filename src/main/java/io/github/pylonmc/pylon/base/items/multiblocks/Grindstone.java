@@ -4,7 +4,6 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -31,15 +30,15 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
 public final class Grindstone {
@@ -54,9 +53,9 @@ public final class Grindstone {
     public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
             implements PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-        private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
-        private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
-        private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = KeyUtils.pylonKey("cycle_ticks_remaining");
+        private static final NamespacedKey RECIPE_KEY = pylonKey("recipe");
+        private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
+        private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = pylonKey("cycle_ticks_remaining");
 
         private @Nullable NamespacedKey recipe;
         private @Nullable Integer cyclesRemaining;

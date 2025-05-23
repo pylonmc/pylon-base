@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import io.github.pylonmc.pylon.base.PylonEntities;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -23,13 +22,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static java.lang.Math.PI;
 
 @NullMarked
@@ -42,8 +41,8 @@ public final class Pedestal {
     public static class PedestalBlock extends PylonBlock<PylonBlockSchema>
             implements PylonEntityHolderBlock, PylonInteractableBlock {
 
-        private static final NamespacedKey ROTATION_KEY = KeyUtils.pylonKey("rotation");
-        private static final NamespacedKey LOCKED_KEY = KeyUtils.pylonKey("locked");
+        private static final NamespacedKey ROTATION_KEY = pylonKey("rotation");
+        private static final NamespacedKey LOCKED_KEY = pylonKey("locked");
         private double rotation;
         @Setter
         private boolean locked;

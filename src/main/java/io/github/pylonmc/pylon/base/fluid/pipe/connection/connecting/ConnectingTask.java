@@ -3,11 +3,11 @@ package io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonBaseConfig;
-import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
@@ -22,6 +22,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -40,19 +41,12 @@ import org.joml.RoundingMode;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 public class ConnectingTask {
 
     public record Result(FluidConnectionInteraction to, int pipesUsed) {}
-
-    private static final int MAX_PIPE_PLACEMENT_DISTANCE = 5;
-    private static final int PLAYER_SIGHT_RANGE = 5;
 
     @Getter private final Player player;
     @Getter private final BukkitTask task;
@@ -249,13 +243,14 @@ public class ConnectingTask {
         Vector3f playerLookPosition = player.getEyeLocation().toVector().toVector3f();
         Vector3f playerLookDirection = player.getEyeLocation().getDirection().toVector3f();
 
-        List<Entity> entities = player.getNearbyEntities(PLAYER_SIGHT_RANGE, PLAYER_SIGHT_RANGE, PLAYER_SIGHT_RANGE);
+        double range = player.getAttribute(Attribute.ENTITY_INTERACTION_RANGE).getValue();
+        List<Entity> entities = player.getNearbyEntities(range, range, range);
 
         for (Entity entity : entities) {
             RayTraceResult result = entity.getBoundingBox().rayTrace(
                     Vector.fromJOML(playerLookPosition),
                     Vector.fromJOML(playerLookDirection),
-                    PLAYER_SIGHT_RANGE
+                    range
             );
             //noinspection VariableNotUsedInsideIf
             if (result != null) {
@@ -315,7 +310,11 @@ public class ConnectingTask {
             Vector3i axis
     ) {
         float solution = findClosestPointBetweenSkewLines(playerLookPosition, playerLookDirection, origin, new Vector3f(axis));
-        int lambda = Math.clamp(Math.round(solution), -MAX_PIPE_PLACEMENT_DISTANCE, MAX_PIPE_PLACEMENT_DISTANCE);
+        int lambda = Math.clamp(
+                Math.round(solution),
+                -PylonBaseConfig.PIPE_PLACEMENT_MAX_DISTANCE,
+                PylonBaseConfig.PIPE_PLACEMENT_MAX_DISTANCE
+        );
         return new Vector3f(axis).mul(lambda);
     }
 

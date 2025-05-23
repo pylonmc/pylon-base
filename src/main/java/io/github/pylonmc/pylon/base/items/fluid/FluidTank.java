@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -35,6 +34,8 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 @NullMarked
 public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonFluidInteractionBlock, PylonFluidBlock {
 
@@ -48,8 +49,8 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonFlui
         }
     }
 
-    private static final NamespacedKey FLUID_AMOUNT_KEY = KeyUtils.pylonKey("fluid_amount");
-    private static final NamespacedKey FLUID_TYPE_KEY = KeyUtils.pylonKey("fluid_type");
+    private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
+    private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
 
     private long fluidAmount;
     private @Nullable PylonFluid fluidType;
@@ -84,7 +85,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonFlui
     @Override
     public Map<String, UUID> createEntities(BlockCreateContext context) {
         Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
-        
+
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(getBlock().getLocation().toCenterLocation());
         FluidTankEntity fluidTankEntity = new FluidTankEntity(PylonEntities.FLUID_TANK_DISPLAY, fluidDisplay);
         EntityStorage.add(fluidTankEntity);

@@ -3,11 +3,11 @@ package io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
-import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
@@ -26,12 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingTask.blocksOnPath;
 
@@ -58,28 +53,30 @@ public class ConnectingService implements Listener {
     public static @Nullable UUID placeConnection(@NotNull Player player) {
         ConnectingTask connectingTask = connectionsInProgress.get(player);
         Preconditions.checkState(connectingTask != null);
+
         ConnectingTask.Result result = connectingTask.finish();
-        if (result != null) {
-            if (player.getGameMode() != GameMode.CREATIVE) {
-                player.getInventory().getItem(EquipmentSlot.HAND).subtract(result.pipesUsed());
-            }
-
-            connectionsInProgress.remove(player);
-
-            PylonItem<?> pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
-            if (result.to().getFace() == null && pylonItem instanceof FluidPipe) {
-                // start new connection from the point we just placed if it didn't have a face
-                // if it does have a face, we can't go any further so don't bother starting a new connection
-                ConnectingPointInteraction connectingPoint = new ConnectingPointInteraction(result.to());
-                connectionsInProgress.put(player, new ConnectingTask(player, connectingPoint, connectingTask.getPipe()));
-            }
-            return result.to().getPoint().getSegment();
+        if (result == null) {
+            return null;
         }
-        return null;
+
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            player.getInventory().getItem(EquipmentSlot.HAND).subtract(result.pipesUsed());
+        }
+
+        connectionsInProgress.remove(player);
+
+        PylonItem<?> pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
+        if (result.to().getFace() == null && pylonItem instanceof FluidPipe) {
+            // start new connection from the point we just placed if it didn't have a face
+            // if it does have a face, we can't go any further so don't bother starting a new connection
+            ConnectingPointInteraction connectingPoint = new ConnectingPointInteraction(result.to());
+            connectionsInProgress.put(player, new ConnectingTask(player, connectingPoint, connectingTask.getPipe()));
+        }
+        return result.to().getPoint().getSegment();
     }
 
     public static boolean isConnecting(@NotNull Player player) {
-        return connectionsInProgress.get(player) != null;
+        return connectionsInProgress.containsKey(player);
     }
 
     public static void cleanup() {

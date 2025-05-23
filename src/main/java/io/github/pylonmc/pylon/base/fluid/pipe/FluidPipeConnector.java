@@ -54,7 +54,8 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
         // Clone to prevent ConcurrentModificationException if pipeDisplay.delete modified connectedPipeDisplays
         for (UUID pipeDisplayId : new HashSet<>(interaction.getConnectedPipeDisplays())) {
             FluidPipeDisplay pipeDisplay = EntityStorage.getAs(FluidPipeDisplay.class, pipeDisplayId);
-            if (pipeDisplay != null) { // prefer silent fail over inconsistent state
+            // can be null if called from two different location (eg two different connection points removing the display)
+            if (pipeDisplay != null) {
                 Player player = null;
                 if (context instanceof BlockBreakContext.PlayerBreak breakContext) {
                     player = breakContext.getEvent().getPlayer();

@@ -4,7 +4,6 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonItems;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -29,13 +28,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.*;
 import java.util.function.Consumer;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
 public final class MagicAltar {
@@ -68,8 +68,8 @@ public final class MagicAltar {
     public static class MagicAltarBlock extends PylonBlock<MagicAltarBlock.Schema>
             implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractableBlock {
 
-        private static final NamespacedKey PROCESSING_RECIPE = KeyUtils.pylonKey("processing_recipe");
-        private static final NamespacedKey REMAINING_TIME_SECONDS = KeyUtils.pylonKey("remaining_time_seconds");
+        private static final NamespacedKey PROCESSING_RECIPE = pylonKey("processing_recipe");
+        private static final NamespacedKey REMAINING_TIME_SECONDS = pylonKey("remaining_time_seconds");
         private static final Random random = new Random();
 
         private @Nullable NamespacedKey processingRecipe;

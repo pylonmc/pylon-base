@@ -30,7 +30,7 @@ public interface ConnectingPoint {
     @Nullable BlockFace allowedFace();
 
     /**
-     * Has something changes (eg a block being removed) that means we can't use this point any more?
+     * Has something changed (eg a block being removed) that means we can't use this point any more?
      */
     boolean isStillValid();
 

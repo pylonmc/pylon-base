@@ -235,6 +235,10 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
 
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+    lore: ""
+
   monster_jerky:
     name: "Monster Jerky"
     lore: "Slightly tastier and tougher than rotten flesh"
@@ -389,6 +393,7 @@ block:
   smeltery_input_hatch: "Smeltery Input Hatch"
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
+  wither_proof_obsidian: "Wither Proof Obsidian"
 
 fluid:
   water: "<blue>Water"

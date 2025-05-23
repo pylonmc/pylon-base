@@ -3,14 +3,15 @@ package io.github.pylonmc.pylon.base.fluid.pipe.connection;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
-import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.base.PylonDeathEntity;
+import io.github.pylonmc.pylon.core.entity.base.PylonUnloadEntity;
 import io.github.pylonmc.pylon.core.entity.display.InteractionBuilder;
 import io.github.pylonmc.pylon.core.event.PylonEntityDeathEvent;
+import io.github.pylonmc.pylon.core.event.PylonEntityUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -29,16 +30,19 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction> implements PylonDeathEntity {
+
+public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction>
+        implements PylonDeathEntity, PylonUnloadEntity {
 
     public static final float POINT_SIZE = 0.12F;
 
-    private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = KeyUtils.pylonKey("connected_pipe_displays");
-    private static final NamespacedKey CONNECTION_POINT_KEY = KeyUtils.pylonKey("connection_point");
-    private static final NamespacedKey DISPLAY_KEY = KeyUtils.pylonKey("display");
-    private static final NamespacedKey FACE_KEY = KeyUtils.pylonKey("face");
-    private static final NamespacedKey RADIUS_KEY = KeyUtils.pylonKey("radius");
+    private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = pylonKey("connected_pipe_displays");
+    private static final NamespacedKey CONNECTION_POINT_KEY = pylonKey("connection_point");
+    private static final NamespacedKey DISPLAY_KEY = pylonKey("display");
+    private static final NamespacedKey FACE_KEY = pylonKey("face");
+    private static final NamespacedKey RADIUS_KEY = pylonKey("radius");
 
     @Getter private final Set<UUID> connectedPipeDisplays;
     @Getter private final FluidConnectionPoint point;
@@ -59,6 +63,13 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
 
         Preconditions.checkState(point != null);
         FluidManager.add(point);
+
+        for (UUID otherUuid : point.getConnectedPoints()) {
+            FluidConnectionPoint otherPoint = FluidManager.getById(otherUuid);
+            if (otherPoint != null) {
+                FluidManager.connect(point, otherPoint);
+            }
+        }
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
@@ -139,12 +150,14 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
                 pipeDisplay.delete(true, null);
             }
         }
-        FluidManager.remove(point);
         FluidConnectionDisplay displayEntity = EntityStorage.getAs(FluidConnectionDisplay.class, display);
         Preconditions.checkState(displayEntity != null);
-        if (getEntity().isDead()) {
-            displayEntity.getEntity().remove();
-        }
+        displayEntity.getEntity().remove();
+    }
+
+    @Override
+    public void onUnload(@NotNull PylonEntityUnloadEvent event) {
+        FluidManager.remove(point);
     }
 
     public @Nullable FluidConnectionDisplay getDisplay() {
