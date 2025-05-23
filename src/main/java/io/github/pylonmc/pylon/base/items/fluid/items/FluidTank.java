@@ -42,9 +42,9 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
 
     public static class Schema extends PylonBlockSchema {
 
-        @Getter private final long capacity;
+        @Getter private final double capacity;
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Material material, long capacity) {
+        public Schema(@NotNull NamespacedKey key, @NotNull Material material, double capacity) {
             super(key, material, FluidTank.class);
             this.capacity = capacity;
         }
@@ -54,7 +54,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
 
     private final Map<String, UUID> entities;
-    private long fluidAmount;
+    private double fluidAmount;
     private @Nullable PylonFluid fluidType;
 
     @SuppressWarnings("unused")
@@ -85,14 +85,14 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
         super(schema, block);
 
         entities = loadHeldEntities(pdc);
-        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.LONG);
+        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
         fluidType = pdc.get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         saveHeldEntities(pdc);
-        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.LONG, fluidAmount);
+        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
         PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluidType);
     }
 
@@ -102,14 +102,14 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         return fluidType == null
                 ? Map.of()
                 : Map.of(fluidType, fluidAmount);
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Long> getRequestedFluids(@NotNull String connectionPoint) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         // If no fluid contained, allow any fluid to be added
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
@@ -127,7 +127,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
+    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         if (!fluid.equals(fluidType)) {
             fluidType = fluid;
             ItemDisplay display = getFluidDisplay();
@@ -140,7 +140,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
+    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         fluidAmount -= amount;
         if (fluidAmount == 0) {
             fluidType = null;
@@ -153,7 +153,7 @@ public class FluidTank extends PylonBlock<FluidTank.Schema> implements PylonEnti
     }
 
     public void updateFluidDisplay() {
-        float scale = 0.9F * fluidAmount / getSchema().capacity;
+        float scale = (float) (0.9F * fluidAmount / getSchema().capacity);
         ItemDisplay display = getFluidDisplay();
         if (display != null) {
             display.setTransformationMatrix(new TransformBuilder()

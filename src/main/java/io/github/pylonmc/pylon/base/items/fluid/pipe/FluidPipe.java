@@ -41,7 +41,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
     public static class Schema extends PylonItemSchema {
 
         @SuppressWarnings("DataFlowIssue")
-        @Getter private final long fluidPerTick = getSettings().get("fluid-per-second", Integer.class) / 20;
+        @Getter private final double fluidPerSecond = getSettings().get("fluid-per-second", Double.class);
         @SuppressWarnings("DataFlowIssue")
         private final int minTemperature = getSettings().get("temperature.min", Integer.class);
         @SuppressWarnings("DataFlowIssue")
@@ -72,7 +72,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", Component.text(getSchema().fluidPerTick * 20),
+                "fluid_per_second", Component.text(getSchema().fluidPerSecond * 20),
                 "min_temperature", Component.text(getSchema().minTemperature),
                 "max_temperature", Component.text(getSchema().maxTemperature)
         );
@@ -94,7 +94,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         if (ConnectingService.isConnecting(event.getPlayer())) {
             UUID segment = ConnectingService.placeConnection(event.getPlayer());
             if (segment != null) {
-                FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
+                FluidManager.setFluidPerSecond(segment, getSchema().fluidPerSecond);
                 FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
             }
         }
@@ -119,7 +119,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         if ((action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) && ConnectingService.isConnecting(player)) {
             UUID segment = ConnectingService.placeConnection(player);
             if (segment != null) {
-                FluidManager.setFluidPerTick(segment, getSchema().fluidPerTick);
+                FluidManager.setFluidPerSecond(segment, getSchema().fluidPerSecond);
                 FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
             }
         }
