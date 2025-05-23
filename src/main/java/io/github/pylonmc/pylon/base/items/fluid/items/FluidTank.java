@@ -45,9 +45,9 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 public class FluidTank {
 
-    public static class FluidTankItem extends PylonItem<FluidTankItem.Schema> {
+    public static class FluidTankItem extends PylonItem<FluidTankItem.Schema> implements BlockPlacer {
 
-        public static class Schema extends PylonItemSchema implements BlockPlacer {
+        public static class Schema extends PylonItemSchema {
 
             private final FluidTankBlock.Schema block;
 
@@ -59,15 +59,15 @@ public class FluidTank {
                 super(key, FluidTankItem.class, templateSupplier);
                 this.block = block;
             }
-
-            @Override
-            public @NotNull PylonBlockSchema getBlockSchema() {
-                return block;
-            }
         }
 
         public FluidTankItem(@NotNull Schema schema, @NotNull ItemStack stack) {
             super(schema, stack);
+        }
+
+        @Override
+        public @NotNull PylonBlockSchema getBlockSchema() {
+            return getSchema().block;
         }
 
         @Override

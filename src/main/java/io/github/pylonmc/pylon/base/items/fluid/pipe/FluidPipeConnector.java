@@ -81,7 +81,7 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), Map.of("pipe", getPipe().getItemStack().displayName()));
+        return new WailaConfig(getName(), Map.of("pipe", getPipe().getItemStack().effectiveName()));
     }
 
     public @NotNull FluidPipe.Schema getPipe() {

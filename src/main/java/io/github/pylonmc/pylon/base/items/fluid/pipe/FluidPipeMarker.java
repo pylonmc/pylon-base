@@ -98,6 +98,6 @@ public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements Pyl
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         FluidPipeDisplay pipeDisplay = getPipeDisplay();
         Preconditions.checkState(pipeDisplay != null);
-        return new WailaConfig(getName(), Map.of("pipe", pipeDisplay.getPipe().getItemStack().displayName()));
+        return new WailaConfig(getName(), Map.of("pipe", pipeDisplay.getPipe().getItemStack().effectiveName()));
     }
 }

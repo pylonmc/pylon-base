@@ -9,76 +9,118 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 
-public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
+public class WaterPump {
 
-    public static class Schema extends PylonBlockSchema {
+    public static class WaterPumpItem extends PylonItem<WaterPumpItem.Schema> implements BlockPlacer {
 
-        @SuppressWarnings("DataFlowIssue")
-        @Getter private final long waterPerTick = getSettings().get("water-per-second", Integer.class) / 20;
+        public static class Schema extends PylonItemSchema {
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
-            super(key, material, WaterPump.class);
+            private final WaterPumpBlock.Schema block;
+
+            public Schema(
+                    @NotNull NamespacedKey key,
+                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier,
+                    @NotNull WaterPumpBlock.Schema block
+            ) {
+                super(key, WaterPumpItem.class, templateSupplier);
+                this.block = block;
+            }
+        }
+
+        public WaterPumpItem(@NotNull Schema schema, @NotNull ItemStack stack) {
+            super(schema, stack);
+        }
+
+        @Override
+        public @NotNull PylonBlockSchema getBlockSchema() {
+            return getSchema().block;
+        }
+
+        @Override
+        public @NotNull Map<String, Component> getPlaceholders() {
+            return Map.of(
+                    "water_per_second", Component.text(getSchema().block.waterPerSecond)
+            );
         }
     }
 
-    private final Map<String, UUID> entities;
+    public static class WaterPumpBlock extends PylonBlock<WaterPumpBlock.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
 
-    @SuppressWarnings("unused")
-    public WaterPump(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+        public static class Schema extends PylonBlockSchema {
 
-        Player player = null;
-        if (context instanceof BlockCreateContext.PlayerPlace ctx) {
-            player = ctx.getPlayer();
+            @SuppressWarnings("DataFlowIssue")
+            @Getter private final long waterPerSecond = getSettings().get("water-per-second", Integer.class);
+
+            public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
+                super(key, material, WaterPumpBlock.class);
+            }
         }
 
-        FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
+        private final Map<String, UUID> entities;
 
-        entities = Map.of(
-                "output", FluidConnectionInteraction.make(player, output, BlockFace.UP, 0.5F).getUuid()
-        );
-    }
+        @SuppressWarnings("unused")
+        public WaterPumpBlock(@NotNull Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+            super(schema, block);
 
-    @SuppressWarnings("unused")
-    public WaterPump(@NotNull Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+            Player player = null;
+            if (context instanceof BlockCreateContext.PlayerPlace ctx) {
+                player = ctx.getPlayer();
+            }
 
-        entities = loadHeldEntities(pdc);
-    }
+            FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
 
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
-    }
-
-    @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
-        if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
-            return Map.of();
+            entities = Map.of(
+                    "output", FluidConnectionInteraction.make(player, output, BlockFace.UP, 0.5F).getUuid()
+            );
         }
-        return Map.of(PylonFluids.WATER, getSchema().waterPerTick);
-    }
 
-    @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
-        // nothing, water block is treated as infinite lol
+        @SuppressWarnings("unused")
+        public WaterPumpBlock(@NotNull Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
+            super(schema, block);
+
+            entities = loadHeldEntities(pdc);
+        }
+
+        @Override
+        public void write(@NotNull PersistentDataContainer pdc) {
+            saveHeldEntities(pdc);
+        }
+
+        @Override
+        public @NotNull Map<String, UUID> getHeldEntities() {
+            return entities;
+        }
+
+        @Override
+        public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
+            if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
+                return Map.of();
+            }
+            return Map.of(PylonFluids.WATER, getSchema().waterPerSecond / 20);
+        }
+
+        @Override
+        public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
+            // nothing, water block is treated as infinite lol
+        }
     }
 }

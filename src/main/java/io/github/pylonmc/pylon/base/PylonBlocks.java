@@ -157,7 +157,7 @@ public final class PylonBlocks {
         FLUID_TANK_COPPER.register();
     }
 
-    public static final WaterPump.Schema WATER_PUMP = new WaterPump.Schema(
+    public static final WaterPump.WaterPumpBlock.Schema WATER_PUMP = new WaterPump.WaterPumpBlock.Schema(
             pylonKey("water_pump"),
             Material.BLUE_TERRACOTTA
     );

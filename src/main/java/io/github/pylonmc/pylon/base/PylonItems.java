@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
@@ -1488,7 +1489,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final PylonItemSchema WATER_PUMP = new SimpleBlockPlacerItemSchema(
+    public static final WaterPump.WaterPumpItem.Schema WATER_PUMP = new WaterPump.WaterPumpItem.Schema(
             pylonKey("water_pump"),
             key -> ItemStackBuilder.defaultBuilder(Material.BLUE_TERRACOTTA, key)
                     .build(),
