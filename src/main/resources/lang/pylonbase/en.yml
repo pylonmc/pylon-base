@@ -144,12 +144,16 @@ item:
     # TODO fix placeholder
     lore: |- 
       <arrow> <attr:Capacity:capacity>%capacity%</attr>
+      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
+      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
 
   fluid_tank_copper:
     name: "Copper Fluid Tank"
     # TODO fix placeholder
     lore: |- 
       <arrow> <attr:Capacity:capacity>%capacity%</attr>
+      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
+      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
 
   gold_dust:
     name: "Gold Dust"
@@ -347,17 +351,17 @@ item:
     name: "Water pump"
     # TODO fix placeholder
     lore: |- 
-      <arrow> <attr:Pump rate:fluid_per_second>%pump_rate%</attr>
+      <arrow> <attr:Pump rate:fluid_per_second>%water_per_second%</attr>
 
 # TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
   dimensional_barrel: "Dimensional Barrel"
   enriched_netherrack: "Enriched Netherrack"
   # TODO add the pipe type as a placeholder?
-  fluid_pipe_connector: "Pipe"
-  fluid_pipe_marker: "Pipe"
-  fluid_tank_wooden: "Wooden Fluid Tank"
-  fluid_tank_copper: "Copper Fluid Tank"
+  fluid_pipe_connector: "%pipe%"
+  fluid_pipe_marker: "%pipe%"
+  fluid_tank_wooden: "Wooden Fluid Tank | %amount%/%capacity%"
+  fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"
