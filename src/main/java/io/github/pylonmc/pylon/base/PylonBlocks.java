@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
@@ -58,10 +58,9 @@ public final class PylonBlocks {
         MAGIC_ALTAR.register();
     }
 
-    public static final PylonBlockSchema GRINDSTONE = new PylonBlockSchema(
+    public static final Grindstone.GrindstoneBlock.Schema GRINDSTONE = new Grindstone.GrindstoneBlock.Schema(
             pylonKey("grindstone"),
-            Material.SMOOTH_STONE_SLAB,
-            Grindstone.GrindstoneBlock.class
+            Material.SMOOTH_STONE_SLAB
     );
     static {
         GRINDSTONE.register();
@@ -87,7 +86,7 @@ public final class PylonBlocks {
         GRINDSTONE_HANDLE.register();
     }
 
-    public static final PylonBlockSchema ENRICHED_NETHERRACK = new PylonBlockSchema(
+    public static final EnrichedNetherrack.Schema ENRICHED_NETHERRACK = new EnrichedNetherrack.Schema(
             pylonKey("enriched_netherrack"),
             Material.NETHERRACK,
             EnrichedNetherrack.EnrichedNetherrackBlock.class
@@ -142,25 +141,23 @@ public final class PylonBlocks {
     }
 
     // TODO block settings
-    public static final FluidTank.Schema FLUID_TANK_WOOD = new FluidTank.Schema(
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_WOOD = new FluidTank.FluidTankBlock.Schema(
             pylonKey("fluid_tank_wooden"),
-            Material.BROWN_STAINED_GLASS,
-            4000
+            Material.BROWN_STAINED_GLASS
     );
     static {
         FLUID_TANK_WOOD.register();
     }
 
-    public static final FluidTank.Schema FLUID_TANK_COPPER = new FluidTank.Schema(
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_COPPER = new FluidTank.FluidTankBlock.Schema(
             pylonKey("fluid_tank_copper"),
-            Material.ORANGE_STAINED_GLASS,
-            8000
+            Material.ORANGE_STAINED_GLASS
     );
     static {
         FLUID_TANK_COPPER.register();
     }
 
-    public static final WaterPump.Schema WATER_PUMP = new WaterPump.Schema(
+    public static final WaterPump.WaterPumpBlock.Schema WATER_PUMP = new WaterPump.WaterPumpBlock.Schema(
             pylonKey("water_pump"),
             Material.BLUE_TERRACOTTA
     );
