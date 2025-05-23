@@ -305,6 +305,11 @@ item:
     name: "Shimmer Skull"
     lore: ""
 
+  smeltery_burner:
+    name: "Smeltery Burner"
+    lore: |-
+      <star> Smeltery component
+
   smeltery_controller:
     name: "Smeltery Controller"
     lore: |-
@@ -388,6 +393,7 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   refractory_brick: "Refractory Brick"
+  smeltery_burner: "Smeltery Burner"
   smeltery_controller: "Smeltery Controller"
   smeltery_hopper: "Smeltery Hopper"
   smeltery_input_hatch: "Smeltery Input Hatch"
@@ -442,16 +448,23 @@ message:
       3: "full of anticipation, you are disappointed to find that nothing happens"
 
 gui:
+  status:
+    name: "Status"
+    toggle: "<insn>Click</insn> to toggle"
+    on: "<green>On"
+    off: "<yellow>Off"
+    running: "<green>Running"
+    not_running: "<yellow>Not running"
+    incomplete: "<red>Multiblock incomplete"
   smeltery:
-    status:
-      name: "Status"
-      running: "<green>Running"
-      not_running: "<yellow>Not running"
-      toggle: "<insn>Click</insn> to toggle the smeltery on/off"
-      incomplete: "<red>Multiblock incomplete"
-      height: "<attr:Height:blocks>%height%"
-      capacity: "<attr:Capacity:fluid>%capacity%"
-      temperature: "<attr:Temperature:temperature>%temperature%"
+    height: "<attr:Height:blocks>%height%"
+    capacity: "<attr:Capacity:fluid>%capacity%"
+    temperature: "<attr:Temperature:temperature>%temperature%"
     contents:
       name: "Contents"
       fluid: "%amount% of %fluid% (%temperature%)"
+  smeltery_burner:
+    burning: "<green>Burning"
+    not_burning: "<yellow>Not burning"
+    energy_left: "<attr:Energy left:energy>%energy%"
+    power_output: "<attr:Power output:power>%power%"

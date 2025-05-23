@@ -67,9 +67,6 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
     private final Object2LongMap<PylonFluid> fluids = new Object2LongRBTreeMap<>((a, b) -> {
         FluidTemperature temperatureA = a.getTag(FluidTemperature.class);
         FluidTemperature temperatureB = b.getTag(FluidTemperature.class);
-        if (temperatureA == null || temperatureB == null) {
-            throw new IllegalStateException("Fluid does not have a temperature tag");
-        }
         return -Integer.compare(temperatureA.getTemperature(), temperatureB.getTemperature());
     });
 
@@ -152,31 +149,31 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
             if (isFormedAndFullyLoaded()) {
                 if (running) {
                     material = Material.GREEN_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.status.running"));
+                    lore.add(Component.translatable("pylon.pylonbase.gui.status.running"));
                 } else {
                     material = Material.YELLOW_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.status.not_running"));
+                    lore.add(Component.translatable("pylon.pylonbase.gui.status.not_running"));
                 }
-                lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.status.toggle"));
+                lore.add(Component.translatable("pylon.pylonbase.gui.status.toggle"));
                 lore.add(Component.empty());
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.status.height",
+                        "pylon.pylonbase.gui.smeltery.height",
                         PylonArgument.of("height", height)
                 ));
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.status.capacity",
+                        "pylon.pylonbase.gui.smeltery.capacity",
                         PylonArgument.of("capacity", capacity)
                 ));
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.status.temperature",
-                        PylonArgument.of("temperature", temperature)
+                        "pylon.pylonbase.gui.smeltery.temperature",
+                        PylonArgument.of("temperature", "%.1f".formatted(temperature))
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
-                lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.status.incomplete"));
+                lore.add(Component.translatable("pylon.pylonbase.gui.status.incomplete"));
             }
             return ItemStackBuilder.of(material)
-                    .name(Component.translatable("pylon.pylonbase.gui.smeltery.status.name"))
+                    .name(Component.translatable("pylon.pylonbase.gui.status.name"))
                     .lore(lore);
         }
 
@@ -266,6 +263,7 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
 
     @Override
     public boolean checkFormed() {
+        long previousCapacity = capacity;
         height = 0;
         capacity = 0;
 
@@ -285,6 +283,21 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
                 capacity += countAir(addY(insidePositions, i)) * 1000L;
             } else {
                 break;
+            }
+        }
+
+        if (capacity < previousCapacity) {
+            double ratio = (double) capacity / previousCapacity;
+            for (PylonFluid fluid : fluids.keySet()) {
+                long amount = fluids.getLong(fluid);
+                if (amount > 0) {
+                    long newAmount = (long) (amount * ratio);
+                    if (newAmount == 0) {
+                        fluids.removeLong(fluid);
+                    } else {
+                        fluids.put(fluid, newAmount);
+                    }
+                }
             }
         }
 
@@ -364,11 +377,67 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
     }
     // </editor-fold>
 
+    // <editor-fold desc="Heating" defaultstate="collapsed">
+    @SuppressWarnings("SameParameterValue")
+    private static double newtonsLawOfCooling(double heatLossCoeff, double t, double t0, double dt) {
+        return heatLossCoeff * (t - t0) * dt;
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static double stefanBoltzmannLaw(double emissivity, double t, double t0, double dt) {
+        return emissivity * STEFAN_BOLTZMANN_CONSTANT * (Math.pow(t, 4) - Math.pow(t0, 4)) * dt;
+    }
+
+    private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
+    private static final double SPECIFIC_HEAT = 315; // J/kg*K
+    private static final double DENSITY = 6980; // kg/m^3, molten iron used as reference
+    private static final double HEAT_LOSS_COEFFICIENT = 10; // W/C
+    private static final double EMISSIVITY = 0.9;
+    private static final double CELSIUS_TO_KELVIN = 273.15;
+    private static final double ROOM_TEMPERATURE_KELVIN = 20 + CELSIUS_TO_KELVIN;
+
+    private double getHeatCapacity() {
+        return getTotalFluid() / 1000.0 * DENSITY * SPECIFIC_HEAT;
+    }
+
+    private void cool(double dt) {
+        // Surface area of the outside
+        int surfaceArea = (height * 5) * 4 /* four sides */ + (5 * 5) * 2 /* top and bottom */;
+        double kelvin = temperature + CELSIUS_TO_KELVIN;
+        double heatLoss = newtonsLawOfCooling(
+                HEAT_LOSS_COEFFICIENT,
+                kelvin,
+                ROOM_TEMPERATURE_KELVIN,
+                dt
+        ) + stefanBoltzmannLaw(
+                EMISSIVITY,
+                kelvin,
+                ROOM_TEMPERATURE_KELVIN,
+                dt
+        );
+        double heatCapacity = getHeatCapacity();
+        if (heatCapacity == 0) {
+            temperature = 20;
+        } else {
+            double tempLoss = (heatLoss * surfaceArea) / heatCapacity;
+            temperature -= tempLoss;
+        }
+    }
+
+    public void heat(double joules) {
+        double heatCapacity = getHeatCapacity();
+        if (heatCapacity == 0) return;
+        double tempIncrease = joules / heatCapacity;
+        temperature += tempIncrease;
+    }
+    // </editor-fold>
+
     @Override
     public void tick(double deltaSeconds) {
         if (isFormedAndFullyLoaded()) {
+            cool(deltaSeconds);
             contentsItem.notifyWindows();
-        } else {
+        } else if (height <= 0) { // check height instead because of the brief moment when the multiblock is loaded but not checked yet
             running = false;
         }
         infoItem.notifyWindows();

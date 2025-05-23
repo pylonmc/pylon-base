@@ -4,7 +4,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.block.Block;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -14,7 +13,6 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public abstract class SmelteryComponent<S extends PylonBlockSchema> extends PylonBlock<S> {
 
-    @Getter
     @Setter(AccessLevel.PACKAGE)
     private @Nullable SmelteryController controller = null;
 
@@ -26,5 +24,10 @@ public abstract class SmelteryComponent<S extends PylonBlockSchema> extends Pylo
     @SuppressWarnings("unused")
     public SmelteryComponent(S schema, Block block, PersistentDataContainer pdc) {
         super(schema, block);
+    }
+
+    public @Nullable SmelteryController getController() {
+        if (controller == null || !controller.isRunning()) return null;
+        return controller;
     }
 }

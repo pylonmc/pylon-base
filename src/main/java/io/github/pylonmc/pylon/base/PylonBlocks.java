@@ -6,10 +6,7 @@ import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.RefractoryBrick;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryHopper;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryInputHatch;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.SimplePylonBlock;
@@ -205,6 +202,18 @@ public final class PylonBlocks {
             Material.HOPPER,
             SmelteryHopper.class
     );
+    static {
+        SMELTERY_HOPPER.register();
+    }
+
+    public static final PylonBlockSchema SMELTERY_BURNER = new PylonBlockSchema(
+            pylonKey("smeltery_burner"),
+            Material.FURNACE,
+            SmelteryBurner.class
+    );
+    static {
+        SMELTERY_BURNER.register();
+    }
     // </editor-fold>
 
     public static void initialize() {}

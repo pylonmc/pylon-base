@@ -215,6 +215,7 @@ public final class PylonItems {
     }
     //</editor-fold>
 
+    // <editor-fold desc="Misc" defaultstate=collapsed>
     public static final WateringCan WATERING_CAN = new WateringCan(
             pylonKey("watering_can"),
             key -> ItemStackBuilder.defaultBuilder(Material.BUCKET, key).build()
@@ -1404,6 +1405,59 @@ public final class PylonItems {
         ).register();
     }
 
+    public static final Loupe.Schema LOUPE = new Loupe.Schema(
+            pylonKey("loupe"),
+            Loupe.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, key)
+                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                            .animation(ItemUseAnimation.SPYGLASS)
+                            .hasConsumeParticles(false)
+                            .consumeSeconds(3)
+                    )
+                    .build()
+    );
+
+    static {
+        LOUPE.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), LOUPE.getItemStack())
+                .shape(" C ", "CGC", " C ")
+                .setIngredient('C', Material.COPPER_INGOT)
+                .setIngredient('G', Material.GLASS);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final ResearchPack.Schema RESEARCH_PACK_1 = new ResearchPack.Schema(
+            pylonKey("research_pack_1"),
+            ResearchPack.class,
+            key -> ItemStackBuilder.defaultBuilder(Material.BOOK, key)
+                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+                    .build()
+    );
+    static {
+        RESEARCH_PACK_1.register();
+        // TODO recipe when fluid api is done
+    }
+
+    public static final DimensionalBarrel.DimensionalBarrelItem.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelItem.Schema(
+            pylonKey("dimensional_barrel"),
+            DimensionalBarrel.DimensionalBarrelItem.class,
+            PylonBlocks.DIMENSIONAL_BARREL,
+            key -> ItemStackBuilder.defaultBuilder(Material.BARREL, key).build()
+    );
+    static {
+        DIMENSIONAL_BARREL.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL.getItemStack())
+                .shape("CBC", "BEB", "CBC")
+                .setIngredient('C', COVALENT_BINDER.getItemStack())
+                .setIngredient('B', Material.BARREL)
+                .setIngredient('E', Material.ENDER_EYE);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Fluids" defaultstate=collapsed>
     public static final FluidPipe.Schema WOODEN_FLUID_PIPE = new FluidPipe.Schema(
             pylonKey("fluid_pipe_wood"),
             key -> ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, key)
@@ -1506,57 +1560,7 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
-
-    public static final Loupe.Schema LOUPE = new Loupe.Schema(
-            pylonKey("loupe"),
-            Loupe.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, key)
-                    .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                            .animation(ItemUseAnimation.SPYGLASS)
-                            .hasConsumeParticles(false)
-                            .consumeSeconds(3)
-                    )
-                    .build()
-    );
-
-    static {
-        LOUPE.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), LOUPE.getItemStack())
-                .shape(" C ", "CGC", " C ")
-                .setIngredient('C', Material.COPPER_INGOT)
-                .setIngredient('G', Material.GLASS);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-    }
-
-    public static final ResearchPack.Schema RESEARCH_PACK_1 = new ResearchPack.Schema(
-            pylonKey("research_pack_1"),
-            ResearchPack.class,
-            key -> ItemStackBuilder.defaultBuilder(Material.BOOK, key)
-                    .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-                    .build()
-    );
-    static {
-        RESEARCH_PACK_1.register();
-        // TODO recipe when fluid api is done
-    }
-
-    public static final DimensionalBarrel.DimensionalBarrelItem.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelItem.Schema(
-            pylonKey("dimensional_barrel"),
-            DimensionalBarrel.DimensionalBarrelItem.class,
-            PylonBlocks.DIMENSIONAL_BARREL,
-            key -> ItemStackBuilder.defaultBuilder(Material.BARREL, key).build()
-    );
-    static {
-        DIMENSIONAL_BARREL.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL.getItemStack())
-                .shape("CBC", "BEB", "CBC")
-                .setIngredient('C', COVALENT_BINDER.getItemStack())
-                .setIngredient('B', Material.BARREL)
-                .setIngredient('E', Material.ENDER_EYE);
-        recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-    }
+    // </editor-fold>
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
     public static final PylonItemSchema REFRACTORY_BRICK = new SimpleBlockPlacerItemSchema(
@@ -1617,6 +1621,21 @@ public final class PylonItems {
                 .shape("I I", "IBI", " B ")
                 .setIngredient('B', REFRACTORY_BRICK.getItemStack())
                 .setIngredient('I', IRON_SHEET.getItemStack());
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final PylonItemSchema SMELTERY_BURNER = new SimpleBlockPlacerItemSchema(
+            pylonKey("smeltery_burner"),
+            key -> ItemStackBuilder.defaultBuilder(Material.FURNACE, key).build(),
+            PylonBlocks.SMELTERY_BURNER
+    );
+    static {
+        SMELTERY_BURNER.register();
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_burner"), SMELTERY_BURNER.getItemStack())
+                .shape("BBB", "BFB", "BBB")
+                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
+                .setIngredient('F', Material.FURNACE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
