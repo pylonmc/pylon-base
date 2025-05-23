@@ -26,9 +26,8 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
 
     public static class Schema extends PylonBlockSchema {
 
-        @SuppressWarnings("DataFlowIssue")
         // TODO settings
-        @Getter private final long fluidPerTick = 500 / 20;
+        @Getter private final double fluidPerSecond = 500.0;
 
         public Schema(@NotNull NamespacedKey key, @NotNull Material material) {
             super(key, material, WaterPump.class);
@@ -71,15 +70,15 @@ public class WaterPump extends PylonBlock<WaterPump.Schema> implements PylonEnti
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Long> getSuppliedFluids(@NotNull String connectionPoint) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
             return Map.of();
         }
-        return Map.of(PylonFluids.WATER, getSchema().fluidPerTick);
+        return Map.of(PylonFluids.WATER, getSchema().fluidPerSecond);
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, long amount) {
+    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         // nothing, water block is treated as infinite lol
     }
 }
