@@ -21,7 +21,7 @@ public class HealthTalismanSimple extends HealthTalisman {
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
 
-    protected HealthTalismanSimple(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
+    public HealthTalismanSimple(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
         super(schema, stack);
     }
 

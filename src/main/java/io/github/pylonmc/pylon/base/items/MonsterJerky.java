@@ -22,8 +22,8 @@ public class MonsterJerky extends PylonItem {
     public static final NamespacedKey KEY = pylonKey("monster_jerky");
 
     public static final int NUTRITION = getSettings(KEY).getOrThrow("nutrition", Integer.class);
-    public static final float SATURATION = getSettings(KEY).getOrThrow("saturation", Float.class);
-    public static final float COOKING_XP = getSettings(KEY).getOrThrow("cooking-xp", Float.class);
+    public static final float SATURATION = getSettings(KEY).getOrThrow("saturation", Double.class).floatValue();
+    public static final float COOKING_XP = getSettings(KEY).getOrThrow("cooking.xp", Double.class).floatValue();
 
     public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.ROTTEN_FLESH, KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())

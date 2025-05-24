@@ -8,8 +8,10 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Consumable;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -28,10 +30,21 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 @SuppressWarnings("UnstableApiUsage")
-public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consumable {
+public class Loupe extends PylonItem implements Interactor, Consumable {
+
+    public static final NamespacedKey KEY = pylonKey("loupe");
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, KEY)
+            .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
+                    .animation(ItemUseAnimation.SPYGLASS)
+                    .hasConsumeParticles(false)
+                    .consumeSeconds(3)
+            )
+            .build();
 
     private static final NamespacedKey CONSUMED_KEY = new NamespacedKey(PylonBase.getInstance(), "consumed");
     private static final PersistentDataType<PersistentDataContainer, Map<Material, Integer>> CONSUMED_TYPE =
@@ -40,25 +53,21 @@ public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consum
                     PylonSerializers.INTEGER
             );
 
-    public Loupe(@NotNull Loupe.Schema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    @Getter
+    private static final Map<ItemRarity, ItemConfig> itemConfigs = new EnumMap<>(ItemRarity.class);
+
+    static {
+        for (ItemRarity rarity : ItemRarity.values()) {
+            itemConfigs.put(
+                    rarity,
+                    ItemConfig.loadFrom(getSettings(KEY).getSectionOrThrow(rarity.name().toLowerCase(Locale.ROOT)))
+            );
+        }
     }
 
-    public static class Schema extends PylonItemSchema {
 
-        @Getter
-        private final Map<ItemRarity, ItemConfig> itemConfigs = new EnumMap<>(ItemRarity.class);
-
-        public Schema(@NotNull NamespacedKey key, @NotNull Class<Loupe> itemClass, @NotNull Function<@NotNull NamespacedKey, @NotNull ItemStack> templateSupplier) {
-            super(key, itemClass, templateSupplier);
-
-            for (ItemRarity rarity : ItemRarity.values()) {
-                itemConfigs.put(
-                        rarity,
-                        ItemConfig.loadFrom(getSettings().getSectionOrThrow(rarity.name().toLowerCase(Locale.ROOT)))
-                );
-            }
-        }
+    public Loupe(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
+        super(schema, stack);
     }
 
     @Override
@@ -78,7 +87,7 @@ public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consum
             return;
         }
         ItemRarity rarity = offhand.getType().getDefaultData(DataComponentTypes.RARITY);
-        int maxUses = getSchema().itemConfigs.get(rarity).uses;
+        int maxUses = itemConfigs.get(rarity).uses;
 
         var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
         if (items.getOrDefault(offhand.getType(), 0) >= maxUses) {
@@ -96,7 +105,7 @@ public class Loupe extends PylonItem<Loupe.Schema> implements Interactor, Consum
         ItemStack offhand = player.getInventory().getItemInOffHand();
         if (offhand.isEmpty()) return; // This should be handled by the above function but just in case
 
-        ItemConfig config = getSchema().itemConfigs.get(offhand.getType().getDefaultData(DataComponentTypes.RARITY));
+        ItemConfig config = itemConfigs.get(offhand.getType().getDefaultData(DataComponentTypes.RARITY));
         var items = new HashMap<>(player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of()));
         int currentUses = items.getOrDefault(offhand.getType(), 0);
         if (currentUses >= config.uses) return; // This should never happen

@@ -1,8 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipeCopper;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipeObsidian;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipeWood;
 import io.github.pylonmc.pylon.base.items.health.talisman.HealthTalismanAdvanced;
 import io.github.pylonmc.pylon.base.items.health.talisman.HealthTalismanSimple;
 import io.github.pylonmc.pylon.base.items.health.talisman.HealthTalismanUltimate;
@@ -10,7 +11,8 @@ import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
-import io.github.pylonmc.pylon.base.items.research.ResearchPack;
+import io.github.pylonmc.pylon.base.items.research.pack.ResearchPack;
+import io.github.pylonmc.pylon.base.items.research.pack.ResearchPack1;
 import io.github.pylonmc.pylon.base.items.tools.*;
 import io.github.pylonmc.pylon.base.items.tools.hammer.Hammer;
 import io.github.pylonmc.pylon.base.items.tools.hammer.HammerDiamond;
@@ -1174,13 +1176,9 @@ public final class PylonItems {
         ).register();
     }
 
-    public static final NamespacedKey FLUID_PIPE_WOOD_KEY = pylonKey("fluid_pipe_wood");
-    public static final ItemStack FLUID_PIPE_WOOD = ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, FLUID_PIPE_WOOD_KEY)
-            .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
-            .build();
     static {
-        PylonItem.register(FluidPipe.class, FLUID_PIPE_WOOD);
-        ItemStack output = new ItemStack(FLUID_PIPE_WOOD);
+        PylonItem.register(FluidPipeWood.class, FluidPipeWood.ITEM_STACK);
+        ItemStack output = new ItemStack(FluidPipeWood.ITEM_STACK);
         output.setAmount(4);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_wood"), output)
                 .shape("www", "   ", "www")
@@ -1189,13 +1187,9 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FLUID_PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
-    public static final ItemStack FLUID_PIPE_COPPER = ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, FLUID_PIPE_COPPER_KEY)
-            .set(DataComponentTypes.ITEM_MODEL, Material.ORANGE_TERRACOTTA.getKey())
-            .build();
     static {
-        PylonItem.register(FluidPipe.class, FLUID_PIPE_COPPER);
-        ItemStack output = new ItemStack(FLUID_PIPE_COPPER);
+        PylonItem.register(FluidPipeCopper.class, FluidPipeCopper.ITEM_STACK);
+        ItemStack output = new ItemStack(FluidPipeCopper.ITEM_STACK);
         output.setAmount(4);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_copper"), output)
                 .shape("ccc", "   ", "ccc")
@@ -1204,13 +1198,9 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FLUID_PIPE_OBSIDIAN_KEY = pylonKey("fluid_pipe_obsidian");
-    public static final ItemStack FLUID_PIPE_OBSIDIAN = ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, FLUID_PIPE_OBSIDIAN_KEY)
-            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
-            .build();
     static {
-        PylonItem.register(FluidPipe.class, FLUID_PIPE_OBSIDIAN);
-        ItemStack output = new ItemStack(FLUID_PIPE_OBSIDIAN);
+        PylonItem.register(FluidPipeObsidian.class, FluidPipeObsidian.ITEM_STACK);
+        ItemStack output = new ItemStack(FluidPipeObsidian.ITEM_STACK);
         output.setAmount(4);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_pipe_obsidian"), output)
                 .shape("ooo", "   ", "ooo")
@@ -1253,23 +1243,15 @@ public final class PylonItems {
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("water_pump"), WATER_PUMP)
                 .shape("iii", "ibi", "ipi")
                 .setIngredient('i', IRON_SHEET)
-                .setIngredient('p', FLUID_PIPE_COPPER)
+                .setIngredient('p', FluidPipeCopper.ITEM_STACK)
                 .setIngredient('b', new ItemStack(Material.BUCKET));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey LOUPE_KEY = pylonKey("loupe");
-    public static final ItemStack LOUPE = ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, LOUPE_KEY)
-            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .animation(ItemUseAnimation.SPYGLASS)
-                    .hasConsumeParticles(false)
-                    .consumeSeconds(3)
-            )
-            .build();
     static {
-        PylonItem.register(Loupe.class, LOUPE);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), LOUPE)
+        PylonItem.register(Loupe.class, Loupe.ITEM_STACK);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), Loupe.ITEM_STACK)
                 .shape(" C ", "CGC", " C ")
                 .setIngredient('C', Material.COPPER_INGOT)
                 .setIngredient('G', Material.GLASS);
@@ -1277,12 +1259,8 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey RESEARCH_PACK_1_KEY = pylonKey("research_pack_1");
-    public static final ItemStack RESEARCH_PACK_1 = ItemStackBuilder.defaultBuilder(Material.BOOK, RESEARCH_PACK_1_KEY)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
     static {
-        PylonItem.register(ResearchPack.class, RESEARCH_PACK_1);
+        PylonItem.register(ResearchPack1.class, ResearchPack1.ITEM_STACK);
         // TODO recipe when fluid api is done
     }
 
@@ -1290,7 +1268,7 @@ public final class PylonItems {
     public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.defaultBuilder(Material.BARREL, DIMENSIONAL_BARREL_KEY)
             .build();
     static {
-        PylonItem.register(DimensionalBarrel.DimensionalBarrelItem.class, DIMENSIONAL_BARREL);
+        PylonItem.register(PylonItem.class, DIMENSIONAL_BARREL, PylonBlocks.DIMENSIONAL_BARREL);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL)
                 .shape("CBC", "BEB", "CBC")
                 .setIngredient('C', COVALENT_BINDER)

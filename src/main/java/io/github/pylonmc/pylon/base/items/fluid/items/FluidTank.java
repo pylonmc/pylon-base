@@ -16,9 +16,6 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import lombok.Getter;
@@ -43,41 +40,6 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 public class FluidTank {
-
-    public static class FluidTankItem extends PylonItem<FluidTankItem.Schema> implements BlockPlacer {
-
-        public static class Schema extends PylonItemSchema {
-
-            private final FluidTankBlock.Schema block;
-
-            public Schema(
-                    @NotNull NamespacedKey key,
-                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier,
-                    @NotNull FluidTankBlock.Schema block
-            ) {
-                super(key, FluidTankItem.class, templateSupplier);
-                this.block = block;
-            }
-        }
-
-        public FluidTankItem(@NotNull Schema schema, @NotNull ItemStack stack) {
-            super(schema, stack);
-        }
-
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return getSchema().block;
-        }
-
-        @Override
-        public @NotNull Map<String, Component> getPlaceholders() {
-            return Map.of(
-                    "capacity", Component.text(getSchema().block.capacity),
-                    "min_temperature", Component.text(getSchema().block.minTemp),
-                    "max_temperature", Component.text(getSchema().block.maxTemp)
-            );
-        }
-    }
 
     public static class FluidTankBlock extends PylonBlock<FluidTankBlock.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
 
@@ -219,7 +181,7 @@ public class FluidTank {
                     getName(),
                     // TODO add fluid name once fluids have names
                     Map.of(
-                            "amount", Component.text(fluidAmount),
+                            "amount", Component.text(Math.round(fluidAmount)),
                             "capacity", Component.text(Math.round(getSchema().capacity))
                     )
             );
