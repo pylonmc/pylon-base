@@ -26,7 +26,9 @@ import java.util.UUID;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements PylonBreakHandler {
+public class FluidPipeMarker extends PylonBlock implements PylonBreakHandler {
+
+    public static final NamespacedKey KEY =  pylonKey("fluid_pipe_marker");
 
     private static final NamespacedKey PIPE_DISPLAY_KEY = pylonKey("pipe_display");
     private static final NamespacedKey FROM_KEY = pylonKey("from");
