@@ -29,7 +29,7 @@ public class WateringCan extends PylonItem implements BlockInteractor {
 
     public static final WateringSettings SETTINGS = WateringSettings.fromConfig(getSettings(KEY));
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.BUCKET, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.BUCKET, KEY)
             .build();
 
     private static final Random random = new Random();

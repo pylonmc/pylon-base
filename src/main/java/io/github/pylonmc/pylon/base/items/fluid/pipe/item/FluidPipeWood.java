@@ -20,7 +20,7 @@ public class FluidPipeWood extends FluidPipe {
     public static final int MAX_TEMPERATURE = getSettings(KEY).getOrThrow("temperature.max", Integer.class);
     public static final Material MATERIAL = Material.BROWN_TERRACOTTA;
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.CLAY_BALL, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
             .build();
 

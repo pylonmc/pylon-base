@@ -17,7 +17,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class PortableCraftingTable extends PylonItem implements Interactor {
 
     public static final NamespacedKey KEY = pylonKey("portable_crafting_table");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.CRAFTING_TABLE, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.CRAFTING_TABLE, KEY)
             .build();
 
     public PortableCraftingTable(PylonItemSchema schema, ItemStack stack) {

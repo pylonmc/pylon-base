@@ -34,7 +34,7 @@ public class LumberAxe extends PylonItem implements Tool {
 
     public static final int DURABILITY = getSettings(KEY).getOrThrow("durability", Integer.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.WOODEN_AXE, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, KEY)
             .set(DataComponentTypes.MAX_DAMAGE, DURABILITY)
             .build();
 

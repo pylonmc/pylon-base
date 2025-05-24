@@ -25,7 +25,7 @@ public class MonsterJerky extends PylonItem {
     public static final float SATURATION = getSettings(KEY).getOrThrow("saturation", Double.class).floatValue();
     public static final float COOKING_XP = getSettings(KEY).getOrThrow("cooking.xp", Double.class).floatValue();
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.ROTTEN_FLESH, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.ROTTEN_FLESH, KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
             .set(DataComponentTypes.FOOD, FoodProperties.food()
                     .canAlwaysEat(false)

@@ -16,7 +16,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class PortableEnderChest extends PylonItem implements Interactor {
 
     public static final NamespacedKey KEY = pylonKey("portable_ender_chest");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.ENDER_CHEST, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.ENDER_CHEST, KEY)
             .build();
 
     public PortableEnderChest(PylonItemSchema schema, ItemStack stack) {
