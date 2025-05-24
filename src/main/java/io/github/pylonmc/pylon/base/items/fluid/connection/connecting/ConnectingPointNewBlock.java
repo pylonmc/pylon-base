@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid.connection.connecting;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -39,7 +38,7 @@ public record ConnectingPointNewBlock(@NotNull BlockPosition position) implement
 
     @Override
     public @NotNull FluidConnectionInteraction create() {
-        FluidPipeConnector connector = (FluidPipeConnector) BlockStorage.placeBlock(position, PylonBlocks.FLUID_PIPE_CONNECTOR);
+        FluidPipeConnector connector = (FluidPipeConnector) BlockStorage.placeBlock(position, FluidPipeConnector.KEY);
         Preconditions.checkState(connector != null);
         FluidConnectionInteraction interaction = connector.getFluidConnectionInteraction();
         Preconditions.checkState(interaction != null);

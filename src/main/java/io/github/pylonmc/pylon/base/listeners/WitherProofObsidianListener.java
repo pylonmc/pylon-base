@@ -7,12 +7,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+// TODO I think this can be implemented as a normal Pylon block
 public class WitherProofObsidianListener implements Listener {
 
     @EventHandler
     private void onExplode(PrePylonBlockBreakEvent event) {
         var key = event.getPylonBlock().getSchema().getKey();
-        if (!key.equals(PylonBlocks.WITHER_PROOF_OBSIDIAN.getKey())) {
+        if (!key.equals(PylonBlocks.WITHER_PROOF_OBSIDIAN_KEY.getKey())) {
             return;
         }
 

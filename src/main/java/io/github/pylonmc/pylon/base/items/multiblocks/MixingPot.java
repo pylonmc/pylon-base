@@ -33,111 +33,108 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public final class MixingPot {
 
-    private MixingPot() {
-        throw new AssertionError("Container class");
+public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock {
+
+    public static final NamespacedKey KEY = pylonKey("mixing_pot");
+
+    @SuppressWarnings("unused")
+    public MixingPot(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+        super(schema, block);
     }
 
-    public static class MixingPotBlock extends PylonBlock<PylonBlockSchema> implements PylonMultiblock, PylonInteractableBlock {
+    @SuppressWarnings("unused")
+    public MixingPot(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(schema, block);
+    }
 
-        @SuppressWarnings("unused")
-        public MixingPotBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-            super(schema, block);
+    @Override
+    public @NotNull Set<ChunkPosition> getChunksOccupied() {
+        return Set.of(new ChunkPosition(getBlock()));
+    }
+
+    @Override
+    public boolean checkFormed() {
+        return getFire().getType() == Material.FIRE;
+    }
+
+    @Override
+    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
+        return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
+    }
+
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        // Only allow inserting water - events trying to insert lava will be cancelled
+        if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
+            return;
         }
 
-        @SuppressWarnings("unused")
-        public MixingPotBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-            super(schema, block);
+        if (event.getPlayer().isSneaking() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
         }
 
-        @Override
-        public @NotNull Set<ChunkPosition> getChunksOccupied() {
-            return Set.of(new ChunkPosition(getBlock()));
+        event.setCancelled(true);
+
+        if (!isFormedAndFullyLoaded()) {
+            return;
         }
 
-        @Override
-        public boolean checkFormed() {
-            return getFire().getType() == Material.FIRE;
+        if (!(getBlock().getBlockData() instanceof Levelled levelled)) {
+            return;
         }
 
-        @Override
-        public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-            return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
-        }
+        List<Item> items = getBlock()
+                .getLocation()
+                .toCenterLocation()
+                .getNearbyEntities(0.5, 0.5, 0.5)
+                .stream()
+                .filter(Item.class::isInstance)
+                .map(Item.class::cast)
+                .toList();
 
-        @Override
-        public void onInteract(@NotNull PlayerInteractEvent event) {
-            // Only allow inserting water - events trying to insert lava will be cancelled
-            if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
-                return;
-            }
-
-            if (event.getPlayer().isSneaking() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-                return;
-            }
-
-            event.setCancelled(true);
-
-            if (!isFormedAndFullyLoaded()) {
-                return;
-            }
-
-            if (!(getBlock().getBlockData() instanceof Levelled levelled)) {
-                return;
-            }
-
-            List<Item> items = getBlock()
-                    .getLocation()
-                    .toCenterLocation()
-                    .getNearbyEntities(0.5, 0.5, 0.5)
-                    .stream()
-                    .filter(Item.class::isInstance)
-                    .map(Item.class::cast)
-                    .toList();
-
-            List<ItemStack> stacks = items.stream()
-                    .map(Item::getItemStack)
-                    .toList();
+        List<ItemStack> stacks = items.stream()
+                .map(Item::getItemStack)
+                .toList();
 
 
-            PylonBlock<?> ignitedBlock = BlockStorage.get(getIgnitedBlock());
-            boolean isEnrichedFire = ignitedBlock != null
-                    && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK_KEY);
+        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
+        boolean isEnrichedFire = ignitedBlock != null
+                && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK_KEY);
 
-            for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-                if (recipe.matches(stacks, isEnrichedFire, levelled.getLevel())) {
-                    doRecipe(recipe, items);
-                    break;
-                }
+        for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
+            if (recipe.matches(stacks, isEnrichedFire, levelled.getLevel())) {
+                doRecipe(recipe, items);
+                break;
             }
         }
+    }
 
-        private void doRecipe(@NotNull Recipe recipe, @NotNull List<Item> items) {
-            recipe.takeIngredients(items, getBlock());
-            getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), recipe.output);
+    private void doRecipe(@NotNull Recipe recipe, @NotNull List<Item> items) {
+        recipe.takeIngredients(items, getBlock());
+        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), recipe.output);
 
-            new ParticleBuilder(Particle.SPLASH)
-                    .count(20)
-                    .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
-                    .offset(0.3, 0, 0.3)
-                    .spawn();
+        new ParticleBuilder(Particle.SPLASH)
+                .count(20)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
+                .offset(0.3, 0, 0.3)
+                .spawn();
 
-            new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                    .count(30)
-                    .location(getBlock().getLocation().toCenterLocation())
-                    .extra(0.05)
-                    .spawn();
-        }
+        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+                .count(30)
+                .location(getBlock().getLocation().toCenterLocation())
+                .extra(0.05)
+                .spawn();
+    }
 
-        public Block getFire() {
-            return getBlock().getRelative(BlockFace.DOWN);
-        }
+    public Block getFire() {
+        return getBlock().getRelative(BlockFace.DOWN);
+    }
 
-        public Block getIgnitedBlock() {
-            return getFire().getRelative(BlockFace.DOWN);
-        }
+    public Block getIgnitedBlock() {
+        return getFire().getRelative(BlockFace.DOWN);
     }
 
     /**

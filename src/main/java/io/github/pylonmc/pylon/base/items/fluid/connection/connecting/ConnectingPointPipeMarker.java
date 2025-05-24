@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid.connection.connecting;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
@@ -58,7 +57,7 @@ public record ConnectingPointPipeMarker(@NotNull FluidPipeMarker marker) impleme
 
         // place connector
         FluidPipeConnector connector
-                = (FluidPipeConnector) BlockStorage.placeBlock(marker.getBlock(), PylonBlocks.FLUID_PIPE_CONNECTOR);
+                = (FluidPipeConnector) BlockStorage.placeBlock(marker.getBlock(), FluidPipeConnector.KEY);
         Preconditions.checkState(connector != null);
         FluidConnectionInteraction connectorInteraction = connector.getFluidConnectionInteraction();
         Preconditions.checkState(connectorInteraction != null);

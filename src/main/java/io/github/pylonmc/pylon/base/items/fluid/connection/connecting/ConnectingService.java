@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid.connection.connecting;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipe;
@@ -111,7 +110,7 @@ public class ConnectingService implements Listener {
         targetInteraction.getConnectedPipeDisplays().add(pipeDisplay.getUuid());
 
         for (Block block : blocksOnPath(from.position(), to.position())) {
-            FluidPipeMarker marker = (FluidPipeMarker) BlockStorage.placeBlock(block, PylonBlocks.FLUID_PIPE_MARKER);
+            FluidPipeMarker marker = (FluidPipeMarker) BlockStorage.placeBlock(block, FluidPipeMarker.KEY);
             Preconditions.checkState(marker != null);
             marker.setPipeDisplay(pipeDisplay.getUuid());
             marker.setFrom(originInteraction.getUuid());
