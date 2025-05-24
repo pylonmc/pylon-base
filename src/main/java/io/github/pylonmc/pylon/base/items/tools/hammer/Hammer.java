@@ -132,7 +132,7 @@ public abstract class Hammer extends PylonItem implements BlockInteractor {
             double knockback,
             double attackDamage
     ) {
-        return ItemStackBuilder.defaultBuilder(material, key)
+        return ItemStackBuilder.pylonItem(material, key)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
                             pylonKey("hammer_attack_speed"),

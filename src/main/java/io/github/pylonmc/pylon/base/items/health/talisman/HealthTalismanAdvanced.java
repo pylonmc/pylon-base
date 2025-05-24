@@ -17,7 +17,7 @@ public class HealthTalismanAdvanced extends HealthTalisman {
 
     public static final int MAX_HEALTH_BOOST = getSettings(KEY).getOrThrow("max-health-boost", Integer.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.AMETHYST_CLUSTER, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.AMETHYST_CLUSTER, KEY)
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
 

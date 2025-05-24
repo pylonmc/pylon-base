@@ -17,7 +17,7 @@ public class ResearchPack1 extends ResearchPack {
 
     public static final int POINTS = getSettings(KEY).getOrThrow("points", Integer.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.BOOK, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.BOOK, KEY)
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
 

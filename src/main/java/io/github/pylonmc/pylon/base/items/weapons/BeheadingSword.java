@@ -31,7 +31,7 @@ public class BeheadingSword extends PylonItem implements Weapon {
     private static final double NORMAL_ENTITY_HEAD_CHANCE = getSettings(KEY).getOrThrow("head-chance.normal-entity", Double.class);
     private static final double WITHER_SKELETON_HEAD_CHANCE = getSettings(KEY).getOrThrow("head-chance.wither-skeleton", Double.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.DIAMOND_SWORD, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .set(DataComponentTypes.MAX_DAMAGE, DURABILITY)
             .build();

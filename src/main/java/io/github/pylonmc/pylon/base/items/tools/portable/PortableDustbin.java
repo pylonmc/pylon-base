@@ -18,7 +18,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class PortableDustbin extends PylonItem implements Interactor{
 
     public static final NamespacedKey KEY = pylonKey("portable_dustbin");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.CAULDRON, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.CAULDRON, KEY)
             .build();
 
     public PortableDustbin (PylonItemSchema schema, ItemStack stack) {

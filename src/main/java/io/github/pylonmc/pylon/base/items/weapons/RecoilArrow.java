@@ -20,7 +20,7 @@ public class RecoilArrow extends PylonItem implements Arrow {
 
     public static final double EFFICIENCY = getSettings(KEY).getOrThrow("efficiency", Double.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.ARROW, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.ARROW, KEY)
             .build();
 
     public RecoilArrow(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {

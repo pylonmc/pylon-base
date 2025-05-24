@@ -11,7 +11,6 @@ import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
-import io.github.pylonmc.pylon.base.items.research.pack.ResearchPack;
 import io.github.pylonmc.pylon.base.items.research.pack.ResearchPack1;
 import io.github.pylonmc.pylon.base.items.tools.*;
 import io.github.pylonmc.pylon.base.items.tools.hammer.Hammer;
@@ -63,7 +62,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Dusts" defaultstate=collapsed>
     public static final NamespacedKey COPPER_DUST_KEY = pylonKey("copper_dust");
-    public static final ItemStack COPPER_DUST = ItemStackBuilder.defaultBuilder(Material.GLOWSTONE_DUST, COPPER_DUST_KEY)
+    public static final ItemStack COPPER_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, COPPER_DUST_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, COPPER_DUST);
@@ -86,7 +85,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey GOLD_DUST_KEY = pylonKey("gold_dust");
-    public static final ItemStack GOLD_DUST = ItemStackBuilder.defaultBuilder(Material.GLOWSTONE_DUST, GOLD_DUST_KEY)
+    public static final ItemStack GOLD_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, GOLD_DUST_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, GOLD_DUST);
@@ -111,7 +110,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Sheets" defaultstate=collapsed>
     public static final NamespacedKey COPPER_SHEET_KEY = pylonKey("copper_sheet");
-    public static final ItemStack COPPER_SHEET = ItemStackBuilder.defaultBuilder(Material.PAPER, COPPER_SHEET_KEY)
+    public static final ItemStack COPPER_SHEET = ItemStackBuilder.pylonItem(Material.PAPER, COPPER_SHEET_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, COPPER_SHEET);
@@ -125,7 +124,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey GOLD_SHEET_KEY = pylonKey("gold_sheet");
-    public static final ItemStack GOLD_SHEET = ItemStackBuilder.defaultBuilder(Material.PAPER, GOLD_SHEET_KEY)
+    public static final ItemStack GOLD_SHEET = ItemStackBuilder.pylonItem(Material.PAPER, GOLD_SHEET_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, GOLD_SHEET);
@@ -139,7 +138,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey IRON_SHEET_KEY = pylonKey("iron_sheet");
-    public static final ItemStack IRON_SHEET = ItemStackBuilder.defaultBuilder(Material.PAPER, IRON_SHEET_KEY)
+    public static final ItemStack IRON_SHEET = ItemStackBuilder.pylonItem(Material.PAPER, IRON_SHEET_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, IRON_SHEET);
@@ -233,7 +232,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Ferroduralum" defaultstate=collapsed>
     public static final NamespacedKey RAW_FERRODURALUM_KEY = pylonKey("raw_ferroduralum");
-    public static final ItemStack RAW_FERRODURALUM = ItemStackBuilder.defaultBuilder(Material.RAW_GOLD, RAW_FERRODURALUM_KEY)
+    public static final ItemStack RAW_FERRODURALUM = ItemStackBuilder.pylonItem(Material.RAW_GOLD, RAW_FERRODURALUM_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, RAW_FERRODURALUM);
@@ -247,7 +246,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_INGOT_KEY = pylonKey("ferroduralum_ingot");
-    public static final ItemStack FERRODURALUM_INGOT = ItemStackBuilder.defaultBuilder(Material.GOLD_INGOT, FERRODURALUM_INGOT_KEY)
+    public static final ItemStack FERRODURALUM_INGOT = ItemStackBuilder.pylonItem(Material.GOLD_INGOT, FERRODURALUM_INGOT_KEY)
             .build();
     public static final float FERRODURALUM_INGOT_COOKING_XP = PylonItem.getSettings(FERRODURALUM_INGOT_KEY)
             .getOrThrow("cooking.xp", Double.class)
@@ -275,7 +274,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_SHEET_KEY = pylonKey("ferroduralum_sheet");
-    public static final ItemStack FERRODURALUM_SHEET = ItemStackBuilder.defaultBuilder(Material.PAPER, FERRODURALUM_SHEET_KEY)
+    public static final ItemStack FERRODURALUM_SHEET = ItemStackBuilder.pylonItem(Material.PAPER, FERRODURALUM_SHEET_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_SHEET);
@@ -300,7 +299,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_SWORD_KEY = pylonKey("ferroduralum_sword");
-    public static final ItemStack FERRODURALUM_SWORD = ItemStackBuilder.defaultBuilder(Material.GOLDEN_SWORD, FERRODURALUM_SWORD_KEY)
+    public static final ItemStack FERRODURALUM_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, FERRODURALUM_SWORD_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
                             pylonKey("ferroduralum_sword_damage"),
@@ -321,7 +320,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_AXE_KEY = pylonKey("ferroduralum_axe");
-    public static final ItemStack FERRODURALUM_AXE = ItemStackBuilder.defaultBuilder(Material.GOLDEN_AXE, FERRODURALUM_AXE_KEY)
+    public static final ItemStack FERRODURALUM_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, FERRODURALUM_AXE_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                             pylonKey("ferroduralum_axe_speed"),
@@ -342,7 +341,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_PICKAXE_KEY = pylonKey("ferroduralum_pickaxe");
-    public static final ItemStack FERRODURALUM_PICKAXE = ItemStackBuilder.defaultBuilder(Material.GOLDEN_PICKAXE, FERRODURALUM_PICKAXE_KEY)
+    public static final ItemStack FERRODURALUM_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, FERRODURALUM_PICKAXE_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                             pylonKey("ferroduralum_pickaxe_speed"),
@@ -363,7 +362,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_SHOVEL_KEY = pylonKey("ferroduralum_shovel");
-    public static final ItemStack FERRODURALUM_SHOVEL = ItemStackBuilder.defaultBuilder(Material.GOLDEN_SHOVEL, FERRODURALUM_SHOVEL_KEY)
+    public static final ItemStack FERRODURALUM_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, FERRODURALUM_SHOVEL_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                             pylonKey("ferroduralum_shovel_speed"),
@@ -384,7 +383,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_HOE_KEY= pylonKey("ferroduralum_hoe");
-    public static final ItemStack FERRODURALUM_HOE = ItemStackBuilder.defaultBuilder(Material.GOLDEN_HOE, FERRODURALUM_HOE_KEY)
+    public static final ItemStack FERRODURALUM_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, FERRODURALUM_HOE_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
                             pylonKey("ferroduralum_hoe_speed"),
@@ -417,7 +416,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_HELMET_KEY = pylonKey("ferroduralum_helmet");
-    public static final ItemStack FERRODURALUM_HELMET = ItemStackBuilder.defaultBuilder(Material.GOLDEN_HELMET, FERRODURALUM_HELMET_KEY)
+    public static final ItemStack FERRODURALUM_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, FERRODURALUM_HELMET_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             pylonKey("ferroduralum_helmet_armor"),
@@ -444,7 +443,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_CHESTPLATE_KEY = pylonKey("ferroduralum_chestplate");
-    public static final ItemStack FERRODURALUM_CHESTPLATE = ItemStackBuilder.defaultBuilder(Material.GOLDEN_CHESTPLATE, FERRODURALUM_CHESTPLATE_KEY)
+    public static final ItemStack FERRODURALUM_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, FERRODURALUM_CHESTPLATE_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             pylonKey("ferroduralum_chestplate_armor"),
@@ -471,7 +470,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_LEGGINGS_KEY = pylonKey("ferroduralum_leggings");
-    public static final ItemStack FERRODURALUM_LEGGINGS = ItemStackBuilder.defaultBuilder(Material.GOLDEN_LEGGINGS, FERRODURALUM_LEGGINGS_KEY)
+    public static final ItemStack FERRODURALUM_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, FERRODURALUM_LEGGINGS_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             pylonKey("ferroduralum_leggings_armor"),
@@ -498,7 +497,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FERRODURALUM_BOOTS_KEY = pylonKey("ferroduralum_boots");
-    public static final ItemStack FERRODURALUM_BOOTS = ItemStackBuilder.defaultBuilder(Material.GOLDEN_BOOTS, FERRODURALUM_BOOTS_KEY)
+    public static final ItemStack FERRODURALUM_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, FERRODURALUM_BOOTS_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             pylonKey("ferroduralum_boots_armor"),
@@ -536,7 +535,7 @@ public final class PylonItems {
     //</editor-fold>
 
     public static final NamespacedKey COMPRESSED_WOOD_KEY = pylonKey("compressed_wood");
-    public static final ItemStack COMPRESSED_WOOD = ItemStackBuilder.defaultBuilder(Material.OAK_WOOD, COMPRESSED_WOOD_KEY)
+    public static final ItemStack COMPRESSED_WOOD = ItemStackBuilder.pylonItem(Material.OAK_WOOD, COMPRESSED_WOOD_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -550,7 +549,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Portable Items" defaultstate=collapsed>
     public static final NamespacedKey PORTABILITY_CATALYST_KEY = pylonKey("portability_catalyst");
-    public static final ItemStack PORTABILITY_CATALYST = ItemStackBuilder.defaultBuilder(Material.AMETHYST_SHARD, PORTABILITY_CATALYST_KEY)
+    public static final ItemStack PORTABILITY_CATALYST = ItemStackBuilder.pylonItem(Material.AMETHYST_SHARD, PORTABILITY_CATALYST_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -564,7 +563,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey COMPRESSED_OBSIDIAN_KEY = pylonKey("compressed_obsidian");
-    public static final ItemStack COMPRESSED_OBSIDIAN = ItemStackBuilder.defaultBuilder(Material.OBSIDIAN, COMPRESSED_OBSIDIAN_KEY)
+    public static final ItemStack COMPRESSED_OBSIDIAN = ItemStackBuilder.pylonItem(Material.OBSIDIAN, COMPRESSED_OBSIDIAN_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -630,7 +629,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Medical items" defaultstate=collapsed>
     public static final NamespacedKey FIBER_KEY = pylonKey("fiber");
-    public static final ItemStack FIBER = ItemStackBuilder.defaultBuilder(Material.BAMBOO_MOSAIC, FIBER_KEY)
+    public static final ItemStack FIBER = ItemStackBuilder.pylonItem(Material.BAMBOO_MOSAIC, FIBER_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, FIBER);
@@ -642,7 +641,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey PLASTER_KEY = pylonKey("plaster");
-    public static final ItemStack PLASTER = ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, PLASTER_KEY)
+    public static final ItemStack PLASTER = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, PLASTER_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, PLASTER);
@@ -654,7 +653,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey BANDAGE_KEY = pylonKey("bandage");
-    public static final ItemStack BANDAGE = ItemStackBuilder.defaultBuilder(Material.COBWEB, BANDAGE_KEY)
+    public static final ItemStack BANDAGE = ItemStackBuilder.pylonItem(Material.COBWEB, BANDAGE_KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .addEffect(ConsumeEffect.applyStatusEffects(List.of(
                             new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)
@@ -674,7 +673,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SPLINT_KEY = pylonKey("splint");
-    public static final ItemStack SPLINT = ItemStackBuilder.defaultBuilder(Material.STICK, SPLINT_KEY)
+    public static final ItemStack SPLINT = ItemStackBuilder.pylonItem(Material.STICK, SPLINT_KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .addEffect(ConsumeEffect.applyStatusEffects(List.of(
                             new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true)
@@ -703,7 +702,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey DISINFECTANT_KEY = pylonKey("disinfectant");
-    public static final ItemStack DISINFECTANT = ItemStackBuilder.defaultBuilder(Material.BREWER_POTTERY_SHERD, DISINFECTANT_KEY)
+    public static final ItemStack DISINFECTANT = ItemStackBuilder.pylonItem(Material.BREWER_POTTERY_SHERD, DISINFECTANT_KEY)
             // Using the actual potion material doesn't let you set the name properly, gives you a
             // class string of a nonexistant potion type for some reason
             .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
@@ -724,7 +723,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey MEDKIT_KEY = pylonKey("medkit");
-    public static final ItemStack MEDKIT = ItemStackBuilder.defaultBuilder(Material.SHULKER_SHELL, MEDKIT_KEY)
+    public static final ItemStack MEDKIT = ItemStackBuilder.pylonItem(Material.SHULKER_SHELL, MEDKIT_KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .consumeSeconds(7.0f)
                     .animation(ItemUseAnimation.BOW)
@@ -757,7 +756,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SPRINKLER_KEY = pylonKey("sprinkler");
-    public static final ItemStack SPRINKLER = ItemStackBuilder.defaultBuilder(Material.FLOWER_POT, SPRINKLER_KEY)
+    public static final ItemStack SPRINKLER = ItemStackBuilder.pylonItem(Material.FLOWER_POT, SPRINKLER_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, SPRINKLER, PylonBlocks.SPRINKLER);
@@ -815,7 +814,7 @@ public final class PylonItems {
 
 
     public static final NamespacedKey GRINDSTONE_KEY = pylonKey("grindstone");
-    public static final ItemStack GRINDSTONE = ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, GRINDSTONE_KEY)
+    public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, GRINDSTONE_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, GRINDSTONE, PylonBlocks.GRINDSTONE);
@@ -828,7 +827,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey GRINDSTONE_HANDLE_KEY = pylonKey("grindstone_handle");
-    public static final ItemStack GRINDSTONE_HANDLE = ItemStackBuilder.defaultBuilder(Material.OAK_FENCE, GRINDSTONE_HANDLE_KEY)
+    public static final ItemStack GRINDSTONE_HANDLE = ItemStackBuilder.pylonItem(Material.OAK_FENCE, GRINDSTONE_HANDLE_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, GRINDSTONE_HANDLE, PylonBlocks.GRINDSTONE_HANDLE);
@@ -849,7 +848,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FLOUR_KEY = pylonKey("flour");
-    public static final ItemStack FLOUR = ItemStackBuilder.defaultBuilder(Material.SUGAR, FLOUR_KEY)
+    public static final ItemStack FLOUR = ItemStackBuilder.pylonItem(Material.SUGAR, FLOUR_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, FLOUR);
@@ -867,7 +866,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey DOUGH_KEY = pylonKey("dough");
-    public static final ItemStack DOUGH = ItemStackBuilder.defaultBuilder(Material.YELLOW_DYE, DOUGH_KEY)
+    public static final ItemStack DOUGH = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, DOUGH_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, DOUGH);
@@ -947,7 +946,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey MIXING_POT_KEY = pylonKey("mixing_pot");
-    public static final ItemStack MIXING_POT = ItemStackBuilder.defaultBuilder(Material.CAULDRON, MIXING_POT_KEY)
+    public static final ItemStack MIXING_POT = ItemStackBuilder.pylonItem(Material.CAULDRON, MIXING_POT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, MIXING_POT, PylonBlocks.MIXING_POT);
@@ -965,7 +964,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SHIMMER_DUST_1_KEY = pylonKey("shimmer_dust_1");
-    public static final ItemStack SHIMMER_DUST_1 = ItemStackBuilder.defaultBuilder(Material.SUGAR, SHIMMER_DUST_1_KEY)
+    public static final ItemStack SHIMMER_DUST_1 = ItemStackBuilder.pylonItem(Material.SUGAR, SHIMMER_DUST_1_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -979,7 +978,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SHIMMER_DUST_2_KEY = pylonKey("shimmer_dust_2");
-    public static final ItemStack SHIMMER_DUST_2 = ItemStackBuilder.defaultBuilder(Material.SUGAR, SHIMMER_DUST_2_KEY)
+    public static final ItemStack SHIMMER_DUST_2 = ItemStackBuilder.pylonItem(Material.SUGAR, SHIMMER_DUST_2_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -998,7 +997,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey ENRICHED_NETHERRACK_KEY = pylonKey("enriched_netherrack");
-    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.defaultBuilder(Material.NETHERRACK, ENRICHED_NETHERRACK_KEY)
+    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylonItem(Material.NETHERRACK, ENRICHED_NETHERRACK_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, ENRICHED_NETHERRACK, PylonBlocks.ENRICHED_NETHERRACK);
@@ -1011,7 +1010,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey COVALENT_BINDER_KEY = pylonKey("covalent_binder");
-    public static final ItemStack COVALENT_BINDER = ItemStackBuilder.defaultBuilder(Material.LIGHT_BLUE_DYE, COVALENT_BINDER_KEY)
+    public static final ItemStack COVALENT_BINDER = ItemStackBuilder.pylonItem(Material.LIGHT_BLUE_DYE, COVALENT_BINDER_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -1032,7 +1031,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SHIMMER_DUST_3_KEY = pylonKey("shimmer_dust_3");
-    public static final ItemStack SHIMMER_DUST_3 = ItemStackBuilder.defaultBuilder(Material.SUGAR, SHIMMER_DUST_3_KEY)
+    public static final ItemStack SHIMMER_DUST_3 = ItemStackBuilder.pylonItem(Material.SUGAR, SHIMMER_DUST_3_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -1056,7 +1055,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SHIMMER_SKULL_KEY = pylonKey("shimmer_skull");
-    public static final ItemStack SHIMMER_SKULL = ItemStackBuilder.defaultBuilder(Material.WITHER_SKELETON_SKULL, SHIMMER_SKULL_KEY)
+    public static final ItemStack SHIMMER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, SHIMMER_SKULL_KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -1108,7 +1107,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey PEDESTAL_KEY = pylonKey("pedestal");
-    public static final ItemStack PEDESTAL = ItemStackBuilder.defaultBuilder(Material.STONE_BRICK_WALL, PEDESTAL_KEY)
+    public static final ItemStack PEDESTAL = ItemStackBuilder.pylonItem(Material.STONE_BRICK_WALL, PEDESTAL_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, PEDESTAL, PylonBlocks.PEDESTAL);
@@ -1126,7 +1125,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey MAGIC_PEDESTAL_KEY = pylonKey("magic_pedestal");
-    public static final ItemStack MAGIC_PEDESTAL = ItemStackBuilder.defaultBuilder(Material.MOSSY_STONE_BRICK_WALL, MAGIC_PEDESTAL_KEY)
+    public static final ItemStack MAGIC_PEDESTAL = ItemStackBuilder.pylonItem(Material.MOSSY_STONE_BRICK_WALL, MAGIC_PEDESTAL_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, MAGIC_PEDESTAL, PylonBlocks.MAGIC_PEDESTAL);
@@ -1139,7 +1138,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey MAGIC_ALTAR_KEY = pylonKey("magic_altar");
-    public static final ItemStack MAGIC_ALTAR = ItemStackBuilder.defaultBuilder(Material.SMOOTH_STONE_SLAB, MAGIC_ALTAR_KEY)
+    public static final ItemStack MAGIC_ALTAR = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, MAGIC_ALTAR_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, MAGIC_ALTAR, PylonBlocks.MAGIC_ALTAR);
@@ -1153,7 +1152,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey WITHER_PROOF_OBSIDIAN_KEY = pylonKey("wither_proof_obsidian");
-    public static final ItemStack WITHER_PROOF_OBSIDIAN = ItemStackBuilder.defaultBuilder(Material.OBSIDIAN, WITHER_PROOF_OBSIDIAN_KEY)
+    public static final ItemStack WITHER_PROOF_OBSIDIAN = ItemStackBuilder.pylonItem(Material.OBSIDIAN, WITHER_PROOF_OBSIDIAN_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, WITHER_PROOF_OBSIDIAN);
@@ -1210,7 +1209,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FLUID_TANK_WOOD_KEY = pylonKey("fluid_tank_wood");
-    public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.defaultBuilder(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
+    public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, PylonBlocks.FLUID_TANK_WOOD);
@@ -1223,7 +1222,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey FLUID_TANK_COPPER_KEY = pylonKey("fluid_tank_copper");
-    public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.defaultBuilder(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
+    public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, PylonBlocks.FLUID_TANK_COPPER);
@@ -1236,7 +1235,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey WATER_PUMP_KEY = pylonKey("water_pump");
-    public static final ItemStack WATER_PUMP = ItemStackBuilder.defaultBuilder(Material.BLUE_TERRACOTTA, WATER_PUMP_KEY)
+    public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WATER_PUMP_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, WATER_PUMP, PylonBlocks.WATER_PUMP);
@@ -1265,7 +1264,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey DIMENSIONAL_BARREL_KEY = pylonKey("dimensional_barrel");
-    public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.defaultBuilder(Material.BARREL, DIMENSIONAL_BARREL_KEY)
+    public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DIMENSIONAL_BARREL_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, DIMENSIONAL_BARREL, PylonBlocks.DIMENSIONAL_BARREL);

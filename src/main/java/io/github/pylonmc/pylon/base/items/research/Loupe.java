@@ -38,7 +38,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class Loupe extends PylonItem implements Interactor, Consumable {
 
     public static final NamespacedKey KEY = pylonKey("loupe");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.defaultBuilder(Material.GLASS_PANE, KEY)
+    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.GLASS_PANE, KEY)
             .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
