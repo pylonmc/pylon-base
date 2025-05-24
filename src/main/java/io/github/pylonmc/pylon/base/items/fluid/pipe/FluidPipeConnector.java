@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -81,10 +82,10 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), Map.of("pipe", getPipe().getItemStack().effectiveName()));
+        return new WailaConfig(getName(), Map.of("pipe", getPipe().getStack().effectiveName()));
     }
 
-    public @NotNull FluidPipe.Schema getPipe() {
+    public @NotNull PylonItem getPipe() {
         FluidConnectionInteraction interaction = getFluidConnectionInteraction();
         Preconditions.checkState(interaction != null);
         Preconditions.checkState(!interaction.getConnectedPipeDisplays().isEmpty());

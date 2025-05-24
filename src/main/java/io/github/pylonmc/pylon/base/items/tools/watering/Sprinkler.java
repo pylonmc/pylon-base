@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -11,7 +10,6 @@ import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,7 +24,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.function.Function;
 
 
 public final class Sprinkler {
@@ -38,25 +35,9 @@ public final class Sprinkler {
         throw new AssertionError("Container class");
     }
 
-    public static class SprinklerItem extends PylonItem<SprinklerItem.Schema> implements BlockPlacer {
+    public static class SprinklerItem extends PylonItem {
 
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.SPRINKLER;
-        }
-
-        public static class Schema extends PylonItemSchema {
-
-            public Schema(
-                    @NotNull NamespacedKey key,
-                    @NotNull Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier
-            ) {
-                super(key, itemClass, templateSupplier);
-            }
-        }
-
-        public SprinklerItem(@NotNull Schema schema, @NotNull ItemStack stack) {
+        public SprinklerItem(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
             super(schema, stack);
         }
 
@@ -111,7 +92,7 @@ public final class Sprinkler {
                 return;
             }
 
-            WateringCan.WateringCanItem.water(getBlock(), getSchema().settings);
+            WateringCan.water(getBlock(), getSchema().settings);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)
