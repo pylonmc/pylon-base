@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -54,8 +53,8 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL_KEY);
 
     @SuppressWarnings("unused")
-    public MagicAltar(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block);
+    public MagicAltar(Block block, BlockCreateContext context) {
+        super(block);
 
         ItemDisplay display = new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
@@ -74,8 +73,8 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public MagicAltar(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block);
+    public MagicAltar(Block block, PersistentDataContainer pdc) {
+        super(block);
 
         entities = loadHeldEntities(pdc);
         processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);

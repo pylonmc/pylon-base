@@ -3,10 +3,9 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
-import io.github.pylonmc.pylon.base.items.fluid.items.tank.FluidTankCopper;
-import io.github.pylonmc.pylon.base.items.fluid.items.tank.FluidTankWood;
 import io.github.pylonmc.pylon.base.items.multiblocks.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.GrindstoneHandle;
@@ -54,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@SuppressWarnings("UnstableApiUsage")
+@SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class PylonItems {
 
     private PylonItems() {
@@ -1214,7 +1213,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, FluidTankWood.KEY);
+        PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, FluidTank.FLUID_TANK_WOOD_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), FLUID_TANK_WOOD)
                 .shape("gwg", "w w", "gwg")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
@@ -1227,7 +1226,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, FluidTankCopper.KEY);
+        PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, FluidTank.FLUID_TANK_COPPER_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_copper"), FLUID_TANK_COPPER)
                 .shape("gcg", "c c", "gcg")
                 .setIngredient('c', COPPER_SHEET)

@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -41,13 +40,13 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     public static final NamespacedKey KEY = pylonKey("mixing_pot");
 
     @SuppressWarnings("unused")
-    public MixingPot(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
     }
 
     @SuppressWarnings("unused")
-    public MixingPot(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
     }
 
     @Override

@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -34,8 +33,8 @@ public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderB
     private final Map<String, UUID> entities;
 
     @SuppressWarnings("unused")
-    public FluidPipeConnector(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public FluidPipeConnector(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
 
         FluidConnectionPoint point = new FluidConnectionPoint(block, "connector", FluidConnectionPoint.Type.CONNECTOR);
 
@@ -45,8 +44,8 @@ public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderB
     }
 
     @SuppressWarnings("unused")
-    public FluidPipeConnector(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public FluidPipeConnector(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
 
         entities = loadHeldEntities(pdc);
     }

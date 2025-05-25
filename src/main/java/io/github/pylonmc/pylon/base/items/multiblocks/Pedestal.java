@@ -45,8 +45,8 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     private final Map<String, UUID> entities;
 
     @SuppressWarnings("unused")
-    public Pedestal(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block);
+    public Pedestal(Block block, BlockCreateContext context) {
+        super(block);
 
         rotation = 0;
         locked = false;
@@ -61,8 +61,8 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public Pedestal(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block);
+    public Pedestal(Block block, PersistentDataContainer pdc) {
+        super(block);
         entities = loadHeldEntities(pdc);
         rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
         locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
