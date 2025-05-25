@@ -34,6 +34,8 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 @NullMarked
 public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
 
+    public static final NamespacedKey KEY = pylonKey("smeltery_burner");
+
     // TODO block setting
     private static final double BURN_EFFICIENCY = 0.45;
 

@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
 import org.bukkit.inventory.ItemStack;
@@ -16,8 +17,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 @NullMarked
 public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock {
+
+    public static final NamespacedKey KEY = pylonKey("smeltery_hopper");
 
     private static final Map<ItemStack, PylonFluid> CASTABLE_FLUIDS = PylonRegistry.FLUIDS.getValues().stream()
             .filter(f -> f.hasTag(CastableFluid.class))

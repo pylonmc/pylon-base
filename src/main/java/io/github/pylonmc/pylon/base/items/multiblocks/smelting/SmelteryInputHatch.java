@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jspecify.annotations.NullMarked;
@@ -17,8 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 @NullMarked
 public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidInteractionBlock {
+
+    public static final NamespacedKey KEY = pylonKey("smeltery_input_hatch");
 
     public SmelteryInputHatch(Block block, BlockCreateContext context) {
         super(block, context);

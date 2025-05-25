@@ -48,6 +48,8 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
 
+    public static final NamespacedKey KEY = pylonKey("smeltery_controller");
+
     private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");
     private static final NamespacedKey RUNNING_KEY = pylonKey("running");
     private static final NamespacedKey HEIGHT_KEY = pylonKey("height");
@@ -95,7 +97,7 @@ public final class SmelteryController extends SmelteryComponent
         temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, 20.0);
         running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
         height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
-        capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.LONG, 0L);
+        capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.DOUBLE, 0D);
         components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
         fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), Map.of()));
 

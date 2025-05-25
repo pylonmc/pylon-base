@@ -26,7 +26,7 @@ public sealed interface VanillaOrPylon {
     record Pylon(PylonItemSchema item) implements VanillaOrPylon {
         @Override
         public boolean matches(ItemStack stack) {
-            PylonItem<?> pylonItem = PylonItem.fromStack(stack);
+            PylonItem pylonItem = PylonItem.fromStack(stack);
             return pylonItem != null && pylonItem.getSchema().getKey().equals(item.getKey());
         }
     }

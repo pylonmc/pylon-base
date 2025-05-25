@@ -7,6 +7,10 @@ import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryBurner;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryHopper;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryInputHatch;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
 import io.github.pylonmc.pylon.base.items.research.ResearchPack;
 import io.github.pylonmc.pylon.base.items.tools.Hammer;
@@ -20,7 +24,6 @@ import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
 import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
@@ -1284,14 +1287,12 @@ public final class PylonItems {
     //</editor-fold>
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
-    public static final PylonItemSchema REFRACTORY_BRICK = new SimpleBlockPlacerItemSchema(
-            pylonKey("refractory_brick"),
-            key -> ItemStackBuilder.defaultBuilder(Material.DEEPSLATE_TILES, key).build(),
-            PylonBlocks.REFRACTORY_BRICK
-    );
+    public static final NamespacedKey REFRACTORY_BRICK_KEY = pylonKey("refractory_brick");
+    public static final ItemStack REFRACTORY_BRICK = ItemStackBuilder.pylonItem(Material.DEEPSLATE_TILES, REFRACTORY_BRICK_KEY)
+            .build();
     static {
-        REFRACTORY_BRICK.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("refractory_brick"), REFRACTORY_BRICK.getItemStack().asQuantity(4))
+        PylonItem.register(PylonItem.class, REFRACTORY_BRICK, PylonBlocks.REFRACTORY_BRICK_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("refractory_brick"), REFRACTORY_BRICK.asQuantity(4))
                 .shape("BBB", "NRN", "BBB")
                 .setIngredient('B', Material.BRICK)
                 .setIngredient('N', Material.NETHER_BRICK)
@@ -1300,62 +1301,54 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final PylonItemSchema SMELTERY_CONTROLLER = new SimpleBlockPlacerItemSchema(
-            pylonKey("smeltery_controller"),
-            key -> ItemStackBuilder.defaultBuilder(Material.BLAST_FURNACE, key).build(),
-            PylonBlocks.SMELTERY_CONTROLLER
-    );
+    public static final NamespacedKey SMELTERY_CONTROLLER_KEY = pylonKey("smeltery_controller");
+    public static final ItemStack SMELTERY_CONTROLLER = ItemStackBuilder.pylonItem(Material.BLAST_FURNACE, SMELTERY_CONTROLLER_KEY)
+            .build();
     static {
-        SMELTERY_CONTROLLER.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_controller"), SMELTERY_CONTROLLER.getItemStack())
+        PylonItem.register(PylonItem.class, SMELTERY_CONTROLLER, SmelteryController.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_controller"), SMELTERY_CONTROLLER)
                 .shape("RBR", "BFB", "RBR")
-                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
+                .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('F', Material.BLAST_FURNACE)
                 .setIngredient('R', Material.REDSTONE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final PylonItemSchema SMELTERY_INPUT_HATCH = new SimpleBlockPlacerItemSchema(
-            pylonKey("smeltery_input_hatch"),
-            key -> ItemStackBuilder.defaultBuilder(Material.CYAN_TERRACOTTA, key).build(),
-            PylonBlocks.SMELTERY_INPUT_HATCH
-    );
+    public static final NamespacedKey SMELTERY_INPUT_HATCH_KEY = pylonKey("smeltery_input_hatch");
+    public static final ItemStack SMELTERY_INPUT_HATCH = ItemStackBuilder.pylonItem(Material.LIGHT_BLUE_TERRACOTTA, SMELTERY_INPUT_HATCH_KEY)
+            .build();
     static {
-        SMELTERY_INPUT_HATCH.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_input_hatch"), SMELTERY_INPUT_HATCH.getItemStack())
+        PylonItem.register(PylonItem.class, SMELTERY_INPUT_HATCH, SmelteryInputHatch.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_input_hatch"), SMELTERY_INPUT_HATCH)
                 .shape("IBI", "B B", "IBI")
-                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
-                .setIngredient('I', IRON_SHEET.getItemStack());
+                .setIngredient('B', REFRACTORY_BRICK)
+                .setIngredient('I', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final PylonItemSchema SMELTERY_HOPPER = new SimpleBlockPlacerItemSchema(
-            pylonKey("smeltery_hopper"),
-            key -> ItemStackBuilder.defaultBuilder(Material.HOPPER, key).build(),
-            PylonBlocks.SMELTERY_HOPPER
-    );
+    public static final NamespacedKey SMELTERY_HOPPER_KEY = pylonKey("smeltery_hopper");
+    public static final ItemStack SMELTERY_HOPPER = ItemStackBuilder.pylonItem(Material.HOPPER, SMELTERY_HOPPER_KEY)
+            .build();
     static {
-        SMELTERY_HOPPER.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_hopper"), SMELTERY_HOPPER.getItemStack())
+        PylonItem.register(PylonItem.class, SMELTERY_HOPPER, SmelteryHopper.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_hopper"), SMELTERY_HOPPER)
                 .shape("I I", "IBI", " B ")
-                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
-                .setIngredient('I', IRON_SHEET.getItemStack());
+                .setIngredient('B', REFRACTORY_BRICK)
+                .setIngredient('I', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final PylonItemSchema SMELTERY_BURNER = new SimpleBlockPlacerItemSchema(
-            pylonKey("smeltery_burner"),
-            key -> ItemStackBuilder.defaultBuilder(Material.FURNACE, key).build(),
-            PylonBlocks.SMELTERY_BURNER
-    );
+    public static final NamespacedKey SMELTERY_BURNER_KEY = pylonKey("smeltery_burner");
+    public static final ItemStack SMELTERY_BURNER = ItemStackBuilder.pylonItem(Material.FURNACE, SMELTERY_BURNER_KEY)
+            .build();
     static {
-        SMELTERY_BURNER.register();
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_burner"), SMELTERY_BURNER.getItemStack())
+        PylonItem.register(PylonItem.class, SMELTERY_BURNER, SmelteryBurner.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_burner"), SMELTERY_BURNER)
                 .shape("BBB", "BFB", "BBB")
-                .setIngredient('B', REFRACTORY_BRICK.getItemStack())
+                .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('F', Material.FURNACE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
