@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -39,7 +40,7 @@ public class WateringCan extends PylonItemSchema {
 
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("range", Component.text(getSchema().settings.horizontalRange()));
+            return Map.of("range", UnitFormat.BLOCKS.format(getSchema().settings.horizontalRange()).toComponent());
         }
 
         @Override

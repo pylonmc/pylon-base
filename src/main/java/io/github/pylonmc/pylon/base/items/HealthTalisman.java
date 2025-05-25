@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -44,7 +45,11 @@ public class HealthTalisman extends PylonItemSchema {
 
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("health-boost", Component.text(getSchema().maxHealthBoost));
+            return Map.of(
+                    "health-boost", UnitFormat.HEARTS.format(getSchema().maxHealthBoost)
+                            .abbreviate(true)
+                            .toComponent()
+            );
         }
     }
 
