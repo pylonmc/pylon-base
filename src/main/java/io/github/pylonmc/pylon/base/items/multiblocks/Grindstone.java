@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
@@ -85,14 +84,14 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                         .translate(0, 0.15, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneItemEntity(PylonEntities.GRINDSTONE_ITEM, itemDisplay));
+        EntityStorage.add(new GrindstoneItemEntity(itemDisplay));
 
         ItemDisplay stoneDisplay = new ItemDisplayBuilder()
                 .material(Material.SMOOTH_STONE_SLAB)
                 .transformation(new TransformBuilder()
                         .translate(0, 0.8, 0))
                 .build(getBlock().getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneBlockEntity(PylonEntities.GRINDSTONE_BLOCK, stoneDisplay));
+        EntityStorage.add(new GrindstoneBlockEntity(stoneDisplay));
 
         return Map.of(
                 "item", itemDisplay.getUniqueId(),

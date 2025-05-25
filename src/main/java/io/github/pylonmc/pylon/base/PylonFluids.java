@@ -6,7 +6,6 @@ import org.bukkit.Material;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-
 public final class PylonFluids {
 
     private PylonFluids() {

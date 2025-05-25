@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.BlockFaces;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -19,14 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 @NullMarked
-public final class SmelteryInputHatch extends SmelteryComponent<PylonBlockSchema> implements PylonFluidInteractionBlock {
+public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidInteractionBlock {
 
-    public SmelteryInputHatch(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block, context);
+    public SmelteryInputHatch(Block block, BlockCreateContext context) {
+        super(block, context);
     }
 
-    public SmelteryInputHatch(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block, pdc);
+    public SmelteryInputHatch(Block block, PersistentDataContainer pdc) {
+        super(block, pdc);
     }
 
     @Override
@@ -37,12 +36,12 @@ public final class SmelteryInputHatch extends SmelteryComponent<PylonBlockSchema
     }
 
     @Override
-    public Map<PylonFluid, Long> getRequestedFluids(String connectionPoint) {
+    public Map<PylonFluid, Double> getRequestedFluids(String connectionPoint, double deltaSeconds) {
         SmelteryController controller = getController();
         if (controller == null) return Map.of();
 
-        long allowed = controller.getCapacity() - controller.getTotalFluid();
-        Map<PylonFluid, Long> requested = new HashMap<>();
+        double allowed = controller.getCapacity() - controller.getTotalFluid();
+        Map<PylonFluid, Double> requested = new HashMap<>();
         for (PylonFluid fluid : PylonRegistry.FLUIDS) {
             if (fluid.hasTag(FluidTemperature.class)) {
                 requested.put(fluid, allowed);
@@ -52,7 +51,7 @@ public final class SmelteryInputHatch extends SmelteryComponent<PylonBlockSchema
     }
 
     @Override
-    public void addFluid(String connectionPoint, PylonFluid fluid, long amount) {
+    public void addFluid(String connectionPoint, PylonFluid fluid, double amount) {
         SmelteryController controller = getController();
         if (controller == null) return;
         controller.addFluid(fluid, amount);

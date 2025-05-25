@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import io.github.pylonmc.pylon.base.fluid.CastableFluid;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -18,7 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @NullMarked
-public final class SmelteryHopper extends SmelteryComponent<PylonBlockSchema> implements PylonTickingBlock {
+public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock {
 
     private static final Map<ItemStack, PylonFluid> CASTABLE_FLUIDS = PylonRegistry.FLUIDS.getValues().stream()
             .filter(f -> f.hasTag(CastableFluid.class))
@@ -27,12 +26,12 @@ public final class SmelteryHopper extends SmelteryComponent<PylonBlockSchema> im
                     Function.identity()
             ));
 
-    public SmelteryHopper(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block, context);
+    public SmelteryHopper(Block block, BlockCreateContext context) {
+        super(block, context);
     }
 
-    public SmelteryHopper(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block, pdc);
+    public SmelteryHopper(Block block, PersistentDataContainer pdc) {
+        super(block, pdc);
     }
 
     @Override

@@ -35,7 +35,7 @@ import java.util.function.Predicate;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-
+@SuppressWarnings("UnstableApiUsage")
 public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
 
     public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wooden");

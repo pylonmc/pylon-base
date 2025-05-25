@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -17,8 +16,8 @@ import io.github.pylonmc.pylon.core.item.builder.Quantity;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongRBTreeMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
@@ -46,7 +45,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
-public final class SmelteryController extends SmelteryComponent<PylonBlockSchema>
+public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
 
     private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");
@@ -64,21 +63,21 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
     @Setter
     private boolean running;
 
-    private final Object2LongMap<PylonFluid> fluids = new Object2LongRBTreeMap<>((a, b) -> {
+    private final Object2DoubleMap<PylonFluid> fluids = new Object2DoubleRBTreeMap<>((a, b) -> {
         FluidTemperature temperatureA = a.getTag(FluidTemperature.class);
         FluidTemperature temperatureB = b.getTag(FluidTemperature.class);
         return -Integer.compare(temperatureA.getTemperature(), temperatureB.getTemperature());
     });
 
     @Getter
-    private long capacity;
+    private double capacity;
 
     private int height;
     private final Set<BlockPosition> components = new HashSet<>();
 
     @SuppressWarnings("unused")
-    public SmelteryController(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block, context);
+    public SmelteryController(Block block, BlockCreateContext context) {
+        super(block, context);
 
         temperature = 20;
         running = false;
@@ -90,15 +89,15 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
     }
 
     @SuppressWarnings("unused")
-    public SmelteryController(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block, pdc);
+    public SmelteryController(Block block, PersistentDataContainer pdc) {
+        super(block, pdc);
 
         temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, 20.0);
         running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
         height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
         capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.LONG, 0L);
         components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
-        fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.LONG), Map.of()));
+        fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), Map.of()));
 
         fluids.defaultReturnValue(-1);
     }
@@ -108,15 +107,15 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
         pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
         pdc.set(HEIGHT_KEY, PylonSerializers.INTEGER, height);
-        pdc.set(CAPACITY_KEY, PylonSerializers.LONG, capacity);
+        pdc.set(CAPACITY_KEY, PylonSerializers.DOUBLE, capacity);
         pdc.set(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), components);
-        pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.LONG), fluids);
+        pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), fluids);
     }
 
     @Override
     public void postBreak() {
         for (BlockPosition pos : components) {
-            if (BlockStorage.get(pos) instanceof SmelteryComponent<?> component) {
+            if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
                 component.setController(null);
             }
         }
@@ -193,10 +192,10 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
         @Override
         public ItemProvider getItemProvider() {
             List<Component> lore = new ArrayList<>();
-            for (Object2LongMap.Entry<PylonFluid> entry : fluids.object2LongEntrySet()) {
+            for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
                 PylonFluid fluid = entry.getKey();
                 int temperature = fluid.getTag(FluidTemperature.class).getTemperature();
-                long amount = entry.getLongValue();
+                double amount = entry.getDoubleValue();
                 TextColor color = fluidColors.computeIfAbsent(
                         fluid,
                         f -> TextColor.color(ColorUtils.colorFromTemperature(temperature).asRGB())
@@ -263,12 +262,12 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
 
     @Override
     public boolean checkFormed() {
-        long previousCapacity = capacity;
+        double previousCapacity = capacity;
         height = 0;
         capacity = 0;
 
         for (BlockPosition pos : components) {
-            if (BlockStorage.get(pos) instanceof SmelteryComponent<?> component) {
+            if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
                 component.setController(null);
             }
         }
@@ -287,13 +286,13 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
         }
 
         if (capacity < previousCapacity) {
-            double ratio = (double) capacity / previousCapacity;
+            double ratio = capacity / previousCapacity;
             for (PylonFluid fluid : fluids.keySet()) {
-                long amount = fluids.getLong(fluid);
+                double amount = fluids.getDouble(fluid);
                 if (amount > 0) {
                     long newAmount = (long) (amount * ratio);
                     if (newAmount == 0) {
-                        fluids.removeLong(fluid);
+                        fluids.removeDouble(fluid);
                     } else {
                         fluids.put(fluid, newAmount);
                     }
@@ -319,15 +318,15 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
     }
 
     private boolean checkAllComponent(List<BlockPosition> positions) {
-        Map<BlockPosition, SmelteryComponent<?>> components = new HashMap<>();
+        Map<BlockPosition, SmelteryComponent> components = new HashMap<>();
         for (BlockPosition pos : positions) {
-            if (BlockStorage.get(pos) instanceof SmelteryComponent<?> component) {
+            if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
                 components.put(pos, component);
             } else {
                 return false;
             }
         }
-        for (Map.Entry<BlockPosition, SmelteryComponent<?>> entry : components.entrySet()) {
+        for (Map.Entry<BlockPosition, SmelteryComponent> entry : components.entrySet()) {
             this.components.add(entry.getKey());
             entry.getValue().setController(this);
         }
@@ -346,31 +345,31 @@ public final class SmelteryController extends SmelteryComponent<PylonBlockSchema
     // </editor-fold>
 
     // <editor-fold desc="Fluid" defaultstate="collapsed">
-    public void addFluid(PylonFluid fluid, long amount) {
+    public void addFluid(PylonFluid fluid, double amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
-        long amountToAdd = Math.min(amount, capacity - getTotalFluid());
-        fluids.mergeLong(fluid, amountToAdd, Long::sum);
+        double amountToAdd = Math.min(amount, capacity - getTotalFluid());
+        fluids.mergeDouble(fluid, amountToAdd, Double::sum);
     }
 
-    public void removeFluid(PylonFluid fluid, long amount) {
+    public void removeFluid(PylonFluid fluid, double amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
-        fluids.mergeLong(fluid, -amount, Long::sum);
-        if (fluids.getLong(fluid) <= 0) {
-            fluids.removeLong(fluid);
+        fluids.mergeDouble(fluid, -amount, Double::sum);
+        if (fluids.getDouble(fluid) <= 0) {
+            fluids.removeDouble(fluid);
         }
     }
 
-    public long getFluidAmount(PylonFluid fluid) {
-        return fluids.getLong(fluid);
+    public double getFluidAmount(PylonFluid fluid) {
+        return fluids.getDouble(fluid);
     }
 
-    public long getTotalFluid() {
-        long sum = 0;
-        for (long value : fluids.values()) {
+    public double getTotalFluid() {
+        double sum = 0;
+        for (double value : fluids.values()) {
             sum += value;
         }
         return sum;

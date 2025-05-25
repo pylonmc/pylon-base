@@ -10,7 +10,6 @@ import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
 
-
 public final class PylonEntities {
 
     private PylonEntities() {

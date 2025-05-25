@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items.multiblocks;
 
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -62,7 +61,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
         ItemDisplay display = new ItemDisplayBuilder()
                 .transformation(transformBuilder().buildForItemDisplay())
                 .build(getBlock().getLocation().toCenterLocation());
-        PedestalItemEntity pylonEntity = new PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
+        PedestalItemEntity pylonEntity = new PedestalItemEntity(display);
         EntityStorage.add(pylonEntity);
         return Map.of("item", pylonEntity.getUuid());
     }

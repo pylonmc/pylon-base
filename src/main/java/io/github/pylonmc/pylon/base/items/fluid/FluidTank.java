@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -61,7 +60,7 @@ public class FluidTank extends PylonBlock implements PylonFluidInteractionBlock,
     public FluidTank(Block block, PersistentDataContainer pdc) {
         super(block);
 
-        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
+        fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0D);
         fluidType = pdc.get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
     }
 
@@ -84,7 +83,7 @@ public class FluidTank extends PylonBlock implements PylonFluidInteractionBlock,
         Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(getBlock().getLocation().toCenterLocation());
-        FluidTankEntity fluidTankEntity = new FluidTankEntity(PylonEntities.FLUID_TANK_DISPLAY, fluidDisplay);
+        FluidTankEntity fluidTankEntity = new FluidTankEntity(fluidDisplay);
         EntityStorage.add(fluidTankEntity);
         entities.put("fluid", fluidTankEntity.getUuid());
 

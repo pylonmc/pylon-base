@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import io.github.pylonmc.pylon.base.util.VanillaOrPylon;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -33,8 +32,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
-public final class SmelteryBurner extends SmelteryComponent<PylonBlockSchema>
-        implements PylonGuiBlock, PylonTickingBlock {
+public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
 
     // TODO block setting
     private static final double BURN_EFFICIENCY = 0.45;
@@ -52,15 +50,15 @@ public final class SmelteryBurner extends SmelteryComponent<PylonBlockSchema>
     private @Nullable Fuel fuel;
     private double secondsElapsed = 0;
 
-    public SmelteryBurner(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block, context);
+    public SmelteryBurner(Block block, BlockCreateContext context) {
+        super( block, context);
 
         fuel = null;
         secondsElapsed = 0;
     }
 
-    public SmelteryBurner(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block, pdc);
+    public SmelteryBurner(Block block, PersistentDataContainer pdc) {
+        super(block, pdc);
 
         fuel = pdc.get(FUEL_KEY, FUEL_TYPE);
         secondsElapsed = pdc.getOrDefault(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, 0D);
