@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -99,7 +100,7 @@ public class DimensionalBarrel {
         }
 
         @Override
-        public Map<String, Component> getPlaceholders() {
+        public Map<String, ComponentLike> getPlaceholders() {
             return Map.of("size", Component.text(getBlockSchema().size));
         }
     }

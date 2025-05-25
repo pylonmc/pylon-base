@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.item.research.Research;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -56,7 +57,7 @@ public class ResearchPack extends PylonItem<ResearchPack.Schema> implements Inte
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-        return Map.of("points", UnitFormat.RESEARCH_POINTS.format(getSchema().points).toComponent());
+    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
+        return Map.of("points", UnitFormat.RESEARCH_POINTS.format(getSchema().points));
     }
 }

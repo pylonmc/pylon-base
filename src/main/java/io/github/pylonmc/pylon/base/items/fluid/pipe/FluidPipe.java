@@ -16,6 +16,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -67,11 +68,11 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().fluidPerTick * 20).toComponent(),
-                "min_temperature", UnitFormat.CELSIUS.format(getSchema().minTemperature).toComponent(),
-                "max_temperature", UnitFormat.CELSIUS.format(getSchema().maxTemperature).toComponent()
+                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().fluidPerTick * 20),
+                "min_temperature", UnitFormat.CELSIUS.format(getSchema().minTemperature),
+                "max_temperature", UnitFormat.CELSIUS.format(getSchema().maxTemperature)
         );
     }
 

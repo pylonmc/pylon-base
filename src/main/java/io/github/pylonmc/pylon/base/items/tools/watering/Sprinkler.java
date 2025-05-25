@@ -14,6 +14,7 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -62,8 +63,8 @@ public final class Sprinkler {
         }
 
         @Override
-        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("range", UnitFormat.BLOCKS.format(HORIZONTAL_RANGE).toComponent());
+        public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
+            return Map.of("range", UnitFormat.BLOCKS.format(HORIZONTAL_RANGE));
         }
     }
 
