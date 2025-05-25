@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.items.fluid.connection.connecting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipe;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;

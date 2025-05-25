@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.tools.portable;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import org.bukkit.Material;
@@ -17,11 +16,11 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class PortableCraftingTable extends PylonItem implements Interactor {
 
     public static final NamespacedKey KEY = pylonKey("portable_crafting_table");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.CRAFTING_TABLE, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.CRAFTING_TABLE, KEY)
             .build();
 
-    public PortableCraftingTable(PylonItemSchema schema, ItemStack stack) {
-        super(schema, stack);
+    public PortableCraftingTable(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     @Override

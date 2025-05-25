@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.fluid.pipe.item;
+package io.github.pylonmc.pylon.base.items.fluid.pipe;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
@@ -7,21 +7,20 @@ import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.Connecting
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointPipeMarker;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -35,35 +34,40 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public abstract class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
 
-    public abstract double getFluidPerSecond();
-    public abstract int getMinTemperature();
-    public abstract int getMaxTemperature();
-    public abstract Material getMaterial();
+public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
 
-    public Predicate<PylonFluid> getPredicate() {
-        return fluid -> {
-            FluidTemperature temperatureTag = fluid.getTag(FluidTemperature.class);
-            if (temperatureTag == null) {
-                return false;
-            }
-            int temperature = temperatureTag.getValue();
-            return temperature > getMinTemperature() && temperature < getMaxTemperature();
-        };
-    }
+    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wooden");
+    public static final NamespacedKey PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
+    public static final NamespacedKey PIPE_OBSIDIAN_KEY = pylonKey("fluid_pipe_obsidian");
 
-    protected FluidPipe(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public static final ItemStack PIPE_WOOD_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_WOOD_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_WOOD_KEY).getKey())
+            .build();
+    public static final ItemStack PIPE_COPPER_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_COPPER_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_COPPER_KEY).getKey())
+            .build();
+    public static final ItemStack PIPE_OBSIDIAN_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_OBSIDIAN_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_OBSIDIAN_KEY).getKey())
+            .build();
+
+    public final Material material = getMaterial(getKey());
+    public final double fluidPerSecond = getSettings().getOrThrow("fluid-per-second", Double.class);
+    public final int minTemperature = getSettings().getOrThrow("temperature.min", Integer.class);
+    public final int maxTemperature = getSettings().getOrThrow("temperature.max", Integer.class);
+
+    public FluidPipe(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", Component.text(getFluidPerSecond()),
-                "min_temperature", Component.text(getMinTemperature()),
-                "max_temperature", Component.text(getMaxTemperature())
+                "fluid_per_second", Component.text(fluidPerSecond),
+                "min_temperature", Component.text(minTemperature),
+                "max_temperature", Component.text(maxTemperature)
         );
     }
 
@@ -83,7 +87,7 @@ public abstract class FluidPipe extends PylonItem implements EntityInteractor, I
         if (ConnectingService.isConnecting(event.getPlayer())) {
             UUID segment = ConnectingService.placeConnection(event.getPlayer());
             if (segment != null) {
-                FluidManager.setFluidPerSecond(segment, getFluidPerSecond());
+                FluidManager.setFluidPerSecond(segment, fluidPerSecond);
                 FluidManager.setFluidPredicate(segment, getPredicate());
             }
         }
@@ -108,10 +112,29 @@ public abstract class FluidPipe extends PylonItem implements EntityInteractor, I
         if ((action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) && ConnectingService.isConnecting(player)) {
             UUID segment = ConnectingService.placeConnection(player);
             if (segment != null) {
-                FluidManager.setFluidPerSecond(segment, getFluidPerSecond());
+                FluidManager.setFluidPerSecond(segment, fluidPerSecond);
                 FluidManager.setFluidPredicate(segment, getPredicate());
             }
         }
+    }
+
+    private static Material getMaterial(@NotNull NamespacedKey key) {
+        return Map.of(
+                PIPE_WOOD_KEY, Material.BROWN_TERRACOTTA,
+                PIPE_COPPER_KEY, Material.ORANGE_TERRACOTTA,
+                PIPE_OBSIDIAN_KEY, Material.BLACK_TERRACOTTA
+        ).get(key);
+    }
+
+    public Predicate<PylonFluid> getPredicate() {
+        return fluid -> {
+            FluidTemperature temperatureTag = fluid.getTag(FluidTemperature.class);
+            if (temperatureTag == null) {
+                return false;
+            }
+            int temperature = temperatureTag.getValue();
+            return temperature > minTemperature && temperature < maxTemperature;
+        };
     }
 
     private boolean tryStartConnection(@NotNull Player player, @NotNull Block block) {

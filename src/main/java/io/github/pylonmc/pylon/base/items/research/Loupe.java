@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Consumable;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -38,7 +37,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class Loupe extends PylonItem implements Interactor, Consumable {
 
     public static final NamespacedKey KEY = pylonKey("loupe");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.GLASS_PANE, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.GLASS_PANE, KEY)
             .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
@@ -66,8 +65,8 @@ public class Loupe extends PylonItem implements Interactor, Consumable {
     }
 
 
-    public Loupe(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public Loupe(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     @Override
