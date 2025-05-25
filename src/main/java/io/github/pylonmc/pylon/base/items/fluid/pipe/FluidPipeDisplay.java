@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import lombok.Getter;
 import org.bukkit.GameMode;
@@ -42,8 +41,9 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
     private final UUID to;
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public FluidPipeDisplay(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
-        super(KEY, entity);
+    public FluidPipeDisplay(@NotNull ItemDisplay entity) {
+        super(entity);
+        PersistentDataContainer pdc = entity.getPersistentDataContainer();
         // will fail to load if schema not found; no way around this
         pipe = (FluidPipe) PylonItem.fromStack(pdc.get(PIPE_KEY, PylonSerializers.ITEM_STACK));
         this.amount = pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER);

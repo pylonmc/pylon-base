@@ -21,8 +21,8 @@ public class FluidConnectionDisplay extends PylonEntity<ItemDisplay> {
     public static final NamespacedKey KEY = pylonKey("fluid_connection_display");
 
     @SuppressWarnings("unused")
-    public FluidConnectionDisplay(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
-        super(KEY, entity);
+    public FluidConnectionDisplay(@NotNull ItemDisplay entity) {
+        super(entity);
     }
 
     public FluidConnectionDisplay(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {

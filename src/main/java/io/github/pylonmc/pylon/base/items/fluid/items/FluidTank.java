@@ -186,10 +186,6 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
 
         public static final NamespacedKey KEY = pylonKey("fluid_tank_entity");
 
-        public FluidTankEntity(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
-            super(KEY, entity);
-        }
-
         public FluidTankEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
         }

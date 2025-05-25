@@ -50,9 +50,10 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
     @Nullable @Getter private final Float radius;
 
     @SuppressWarnings("unused")
-    public FluidConnectionInteraction(@NotNull Interaction entity, @NotNull PersistentDataContainer pdc) {
-        super(KEY, entity);
+    public FluidConnectionInteraction(@NotNull Interaction entity) {
+        super(entity);
 
+        PersistentDataContainer pdc = entity.getPersistentDataContainer();
         this.connectedPipeDisplays = pdc.get(CONNECTED_PIPE_DISPLAYS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.UUID));
         this.point = pdc.get(CONNECTION_POINT_KEY, PylonSerializers.FLUID_CONNECTION_POINT);
         this.display = pdc.get(DISPLAY_KEY, PylonSerializers.UUID);

@@ -266,11 +266,6 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         public static final NamespacedKey KEY = pylonKey("grindstone_item");
 
-        @SuppressWarnings("unused")
-        public GrindstoneItemEntity(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
-            super(KEY, entity);
-        }
-
         public GrindstoneItemEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
         }
@@ -279,11 +274,6 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     public static class GrindstoneBlockEntity extends PylonEntity<ItemDisplay> {
 
         public static final NamespacedKey KEY = pylonKey("grindstone_block");
-
-        @SuppressWarnings("unused")
-        public GrindstoneBlockEntity(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
-            super(KEY, entity);
-        }
 
         public GrindstoneBlockEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);

@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -133,11 +132,6 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     public static class PedestalItemEntity extends PylonEntity<ItemDisplay> {
 
         public static final NamespacedKey KEY = pylonKey("pedestal_item");
-
-        @SuppressWarnings("unused")
-        public PedestalItemEntity(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
-            super(KEY, entity);
-        }
 
         public PedestalItemEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
