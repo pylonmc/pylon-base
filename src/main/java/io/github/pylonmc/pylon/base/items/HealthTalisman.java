@@ -46,9 +46,7 @@ public class HealthTalisman extends PylonItemSchema {
         @Override
         public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
             return Map.of(
-                    "health-boost", UnitFormat.HEARTS.format(getSchema().maxHealthBoost)
-                            .abbreviate(true)
-                            .toComponent()
+                    "health-boost", UnitFormat.HEARTS.format(getSchema().maxHealthBoost).toComponent()
             );
         }
     }

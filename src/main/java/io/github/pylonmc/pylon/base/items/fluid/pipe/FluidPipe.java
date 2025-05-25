@@ -69,15 +69,9 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().fluidPerTick * 20)
-                        .abbreviate(true)
-                        .toComponent(),
-                "min_temperature", UnitFormat.CELSIUS.format(getSchema().minTemperature)
-                        .abbreviate(true)
-                        .toComponent(),
-                "max_temperature", UnitFormat.CELSIUS.format(getSchema().maxTemperature)
-                        .abbreviate(true)
-                        .toComponent()
+                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().fluidPerTick * 20).toComponent(),
+                "min_temperature", UnitFormat.CELSIUS.format(getSchema().minTemperature).toComponent(),
+                "max_temperature", UnitFormat.CELSIUS.format(getSchema().maxTemperature).toComponent()
         );
     }
 
