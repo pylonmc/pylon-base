@@ -167,12 +167,12 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(HammerStone.class, HammerIron.ITEM_STACK);
+        PylonItem.register(HammerIron.class, HammerIron.ITEM_STACK);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(Hammer.getRecipe(HammerIron.KEY, HammerIron.ITEM_STACK, Material.IRON_INGOT));
     }
 
     static {
-        PylonItem.register(HammerStone.class, HammerDiamond.ITEM_STACK);
+        PylonItem.register(HammerDiamond.class, HammerDiamond.ITEM_STACK);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(Hammer.getRecipe(HammerDiamond.KEY, HammerDiamond.ITEM_STACK, Material.DIAMOND));
     }
 
@@ -390,7 +390,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FERRODURALUM_HOE_KEY= pylonKey("ferroduralum_hoe");
+    public static final NamespacedKey FERRODURALUM_HOE_KEY = pylonKey("ferroduralum_hoe");
     public static final ItemStack FERRODURALUM_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, FERRODURALUM_HOE_KEY)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
@@ -523,6 +523,7 @@ public final class PylonItems {
             .set(DataComponentTypes.MAX_DAMAGE, 225)
             .build();
     static {
+        PylonItem.register(PylonItem.class, FERRODURALUM_BOOTS);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("ferroduralum_boots"), FERRODURALUM_BOOTS)
                 .shape("F F", "F F", "   ")
                 .setIngredient('F', FERRODURALUM_INGOT);
