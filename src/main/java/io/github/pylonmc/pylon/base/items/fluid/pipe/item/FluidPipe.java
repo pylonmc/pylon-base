@@ -61,7 +61,7 @@ public abstract class FluidPipe extends PylonItem implements EntityInteractor, I
     @Override
     public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", Component.text(getFluidPerSecond() * 20),
+                "fluid_per_second", Component.text(getFluidPerSecond()),
                 "min_temperature", Component.text(getMinTemperature()),
                 "max_temperature", Component.text(getMaxTemperature())
         );
