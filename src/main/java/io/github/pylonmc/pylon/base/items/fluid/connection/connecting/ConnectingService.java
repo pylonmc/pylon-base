@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid.connection.connecting;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
@@ -103,8 +102,7 @@ public class ConnectingService implements Listener {
 
         int pipeAmount = ConnectingTask.pipesUsed(from.position(), to.position());
 
-        FluidPipeDisplay pipeDisplay
-                = FluidPipeDisplay.make(PylonEntities.FLUID_PIPE_DISPLAY, pipe, pipeAmount, originInteraction, targetInteraction);
+        FluidPipeDisplay pipeDisplay = FluidPipeDisplay.make(pipe, pipeAmount, originInteraction, targetInteraction);
 
         originInteraction.getConnectedPipeDisplays().add(pipeDisplay.getUuid());
         targetInteraction.getConnectedPipeDisplays().add(pipeDisplay.getUuid());

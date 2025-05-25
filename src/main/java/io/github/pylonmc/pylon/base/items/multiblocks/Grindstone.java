@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -13,7 +12,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
-import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -69,14 +67,14 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                         .translate(0, 0.15, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(block.getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneItemEntity(PylonEntities.GRINDSTONE_ITEM, itemDisplay));
+        EntityStorage.add(new GrindstoneItemEntity(itemDisplay));
 
         ItemDisplay stoneDisplay = new ItemDisplayBuilder()
                 .material(Material.SMOOTH_STONE_SLAB)
                 .transformation(new TransformBuilder()
                         .translate(0, 0.8, 0))
                 .build(block.getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneBlockEntity(PylonEntities.GRINDSTONE_BLOCK, stoneDisplay));
+        EntityStorage.add(new GrindstoneBlockEntity(stoneDisplay));
 
         recipe = null;
         cyclesRemaining = null;
@@ -265,17 +263,31 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         return getHeldEntity(GrindstoneBlockEntity.class, "block").getEntity();
     }
 
-    public static class GrindstoneItemEntity extends PylonEntity<PylonEntitySchema, ItemDisplay> {
+    public static class GrindstoneItemEntity extends PylonEntity<ItemDisplay> {
 
-        public GrindstoneItemEntity(@NotNull PylonEntitySchema schema, @NotNull ItemDisplay entity) {
-            super(schema, entity);
+        public static final NamespacedKey KEY = pylonKey("grindstone_item");
+
+        @SuppressWarnings("unused")
+        public GrindstoneItemEntity(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
+            super(KEY, entity);
+        }
+
+        public GrindstoneItemEntity(@NotNull ItemDisplay entity) {
+            super(KEY, entity);
         }
     }
 
-    public static class GrindstoneBlockEntity extends PylonEntity<PylonEntitySchema, ItemDisplay> {
+    public static class GrindstoneBlockEntity extends PylonEntity<ItemDisplay> {
 
-        public GrindstoneBlockEntity(@NotNull PylonEntitySchema schema, @NotNull ItemDisplay entity) {
-            super(schema, entity);
+        public static final NamespacedKey KEY = pylonKey("grindstone_block");
+
+        @SuppressWarnings("unused")
+        public GrindstoneBlockEntity(@NotNull ItemDisplay entity, @NotNull PersistentDataContainer pdc) {
+            super(KEY, entity);
+        }
+
+        public GrindstoneBlockEntity(@NotNull ItemDisplay entity) {
+            super(KEY, entity);
         }
     }
 

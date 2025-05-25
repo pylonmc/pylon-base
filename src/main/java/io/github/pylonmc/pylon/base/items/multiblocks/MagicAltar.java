@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -69,7 +68,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         spawnMultiblockGhosts();
 
-        Pedestal.PedestalEntity pylonEntity = new Pedestal.PedestalEntity(PylonEntities.PEDESTAL_ITEM, display);
+        Pedestal.PedestalItemEntity pylonEntity = new Pedestal.PedestalItemEntity(display);
         EntityStorage.add(pylonEntity);
     }
 
@@ -120,7 +119,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         event.setCancelled(true);
 
-        ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalEntity.class, "item").getEntity();
+        ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalItemEntity.class, "item").getEntity();
 
         // drop item if not processing and an item is already on the altar
         ItemStack displayItem = itemDisplay.getItemStack();
@@ -246,7 +245,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     public void finishRecipe() {
-        ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalEntity.class, "item").getEntity();
+        ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalItemEntity.class, "item").getEntity();
 
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
