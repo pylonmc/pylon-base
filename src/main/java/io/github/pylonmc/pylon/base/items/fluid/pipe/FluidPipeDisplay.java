@@ -3,12 +3,12 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipe;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import lombok.Getter;
 import org.bukkit.GameMode;
@@ -90,7 +90,7 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
                         .build()
                         .buildForItemDisplay()
                 )
-                .material(pipe.getMaterial())
+                .material(pipe.material)
                 .build(fromLocation);
     }
 

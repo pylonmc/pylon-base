@@ -1,8 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
-import io.github.pylonmc.pylon.base.items.fluid.items.tank.FluidTankCopper;
-import io.github.pylonmc.pylon.base.items.fluid.items.tank.FluidTankWood;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
@@ -39,8 +38,8 @@ public final class PylonBlocks {
         PylonBlock.register(WITHER_PROOF_OBSIDIAN_KEY, Material.OBSIDIAN, PylonBlock.class);
         PylonBlock.register(FluidPipeMarker.KEY, Material.STRUCTURE_VOID, FluidPipeMarker.class);
         PylonBlock.register(FluidPipeConnector.KEY, Material.STRUCTURE_VOID, FluidPipeConnector.class);
-        PylonBlock.register(FluidTankWood.KEY, Material.BROWN_STAINED_GLASS, FluidTankWood.class);
-        PylonBlock.register(FluidTankCopper.KEY, Material.ORANGE_STAINED_GLASS, FluidTankCopper.class);
+        PylonBlock.register(FluidTank.FLUID_TANK_WOOD_KEY, Material.BROWN_STAINED_GLASS, FluidTank.class);
+        PylonBlock.register(FluidTank.FLUID_TANK_COPPER_KEY, Material.ORANGE_STAINED_GLASS, FluidTank.class);
         PylonBlock.register(WaterPump.KEY, Material.BLUE_TERRACOTTA, WaterPump.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(

@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.items;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -32,8 +31,8 @@ public class WaterPump extends PylonBlock implements PylonEntityHolderBlock, Pyl
     private final Map<String, UUID> entities;
 
     @SuppressWarnings("unused")
-    public WaterPump(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
 
         Player player = null;
         if (context instanceof BlockCreateContext.PlayerPlace ctx) {
@@ -48,8 +47,8 @@ public class WaterPump extends PylonBlock implements PylonEntityHolderBlock, Pyl
     }
 
     @SuppressWarnings("unused")
-    public WaterPump(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public WaterPump(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
 
         entities = loadHeldEntities(pdc);
     }

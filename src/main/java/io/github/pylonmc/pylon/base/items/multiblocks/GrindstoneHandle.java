@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import org.bukkit.NamespacedKey;
@@ -22,13 +21,13 @@ public class GrindstoneHandle extends PylonBlock implements PylonInteractableBlo
     public static final NamespacedKey KEY = pylonKey("grindstone_handle");
 
     @SuppressWarnings("unused")
-    public GrindstoneHandle(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block);
+    public GrindstoneHandle(Block block, BlockCreateContext context) {
+        super(block);
     }
 
     @SuppressWarnings("unused")
-    public GrindstoneHandle(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block);
+    public GrindstoneHandle(Block block, PersistentDataContainer pdc) {
+        super(block);
     }
 
     @Override

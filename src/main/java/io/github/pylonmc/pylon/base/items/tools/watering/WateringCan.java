@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
@@ -29,13 +28,13 @@ public class WateringCan extends PylonItem implements BlockInteractor {
 
     public static final WateringSettings SETTINGS = WateringSettings.fromConfig(getSettings(KEY));
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.BUCKET, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.BUCKET, KEY)
             .build();
 
     private static final Random random = new Random();
 
-    public WateringCan(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public WateringCan(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     @Override

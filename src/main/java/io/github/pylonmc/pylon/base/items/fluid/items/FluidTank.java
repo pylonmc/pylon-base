@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.fluid.items;
 
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -36,22 +35,25 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public abstract class FluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock {
+public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock {
 
-    public abstract double getCapacity();
-    public abstract long getMinTemp();
-    public abstract long getMaxTemp();
+    public static final NamespacedKey FLUID_TANK_WOOD_KEY =  pylonKey("fluid_tank_wood");
+    public static final NamespacedKey FLUID_TANK_COPPER_KEY =  pylonKey("fluid_tank_copper");
 
     private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
     private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
+
+    public final double capacity = getSettings().getOrThrow("capacity", Double.class);
+    public final long minTemp = getSettings().getOrThrow("temperature.min", Integer.class);
+    public final long maxTemp = getSettings().getOrThrow("temperature.max", Integer.class);
 
     private final Map<String, UUID> entities;
     private double fluidAmount;
     private @Nullable PylonFluid fluidType;
 
     @SuppressWarnings("unused")
-    protected FluidTank(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public FluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(block.getLocation().toCenterLocation());
         FluidTankEntity fluidTankEntity = new FluidTankEntity(fluidDisplay);
@@ -73,8 +75,8 @@ public abstract class FluidTank extends PylonBlock implements PylonEntityHolderB
     }
 
     @SuppressWarnings("unused")
-    protected FluidTank(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public FluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
 
         entities = loadHeldEntities(pdc);
         fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
@@ -108,18 +110,18 @@ public abstract class FluidTank extends PylonBlock implements PylonEntityHolderB
                     .stream()
                     .filter(fluid -> {
                         FluidTemperature temperature = fluid.getTag(FluidTemperature.class);
-                        return temperature != null && temperature.getValue() > getMinTemp() && temperature.getValue() < getMaxTemp();
+                        return temperature != null && temperature.getValue() > minTemp && temperature.getValue() < maxTemp;
                     })
-                    .collect(Collectors.toMap(Function.identity(), key -> getCapacity()));
+                    .collect(Collectors.toMap(Function.identity(), key -> capacity));
         }
 
         // If tank full, don't request anything
-        if (fluidAmount >= getCapacity()) {
+        if (fluidAmount >= capacity) {
             return Map.of();
         }
 
         // Otherwise, only allow more of the stored fluid to be added
-        return Map.of(fluidType, getCapacity() - fluidAmount);
+        return Map.of(fluidType, capacity - fluidAmount);
     }
 
     @Override
@@ -149,7 +151,7 @@ public abstract class FluidTank extends PylonBlock implements PylonEntityHolderB
     }
 
     public void updateFluidDisplay() {
-        float scale = (float) (0.9F * fluidAmount / getCapacity());
+        float scale = (float) (0.9F * fluidAmount / capacity);
         ItemDisplay display = getFluidDisplay();
         if (display != null) {
             display.setTransformationMatrix(new TransformBuilder()
@@ -174,7 +176,7 @@ public abstract class FluidTank extends PylonBlock implements PylonEntityHolderB
                 // TODO add fluid name once fluids have names
                 Map.of(
                         "amount", Component.text(Math.round(fluidAmount)),
-                        "capacity", Component.text(Math.round(getCapacity()))
+                        "capacity", Component.text(Math.round(capacity))
                 )
         );
     }

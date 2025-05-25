@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -58,8 +57,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private @Nullable Integer cycleTicksRemaining;
 
     @SuppressWarnings("unused")
-    public Grindstone(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block);
+    public Grindstone(Block block, BlockCreateContext context) {
+        super(block);
 
         ItemDisplay itemDisplay = new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
@@ -88,8 +87,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @SuppressWarnings("unused")
-    public Grindstone(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block);
+    public Grindstone(Block block, PersistentDataContainer pdc) {
+        super(block);
         entities = loadHeldEntities(pdc);
         recipe = pdc.get(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
         cyclesRemaining = pdc.get(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER);

@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -40,13 +39,13 @@ public class FluidPipeMarker extends PylonBlock implements PylonBreakHandler {
     @Setter private UUID to;
 
     @SuppressWarnings("unused")
-    public FluidPipeMarker(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public FluidPipeMarker(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public FluidPipeMarker(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public FluidPipeMarker(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
         pipeDisplay = pdc.get(PIPE_DISPLAY_KEY, PylonSerializers.UUID);
         from = pdc.get(FROM_KEY, PylonSerializers.UUID);
         to = pdc.get(TO_KEY, PylonSerializers.UUID);

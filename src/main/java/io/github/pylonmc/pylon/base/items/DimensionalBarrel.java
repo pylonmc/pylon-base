@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -23,12 +22,12 @@ public class DimensionalBarrel extends PylonInventoryBlock {
 
     public static final int SIZE = getSettings(KEY).getOrThrow("size", Integer.class);
 
-    public DimensionalBarrel(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-        super(schema, block);
+    public DimensionalBarrel(Block block, BlockCreateContext context) {
+        super(block);
     }
 
-    public DimensionalBarrel(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-        super(schema, block, pdc);
+    public DimensionalBarrel(Block block, PersistentDataContainer pdc) {
+        super(block);
     }
 
     @Override

@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.tools;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.BlockUtils;
@@ -34,12 +33,12 @@ public class LumberAxe extends PylonItem implements Tool {
 
     public static final int DURABILITY = getSettings(KEY).getOrThrow("durability", Integer.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, KEY)
             .set(DataComponentTypes.MAX_DAMAGE, DURABILITY)
             .build();
 
-    public LumberAxe(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public LumberAxe( @NotNull ItemStack stack) {
+        super(stack);
     }
 
     private final Set<Event> eventsToIgnore = HashSet.newHashSet(0);
