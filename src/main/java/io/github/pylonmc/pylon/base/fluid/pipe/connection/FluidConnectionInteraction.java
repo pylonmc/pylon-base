@@ -1,12 +1,10 @@
 package io.github.pylonmc.pylon.base.fluid.pipe.connection;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
-import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.base.PylonDeathEntity;
 import io.github.pylonmc.pylon.core.entity.base.PylonUnloadEntity;
 import io.github.pylonmc.pylon.core.entity.display.InteractionBuilder;
@@ -33,10 +31,11 @@ import java.util.UUID;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, Interaction>
-        implements PylonDeathEntity, PylonUnloadEntity {
+public class FluidConnectionInteraction extends PylonEntity<Interaction> implements PylonDeathEntity, PylonUnloadEntity {
 
     public static final float POINT_SIZE = 0.12F;
+
+    public static final NamespacedKey KEY = pylonKey("fluid_connection_interaction");
 
     private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = pylonKey("connected_pipe_displays");
     private static final NamespacedKey CONNECTION_POINT_KEY = pylonKey("connection_point");
@@ -51,8 +50,8 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
     @Nullable @Getter private final Float radius;
 
     @SuppressWarnings("unused")
-    public FluidConnectionInteraction(@NotNull PylonEntitySchema schema, @NotNull Interaction entity) {
-        super(schema, entity);
+    public FluidConnectionInteraction(@NotNull Interaction entity) {
+        super(entity);
 
         PersistentDataContainer pdc = entity.getPersistentDataContainer();
         this.connectedPipeDisplays = pdc.get(CONNECTED_PIPE_DISPLAYS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.UUID));
@@ -73,10 +72,7 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
-        super(PylonEntities.FLUID_CONNECTION_POINT_INTERACTION, makeInteraction(
-                point,
-                face.getDirection().clone().multiply(radius)
-        ));
+        super(KEY, makeInteraction(point, face.getDirection().clone().multiply(radius)));
 
         this.connectedPipeDisplays = new HashSet<>();
         this.point = point;
@@ -88,7 +84,7 @@ public class FluidConnectionInteraction extends PylonEntity<PylonEntitySchema, I
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point) {
-        super(PylonEntities.FLUID_CONNECTION_POINT_INTERACTION, makeInteraction(point, new Vector(0, 0, 0)));
+        super(KEY, makeInteraction(point, new Vector(0, 0, 0)));
 
         this.connectedPipeDisplays = new HashSet<>();
         this.point = point;

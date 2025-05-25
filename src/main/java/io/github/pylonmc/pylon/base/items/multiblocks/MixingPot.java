@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
@@ -10,8 +9,6 @@ import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -42,9 +39,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
@@ -54,256 +50,209 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
-public final class MixingPot {
+public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidInteractionBlock {
 
-    private MixingPot() {
-        throw new AssertionError("Container class");
+    public static final NamespacedKey KEY = pylonKey("mixing_pot");
+
+    private static final NamespacedKey FLUID_KEY = KeyUtils.pylonKey("fluid");
+    private static final NamespacedKey FLUID_AMOUNT_KEY = KeyUtils.pylonKey("fluid_amount");
+
+    @Getter
+    @Setter
+    private @Nullable PylonFluid fluidType;
+
+    @Getter
+    @Setter
+    private double fluidAmount;
+
+    @SuppressWarnings("unused")
+    public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
+
+        fluidType = null;
+        fluidAmount = 0;
     }
 
-    public static class MixingPotBlock extends PylonBlock<PylonBlockSchema>
-            implements PylonMultiblock, PylonInteractableBlock, PylonFluidBlock, PylonFluidInteractionBlock {
+    @SuppressWarnings("unused")
+    public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
 
-        private static final NamespacedKey FLUID_KEY = KeyUtils.pylonKey("fluid");
-        private static final NamespacedKey FLUID_AMOUNT_KEY = KeyUtils.pylonKey("fluid_amount");
+        fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+        fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0D);
+    }
 
-        @Getter
-        @Setter
-        @Nullable
-        private PylonFluid fluidType;
+    @Override
+    public void write(PersistentDataContainer pdc) {
+        PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
+        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
+    }
 
-        @Getter
-        @Setter
-        private long fluidAmount;
+    @Override
+    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
+        return List.of(
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.SOUTH),
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.EAST),
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST)
+        );
+    }
 
-        @SuppressWarnings("unused")
-        public MixingPotBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
-            super(schema, block);
+    @Override
+    public @NotNull Set<ChunkPosition> getChunksOccupied() {
+        return Set.of(new ChunkPosition(getBlock()));
+    }
 
+    @Override
+    public boolean checkFormed() {
+        return getFire().getType() == Material.FIRE;
+    }
+
+    @Override
+    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
+        return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
+    }
+
+    @Override
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(String connectionPoint, double deltaSeconds) {
+        return fluidType == null
+                ? Map.of()
+                : Map.of(fluidType, fluidAmount);
+    }
+
+    @Override
+    public Map<PylonFluid, Double> getRequestedFluids(String connectionPoint, double deltaSeconds) {
+        if (fluidType == null) {
+            return PylonRegistry.FLUIDS.getValues()
+                    .stream()
+                    .collect(Collectors.toMap(Function.identity(), key -> 1000D));
+        }
+        if (fluidAmount >= 1000) {
+            return Map.of();
+        }
+        return Map.of(fluidType, 1000L - fluidAmount);
+    }
+
+    @Override
+    public void addFluid(String connectionPoint, PylonFluid fluid, double amount) {
+        if (fluidType == null) {
+            fluidType = fluid;
+        }
+        fluidAmount += amount;
+        updateCauldron();
+    }
+
+    @Override
+    public void removeFluid(String connectionPoint, PylonFluid fluid, double amount) {
+        fluidAmount -= amount;
+        if (fluidAmount <= 0) {
             fluidType = null;
             fluidAmount = 0;
         }
+        updateCauldron();
+    }
 
-        @SuppressWarnings("unused")
-        public MixingPotBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
-            super(schema, block);
+    private void updateCauldron() {
+        int level = (int) fluidAmount / 333;
+        if (level > 0 && getBlock().getType() == Material.CAULDRON) {
+            getBlock().setType(Material.WATER_CAULDRON);
+        } else if (level == 0) {
+            getBlock().setType(Material.CAULDRON);
+        }
+        if (getBlock().getBlockData() instanceof Levelled levelled) {
+            levelled.setLevel(level);
+            getBlock().setBlockData(levelled);
+        }
+    }
 
-            fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
-            fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.LONG, 0L);
+    @Override
+    public WailaConfig getWaila(Player player) {
+        Component text = Component.text("").append(getName());
+        if (fluidType != null) {
+            text = text.append(Component.text(" | "))
+                    .append(fluidType.getName())
+                    .append(Component.text(": "))
+                    .append(Component.text(fluidAmount))
+                    .append(Quantity.FLUID);
+        }
+        return new WailaConfig(text);
+    }
+
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        // Only allow inserting water - events trying to insert lava will be cancelled
+        if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
+            return;
         }
 
-        @Override
-        public void write(PersistentDataContainer pdc) {
-            PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
-            pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.LONG, fluidAmount);
+        if (event.getPlayer().isSneaking() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
         }
 
-        @Override
-        public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
-            return List.of(
-                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
-                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.SOUTH),
-                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.EAST),
-                    new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST)
-            );
+        event.setCancelled(true);
+
+        if (!isFormedAndFullyLoaded()) {
+            return;
         }
 
-        @Override
-        public Set<ChunkPosition> getChunksOccupied() {
-            return Set.of(new ChunkPosition(getBlock()));
+        if (fluidType == null) {
+            return;
         }
 
-        @Override
-        public boolean checkFormed() {
-            return getFire().getType() == Material.FIRE;
-        }
+        List<Item> items = getBlock()
+                .getLocation()
+                .toCenterLocation()
+                .getNearbyEntities(0.5, 0.5, 0.5)
+                .stream()
+                .filter(Item.class::isInstance)
+                .map(Item.class::cast)
+                .toList();
 
-        @Override
-        public boolean isPartOfMultiblock(Block otherBlock) {
-            return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
-        }
+        List<ItemStack> stacks = items.stream()
+                .map(Item::getItemStack)
+                .toList();
 
-        @Override
-        public Map<PylonFluid, Long> getSuppliedFluids(String connectionPoint) {
-            return fluidType == null
-                    ? Map.of()
-                    : Map.of(fluidType, fluidAmount);
-        }
 
-        @Override
-        public Map<PylonFluid, Long> getRequestedFluids(String connectionPoint) {
-            if (fluidType == null) {
-                return PylonRegistry.FLUIDS.getValues()
-                        .stream()
-                        .collect(Collectors.toMap(Function.identity(), key -> 1000L));
-            }
-            if (fluidAmount >= 1000) {
-                return Map.of();
-            }
-            return Map.of(fluidType, 1000L - fluidAmount);
-        }
+        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
+        boolean isEnrichedFire = ignitedBlock != null
+                && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK_KEY);
 
-        @Override
-        public void addFluid(String connectionPoint, PylonFluid fluid, long amount) {
-            if (fluidType == null) {
-                fluidType = fluid;
-            }
-            fluidAmount += amount;
-            updateCauldron();
-        }
-
-        @Override
-        public void removeFluid(String connectionPoint, PylonFluid fluid, long amount) {
-            fluidAmount -= amount;
-            if (fluidAmount <= 0) {
-                fluidType = null;
-                fluidAmount = 0;
-            }
-            updateCauldron();
-        }
-
-        private void updateCauldron() {
-            int level = (int) fluidAmount / 333;
-            if (level > 0 && getBlock().getType() == Material.CAULDRON) {
-                getBlock().setType(Material.WATER_CAULDRON);
-            } else if (level == 0) {
-                getBlock().setType(Material.CAULDRON);
-            }
-            if (getBlock().getBlockData() instanceof Levelled levelled) {
-                levelled.setLevel(level);
-                getBlock().setBlockData(levelled);
+        for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
+            if (recipe.matches(stacks, isEnrichedFire, fluidType, (int) fluidAmount)) {
+                doRecipe(recipe, items);
+                break;
             }
         }
+    }
 
-        @Override
-        public WailaConfig getWaila(Player player) {
-            Component text = Component.text("").append(getName());
-            if (fluidType != null) {
-                text = text.append(Component.text(" | "))
-                        .append(fluidType.getName())
-                        .append(Component.text(": "))
-                        .append(Component.text(fluidAmount))
-                        .append(Quantity.FLUID);
-            }
-            return new WailaConfig(text);
+    private void doRecipe(Recipe recipe, List<Item> items) {
+        recipe.takeIngredients(items, getBlock());
+        switch (recipe.output()) {
+            case Either.Left(ItemStack item) -> getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+            case Either.Right(PylonFluid fluid) -> fluidType = fluid;
         }
 
-        @Override
-        public void onInteract(PlayerInteractEvent event) {
-            // Only allow inserting water - events trying to insert lava will be cancelled
-            if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
-                switch (event.getMaterial()) {
-                    case BUCKET -> {
-                        if (PylonFluids.WATER.equals(fluidType) && fluidAmount == 1000) {
-                            fluidType = null;
-                            fluidAmount = 0;
-                            return;
-                        }
-                    }
-                    case WATER_BUCKET -> {
-                        if (fluidType == null) {
-                            fluidType = PylonFluids.WATER;
-                            fluidAmount = 1000;
-                            return;
-                        }
-                    }
-                    case GLASS_BOTTLE -> {
-                        if (PylonFluids.WATER.equals(fluidType) && fluidAmount >= 250) {
-                            fluidAmount -= 250;
-                            if (fluidAmount == 0) {
-                                fluidType = null;
-                            }
-                            return;
-                        }
-                    }
-                    case POTION -> {
-                        PotionMeta meta = (PotionMeta) event.getItem().getItemMeta();
-                        if (!meta.hasCustomEffects()
-                                && PotionType.WATER.equals(meta.getBasePotionType())
-                                && (fluidType == null || fluidType == PylonFluids.WATER)
-                                && fluidAmount <= 250 * 3
-                        ) {
-                            fluidType = PylonFluids.WATER;
-                            fluidAmount += 250;
-                            return;
-                        }
-                    }
-                }
-            }
+        new ParticleBuilder(Particle.SPLASH)
+                .count(20)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
+                .offset(0.3, 0, 0.3)
+                .spawn();
 
-            if (event.getPlayer().isSneaking() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-                return;
-            }
+        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+                .count(30)
+                .location(getBlock().getLocation().toCenterLocation())
+                .extra(0.05)
+                .spawn();
+    }
 
-            event.setCancelled(true);
+    public Block getFire() {
+        return getBlock().getRelative(BlockFace.DOWN);
+    }
 
-            if (!isFormedAndFullyLoaded()) {
-                return;
-            }
-
-            if (!(getBlock().getBlockData() instanceof Levelled)) {
-                return;
-            }
-
-            if (fluidType == null) {
-                return;
-            }
-
-            List<Item> items = getBlock()
-                    .getLocation()
-                    .toCenterLocation()
-                    .getNearbyEntities(0.5, 0.5, 0.5)
-                    .stream()
-                    .filter(Item.class::isInstance)
-                    .map(Item.class::cast)
-                    .toList();
-
-            List<ItemStack> stacks = items.stream()
-                    .map(Item::getItemStack)
-                    .toList();
-
-
-            PylonBlock<?> ignitedBlock = BlockStorage.get(getIgnitedBlock());
-            boolean isEnrichedFire = ignitedBlock != null
-                    && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK.getKey());
-
-            for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-                if (recipe.matches(stacks, isEnrichedFire, fluidType, (int) fluidAmount)) {
-                    doRecipe(recipe, items);
-                    break;
-                }
-            }
-        }
-
-        private void doRecipe(Recipe recipe, List<Item> items) {
-            recipe.takeIngredients(items, getBlock());
-            switch (recipe.output()) {
-                case Either.Left(ItemStack item) -> getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
-                case Either.Right(PylonFluid fluid) -> fluidType = fluid;
-            }
-
-
-            new ParticleBuilder(Particle.SPLASH)
-                    .count(20)
-                    .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
-                    .offset(0.3, 0, 0.3)
-                    .spawn();
-
-            new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                    .count(30)
-                    .location(getBlock().getLocation().toCenterLocation())
-                    .extra(0.05)
-                    .spawn();
-        }
-
-        public Block getFire() {
-            return getBlock().getRelative(BlockFace.DOWN);
-        }
-
-        public Block getIgnitedBlock() {
-            return getFire().getRelative(BlockFace.DOWN);
-        }
+    public Block getIgnitedBlock() {
+        return getFire().getRelative(BlockFace.DOWN);
     }
 
     /**

@@ -2,9 +2,11 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -17,35 +19,43 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.function.Function;
 
-public class HealthTalisman extends PylonItemSchema {
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-    public final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", Integer.class);
-    private static final NamespacedKey healthBoostedKey = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
+
+public class HealthTalisman extends PylonItem {
+
+    public static final NamespacedKey HEALTH_TALISMAN_SIMPLE_KEY = pylonKey("health_talisman_simple");
+    public static final NamespacedKey HEALTH_TALISMAN_ADVANCED_KEY = pylonKey("health_talisman_advanced");
+    public static final NamespacedKey HEALTH_TALISMAN_ULTIMATE_KEY = pylonKey("health_talisman_ultimate");
+
+    private static final NamespacedKey HEALTH_BOOSTED_KEY = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
+
+    public static final ItemStack HEALTH_TALISMAN_SIMPLE_STACK = ItemStackBuilder.pylonItem(Material.AMETHYST_SHARD, HEALTH_TALISMAN_SIMPLE_KEY)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+    public static final ItemStack HEALTH_TALISMAN_ADVANCED_STACK = ItemStackBuilder.pylonItem(Material.AMETHYST_CLUSTER, HEALTH_TALISMAN_ADVANCED_KEY)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+    public static final ItemStack HEALTH_TALISMAN_ULTIMATE_STACK = ItemStackBuilder.pylonItem(Material.BUDDING_AMETHYST, HEALTH_TALISMAN_ULTIMATE_KEY)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+
+    private final int maxHealthBoost = getSettings(getKey()).getOrThrow("max-health-boost", Integer.class);
+
+    public HealthTalisman(@NotNull ItemStack stack) {
+        super(stack);
+    }
+
     public final AttributeModifier healthModifier = new AttributeModifier(
-            healthBoostedKey,
+            HEALTH_BOOSTED_KEY,
             maxHealthBoost,
             AttributeModifier.Operation.ADD_NUMBER
     );
 
-    public HealthTalisman(NamespacedKey key, Function<NamespacedKey, ItemStack> templateSupplier) {
-        super(key, HealthTalismanItem.class, templateSupplier);
-        if (template.getMaxStackSize() != 1) {
-            throw new IllegalArgumentException("Max stack size for health talisman must be equal to 1");
-        }
-    }
-
-    public static class HealthTalismanItem extends PylonItem<HealthTalisman> {
-
-        public HealthTalismanItem(HealthTalisman schema, ItemStack stack) {
-            super(schema, stack);
-        }
-
-        @Override
-        public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-            return Map.of("health-boost", Component.text(getSchema().maxHealthBoost));
-        }
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+        return Map.of("health-boost", Component.text(maxHealthBoost));
     }
 
     public static class HealthTalismanTicker extends BukkitRunnable {
@@ -58,28 +68,28 @@ public class HealthTalisman extends PylonItemSchema {
                 boolean foundItem = false;
                 PersistentDataContainer playerPDC = player.getPersistentDataContainer();
                 AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
-                Integer playerHealthBoost = playerPDC.get(healthBoostedKey, PersistentDataType.INTEGER);
+                Integer playerHealthBoost = playerPDC.get(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER);
                 for (ItemStack itemStack : player.getInventory()) {
-                    PylonItem<?> pylonItem = PylonItem.fromStack(itemStack);
-                    if (!(pylonItem instanceof HealthTalismanItem talisman)) {
+                    PylonItem pylonItem = fromStack(itemStack);
+                    if (!(pylonItem instanceof HealthTalisman talisman)) {
                         continue;
                     }
                     if (playerHealthBoost == null) {
-                        playerHealth.addModifier(talisman.getSchema().healthModifier);
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().maxHealthBoost);
+                        playerHealth.addModifier(talisman.healthModifier);
+                        playerPDC.set(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER, talisman.maxHealthBoost);
                         foundItem = true;
-                    } else if (playerHealthBoost < talisman.getSchema().maxHealthBoost) {
-                        playerHealth.removeModifier(healthBoostedKey);
-                        playerHealth.addModifier(talisman.getSchema().healthModifier);
-                        playerPDC.set(healthBoostedKey, PersistentDataType.INTEGER, talisman.getSchema().maxHealthBoost);
+                    } else if (playerHealthBoost < talisman.maxHealthBoost) {
+                        playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
+                        playerHealth.addModifier(talisman.healthModifier);
+                        playerPDC.set(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER, talisman.maxHealthBoost);
                         foundItem = true;
-                    } else if (talisman.getSchema().maxHealthBoost == playerHealthBoost) {
+                    } else if (talisman.maxHealthBoost == playerHealthBoost) {
                         foundItem = true;
                     }
                 }
                 if (!foundItem && playerHealthBoost != null) {
-                    playerHealth.removeModifier(healthBoostedKey);
-                    playerPDC.remove(healthBoostedKey);
+                    playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
+                    playerPDC.remove(HEALTH_BOOSTED_KEY);
                 }
             }
         }
