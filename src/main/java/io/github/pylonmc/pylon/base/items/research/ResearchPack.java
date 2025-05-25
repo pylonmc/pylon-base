@@ -5,8 +5,10 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -57,7 +59,7 @@ public class ResearchPack extends PylonItem implements Interactor {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-        return Map.of("points", Component.text(points));
+    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
+        return Map.of("points", UnitFormat.RESEARCH_POINTS.format(points));
     }
 }
