@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
@@ -25,7 +24,7 @@ public class MonsterJerky extends PylonItem {
     public static final float SATURATION = getSettings(KEY).getOrThrow("saturation", Double.class).floatValue();
     public static final float COOKING_XP = getSettings(KEY).getOrThrow("cooking.xp", Double.class).floatValue();
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.ROTTEN_FLESH, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.ROTTEN_FLESH, KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
             .set(DataComponentTypes.FOOD, FoodProperties.food()
                     .canAlwaysEat(false)
@@ -35,7 +34,7 @@ public class MonsterJerky extends PylonItem {
             )
             .build();
 
-    public MonsterJerky(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public MonsterJerky(@NotNull ItemStack stack) {
+        super(stack);
     }
 }

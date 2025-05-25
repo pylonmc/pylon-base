@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.item.FluidPipe;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -91,7 +90,7 @@ public class FluidPipeDisplay extends PylonEntity<PylonEntitySchema, ItemDisplay
                         .build()
                         .buildForItemDisplay()
                 )
-                .material(pipe.getMaterial())
+                .material(pipe.material)
                 .build(fromLocation);
     }
 

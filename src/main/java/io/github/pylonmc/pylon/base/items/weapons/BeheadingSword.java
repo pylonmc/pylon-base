@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.weapons;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Weapon;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -31,13 +30,13 @@ public class BeheadingSword extends PylonItem implements Weapon {
     private static final double NORMAL_ENTITY_HEAD_CHANCE = getSettings(KEY).getOrThrow("head-chance.normal-entity", Double.class);
     private static final double WITHER_SKELETON_HEAD_CHANCE = getSettings(KEY).getOrThrow("head-chance.wither-skeleton", Double.class);
 
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .set(DataComponentTypes.MAX_DAMAGE, DURABILITY)
             .build();
 
-    public BeheadingSword(@NotNull PylonItemSchema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public BeheadingSword(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     private static final Map<EntityType, ItemStack> ENTITY_HEADS = Map.of(

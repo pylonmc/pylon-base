@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.tools.portable;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
@@ -18,11 +17,11 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public class PortableDustbin extends PylonItem implements Interactor{
 
     public static final NamespacedKey KEY = pylonKey("portable_dustbin");
-    public static final ItemStack ITEM_STACK = ItemStackBuilder.pylonItem(Material.CAULDRON, KEY)
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.CAULDRON, KEY)
             .build();
 
-    public PortableDustbin (PylonItemSchema schema, ItemStack stack) {
-        super(schema, stack);
+    public PortableDustbin(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     @Override
