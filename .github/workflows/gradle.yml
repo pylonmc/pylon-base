@@ -67,11 +67,24 @@ jobs:
         uses: gradle/actions/setup-gradle@v4.2.2
 
       - name: Download core
+        id: downloadcore
         uses: actions/download-artifact@v4.1.8
+        continue-on-error: true
         with:
           name: pylon-core-$CORECOMMIT
           repository: pylonmc/pylon-core
           path: pylon-core-$CORECOMMIT.jar
+
+      - name: Build core if artifact expired or not found
+        if: steps.downloadcore.outcome == 'failed'
+        run: |
+          git clone https://github.com/pylonmc/pylon-core.git
+          cd pylon-core
+          git checkout $CORECOMMIT
+          gradlew jar
+          cp pylon-core/build/libs/pylon-core-SNAPSHOT.jar ..
+          cd ..
+          rm -rf pylon-core
 
       - name: Build with Gradle Wrapper
         run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path=pylon-core-$CORECOMMIT.jar
