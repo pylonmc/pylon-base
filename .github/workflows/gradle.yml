@@ -88,7 +88,7 @@ jobs:
           cd pylon-core
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
-          ./gradlew jar
+          ./gradlew shadowJar
           cp pylon-core/build/libs/pylon-core-SNAPSHOT.jar ..
           cd ..
           rm -rf pylon-core
