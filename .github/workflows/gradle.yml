@@ -33,8 +33,16 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4.2.2
 
+      - name: Clone core
+        uses: actions/checkout@v4.2.2
+        with:
+          repository: "pylonmc/pylon-core"
+
+      - name: Build core
+        run: pylon-core/gradlew jar
+
       - name: Build with Gradle Wrapper
-        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }}
+        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path="pylon-core/pylon-core/build/libs/pylon-core-SNAPSHOT.jar"
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
