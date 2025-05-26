@@ -143,17 +143,17 @@ item:
     name: "Wooden Fluid Tank"
     # TODO fix placeholder
     lore: |- 
-      <arrow> <attr:Capacity:capacity>%capacity%</attr>
-      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
-      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
   fluid_tank_copper:
     name: "Copper Fluid Tank"
     # TODO fix placeholder
     lore: |- 
-      <arrow> <attr:Capacity:capacity>%capacity%</attr>
-      <arrow> <attr:Temperature (min):temperature>%min_temperature%</attr>
-      <arrow> <attr:Temperature (max):temperature>%max_temperature%</attr>
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
   gold_dust:
     name: "Gold Dust"
@@ -351,7 +351,7 @@ item:
     name: "Water pump"
     # TODO fix placeholder
     lore: |- 
-      <arrow> <attr:Pump rate:fluid_per_second>%water_per_second%</attr>
+      <arrow> <attr>Pump rate:</attr> %water_per_second%
 
 # TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
