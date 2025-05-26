@@ -21,6 +21,36 @@ jobs:
       contents: read
 
     steps:
+      - name: Parse [ref title
+        id: parseref
+        if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, '[ref:')
+        run: |
+          prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[ref://')
+          suffixrm=$(echo $prefixrm | sed 's/\].*$//')
+          BRANCHNAME=$(echo $suffixrm | sed 's/\]//g')
+          git clone https://github.com/pylonmc/pylon-core.git
+          cd pylon-core
+          CORECOMMIT=$(git rev-parse origin/$BRANCHNAME)
+          cd ..
+          rm -rf pylon-core
+
+      - name: Parse [commit title
+        id: parsecommit
+        if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, '[commit:')
+        run: |
+          prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[commit://')
+          suffixrm=$(echo $prefixrm | sed 's/\].*$//')
+          CORECOMMIT=$(echo $suffixrm | sed 's/\]//g')
+
+      - name: Get latest commit of core master
+        if: steps.parseref.outcome == 'cancelled' && steps.parsecommit.outcome == 'cancelled'
+        run: |
+          git clone https://github.com/pylonmc/pylon-core.git
+          cd pylon-core
+          CORECOMMIT=$(git rev-parse origin/master)
+          cd ..
+          rm -rf pylon-core
+
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
@@ -33,16 +63,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4.2.2
 
-      - name: Clone core
-        uses: actions/checkout@v4.2.2
+      - name: Download core
+        uses: actions/download-artifact@v4.1.8
         with:
-          repository: "pylonmc/pylon-core"
-
-      - name: Build core
-        run: pylon-core/gradlew jar
+          name: pylon-core-$CORECOMMIT
+          repository: pylonmc/pylon-core
+          path: pylon-core-$CORECOMMIT.jar
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path="pylon-core/pylon-core/build/libs/pylon-core-SNAPSHOT.jar"
+        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path=pylon-core-$CORECOMMIT.jar
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
