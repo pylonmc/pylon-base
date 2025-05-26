@@ -227,7 +227,16 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     private void doRecipe(Recipe recipe, List<Item> items) {
-        recipe.takeIngredients(items, getBlock());
+        for (Map.Entry<RecipeChoice, Integer> choice : recipe.input.entrySet()) {
+            for (Item item1 : items) {
+                ItemStack stack = item1.getItemStack();
+                if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
+                    item1.setItemStack(stack.subtract(choice.getValue()));
+                    break;
+                }
+            }
+        }
+        removeFluid("", recipe.fluid, recipe.fluidAmount);
         switch (recipe.output()) {
             case Either.Left(ItemStack item) -> getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
             case Either.Right(PylonFluid fluid) -> fluidType = fluid;
@@ -263,7 +272,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             Either<ItemStack, PylonFluid> output,
             boolean requiresEnrichedFire,
             PylonFluid fluid,
-            int fluidAmount
+            double fluidAmount
     ) implements Keyed {
 
         public Recipe(
@@ -272,7 +281,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 ItemStack output,
                 boolean requiresEnrichedFire,
                 PylonFluid fluid,
-                int fluidAmount
+                double fluidAmount
         ) {
             this(key, input, new Either.Left<>(output), requiresEnrichedFire, fluid, fluidAmount);
         }
@@ -283,7 +292,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 PylonFluid output,
                 boolean requiresEnrichedFire,
                 PylonFluid fluid,
-                int fluidAmount
+                double fluidAmount
         ) {
             this(key, input, new Either.Right<>(output), requiresEnrichedFire, fluid, fluidAmount);
         }
@@ -305,7 +314,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 List<ItemStack> input,
                 boolean isEnrichedFire,
                 PylonFluid fluid,
-                int fluidAmount
+                double fluidAmount
         ) {
             if (requiresEnrichedFire && !isEnrichedFire) {
                 return false;
@@ -331,28 +340,5 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             return true;
         }
 
-        /**
-         * Assumes that recipe has been already checked to make sure it matches, and the block is a Levelled
-         */
-        void takeIngredients(List<Item> items, Block block) {
-            Levelled levelled = (Levelled) block.getBlockData();
-            int newLevel = levelled.getLevel() - fluidAmount;
-            if (newLevel < levelled.getMinimumLevel()) {
-                block.setType(Material.CAULDRON);
-            } else {
-                levelled.setLevel(newLevel);
-                block.setBlockData(levelled);
-            }
-
-            for (Map.Entry<RecipeChoice, Integer> choice : input.entrySet()) {
-                for (Item item : items) {
-                    ItemStack stack = item.getItemStack();
-                    if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
-                        item.setItemStack(stack.subtract(choice.getValue()));
-                        break;
-                    }
-                }
-            }
-        }
     }
 }

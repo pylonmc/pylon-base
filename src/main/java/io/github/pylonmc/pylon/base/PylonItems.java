@@ -887,7 +887,8 @@ public final class PylonItems {
                 new ItemStack(Material.BREAD),
                 new RecipeChoice.ExactChoice(DOUGH),
                 0.2F,
-                10 * 20);
+                10 * 20
+        );
         furnaceBreadRecipe.setCategory(CookingBookCategory.FOOD);
         RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceBreadRecipe);
 
@@ -996,7 +997,7 @@ public final class PylonItems {
                 SHIMMER_DUST_2,
                 false,
                 PylonFluids.WATER,
-                1
+                333
         ));
     }
 
@@ -1031,7 +1032,7 @@ public final class PylonItems {
                 output,
                 true,
                 PylonFluids.WATER,
-                3
+                1000
         ));
     }
 
