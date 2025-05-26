@@ -26,14 +26,14 @@ jobs:
         if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, '[ref:')
         run: |
           prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[ref://')
-          suffixrm=$(echo $prefixrm | sed 's/\].*$//')
-          BRANCHNAME=$(echo $suffixrm | sed 's/\]//g')
+          suffixrm=$(echo "$prefixrm" | sed 's/\].*$//')
+          BRANCHNAME=$(echo "$suffixrm" | sed 's/\]//g')
           git clone https://github.com/pylonmc/pylon-core.git
           cd pylon-core
-          CORECOMMIT=$(git rev-parse origin/$BRANCHNAME)
+          echo "CORECOMMIT=$(git rev-parse origin/$BRANCHNAME)" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
-          echo $CORECOMMIT
+          echo "$CORECOMMIT"
 
       - name: Parse [commit title
         id: parsecommit
@@ -42,7 +42,7 @@ jobs:
           prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[commit://')
           suffixrm=$(echo $prefixrm | sed 's/\].*$//')
           CORECOMMIT=$(echo $suffixrm | sed 's/\]//g')
-          echo $CORECOMMIT
+          echo "$CORECOMMIT"
 
       - name: Get latest commit of core master
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
@@ -52,7 +52,7 @@ jobs:
           CORECOMMIT=$(git rev-parse origin/master)
           cd ..
           rm -rf pylon-core
-          echo $CORECOMMIT
+          echo "$CORECOMMIT"
 
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
@@ -71,23 +71,24 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         continue-on-error: true
         with:
-          name: pylon-core-$CORECOMMIT
+          name: pylon-core-$(echo "$CORECOMMIT")
           repository: pylonmc/pylon-core
-          path: pylon-core-$CORECOMMIT.jar
+          path: pylon-core-$(echo "$CORECOMMIT").jar
 
       - name: Build core if artifact expired or not found
         if: steps.downloadcore.outcome == 'failure'
         run: |
           git clone https://github.com/pylonmc/pylon-core.git
           cd pylon-core
-          git checkout $CORECOMMIT
+          git fetch origin $(echo "$CORECOMMIT")
+          git checkout $(echo "$CORECOMMIT")
           ./gradlew jar
           cp pylon-core/build/libs/pylon-core-SNAPSHOT.jar ..
           cd ..
           rm -rf pylon-core
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path=pylon-core-$CORECOMMIT.jar
+        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path=pylon-core-$(echo "$CORECOMMIT").jar
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
