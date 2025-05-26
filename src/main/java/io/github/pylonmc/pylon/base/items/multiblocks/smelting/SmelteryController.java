@@ -12,8 +12,8 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.item.builder.Quantity;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
@@ -159,15 +159,15 @@ public final class SmelteryController extends SmelteryComponent
                 lore.add(Component.empty());
                 lore.add(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.height",
-                        PylonArgument.of("height", height)
+                        PylonArgument.of("height", UnitFormat.BLOCKS.format(height))
                 ));
                 lore.add(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.capacity",
-                        PylonArgument.of("capacity", capacity)
+                        PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity).decimalPlaces(0))
                 ));
                 lore.add(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.temperature",
-                        PylonArgument.of("temperature", "%.1f".formatted(temperature))
+                        PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature).decimalPlaces(1))
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
@@ -204,9 +204,19 @@ public final class SmelteryController extends SmelteryComponent
                 );
                 lore.add(Component.text().color(color).build().append(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.contents.fluid",
-                        PylonArgument.of("amount", Component.text(amount).append(Quantity.FLUID.style(Style.empty()))),
+                        PylonArgument.of(
+                                "amount",
+                                UnitFormat.MILLIBUCKETS.format(amount)
+                                        .decimalPlaces(1)
+                                        .unitStyle(Style.empty())
+                        ),
                         PylonArgument.of("fluid", fluid.getName()),
-                        PylonArgument.of("temperature", Component.text(temperature).append(Quantity.TEMPERATURE.style(Style.empty())))
+                        PylonArgument.of(
+                                "temperature",
+                                UnitFormat.CELSIUS.format(temperature)
+                                        .decimalPlaces(1)
+                                        .unitStyle(Style.empty())
+                        )
                 )));
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
@@ -292,7 +302,7 @@ public final class SmelteryController extends SmelteryComponent
             for (PylonFluid fluid : fluids.keySet()) {
                 double amount = fluids.getDouble(fluid);
                 if (amount > 0) {
-                    long newAmount = (long) (amount * ratio);
+                    double newAmount = amount * ratio;
                     if (newAmount == 0) {
                         fluids.removeDouble(fluid);
                     } else {

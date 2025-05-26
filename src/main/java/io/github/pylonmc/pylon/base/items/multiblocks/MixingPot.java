@@ -16,10 +16,10 @@ import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.item.builder.Quantity;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import lombok.Getter;
@@ -174,8 +174,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             text = text.append(Component.text(" | "))
                     .append(fluidType.getName())
                     .append(Component.text(": "))
-                    .append(Component.text(fluidAmount))
-                    .append(Quantity.FLUID);
+                    .append(UnitFormat.MILLIBUCKETS.format(fluidAmount).decimalPlaces(1));
         }
         return new WailaConfig(text);
     }

@@ -461,14 +461,14 @@ gui:
     not_running: "<yellow>Not running"
     incomplete: "<red>Multiblock incomplete"
   smeltery:
-    height: "<attr:Height:blocks>%height%"
-    capacity: "<attr:Capacity:fluid>%capacity%"
-    temperature: "<attr:Temperature:temperature>%temperature%"
+    height: "<attr>Height:</attr> %height%"
+    capacity: "<attr>Capacity:</attr> %capacity%"
+    temperature: "<attr>Temperature:</attr> %temperature%"
     contents:
       name: "Contents"
       fluid: "%amount% of %fluid% (%temperature%)"
   smeltery_burner:
     burning: "<green>Burning"
     not_burning: "<yellow>Not burning"
-    energy_left: "<attr:Energy left:energy>%energy%"
-    power_output: "<attr:Power output:power>%power%"
+    energy_left: "<attr>Energy left:</attr> %energy%"
+    power_output: "<attr>Power output:</attr> %power%"

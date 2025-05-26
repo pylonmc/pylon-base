@@ -12,6 +12,8 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
+import io.github.pylonmc.pylon.core.util.gui.unit.MetricPrefix;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -41,6 +43,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(pylonKey("smeltery_burner_fuels"));
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
+
     static {
         PylonRegistry.addRegistry(FUELS);
     }
@@ -53,7 +56,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     private double secondsElapsed = 0;
 
     public SmelteryBurner(Block block, BlockCreateContext context) {
-        super( block, context);
+        super(block, context);
 
         fuel = null;
         secondsElapsed = 0;
@@ -102,19 +105,27 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             double powerOutput = getCurrentPowerOutput();
             if (fuel != null) {
                 name = Component.translatable("pylon.pylonbase.gui.smeltery_burner.burning");
-                double energyLeft = fuel.totalJoules - (powerOutput * secondsElapsed);
-                lore.add(
-                        Component.translatable(
-                                "pylon.pylonbase.gui.smeltery_burner.energy_left",
-                                PylonArgument.of("energy", "%.1f".formatted(energyLeft))
+                double energyLeft = fuel.totalJoules * BURN_EFFICIENCY - (powerOutput * secondsElapsed);
+                lore.add(Component.translatable(
+                        "pylon.pylonbase.gui.smeltery_burner.energy_left",
+                        PylonArgument.of(
+                                "energy",
+                                UnitFormat.JOULES.format(energyLeft)
+                                        .significantFigures(3)
+                                        .ignorePrefixes(MetricPrefix.Unused.GENERAL)
+                                        .autoSelectPrefix()
                         )
-                );
-                lore.add(
-                        Component.translatable(
-                                "pylon.pylonbase.gui.smeltery_burner.power_output",
-                                PylonArgument.of("power", "%.1f".formatted(powerOutput))
+                ));
+                lore.add(Component.translatable(
+                        "pylon.pylonbase.gui.smeltery_burner.power_output",
+                        PylonArgument.of(
+                                "power",
+                                UnitFormat.WATTS.format(powerOutput)
+                                        .significantFigures(3)
+                                        .ignorePrefixes(MetricPrefix.Unused.GENERAL)
+                                        .autoSelectPrefix()
                         )
-                );
+                ));
             } else {
                 name = Component.translatable("pylon.pylonbase.gui.smeltery_burner.not_burning");
             }
@@ -183,7 +194,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         FUELS.register(new Fuel(
                 pylonKey("coal"),
                 new VanillaOrPylon.Vanilla(Material.COAL),
-                3333000000D,
+                333_300_000D,
                 30
         ));
     }
