@@ -1354,6 +1354,21 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+
+    public static final NamespacedKey ROCK_DUST_KEY = pylonKey("rock_dust");
+    public static final ItemStack ROCK_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ROCK_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ROCK_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("rock_dust"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.COBBLESTONE)),
+                1,
+                ROCK_DUST.asQuantity(2),
+                2,
+                Material.COBBLESTONE.createBlockData()
+        ));
+    }
     //</editor-fold>
 
     // Calling this method forces all the static blocks to run, which initializes our items

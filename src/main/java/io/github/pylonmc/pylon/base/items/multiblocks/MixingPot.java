@@ -219,7 +219,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK_KEY);
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-            if (recipe.matches(stacks, isEnrichedFire, fluidType, (int) fluidAmount)) {
+            if (recipe.matches(stacks, isEnrichedFire, fluidType, fluidAmount)) {
                 doRecipe(recipe, items);
                 break;
             }
@@ -236,9 +236,11 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 }
             }
         }
-        removeFluid("", recipe.fluid, recipe.fluidAmount);
         switch (recipe.output()) {
-            case Either.Left(ItemStack item) -> getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+            case Either.Left(ItemStack item) -> {
+                removeFluid("", recipe.fluid, recipe.fluidAmount);
+                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+            }
             case Either.Right(PylonFluid fluid) -> fluidType = fluid;
         }
 

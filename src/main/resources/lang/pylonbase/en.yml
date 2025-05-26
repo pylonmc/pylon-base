@@ -293,6 +293,10 @@ item:
       <arrow> <insn>Right click</insn> to open
       <arrow> <attr>Research points:</attr> %points%
 
+  rock_dust:
+    name: "Rock Dust"
+    lore: ""
+
   shimmer_dust_1:
     name: "Shimmer Dust I"
     lore: ""
@@ -408,6 +412,8 @@ block:
 fluid:
   water: "<blue>Water"
   lava: "<#fc4e03>Lava"
+  slurry: "<gray>Slurry"
+  redstone_slurry: "<red>Redstone Slurry"
 
 research:
   baking: "<gold>baking"
