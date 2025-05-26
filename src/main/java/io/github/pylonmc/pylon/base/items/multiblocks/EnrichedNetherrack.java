@@ -5,7 +5,9 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -15,25 +17,32 @@ import org.jetbrains.annotations.NotNull;
 
 public final class EnrichedNetherrack {
 
-    private static final int TICK_RATE = 5;
+    public static final class Schema extends PylonBlockSchema {
+
+        @Getter private final int tickRate = getSettings().getOrThrow("tick-rate", Integer.class);
+
+        public Schema(NamespacedKey key, Material material, Class<? extends PylonBlock<?>> blockClass) {
+            super(key, material, blockClass);
+        }
+    }
 
     private EnrichedNetherrack() {
         throw new AssertionError("Container class");
     }
 
-    public static class EnrichedNetherrackBlock extends PylonBlock<PylonBlockSchema> implements PylonTickingBlock {
+    public static class EnrichedNetherrackBlock extends PylonBlock<EnrichedNetherrack.Schema> implements PylonTickingBlock {
 
-        public EnrichedNetherrackBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
+        public EnrichedNetherrackBlock(@NotNull EnrichedNetherrack.Schema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
             super(schema, block);
         }
 
-        public EnrichedNetherrackBlock(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        public EnrichedNetherrackBlock(@NotNull EnrichedNetherrack.Schema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
             super(schema, block);
         }
 
         @Override
         public int getCustomTickRate(int globalTickRate) {
-            return TICK_RATE * globalTickRate;
+            return getSchema().tickRate;
         }
 
         @Override

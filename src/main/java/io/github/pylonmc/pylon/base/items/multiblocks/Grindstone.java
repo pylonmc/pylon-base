@@ -21,6 +21,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -40,22 +41,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 public final class Grindstone {
-
-    private static final int TICK_RATE = 2;
-    private static final int CYCLE_TIME_TICKS = 20;
 
     private Grindstone() {
         throw new AssertionError("Container class");
     }
 
-    public static class GrindstoneBlock extends PylonBlock<PylonBlockSchema>
+    public static class GrindstoneBlock extends PylonBlock<GrindstoneBlock.Schema>
             implements PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-        private static final NamespacedKey RECIPE_KEY = KeyUtils.pylonKey("recipe");
-        private static final NamespacedKey CYCLES_REMAINING_KEY = KeyUtils.pylonKey("cycles_remaining");
-        private static final NamespacedKey CYCLE_TICKS_REMAINING = KeyUtils.pylonKey("cycle_ticks_remaining");
+        public static final class Schema extends PylonBlockSchema {
+
+            @Getter private final int tickRate = getSettings().getOrThrow("tick-rate", Integer.class);
+            @Getter private final int cycleTimeTicks = getSettings().getOrThrow("cycle-time-ticks", Integer.class);
+
+            public Schema(NamespacedKey key, Material material) {
+                super(key, material, Grindstone.GrindstoneBlock.class);
+            }
+        }
+
+        private static final NamespacedKey RECIPE_KEY = pylonKey("recipe");
+        private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
+        private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = pylonKey("cycle_ticks_remaining");
 
         private final Map<String, UUID> entities;
         private @Nullable NamespacedKey recipe;
@@ -63,7 +73,7 @@ public final class Grindstone {
         private @Nullable Integer cycleTicksRemaining;
 
         @SuppressWarnings("unused")
-        public GrindstoneBlock(PylonBlockSchema schema, Block block, BlockCreateContext context) {
+        public GrindstoneBlock(Schema schema, Block block, BlockCreateContext context) {
             super(schema, block);
 
             ItemDisplay itemDisplay = new ItemDisplayBuilder()
@@ -93,12 +103,12 @@ public final class Grindstone {
         }
 
         @SuppressWarnings("unused")
-        public GrindstoneBlock(PylonBlockSchema schema, Block block, PersistentDataContainer pdc) {
+        public GrindstoneBlock(Schema schema, Block block, PersistentDataContainer pdc) {
             super(schema, block);
             entities = loadHeldEntities(pdc);
             recipe = pdc.get(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
             cyclesRemaining = pdc.get(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER);
-            cycleTicksRemaining = pdc.get(CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER);
+            cycleTicksRemaining = pdc.get(CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
         }
 
         @Override
@@ -107,7 +117,7 @@ public final class Grindstone {
 
             PdcUtils.setNullable(pdc, RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, recipe);
             PdcUtils.setNullable(pdc, CYCLES_REMAINING_KEY, PylonSerializers.INTEGER, cyclesRemaining);
-            PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING, PylonSerializers.INTEGER, cycleTicksRemaining);
+            PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, cycleTicksRemaining);
         }
 
         @Override
@@ -163,7 +173,7 @@ public final class Grindstone {
 
         @Override
         public int getCustomTickRate(int globalTickRate) {
-            return TICK_RATE;
+            return getSchema().tickRate;
         }
 
         @Override
@@ -174,7 +184,7 @@ public final class Grindstone {
 
             // check if cycle finished
             if (cycleTicksRemaining <= 0) {
-                cycleTicksRemaining = CYCLE_TIME_TICKS;
+                cycleTicksRemaining = getSchema().cycleTimeTicks;
                 cyclesRemaining -= 1;
 
                 // check if recipe finished
@@ -185,19 +195,19 @@ public final class Grindstone {
                             .translate(0, 0.5, 0)
                             .buildForItemDisplay());
                     getStoneDisplay().setInterpolationDelay(0);
-                    getStoneDisplay().setInterpolationDuration(TICK_RATE);
+                    getStoneDisplay().setInterpolationDuration(getSchema().tickRate);
 
                     cyclesRemaining = null;
                     cycleTicksRemaining = null;
 
                     // run after interpolation to starting rotation is finished
-                    Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), this::finishRecipe, TICK_RATE);
+                    Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), this::finishRecipe, getSchema().tickRate);
 
                     return;
                 }
             }
 
-            if (cycleTicksRemaining == CYCLE_TIME_TICKS) {
+            if (cycleTicksRemaining == getSchema().cycleTimeTicks) {
                 // put top stone down
                 getStoneDisplay().setTransformationMatrix(new TransformBuilder()
                         .translate(0, 0.5, 0)
@@ -206,7 +216,7 @@ public final class Grindstone {
                 // rotate stone
                 getStoneDisplay().setTransformationMatrix(new TransformBuilder()
                         .translate(0, 0.5, 0)
-                        .rotate(0, 2 * Math.PI * ((double) cycleTicksRemaining / CYCLE_TIME_TICKS), 0)
+                        .rotate(0, 2 * Math.PI * ((double) cycleTicksRemaining / getSchema().cycleTimeTicks), 0)
                         .buildForItemDisplay());
 
                 Recipe recipe = Recipe.RECIPE_TYPE.getRecipe(this.recipe);
@@ -218,9 +228,9 @@ public final class Grindstone {
                         .spawn();
             }
             getStoneDisplay().setInterpolationDelay(0);
-            getStoneDisplay().setInterpolationDuration(TICK_RATE);
+            getStoneDisplay().setInterpolationDuration(getSchema().tickRate);
 
-            cycleTicksRemaining -= TICK_RATE;
+            cycleTicksRemaining -= getSchema().tickRate;
         }
 
         public void tryStartRecipe() {
@@ -238,7 +248,7 @@ public final class Grindstone {
                     getItemDisplay().setItemStack(input.subtract(recipe.inputAmount));
                     this.recipe = recipe.key;
                     cyclesRemaining = recipe.cycles;
-                    cycleTicksRemaining = CYCLE_TIME_TICKS;
+                    cycleTicksRemaining = getSchema().cycleTimeTicks;
                     break;
                 }
             }
@@ -255,7 +265,7 @@ public final class Grindstone {
                     .translate(0, 0.8, 0)
                     .buildForItemDisplay());
             getStoneDisplay().setInterpolationDelay(0);
-            getStoneDisplay().setInterpolationDuration(TICK_RATE);
+            getStoneDisplay().setInterpolationDuration(getSchema().tickRate);
 
             this.recipe = null;
         }

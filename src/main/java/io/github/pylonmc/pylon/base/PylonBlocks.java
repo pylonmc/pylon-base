@@ -1,8 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
+import io.github.pylonmc.pylon.core.block.SimplePylonBlock;
 import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
@@ -52,10 +58,9 @@ public final class PylonBlocks {
         MAGIC_ALTAR.register();
     }
 
-    public static final PylonBlockSchema GRINDSTONE = new PylonBlockSchema(
+    public static final Grindstone.GrindstoneBlock.Schema GRINDSTONE = new Grindstone.GrindstoneBlock.Schema(
             pylonKey("grindstone"),
-            Material.SMOOTH_STONE_SLAB,
-            Grindstone.GrindstoneBlock.class
+            Material.SMOOTH_STONE_SLAB
     );
     static {
         GRINDSTONE.register();
@@ -81,7 +86,7 @@ public final class PylonBlocks {
         GRINDSTONE_HANDLE.register();
     }
 
-    public static final PylonBlockSchema ENRICHED_NETHERRACK = new PylonBlockSchema(
+    public static final EnrichedNetherrack.Schema ENRICHED_NETHERRACK = new EnrichedNetherrack.Schema(
             pylonKey("enriched_netherrack"),
             Material.NETHERRACK,
             EnrichedNetherrack.EnrichedNetherrackBlock.class
@@ -97,6 +102,67 @@ public final class PylonBlocks {
     );
     static {
         MIXING_POT.register();
+    }
+
+    public static final PylonBlockSchema WITHER_PROOF_OBSIDIAN = new PylonBlockSchema(
+            pylonKey("wither_proof_obsidian"),
+            Material.OBSIDIAN,
+            SimplePylonBlock.class
+    );
+    static {
+        WITHER_PROOF_OBSIDIAN.register();
+    }
+
+    public static final DimensionalBarrel.DimensionalBarrelBlock.Schema DIMENSIONAL_BARREL = new DimensionalBarrel.DimensionalBarrelBlock.Schema(
+            pylonKey("dimensional_barrel"),
+            Material.BARREL,
+            DimensionalBarrel.DimensionalBarrelBlock.class
+    );
+    static {
+        DIMENSIONAL_BARREL.register();
+    }
+
+    public static final PylonBlockSchema FLUID_PIPE_MARKER = new PylonBlockSchema(
+            pylonKey("fluid_pipe_marker"),
+            Material.STRUCTURE_VOID,
+            FluidPipeMarker.class
+    );
+    static {
+        FLUID_PIPE_MARKER.register();
+    }
+
+    public static final PylonBlockSchema FLUID_PIPE_CONNECTOR = new PylonBlockSchema(
+            pylonKey("fluid_pipe_connector"),
+            Material.STRUCTURE_VOID,
+            FluidPipeConnector.class
+    );
+    static {
+        FLUID_PIPE_CONNECTOR.register();
+    }
+
+    // TODO block settings
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_WOODEN = new FluidTank.FluidTankBlock.Schema(
+            pylonKey("fluid_tank_wooden"),
+            Material.BROWN_STAINED_GLASS
+    );
+    static {
+        FLUID_TANK_WOODEN.register();
+    }
+
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_COPPER = new FluidTank.FluidTankBlock.Schema(
+            pylonKey("fluid_tank_copper"),
+            Material.ORANGE_STAINED_GLASS
+    );
+    static {
+        FLUID_TANK_COPPER.register();
+    }
+
+    public static final WaterPump.WaterPumpBlock.Schema WATER_PUMP = new WaterPump.WaterPumpBlock.Schema(
+            pylonKey("water_pump"),
+            Material.BLUE_TERRACOTTA
+    );
+    static {
+        WATER_PUMP.register();
     }
 
     public static void initialize() {}
