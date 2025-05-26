@@ -76,7 +76,7 @@ jobs:
           path: pylon-core-$CORECOMMIT.jar
 
       - name: Build core if artifact expired or not found
-        if: steps.downloadcore.outcome == 'failed'
+        if: steps.downloadcore.outcome == 'failure'
         run: |
           git clone https://github.com/pylonmc/pylon-core.git
           cd pylon-core
