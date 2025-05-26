@@ -33,6 +33,7 @@ jobs:
           CORECOMMIT=$(git rev-parse origin/$BRANCHNAME)
           cd ..
           rm -rf pylon-core
+          echo $CORECOMMIT
 
       - name: Parse [commit title
         id: parsecommit
@@ -41,6 +42,7 @@ jobs:
           prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[commit://')
           suffixrm=$(echo $prefixrm | sed 's/\].*$//')
           CORECOMMIT=$(echo $suffixrm | sed 's/\]//g')
+          echo $CORECOMMIT
 
       - name: Get latest commit of core master
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
@@ -50,6 +52,7 @@ jobs:
           CORECOMMIT=$(git rev-parse origin/master)
           cd ..
           rm -rf pylon-core
+          echo $CORECOMMIT
 
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
