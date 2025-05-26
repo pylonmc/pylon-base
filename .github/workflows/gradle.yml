@@ -81,7 +81,7 @@ jobs:
           git clone https://github.com/pylonmc/pylon-core.git
           cd pylon-core
           git checkout $CORECOMMIT
-          gradlew jar
+          ./gradlew jar
           cp pylon-core/build/libs/pylon-core-SNAPSHOT.jar ..
           cd ..
           rm -rf pylon-core
