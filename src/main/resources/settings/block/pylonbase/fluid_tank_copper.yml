@@ -1,4 +1,4 @@
-fluid-per-second: 500.0
+capacity: 8000.0
 temperature:
   min: 0
   max: 900

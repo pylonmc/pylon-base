@@ -7,9 +7,9 @@ import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -77,6 +77,11 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
         }
 
         PylonEntityHolderBlock.super.onBreak(drops, context);
+    }
+
+    @Override
+    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(getName(), Map.of("pipe", getPipe().getItemStack().effectiveName()));
     }
 
     public @NotNull FluidPipe.Schema getPipe() {
