@@ -12,8 +12,9 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -56,9 +57,9 @@ public class WaterPump {
         }
 
         @Override
-        public @NotNull Map<String, Component> getPlaceholders() {
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
             return Map.of(
-                    "water_per_second", Component.text(getSchema().block.getWaterPerSecond())
+                    "water_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().block.getWaterPerSecond())
             );
         }
     }
