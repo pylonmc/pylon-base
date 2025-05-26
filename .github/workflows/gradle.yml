@@ -43,7 +43,7 @@ jobs:
           CORECOMMIT=$(echo $suffixrm | sed 's/\]//g')
 
       - name: Get latest commit of core master
-        if: steps.parseref.outcome == 'cancelled' && steps.parsecommit.outcome == 'cancelled'
+        if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
         run: |
           git clone https://github.com/pylonmc/pylon-core.git
           cd pylon-core
