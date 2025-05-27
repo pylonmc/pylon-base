@@ -9,8 +9,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
