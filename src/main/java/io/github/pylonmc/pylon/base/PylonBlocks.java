@@ -141,12 +141,12 @@ public final class PylonBlocks {
     }
 
     // TODO block settings
-    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_WOODEN = new FluidTank.FluidTankBlock.Schema(
-            pylonKey("fluid_tank_wooden"),
+    public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_WOOD = new FluidTank.FluidTankBlock.Schema(
+            pylonKey("fluid_tank_wood"),
             Material.BROWN_STAINED_GLASS
     );
     static {
-        FLUID_TANK_WOODEN.register();
+        FLUID_TANK_WOOD.register();
     }
 
     public static final FluidTank.FluidTankBlock.Schema FLUID_TANK_COPPER = new FluidTank.FluidTankBlock.Schema(

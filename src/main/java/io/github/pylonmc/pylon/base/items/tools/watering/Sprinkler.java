@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.PylonBlocks;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
@@ -10,8 +9,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -28,7 +25,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.function.Function;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 public final class Sprinkler {
@@ -40,26 +38,12 @@ public final class Sprinkler {
         throw new AssertionError("Container class");
     }
 
-    public static class SprinklerItem extends PylonItem<SprinklerItem.Schema> implements BlockPlacer {
+    public static class SprinklerItem extends PylonItem {
 
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return PylonBlocks.SPRINKLER;
-        }
+        public static final NamespacedKey KEY = pylonKey("sprinkler");
 
-        public static class Schema extends PylonItemSchema {
-
-            public Schema(
-                    @NotNull NamespacedKey key,
-                    @NotNull Class<? extends PylonItem<? extends PylonItemSchema>> itemClass,
-                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier
-            ) {
-                super(key, itemClass, templateSupplier);
-            }
-        }
-
-        public SprinklerItem(@NotNull Schema schema, @NotNull ItemStack stack) {
-            super(schema, stack);
+        public SprinklerItem(@NotNull ItemStack stack) {
+            super(stack);
         }
 
         @Override
@@ -113,7 +97,7 @@ public final class Sprinkler {
                 return;
             }
 
-            WateringCan.WateringCanItem.water(getBlock(), getSchema().settings);
+            WateringCan.water(getBlock(), getSchema().settings);
 
             new ParticleBuilder(Particle.SPLASH)
                     .count(5)

@@ -104,7 +104,7 @@ public final class MixingPot {
 
             PylonBlock<?> ignitedBlock = BlockStorage.get(getIgnitedBlock());
             boolean isEnrichedFire = ignitedBlock != null
-                    && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK.getKey());
+                    && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK_KEY);
 
             for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
                 if (recipe.matches(stacks, isEnrichedFire, levelled.getLevel())) {

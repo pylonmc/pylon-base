@@ -44,7 +44,7 @@ public class ConnectingService implements Listener {
     public static void startConnection(
             @NotNull Player player,
             @NotNull ConnectingPoint startPoint,
-            @NotNull FluidPipe.Schema pipe
+            @NotNull FluidPipe pipe
     ) {
         Preconditions.checkState(!connectionsInProgress.containsKey(player));
         connectionsInProgress.put(player, new ConnectingTask(player, startPoint, pipe));
@@ -70,7 +70,7 @@ public class ConnectingService implements Listener {
 
         connectionsInProgress.remove(player);
 
-        PylonItem<?> pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
+        PylonItem pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
         if (result.to().getFace() == null && pylonItem instanceof FluidPipe) {
             // start new connection from the point we just placed if it didn't have a face
             // if it does have a face, we can't go any further so don't bother starting a new connection
@@ -97,7 +97,7 @@ public class ConnectingService implements Listener {
     public static @NotNull FluidPipeDisplay connect(
             @NotNull ConnectingPoint from,
             @NotNull ConnectingPoint to,
-            @NotNull FluidPipe.Schema pipe
+            @NotNull FluidPipe pipe
     ) {
         FluidConnectionInteraction originInteraction = from.create();
         FluidConnectionInteraction targetInteraction = to.create();

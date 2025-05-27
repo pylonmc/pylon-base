@@ -54,7 +54,7 @@ public class ConnectingTask {
 
     @Getter private final Player player;
     @Getter private final BukkitTask task;
-    @Getter private final FluidPipe.Schema pipe;
+    @Getter private final FluidPipe pipe;
     @Getter private final ConnectingPoint from;
     @Getter private ConnectingPoint to;
     @Getter private final ItemDisplay display;
@@ -63,7 +63,7 @@ public class ConnectingTask {
     public ConnectingTask(
             @NotNull Player player,
             @NotNull ConnectingPoint from,
-            @NotNull FluidPipe.Schema pipe
+            @NotNull FluidPipe pipe
     ) {
         this.player = player;
         this.from = from;
@@ -84,7 +84,7 @@ public class ConnectingTask {
     }
 
     private void tick(boolean interpolate) {
-        PylonItem<?> pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
+        PylonItem pylonItem = PylonItem.fromStack(player.getInventory().getItem(EquipmentSlot.HAND));
         if (!(pylonItem instanceof FluidPipe)) {
             ConnectingService.cancelConnection(player);
             return;

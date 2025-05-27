@@ -9,60 +9,20 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockPlacer;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 
 
 public class WaterPump {
-
-    public static class WaterPumpItem extends PylonItem<WaterPumpItem.Schema> implements BlockPlacer {
-
-        public static class Schema extends PylonItemSchema {
-
-            private final WaterPumpBlock.Schema block;
-
-            public Schema(
-                    @NotNull NamespacedKey key,
-                    @NotNull Function<NamespacedKey, ItemStack> templateSupplier,
-                    @NotNull WaterPumpBlock.Schema block
-            ) {
-                super(key, WaterPumpItem.class, templateSupplier);
-                this.block = block;
-            }
-        }
-
-        public WaterPumpItem(@NotNull Schema schema, @NotNull ItemStack stack) {
-            super(schema, stack);
-        }
-
-        @Override
-        public @NotNull PylonBlockSchema getBlockSchema() {
-            return getSchema().block;
-        }
-
-        @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "water_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().block.getWaterPerSecond())
-            );
-        }
-    }
 
     public static class WaterPumpBlock extends PylonBlock<WaterPumpBlock.Schema> implements PylonEntityHolderBlock, PylonFluidBlock {
 
