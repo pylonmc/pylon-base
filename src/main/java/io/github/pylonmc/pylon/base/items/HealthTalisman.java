@@ -5,6 +5,9 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
+import io.github.pylonmc.pylon.core.item.PylonItemSchema;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -54,8 +57,10 @@ public class HealthTalisman extends PylonItem {
     );
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
-        return Map.of("health-boost", Component.text(maxHealthBoost));
+    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
+        return Map.of(
+            "health-boost", UnitFormat.HEARTS.format(maxHealthBoost).asComponent()
+        );
     }
 
     public static class HealthTalismanTicker extends BukkitRunnable {

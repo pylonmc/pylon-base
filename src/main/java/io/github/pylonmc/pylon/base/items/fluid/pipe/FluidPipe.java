@@ -2,11 +2,7 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointNewBlock;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointPipeMarker;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingPointInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.ConnectingService;
+import io.github.pylonmc.pylon.base.items.fluid.connection.connecting.*;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
@@ -15,10 +11,12 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -63,11 +61,11 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", Component.text(fluidPerSecond),
-                "min_temperature", Component.text(minTemperature),
-                "max_temperature", Component.text(maxTemperature)
+                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidPerSecond),
+                "min_temperature", UnitFormat.CELSIUS.format(minTemperature),
+                "max_temperature", UnitFormat.CELSIUS.format(maxTemperature)
         );
     }
 

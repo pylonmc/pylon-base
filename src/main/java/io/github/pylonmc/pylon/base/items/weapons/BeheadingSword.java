@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.tag.EntityTags;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
@@ -79,7 +80,7 @@ public class BeheadingSword extends PylonItem implements Weapon {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Component> getPlaceholders() {
+    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of(
                 "default-chance", Component.text(NORMAL_ENTITY_HEAD_CHANCE * 100),
                 "wither-skeleton-chance", Component.text(WITHER_SKELETON_HEAD_CHANCE * 100)
