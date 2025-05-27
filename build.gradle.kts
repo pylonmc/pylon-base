@@ -3,6 +3,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     java
     idea
+    kotlin("jvm") version "1.9.22"
     id("com.gradleup.shadow") version "8.3.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("xyz.jpenilla.run-paper") version "2.3.0"
@@ -30,6 +31,7 @@ dependencies {
         compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
     }
     implementation("xyz.xenondevs.invui:invui:1.45")
+    implementation(kotlin("stdlib"))
 }
 
 idea {
