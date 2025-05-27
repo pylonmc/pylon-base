@@ -29,6 +29,7 @@ dependencies {
     } else {
         compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
     }
+    implementation("xyz.xenondevs.invui:invui:1.45")
 }
 
 idea {
