@@ -4,7 +4,6 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import net.kyori.adventure.text.Component;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;

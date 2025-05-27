@@ -230,7 +230,7 @@ public class ConnectingTask {
 
         if (newDistance < distance && isValidTarget(newTarget, from.allowedFace())) {
             BlockPosition newTargetPosition = from.position().plus(new Vector3i(newTarget, RoundingMode.HALF_DOWN));
-            PylonBlock<?> newTargetBlock = BlockStorage.get(newTargetPosition);
+            PylonBlock newTargetBlock = BlockStorage.get(newTargetPosition);
             if (newTargetBlock instanceof FluidPipeMarker marker) {
                 to = new ConnectingPointPipeMarker(marker);
             } else if (newTargetBlock instanceof FluidPipeConnector connector) {

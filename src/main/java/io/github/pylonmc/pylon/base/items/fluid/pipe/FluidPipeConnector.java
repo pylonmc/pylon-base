@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -11,6 +10,7 @@ import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,14 +23,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements PylonEntityHolderBlock {
+
+public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderBlock {
+
+    public static final NamespacedKey KEY =  pylonKey("fluid_pipe_connector");
 
     private final Map<String, UUID> entities;
 
     @SuppressWarnings("unused")
-    public FluidPipeConnector(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public FluidPipeConnector(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
 
         FluidConnectionPoint point = new FluidConnectionPoint(block, "connector", FluidConnectionPoint.Type.CONNECTOR);
 
@@ -40,8 +44,8 @@ public class FluidPipeConnector extends PylonBlock<PylonBlockSchema> implements 
     }
 
     @SuppressWarnings("unused")
-    public FluidPipeConnector(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public FluidPipeConnector(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
 
         entities = loadHeldEntities(pdc);
     }

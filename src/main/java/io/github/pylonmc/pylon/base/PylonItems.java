@@ -1,11 +1,17 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
+import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
+import io.github.pylonmc.pylon.base.items.multiblocks.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
+import io.github.pylonmc.pylon.base.items.multiblocks.GrindstoneHandle;
 import io.github.pylonmc.pylon.base.items.multiblocks.MagicAltar;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
+import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
 import io.github.pylonmc.pylon.base.items.research.ResearchPack;
 import io.github.pylonmc.pylon.base.items.tools.*;
@@ -47,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@SuppressWarnings("UnstableApiUsage")
+@SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class PylonItems {
 
     private PylonItems() {
@@ -754,7 +760,7 @@ public final class PylonItems {
     public static final ItemStack SPRINKLER = ItemStackBuilder.pylonItem(Material.FLOWER_POT, SPRINKLER_KEY)
             .build();
     static {
-        PylonItem.register(Sprinkler.SprinklerItem.class, SPRINKLER, PylonBlocks.SPRINKLER);
+        PylonItem.register(PylonItem.class, SPRINKLER, Sprinkler.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("sprinkler"), SPRINKLER)
                 .shape("B B", "B B", "FRF")
                 .setIngredient('B', new ItemStack(Material.BRICK))
@@ -812,7 +818,7 @@ public final class PylonItems {
     public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, GRINDSTONE_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, GRINDSTONE, PylonBlocks.GRINDSTONE);
+        PylonItem.register(PylonItem.class, GRINDSTONE, Grindstone.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("grindstone"), GRINDSTONE)
                 .shape("STS", "   ", "   ")
                 .setIngredient('T', new ItemStack(Material.SMOOTH_STONE))
@@ -825,7 +831,7 @@ public final class PylonItems {
     public static final ItemStack GRINDSTONE_HANDLE = ItemStackBuilder.pylonItem(Material.OAK_FENCE, GRINDSTONE_HANDLE_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, GRINDSTONE_HANDLE, PylonBlocks.GRINDSTONE_HANDLE);
+        PylonItem.register(PylonItem.class, GRINDSTONE_HANDLE, GrindstoneHandle.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("grindstone_handle"), GRINDSTONE_HANDLE)
                 .shape("F  ", "F  ", "F  ")
                 .setIngredient('F', new RecipeChoice.MaterialChoice(Tag.FENCES));
@@ -944,7 +950,7 @@ public final class PylonItems {
     public static final ItemStack MIXING_POT = ItemStackBuilder.pylonItem(Material.CAULDRON, MIXING_POT_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, MIXING_POT, PylonBlocks.MIXING_POT);
+        PylonItem.register(PylonItem.class, MIXING_POT, MixingPot.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("mixing_pot"), MIXING_POT)
                 .shape("f f", "f f", "fff")
                 .setIngredient('f', FERRODURALUM_INGOT);
@@ -995,7 +1001,7 @@ public final class PylonItems {
     public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylonItem(Material.NETHERRACK, ENRICHED_NETHERRACK_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, ENRICHED_NETHERRACK, PylonBlocks.ENRICHED_NETHERRACK);
+        PylonItem.register(PylonItem.class, ENRICHED_NETHERRACK, EnrichedNetherrack.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("enriched_netherrack"), ENRICHED_NETHERRACK)
                 .shape(" s ", "sns", " s ")
                 .setIngredient('n', new ItemStack(Material.NETHERRACK))
@@ -1105,7 +1111,7 @@ public final class PylonItems {
     public static final ItemStack PEDESTAL = ItemStackBuilder.pylonItem(Material.STONE_BRICK_WALL, PEDESTAL_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, PEDESTAL, PylonBlocks.PEDESTAL);
+        PylonItem.register(PylonItem.class, PEDESTAL, Pedestal.KEY_NORMAL);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("pedestal"), PEDESTAL)
                 .shape("s  ", "s  ", "s  ")
                 .setIngredient('s', new ItemStack(Material.STONE_BRICK_WALL));
@@ -1123,7 +1129,7 @@ public final class PylonItems {
     public static final ItemStack MAGIC_PEDESTAL = ItemStackBuilder.pylonItem(Material.MOSSY_STONE_BRICK_WALL, MAGIC_PEDESTAL_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, MAGIC_PEDESTAL, PylonBlocks.MAGIC_PEDESTAL);
+        PylonItem.register(PylonItem.class, MAGIC_PEDESTAL, Pedestal.KEY_MAGIC);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_pedestal"), MAGIC_PEDESTAL)
                 .shape("c c", " p ", "c c")
                 .setIngredient('p', PEDESTAL)
@@ -1136,7 +1142,7 @@ public final class PylonItems {
     public static final ItemStack MAGIC_ALTAR = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, MAGIC_ALTAR_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, MAGIC_ALTAR, PylonBlocks.MAGIC_ALTAR);
+        PylonItem.register(PylonItem.class, MAGIC_ALTAR, MagicAltar.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_altar"), MAGIC_ALTAR)
                 .shape("   ", "dpd", "dsd")
                 .setIngredient('p', PEDESTAL)
@@ -1207,7 +1213,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, PylonBlocks.FLUID_TANK_WOOD);
+        PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, FluidTank.FLUID_TANK_WOOD_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), FLUID_TANK_WOOD)
                 .shape("gwg", "w w", "gwg")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
@@ -1220,7 +1226,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, PylonBlocks.FLUID_TANK_COPPER);
+        PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, FluidTank.FLUID_TANK_COPPER_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_copper"), FLUID_TANK_COPPER)
                 .shape("gcg", "c c", "gcg")
                 .setIngredient('c', COPPER_SHEET)
@@ -1233,7 +1239,7 @@ public final class PylonItems {
     public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WATER_PUMP_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, WATER_PUMP, PylonBlocks.WATER_PUMP);
+        PylonItem.register(PylonItem.class, WATER_PUMP, WaterPump.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("water_pump"), WATER_PUMP)
                 .shape("iii", "ibi", "ipi")
                 .setIngredient('i', IRON_SHEET)
@@ -1262,7 +1268,7 @@ public final class PylonItems {
     public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DIMENSIONAL_BARREL_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, DIMENSIONAL_BARREL, PylonBlocks.DIMENSIONAL_BARREL);
+        PylonItem.register(PylonItem.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL)
                 .shape("CBC", "BEB", "CBC")
                 .setIngredient('C', COVALENT_BINDER)

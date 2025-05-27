@@ -4,8 +4,6 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import net.kyori.adventure.text.Component;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
