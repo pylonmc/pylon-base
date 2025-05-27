@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid.pipe;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -26,7 +25,9 @@ import java.util.UUID;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements PylonBreakHandler {
+public class FluidPipeMarker extends PylonBlock implements PylonBreakHandler {
+
+    public static final NamespacedKey KEY =  pylonKey("fluid_pipe_marker");
 
     private static final NamespacedKey PIPE_DISPLAY_KEY = pylonKey("pipe_display");
     private static final NamespacedKey FROM_KEY = pylonKey("from");
@@ -38,13 +39,13 @@ public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements Pyl
     @Setter private UUID to;
 
     @SuppressWarnings("unused")
-    public FluidPipeMarker(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull BlockCreateContext context) {
-        super(schema, block);
+    public FluidPipeMarker(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public FluidPipeMarker(@NotNull PylonBlockSchema schema, @NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(schema, block);
+    public FluidPipeMarker(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
         pipeDisplay = pdc.get(PIPE_DISPLAY_KEY, PylonSerializers.UUID);
         from = pdc.get(FROM_KEY, PylonSerializers.UUID);
         to = pdc.get(TO_KEY, PylonSerializers.UUID);
@@ -98,6 +99,6 @@ public class FluidPipeMarker extends PylonBlock<PylonBlockSchema> implements Pyl
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         FluidPipeDisplay pipeDisplay = getPipeDisplay();
         Preconditions.checkState(pipeDisplay != null);
-        return new WailaConfig(getName(), Map.of("pipe", pipeDisplay.getPipe().getItemStack().effectiveName()));
+        return new WailaConfig(getName(), Map.of("pipe", pipeDisplay.getPipe().getStack().effectiveName()));
     }
 }

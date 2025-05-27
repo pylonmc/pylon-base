@@ -9,12 +9,12 @@ import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
-import lombok.Getter;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
@@ -30,49 +30,42 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInteractor, Interactor {
 
-    public static class Schema extends PylonItemSchema {
+public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
 
-        @SuppressWarnings("DataFlowIssue")
-        @Getter private final double fluidPerSecond = getSettings().get("fluid-per-second", Double.class);
-        @SuppressWarnings("DataFlowIssue")
-        private final int minTemperature = getSettings().get("temperature.min", Integer.class);
-        @SuppressWarnings("DataFlowIssue")
-        private final int maxTemperature = getSettings().get("temperature.max", Integer.class);
-        @Getter private final Material material;
+    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wooden");
+    public static final NamespacedKey PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
+    public static final NamespacedKey PIPE_OBSIDIAN_KEY = pylonKey("fluid_pipe_obsidian");
 
-        public Schema(@NotNull NamespacedKey key, @NotNull Function<NamespacedKey, ItemStack> templateSupplier, Material material) {
-            super(key, FluidPipe.class, templateSupplier);
-            this.material = material;
-        }
+    public static final ItemStack PIPE_WOOD_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_WOOD_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_WOOD_KEY).getKey())
+            .build();
+    public static final ItemStack PIPE_COPPER_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_COPPER_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_COPPER_KEY).getKey())
+            .build();
+    public static final ItemStack PIPE_OBSIDIAN_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_OBSIDIAN_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_OBSIDIAN_KEY).getKey())
+            .build();
 
-        public Predicate<PylonFluid> getPredicate() {
-            return fluid -> {
-                FluidTemperature temperatureTag = fluid.getTag(FluidTemperature.class);
-                if (temperatureTag == null) {
-                    return false;
-                }
-                int temperature = temperatureTag.getValue();
-                return temperature > minTemperature && temperature < maxTemperature;
-            };
-        }
-    }
+    public final Material material = getMaterial(getKey());
+    public final double fluidPerSecond = getSettings().getOrThrow("fluid-per-second", Double.class);
+    public final int minTemperature = getSettings().getOrThrow("temperature.min", Integer.class);
+    public final int maxTemperature = getSettings().getOrThrow("temperature.max", Integer.class);
 
-    public FluidPipe(@NotNull Schema schema, @NotNull ItemStack stack) {
-        super(schema, stack);
+    public FluidPipe(@NotNull ItemStack stack) {
+        super(stack);
     }
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of(
-                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(getSchema().fluidPerSecond),
-                "min_temperature", UnitFormat.CELSIUS.format(getSchema().minTemperature),
-                "max_temperature", UnitFormat.CELSIUS.format(getSchema().maxTemperature)
+                "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidPerSecond),
+                "min_temperature", UnitFormat.CELSIUS.format(minTemperature),
+                "max_temperature", UnitFormat.CELSIUS.format(maxTemperature)
         );
     }
 
@@ -84,7 +77,7 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
 
         if (EntityStorage.get(event.getRightClicked()) instanceof FluidConnectionInteraction interaction) {
             if (!ConnectingService.isConnecting(event.getPlayer())) {
-                ConnectingService.startConnection(event.getPlayer(), new ConnectingPointInteraction(interaction), getSchema());
+                ConnectingService.startConnection(event.getPlayer(), new ConnectingPointInteraction(interaction), this);
                 return;
             }
         }
@@ -92,8 +85,8 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         if (ConnectingService.isConnecting(event.getPlayer())) {
             UUID segment = ConnectingService.placeConnection(event.getPlayer());
             if (segment != null) {
-                FluidManager.setFluidPerSecond(segment, getSchema().fluidPerSecond);
-                FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
+                FluidManager.setFluidPerSecond(segment, fluidPerSecond);
+                FluidManager.setFluidPredicate(segment, getPredicate());
             }
         }
     }
@@ -117,38 +110,57 @@ public class FluidPipe extends PylonItem<FluidPipe.Schema> implements EntityInte
         if ((action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) && ConnectingService.isConnecting(player)) {
             UUID segment = ConnectingService.placeConnection(player);
             if (segment != null) {
-                FluidManager.setFluidPerSecond(segment, getSchema().fluidPerSecond);
-                FluidManager.setFluidPredicate(segment, getSchema().getPredicate());
+                FluidManager.setFluidPerSecond(segment, fluidPerSecond);
+                FluidManager.setFluidPredicate(segment, getPredicate());
             }
         }
     }
 
+    private static Material getMaterial(@NotNull NamespacedKey key) {
+        return Map.of(
+                PIPE_WOOD_KEY, Material.BROWN_TERRACOTTA,
+                PIPE_COPPER_KEY, Material.ORANGE_TERRACOTTA,
+                PIPE_OBSIDIAN_KEY, Material.BLACK_TERRACOTTA
+        ).get(key);
+    }
+
+    public Predicate<PylonFluid> getPredicate() {
+        return fluid -> {
+            FluidTemperature temperatureTag = fluid.getTag(FluidTemperature.class);
+            if (temperatureTag == null) {
+                return false;
+            }
+            int temperature = temperatureTag.getValue();
+            return temperature > minTemperature && temperature < maxTemperature;
+        };
+    }
+
     private boolean tryStartConnection(@NotNull Player player, @NotNull Block block) {
         if (BlockStorage.get(block) instanceof FluidPipeConnector connector) {
-            if (!connector.getPipe().equals(getSchema())) {
+            if (!connector.getPipe().equals(this)) {
                 player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
                 return true;
             }
             ConnectingPointPipeConnector connectingPoint = new ConnectingPointPipeConnector(connector);
-            ConnectingService.startConnection(player, connectingPoint, getSchema());
+            ConnectingService.startConnection(player, connectingPoint, this);
             return true;
         }
 
         if (BlockStorage.get(block) instanceof FluidPipeMarker marker) {
             FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
             Preconditions.checkState(pipeDisplay != null);
-            if (!pipeDisplay.getPipe().equals(getSchema())) {
+            if (!pipeDisplay.getPipe().equals(this)) {
                 player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
                 return true;
             }
             ConnectingPointPipeMarker connectingPoint = new ConnectingPointPipeMarker(marker);
-            ConnectingService.startConnection(player, connectingPoint, getSchema());
+            ConnectingService.startConnection(player, connectingPoint, this);
             return true;
         }
 
         if (block.getType().isAir()) {
             ConnectingPointNewBlock connectingPoint = new ConnectingPointNewBlock(new BlockPosition(block));
-            ConnectingService.startConnection(player, connectingPoint, getSchema());
+            ConnectingService.startConnection(player, connectingPoint, this);
             return true;
         }
 
