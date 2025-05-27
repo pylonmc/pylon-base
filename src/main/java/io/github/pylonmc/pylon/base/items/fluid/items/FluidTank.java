@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items.fluid.items;
 
-import io.github.pylonmc.pylon.base.PylonEntities;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -10,7 +9,6 @@ import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
-import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
@@ -58,7 +56,7 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
         super(block);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(block.getLocation().toCenterLocation());
-        FluidTankEntity fluidTankEntity = new FluidTankEntity(PylonEntities.FLUID_TANK_DISPLAY, fluidDisplay);
+        FluidTankEntity fluidTankEntity = new FluidTankEntity(fluidDisplay);
         EntityStorage.add(fluidTankEntity);
 
         Player player = null;
@@ -184,10 +182,12 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     }
 
 
-    public static class FluidTankEntity extends PylonEntity<PylonEntitySchema, ItemDisplay> {
+    public static class FluidTankEntity extends PylonEntity<ItemDisplay> {
 
-        public FluidTankEntity(@NotNull PylonEntitySchema schema, @NotNull ItemDisplay entity) {
-            super(schema, entity);
+        public static final NamespacedKey KEY = pylonKey("fluid_tank_entity");
+
+        public FluidTankEntity(@NotNull ItemDisplay entity) {
+            super(KEY, entity);
         }
     }
 }
