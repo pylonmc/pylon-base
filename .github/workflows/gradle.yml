@@ -73,13 +73,10 @@ jobs:
         id: downloadcore
         uses: actions/download-artifact@v4.1.8
         continue-on-error: true
-        # This is so dumb. You have to repass the env var so you can use it in the with block.
-        env:
-          CORECOMMIT: ${{ env.CORECOMMIT }}
         with:
-          name: pylon-core-${{inputs.CORECOMMIT}}
+          name: pylon-core-${{env.CORECOMMIT}}
           repository: pylonmc/pylon-core
-          path: pylon-core-${{inputs.CORECOMMIT}}.jar
+          path: pylon-core-${{env.CORECOMMIT}}.jar
 
       - name: Build core if artifact expired or not found
         if: steps.downloadcore.outcome == 'failure'
