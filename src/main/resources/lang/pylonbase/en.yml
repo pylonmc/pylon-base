@@ -318,6 +318,13 @@ item:
     lore: |-
       <star> Smeltery component
 
+  smeltery_caster:
+    name: "Smeltery Caster"
+    lore: |-
+      <star> Smeltery component
+      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
+      <arrow> Casts items from the smeltery
+
   smeltery_controller:
     name: "Smeltery Controller"
     lore: |-
@@ -337,6 +344,12 @@ item:
       <star> Smeltery component
       <arrow> Serves as fluid input for the smeltery
 
+  smeltery_output_hatch:
+    name: "Smeltery Output Hatch"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as fluid output for the smeltery
+
   splint:
     name: "Splint"
     lore: |-
@@ -349,6 +362,10 @@ item:
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
       <arrow> <attr>Range:</attr> %range%
+
+  sulfur:
+    name: "Sulfur"
+    lore: ""
 
   watering_can:
     name: "Watering Can"
@@ -402,18 +419,22 @@ block:
   pedestal: "Pedestal"
   refractory_brick: "Refractory Brick"
   smeltery_burner: "Smeltery Burner"
+  smeltery_caster: "Smeltery Caster"
   smeltery_controller: "Smeltery Controller"
   smeltery_hopper: "Smeltery Hopper"
   smeltery_input_hatch: "Smeltery Input Hatch"
+  smeltery_output_hatch: "Smeltery Output Hatch"
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
   wither_proof_obsidian: "Wither Proof Obsidian"
 
 fluid:
-  water: "<blue>Water"
   lava: "<#fc4e03>Lava"
+  mercury: "<#dedede>Mercury"
   slurry: "<gray>Slurry"
-  redstone_slurry: "<red>Redstone Slurry"
+  slurry_redstone: "<red>Redstone Slurry"
+  sulfur: "<yellow>Sulfur"
+  water: "<blue>Water"
 
 research:
   baking: "<gold>baking"
@@ -478,3 +499,9 @@ gui:
     not_burning: "<yellow>Not burning"
     energy_left: "<attr>Energy left:</attr> %energy%"
     power_output: "<attr>Power output:</attr> %power%"
+  smeltery_caster:
+    cast: "Cast"
+    cannot_cast: "<red>Cannot cast"
+    too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
+    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least 111 <u:millibuckets>"
+    click_to_cast: "<insn>Click</insn> to cast %item%"

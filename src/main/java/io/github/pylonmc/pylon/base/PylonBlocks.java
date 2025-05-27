@@ -46,7 +46,9 @@ public final class PylonBlocks {
         PylonBlock.register(REFRACTORY_BRICK_KEY, Material.DEEPSLATE_TILES, SmelteryComponent.class);
         PylonBlock.register(SmelteryController.KEY, Material.BLAST_FURNACE, SmelteryController.class);
         PylonBlock.register(SmelteryInputHatch.KEY, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
+        PylonBlock.register(SmelteryOutputHatch.KEY, Material.ORANGE_TERRACOTTA, SmelteryOutputHatch.class);
         PylonBlock.register(SmelteryHopper.KEY, Material.HOPPER, SmelteryHopper.class);
+        PylonBlock.register(SmelteryCaster.KEY, Material.BRICKS, SmelteryCaster.class);
         PylonBlock.register(SmelteryBurner.KEY, Material.FURNACE, SmelteryBurner.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(

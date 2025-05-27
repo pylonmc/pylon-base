@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.fluid.CastableFluid;
 import io.github.pylonmc.pylon.base.fluid.Slurry;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
 import io.github.pylonmc.pylon.base.util.VanillaOrPylon;
@@ -28,19 +29,33 @@ public final class PylonFluids {
             Material.ORANGE_CONCRETE
     ).addTag(new FluidTemperature(850));
 
+    public static final PylonFluid SULFUR = new PylonFluid(
+            pylonKey("sulfur"),
+            Material.YELLOW_CONCRETE
+    )
+            .addTag(new FluidTemperature(112.8))
+            .addTag(new CastableFluid(PylonItems.SULFUR));
+
+    public static final PylonFluid MERCURY = new PylonFluid(
+            pylonKey("mercury"),
+            Material.GRAY_CONCRETE
+    ).addTag(new FluidTemperature(-38.8));
+
     public static final PylonFluid SLURRY = new PylonFluid(
             pylonKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE
     ).addTag(new FluidTemperature(20));
 
     public static final PylonFluid REDSTONE_SLURRY = new Slurry(
-            pylonKey("redstone_slurry"),
+            pylonKey("slurry_redstone"),
             new VanillaOrPylon.Vanilla(Material.REDSTONE)
     ).addTag(new FluidTemperature(20));
 
     public static void initialize() {
         WATER.register();
         LAVA.register();
+        SULFUR.register();
+        MERCURY.register();
         SLURRY.register();
         REDSTONE_SLURRY.register();
 

@@ -7,10 +7,7 @@ import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryBurner;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryHopper;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryInputHatch;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
 import io.github.pylonmc.pylon.base.items.research.ResearchPack;
 import io.github.pylonmc.pylon.base.items.tools.Hammer;
@@ -1329,6 +1326,20 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    public static final NamespacedKey SMELTERY_OUTPUT_HATCH_KEY = pylonKey("smeltery_output_hatch");
+    public static final ItemStack SMELTERY_OUTPUT_HATCH = ItemStackBuilder.pylonItem(Material.ORANGE_TERRACOTTA, SMELTERY_OUTPUT_HATCH_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SMELTERY_OUTPUT_HATCH, SmelteryOutputHatch.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_output_hatch"), SMELTERY_OUTPUT_HATCH)
+                .shape("IBI", "BPB", "IBI")
+                .setIngredient('P', FluidPipe.PIPE_OBSIDIAN_STACK)
+                .setIngredient('B', REFRACTORY_BRICK)
+                .setIngredient('I', IRON_SHEET);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
     public static final NamespacedKey SMELTERY_HOPPER_KEY = pylonKey("smeltery_hopper");
     public static final ItemStack SMELTERY_HOPPER = ItemStackBuilder.pylonItem(Material.HOPPER, SMELTERY_HOPPER_KEY)
             .build();
@@ -1338,6 +1349,19 @@ public final class PylonItems {
                 .shape("I I", "IBI", " B ")
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('I', IRON_SHEET);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final NamespacedKey SMELTERY_CASTER_KEY = pylonKey("smeltery_caster");
+    public static final ItemStack SMELTERY_CASTER = ItemStackBuilder.pylonItem(Material.BRICKS, SMELTERY_CASTER_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SMELTERY_CASTER, SmelteryCaster.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("smeltery_caster"), SMELTERY_CASTER)
+                .shape("B B", "BPB", "B B")
+                .setIngredient('B', REFRACTORY_BRICK)
+                .setIngredient('P', Material.FLOWER_POT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
@@ -1354,7 +1378,9 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+    // </editor-fold>
 
+    // <editor-fold desc="Smeltery Items" defaultstate="collapsed">
     public static final NamespacedKey ROCK_DUST_KEY = pylonKey("rock_dust");
     public static final ItemStack ROCK_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ROCK_DUST_KEY)
             .build();
@@ -1369,7 +1395,14 @@ public final class PylonItems {
                 Material.COBBLESTONE.createBlockData()
         ));
     }
-    //</editor-fold>
+
+    public static final NamespacedKey SULFUR_KEY = pylonKey("sulfur");
+    public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, SULFUR_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SULFUR);
+    }
+    // </editor-fold>
 
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {}

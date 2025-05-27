@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -12,18 +13,21 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
+import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -32,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
@@ -50,6 +55,9 @@ public final class SmelteryController extends SmelteryComponent
 
     public static final NamespacedKey KEY = pylonKey("smeltery_controller");
 
+    // TODO setting
+    private static final double FLUID_REACTION_PER_SECOND = 100;
+
     private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");
     private static final NamespacedKey RUNNING_KEY = pylonKey("running");
     private static final NamespacedKey HEIGHT_KEY = pylonKey("height");
@@ -65,11 +73,11 @@ public final class SmelteryController extends SmelteryComponent
     @Setter
     private boolean running;
 
-    private final Object2DoubleMap<PylonFluid> fluids = new Object2DoubleRBTreeMap<>((a, b) -> {
-        FluidTemperature temperatureA = a.getTag(FluidTemperature.class);
-        FluidTemperature temperatureB = b.getTag(FluidTemperature.class);
-        return -Integer.compare(temperatureA.getTemperature(), temperatureB.getTemperature());
-    });
+    private final Object2DoubleMap<PylonFluid> fluids = new Object2DoubleRBTreeMap<>(
+            Comparator.<PylonFluid>comparingDouble(fluid -> fluid.getTag(FluidTemperature.class).getTemperature())
+                    .reversed()
+                    .thenComparing(fluid -> fluid.getKey().toString())
+    );
 
     @Getter
     private double capacity;
@@ -196,7 +204,7 @@ public final class SmelteryController extends SmelteryComponent
             List<Component> lore = new ArrayList<>();
             for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
                 PylonFluid fluid = entry.getKey();
-                int temperature = fluid.getTag(FluidTemperature.class).getTemperature();
+                double temperature = fluid.getTag(FluidTemperature.class).getTemperature();
                 double amount = entry.getDoubleValue();
                 TextColor color = fluidColors.computeIfAbsent(
                         fluid,
@@ -386,6 +394,15 @@ public final class SmelteryController extends SmelteryComponent
         }
         return sum;
     }
+
+    public @Nullable Pair<PylonFluid, Double> getBottomFluid() {
+        Object2DoubleMap.Entry<PylonFluid> lastEntry = null;
+        for (var entry : fluids.object2DoubleEntrySet()) {
+            lastEntry = entry;
+        }
+        if (lastEntry == null) return null;
+        return new Pair<>(lastEntry.getKey(), lastEntry.getDoubleValue());
+    }
     // </editor-fold>
 
     // <editor-fold desc="Heating" defaultstate="collapsed">
@@ -411,7 +428,7 @@ public final class SmelteryController extends SmelteryComponent
         return getTotalFluid() / 1000.0 * DENSITY * SPECIFIC_HEAT;
     }
 
-    private void cool(double dt) {
+    private void coolNaturally(double dt) {
         // Surface area of the outside
         int surfaceArea = (height * 5) * 4 /* four sides */ + (5 * 5) * 2 /* top and bottom */;
         double kelvin = temperature + CELSIUS_TO_KELVIN;
@@ -430,23 +447,87 @@ public final class SmelteryController extends SmelteryComponent
         if (heatCapacity == 0) {
             temperature = 20;
         } else {
-            double tempLoss = (heatLoss * surfaceArea) / heatCapacity;
-            temperature -= tempLoss;
+            temperature -= (heatLoss * surfaceArea) / heatCapacity;
         }
     }
 
     public void heat(double joules) {
+        Preconditions.checkArgument(!Double.isNaN(joules) && !Double.isInfinite(joules), "Joules cannot be NaN or infinite");
         double heatCapacity = getHeatCapacity();
         if (heatCapacity == 0) return;
-        double tempIncrease = joules / heatCapacity;
-        temperature += tempIncrease;
+        temperature += joules / heatCapacity;
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Recipe" defaultstate="collapsed">
+    record Recipe(
+            NamespacedKey key,
+            Map<PylonFluid, Double> inputFluids,
+            Map<PylonFluid, Double> outputFluids,
+            double temperature,
+            double reactionPower
+    ) implements Keyed {
+
+        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery"));
+        static {
+            RECIPE_TYPE.register();
+        }
+
+        @Override
+        public NamespacedKey getKey() {
+            return key;
+        }
+    }
+
+    private void performRecipes(double deltaSeconds) {
+        if (fluids.isEmpty()) return;
+        recipeLoop:
+        for (Recipe recipe : Recipe.RECIPE_TYPE) {
+            if (recipe.temperature > temperature) continue; // recipe requires higher temperature
+            for (var entry : recipe.inputFluids().entrySet()) {
+                PylonFluid fluid = entry.getKey();
+                double amount = entry.getValue() * deltaSeconds;
+                if (fluids.getDouble(fluid) < amount) {
+                    continue recipeLoop; // not enough fluid for this recipe
+                }
+            }
+
+            // Perform recipe
+            for (var entry : recipe.inputFluids().entrySet()) {
+                PylonFluid fluid = entry.getKey();
+                double amount = entry.getValue() * deltaSeconds * FLUID_REACTION_PER_SECOND;
+                removeFluid(fluid, amount);
+            }
+            for (var entry : recipe.outputFluids().entrySet()) {
+                PylonFluid fluid = entry.getKey();
+                double amount = entry.getValue() * deltaSeconds * FLUID_REACTION_PER_SECOND;
+                addFluid(fluid, amount);
+            }
+            heat(recipe.reactionPower * deltaSeconds * DENSITY);
+        }
+    }
+
+    static {
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                pylonKey("redstone_decomposition"),
+                Map.of(PylonFluids.REDSTONE_SLURRY, 1D),
+                Map.of(PylonFluids.SULFUR, 0.25, PylonFluids.MERCURY, 0.25, PylonFluids.SLURRY, 0.5),
+                345,
+                -1000
+        ));
     }
     // </editor-fold>
 
     @Override
     public void tick(double deltaSeconds) {
         if (isFormedAndFullyLoaded()) {
-            cool(deltaSeconds);
+            if (running) {
+                performRecipes(deltaSeconds);
+            }
+            coolNaturally(deltaSeconds);
+            if (temperature < 20) {
+                temperature = 20; // don't go below room temperature
+            }
             contentsItem.notifyWindows();
         } else if (height <= 0) { // check height instead because of the brief moment when the multiblock is loaded but not checked yet
             running = false;

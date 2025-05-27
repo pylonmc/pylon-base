@@ -130,7 +130,7 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
     public Predicate<PylonFluid> getPredicate() {
         return fluid -> {
             FluidTemperature temperatureTag = fluid.getTag(FluidTemperature.class);
-            int temperature = temperatureTag.getTemperature();
+            double temperature = temperatureTag.getTemperature();
             return temperature > minTemperature && temperature < maxTemperature;
         };
     }

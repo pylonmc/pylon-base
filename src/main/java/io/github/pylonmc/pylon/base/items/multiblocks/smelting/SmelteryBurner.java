@@ -83,6 +83,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     public Gui createGui() {
         return Gui.normal()
                 .setStructure(
+                        "# # # # # # # # #",
                         "# # # # f # # # #",
                         "# # # x x x # # #",
                         "# # # # # # # # #"
