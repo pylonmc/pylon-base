@@ -409,8 +409,11 @@ block:
   # TODO add the pipe type as a placeholder?
   fluid_pipe_connector: "%pipe%"
   fluid_pipe_marker: "%pipe%"
-  fluid_tank_wooden: "Wooden Fluid Tank | %amount%/%capacity%"
-  fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
+  fluid_tank:
+    fluid_tank_wooden: "Wooden Fluid Tank"
+    fluid_tank_copper: "Copper Fluid Tank"
+    empty: "%tank% (empty)"
+    with_fluid: "%tank% | %amount%/%capacity% %unit% of %fluid%"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"
@@ -503,5 +506,5 @@ gui:
     cast: "Cast"
     cannot_cast: "<red>Cannot cast"
     too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
-    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least 111 <u:millibuckets>"
+    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least <u:millibuckets>111</u>"
     click_to_cast: "<insn>Click</insn> to cast %item%"

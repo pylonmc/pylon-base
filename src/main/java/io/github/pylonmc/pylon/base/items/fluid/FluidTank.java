@@ -16,6 +16,8 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.gui.unit.MetricPrefix;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -27,10 +29,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,8 +38,8 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 @NullMarked
 public class FluidTank extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock {
 
-    public static final NamespacedKey FLUID_TANK_WOOD_KEY =  pylonKey("fluid_tank_wood");
-    public static final NamespacedKey FLUID_TANK_COPPER_KEY =  pylonKey("fluid_tank_copper");
+    public static final NamespacedKey FLUID_TANK_WOOD_KEY = pylonKey("fluid_tank_wood");
+    public static final NamespacedKey FLUID_TANK_COPPER_KEY = pylonKey("fluid_tank_copper");
 
     private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
     private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
@@ -167,15 +166,19 @@ public class FluidTank extends PylonBlock implements PylonFluidInteractionBlock,
     @Override
     public WailaConfig getWaila(Player player) {
         return new WailaConfig(
-                getName(),
-                // TODO add fluid name once fluids have names
+                Component.translatable("pylon.pylonbase.block.fluid_tank." + (fluidType == null ? "empty" : "with_fluid")),
                 Map.of(
+                        "tank", Component.translatable("pylon.pylonbase.block.fluid_tank." + getKey().getKey()),
                         "amount", Component.text(Math.round(fluidAmount)),
-                        "capacity", Component.text(Math.round(capacity))
+                        "capacity", Component.text(Math.round(capacity)),
+                        "unit", Component.text()
+                                .append(MetricPrefix.MILLI.getAbbreviation())
+                                .append(Objects.requireNonNull(UnitFormat.MILLIBUCKETS.getAbbreviation())),
+                        "fluid", fluidType == null ? Component.empty() : fluidType.getName()
                 )
         );
     }
-    
+
     public static class FluidTankEntity extends PylonEntity<ItemDisplay> {
 
         public static final NamespacedKey KEY = pylonKey("fluid_tank_entity");
