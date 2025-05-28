@@ -1,2 +1,4 @@
 # in chunks
 radius: 200
+# needs to be a field name of StructureType
+structure: DESERT_PYRAMID

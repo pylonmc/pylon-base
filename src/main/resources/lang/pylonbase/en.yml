@@ -323,14 +323,14 @@ item:
     lore: |-
       <arrow> Navigates to the nearest %struct%
       <arrow> <insn>Right click</insn> to refresh
-      <arrow> <attr:Range:chunks>%range%</attr>
+      <arrow> <attr>Radius:</attr> %radius%
 
   structure_locator_nether_fortress:
     name: "Structure Locator"
     lore: |-
       <arrow> Navigates to the nearest %struct%
       <arrow> <insn>Right click</insn> to refresh
-      <arrow> <attr:Range:chunks>%range%</attr>
+      <arrow> <attr>Radius:</attr> %radius%
 
   watering_can:
     name: "Watering Can"
