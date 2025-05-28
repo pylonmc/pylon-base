@@ -344,7 +344,7 @@ item:
     name: "Sprinkler"
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
-      <arrow> <attr:Range:blocks>%range%</attr> 
+      <arrow> <attr>Range:</attr> %range%
 
   watering_can:
     name: "Watering Can"
@@ -399,6 +399,10 @@ block:
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
   wither_proof_obsidian: "Wither Proof Obsidian"
+  explosive_target: "Explosive Target"
+  explosive_target_fiery: "Fiery Explosive Target"
+  explosive_target_super: "Super Explosive Target"
+  explosive_target_super_fiery: "Super Fiery Explosive Target"
 
 research:
   baking: "<gold>baking"
