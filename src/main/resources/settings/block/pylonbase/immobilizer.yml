@@ -1,4 +1,4 @@
-# in seconds
+# in ticks
 duration: 200
 radius: 15.0
 cooldown: 600
