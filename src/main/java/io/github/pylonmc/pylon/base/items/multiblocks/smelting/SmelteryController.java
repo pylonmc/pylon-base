@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -406,7 +407,7 @@ public final class SmelteryController extends SmelteryComponent
 
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
     private static final double SPECIFIC_HEAT = 215; // J/kg*K
-    private static final double DENSITY = 6.98; // kg/m^3
+    private static final double DENSITY = 69.8; // kg/m^3
     private static final double HEAT_LOSS_COEFFICIENT = 10; // W/C
     private static final double EMISSIVITY = 0.9;
     private static final double CELSIUS_TO_KELVIN = 273.15;
@@ -420,12 +421,13 @@ public final class SmelteryController extends SmelteryComponent
         // Surface area of the outside
         int surfaceArea = (height * 5) * 4 /* four sides */ + (5 * 5) * 2 /* top and bottom */;
         double kelvin = temperature + CELSIUS_TO_KELVIN;
-        double heatLoss = newtonsLawOfCooling(
+        double conductiveHeatLoss = newtonsLawOfCooling(
                 HEAT_LOSS_COEFFICIENT,
                 kelvin,
                 ROOM_TEMPERATURE_KELVIN,
                 dt
-        ) + stefanBoltzmannLaw(
+        );
+        double radiativeHeatLoss = stefanBoltzmannLaw(
                 EMISSIVITY,
                 kelvin,
                 ROOM_TEMPERATURE_KELVIN,
@@ -435,7 +437,7 @@ public final class SmelteryController extends SmelteryComponent
         if (heatCapacity == 0) {
             temperature = 20;
         } else {
-            temperature -= (heatLoss * surfaceArea) / heatCapacity;
+            temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / heatCapacity;
         }
     }
 
@@ -452,8 +454,7 @@ public final class SmelteryController extends SmelteryComponent
             NamespacedKey key,
             Map<PylonFluid, Double> inputFluids,
             Map<PylonFluid, Double> outputFluids,
-            double temperature,
-            double reactionPower
+            double temperature
     ) implements Keyed {
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery"));
@@ -491,7 +492,6 @@ public final class SmelteryController extends SmelteryComponent
                 double amount = entry.getValue() * deltaSeconds * FLUID_REACTION_PER_SECOND;
                 addFluid(fluid, amount);
             }
-            heat(recipe.reactionPower * deltaSeconds * DENSITY);
         }
     }
 
@@ -500,8 +500,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("redstone_decomposition"),
                 Map.of(PylonFluids.REDSTONE_SLURRY, 1D),
                 Map.of(PylonFluids.SULFUR, 0.25, PylonFluids.MERCURY, 0.25, PylonFluids.SLURRY, 0.5),
-                345,
-                -1000
+                345
         ));
     }
     // </editor-fold>
@@ -513,8 +512,8 @@ public final class SmelteryController extends SmelteryComponent
                 performRecipes(deltaSeconds);
             }
             coolNaturally(deltaSeconds);
-            if (temperature < 20) {
-                temperature = 20; // don't go below room temperature
+            if (temperature < 0) {
+                PylonBase.getInstance().getLogger().warning("Smeltery temperature dropped below 0, something is probably wrong with the heat transfer calculations");
             }
         } else if (height <= 0) { // check height instead because of the brief moment when the multiblock is loaded but not checked yet
             running = false;

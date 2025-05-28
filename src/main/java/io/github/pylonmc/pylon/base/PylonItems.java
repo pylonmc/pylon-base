@@ -103,7 +103,30 @@ public final class PylonItems {
                 Material.GOLD_BLOCK.createBlockData()
         ));
     }
-    //</editor-fold>
+
+    public static final NamespacedKey ROCK_DUST_KEY = pylonKey("rock_dust");
+    public static final ItemStack ROCK_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ROCK_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ROCK_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("rock_dust"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.COBBLESTONE)),
+                1,
+                ROCK_DUST.asQuantity(2),
+                2,
+                Material.COBBLESTONE.createBlockData()
+        ));
+    }
+
+    // Not technically a dust but whatever
+    public static final NamespacedKey SULFUR_KEY = pylonKey("sulfur");
+    public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, SULFUR_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SULFUR);
+    }
+    // </editor-fold>
 
     //<editor-fold desc="Sheets" defaultstate=collapsed>
     public static final NamespacedKey COPPER_SHEET_KEY = pylonKey("copper_sheet");
@@ -1377,30 +1400,6 @@ public final class PylonItems {
                 .setIngredient('F', Material.FURNACE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-    }
-    // </editor-fold>
-
-    // <editor-fold desc="Smeltery Items" defaultstate="collapsed">
-    public static final NamespacedKey ROCK_DUST_KEY = pylonKey("rock_dust");
-    public static final ItemStack ROCK_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ROCK_DUST_KEY)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, ROCK_DUST);
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("rock_dust"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.COBBLESTONE)),
-                1,
-                ROCK_DUST.asQuantity(2),
-                2,
-                Material.COBBLESTONE.createBlockData()
-        ));
-    }
-
-    public static final NamespacedKey SULFUR_KEY = pylonKey("sulfur");
-    public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, SULFUR_KEY)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, SULFUR);
     }
     // </editor-fold>
 

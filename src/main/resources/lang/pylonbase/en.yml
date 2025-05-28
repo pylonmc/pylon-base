@@ -9,8 +9,8 @@ item:
     name: "Bandage"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <u:hearts>2</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>2</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>2</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>2</unit>
 
   beheading_sword:
     name: "Beheading Sword"
@@ -50,7 +50,7 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   dough:
     name: "Dough"
@@ -229,8 +229,8 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr>Heals:</attr> <u:hearts>10</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>7</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>10</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>7</unit>
 
   mixing_pot:
     name: "Mixing Pot"
@@ -281,7 +281,7 @@ item:
     name: "Recoil Arrow"
     lore: |-
       <arrow> Sends you backwards at the velocity of your arrow
-      <arrow> <attr>Efficiency:</attr> <u:percent>75</u>
+      <arrow> <attr>Efficiency:</attr> <unit:percent>75</unit>
 
   refractory_brick:
     name: "Refractory Brick"
@@ -354,8 +354,8 @@ item:
     name: "Splint"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <u:hearts>7</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>7</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   sprinkler:
     name: "Sprinkler"
@@ -506,5 +506,5 @@ gui:
     cast: "Cast"
     cannot_cast: "<red>Cannot cast"
     too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
-    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least <u:millibuckets>111</u>"
+    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least <unit:millibuckets>111</unit> (you have %amount%)"
     click_to_cast: "<insn>Click</insn> to cast %item%"

@@ -22,6 +22,9 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public final class SmelteryOutputHatch extends SmelteryComponent implements PylonFluidInteractionBlock  {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_output_hatch");
+
+    // TODO blocksetting
+    private static final double FLOW_RATE = 500;
     
     public SmelteryOutputHatch(Block block, BlockCreateContext context) {
         super(block, context);
@@ -44,7 +47,9 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
         if (controller == null) return Map.of();
 
         Pair<PylonFluid, Double> supplied = controller.getBottomFluid();
-        return supplied == null ? Map.of() : Map.of(supplied.getFirst(), supplied.getSecond());
+        return supplied == null
+                ? Map.of()
+                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), FLOW_RATE * deltaSeconds));
     }
 
     @Override

@@ -25,6 +25,9 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
 
     public static final NamespacedKey KEY = pylonKey("smeltery_input_hatch");
 
+    // TODO block setting
+    private static final double FLOW_RATE = 500;
+
     public SmelteryInputHatch(Block block, BlockCreateContext context) {
         super(block, context);
     }
@@ -45,7 +48,7 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
         SmelteryController controller = getController();
         if (controller == null) return Map.of();
 
-        double allowed = controller.getCapacity() - controller.getTotalFluid();
+        double allowed = Math.min(controller.getCapacity() - controller.getTotalFluid(), FLOW_RATE * deltaSeconds);
         Map<PylonFluid, Double> requested = new HashMap<>();
         for (PylonFluid fluid : PylonRegistry.FLUIDS) {
             if (fluid.hasTag(FluidTemperature.class)) {

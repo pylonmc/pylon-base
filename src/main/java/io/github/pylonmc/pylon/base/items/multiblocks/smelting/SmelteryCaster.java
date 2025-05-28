@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
@@ -89,7 +90,8 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                             .lore(casterKey(
                                     "not_enough",
                                     PylonArgument.of("fluid", canCast.getName()),
-                                    PylonArgument.of("item", name)
+                                    PylonArgument.of("item", name),
+                                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(canCast)))
                             ));
                 } else {
                     return ItemStackBuilder.of(result.getType())
