@@ -1,10 +1,16 @@
+pipe:
+  connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
+  cannot_place_here: "<red>You cannot place a pipe here"
+  not_enough_pipes: "<red>Not enough pipes"
+  not_of_same_type: "<red>Pipes are of different types"
+
 item:
   bandage:
     name: "Bandage"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr:Heals:hearts>2</attr>
-      <arrow> <attr:Apply time:seconds>2</attr>
+      <arrow> <attr>Heals:</attr> <u:hearts>2</u>
+      <arrow> <attr>Apply time:</attr> <u:seconds>2</u>
 
   beheading_sword:
     name: "Beheading Sword"
@@ -33,12 +39,18 @@ item:
     name: "Covalent Binder"
     lore: ""
 
+  dimensional_barrel:
+    name: "Dimensional Barrel"
+    lore: |-
+      <arrow> Uses the power of extra dimensions to store more items
+      <arrow> <attr:Size>%size%</attr>
+
   disinfectant:
     name: "Disinfectant"
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr:Apply time:seconds>3</attr>
+      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
 
   dough:
     name: "Dough"
@@ -100,6 +112,49 @@ item:
     name: "Flour"
     lore: ""
 
+  fluid_pipe_wood:
+    name: "Wooden Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+
+  fluid_pipe_copper:
+    name: "Copper Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+
+  fluid_pipe_obsidian:
+    name: "Obsidian Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+
+  fluid_tank_wood:
+    name: "Wooden Fluid Tank"
+    # TODO fix placeholder
+    lore: |- 
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+
+  fluid_tank_copper:
+    name: "Copper Fluid Tank"
+    # TODO fix placeholder
+    lore: |- 
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperature (min):</attr> %min_temperature%
+      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+
   gold_dust:
     name: "Gold Dust"
     lore: ""
@@ -111,7 +166,7 @@ item:
   grindstone:
     name: "Grindstone"
     lore: |-
-      <arrow> <star> Multiblock
+      <star> Multiblock
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
 
@@ -183,8 +238,8 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr:Heals:hearts>10</attr>
-      <arrow> <attr:Apply time:seconds>7</attr>
+      <arrow> <attr>Heals:</attr> <u:hearts>10</u>
+      <arrow> <attr>Apply time:</attr> <u:seconds>7</u>
 
   mixing_pot:
     name: "Mixing Pot"
@@ -192,6 +247,10 @@ item:
       <arrow> Place items in the pot and <insn>right click</insn> to mix them together
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
+
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+    lore: ""
 
   monster_jerky:
     name: "Monster Jerky"
@@ -231,13 +290,13 @@ item:
     name: "Recoil Arrow"
     lore: |-
       <arrow> Sends you backwards at the velocity of your arrow
-      <arrow> <attr:Efficiency:percent>75</attr>
+      <arrow> <attr>Efficiency:</attr> <u:percent>75</u>
 
   research_pack_1:
     name: "Research Pack I"
     lore: |-
       <arrow> <insn>Right click</insn> to open
-      <arrow> <attr:Research points:research_points>%points%</attr>
+      <arrow> <attr>Research points:</attr> %points%
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
@@ -259,14 +318,14 @@ item:
     name: "Splint"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr:Heals:hearts>7</attr>
-      <arrow> <attr:Apply time:seconds>3</attr>
+      <arrow> <attr>Heals:</attr> <u:hearts>7</u>
+      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
 
   sprinkler:
     name: "Sprinkler"
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
-      <arrow> <attr:Range:blocks>%range%</attr>
+      <arrow> <attr>Range:</attr> %range%
 
   watering_can:
     name: "Watering Can"
@@ -274,31 +333,44 @@ item:
       <arrow> <insn>Right click</insn> to water crops
       <arrow> Speeds up growth of crops, saplings, sugar cane, and cactus
       <arrow> Slow, but can water lots of crops at once
-      <arrow> <attr:Range:blocks>%range%</attr>
+      <arrow> <attr>Range:</attr> %range%
   
   health_talisman_simple:
     name: "Simple Health Talisman"
     lore: |-
-      <arrow> <attr:Max health increase:hearts>%health-boost% </attr>
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
   health_talisman_advanced:
     name: "Advanced Health Talisman"
     lore: |-
-      <arrow> <attr:Max health increase:hearts>%health-boost% </attr>
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
   health_talisman_ultimate:
     name: "Ultimate Healing Talisman"
     lore: |-
-      <arrow> <attr:Max health increase:hearts>%health-boost% </attr>
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
       <arrow> Passive effect while in inventory
       <arrow> Does not stack
 
+  water_pump:
+    name: "Water pump"
+    # TODO fix placeholder
+    lore: |- 
+      <arrow> <attr>Pump rate:</attr> %water_per_second%
+
+# TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
+  dimensional_barrel: "Dimensional Barrel"
   enriched_netherrack: "Enriched Netherrack"
+  # TODO add the pipe type as a placeholder?
+  fluid_pipe_connector: "%pipe%"
+  fluid_pipe_marker: "%pipe%"
+  fluid_tank_wooden: "Wooden Fluid Tank | %amount%/%capacity%"
+  fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"
@@ -306,6 +378,8 @@ block:
   mixing_pot: "Mixing Pot"
   pedestal: "Pedestal"
   sprinkler: "Sprinkler"
+  water_pump: "Water Pump"
+  wither_proof_obsidian: "Wither Proof Obsidian"
   immobilizer: "Immobilizer"
 
 research:

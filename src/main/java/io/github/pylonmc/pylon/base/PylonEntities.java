@@ -1,11 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionDisplay;
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
-import io.github.pylonmc.pylon.core.entity.PylonEntitySchema;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
-
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 public final class PylonEntities {
@@ -14,32 +17,13 @@ public final class PylonEntities {
         throw new AssertionError("Utility class");
     }
 
-    public static final PylonEntitySchema PEDESTAL_ITEM = new PylonEntitySchema(
-            pylonKey("pedestal_item"),
-            ItemDisplay.class,
-            Pedestal.PedestalEntity.class
-    );
-    static {
-        PEDESTAL_ITEM.register();
+    public static void initialize() {
+        PylonEntity.register(Grindstone.GrindstoneItemEntity.KEY, ItemDisplay.class, Grindstone.GrindstoneItemEntity.class);
+        PylonEntity.register(Grindstone.GrindstoneBlockEntity.KEY, ItemDisplay.class, Grindstone.GrindstoneBlockEntity.class);
+        PylonEntity.register(FluidConnectionDisplay.KEY, ItemDisplay.class, FluidConnectionDisplay.class);
+        PylonEntity.register(FluidConnectionInteraction.KEY, Interaction.class, FluidConnectionInteraction.class);
+        PylonEntity.register(Pedestal.PedestalItemEntity.KEY, ItemDisplay.class, Pedestal.PedestalItemEntity.class);
+        PylonEntity.register(FluidPipeDisplay.KEY, ItemDisplay.class, FluidPipeDisplay.class);
+        PylonEntity.register(FluidTank.FluidTankEntity.KEY, ItemDisplay.class, FluidTank.FluidTankEntity.class);
     }
-
-    public static final PylonEntitySchema GRINDSTONE_ITEM = new PylonEntitySchema(
-            pylonKey("grindstone_item"),
-            ItemDisplay.class,
-            Grindstone.GrindstoneItemEntity.class
-    );
-    static {
-        GRINDSTONE_ITEM.register();
-    }
-
-    public static final PylonEntitySchema GRINDSTONE_BLOCK = new PylonEntitySchema(
-            pylonKey("grindstone_block"),
-            ItemDisplay.class,
-            Grindstone.GrindstoneBlockEntity.class
-    );
-    static {
-        GRINDSTONE_BLOCK.register();
-    }
-
-    public static void initialize() {}
 }

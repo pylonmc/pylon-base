@@ -1,33 +1,40 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.SimplePylonItem;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
-import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.NotNullByDefault;
 
-import java.util.function.Function;
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
 @NotNullByDefault
-public class MonsterJerky extends PylonItemSchema {
+public class MonsterJerky extends PylonItem {
 
-    @Getter private final float cookingXp;
+    public static final NamespacedKey KEY = pylonKey("monster_jerky");
 
-    public MonsterJerky(NamespacedKey key, Function<NamespacedKey, ItemStack> templateSupplier) {
-        super(key, SimplePylonItem.class, templateSupplier);
+    public static final int NUTRITION = getSettings(KEY).getOrThrow("nutrition", Integer.class);
+    public static final float SATURATION = getSettings(KEY).getOrThrow("saturation", Double.class).floatValue();
+    public static final float COOKING_XP = getSettings(KEY).getOrThrow("cooking.xp", Double.class).floatValue();
 
-        int nutrition = getSettings().getOrThrow("nutrition", Integer.class);
-        float saturation = getSettings().getOrThrow("saturation", Double.class).floatValue();
-        cookingXp = getSettings().getOrThrow("cooking.xp", Double.class).floatValue();
-        template.setData(DataComponentTypes.FOOD, FoodProperties.food()
-                .canAlwaysEat(false)
-                .nutrition(nutrition)
-                .saturation(saturation)
-                .build());
+    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.ROTTEN_FLESH, KEY)
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
+            .set(DataComponentTypes.FOOD, FoodProperties.food()
+                    .canAlwaysEat(false)
+                    .nutrition(NUTRITION)
+                    .saturation(SATURATION)
+                    .build()
+            )
+            .build();
+
+    public MonsterJerky(@NotNull ItemStack stack) {
+        super(stack);
     }
 }
