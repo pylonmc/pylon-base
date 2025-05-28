@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
-import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
-import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -42,7 +42,6 @@ public final class PylonBlocks {
         PylonBlock.register(FluidTank.FLUID_TANK_WOOD_KEY, Material.BROWN_STAINED_GLASS, FluidTank.class);
         PylonBlock.register(FluidTank.FLUID_TANK_COPPER_KEY, Material.ORANGE_STAINED_GLASS, FluidTank.class);
         PylonBlock.register(WaterPump.KEY, Material.BLUE_TERRACOTTA, WaterPump.class);
-
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("string_from_bamboo"),
                 new RecipeChoice.MaterialChoice(Material.BAMBOO),
@@ -54,15 +53,6 @@ public final class PylonBlocks {
                     ageable.setAge(ageable.getMaximumAge());
                 })
         ));
-    }
-
-    public static final Immobilizer.ImmobilizerBlock.Schema IMMOBILIZER = new Immobilizer.ImmobilizerBlock.Schema(
-            pylonKey("immobilizer"),
-            Material.PISTON,
-            Immobilizer.ImmobilizerBlock.class
-    );
-
-    static {
-        IMMOBILIZER.register();
+        PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
     }
 }
