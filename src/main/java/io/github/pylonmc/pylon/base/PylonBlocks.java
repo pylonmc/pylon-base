@@ -1,9 +1,15 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -17,87 +23,35 @@ public final class PylonBlocks {
         throw new AssertionError("Utility class");
     }
 
-    public static final Sprinkler.SprinklerBlock.Schema SPRINKLER = new Sprinkler.SprinklerBlock.Schema(
-            pylonKey("sprinkler"),
-            Material.FLOWER_POT,
-            Sprinkler.SprinklerBlock.class
-    );
-    static {
-        SPRINKLER.register();
-    }
+    public static final NamespacedKey WITHER_PROOF_OBSIDIAN_KEY = pylonKey("wither_proof_obsidian");
 
-    public static final PylonBlockSchema PEDESTAL = new PylonBlockSchema(
-            pylonKey("pedestal"),
-            Material.STONE_BRICK_WALL,
-            Pedestal.PedestalBlock.class
-    );
-    static {
-        PEDESTAL.register();
-    }
+    public static void initialize() {
+        PylonBlock.register(Sprinkler.KEY, Material.FLOWER_POT, Sprinkler.class);
+        PylonBlock.register(Pedestal.KEY_MAGIC, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(Pedestal.KEY_NORMAL, Material.STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(MagicAltar.KEY, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
+        PylonBlock.register(Grindstone.KEY, Material.SMOOTH_STONE_SLAB, Grindstone.class);
+        PylonBlock.register(GrindstoneHandle.KEY, Material.OAK_FENCE, GrindstoneHandle.class);
+        PylonBlock.register(EnrichedNetherrack.KEY, Material.NETHERRACK, EnrichedNetherrack.class);
+        PylonBlock.register(MixingPot.KEY, Material.CAULDRON, MixingPot.class);
+        PylonBlock.register(DimensionalBarrel.KEY, Material.BARREL, DimensionalBarrel.class);
+        PylonBlock.register(WITHER_PROOF_OBSIDIAN_KEY, Material.OBSIDIAN, PylonBlock.class);
+        PylonBlock.register(FluidPipeMarker.KEY, Material.STRUCTURE_VOID, FluidPipeMarker.class);
+        PylonBlock.register(FluidPipeConnector.KEY, Material.STRUCTURE_VOID, FluidPipeConnector.class);
+        PylonBlock.register(FluidTank.FLUID_TANK_WOOD_KEY, Material.BROWN_STAINED_GLASS, FluidTank.class);
+        PylonBlock.register(FluidTank.FLUID_TANK_COPPER_KEY, Material.ORANGE_STAINED_GLASS, FluidTank.class);
+        PylonBlock.register(WaterPump.KEY, Material.BLUE_TERRACOTTA, WaterPump.class);
 
-    public static final PylonBlockSchema MAGIC_PEDESTAL = new PylonBlockSchema(
-            pylonKey("magic_pedestal"),
-            Material.MOSSY_STONE_BRICK_WALL,
-            Pedestal.PedestalBlock.class
-    );
-    static {
-        MAGIC_PEDESTAL.register();
-    }
-
-    public static final MagicAltar.MagicAltarBlock.Schema MAGIC_ALTAR = new MagicAltar.MagicAltarBlock.Schema(
-            pylonKey("magic_altar"),
-            Material.SMOOTH_STONE_SLAB
-    );
-    static {
-        MAGIC_ALTAR.register();
-    }
-
-    public static final PylonBlockSchema GRINDSTONE = new PylonBlockSchema(
-            pylonKey("grindstone"),
-            Material.SMOOTH_STONE_SLAB,
-            Grindstone.GrindstoneBlock.class
-    );
-    static {
-        GRINDSTONE.register();
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-            pylonKey("string_from_bamboo"),
-            new RecipeChoice.MaterialChoice(Material.BAMBOO),
-            4,
-            new ItemStack(Material.STRING),
-            3,
-            Material.BAMBOO.createBlockData(data -> {
-                Ageable ageable = (Ageable) data;
-                ageable.setAge(ageable.getMaximumAge());
-            })
+                pylonKey("string_from_bamboo"),
+                new RecipeChoice.MaterialChoice(Material.BAMBOO),
+                4,
+                new ItemStack(Material.STRING),
+                3,
+                Material.BAMBOO.createBlockData(data -> {
+                    Ageable ageable = (Ageable) data;
+                    ageable.setAge(ageable.getMaximumAge());
+                })
         ));
     }
-
-    public static final PylonBlockSchema GRINDSTONE_HANDLE = new PylonBlockSchema(
-            pylonKey("grindstone_handle"),
-            Material.OAK_FENCE,
-            GrindstoneHandle.GrindstoneHandleBlock.class
-    );
-    static {
-        GRINDSTONE_HANDLE.register();
-    }
-
-    public static final PylonBlockSchema ENRICHED_NETHERRACK = new PylonBlockSchema(
-            pylonKey("enriched_netherrack"),
-            Material.NETHERRACK,
-            EnrichedNetherrack.EnrichedNetherrackBlock.class
-    );
-    static {
-        ENRICHED_NETHERRACK.register();
-    }
-
-    public static final PylonBlockSchema MIXING_POT = new PylonBlockSchema(
-            pylonKey("mixing_pot"),
-            Material.CAULDRON,
-            MixingPot.MixingPotBlock.class
-    );
-    static {
-        MIXING_POT.register();
-    }
-
-    public static void initialize() {}
 }
