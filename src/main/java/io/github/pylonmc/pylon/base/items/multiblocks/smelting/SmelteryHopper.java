@@ -4,7 +4,6 @@ import io.github.pylonmc.pylon.base.fluid.CastableFluid;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -24,11 +23,11 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
 
     public static final NamespacedKey KEY = pylonKey("smeltery_hopper");
 
-    private static final Map<ItemStack, PylonFluid> CASTABLE_FLUIDS = PylonRegistry.FLUIDS.getValues().stream()
+    private static final Map<PylonFluid, CastableFluid> CASTABLE_FLUIDS = PylonRegistry.FLUIDS.getValues().stream()
             .filter(f -> f.hasTag(CastableFluid.class))
             .collect(Collectors.toMap(
-                    f -> f.getTag(CastableFluid.class).castResult(),
-                    Function.identity()
+                    Function.identity(),
+                    f -> f.getTag(CastableFluid.class)
             ));
 
     public SmelteryHopper(Block block, BlockCreateContext context) {
@@ -51,9 +50,17 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
         Hopper hopper = (Hopper) getBlock().getState(false);
         for (ItemStack item : hopper.getInventory().getContents()) {
             if (item == null) continue;
-            PylonFluid fluid = CASTABLE_FLUIDS.get(item);
+            PylonFluid fluid = null;
+            double temperature = Double.NaN;
+            for (var entry : CASTABLE_FLUIDS.entrySet()) {
+                CastableFluid castableFluid = entry.getValue();
+                if (castableFluid.castResult().isSimilar(item)) {
+                    fluid = entry.getKey();
+                    temperature = castableFluid.castTemperature();
+                    break;
+                }
+            }
             if (fluid == null) continue;
-            double temperature = fluid.getTag(FluidTemperature.class).getTemperature();
             if (controller.getTemperature() >= temperature) {
                 controller.addFluid(fluid, 1000);
                 item.subtract();

@@ -20,6 +20,7 @@ import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.JoinConfiguration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -31,9 +32,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -56,8 +60,11 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
 
     public final Material material = getMaterial(getKey());
     public final double fluidPerSecond = getSettings().getOrThrow("fluid-per-second", Double.class);
-    public final int minTemperature = getSettings().getOrThrow("temperature.min", Integer.class);
-    public final int maxTemperature = getSettings().getOrThrow("temperature.max", Integer.class);
+
+    @SuppressWarnings("unchecked")
+    public final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
+            .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
+            .collect(Collectors.toList());
 
     public FluidPipe(@NotNull ItemStack stack) {
         super(stack);
@@ -67,8 +74,12 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
     public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of(
                 "fluid_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidPerSecond),
-                "min_temperature", UnitFormat.CELSIUS.format(minTemperature),
-                "max_temperature", UnitFormat.CELSIUS.format(maxTemperature)
+                "fluids", Component.join(
+                        JoinConfiguration.separator(Component.text(", ")),
+                        allowedFluids.stream()
+                                .map(FluidTemperature::getDisplayName)
+                                .collect(Collectors.toList())
+                )
         );
     }
 
@@ -128,11 +139,7 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
     }
 
     public Predicate<PylonFluid> getPredicate() {
-        return fluid -> {
-            FluidTemperature temperatureTag = fluid.getTag(FluidTemperature.class);
-            double temperature = temperatureTag.getTemperature();
-            return temperature > minTemperature && temperature < maxTemperature;
-        };
+        return fluid -> fluid.hasTag(FluidTemperature.class) && allowedFluids.contains(fluid.getTag(FluidTemperature.class));
     }
 
     private boolean tryStartConnection(@NotNull Player player, @NotNull Block block) {

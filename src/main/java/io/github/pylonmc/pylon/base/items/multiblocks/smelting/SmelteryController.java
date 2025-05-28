@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.util.ColorUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
@@ -74,7 +73,7 @@ public final class SmelteryController extends SmelteryComponent
     private boolean running;
 
     private final Object2DoubleMap<PylonFluid> fluids = new Object2DoubleRBTreeMap<>(
-            Comparator.<PylonFluid>comparingDouble(fluid -> fluid.getTag(FluidTemperature.class).getTemperature())
+            Comparator.<PylonFluid, FluidTemperature>comparing(fluid -> fluid.getTag(FluidTemperature.class))
                     .reversed()
                     .thenComparing(fluid -> fluid.getKey().toString())
     );
@@ -204,13 +203,8 @@ public final class SmelteryController extends SmelteryComponent
             List<Component> lore = new ArrayList<>();
             for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
                 PylonFluid fluid = entry.getKey();
-                double temperature = fluid.getTag(FluidTemperature.class).getTemperature();
                 double amount = entry.getDoubleValue();
-                TextColor color = fluidColors.computeIfAbsent(
-                        fluid,
-                        f -> TextColor.color(ColorUtils.colorFromTemperature(temperature).asRGB())
-                );
-                lore.add(Component.text().color(color).build().append(Component.translatable(
+                lore.add(Component.text().build().append(Component.translatable(
                         "pylon.pylonbase.gui.smeltery.contents.fluid",
                         PylonArgument.of(
                                 "amount",
@@ -218,13 +212,7 @@ public final class SmelteryController extends SmelteryComponent
                                         .decimalPlaces(1)
                                         .unitStyle(Style.empty())
                         ),
-                        PylonArgument.of("fluid", fluid.getName()),
-                        PylonArgument.of(
-                                "temperature",
-                                UnitFormat.CELSIUS.format(temperature)
-                                        .decimalPlaces(1)
-                                        .unitStyle(Style.empty())
-                        )
+                        PylonArgument.of("fluid", fluid.getName())
                 )));
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
@@ -528,10 +516,10 @@ public final class SmelteryController extends SmelteryComponent
             if (temperature < 20) {
                 temperature = 20; // don't go below room temperature
             }
-            contentsItem.notifyWindows();
         } else if (height <= 0) { // check height instead because of the brief moment when the multiblock is loaded but not checked yet
             running = false;
         }
         infoItem.notifyWindows();
+        contentsItem.notifyWindows();
     }
 }

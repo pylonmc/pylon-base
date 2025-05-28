@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
@@ -45,8 +46,10 @@ public class FluidTank extends PylonBlock implements PylonFluidInteractionBlock,
     private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
 
     public final double capacity = getSettings().getOrThrow("capacity", Double.class);
-    public final long minTemp = getSettings().getOrThrow("temperature.min", Integer.class);
-    public final long maxTemp = getSettings().getOrThrow("temperature.max", Integer.class);
+    @SuppressWarnings("unchecked")
+    public final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
+            .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
+            .collect(Collectors.toList());
 
     private double fluidAmount;
     private @Nullable PylonFluid fluidType;
@@ -103,10 +106,7 @@ public class FluidTank extends PylonBlock implements PylonFluidInteractionBlock,
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
                     .stream()
-                    .filter(fluid -> {
-                        FluidTemperature temperature = fluid.getTag(FluidTemperature.class);
-                        return temperature.getTemperature() > minTemp && temperature.getTemperature() < maxTemp;
-                    })
+                    .filter(fluid -> fluid.hasTag(FluidTemperature.class) && allowedFluids.contains(fluid.getTag(FluidTemperature.class)))
                     .collect(Collectors.toMap(Function.identity(), key -> capacity));
         }
 

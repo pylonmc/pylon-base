@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -72,9 +71,10 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                 return ItemStackBuilder.of(Material.BARRIER)
                         .name(casterKey("cannot_cast"));
             } else {
-                ItemStack result = canCast.getTag(CastableFluid.class).castResult();
+                CastableFluid fluid = canCast.getTag(CastableFluid.class);
+                ItemStack result = fluid.castResult();
                 Component name = result.effectiveName();
-                double temperature = canCast.getTag(FluidTemperature.class).getTemperature();
+                double temperature = fluid.castTemperature();
                 if (controller.getTemperature() < temperature) {
                     return ItemStackBuilder.of(Material.BARRIER)
                             .name(casterKey("cannot_cast"))
@@ -107,10 +107,10 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             SmelteryController controller = getController();
             if (controller == null || canCast == null || controller.getFluidAmount(canCast) < 111) return;
 
-            double temperature = canCast.getTag(FluidTemperature.class).getTemperature();
-            if (controller.getTemperature() < temperature) return;
+            CastableFluid fluid = canCast.getTag(CastableFluid.class);
+            if (controller.getTemperature() < fluid.castTemperature()) return;
 
-            ItemStack result = canCast.getTag(CastableFluid.class).castResult();
+            ItemStack result = fluid.castResult();
             inventory.addItem(null, result);
             controller.removeFluid(canCast, 111);
         }

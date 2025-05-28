@@ -22,34 +22,34 @@ public final class PylonFluids {
     public static final PylonFluid WATER = new PylonFluid(
             pylonKey("water"),
             Material.BLUE_CONCRETE
-    ).addTag(new FluidTemperature(20));
+    ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid LAVA = new PylonFluid(
             pylonKey("lava"),
             Material.ORANGE_CONCRETE
-    ).addTag(new FluidTemperature(850));
+    ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SULFUR = new PylonFluid(
             pylonKey("sulfur"),
             Material.YELLOW_CONCRETE
     )
-            .addTag(new FluidTemperature(112.8))
-            .addTag(new CastableFluid(PylonItems.SULFUR));
+            .addTag(FluidTemperature.HOT)
+            .addTag(new CastableFluid(PylonItems.SULFUR, 112.8));
 
     public static final PylonFluid MERCURY = new PylonFluid(
             pylonKey("mercury"),
             Material.GRAY_CONCRETE
-    ).addTag(new FluidTemperature(-38.8));
+    ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid SLURRY = new PylonFluid(
             pylonKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE
-    ).addTag(new FluidTemperature(20));
+    ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid REDSTONE_SLURRY = new Slurry(
             pylonKey("slurry_redstone"),
             new VanillaOrPylon.Vanilla(Material.REDSTONE)
-    ).addTag(new FluidTemperature(20));
+    ).addTag(FluidTemperature.NORMAL);
 
     public static void initialize() {
         WATER.register();

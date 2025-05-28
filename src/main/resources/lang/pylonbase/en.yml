@@ -493,7 +493,7 @@ gui:
     temperature: "<attr>Temperature:</attr> %temperature%"
     contents:
       name: "Contents"
-      fluid: "%amount% of %fluid% (%temperature%)"
+      fluid: "%amount% of %fluid%"
   smeltery_burner:
     burning: "<green>Burning"
     not_burning: "<yellow>Not burning"
