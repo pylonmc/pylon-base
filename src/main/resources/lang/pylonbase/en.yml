@@ -322,14 +322,16 @@ item:
     name: "Structure Locator"
     lore: |-
       <arrow> Navigates to the nearest %struct%
-      <arrow> <insn>Right click</insn> to refresh
+      <arrow> <insn>Right click</insn> to locate
+      <arrow> One time use only
       <arrow> <attr>Radius:</attr> %radius%
 
   structure_locator_nether_fortress:
     name: "Structure Locator"
     lore: |-
       <arrow> Navigates to the nearest %struct%
-      <arrow> <insn>Right click</insn> to refresh
+      <arrow> <insn>Right click</insn> to locate
+      <arrow> One time use only
       <arrow> <attr>Radius:</attr> %radius%
 
   watering_can:
@@ -430,3 +432,4 @@ message:
   structurecompass:
     find_fail: "<red>Failed to find a %struct% within %range% chunks"
     refreshed: "<green>Compass reprogrammed!"
+    alreadyused: "<red>The energy has already been drained from this compass, so it is unable to locate another structure."
