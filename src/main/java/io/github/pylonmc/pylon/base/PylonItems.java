@@ -24,6 +24,7 @@ import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
 import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
 import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
@@ -248,7 +249,7 @@ public final class PylonItems {
     public static final NamespacedKey FERRODURALUM_INGOT_KEY = pylonKey("ferroduralum_ingot");
     public static final ItemStack FERRODURALUM_INGOT = ItemStackBuilder.pylonItem(Material.GOLD_INGOT, FERRODURALUM_INGOT_KEY)
             .build();
-    public static final float FERRODURALUM_INGOT_COOKING_XP = PylonItem.getSettings(FERRODURALUM_INGOT_KEY)
+    public static final float FERRODURALUM_INGOT_COOKING_XP = Settings.get(FERRODURALUM_INGOT_KEY)
             .getOrThrow("cooking.xp", Double.class)
             .floatValue();
     static {
