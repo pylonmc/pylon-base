@@ -1,6 +1,6 @@
 range:
   horizontal: 4
-  vertical: 4
+  vertical: 2
 
 chances:
   crops: 0.01

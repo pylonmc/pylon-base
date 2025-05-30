@@ -761,7 +761,7 @@ public final class PylonItems {
     public static final ItemStack SPRINKLER = ItemStackBuilder.pylonItem(Material.FLOWER_POT, SPRINKLER_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, SPRINKLER, Sprinkler.KEY);
+        PylonItem.register(Sprinkler.Item.class, SPRINKLER, Sprinkler.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("sprinkler"), SPRINKLER)
                 .shape("B B", "B B", "FRF")
                 .setIngredient('B', new ItemStack(Material.BRICK))
@@ -1214,7 +1214,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, FluidTank.FLUID_TANK_WOOD_KEY);
+        PylonItem.register(FluidTank.Item.class, FLUID_TANK_WOOD, FluidTank.FLUID_TANK_WOOD_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), FLUID_TANK_WOOD)
                 .shape("gwg", "w w", "gwg")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
@@ -1227,7 +1227,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, FluidTank.FLUID_TANK_COPPER_KEY);
+        PylonItem.register(FluidTank.Item.class, FLUID_TANK_COPPER, FluidTank.FLUID_TANK_COPPER_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_copper"), FLUID_TANK_COPPER)
                 .shape("gcg", "c c", "gcg")
                 .setIngredient('c', COPPER_SHEET)
@@ -1240,7 +1240,7 @@ public final class PylonItems {
     public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WATER_PUMP_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, WATER_PUMP, WaterPump.KEY);
+        PylonItem.register(WaterPump.Item.class, WATER_PUMP, WaterPump.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("water_pump"), WATER_PUMP)
                 .shape("iii", "ibi", "ipi")
                 .setIngredient('i', IRON_SHEET)
@@ -1269,7 +1269,7 @@ public final class PylonItems {
     public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DIMENSIONAL_BARREL_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
+        PylonItem.register(DimensionalBarrel.Item.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL)
                 .shape("CBC", "BEB", "CBC")
                 .setIngredient('C', COVALENT_BINDER)
