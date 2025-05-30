@@ -5,16 +5,13 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -32,16 +29,7 @@ public class Sprinkler extends PylonBlock implements PylonTickingBlock {
     public static final int HORIZONTAL_RANGE = 4;
     public static final int VERTICAL_RANGE = 4;
 
-    // TODO make this more configurable
-    private static final WateringSettings SETTINGS = new WateringSettings(
-            HORIZONTAL_RANGE,
-            VERTICAL_RANGE,
-            0.01,
-            0.007,
-            0.01,
-            0.01,
-            Sound.WEATHER_RAIN
-    );
+    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(KEY));
 
     @SuppressWarnings("unused")
     public Sprinkler(Block block, BlockCreateContext context) {
