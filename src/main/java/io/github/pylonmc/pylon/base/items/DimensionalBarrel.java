@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -20,7 +21,7 @@ public class DimensionalBarrel extends PylonInventoryBlock {
 
     public static final NamespacedKey KEY = pylonKey("dimensional_barrel");
 
-    public static final int SIZE = getSettings(KEY).getOrThrow("size", Integer.class);
+    public static final int SIZE = Settings.get(KEY).getOrThrow("size", Integer.class);
 
     public DimensionalBarrel(Block block, BlockCreateContext context) {
         super(block);

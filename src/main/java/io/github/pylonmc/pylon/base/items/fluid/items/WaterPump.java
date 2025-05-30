@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import org.bukkit.Material;
@@ -26,7 +27,7 @@ public class WaterPump extends PylonBlock implements PylonEntityHolderBlock, Pyl
 
     public static final NamespacedKey KEY = pylonKey("water_pump");
 
-    public static final double WATER_PER_SECOND = getSettings(KEY).getOrThrow("water-per-second", Double.class);
+    public static final double WATER_PER_SECOND = Settings.get(KEY).getOrThrow("water-per-second", Double.class);
 
     private final Map<String, UUID> entities;
 
