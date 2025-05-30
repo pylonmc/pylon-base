@@ -195,7 +195,7 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
-                getName(),
+                getKey(),
                 // TODO add fluid name once fluids have names
                 Map.of(
                         "amount", Component.text(Math.round(fluidAmount)),

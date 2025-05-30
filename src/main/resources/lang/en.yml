@@ -351,13 +351,12 @@ item:
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
-# TODO can we throw a warning if this isn't specified for a block? Also maybe same for the item section above
 block:
   dimensional_barrel: "Dimensional Barrel"
   enriched_netherrack: "Enriched Netherrack"
   fluid_pipe_connector: "%pipe%"
   fluid_pipe_marker: "%pipe%"
-  fluid_tank_wooden: "Wooden Fluid Tank | %amount%/%capacity%"
+  fluid_tank_wood: "Wooden Fluid Tank | %amount%/%capacity%"
   fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
