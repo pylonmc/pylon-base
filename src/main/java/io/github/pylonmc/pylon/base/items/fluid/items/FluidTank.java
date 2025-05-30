@@ -14,11 +14,9 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
-import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -52,18 +50,6 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     private final Map<String, UUID> entities;
     private double fluidAmount;
     private @Nullable PylonFluid fluidType;
-
-    public static class Item extends PylonItem {
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return super.getPlaceholders();
-        }
-    }
 
     @SuppressWarnings("unused")
     public FluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
