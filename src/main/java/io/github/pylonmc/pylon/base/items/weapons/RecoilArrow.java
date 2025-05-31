@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items.weapons;
 
 import com.destroystokyo.paper.event.player.PlayerReadyArrowEvent;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Arrow;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -17,7 +18,7 @@ public class RecoilArrow extends PylonItem implements Arrow {
 
     public static final NamespacedKey KEY = pylonKey("recoil_arrow");
 
-    public static final double EFFICIENCY = getSettings(KEY).getOrThrow("efficiency", Double.class);
+    public static final double EFFICIENCY = Settings.get(KEY).getOrThrow("efficiency", Double.class);
 
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.ARROW, KEY)
             .build();

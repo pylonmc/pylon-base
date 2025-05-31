@@ -37,7 +37,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
 
-    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wooden");
+    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wood");
     public static final NamespacedKey PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
     public static final NamespacedKey PIPE_OBSIDIAN_KEY = pylonKey("fluid_pipe_obsidian");
 
