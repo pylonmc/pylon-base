@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidValve;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
@@ -40,6 +41,7 @@ public final class PylonBlocks {
         PylonBlock.register(FluidPipeConnector.KEY, Material.STRUCTURE_VOID, FluidPipeConnector.class);
         PylonBlock.register(FluidTank.FLUID_TANK_WOOD_KEY, Material.BROWN_STAINED_GLASS, FluidTank.class);
         PylonBlock.register(FluidTank.FLUID_TANK_COPPER_KEY, Material.ORANGE_STAINED_GLASS, FluidTank.class);
+        PylonBlock.register(FluidValve.KEY, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(WaterPump.KEY, Material.BLUE_TERRACOTTA, WaterPump.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(

@@ -155,6 +155,11 @@ item:
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
+  fluid_valve:
+    name: "Fluid Valve"
+    lore: |-
+      <arrow> <insn>Right click</insn> to toggle
+
   gold_dust:
     name: "Gold Dust"
     lore: ""
@@ -362,6 +367,7 @@ block:
   fluid_pipe_marker: "%pipe%"
   fluid_tank_wooden: "Wooden Fluid Tank | %amount%/%capacity%"
   fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
+  fluid_valve: "Fluid Valve (%status%)"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"

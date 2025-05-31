@@ -1236,6 +1236,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    // TODO no need for these KEY fields since they always match eg WaterPump.KEY
     public static final NamespacedKey WATER_PUMP_KEY = pylonKey("water_pump");
     public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WATER_PUMP_KEY)
             .build();
@@ -1248,6 +1249,13 @@ public final class PylonItems {
                 .setIngredient('b', new ItemStack(Material.BUCKET));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final NamespacedKey FLUID_VALVE_KEY = pylonKey("fluid_valve");
+    public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FLUID_VALVE_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_VALVE, FLUID_VALVE_KEY);
     }
 
     static {
