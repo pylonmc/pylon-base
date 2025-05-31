@@ -60,6 +60,34 @@ item:
     name: "Enriched netherrack"
     lore: "<arrow> Burns hotter than netherrack"
 
+  explosive_target:
+    name: "Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Doesn't create fire
+
+  explosive_target_fiery:
+    name: "Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Creates fire
+
+  explosive_target_super:
+    name: "Super Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Doesn't create fire
+
+  explosive_target_super_fiery:
+    name: "Super Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Creates fire
+
   ferroduralum_axe:
     name: "Ferroduralum Axe"
     lore: ""
@@ -367,6 +395,10 @@ block:
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
   wither_proof_obsidian: "Wither Proof Obsidian"
+  explosive_target: "Explosive Target"
+  explosive_target_fiery: "Fiery Explosive Target"
+  explosive_target_super: "Super Explosive Target"
+  explosive_target_super_fiery: "Super Fiery Explosive Target"
 
 research:
   baking: "<gold>baking"
