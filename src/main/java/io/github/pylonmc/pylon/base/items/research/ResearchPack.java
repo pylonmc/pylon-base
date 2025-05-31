@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.item.base.Interactor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import lombok.Getter;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;

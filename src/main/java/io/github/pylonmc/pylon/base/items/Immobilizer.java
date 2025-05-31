@@ -4,7 +4,10 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonPiston;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -22,11 +25,28 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 public class Immobilizer extends PylonBlock implements PylonPiston {
+    public static class Item extends PylonItem {
+        private final double radius = getSettings().getOrThrow("radius", Double.class);
+        private final int duration = getSettings().getOrThrow("duration", Integer.class);
+        private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
+            return Map.of("duration", Component.text(duration),
+                    "radius", Component.text(radius),
+                    "cooldown", Component.text(cooldown));
+        }
+    }
 
     public static Set<Player> frozenPlayers = new HashSet<>();
     private final NamespacedKey cooldownKey = pylonKey("immobilizer_cooldown");

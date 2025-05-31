@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.items.weapons;
 
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Weapon;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -27,9 +28,9 @@ public class BeheadingSword extends PylonItem implements Weapon {
 
     public static final NamespacedKey KEY = pylonKey("beheading_sword");
 
-    private static final int DURABILITY = getSettings(KEY).getOrThrow("durability", Integer.class);
-    private static final double NORMAL_ENTITY_HEAD_CHANCE = getSettings(KEY).getOrThrow("head-chance.normal-entity", Double.class);
-    private static final double WITHER_SKELETON_HEAD_CHANCE = getSettings(KEY).getOrThrow("head-chance.wither-skeleton", Double.class);
+    private static final int DURABILITY = Settings.get(KEY).getOrThrow("durability", Integer.class);
+    private static final double NORMAL_ENTITY_HEAD_CHANCE = Settings.get(KEY).getOrThrow("head-chance.normal-entity", Double.class);
+    private static final double WITHER_SKELETON_HEAD_CHANCE = Settings.get(KEY).getOrThrow("head-chance.wither-skeleton", Double.class);
 
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, KEY)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)

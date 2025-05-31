@@ -86,7 +86,7 @@ public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderB
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), Map.of("pipe", getPipe().getStack().effectiveName()));
+        return new WailaConfig(getKey(), Map.of("pipe", getPipe().getStack().effectiveName()));
     }
 
     public @NotNull PylonItem getPipe() {
