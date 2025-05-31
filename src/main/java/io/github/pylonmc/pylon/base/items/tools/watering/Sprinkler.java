@@ -8,7 +8,10 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -16,18 +19,32 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 public class Sprinkler extends PylonBlock implements PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("sprinkler");
+    public static class Item extends PylonItem {
 
-    public static final int HORIZONTAL_RANGE = 4;
-    public static final int VERTICAL_RANGE = 4;
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
+            return Map.of(
+                    "range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())
+            );
+        }
+    }
+
+    public static final NamespacedKey KEY = pylonKey("sprinkler");
 
     public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(KEY));
 
@@ -67,8 +84,8 @@ public class Sprinkler extends PylonBlock implements PylonTickingBlock {
                 return;
             }
 
-            int horizontalRadiusToCheck = 2 * HORIZONTAL_RANGE;
-            int verticalRadiusToCheck = 2 * VERTICAL_RANGE;
+            int horizontalRadiusToCheck = 2 * SETTINGS.horizontalRange();
+            int verticalRadiusToCheck = 2 * SETTINGS.verticalRange();
             for (int x = -horizontalRadiusToCheck; x < horizontalRadiusToCheck; x++) {
                 for (int z = -horizontalRadiusToCheck; z < horizontalRadiusToCheck; z++) {
                     for (int y = -verticalRadiusToCheck; y < verticalRadiusToCheck; y++) {
