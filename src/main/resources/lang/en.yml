@@ -64,28 +64,28 @@ item:
     name: "Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosion-power%
+      <arrow> Explosion power: %explosive-power%
       <arrow> Doesn't create fire
 
   explosive_target_fiery:
     name: "Fiery Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosion-power%
+      <arrow> Explosion power: %explosive-power%
       <arrow> Creates fire
 
   explosive_target_super:
     name: "Super Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosion-power%
+      <arrow> Explosion power: %explosive-power%
       <arrow> Doesn't create fire
 
   explosive_target_super_fiery:
     name: "Super Fiery Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosion-power%
+      <arrow> Explosion power: %explosive-power%
       <arrow> Creates fire
 
   ferroduralum_axe:
