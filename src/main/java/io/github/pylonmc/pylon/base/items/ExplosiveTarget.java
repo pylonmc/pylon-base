@@ -4,8 +4,11 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTargetBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.event.block.TargetHitEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -13,11 +16,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Objects;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
+
+    public static class Item extends PylonItem {
+        private final Double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
+            return Map.of("explosive-power", Component.text(explosivePower));
+        }
+    }
 
     public static final NamespacedKey EXPLOSIVE_TARGET_KEY = pylonKey("explosive_target");
     public static final NamespacedKey FIERY_EXPLOSIVE_TARGET_KEY = pylonKey("explosive_target_fiery");

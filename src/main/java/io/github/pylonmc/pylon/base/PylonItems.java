@@ -1327,7 +1327,7 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(PylonItem.class, ExplosiveTarget.EXPLOSIVE_TARGET_STACK, ExplosiveTarget.EXPLOSIVE_TARGET_KEY);
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.EXPLOSIVE_TARGET_STACK, ExplosiveTarget.EXPLOSIVE_TARGET_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), ExplosiveTarget.EXPLOSIVE_TARGET_STACK);
         recipe.shape(
                 "TTT",
@@ -1341,7 +1341,7 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(PylonItem.class, ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_KEY);
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_KEY);
         ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_fiery"), ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(ExplosiveTarget.EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(Material.FIRE_CHARGE);
@@ -1350,7 +1350,7 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(PylonItem.class, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_KEY);
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_KEY);
         ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super"), ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(4, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
         recipe.setCategory(CraftingBookCategory.BUILDING);
@@ -1358,7 +1358,7 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(PylonItem.class, ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_KEY);
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_KEY);
         ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super_fiery"), ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(Material.FIRE_CHARGE);
