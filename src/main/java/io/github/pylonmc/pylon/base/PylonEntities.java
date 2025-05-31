@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidFilter;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidValve;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
@@ -24,6 +25,8 @@ public final class PylonEntities {
         PylonEntity.register(FluidConnectionDisplay.KEY, ItemDisplay.class, FluidConnectionDisplay.class);
         PylonEntity.register(FluidConnectionInteraction.KEY, Interaction.class, FluidConnectionInteraction.class);
         PylonEntity.register(Pedestal.PedestalItemEntity.KEY, ItemDisplay.class, Pedestal.PedestalItemEntity.class);
+        PylonEntity.register(FluidFilter.FluidDisplay.KEY, ItemDisplay.class, FluidFilter.FluidDisplay.class);
+        PylonEntity.register(FluidFilter.MainDisplay.KEY, ItemDisplay.class, FluidFilter.MainDisplay.class);
         PylonEntity.register(FluidPipeDisplay.KEY, ItemDisplay.class, FluidPipeDisplay.class);
         PylonEntity.register(FluidTank.FluidTankEntity.KEY, ItemDisplay.class, FluidTank.FluidTankEntity.class);
         PylonEntity.register(FluidValve.FluidValveDisplay.KEY, ItemDisplay.class, FluidValve.FluidValveDisplay.class);

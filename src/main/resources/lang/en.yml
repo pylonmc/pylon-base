@@ -154,9 +154,15 @@ item:
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
   fluid_valve:
-    name: "Fluid Valve"
+    name: "<white>Fluid Valve"
     lore: |-
-      <arrow> <insn>Right click</insn> to toggle
+      <arrow> <insn>Right click</insn> a fluid valve to toggle it
+
+  fluid_filter:
+    name: "<white>Fluid Filter"
+    lore: |-
+      <arrow> Only lets a certain fluid through
+      <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
 
   gold_dust:
     name: "Gold Dust"
@@ -364,6 +370,7 @@ block:
   fluid_tank_wood: "Wooden Fluid Tank | %amount%/%capacity%"
   fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
   fluid_valve: "Fluid Valve (%status%)"
+  fluid_filter: "Fluid Filter (%fluid%)"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"

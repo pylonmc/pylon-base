@@ -1253,9 +1253,18 @@ public final class PylonItems {
 
     public static final NamespacedKey FLUID_VALVE_KEY = pylonKey("fluid_valve");
     public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FLUID_VALVE_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_VALVE, FLUID_VALVE_KEY);
+    }
+
+    public static final NamespacedKey FLUID_FILTER_KEY = pylonKey("fluid_filter");
+    public static final ItemStack FLUID_FILTER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FLUID_FILTER_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_FILTER, FLUID_FILTER_KEY);
     }
 
     static {

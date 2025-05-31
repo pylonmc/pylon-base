@@ -43,7 +43,7 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
 
     public static final NamespacedKey ENABLED_KEY = pylonKey("enabled");
 
-    private static final Material MAIN_MATERIAL = Material.LIGHT_GRAY_CONCRETE;
+    private static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
     private static final int BRIGHTNESS_OFF = 6;
     private static final int BRIGHTNESS_ON = 13;
 
@@ -57,13 +57,13 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        FluidConnectionPoint northPoint = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.CONNECTOR);
-        FluidConnectionPoint southPoint = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.CONNECTOR);
+        FluidConnectionPoint eastPoint = new FluidConnectionPoint(getBlock(), "east", FluidConnectionPoint.Type.CONNECTOR);
+        FluidConnectionPoint westPoint = new FluidConnectionPoint(getBlock(), "west", FluidConnectionPoint.Type.CONNECTOR);
 
         entities = Map.of(
                 "main", FluidValveDisplay.make(block, player).getUuid(),
-                "north", FluidConnectionInteraction.make(player, northPoint, BlockFace.NORTH, 0.25F).getUuid(),
-                "south", FluidConnectionInteraction.make(player, southPoint, BlockFace.SOUTH, 0.25F).getUuid()
+                "east", FluidConnectionInteraction.make(player, eastPoint, BlockFace.EAST, 0.25F).getUuid(),
+                "west", FluidConnectionInteraction.make(player, westPoint, BlockFace.WEST, 0.25F).getUuid()
         );
         enabled = false;
     }
@@ -76,7 +76,7 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
         enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
 
         if (enabled) {
-            FluidManager.connect(getNorthPoint(), getSouthPoint());
+            FluidManager.connect(getEastPoint(), getWestPoint());
         }
     }
 
@@ -102,9 +102,9 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
         getMainDisplay().setEnabled(enabled);
 
         if (enabled) {
-            FluidManager.connect(getNorthPoint(), getSouthPoint());
+            FluidManager.connect(getEastPoint(), getWestPoint());
         } else {
-            FluidManager.disconnect(getNorthPoint(), getSouthPoint());
+            FluidManager.disconnect(getEastPoint(), getWestPoint());
         }
     }
 
@@ -118,14 +118,14 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
         return Objects.requireNonNull(getHeldEntity(FluidValveDisplay.class, "main"));
     }
 
-    private @NotNull FluidConnectionPoint getNorthPoint() {
+    private @NotNull FluidConnectionPoint getEastPoint() {
         //noinspection DataFlowIssue
-        return getHeldEntity(FluidConnectionInteraction.class, "north").getPoint();
+        return getHeldEntity(FluidConnectionInteraction.class, "east").getPoint();
     }
 
-    private @NotNull FluidConnectionPoint getSouthPoint() {
+    private @NotNull FluidConnectionPoint getWestPoint() {
         //noinspection DataFlowIssue
-        return getHeldEntity(FluidConnectionInteraction.class, "south").getPoint();
+        return getHeldEntity(FluidConnectionInteraction.class, "west").getPoint();
     }
 
     public static class FluidValveDisplay extends PylonEntity<ItemDisplay> {
@@ -142,7 +142,7 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
                     .material(MAIN_MATERIAL)
                     .brightness(BRIGHTNESS_OFF)
                     .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.NORTH).getDirection().toVector3d())
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST).getDirection().toVector3d())
                             .scale(0.25, 0.25, 0.5)
                     )
                     .build(block.getLocation().toCenterLocation())
