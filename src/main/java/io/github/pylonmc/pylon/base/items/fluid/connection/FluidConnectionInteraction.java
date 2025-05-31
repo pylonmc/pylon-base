@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Interaction;
@@ -62,13 +63,6 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
 
         Preconditions.checkState(point != null);
         FluidManager.add(point);
-
-        for (UUID otherUuid : point.getConnectedPoints()) {
-            FluidConnectionPoint otherPoint = FluidManager.getById(otherUuid);
-            if (otherPoint != null) {
-                FluidManager.connect(point, otherPoint);
-            }
-        }
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
@@ -149,11 +143,12 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
         FluidConnectionDisplay displayEntity = EntityStorage.getAs(FluidConnectionDisplay.class, display);
         Preconditions.checkState(displayEntity != null);
         displayEntity.getEntity().remove();
+        FluidManager.remove(point);
     }
 
     @Override
     public void onUnload(@NotNull PylonEntityUnloadEvent event) {
-        FluidManager.remove(point);
+        FluidManager.unload(point);
     }
 
     public @Nullable FluidConnectionDisplay getDisplay() {
