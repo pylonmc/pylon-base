@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -27,7 +28,7 @@ public class WateringCan extends PylonItem implements BlockInteractor {
 
     public static final NamespacedKey KEY = pylonKey("watering_can");
 
-    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(getSettings(KEY));
+    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(KEY));
 
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.BUCKET, KEY)
             .build();

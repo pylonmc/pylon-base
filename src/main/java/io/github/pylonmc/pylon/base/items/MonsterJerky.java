@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.items;
 
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -20,9 +21,9 @@ public class MonsterJerky extends PylonItem {
 
     public static final NamespacedKey KEY = pylonKey("monster_jerky");
 
-    public static final int NUTRITION = getSettings(KEY).getOrThrow("nutrition", Integer.class);
-    public static final float SATURATION = getSettings(KEY).getOrThrow("saturation", Double.class).floatValue();
-    public static final float COOKING_XP = getSettings(KEY).getOrThrow("cooking.xp", Double.class).floatValue();
+    public static final int NUTRITION = Settings.get(KEY).getOrThrow("nutrition", Integer.class);
+    public static final float SATURATION = Settings.get(KEY).getOrThrow("saturation", Double.class).floatValue();
+    public static final float COOKING_XP = Settings.get(KEY).getOrThrow("cooking.xp", Double.class).floatValue();
 
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.ROTTEN_FLESH, KEY)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())

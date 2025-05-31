@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items.research;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -59,7 +60,7 @@ public class Loupe extends PylonItem implements Interactor, Consumable {
         for (ItemRarity rarity : ItemRarity.values()) {
             itemConfigs.put(
                     rarity,
-                    ItemConfig.loadFrom(getSettings(KEY).getSectionOrThrow(rarity.name().toLowerCase(Locale.ROOT)))
+                    ItemConfig.loadFrom(Settings.get(KEY).getSectionOrThrow(rarity.name().toLowerCase(Locale.ROOT)))
             );
         }
     }

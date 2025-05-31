@@ -14,9 +14,12 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -36,6 +39,26 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock {
+
+    public static class Item extends PylonItem {
+
+        public final double capacity = getSettings().getOrThrow("capacity", Double.class);
+        public final long minTemp = getSettings().getOrThrow("temperature.min", Integer.class);
+        public final long maxTemp = getSettings().getOrThrow("temperature.max", Integer.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
+            return Map.of(
+                    "capacity", UnitFormat.MILLIBUCKETS.format(capacity),
+                    "min_temperature", UnitFormat.CELSIUS.format(minTemp),
+                    "max_temperature", UnitFormat.CELSIUS.format(maxTemp)
+            );
+        }
+    }
 
     public static final NamespacedKey FLUID_TANK_WOOD_KEY =  pylonKey("fluid_tank_wood");
     public static final NamespacedKey FLUID_TANK_COPPER_KEY =  pylonKey("fluid_tank_copper");
@@ -172,7 +195,7 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
-                getName(),
+                getKey(),
                 // TODO add fluid name once fluids have names
                 Map.of(
                         "amount", Component.text(Math.round(fluidAmount)),
