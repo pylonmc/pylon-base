@@ -24,7 +24,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,9 +93,9 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-//        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-//            return;
-//        }
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
 
         enabled = !enabled;
 
