@@ -80,18 +80,22 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
         float height = from.getEntity().getInteractionHeight();
         Location fromLocation = from.getEntity().getLocation().add(0, height / 2, 0);
         Location toLocation = to.getEntity().getLocation().add(0, height / 2, 0);
-        Vector3f offset = toLocation.subtract(fromLocation).toVector().toVector3f();
+        // We use a center location rather than just spawning at fromLocation or toLocation to prevent the entity
+        // from being spawned just inside a block - this causes it to render as black due to being inside the block
+        Location centerLocation = fromLocation.clone().add(toLocation).multiply(0.5);
+        Vector3f fromOffset = centerLocation.clone().subtract(fromLocation).toVector().toVector3f();
+        Vector3f toOffset = centerLocation.clone().subtract(toLocation).toVector().toVector3f();
 
         return new ItemDisplayBuilder()
                 .transformation(new LineBuilder()
-                        .from(0, 0, 0)
-                        .to(offset)
+                        .from(fromOffset)
+                        .to(toOffset)
                         .thickness(0.1)
                         .build()
                         .buildForItemDisplay()
                 )
                 .material(pipe.material)
-                .build(fromLocation);
+                .build(centerLocation);
     }
 
     /**
