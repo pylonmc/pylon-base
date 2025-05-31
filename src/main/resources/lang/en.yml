@@ -191,6 +191,15 @@ item:
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
+  immobilizer:
+    name: "Immobilizer"
+    lore: |-
+      <arrow> Immobilizes players in a range
+      <arrow> Triggered by a redstone signal
+      <attr:Duration:ticks>%duration%</attr>
+      <attr:Radius:blocks>%radius%</attr>
+      <attr:Cooldown:ticks>%cooldown%</attr>
+
   iron_sheet:
     name: "Iron Sheet"
     lore: ""
@@ -367,6 +376,7 @@ block:
   sprinkler: "Sprinkler"
   water_pump: "Water Pump"
   wither_proof_obsidian: "Wither Proof Obsidian"
+  immobilizer: "Immobilizer"
 
 research:
   baking: "<gold>baking"
