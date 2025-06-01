@@ -18,8 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
+import org.joml.Vector3d;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -38,7 +37,8 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        entities.put("flow_rate", FlowRateDisplay.make(block, player).getUuid());
+        entities.put("flow_rate_north", FlowRateDisplay.make(block, player, BlockFace.NORTH).getUuid());
+        entities.put("flow_rate_south", FlowRateDisplay.make(block, player, BlockFace.SOUTH).getUuid());
 
         removedSinceLastUpdate = 0.0;
     }
@@ -57,10 +57,6 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
         removedSinceLastUpdate += amount;
     }
 
-    private @NotNull FlowRateDisplay getFlowRateDisplay() {
-        return Objects.requireNonNull(getHeldEntity(FlowRateDisplay.class, "flow_rate"));
-    }
-
     @Override
     public int getCustomTickRate(int globalTickRate) {
         return INTERVAL_TICKS;
@@ -68,7 +64,9 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
     @Override
     public void tick(double deltaSeconds) {
-        getFlowRateDisplay().setFlowRate(removedSinceLastUpdate / deltaSeconds);
+
+        getHeldEntity(FlowRateDisplay.class, "flow_rate_north").setFlowRate(removedSinceLastUpdate / deltaSeconds);
+        getHeldEntity(FlowRateDisplay.class, "flow_rate_south").setFlowRate(removedSinceLastUpdate / deltaSeconds);
 
         removedSinceLastUpdate = 0.0;
     }
@@ -82,11 +80,11 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
             super(entity);
         }
 
-        public FlowRateDisplay(@NotNull Block block, @NotNull Player player) {
+        public FlowRateDisplay(@NotNull Block block, @NotNull Player player, @NotNull BlockFace face) {
             super(KEY, new TextDisplayBuilder()
                     .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.NORTH).getDirection().toVector3d())
-                            .translate(0.0, -0.0625, 0.126)
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, face).getDirection().toVector3d())
+                            .translate(new Vector3d(0.0, 0.0, 0.126))
                             .scale(0.3, 0.3, 0.0001)
                     )
                     .backgroundColor(Color.fromARGB(0, 0, 0, 0))
@@ -99,8 +97,8 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
             getEntity().text(UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(flowRate)).asComponent());
         }
 
-        public static @NotNull FlowRateDisplay make(@NotNull Block block, @NotNull Player player) {
-            FlowRateDisplay display = new FlowRateDisplay(block, player);
+        public static @NotNull FlowRateDisplay make(@NotNull Block block, @NotNull Player player, @NotNull BlockFace face) {
+            FlowRateDisplay display = new FlowRateDisplay(block, player, face);
             EntityStorage.add(display);
             return display;
         }
