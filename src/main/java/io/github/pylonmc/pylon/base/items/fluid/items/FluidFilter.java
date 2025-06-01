@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -126,9 +127,11 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
 
     @Override
     public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+        double outputFluidPerSecond = FluidManager.getFluidPerSecond(getOutputPoint().getSegment());
+        double inputFluidPerSecond = FluidManager.getFluidPerSecond(getInputPoint().getSegment());
         return fluid == null
             ? Map.of()
-            : Map.of(fluid, FluidManager.getFluidPerSecond(getOutputPoint().getSegment()));
+            : Map.of(fluid, Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond) * PylonConfig.getFluidIntervalTicks() / 20.0 - buffer));
     }
 
     @Override
@@ -151,6 +154,11 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
     private @NotNull FluidConnectionPoint getOutputPoint() {
         //noinspection DataFlowIssue
         return getHeldEntity(FluidConnectionInteraction.class, "output").getPoint();
+    }
+
+    private @NotNull FluidConnectionPoint getInputPoint() {
+        //noinspection DataFlowIssue
+        return getHeldEntity(FluidConnectionInteraction.class, "input").getPoint();
     }
 
     public void setFluid(PylonFluid fluid) {
