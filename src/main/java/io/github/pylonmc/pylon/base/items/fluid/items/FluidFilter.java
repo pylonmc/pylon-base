@@ -131,7 +131,7 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
         double inputFluidPerSecond = FluidManager.getFluidPerSecond(getInputPoint().getSegment());
         return fluid == null
             ? Map.of()
-            : Map.of(fluid, Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond) * PylonConfig.getFluidIntervalTicks() / 20.0 - buffer));
+            : Map.of(fluid, Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond) * PylonConfig.getFluidIntervalTicks() * deltaSeconds - buffer));
     }
 
     @Override
