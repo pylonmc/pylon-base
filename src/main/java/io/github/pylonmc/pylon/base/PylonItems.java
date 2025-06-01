@@ -1267,6 +1267,14 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, FLUID_FILTER, FLUID_FILTER_KEY);
     }
 
+    public static final NamespacedKey FLUID_METER_KEY = pylonKey("fluid_meter");
+    public static final ItemStack FLUID_METER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FLUID_METER_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_METER, FLUID_METER_KEY);
+    }
+
     static {
         PylonItem.register(Loupe.class, Loupe.STACK);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("loupe"), Loupe.STACK)

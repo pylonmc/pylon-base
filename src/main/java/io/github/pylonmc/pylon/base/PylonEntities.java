@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidFilter;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidMeter;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidValve;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
@@ -11,6 +12,7 @@ import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 
 
 public final class PylonEntities {
@@ -30,5 +32,6 @@ public final class PylonEntities {
         PylonEntity.register(FluidPipeDisplay.KEY, ItemDisplay.class, FluidPipeDisplay.class);
         PylonEntity.register(FluidTank.FluidTankEntity.KEY, ItemDisplay.class, FluidTank.FluidTankEntity.class);
         PylonEntity.register(FluidValve.FluidValveDisplay.KEY, ItemDisplay.class, FluidValve.FluidValveDisplay.class);
+        PylonEntity.register(FluidMeter.FlowRateDisplay.KEY, TextDisplay.class, FluidMeter.FlowRateDisplay.class);
     }
 }

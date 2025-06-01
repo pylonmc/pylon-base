@@ -164,6 +164,12 @@ item:
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
 
+  fluid_meter:
+    name: "<white>Fluid Meter"
+    lore: |-
+      <arrow> A variant of the fluid filter which displays the amount of fluid passing through
+      <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+
   gold_dust:
     name: "Gold Dust"
     lore: ""
@@ -248,6 +254,7 @@ item:
       <arrow> Place items in the pot and <insn>right click</insn> to mix them together
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
+      <arrow> Can also be used like a normal cauldron
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"
@@ -371,6 +378,7 @@ block:
   fluid_tank_copper: "Copper Fluid Tank | %amount%/%capacity%"
   fluid_valve: "Fluid Valve (%status%)"
   fluid_filter: "Fluid Filter (%fluid%)"
+  fluid_meter: "Fluid Meter (%fluid%)"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"

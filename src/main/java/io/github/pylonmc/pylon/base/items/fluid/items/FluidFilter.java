@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -49,12 +50,12 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
     public static final NamespacedKey FLUID_KEY = pylonKey("fluid");
     public static final NamespacedKey BUFFER_KEY = pylonKey("buffer");
 
-    private static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
-    private static final Material NO_FLUID_MATERIAL = Material.RED_TERRACOTTA;
+    public static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
+    public static final Material NO_FLUID_MATERIAL = Material.RED_TERRACOTTA;
 
-    private final Map<String, UUID> entities;
-    private @Nullable PylonFluid fluid;
-    private double buffer;
+    protected final Map<String, UUID> entities;
+    protected @Nullable PylonFluid fluid;
+    protected double buffer;
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -66,12 +67,12 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
         FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
         FluidConnectionPoint output = new FluidConnectionPoint(getBlock(), "output", FluidConnectionPoint.Type.OUTPUT);
 
-        entities = Map.of(
+        entities = new HashMap<>(Map.of(
                 "main", MainDisplay.make(block, player).getUuid(),
                 "fluid", FluidDisplay.make(block, player).getUuid(),
                 "input", FluidConnectionInteraction.make(player, input, BlockFace.EAST, 0.25F).getUuid(),
                 "output", FluidConnectionInteraction.make(player, output, BlockFace.WEST, 0.25F).getUuid()
-        );
+        ));
         fluid = null;
         buffer = 0.0;
     }
@@ -114,7 +115,9 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         // TODO add this once fluids have names
-        return new WailaConfig(getKey(), Map.of("fluid", Component.text(fluid.getKey().toString())));
+        return new WailaConfig(getKey(), Map.of(
+                "fluid", Component.text(fluid == null ? "N/A" : fluid.getKey().toString())
+        ));
     }
 
     private @NotNull FluidDisplay getFluidDisplay() {
@@ -196,7 +199,7 @@ public class FluidFilter extends PylonBlock implements PylonEntityHolderBlock, P
                     .material(NO_FLUID_MATERIAL)
                     .transformation(new TransformBuilder()
                             .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST).getDirection().toVector3d())
-                            .scale(0.3, 0.2, 0.45)
+                            .scale(0.2, 0.3, 0.45)
                     )
                     .build(block.getLocation().toCenterLocation())
             );
