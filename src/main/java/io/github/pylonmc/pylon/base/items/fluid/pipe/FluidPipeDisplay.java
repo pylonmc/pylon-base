@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import lombok.Getter;
 import org.bukkit.GameMode;
@@ -49,6 +50,20 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
         this.amount = pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER);
         from = pdc.get(FROM_KEY, PylonSerializers.UUID);
         to = pdc.get(TO_KEY, PylonSerializers.UUID);
+
+        // When fluid points are loaded back, their segment's fluid per second and predicate won't be preserved, so
+        // we wait for them to load and then set their segments' fluid per second and predicate
+        EntityStorage.whenEntityLoads(from, FluidConnectionInteraction.class, interaction -> {
+            FluidManager.setFluidPerSecond(interaction.getPoint().getSegment(), pipe.fluidPerSecond);
+            FluidManager.setFluidPredicate(interaction.getPoint().getSegment(), pipe.getPredicate());
+        });
+
+        // Technically only need to do this for one of the end points since they're part of the same segment, but
+        // we do it twice just to be safe
+        EntityStorage.whenEntityLoads(to, FluidConnectionInteraction.class, interaction -> {
+            FluidManager.setFluidPerSecond(interaction.getPoint().getSegment(), pipe.fluidPerSecond);
+            FluidManager.setFluidPredicate(interaction.getPoint().getSegment(), pipe.getPredicate());
+        });
     }
 
     public FluidPipeDisplay(
