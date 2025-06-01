@@ -77,7 +77,12 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
         enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
 
         if (enabled) {
-            FluidManager.connect(getEastPoint(), getWestPoint());
+            // connect east and west points when they load
+            EntityStorage.whenEntityLoads(entities.get("east"), FluidConnectionInteraction.class, east -> {
+                EntityStorage.whenEntityLoads(entities.get("west"), FluidConnectionInteraction.class, west -> {
+                    FluidManager.connect(getEastPoint(), getWestPoint());
+                });
+            });
         }
     }
 
