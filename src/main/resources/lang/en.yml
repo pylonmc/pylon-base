@@ -383,6 +383,8 @@ item:
     name: "Sprinkler"
     lore: |-
       <arrow> Makes crops, saplings, sugar cane, and cactus go brrr
+      <arrow> Requires water to be piped in
+      <arrow> <attr>Water consumption:</attr> %water_consumption%
       <arrow> <attr>Range:</attr> %range%
 
   watering_can:

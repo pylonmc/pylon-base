@@ -57,9 +57,10 @@ public class WateringCan extends PylonItem implements BlockInteractor {
             return;
         }
 
-        water(center, SETTINGS);
+        water(center.getRelative(BlockFace.UP), SETTINGS);
     }
 
+    // TODO this will likely need to be profiled and optimised, will not perform well with a lot of sprinklers I think
     public static void water(@NotNull Block center, @NotNull WateringSettings settings) {
         boolean wasAnyTickAttempted = false;
         int horizontalRange = settings.horizontalRange();
@@ -115,11 +116,13 @@ public class WateringCan extends PylonItem implements BlockInteractor {
         }
 
         if (height < 3 && topBlock.getType() == Material.AIR) {
-            new ParticleBuilder(Particle.HAPPY_VILLAGER)
-                    .count(1)
-                    .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
-                    .offset(0.3, 0.3, 0.3)
-                    .spawn();
+            if (random.nextDouble() < settings.particleChance()) {
+                new ParticleBuilder(Particle.HAPPY_VILLAGER)
+                        .count(1)
+                        .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
+                        .offset(0.3, 0.3, 0.3)
+                        .spawn();
+            }
 
             if (random.nextDouble() < settings.sugarCaneChance()) {
                 topBlock.setType(Material.SUGAR_CANE);
@@ -147,11 +150,13 @@ public class WateringCan extends PylonItem implements BlockInteractor {
         }
 
         if (height < 3 && topBlock.getType() == Material.AIR) {
-            new ParticleBuilder(Particle.HAPPY_VILLAGER)
-                    .count(1)
-                    .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
-                    .offset(0.3, 0.3, 0.3)
-                    .spawn();
+            if (random.nextDouble() < settings.particleChance()) {
+                new ParticleBuilder(Particle.HAPPY_VILLAGER)
+                        .count(1)
+                        .location(topBlock.getLocation().add(0.5, 0.0, 0.5))
+                        .offset(0.3, 0.3, 0.3)
+                        .spawn();
+            }
 
             if (random.nextDouble() < settings.cactusChance()) {
                 topBlock.setType(Material.CACTUS);
@@ -164,11 +169,13 @@ public class WateringCan extends PylonItem implements BlockInteractor {
     }
 
     private static boolean growCrop(@NotNull Block block, @NotNull Ageable ageable, WateringSettings settings) {
-        new ParticleBuilder(Particle.SPLASH)
-                .count(3)
-                .location(block.getLocation().add(0.5, 0.0, 0.5))
-                .offset(0.3, 0, 0.3)
-                .spawn();
+        if (random.nextDouble() < settings.particleChance()) {
+            new ParticleBuilder(Particle.SPLASH)
+                    .count(3)
+                    .location(block.getLocation().add(0.5, 0.0, 0.5))
+                    .offset(0.3, 0, 0.3)
+                    .spawn();
+        }
 
         if (random.nextDouble() < settings.cropChance()) {
             ageable.setAge(ageable.getAge() + 1);
