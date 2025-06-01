@@ -40,10 +40,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -293,8 +291,6 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
             return;
         }
 
-        Bukkit.getLogger().severe("3");
-
         ItemStack newItemStack = null;
 
         // Inserting water
@@ -307,7 +303,6 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
             }
 
             if (fluidType == null) {
-                Bukkit.getLogger().severe("5");
                 setFluid(PylonFluids.WATER);
                 setAmount(1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
