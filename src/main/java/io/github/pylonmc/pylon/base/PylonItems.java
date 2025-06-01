@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidDrainer;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidPlacer;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.items.PortableFluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
 import io.github.pylonmc.pylon.base.items.multiblocks.EnrichedNetherrack;
@@ -1212,12 +1212,13 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FLUID_TANK_WOOD_KEY = pylonKey("fluid_tank_wood");
-    public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
-            .build();
     static {
-        PylonItem.register(FluidTank.Item.class, FLUID_TANK_WOOD, FluidTank.FLUID_TANK_WOOD_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), FLUID_TANK_WOOD)
+        PylonItem.register(
+                PortableFluidTank.Item.class,
+                PortableFluidTank.Item.PORTABLE_FLUID_TANK_WOOD_STACK,
+                PortableFluidTank.PORTABLE_FLUID_TANK_WOOD_KEY
+        );
+        ShapedRecipe recipe = new ShapedRecipe(PortableFluidTank.PORTABLE_FLUID_TANK_WOOD_KEY, PortableFluidTank.Item.PORTABLE_FLUID_TANK_WOOD_STACK)
                 .shape("gwg", "w w", "gwg")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
                 .setIngredient('g', new ItemStack(Material.GLASS));
@@ -1225,12 +1226,9 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FLUID_TANK_COPPER_KEY = pylonKey("fluid_tank_copper");
-    public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
-            .build();
     static {
-        PylonItem.register(FluidTank.Item.class, FLUID_TANK_COPPER, FluidTank.FLUID_TANK_COPPER_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_copper"), FLUID_TANK_COPPER)
+        PylonItem.register(PortableFluidTank.Item.class, PortableFluidTank.Item.PORTABLE_FLUID_TANK_COPPER_STACK, PortableFluidTank.PORTABLE_FLUID_TANK_COPPER_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(PortableFluidTank.PORTABLE_FLUID_TANK_COPPER_KEY, PortableFluidTank.Item.PORTABLE_FLUID_TANK_COPPER_STACK)
                 .shape("gcg", "c c", "gcg")
                 .setIngredient('c', COPPER_SHEET)
                 .setIngredient('g', new ItemStack(Material.GLASS));

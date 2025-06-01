@@ -139,17 +139,21 @@ item:
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
-  fluid_tank_wood:
-    name: "Wooden Fluid Tank"
-    lore: |- 
-      <arrow> <attr>Capacity:</attr> %capacity%
+  portable_fluid_tank_wood:
+    name: "Wooden Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
-  fluid_tank_copper:
-    name: "Copper Fluid Tank"
-    lore: |- 
-      <arrow> <attr>Capacity:</attr> %capacity%
+  portable_fluid_tank_copper:
+    name: "Copper Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
@@ -409,6 +413,8 @@ block:
   lava_placer: "Lava Placer"
   water_drainer: "Water Drainer"
   lava_drainer: "Lava Drainer"
+  portable_fluid_tank_wood: "Wooden Portable Fluid Tank"
+  portable_fluid_tank_copper: "Copper Portable Fluid Tank"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"

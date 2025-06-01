@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionIntera
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -15,11 +16,13 @@ import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -30,6 +33,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
@@ -38,9 +42,19 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock {
+public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock {
 
     public static class Item extends PylonItem {
+
+        public static final ItemStack PORTABLE_FLUID_TANK_WOOD_STACK
+                = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, PORTABLE_FLUID_TANK_WOOD_KEY)
+                .editPdc(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
+                .build();
+
+        public static final ItemStack PORTABLE_FLUID_TANK_COPPER_STACK
+                = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, PORTABLE_FLUID_TANK_COPPER_KEY)
+                .editPdc(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
+                .build();
 
         public final double capacity = getSettings().getOrThrow("capacity", Double.class);
         public final long minTemp = getSettings().getOrThrow("temperature.min", Integer.class);
@@ -50,9 +64,38 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
             super(stack);
         }
 
+        public @Nullable PylonFluid getFluid() {
+            return getStack().getPersistentDataContainer().get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
+        }
+
+        public double getAmount() {
+            return getStack().getPersistentDataContainer().getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0);
+        }
+
+        public void setFluid(@Nullable PylonFluid fluid) {
+            getStack().editPersistentDataContainer(pdc -> PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluid));
+        }
+
+        public void setAmount(double amount) {
+            getStack().editPersistentDataContainer(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, amount));
+        }
+
+        @Override
+        public @Nullable PylonBlock place(@NotNull BlockCreateContext context, @NotNull Block block) {
+            PortableFluidTank tank = (PortableFluidTank) getSchema().place(context, block);
+            if (tank != null) {
+                tank.setFluid(getFluid());
+                tank.setAmount(getAmount());
+            }
+            return tank;
+        }
+
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
             return Map.of(
+                    // TODO actual fluid name
+                    "fluid", Component.text(getFluid() == null ? "" : getFluid().getKey().toString()),
+                    "amount", Component.text(Math.round(getAmount())),
                     "capacity", UnitFormat.MILLIBUCKETS.format(capacity),
                     "min_temperature", UnitFormat.CELSIUS.format(minTemp),
                     "max_temperature", UnitFormat.CELSIUS.format(maxTemp)
@@ -60,8 +103,8 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
         }
     }
 
-    public static final NamespacedKey FLUID_TANK_WOOD_KEY =  pylonKey("fluid_tank_wood");
-    public static final NamespacedKey FLUID_TANK_COPPER_KEY =  pylonKey("fluid_tank_copper");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_WOOD_KEY =  pylonKey("portable_fluid_tank_wood");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_COPPER_KEY =  pylonKey("portable_fluid_tank_copper");
 
     private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
     private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
@@ -75,7 +118,7 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     private @Nullable PylonFluid fluidType;
 
     @SuppressWarnings("unused")
-    public FluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(block.getLocation().toCenterLocation());
@@ -98,7 +141,7 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     }
 
     @SuppressWarnings("unused")
-    public FluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public PortableFluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
         entities = loadHeldEntities(pdc);
@@ -150,30 +193,37 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
     @Override
     public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         if (!fluid.equals(fluidType)) {
-            fluidType = fluid;
-            ItemDisplay display = getFluidDisplay();
-            if (display != null) {
-                display.setItemStack(new ItemStack(fluid.getMaterial()));
-            }
+            setFluid(fluid);
         }
-        fluidAmount += amount;
-        updateFluidDisplay();
+        setAmount(fluidAmount + amount);
     }
 
     @Override
     public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
-        fluidAmount -= amount;
-        if (fluidAmount == 0) {
-            fluidType = null;
-            ItemDisplay display = getFluidDisplay();
-            if (display != null) {
-                display.setItemStack(null);
-            }
-        }
-        updateFluidDisplay();
+        setAmount(fluidAmount - amount);
     }
 
-    public void updateFluidDisplay() {
+    public void setFluid(@Nullable PylonFluid fluid) {
+        this.fluidType = fluid;
+
+        ItemDisplay display = getFluidDisplay();
+        if (display != null) {
+            display.setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
+        }
+    }
+
+    public void setAmount(double amount) {
+        this.fluidAmount = amount;
+
+        if (Math.abs(fluidAmount) < 1.0e-6) {
+            setFluid(null);
+            fluidAmount = 0.0;
+        }
+        
+        updateFluidDisplayHeight();
+    }
+
+    public void updateFluidDisplayHeight() {
         float scale = (float) (0.9F * fluidAmount / capacity);
         ItemDisplay display = getFluidDisplay();
         if (display != null) {
@@ -202,6 +252,24 @@ public class FluidTank extends PylonBlock implements PylonEntityHolderBlock, Pyl
                         "capacity", Component.text(Math.round(capacity))
                 )
         );
+    }
+
+    @Override
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonEntityHolderBlock.super.onBreak(drops, context);
+
+        drops.clear();
+
+        ItemStack stack = Map.of(
+                PORTABLE_FLUID_TANK_WOOD_KEY, Item.PORTABLE_FLUID_TANK_WOOD_STACK,
+                PORTABLE_FLUID_TANK_COPPER_KEY, Item.PORTABLE_FLUID_TANK_COPPER_STACK
+        ).get(getKey()).clone();
+
+        Item item = new Item(stack);
+        item.setFluid(fluidType);
+        item.setAmount(fluidAmount);
+
+        drops.add(stack);
     }
 
 
