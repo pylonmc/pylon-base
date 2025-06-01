@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidDrainer;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidPlacer;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidVoider;
 import io.github.pylonmc.pylon.base.items.fluid.items.PortableFluidTank;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
@@ -1287,7 +1288,6 @@ public final class PylonItems {
         PylonItem.register(FluidPlacer.Item.class, LAVA_PLACER, FluidPlacer.LAVA_PLACER_KEY);
     }
 
-
     public static final ItemStack WATER_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.WATER_DRAINER_KEY)
             .build();
     static {
@@ -1298,6 +1298,27 @@ public final class PylonItems {
             .build();
     static {
         PylonItem.register(FluidDrainer.Item.class, LAVA_DRAINER, FluidDrainer.LAVA_DRAINER_KEY);
+    }
+
+    public static final ItemStack FLUID_VOIDER_1 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_1_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_1, FluidVoider.FLUID_VOIDER_1_KEY);
+    }
+
+    public static final ItemStack FLUID_VOIDER_2 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_2_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_2, FluidVoider.FLUID_VOIDER_2_KEY);
+    }
+
+    public static final ItemStack FLUID_VOIDER_3 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_3_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
     }
 
     static {

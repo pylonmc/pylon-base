@@ -176,6 +176,24 @@ item:
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
 
+  fluid_voider_1:
+    name: "Fluid Voider <light_purple>I"
+    lore: |-
+      <arrow> Destroys all fluids piped into it
+      <arrow> <attr>Void rate:</attr> %void_rate%
+
+  fluid_voider_2:
+    name: "Fluid Voider <light_purple>II"
+    lore: |-
+      <arrow> Destroys all fluids piped into it
+      <arrow> <attr>Void rate:</attr> %void_rate%
+
+  fluid_voider_3:
+    name: "Fluid Voider <light_purple>III"
+    lore: |-
+      <arrow> Destroys all fluids piped into it
+      <arrow> <attr>Void rate:</attr> %void_rate%
+
   water_placer:
     name: "Water Placer"
     lore: |-
@@ -417,6 +435,9 @@ block:
   lava_drainer: "Lava Drainer"
   portable_fluid_tank_wood: "Wooden Portable Fluid Tank"
   portable_fluid_tank_copper: "Copper Portable Fluid Tank"
+  fluid_voider_1: "Fluid Voider <light_purple>I"
+  fluid_voider_2: "Fluid Voider <light_purple>II"
+  fluid_voider_3: "Fluid Voider <light_purple>III"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"
