@@ -1,9 +1,12 @@
 package io.github.pylonmc.pylon.base.items.fluid.items;
 
+import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
@@ -22,19 +25,25 @@ import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -42,7 +51,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock {
+public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -272,6 +281,81 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
         drops.add(stack);
     }
 
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        if (!event.getAction().isRightClick()) {
+            return;
+        }
+
+        ItemStack item = event.getItem();
+        EquipmentSlot hand = event.getHand();
+        if (item == null || hand != EquipmentSlot.HAND || PylonItem.isPylonitem(item)) {
+            return;
+        }
+
+        Bukkit.getLogger().severe("3");
+
+        ItemStack newItemStack = null;
+
+        // Inserting water
+        if (item.getType() == Material.WATER_BUCKET) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            if (PylonFluids.WATER.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
+                setAmount(fluidAmount + 1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+
+            if (fluidType == null) {
+                Bukkit.getLogger().severe("5");
+                setFluid(PylonFluids.WATER);
+                setAmount(1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+        }
+
+        // Inserting lava
+        if (item.getType() == Material.LAVA_BUCKET) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            if (PylonFluids.LAVA.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
+                setAmount(fluidAmount + 1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+
+            if (fluidType == null) {
+                setFluid(PylonFluids.LAVA);
+                setAmount(1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+        }
+
+        if (item.getType() == Material.BUCKET) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            // Taking water
+            if (PylonFluids.WATER.equals(fluidType) && fluidAmount >= 1000.0) {
+                setAmount(fluidAmount - 1000.0);
+                newItemStack = new ItemStack(Material.WATER_BUCKET);
+            }
+
+            // Taking lava
+            if (PylonFluids.LAVA.equals(fluidType) && fluidAmount >= 1000.0) {
+                setAmount(fluidAmount - 1000.0);
+                newItemStack = new ItemStack(Material.LAVA_BUCKET);
+            }
+        }
+
+        ItemStack finalNewItemStack = newItemStack;
+        if (finalNewItemStack != null) {
+            // This is a hack. When I change the item from within a PlayerInteractEvent, a new event
+            // is fired for the new item stack. No idea why. Nor did the guy from the paper team.
+            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+                item.subtract();
+                event.getPlayer().give(finalNewItemStack);
+            }, 0);
+        }
+    }
 
     public static class FluidTankEntity extends PylonEntity<ItemDisplay> {
 
