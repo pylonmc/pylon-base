@@ -218,7 +218,7 @@ item:
     name: "Lava Drainer"
     lore: |-
       <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
-      <arrow> <attr>Drain interval:</attr> %fill_interval%
+      <arrow> <attr>Drain interval:</attr> %drain_interval%
 
   gold_dust:
     name: "Gold Dust"

@@ -100,8 +100,8 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
             return Map.of(
-                    // TODO actual fluid name
-                    "fluid", Component.text(getFluid() == null ? "" : getFluid().getKey().toString()),
+                    // TODO actual fluid name + translation for 'No fluid'
+                    "fluid", Component.text(getFluid() == null ? "No fluid" : getFluid().getKey().toString()),
                     "amount", Component.text(Math.round(getAmount())),
                     "capacity", UnitFormat.MILLIBUCKETS.format(capacity),
                     "min_temperature", UnitFormat.CELSIUS.format(minTemp),

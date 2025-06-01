@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionIntera
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -20,6 +21,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +33,7 @@ import java.util.UUID;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidPlacer extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock, PylonTickingBlock {
+public class FluidPlacer extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock, PylonTickingBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -125,6 +127,14 @@ public class FluidPlacer extends PylonBlock implements PylonEntityHolderBlock, P
     @Override
     public int getCustomTickRate(int globalTickRate) {
         return tickInterval;
+    }
+
+    // Prevent opening dispenser
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        if (event.getAction().isRightClick()) {
+            event.setCancelled(true);
+        }
     }
 
     private @NotNull PylonFluid getFluid() {
