@@ -1,0 +1,143 @@
+package io.github.pylonmc.pylon.base.items.fluid.items;
+
+import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import net.kyori.adventure.text.ComponentLike;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
+
+public class FluidPlacer extends PylonBlock implements PylonEntityHolderBlock, PylonFluidBlock, PylonTickingBlock {
+
+    public static class Item extends PylonItem {
+
+        public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
+            return Map.of(
+                    "fill_interval", UnitFormat.SECONDS.format(tickInterval / 20.0)
+                            .decimalPlaces(1)
+            );
+        }
+    }
+
+    public static final NamespacedKey WATER_PLACER_KEY = pylonKey("water_placer");
+    public static final NamespacedKey LAVA_PLACER_KEY = pylonKey("lava_placer");
+
+    public static final NamespacedKey BUFFER_KEY = pylonKey("buffer");
+
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+
+    protected final Map<String, UUID> entities;
+    private double buffer;
+
+    @SuppressWarnings("unused")
+    public FluidPlacer(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block);
+
+        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid placer can only be placed by a player");
+        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
+
+        FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
+
+        entities = new HashMap<>(Map.of(
+                "input", FluidConnectionInteraction.make(player, input, BlockFace.SOUTH, 0.5F).getUuid()
+        ));
+        buffer = 0.0;
+    }
+
+    @SuppressWarnings({"unused", "DataFlowIssue"})
+    public FluidPlacer(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block);
+
+        entities = loadHeldEntities(pdc);
+        buffer = pdc.get(BUFFER_KEY, PylonSerializers.DOUBLE);
+    }
+
+    @Override
+    public void write(@NotNull PersistentDataContainer pdc) {
+        saveHeldEntities(pdc);
+        pdc.set(BUFFER_KEY, PylonSerializers.DOUBLE, buffer);
+    }
+
+    @Override
+    public @NotNull Map<String, UUID> getHeldEntities() {
+        return entities;
+    }
+
+    @Override
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+        return Map.of(
+                getFluid(), 1000.0 - buffer
+        );
+    }
+
+    @Override
+    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+        buffer += amount;
+    }
+
+    @Override
+    public void tick(double deltaSeconds) {
+        if (Math.abs(1000.0 - buffer) > 1.0e-3) {
+            return;
+        }
+
+        Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
+        Directional directional = (Directional) getBlock().getBlockData();
+        Block placeBlock = getBlock().getRelative(directional.getFacing());
+
+        if (placeBlock.getType().isAir()) {
+            placeBlock.setType(getPlaceMaterial());
+            buffer = 0.0;
+        }
+    }
+
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return tickInterval;
+    }
+
+    private @NotNull PylonFluid getFluid() {
+        return Map.of(
+                WATER_PLACER_KEY, PylonFluids.WATER,
+                LAVA_PLACER_KEY, PylonFluids.LAVA
+        ).get(getKey());
+    }
+
+    private @NotNull Material getPlaceMaterial() {
+        return Map.of(
+                WATER_PLACER_KEY, Material.WATER,
+                LAVA_PLACER_KEY, Material.LAVA
+        ).get(getKey());
+    }
+}

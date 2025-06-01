@@ -1,5 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidDrainer;
+import io.github.pylonmc.pylon.base.items.fluid.items.FluidPlacer;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidFilter;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidMeter;
 import io.github.pylonmc.pylon.base.items.fluid.items.FluidTank;
@@ -47,6 +49,10 @@ public final class PylonBlocks {
         PylonBlock.register(WaterPump.KEY, Material.BLUE_TERRACOTTA, WaterPump.class);
         PylonBlock.register(FluidFilter.KEY, Material.STRUCTURE_VOID, FluidFilter.class);
         PylonBlock.register(FluidMeter.KEY, Material.STRUCTURE_VOID, FluidMeter.class);
+        PylonBlock.register(FluidPlacer.WATER_PLACER_KEY, Material.DISPENSER, FluidPlacer.class);
+        PylonBlock.register(FluidPlacer.LAVA_PLACER_KEY, Material.DISPENSER, FluidPlacer.class);
+        PylonBlock.register(FluidDrainer.WATER_DRAINER_KEY, Material.DISPENSER, FluidDrainer.class);
+        PylonBlock.register(FluidDrainer.LAVA_DRAINER_KEY, Material.DISPENSER, FluidDrainer.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("string_from_bamboo"),

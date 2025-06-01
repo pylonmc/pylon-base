@@ -170,6 +170,32 @@ item:
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
 
+  water_placer:
+    name: "Water Placer"
+    lore: |-
+      <arrow> Fills the block in front of it with water
+      <arrow> Must be supplied with water to function
+      <arrow> <attr>Fill interval:</attr> %fill_interval%
+
+  lava_placer:
+    name: "Lava Placer"
+    lore: |-
+      <arrow> Fills the block in front of it with lava
+      <arrow> Must be supplied with lava to function
+      <arrow> <attr>Fill interval:</attr> %fill_interval%
+
+  water_drainer:
+    name: "Water Drainer"
+    lore: |-
+      <arrow> Drains water from the block in front of it and makes it available to any connected pipes
+      <arrow> <attr>Drain interval:</attr> %drain_interval%
+
+  lava_drainer:
+    name: "Lava Drainer"
+    lore: |-
+      <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
+      <arrow> <attr>Drain interval:</attr> %fill_interval%
+
   gold_dust:
     name: "Gold Dust"
     lore: ""
@@ -379,6 +405,10 @@ block:
   fluid_valve: "Fluid Valve (%status%)"
   fluid_filter: "Fluid Filter (%fluid%)"
   fluid_meter: "Fluid Meter (%fluid%)"
+  water_placer: "Water Placer"
+  lava_placer: "Lava Placer"
+  water_drainer: "Water Drainer"
+  lava_drainer: "Lava Drainer"
   grindstone: "Grindstone"
   grindstone_handle: "Grindstone Handle"
   magic_altar: "Magic Altar"
