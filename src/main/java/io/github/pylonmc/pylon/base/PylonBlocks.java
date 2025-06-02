@@ -33,8 +33,8 @@ public final class PylonBlocks {
 
     public static void initialize() {
         PylonBlock.register(Sprinkler.KEY, Material.FLOWER_POT, Sprinkler.class);
-        PylonBlock.register(Pedestal.KEY_MAGIC, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
-        PylonBlock.register(Pedestal.KEY_NORMAL, Material.STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(Pedestal.MAGIC_PEDESTAL_KEY, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(Pedestal.PEDESTAL_KEY, Material.STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(MagicAltar.KEY, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
         PylonBlock.register(Grindstone.KEY, Material.SMOOTH_STONE_SLAB, Grindstone.class);
         PylonBlock.register(GrindstoneHandle.KEY, Material.OAK_FENCE, GrindstoneHandle.class);

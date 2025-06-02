@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -49,7 +48,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private double remainingTimeSeconds;
     private final Map<String, UUID> entities;
 
-    private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(PylonItems.MAGIC_PEDESTAL_KEY);
+    private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(Pedestal.MAGIC_PEDESTAL_KEY);
 
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {
