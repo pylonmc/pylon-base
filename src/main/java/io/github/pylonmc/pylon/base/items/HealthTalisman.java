@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -42,7 +43,7 @@ public class HealthTalisman extends PylonItem {
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
 
-    private final int maxHealthBoost = getSettings(getKey()).getOrThrow("max-health-boost", Integer.class);
+    private final int maxHealthBoost = Settings.get(getKey()).getOrThrow("max-health-boost", Integer.class);
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);

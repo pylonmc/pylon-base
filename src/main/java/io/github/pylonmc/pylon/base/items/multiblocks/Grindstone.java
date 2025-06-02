@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -44,8 +45,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     public static final NamespacedKey KEY = pylonKey("grindstone");
 
-    public static final int TICK_RATE = getSettings(KEY).getOrThrow("tick-rate", Integer.class);
-    public static final int CYCLE_TIME_TICKS = getSettings(KEY).getOrThrow("cycle-time-ticks", Integer.class);
+    public static final int TICK_RATE = Settings.get(KEY).getOrThrow("tick-rate", Integer.class);
+    public static final int CYCLE_TIME_TICKS = Settings.get(KEY).getOrThrow("cycle-time-ticks", Integer.class);
 
     private static final NamespacedKey RECIPE_KEY = pylonKey("recipe");
     private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
