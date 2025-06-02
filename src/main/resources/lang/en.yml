@@ -447,6 +447,11 @@ item:
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"
 
+fluid:
+  none: "None"
+  water: "Water"
+  lava: "Lava"
+
 research:
   baking: "<gold>baking"
   better_health: "<green>better health"
@@ -473,6 +478,9 @@ research:
   showing_off: "<rainbow>showing off"
 
 message:
+  fluid_selector:
+    current_fluid: "<white>Current fluid: %fluid%"
+    clear: "<white>Clear"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points"
@@ -495,4 +503,4 @@ message:
     not_of_same_type: "<red>Pipes are of different types"
   valve:
     enabled: "enabled"
-    disbled: "disabled"
+    disabled: "disabled"
