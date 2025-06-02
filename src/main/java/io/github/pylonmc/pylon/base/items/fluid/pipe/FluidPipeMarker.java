@@ -99,6 +99,6 @@ public class FluidPipeMarker extends PylonBlock implements PylonBreakHandler {
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         FluidPipeDisplay pipeDisplay = getPipeDisplay();
         Preconditions.checkState(pipeDisplay != null);
-        return new WailaConfig(getKey(), Map.of("pipe", pipeDisplay.getPipe().getStack().effectiveName()));
+        return new WailaConfig(getName(), Map.of("pipe", pipeDisplay.getPipe().getStack().effectiveName()));
     }
 }
