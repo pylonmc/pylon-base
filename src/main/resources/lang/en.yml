@@ -1,8 +1,5 @@
 pipe:
-  connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-  cannot_place_here: "<red>You cannot place a pipe here"
-  not_enough_pipes: "<red>Not enough pipes"
-  not_of_same_type: "<red>Pipes are of different types"
+
 
 item:
   bandage:
@@ -491,3 +488,11 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+  pipe:
+    connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
+    cannot_place_here: "<red>You cannot place a pipe here"
+    not_enough_pipes: "<red>Not enough pipes"
+    not_of_same_type: "<red>Pipes are of different types"
+  valve:
+    enabled: "enabled"
+    disbled: "disabled"
