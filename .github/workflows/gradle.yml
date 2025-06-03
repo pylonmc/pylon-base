@@ -84,12 +84,12 @@ jobs:
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
           ./gradlew publishToMavenLocal
-          cp pylon-core/build/libs/core-SNAPSHOT.jar ..
+          cp pylon-core/build/libs/pylon-core-SNAPSHOT.jar ..
           cd ..
           rm -rf pylon-core
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path=core-SNAPSHOT.jar
+        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -P-core-jar-path=pylon-core-SNAPSHOT.jar
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
