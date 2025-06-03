@@ -118,7 +118,7 @@ public class FluidValve extends PylonBlock implements PylonEntityHolderBlock, Py
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getKey(), Map.of(
+        return new WailaConfig(getName(), Map.of(
                 "status", Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
         ));
     }
