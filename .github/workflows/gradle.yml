@@ -25,12 +25,11 @@ jobs:
         id: parseref
         if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, '[ref:')
         run: |
-          prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[ref://')
-          suffixrm=$(echo "$prefixrm" | sed 's/\].*$//')
-          BRANCHNAME=$(echo "$suffixrm" | sed 's/\]//g')
+          prefixrm=$(echo "${{github.event.pull_request.title}}" | cut -c6-)
+          BRANCHNAME=$(echo "$prefixrm" | cut -d']' -f1)
           git clone https://github.com/pylonmc/pylon-core.git
           cd pylon-core
-          echo "CORECOMMIT=$(git rev-parse origin/$BRANCHNAME)" >> $GITHUB_ENV
+          echo "CORECOMMIT=$(git rev-parse origin/$(echo "$BRANCHNAME")" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
           echo "$CORECOMMIT"
@@ -39,9 +38,8 @@ jobs:
         id: parsecommit
         if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, '[commit:')
         run: |
-          prefixrm=$(echo ${{github.event.pull_request.title}} | sed 's/^[commit://')
-          suffixrm=$(echo $prefixrm | sed 's/\].*$//')
-          echo "CORECOMMIT=$(echo $suffixrm | sed 's/\]//g')" >> $GITHUB_ENV
+          prefixrm=$(echo ${{github.event.pull_request.title}} | cut -c9-)
+          echo "CORECOMMIT=$(echo "$prefixrm" | cut -d']' -f1) >> $GITHUB_ENV
           echo "$CORECOMMIT"
 
       - name: Get latest commit of core master
