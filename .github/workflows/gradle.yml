@@ -37,8 +37,8 @@ jobs:
         id: parsecommit
         if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, '[commit:')
         run: |
-          prefixrm=$(echo ${{github.event.pull_request.title}} | cut -c9-)
-          echo "CORECOMMIT=$(echo "$prefixrm" | cut -d']' -f1) >> $GITHUB_ENV
+          prefixrm=$(echo "${{github.event.pull_request.title}}" | cut -c9-)
+          echo "CORECOMMIT=$(echo "$prefixrm" | cut -d']' -f1)" >> $GITHUB_ENV
 
       - name: Get latest commit of core master
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
