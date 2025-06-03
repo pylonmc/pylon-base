@@ -32,7 +32,6 @@ jobs:
           echo "CORECOMMIT=$(git rev-parse origin/$(echo "$BRANCHNAME"))" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
-          echo "$CORECOMMIT"
 
       - name: Parse [commit title
         id: parsecommit
@@ -40,7 +39,6 @@ jobs:
         run: |
           prefixrm=$(echo ${{github.event.pull_request.title}} | cut -c9-)
           echo "CORECOMMIT=$(echo "$prefixrm" | cut -d']' -f1) >> $GITHUB_ENV
-          echo "$CORECOMMIT"
 
       - name: Get latest commit of core master
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
@@ -50,10 +48,6 @@ jobs:
           echo "CORECOMMIT=$(git rev-parse origin/master)" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
-          echo "$CORECOMMIT"
-
-      - name: (debug) echo core commit hash
-        run: echo "$CORECOMMIT"
 
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
