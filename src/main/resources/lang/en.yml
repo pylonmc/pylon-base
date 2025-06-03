@@ -353,7 +353,7 @@ item:
 
 block:
   dimensional_barrel: "Dimensional Barrel"
-  enriched_netherrack: "Enriched Netherrack"
+  enriched_netherrack: "Enriched Netherracks"
   fluid_pipe_connector: "%pipe%"
   fluid_pipe_marker: "%pipe%"
   fluid_tank_wood: "Wooden Fluid Tank | %amount%/%capacity%"
