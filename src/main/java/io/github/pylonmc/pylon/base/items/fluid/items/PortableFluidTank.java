@@ -252,7 +252,7 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
-                getKey(),
+                getName(),
                 // TODO add fluid name once fluids have names
                 Map.of(
                         "amount", Component.text(Math.round(fluidAmount)),
