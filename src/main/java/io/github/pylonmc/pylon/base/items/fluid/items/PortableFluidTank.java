@@ -7,8 +7,8 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
@@ -262,11 +262,7 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
     }
 
     @Override
-    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonEntityHolderBlock.super.onBreak(drops, context);
-
-        drops.clear();
-
+    public @Nullable ItemStack getItem(@NotNull BlockItemContext context) {
         ItemStack stack = Map.of(
                 PORTABLE_FLUID_TANK_WOOD_KEY, Item.PORTABLE_FLUID_TANK_WOOD_STACK,
                 PORTABLE_FLUID_TANK_COPPER_KEY, Item.PORTABLE_FLUID_TANK_COPPER_STACK
@@ -276,7 +272,7 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
         item.setFluid(fluidType);
         item.setAmount(fluidAmount);
 
-        drops.add(stack);
+        return stack;
     }
 
     @Override

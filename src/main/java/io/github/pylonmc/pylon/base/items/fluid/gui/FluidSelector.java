@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items.fluid.gui;
 
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -35,7 +36,7 @@ public final class FluidSelector {
                         ". . . . . . . . .",
                         ". . . . . . . . ."
                 )
-                .addIngredient('x', new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE))
+                .addIngredient('x', GuiItems.background())
                 .addIngredient('b', fluidItem.apply(null))
                 .addIngredient('c', currentItem)
                 .build();
