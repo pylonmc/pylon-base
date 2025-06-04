@@ -1,11 +1,15 @@
+tick-interval: 10
+water-per-second: 350
+
 range:
   horizontal: 4
   vertical: 2
 
 chances:
   crops: 0.01
-  sugar_cane: 0.007
+  sugar-cane: 0.007
   cactus: 0.01
   sapling: 0.01
 
+particle-chance: 0.1
 sound: minecraft:weather.rain
