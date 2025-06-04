@@ -283,7 +283,7 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
 
         ItemStack item = event.getItem();
         EquipmentSlot hand = event.getHand();
-        if (item == null || hand != EquipmentSlot.HAND || PylonItem.isPylonitem(item)) {
+        if (item == null || hand != EquipmentSlot.HAND || PylonItem.isPylonItem(item)) {
             return;
         }
 
