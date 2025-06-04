@@ -100,8 +100,7 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
             return Map.of(
-                    // TODO actual fluid name + translation for 'No fluid'
-                    "fluid", Component.text(getFluid() == null ? "No fluid" : getFluid().getKey().toString()),
+                    "fluid", Component.translatable("pylon.pylonbase.fluid." + (getFluid() == null ? "none" : getFluid().getKey().getKey())),
                     "amount", Component.text(Math.round(getAmount())),
                     "capacity", UnitFormat.MILLIBUCKETS.format(capacity),
                     "min_temperature", UnitFormat.CELSIUS.format(minTemp),
@@ -253,7 +252,6 @@ public class PortableFluidTank extends PylonBlock implements PylonEntityHolderBl
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
-                // TODO add fluid name once fluids have names
                 Map.of(
                         "amount", Component.text(Math.round(fluidAmount)),
                         "capacity", Component.text(Math.round(capacity))

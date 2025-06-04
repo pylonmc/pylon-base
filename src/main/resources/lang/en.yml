@@ -1,8 +1,5 @@
 pipe:
-  connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-  cannot_place_here: "<red>You cannot place a pipe here"
-  not_enough_pipes: "<red>Not enough pipes"
-  not_of_same_type: "<red>Pipes are of different types"
+
 
 item:
   bandage:
@@ -44,6 +41,7 @@ item:
     lore: |-
       <arrow> Uses the power of extra dimensions to store more items
       <arrow> <attr:Size>%size%</attr>
+    waila: "Dimensional Barrel"
 
   disinfectant:
     name: "Disinfectant"
@@ -59,6 +57,7 @@ item:
   enriched_netherrack:
     name: "Enriched netherrack"
     lore: "<arrow> Burns hotter than netherrack"
+    waila: "Enriched Netherrack"
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -112,6 +111,12 @@ item:
     name: "Flour"
     lore: ""
 
+  fluid_pipe_connector:
+    waila: "%pipe%"
+
+  fluid_pipe_marker:
+    waila: "%pipe%"
+
   fluid_pipe_wood:
     name: "Wooden Fluid Pipe"
     lore: |-
@@ -148,6 +153,7 @@ item:
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
+    waila: "Wooden Portable Fluid Tank | %amount%/%capacity%"
 
   portable_fluid_tank_copper:
     name: "Copper Portable Fluid Tank"
@@ -158,41 +164,48 @@ item:
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
+    waila: "Copper Portable Fluid Tank | %amount%/%capacity%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
     lore: |-
       <arrow> <insn>Right click</insn> a fluid valve to toggle it
+    waila: "Fluid Valve (%status%)"
 
   fluid_filter:
     name: "<white>Fluid Filter"
     lore: |-
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
+    waila: "Fluid Filter (%fluid%)"
 
   fluid_meter:
     name: "<white>Fluid Meter"
     lore: |-
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+    waila: "Fluid Meter (%fluid%)"
 
   fluid_voider_1:
     name: "Fluid Voider <light_purple>I"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
+    waila: "Fluid Voider <light_purple>I"
 
   fluid_voider_2:
     name: "Fluid Voider <light_purple>II"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
+    waila: "Fluid Voider <light_purple>II"
 
   fluid_voider_3:
     name: "Fluid Voider <light_purple>III"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
+    waila: "Fluid Voider <light_purple>III"
 
   water_placer:
     name: "Water Placer"
@@ -200,6 +213,7 @@ item:
       <arrow> Fills the block in front of it with water
       <arrow> Must be supplied with water to function
       <arrow> <attr>Fill interval:</attr> %fill_interval%
+    waila: "Water Placer"
 
   lava_placer:
     name: "Lava Placer"
@@ -207,18 +221,21 @@ item:
       <arrow> Fills the block in front of it with lava
       <arrow> Must be supplied with lava to function
       <arrow> <attr>Fill interval:</attr> %fill_interval%
+    waila: "Lava Placer"
 
   water_drainer:
     name: "Water Drainer"
     lore: |-
       <arrow> Drains water from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+    waila: "Water Drainer"
 
   lava_drainer:
     name: "Lava Drainer"
     lore: |-
       <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+    waila: "Lava Drainer"
 
   gold_dust:
     name: "Gold Dust"
@@ -235,10 +252,12 @@ item:
       <arrow> Requires a Grindstone Handle on top
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
+    waila: "Grindstone"
 
   grindstone_handle:
     name: "Grindstone Handle"
     lore: "<arrow> Component of the Grindstone multiblock"
+    waila: "Grindstone Handle"
 
   hammer_diamond:
     name: "Diamond Hammer"
@@ -282,6 +301,7 @@ item:
   magic_altar:
     name: "Magic Altar"
     lore: "<star> Multiblock"
+    waila: "Magic Altar"
 
   magic_pedestal:
     name: "Magic Pedestal"
@@ -289,6 +309,7 @@ item:
       <arrow> Used to build the Magic Altar
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
+    waila: "Magic Pedestal"
 
   medkit:
     name: "Medkit"
@@ -305,10 +326,12 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
+    waila: "Mixing Pot"
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"
     lore: ""
+    waila: "Wither Proof Obsidian"
 
   monster_jerky:
     name: "Monster Jerky"
@@ -339,6 +362,7 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
+    waila: "Pedestal"
 
   raw_ferroduralum:
     name: "Raw Ferroduralum"
@@ -386,6 +410,7 @@ item:
       <arrow> Requires water to be piped in
       <arrow> <attr>Water consumption:</attr> %water_consumption%
       <arrow> <attr>Range:</attr> %range%
+    waila: "Sprinkler"
 
   watering_can:
     name: "Watering Can"
@@ -420,33 +445,12 @@ item:
     name: "Water pump"
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
+    waila: "Water Pump"
 
-block:
-  dimensional_barrel: "Dimensional Barrel"
-  enriched_netherrack: "Enriched Netherrack"
-  fluid_pipe_connector: "%pipe%"
-  fluid_pipe_marker: "%pipe%"
-  fluid_valve: "Fluid Valve (%status%)"
-  fluid_filter: "Fluid Filter (%fluid%)"
-  fluid_meter: "Fluid Meter (%fluid%)"
-  water_placer: "Water Placer"
-  lava_placer: "Lava Placer"
-  water_drainer: "Water Drainer"
-  lava_drainer: "Lava Drainer"
-  portable_fluid_tank_wood: "Wooden Portable Fluid Tank | %amount%/%capacity%"
-  portable_fluid_tank_copper: "Copper Portable Fluid Tank | %amount%/%capacity%"
-  fluid_voider_1: "Fluid Voider <light_purple>I"
-  fluid_voider_2: "Fluid Voider <light_purple>II"
-  fluid_voider_3: "Fluid Voider <light_purple>III"
-  grindstone: "Grindstone"
-  grindstone_handle: "Grindstone Handle"
-  magic_altar: "Magic Altar"
-  magic_pedestal: "Magic Pedestal"
-  mixing_pot: "Mixing Pot"
-  pedestal: "Pedestal"
-  sprinkler: "Sprinkler"
-  water_pump: "Water Pump"
-  wither_proof_obsidian: "Wither Proof Obsidian"
+fluid:
+  none: "None"
+  water: "Water"
+  lava: "Lava"
 
 research:
   baking: "<gold>baking"
@@ -474,6 +478,9 @@ research:
   showing_off: "<rainbow>showing off"
 
 message:
+  fluid_selector:
+    current_fluid: "<white>Current fluid: %fluid%"
+    clear: "<white>Clear"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points"
@@ -489,3 +496,11 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+  pipe:
+    connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
+    cannot_place_here: "<red>You cannot place a pipe here"
+    not_enough_pipes: "<red>Not enough pipes"
+    not_of_same_type: "<red>Pipes are of different types"
+  valve:
+    enabled: "enabled"
+    disabled: "disabled"
