@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import net.kyori.adventure.text.Component;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -13,7 +14,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.function.Consumer;
@@ -38,7 +38,7 @@ public final class FluidSelector {
                         ". . . . . . . . .",
                         ". . . . . . . . ."
                 )
-                .addIngredient('x', new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE))
+                .addIngredient('x', GuiItems.background())
                 .addIngredient('b', fluidItem.apply(null))
                 .addIngredient('c', currentItem)
                 .build();
