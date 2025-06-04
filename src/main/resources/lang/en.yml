@@ -1,4 +1,4 @@
-pipe:
+addon: "Base"
 
 
 item:
@@ -448,9 +448,13 @@ item:
     waila: "Water Pump"
 
 fluid:
-  none: "None"
-  water: "Water"
-  lava: "Lava"
+  water:
+    name: "Water"
+    lore: ""
+
+  lava:
+    name: "Lava"
+    lore: ""
 
 research:
   baking: "<gold>baking"
@@ -478,6 +482,7 @@ research:
   showing_off: "<rainbow>showing off"
 
 message:
+  fluid_none: "None"
   fluid_selector:
     current_fluid: "<white>Current fluid: %fluid%"
     clear: "<white>Clear"
