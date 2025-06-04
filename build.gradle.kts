@@ -67,13 +67,12 @@ bukkit {
 
 tasks.runServer {
     downloadPlugins {
-        if(coreJarPath is String){
+        if (coreJarPath is String) {
             copy {
                 from(coreJarPath)
                 into("run/plugins")
             }
-        }
-        else {
+        } else {
             github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
         }
     }
