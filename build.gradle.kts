@@ -31,7 +31,6 @@ dependencies {
         compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
     }
     implementation("xyz.xenondevs.invui:invui:1.45")
-    implementation(kotlin("stdlib"))
 }
 
 idea {
