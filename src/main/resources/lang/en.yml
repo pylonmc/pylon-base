@@ -282,6 +282,7 @@ item:
       <attr:Duration:ticks>%duration%</attr>
       <attr:Radius:blocks>%radius%</attr>
       <attr:Cooldown:ticks>%cooldown%</attr>
+    waila: "Immobilizer"
 
   iron_sheet:
     name: "Iron Sheet"
