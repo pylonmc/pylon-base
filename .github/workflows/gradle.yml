@@ -65,18 +65,20 @@ jobs:
         run: |
           git clone https://github.com/pylonmc/pylon.git
           ./gradlew
-          cd core
+          cd pylon/core
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew :pylon-base:shadowJar -Pversion=${{ inputs.version || github.run_number }}
+        run: |
+          cd pylon
+          ./gradlew :pylon-base:shadowJar -Pversion=${{ inputs.version || github.run_number }}
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
         with:
           name: pylon-base-${{ inputs.version || github.run_number }}
-          path: 'base/build/libs/pylon-base-${{ inputs.version || github.run_number }}.jar'
+          path: 'pylon/base/build/libs/pylon-base-${{ inputs.version || github.run_number }}.jar'
 
   dependency-submission:
     needs: [build]
