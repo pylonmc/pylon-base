@@ -51,6 +51,11 @@ public final class PylonFluids {
             new VanillaOrPylon.Vanilla(Material.REDSTONE)
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
+            pylonKey("slurry_raw_copper"),
+            new VanillaOrPylon.Vanilla(PylonItems.RAW_COPPER_DUST)
+    ).addTag(FluidTemperature.NORMAL);
+
     public static void initialize() {
         WATER.register();
         LAVA.register();
@@ -58,6 +63,7 @@ public final class PylonFluids {
         MERCURY.register();
         SLURRY.register();
         REDSTONE_SLURRY.register();
+        RAW_COPPER_SLURRY.register();
 
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
                 pylonKey("slurry"),

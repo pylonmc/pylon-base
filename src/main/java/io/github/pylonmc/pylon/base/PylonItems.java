@@ -63,20 +63,27 @@ public final class PylonItems {
     static {
         PylonItem.register(PylonItem.class, COPPER_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("copper_dust_from_copper_ingot"),
+                pylonKey("copper_dust"),
                 new RecipeChoice.ExactChoice(new ItemStack(Material.COPPER_INGOT)),
                 1,
                 COPPER_DUST,
                 2,
                 Material.COPPER_BLOCK.createBlockData()
         ));
+    }
+
+    public static final NamespacedKey RAW_COPPER_DUST_KEY = pylonKey("raw_copper_dust");
+    public static final ItemStack RAW_COPPER_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, RAW_COPPER_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, RAW_COPPER_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("copper_dust_from_raw_copper"),
+                pylonKey("raw_copper_dust"),
                 new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_COPPER)),
                 1,
-                COPPER_DUST,
+                RAW_COPPER_DUST,
                 2,
-                Material.COPPER_BLOCK.createBlockData()
+                Material.RAW_COPPER_BLOCK.createBlockData()
         ));
     }
 
