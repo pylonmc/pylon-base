@@ -25,7 +25,7 @@ val coreJarPath = project.findProperty("core-jar-path") as String?
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    if(coreJarPath is String) {
+    if (coreJarPath is String) {
         compileOnly(files(coreJarPath))
     } else {
         compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
@@ -66,13 +66,12 @@ bukkit {
 
 tasks.runServer {
     downloadPlugins {
-        if(coreJarPath is String){
+        if (coreJarPath is String) {
             copy {
                 from(coreJarPath)
                 into("run/plugins")
             }
-        }
-        else {
+        } else {
             github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
         }
     }
