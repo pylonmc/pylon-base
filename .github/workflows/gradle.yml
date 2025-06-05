@@ -64,8 +64,9 @@ jobs:
       - name: Clone master project
         run: |
           git clone https://github.com/pylonmc/pylon.git
+          cd pylon
           ./gradlew
-          cd pylon/core
+          cd core
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
 
