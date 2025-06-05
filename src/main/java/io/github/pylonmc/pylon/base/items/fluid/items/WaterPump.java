@@ -87,7 +87,7 @@ public class WaterPump extends PylonBlock implements PylonEntityHolderBlock, Pyl
         if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
             return Map.of();
         }
-        return Map.of(PylonFluids.WATER, WATER_PER_SECOND);
+        return Map.of(PylonFluids.WATER, WATER_PER_SECOND * deltaSeconds);
     }
 
     @Override

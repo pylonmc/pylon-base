@@ -4,8 +4,9 @@ range:
 
 chances:
   crops: 0.01
-  sugar_cane: 0.007
+  sugar-cane: 0.007
   cactus: 0.01
   sapling: 0.01
 
+particle-chance: 0.5
 sound: minecraft:weather.rain
