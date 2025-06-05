@@ -13,6 +13,7 @@ public record WateringSettings(
         double sugarCaneChance,
         double cactusChance,
         double saplingChance,
+        double particleChance,
         @NotNull Sound sound
 ) {
     public static WateringSettings fromConfig(ConfigSection config) {
@@ -20,9 +21,10 @@ public record WateringSettings(
                 config.getOrThrow("range.horizontal", Integer.class),
                 config.getOrThrow("range.vertical", Integer.class),
                 config.getOrThrow("chances.crops", Double.class),
-                config.getOrThrow("chances.sugar_cane", Double.class),
+                config.getOrThrow("chances.sugar-cane", Double.class),
                 config.getOrThrow("chances.cactus", Double.class),
                 config.getOrThrow("chances.sapling", Double.class),
+                config.getOrThrow("particle-chance", Double.class),
                 Registry.SOUNDS.get(NamespacedKey.fromString(config.getOrThrow("sound", String.class)))
         );
     }

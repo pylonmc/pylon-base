@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import lombok.Getter;
 import org.bukkit.GameMode;
@@ -49,6 +50,20 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
         this.amount = pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER);
         from = pdc.get(FROM_KEY, PylonSerializers.UUID);
         to = pdc.get(TO_KEY, PylonSerializers.UUID);
+
+        // When fluid points are loaded back, their segment's fluid per second and predicate won't be preserved, so
+        // we wait for them to load and then set their segments' fluid per second and predicate
+        EntityStorage.whenEntityLoads(from, FluidConnectionInteraction.class, interaction -> {
+            FluidManager.setFluidPerSecond(interaction.getPoint().getSegment(), pipe.fluidPerSecond);
+            FluidManager.setFluidPredicate(interaction.getPoint().getSegment(), pipe.getPredicate());
+        });
+
+        // Technically only need to do this for one of the end points since they're part of the same segment, but
+        // we do it twice just to be safe
+        EntityStorage.whenEntityLoads(to, FluidConnectionInteraction.class, interaction -> {
+            FluidManager.setFluidPerSecond(interaction.getPoint().getSegment(), pipe.fluidPerSecond);
+            FluidManager.setFluidPredicate(interaction.getPoint().getSegment(), pipe.getPredicate());
+        });
     }
 
     public FluidPipeDisplay(
@@ -80,18 +95,22 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
         float height = from.getEntity().getInteractionHeight();
         Location fromLocation = from.getEntity().getLocation().add(0, height / 2, 0);
         Location toLocation = to.getEntity().getLocation().add(0, height / 2, 0);
-        Vector3f offset = toLocation.subtract(fromLocation).toVector().toVector3f();
+        // We use a center location rather than just spawning at fromLocation or toLocation to prevent the entity
+        // from being spawned just inside a block - this causes it to render as black due to being inside the block
+        Location centerLocation = fromLocation.clone().add(toLocation).multiply(0.5);
+        Vector3f fromOffset = centerLocation.clone().subtract(fromLocation).toVector().toVector3f();
+        Vector3f toOffset = centerLocation.clone().subtract(toLocation).toVector().toVector3f();
 
         return new ItemDisplayBuilder()
                 .transformation(new LineBuilder()
-                        .from(0, 0, 0)
-                        .to(offset)
+                        .from(fromOffset)
+                        .to(toOffset)
                         .thickness(0.1)
                         .build()
                         .buildForItemDisplay()
                 )
                 .material(pipe.material)
-                .build(fromLocation);
+                .build(centerLocation);
     }
 
     /**

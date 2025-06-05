@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -101,7 +100,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
         PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
         boolean isEnrichedFire = ignitedBlock != null
-                && ignitedBlock.getSchema().getKey().equals(PylonItems.ENRICHED_NETHERRACK_KEY);
+                && ignitedBlock.getSchema().getKey().equals(EnrichedNetherrack.KEY);
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, levelled.getLevel())) {

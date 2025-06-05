@@ -62,13 +62,6 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
 
         Preconditions.checkState(point != null);
         FluidManager.add(point);
-
-        for (UUID otherUuid : point.getConnectedPoints()) {
-            FluidConnectionPoint otherPoint = FluidManager.getById(otherUuid);
-            if (otherPoint != null) {
-                FluidManager.connect(point, otherPoint);
-            }
-        }
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
@@ -149,11 +142,12 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
         FluidConnectionDisplay displayEntity = EntityStorage.getAs(FluidConnectionDisplay.class, display);
         Preconditions.checkState(displayEntity != null);
         displayEntity.getEntity().remove();
+        FluidManager.remove(point);
     }
 
     @Override
     public void onUnload(@NotNull PylonEntityUnloadEvent event) {
-        FluidManager.remove(point);
+        FluidManager.unload(point);
     }
 
     public @Nullable FluidConnectionDisplay getDisplay() {
