@@ -61,35 +61,22 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4.2.2
 
-      - name: Download core
-        id: downloadcore
-        uses: actions/download-artifact@v4.1.8
-        continue-on-error: true
-        with:
-          name: pylon-core-${{env.CORECOMMIT}}
-          repository: pylonmc/pylon-core
-          path: pylon-core-${{env.CORECOMMIT}}.jar
-
-      - name: Build core if artifact expired or not found
-        if: steps.downloadcore.outcome == 'failure'
+      - name: Clone master project
         run: |
-          git clone https://github.com/pylonmc/pylon-core.git
-          cd pylon-core
+          git clone https://github.com/pylonmc/pylon.git
+          ./gradlew
+          cd core
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
-          ./gradlew publishToMavenLocal
-          cp pylon-core/build/libs/pylon-core-SNAPSHOT.jar ..
-          cd ..
-          rm -rf pylon-core
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew shadowJar -Pversion=${{ inputs.version || github.run_number }} -Pcore-jar-path=pylon-core-SNAPSHOT.jar
+        run: ./gradlew :pylon-base:shadowJar -Pversion=${{ inputs.version || github.run_number }}
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
         with:
           name: pylon-base-${{ inputs.version || github.run_number }}
-          path: 'build/libs/pylon-base-${{ inputs.version || github.run_number }}.jar'
+          path: 'base/build/libs/pylon-base-${{ inputs.version || github.run_number }}.jar'
 
   dependency-submission:
     needs: [build]
