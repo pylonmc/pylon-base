@@ -3,7 +3,6 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     java
     idea
-    kotlin("jvm") version "1.9.22"
     id("com.gradleup.shadow") version "8.3.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("xyz.jpenilla.run-paper") version "2.3.0"
@@ -21,16 +20,10 @@ repositories {
 }
 
 val coreVersion = project.properties["pylon-core.version"] as String
-val coreJarPath = project.findProperty("core-jar-path") as? String
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    if (coreJarPath != null) {
-        compileOnly(files(coreJarPath))
-    } else {
-        compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
-    }
-    implementation("xyz.xenondevs.invui:invui:1.45")
+    compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
 }
 
 idea {
@@ -66,14 +59,7 @@ bukkit {
 
 tasks.runServer {
     downloadPlugins {
-        if (coreJarPath is String) {
-            copy {
-                from(coreJarPath)
-                into("run/plugins")
-            }
-        } else {
-            github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
-        }
+        github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
     }
     maxHeapSize = "4G"
     minecraftVersion("1.21.4")
