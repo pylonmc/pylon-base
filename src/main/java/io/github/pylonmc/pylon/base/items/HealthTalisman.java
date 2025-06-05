@@ -24,6 +24,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
+@SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItem {
 
     public static final NamespacedKey HEALTH_TALISMAN_SIMPLE_KEY = pylonKey("health_talisman_simple");
@@ -42,12 +43,11 @@ public class HealthTalisman extends PylonItem {
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
 
-    private final int maxHealthBoost = getSettings(getKey()).getOrThrow("max-health-boost", Integer.class);
+    private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", Integer.class);
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);
     }
-
     public final AttributeModifier healthModifier = new AttributeModifier(
             HEALTH_BOOSTED_KEY,
             maxHealthBoost,
@@ -56,7 +56,9 @@ public class HealthTalisman extends PylonItem {
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-        return Map.of("health-boost", UnitFormat.HEARTS.format(maxHealthBoost));
+        return Map.of(
+            "health-boost", UnitFormat.HEARTS.format(maxHealthBoost)
+        );
     }
 
     public static class HealthTalismanTicker extends BukkitRunnable {

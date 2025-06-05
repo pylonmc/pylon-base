@@ -3,9 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
-import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
-import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
-import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
@@ -20,6 +18,7 @@ import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
 import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
 import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
@@ -269,7 +268,7 @@ public final class PylonItems {
     public static final NamespacedKey FERRODURALUM_INGOT_KEY = pylonKey("ferroduralum_ingot");
     public static final ItemStack FERRODURALUM_INGOT = ItemStackBuilder.pylonItem(Material.GOLD_INGOT, FERRODURALUM_INGOT_KEY)
             .build();
-    public static final float FERRODURALUM_INGOT_COOKING_XP = PylonItem.getSettings(FERRODURALUM_INGOT_KEY)
+    public static final float FERRODURALUM_INGOT_COOKING_XP = Settings.get(FERRODURALUM_INGOT_KEY)
             .getOrThrow("cooking.xp", Double.class)
             .floatValue();
     static {
@@ -777,11 +776,10 @@ public final class PylonItems {
         ).register();
     }
 
-    public static final NamespacedKey SPRINKLER_KEY = pylonKey("sprinkler");
-    public static final ItemStack SPRINKLER = ItemStackBuilder.pylonItem(Material.FLOWER_POT, SPRINKLER_KEY)
+    public static final ItemStack SPRINKLER = ItemStackBuilder.pylonItem(Material.FLOWER_POT, Sprinkler.KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, SPRINKLER, Sprinkler.KEY);
+        PylonItem.register(Sprinkler.Item.class, SPRINKLER, Sprinkler.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("sprinkler"), SPRINKLER)
                 .shape("B B", "B B", "FRF")
                 .setIngredient('B', new ItemStack(Material.BRICK))
@@ -793,7 +791,7 @@ public final class PylonItems {
         new Research(
                 pylonKey("plant_growth_automated"),
                 10L,
-                SPRINKLER_KEY
+                Sprinkler.KEY
         ).register();
     }
 
@@ -833,10 +831,7 @@ public final class PylonItems {
         ).register();
     }
 
-
-
-    public static final NamespacedKey GRINDSTONE_KEY = pylonKey("grindstone");
-    public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, GRINDSTONE_KEY)
+    public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, Grindstone.KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, GRINDSTONE, Grindstone.KEY);
@@ -848,8 +843,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey GRINDSTONE_HANDLE_KEY = pylonKey("grindstone_handle");
-    public static final ItemStack GRINDSTONE_HANDLE = ItemStackBuilder.pylonItem(Material.OAK_FENCE, GRINDSTONE_HANDLE_KEY)
+    public static final ItemStack GRINDSTONE_HANDLE = ItemStackBuilder.pylonItem(Material.OAK_FENCE, GrindstoneHandle.KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, GRINDSTONE_HANDLE, GrindstoneHandle.KEY);
@@ -864,8 +858,8 @@ public final class PylonItems {
         new Research(
                 pylonKey("grinding"),
                 5L,
-                GRINDSTONE_KEY,
-                GRINDSTONE_HANDLE_KEY
+                Grindstone.KEY,
+                GrindstoneHandle.KEY
         ).register();
     }
 
@@ -920,9 +914,7 @@ public final class PylonItems {
                 5 * 20);
         smokerBreadRecipe.setCategory(CookingBookCategory.FOOD);
         RecipeTypes.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
-    }
 
-    static {
         new Research(
                 pylonKey("baking"),
                 2L,
@@ -969,8 +961,7 @@ public final class PylonItems {
         ).register();
     }
 
-    public static final NamespacedKey MIXING_POT_KEY = pylonKey("mixing_pot");
-    public static final ItemStack MIXING_POT = ItemStackBuilder.pylonItem(Material.CAULDRON, MIXING_POT_KEY)
+    public static final ItemStack MIXING_POT = ItemStackBuilder.pylonItem(Material.CAULDRON, MixingPot.KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, MIXING_POT, MixingPot.KEY);
@@ -983,7 +974,7 @@ public final class PylonItems {
         new Research(
                 pylonKey("homogeneity"),
                 6L,
-                MIXING_POT_KEY
+                MixingPot.KEY
         ).register();
     }
 
@@ -1021,8 +1012,7 @@ public final class PylonItems {
         ));
     }
 
-    public static final NamespacedKey ENRICHED_NETHERRACK_KEY = pylonKey("enriched_netherrack");
-    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylonItem(Material.NETHERRACK, ENRICHED_NETHERRACK_KEY)
+    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylonItem(Material.NETHERRACK, EnrichedNetherrack.KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, ENRICHED_NETHERRACK, EnrichedNetherrack.KEY);
@@ -1132,11 +1122,10 @@ public final class PylonItems {
         ).register();
     }
 
-    public static final NamespacedKey PEDESTAL_KEY = pylonKey("pedestal");
-    public static final ItemStack PEDESTAL = ItemStackBuilder.pylonItem(Material.STONE_BRICK_WALL, PEDESTAL_KEY)
+    public static final ItemStack PEDESTAL = ItemStackBuilder.pylonItem(Material.STONE_BRICK_WALL, Pedestal.PEDESTAL_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, PEDESTAL, Pedestal.KEY_NORMAL);
+        PylonItem.register(PylonItem.class, PEDESTAL, Pedestal.PEDESTAL_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("pedestal"), PEDESTAL)
                 .shape("s  ", "s  ", "s  ")
                 .setIngredient('s', new ItemStack(Material.STONE_BRICK_WALL));
@@ -1146,15 +1135,14 @@ public final class PylonItems {
         new Research(
                 pylonKey("showing_off"),
                 2L,
-                PEDESTAL_KEY
+                Pedestal.PEDESTAL_KEY
         ).register();
     }
 
-    public static final NamespacedKey MAGIC_PEDESTAL_KEY = pylonKey("magic_pedestal");
-    public static final ItemStack MAGIC_PEDESTAL = ItemStackBuilder.pylonItem(Material.MOSSY_STONE_BRICK_WALL, MAGIC_PEDESTAL_KEY)
+    public static final ItemStack MAGIC_PEDESTAL = ItemStackBuilder.pylonItem(Material.MOSSY_STONE_BRICK_WALL, Pedestal.MAGIC_PEDESTAL_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, MAGIC_PEDESTAL, Pedestal.KEY_MAGIC);
+        PylonItem.register(PylonItem.class, MAGIC_PEDESTAL, Pedestal.MAGIC_PEDESTAL_KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("magic_pedestal"), MAGIC_PEDESTAL)
                 .shape("c c", " p ", "c c")
                 .setIngredient('p', PEDESTAL)
@@ -1163,8 +1151,7 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey MAGIC_ALTAR_KEY = pylonKey("magic_altar");
-    public static final ItemStack MAGIC_ALTAR = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, MAGIC_ALTAR_KEY)
+    public static final ItemStack MAGIC_ALTAR = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, MagicAltar.KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, MAGIC_ALTAR, MagicAltar.KEY);
@@ -1175,6 +1162,16 @@ public final class PylonItems {
                 .setIngredient('d', SHIMMER_DUST_2);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        new Research(
+                pylonKey("magic"),
+                6L,
+                Pedestal.MAGIC_PEDESTAL_KEY,
+                MagicAltar.KEY,
+                COVALENT_BINDER_KEY
+        ).register();
     }
 
     public static final NamespacedKey WITHER_PROOF_OBSIDIAN_KEY = pylonKey("wither_proof_obsidian");
@@ -1189,16 +1186,6 @@ public final class PylonItems {
                 .setIngredient('o', COMPRESSED_OBSIDIAN);
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-    }
-
-    static {
-        new Research(
-                pylonKey("magic"),
-                6L,
-                MAGIC_PEDESTAL_KEY,
-                MAGIC_ALTAR_KEY,
-                COVALENT_BINDER_KEY
-        ).register();
     }
     // </editor-fold>
 
@@ -1236,12 +1223,13 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FLUID_TANK_WOOD_KEY = pylonKey("fluid_tank_wood");
-    public static final ItemStack FLUID_TANK_WOOD = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, FLUID_TANK_WOOD_KEY)
-            .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_WOOD, FluidTank.FLUID_TANK_WOOD_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_wooden"), FLUID_TANK_WOOD)
+        PylonItem.register(
+                PortableFluidTank.Item.class,
+                PortableFluidTank.Item.PORTABLE_FLUID_TANK_WOOD_STACK,
+                PortableFluidTank.PORTABLE_FLUID_TANK_WOOD_KEY
+        );
+        ShapedRecipe recipe = new ShapedRecipe(PortableFluidTank.PORTABLE_FLUID_TANK_WOOD_KEY, PortableFluidTank.Item.PORTABLE_FLUID_TANK_WOOD_STACK)
                 .shape("gwg", "w w", "gwg")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
                 .setIngredient('g', new ItemStack(Material.GLASS));
@@ -1249,12 +1237,9 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey FLUID_TANK_COPPER_KEY = pylonKey("fluid_tank_copper");
-    public static final ItemStack FLUID_TANK_COPPER = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, FLUID_TANK_COPPER_KEY)
-            .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_TANK_COPPER, FluidTank.FLUID_TANK_COPPER_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(pylonKey("fluid_tank_copper"), FLUID_TANK_COPPER)
+        PylonItem.register(PortableFluidTank.Item.class, PortableFluidTank.Item.PORTABLE_FLUID_TANK_COPPER_STACK, PortableFluidTank.PORTABLE_FLUID_TANK_COPPER_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(PortableFluidTank.PORTABLE_FLUID_TANK_COPPER_KEY, PortableFluidTank.Item.PORTABLE_FLUID_TANK_COPPER_STACK)
                 .shape("gcg", "c c", "gcg")
                 .setIngredient('c', COPPER_SHEET)
                 .setIngredient('g', new ItemStack(Material.GLASS));
@@ -1262,11 +1247,10 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
-    public static final NamespacedKey WATER_PUMP_KEY = pylonKey("water_pump");
-    public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WATER_PUMP_KEY)
+    public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WaterPump.KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, WATER_PUMP, WaterPump.KEY);
+        PylonItem.register(WaterPump.Item.class, WATER_PUMP, WaterPump.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("water_pump"), WATER_PUMP)
                 .shape("iii", "ibi", "ipi")
                 .setIngredient('i', IRON_SHEET)
@@ -1276,6 +1260,72 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
     // </editor-fold>
+
+    public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidValve.KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_VALVE, FluidValve.KEY);
+    }
+
+    public static final ItemStack FLUID_FILTER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidFilter.KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_FILTER, FluidFilter.KEY);
+    }
+
+    public static final ItemStack FLUID_METER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidMeter.KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_METER, FluidMeter.KEY);
+    }
+
+    public static final ItemStack WATER_PLACER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidPlacer.WATER_PLACER_KEY)
+            .build();
+    static {
+        PylonItem.register(FluidPlacer.Item.class, WATER_PLACER, FluidPlacer.WATER_PLACER_KEY);
+    }
+
+    public static final ItemStack LAVA_PLACER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidPlacer.LAVA_PLACER_KEY)
+            .build();
+    static {
+        PylonItem.register(FluidPlacer.Item.class, LAVA_PLACER, FluidPlacer.LAVA_PLACER_KEY);
+    }
+
+    public static final ItemStack WATER_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.WATER_DRAINER_KEY)
+            .build();
+    static {
+        PylonItem.register(FluidDrainer.Item.class, WATER_DRAINER, FluidDrainer.WATER_DRAINER_KEY);
+    }
+
+    public static final ItemStack LAVA_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.LAVA_DRAINER_KEY)
+            .build();
+    static {
+        PylonItem.register(FluidDrainer.Item.class, LAVA_DRAINER, FluidDrainer.LAVA_DRAINER_KEY);
+    }
+
+    public static final ItemStack FLUID_VOIDER_1 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_1_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_1, FluidVoider.FLUID_VOIDER_1_KEY);
+    }
+
+    public static final ItemStack FLUID_VOIDER_2 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_2_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_2, FluidVoider.FLUID_VOIDER_2_KEY);
+    }
+
+    public static final ItemStack FLUID_VOIDER_3 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_3_KEY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
+    }
 
     static {
         PylonItem.register(Loupe.class, Loupe.STACK);
@@ -1292,11 +1342,10 @@ public final class PylonItems {
         // TODO recipe when fluid api is done
     }
 
-    public static final NamespacedKey DIMENSIONAL_BARREL_KEY = pylonKey("dimensional_barrel");
-    public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DIMENSIONAL_BARREL_KEY)
+    public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DimensionalBarrel.KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
+        PylonItem.register(DimensionalBarrel.Item.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
         ShapedRecipe recipe = new ShapedRecipe(pylonKey("dimensional_barrel"), DIMENSIONAL_BARREL)
                 .shape("CBC", "BEB", "CBC")
                 .setIngredient('C', COVALENT_BINDER)

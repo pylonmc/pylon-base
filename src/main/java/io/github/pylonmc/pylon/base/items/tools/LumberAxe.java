@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.items.tools;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Tool;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -31,7 +32,7 @@ public class LumberAxe extends PylonItem implements Tool {
 
     public static final NamespacedKey KEY = pylonKey("lumber_axe");
 
-    public static final int DURABILITY = getSettings(KEY).getOrThrow("durability", Integer.class);
+    public static final int DURABILITY = Settings.get(KEY).getOrThrow("durability", Integer.class);
 
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, KEY)
             .set(DataComponentTypes.MAX_DAMAGE, DURABILITY)

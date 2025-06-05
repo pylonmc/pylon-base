@@ -3,12 +3,13 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
+import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 
 public final class PylonEntities {
 
@@ -22,7 +23,12 @@ public final class PylonEntities {
         PylonEntity.register(FluidConnectionDisplay.KEY, ItemDisplay.class, FluidConnectionDisplay.class);
         PylonEntity.register(FluidConnectionInteraction.KEY, Interaction.class, FluidConnectionInteraction.class);
         PylonEntity.register(Pedestal.PedestalItemEntity.KEY, ItemDisplay.class, Pedestal.PedestalItemEntity.class);
+        PylonEntity.register(FluidFilter.FluidDisplay.KEY, ItemDisplay.class, FluidFilter.FluidDisplay.class);
+        PylonEntity.register(FluidFilter.MainDisplay.KEY, ItemDisplay.class, FluidFilter.MainDisplay.class);
         PylonEntity.register(FluidPipeDisplay.KEY, ItemDisplay.class, FluidPipeDisplay.class);
-        PylonEntity.register(FluidTank.FluidTankEntity.KEY, ItemDisplay.class, FluidTank.FluidTankEntity.class);
+        PylonEntity.register(PortableFluidTank.FluidTankEntity.KEY, ItemDisplay.class, PortableFluidTank.FluidTankEntity.class);
+        PylonEntity.register(FluidValve.FluidValveDisplay.KEY, ItemDisplay.class, FluidValve.FluidValveDisplay.class);
+        PylonEntity.register(FluidMeter.FlowRateDisplay.KEY, TextDisplay.class, FluidMeter.FlowRateDisplay.class);
+        PylonEntity.register(FluidVoider.MainDisplay.KEY, ItemDisplay.class, FluidVoider.MainDisplay.class);
     }
 }

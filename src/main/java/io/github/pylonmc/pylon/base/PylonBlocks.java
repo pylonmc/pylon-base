@@ -3,8 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
-import io.github.pylonmc.pylon.base.items.fluid.FluidTank;
-import io.github.pylonmc.pylon.base.items.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
@@ -29,8 +28,8 @@ public final class PylonBlocks {
 
     public static void initialize() {
         PylonBlock.register(Sprinkler.KEY, Material.FLOWER_POT, Sprinkler.class);
-        PylonBlock.register(Pedestal.KEY_MAGIC, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
-        PylonBlock.register(Pedestal.KEY_NORMAL, Material.STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(Pedestal.MAGIC_PEDESTAL_KEY, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(Pedestal.PEDESTAL_KEY, Material.STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(MagicAltar.KEY, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
         PylonBlock.register(Grindstone.KEY, Material.SMOOTH_STONE_SLAB, Grindstone.class);
         PylonBlock.register(GrindstoneHandle.KEY, Material.OAK_FENCE, GrindstoneHandle.class);
@@ -40,9 +39,19 @@ public final class PylonBlocks {
         PylonBlock.register(WITHER_PROOF_OBSIDIAN_KEY, Material.OBSIDIAN, PylonBlock.class);
         PylonBlock.register(FluidPipeMarker.KEY, Material.STRUCTURE_VOID, FluidPipeMarker.class);
         PylonBlock.register(FluidPipeConnector.KEY, Material.STRUCTURE_VOID, FluidPipeConnector.class);
-        PylonBlock.register(FluidTank.FLUID_TANK_WOOD_KEY, Material.BROWN_STAINED_GLASS, FluidTank.class);
-        PylonBlock.register(FluidTank.FLUID_TANK_COPPER_KEY, Material.ORANGE_STAINED_GLASS, FluidTank.class);
+        PylonBlock.register(PortableFluidTank.PORTABLE_FLUID_TANK_WOOD_KEY, Material.BROWN_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(PortableFluidTank.PORTABLE_FLUID_TANK_COPPER_KEY, Material.ORANGE_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(FluidValve.KEY, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(WaterPump.KEY, Material.BLUE_TERRACOTTA, WaterPump.class);
+        PylonBlock.register(FluidFilter.KEY, Material.STRUCTURE_VOID, FluidFilter.class);
+        PylonBlock.register(FluidMeter.KEY, Material.STRUCTURE_VOID, FluidMeter.class);
+        PylonBlock.register(FluidPlacer.WATER_PLACER_KEY, Material.DISPENSER, FluidPlacer.class);
+        PylonBlock.register(FluidPlacer.LAVA_PLACER_KEY, Material.DISPENSER, FluidPlacer.class);
+        PylonBlock.register(FluidDrainer.WATER_DRAINER_KEY, Material.DISPENSER, FluidDrainer.class);
+        PylonBlock.register(FluidDrainer.LAVA_DRAINER_KEY, Material.DISPENSER, FluidDrainer.class);
+        PylonBlock.register(FluidVoider.FLUID_VOIDER_1_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
+        PylonBlock.register(FluidVoider.FLUID_VOIDER_2_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
+        PylonBlock.register(FluidVoider.FLUID_VOIDER_3_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(REFRACTORY_BRICK_KEY, Material.DEEPSLATE_TILES, SmelteryComponent.class);
         PylonBlock.register(SmelteryController.KEY, Material.BLAST_FURNACE, SmelteryController.class);
         PylonBlock.register(SmelteryInputHatch.KEY, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);

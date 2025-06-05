@@ -99,19 +99,19 @@ public class ConnectingTask {
                 && pipesUsed(from.position(), to.position()) > player.getInventory().getItem(EquipmentSlot.HAND).getAmount()
         ) {
             isValid = false;
-            player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_enough_pipes"));
+            player.sendActionBar(Component.translatable("pylon.pylonbase.message.pipe.not_enough_pipes"));
             display.setItemStack(new ItemStack(Material.RED_CONCRETE));
         } else if (!isPipeTypeValid()) {
             isValid = false;
-            player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
+            player.sendActionBar(Component.translatable("pylon.pylonbase.message.pipe.not_of_same_type"));
             display.setItemStack(new ItemStack(Material.RED_CONCRETE));
         } else if (!isPlacementValid()) {
             isValid = false;
-            player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.cannot_place_here"));
+            player.sendActionBar(Component.translatable("pylon.pylonbase.message.pipe.cannot_place_here"));
             display.setItemStack(new ItemStack(Material.RED_CONCRETE));
         } else {
             isValid = true;
-            player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.connecting"));
+            player.sendActionBar(Component.translatable("pylon.pylonbase.message.pipe.connecting"));
             display.setItemStack(new ItemStack(Material.WHITE_CONCRETE));
         }
 

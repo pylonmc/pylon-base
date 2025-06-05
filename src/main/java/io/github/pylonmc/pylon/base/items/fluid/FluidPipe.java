@@ -44,7 +44,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 @SuppressWarnings("UnstableApiUsage")
 public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
 
-    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wooden");
+    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wood");
     public static final NamespacedKey PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
     public static final NamespacedKey PIPE_OBSIDIAN_KEY = pylonKey("fluid_pipe_obsidian");
 
@@ -145,7 +145,7 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
     private boolean tryStartConnection(@NotNull Player player, @NotNull Block block) {
         if (BlockStorage.get(block) instanceof FluidPipeConnector connector) {
             if (!connector.getPipe().equals(this)) {
-                player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.pipe.not_of_same_type"));
                 return true;
             }
             ConnectingPointPipeConnector connectingPoint = new ConnectingPointPipeConnector(connector);
@@ -157,7 +157,7 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
             FluidPipeDisplay pipeDisplay = marker.getPipeDisplay();
             Preconditions.checkState(pipeDisplay != null);
             if (!pipeDisplay.getPipe().equals(this)) {
-                player.sendActionBar(Component.translatable("pylon.pylonbase.pipe.not_of_same_type"));
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.pipe.not_of_same_type"));
                 return true;
             }
             ConnectingPointPipeMarker connectingPoint = new ConnectingPointPipeMarker(marker);

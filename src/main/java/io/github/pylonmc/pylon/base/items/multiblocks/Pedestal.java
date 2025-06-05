@@ -31,8 +31,8 @@ import static java.lang.Math.PI;
 @NullMarked
 public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
 
-    public static final NamespacedKey KEY_NORMAL = pylonKey("pedestal");
-    public static final NamespacedKey KEY_MAGIC = pylonKey("magic_pedestal");
+    public static final NamespacedKey PEDESTAL_KEY = pylonKey("pedestal");
+    public static final NamespacedKey MAGIC_PEDESTAL_KEY = pylonKey("magic_pedestal");
 
     private static final NamespacedKey ROTATION_KEY = pylonKey("rotation");
     private static final NamespacedKey LOCKED_KEY = pylonKey("locked");
