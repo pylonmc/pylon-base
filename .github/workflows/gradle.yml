@@ -73,7 +73,7 @@ jobs:
       - name: Build with Gradle Wrapper
         run: |
           cd pylon
-          ./gradlew :pylon-base:shadowJar -Pversion=${{ inputs.version || github.run_number }}
+          ./gradlew :base:shadowJar -Pversion=${{ inputs.version || github.run_number }}
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
