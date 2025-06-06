@@ -70,7 +70,10 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
         super(block);
 
         enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
+    }
 
+    @Override
+    protected void postLoad() {
         if (enabled) {
             // connect east and west points when they load
             EntityStorage.whenEntityLoads(getHeldEntityUuid("easy"), FluidConnectionInteraction.class, east -> {
