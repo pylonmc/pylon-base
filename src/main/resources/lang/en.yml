@@ -372,7 +372,10 @@ item:
 
   refractory_brick:
     name: "Refractory Brick"
-    lore: ""
+    lore: |-
+      <star> Smeltery component
+      <arrow> The most basic and cheapest smeltery component
+    waila: "Refractory Brick"
 
   research_pack_1:
     name: "Research Pack I"
@@ -404,6 +407,7 @@ item:
     name: "Smeltery Burner"
     lore: |-
       <star> Smeltery component
+    waila: "Smeltery Burner"
 
   smeltery_caster:
     name: "Smeltery Caster"
@@ -411,6 +415,7 @@ item:
       <star> Smeltery component
       <arrow> <insn>Right click</insn> to open the smeltery casting GUI
       <arrow> Casts items from the smeltery
+    waila: "Smeltery Caster"
 
   smeltery_controller:
     name: "Smeltery Controller"
@@ -418,24 +423,28 @@ item:
       <star> Multiblock
       <star> Smeltery component
       <arrow> <insn>Right click</insn> to open the smeltery GUI
+    waila: "Smeltery Controller"
 
   smeltery_hopper:
     name: "Smeltery Hopper"
     lore: |-
       <star> Smeltery component
       <arrow> Serves as item input for the smeltery
+    waila: "Smeltery Hopper"
 
   smeltery_input_hatch:
     name: "Smeltery Input Hatch"
     lore: |-
       <star> Smeltery component
       <arrow> Serves as fluid input for the smeltery
+    waila: "Smeltery Input Hatch"
 
   smeltery_output_hatch:
     name: "Smeltery Output Hatch"
     lore: |-
       <star> Smeltery component
       <arrow> Serves as fluid output for the smeltery
+    waila: "Smeltery Output Hatch"
 
   splint:
     name: "Splint"

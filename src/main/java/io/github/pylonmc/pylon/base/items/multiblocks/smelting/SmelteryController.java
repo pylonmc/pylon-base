@@ -367,7 +367,7 @@ public final class SmelteryController extends SmelteryComponent
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
         fluids.mergeDouble(fluid, -amount, Double::sum);
-        if (fluids.getDouble(fluid) <= 0) {
+        if (fluids.getDouble(fluid) <= 0.001) { // Consider anything less than a nanobucket as empty
             fluids.removeDouble(fluid);
         }
     }
@@ -381,7 +381,8 @@ public final class SmelteryController extends SmelteryComponent
         for (double value : fluids.values()) {
             sum += value;
         }
-        return sum;
+        if (sum <= 0.001) return 0;
+        return Math.max(sum, 1); // Prevent heat sim from blowing up when tiny amounts of fluid are present
     }
 
     public @Nullable Pair<PylonFluid, Double> getBottomFluid() {
@@ -457,7 +458,26 @@ public final class SmelteryController extends SmelteryComponent
             double temperature
     ) implements Keyed {
 
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery"));
+        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery")) {
+            @Override
+            public void addRecipe(Recipe recipe) {
+                super.addRecipe(recipe);
+                Map<NamespacedKey, Recipe> recipes = getRegisteredRecipes();
+                Map<NamespacedKey, Recipe> newMap = recipes.entrySet().stream()
+                        .sorted(
+                                Comparator.<Map.Entry<NamespacedKey, Recipe>>comparingDouble(entry -> -entry.getValue().temperature())
+                                        .thenComparingInt(entry -> -entry.getValue().inputFluids().size())
+                        )
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                Map.Entry::getValue,
+                                (existing, replacement) -> existing,
+                                () -> new LinkedHashMap<>(recipes.size())
+                        ));
+                recipes.clear();
+                recipes.putAll(newMap);
+            }
+        };
         static {
             RECIPE_TYPE.register();
         }
