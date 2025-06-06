@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base.items;
 
-import io.github.pylonmc.pylon.core.block.base.PylonInventoryBlock;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.NamespacedKey;
@@ -24,7 +24,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 // Totally not a test item for inventory saving
-public class DimensionalBarrel extends PylonInventoryBlock {
+public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
 
     public static class Item extends PylonItem {
 
@@ -53,7 +53,7 @@ public class DimensionalBarrel extends PylonInventoryBlock {
     }
 
     @Override
-    protected @NotNull Gui createGui() {
+    public @NotNull Gui createGui() {
         return PagedGui.inventories()
                 .setStructure(
                         "x x x x x x x x ^",

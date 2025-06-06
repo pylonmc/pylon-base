@@ -75,10 +75,7 @@ public class WateringCan extends PylonItem implements BlockInteractor {
                     remainingYSteps--;
                 }
 
-                // Cannot be an 'or' because the compiler optimises it out lol
-                if (tryGrowBlock(block, settings)) {
-                    wasAnyTickAttempted = true;
-                }
+                wasAnyTickAttempted |= tryGrowBlock(block, settings);
             }
         }
 
