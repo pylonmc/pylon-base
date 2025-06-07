@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
 import io.github.pylonmc.pylon.base.items.fluid.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
@@ -1404,6 +1405,21 @@ public final class PylonItems {
         ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super_fiery"), ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+  
+    static {
+        PylonItem.register(Immobilizer.Item.class, Immobilizer.STACK, Immobilizer.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Immobilizer.KEY, Immobilizer.STACK);
+        recipe.shape(
+                "NNN",
+                "DCD",
+                "DDD"
+        );
+        recipe.setIngredient('N', Material.NETHER_STAR);
+        recipe.setIngredient('D', SHIMMER_DUST_3);
+        recipe.setIngredient('C', Material.HEAVY_CORE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
