@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.MonsterJerky;
@@ -1369,6 +1370,46 @@ public final class PylonItems {
     }
 
     static {
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.EXPLOSIVE_TARGET_STACK, ExplosiveTarget.EXPLOSIVE_TARGET_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(pylonKey("explosive_target"), ExplosiveTarget.EXPLOSIVE_TARGET_STACK);
+        recipe.shape(
+                "TTT",
+                "TXT",
+                "TTT"
+        );
+        recipe.setIngredient('T', Material.TNT);
+        recipe.setIngredient('X', Material.TARGET);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_KEY);
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_fiery"), ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_STACK);
+        recipe.addIngredient(ExplosiveTarget.EXPLOSIVE_TARGET_STACK);
+        recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_KEY);
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super"), ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
+        recipe.addIngredient(4, ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(ExplosiveTarget.Item.class, ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_STACK, ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_KEY);
+        ShapelessRecipe recipe = new ShapelessRecipe(pylonKey("explosive_target_super_fiery"), ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_STACK);
+        recipe.addIngredient(ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_STACK);
+        recipe.addIngredient(Material.FIRE_CHARGE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+  
+    static {
         PylonItem.register(Immobilizer.Item.class, Immobilizer.STACK, Immobilizer.KEY);
         ShapedRecipe recipe = new ShapedRecipe(Immobilizer.KEY, Immobilizer.STACK);
         recipe.shape(
@@ -1388,5 +1429,6 @@ public final class PylonItems {
     }
 
     // Calling this method forces all the static blocks to run, which initialises our items
-    public static void initialize() {}
+    public static void initialize() {
+    }
 }
