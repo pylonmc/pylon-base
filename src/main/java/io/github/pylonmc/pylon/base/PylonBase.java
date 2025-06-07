@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -53,12 +54,12 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     }
 
     @Override
-    public @NotNull String getDisplayName() {
-        return "Base";
+    public @NotNull Set<@NotNull Locale> getLanguages() {
+        return Set.of(Locale.ENGLISH);
     }
 
     @Override
-    public @NotNull Set<@NotNull Locale> getLanguages() {
-        return Set.of(Locale.ENGLISH);
+    public @NotNull Material getMaterial() {
+        return Material.COPPER_INGOT;
     }
 }
