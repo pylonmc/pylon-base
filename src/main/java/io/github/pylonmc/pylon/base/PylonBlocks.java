@@ -1,16 +1,10 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidDrainer;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidPlacer;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidFilter;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidMeter;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidVoider;
-import io.github.pylonmc.pylon.base.items.fluid.items.PortableFluidTank;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidValve;
-import io.github.pylonmc.pylon.base.items.fluid.items.WaterPump;
+import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
+import io.github.pylonmc.pylon.base.items.fluid.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
-import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -69,5 +63,9 @@ public final class PylonBlocks {
                     ageable.setAge(ageable.getMaximumAge());
                 })
         ));
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
     }
 }
