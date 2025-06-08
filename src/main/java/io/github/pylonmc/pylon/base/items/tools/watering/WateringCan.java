@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.items.tools.watering;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
@@ -24,7 +24,7 @@ import java.util.Random;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class WateringCan extends PylonItem implements BlockInteractor {
+public class WateringCan extends PylonItem implements PylonBlockInteractor {
 
     public static final NamespacedKey KEY = pylonKey("watering_can");
 

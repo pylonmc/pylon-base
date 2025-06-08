@@ -6,8 +6,8 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Consumable;
-import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.base.PylonConsumable;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -35,7 +35,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public class Loupe extends PylonItem implements Interactor, Consumable {
+public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable {
 
     public static final NamespacedKey KEY = pylonKey("loupe");
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.GLASS_PANE, KEY)

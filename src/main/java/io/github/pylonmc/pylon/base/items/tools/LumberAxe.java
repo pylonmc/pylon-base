@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.items.tools;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Tool;
+import io.github.pylonmc.pylon.core.item.base.PylonTool;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.BlockUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -28,7 +28,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public class LumberAxe extends PylonItem implements Tool {
+public class LumberAxe extends PylonItem implements PylonTool {
 
     public static final NamespacedKey KEY = pylonKey("lumber_axe");
 

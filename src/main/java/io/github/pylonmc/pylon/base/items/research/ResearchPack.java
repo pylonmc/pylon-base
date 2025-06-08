@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.research;
 
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class ResearchPack extends PylonItem implements Interactor {
+public class ResearchPack extends PylonItem implements PylonInteractor {
 
     public static final NamespacedKey RESEARCH_PACK_1_KEY = pylonKey("research_pack_1");
 
