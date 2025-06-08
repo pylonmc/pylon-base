@@ -177,8 +177,7 @@ item:
     name: "Ice Arrow"
     lore: |-
       <arrow> Slows and freezes enemies hit with this arrow's icy punch
-      <arrow> <attr>Slow duration: </attr> %slow-duration-ticks% ticks
-      <arrow> <attr>Slow amplifier: </attr> %slow-amplifier%
+      <arrow> <attr>Freeze duration:</attr> %freeze-duration%
       
 
   portable_fluid_tank_wood:

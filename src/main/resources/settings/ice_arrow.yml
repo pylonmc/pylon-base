@@ -1,4 +1,2 @@
-slow-duration-ticks: 30
-slow-amplifier: 2
-freeze-duration: 100
-freeze-speed: 10.0
+freeze-duration: 50
+freeze-speed: 75.0
