@@ -18,6 +18,7 @@ import io.github.pylonmc.pylon.base.items.tools.portable.PortableEnderChest;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
 import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.IceArrow;
 import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -1421,6 +1422,20 @@ public final class PylonItems {
         recipe.setIngredient('D', SHIMMER_DUST_3);
         recipe.setIngredient('C', Material.HEAVY_CORE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(IceArrow.class, IceArrow.STACK, IceArrow.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(IceArrow.KEY, IceArrow.STACK);
+        recipe.shape(
+                "III",
+                "AAA",
+                "III"
+        );
+        recipe.setIngredient('I', Material.PACKED_ICE);
+        recipe.setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 

@@ -173,6 +173,14 @@ item:
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
+  ice_arrow:
+    name: "Ice Arrow"
+    lore: |-
+      <arrow> Slows and freezes enemies hit with this arrow's icy punch
+      <arrow> <attr>Slow duration: </attr> %slow-duration-ticks% ticks
+      <arrow> <attr>Slow amplifier: </attr> %slow-amplifier%
+      
+
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
     lore: |-
