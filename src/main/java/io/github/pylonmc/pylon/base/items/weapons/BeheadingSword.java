@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.weapons;
 
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Weapon;
+import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.tag.EntityTags;
@@ -24,7 +24,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public class BeheadingSword extends PylonItem implements Weapon {
+public class BeheadingSword extends PylonItem implements PylonWeapon {
 
     public static final NamespacedKey KEY = pylonKey("beheading_sword");
 
