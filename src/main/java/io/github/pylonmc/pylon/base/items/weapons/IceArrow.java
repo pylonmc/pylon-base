@@ -74,6 +74,7 @@ public class IceArrow extends PylonItem implements Arrow {
         @Override
         public void run() {
             if(Bukkit.getCurrentTick() - startTick > freezeDuration){
+                applyTo.setFreezeTicks(0);
                 this.cancel();
             }
             // This is the only thing I could find that works to apply this effect, it's not the greatest but too bad.
