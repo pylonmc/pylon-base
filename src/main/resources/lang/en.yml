@@ -52,7 +52,7 @@ item:
     lore: ""
 
   enriched_netherrack:
-    name: "Enriched netherrack"
+    name: "Enriched Netherrack"
     lore: "<arrow> Burns hotter than netherrack"
     waila: "Enriched Netherrack"
 
@@ -236,6 +236,10 @@ item:
       <arrow> <attr>Void rate:</attr> %void_rate%
     waila: "Fluid Voider <light_purple>III"
 
+  iron_dust:
+    name: "Iron Dust"
+    lore: ""
+
   water_placer:
     name: "Water Placer"
     lore: |-
@@ -334,7 +338,7 @@ item:
       <arrow> Breaks an entire tree at once
 
   magic_dust:
-    name: "Magic dust"
+    name: "Magic Dust"
     lore: ""
 
   magic_altar:
@@ -481,7 +485,7 @@ item:
       <arrow> Does not stack
 
   water_pump:
-    name: "Water pump"
+    name: "Water Pump"
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"
