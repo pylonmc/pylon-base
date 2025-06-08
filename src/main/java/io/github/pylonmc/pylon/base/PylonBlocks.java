@@ -65,9 +65,9 @@ public final class PylonBlocks {
                 })
         ));
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
-        PylonBlock.register(ExplosiveTarget.FIERY_EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
-        PylonBlock.register(ExplosiveTarget.SUPER_EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
-        PylonBlock.register(ExplosiveTarget.SUPER_FIERY_EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
     }
 }
