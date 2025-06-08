@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -31,7 +32,8 @@ public class IceArrow extends PylonItem implements Arrow {
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.ARROW, KEY).amount(8).build();
     private final int slowDuration = getSettings().getOrThrow("slow-duration-ticks", Integer.class);
     private final int slowAmplifier = getSettings().getOrThrow("slow-amplifier", Integer.class);
-    private final double freezeDmg = getSettings().getOrThrow("freeze-damage", Double.class);
+    private final int freezeDuration = getSettings().getOrThrow("freeze-duration", Integer.class);
+    private final double freezeSpeed = getSettings().getOrThrow("freeze-speed", Double.class);
 
     public IceArrow(@NotNull ItemStack stack) {
         super(stack);
@@ -45,7 +47,8 @@ public class IceArrow extends PylonItem implements Arrow {
     @Override
     public void onArrowDamage(@NotNull EntityDamageByEntityEvent event) {
         if(event.getEntity() instanceof LivingEntity) {
-            Bukkit.getScheduler().runTask(PylonBase.getInstance(), new DOTRunnable((LivingEntity)event.getEntity(), freezeDmg));
+            // Has to be run every tick or effect will flicker in and out from game resetting it since the player isn't in a powdered snow block
+            new DOTRunnable((LivingEntity)event.getEntity(), freezeDuration, Bukkit.getCurrentTick(), (float) freezeSpeed).runTaskTimer(PylonBase.getInstance(), 0, 1);
         }
     }
 
@@ -55,19 +58,26 @@ public class IceArrow extends PylonItem implements Arrow {
                 "slow-amplifier", Component.text(slowAmplifier));
     }
 
-    public static class DOTRunnable implements Runnable {
+    public static class DOTRunnable extends BukkitRunnable {
         private final LivingEntity applyTo;
-        private final double damage;
+        private final int freezeDuration;
+        private final int startTick;
+        private final float freezeSpeed;
 
-        public DOTRunnable(LivingEntity applyTo, double damage){
+        public DOTRunnable(LivingEntity applyTo, int freezeDuration, int startTick, float freezeSpeed){
             this.applyTo = applyTo;
-            this.damage = damage;
+            this.freezeDuration = freezeDuration;
+            this.startTick = startTick;
+            this.freezeSpeed = freezeSpeed;
         }
 
         @Override
         public void run() {
-            // This is broken :c
-            applyTo.damage(damage, DamageSource.builder(DamageType.FREEZE).build());
+            if(Bukkit.getCurrentTick() - startTick > freezeDuration){
+                this.cancel();
+            }
+            // This is the only thing I could find that works to apply this effect, it's not the greatest but too bad.
+            applyTo.setFreezeTicks(Math.round((Bukkit.getCurrentTick() - startTick) * freezeSpeed));
         }
     }
 }
