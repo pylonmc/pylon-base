@@ -408,7 +408,7 @@ public final class SmelteryController extends SmelteryComponent
 
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
     private static final double SPECIFIC_HEAT = 215; // J/kg*K
-    private static final double DENSITY = 69.8; // kg/m^3
+    private static final double DENSITY = 698; // kg/m^3
     private static final double HEAT_LOSS_COEFFICIENT = 10; // W/C
     private static final double EMISSIVITY = 0.9;
     private static final double CELSIUS_TO_KELVIN = 273.15;
