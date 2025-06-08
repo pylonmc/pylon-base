@@ -76,7 +76,7 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
     protected void postLoad() {
         if (enabled) {
             // connect east and west points when they load
-            EntityStorage.whenEntityLoads(getHeldEntityUuid("easy"), FluidConnectionInteraction.class, east -> {
+            EntityStorage.whenEntityLoads(getHeldEntityUuid("east"), FluidConnectionInteraction.class, east -> {
                 EntityStorage.whenEntityLoads(getHeldEntityUuid("west"), FluidConnectionInteraction.class, west -> {
                     FluidManager.connect(getEastPoint(), getWestPoint());
                 });
