@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.Elevator;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.fluid.items.*;
@@ -69,5 +70,8 @@ public final class PylonBlocks {
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
+        PylonBlock.register(Elevator.KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.SECOND_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.THIRD_KEY, Elevator.MATERIAL, Elevator.class);
     }
 }
