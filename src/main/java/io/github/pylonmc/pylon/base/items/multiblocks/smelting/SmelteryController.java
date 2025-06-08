@@ -360,6 +360,10 @@ public final class SmelteryController extends SmelteryComponent
 
         double amountToAdd = Math.min(amount, capacity - getTotalFluid());
         fluids.mergeDouble(fluid, amountToAdd, Double::sum);
+
+        double originalHeatCapacity = getHeatCapacity();
+        double addedHeatCapacity = amountToAdd / 1000.0 * DENSITY * SPECIFIC_HEAT;
+        temperature = (originalHeatCapacity * temperature + addedHeatCapacity * 20) / (originalHeatCapacity + addedHeatCapacity);
     }
 
     public void removeFluid(PylonFluid fluid, double amount) {
@@ -382,7 +386,7 @@ public final class SmelteryController extends SmelteryComponent
             sum += value;
         }
         if (sum <= 0.001) return 0;
-        return Math.max(sum, 1); // Prevent heat sim from blowing up when tiny amounts of fluid are present
+        return sum;
     }
 
     public @Nullable Pair<PylonFluid, Double> getBottomFluid() {
@@ -408,14 +412,21 @@ public final class SmelteryController extends SmelteryComponent
 
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
     private static final double SPECIFIC_HEAT = 215; // J/kg*K
+    private static final double SPECIFIC_HEAT_AIR = 717; // J/kg*K
     private static final double DENSITY = 698; // kg/m^3
+    private static final double DENSITY_AIR = 1.2; // kg/m^3 at sea level
     private static final double HEAT_LOSS_COEFFICIENT = 10; // W/C
     private static final double EMISSIVITY = 0.9;
+
     private static final double CELSIUS_TO_KELVIN = 273.15;
     private static final double ROOM_TEMPERATURE_KELVIN = 20 + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
         return getTotalFluid() / 1000.0 * DENSITY * SPECIFIC_HEAT;
+    }
+
+    private double getAirHeatCapacity() {
+        return (capacity - getTotalFluid()) / 1000.0 * DENSITY_AIR * SPECIFIC_HEAT_AIR; // Remaining capacity is air
     }
 
     private void coolNaturally(double dt) {
@@ -434,19 +445,12 @@ public final class SmelteryController extends SmelteryComponent
                 ROOM_TEMPERATURE_KELVIN,
                 dt
         );
-        double heatCapacity = getHeatCapacity();
-        if (heatCapacity == 0) {
-            temperature = 20;
-        } else {
-            temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / heatCapacity;
-        }
+        temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / (getHeatCapacity() + getAirHeatCapacity());
     }
 
     public void heat(double joules) {
         Preconditions.checkArgument(!Double.isNaN(joules) && !Double.isInfinite(joules), "Joules cannot be NaN or infinite");
-        double heatCapacity = getHeatCapacity();
-        if (heatCapacity == 0) return;
-        temperature += joules / heatCapacity;
+        temperature += joules / (getHeatCapacity() + getAirHeatCapacity());
     }
     // </editor-fold>
 
