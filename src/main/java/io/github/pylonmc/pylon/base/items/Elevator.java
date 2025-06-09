@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,9 +21,11 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -35,7 +38,12 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
             super(stack);
         }
 
-        // TODO: deal with %elevator_range% in translations
+        @Override
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
+            System.out.println(getKey());
+            System.out.println(getRange(getKey()));
+            return Map.of("elevator_range", Component.text(getRange(getKey())));
+        }
     }
 
     public static final NamespacedKey KEY = pylonKey("elevator");
@@ -60,19 +68,18 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         super(block);
     }
 
-    public int getRange() {
-        NamespacedKey key = this.getKey();
-        if (key == KEY)
+    public static int getRange(@NotNull NamespacedKey key) {
+        if (key.equals(KEY))
             return SETTINGS.elevatorFirstRange();
-        if (key == SECOND_KEY)
+        if (key.equals(SECOND_KEY))
             return SETTINGS.elevatorSecondRange();
-        if (key == THIRD_KEY)
+        if (key.equals(THIRD_KEY))
             return SETTINGS.elevatorThirdRange();
         return SETTINGS.elevatorFirstRange();
     }
 
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
-        int range = getRange();
+        int range = getRange(getKey());
         int checkingLevel = 1;
         List<PylonBlock> blocks = new ArrayList<>();
 
