@@ -39,7 +39,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
@@ -68,7 +67,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     private double fluidAmount;
 
     @SuppressWarnings("unused")
-    public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public MixingPot(Block block, BlockCreateContext context) {
         super(block);
 
         fluidType = null;
@@ -76,7 +75,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @SuppressWarnings("unused")
-    public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public MixingPot(Block block, PersistentDataContainer pdc) {
         super(block);
 
         fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
@@ -98,7 +97,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public @NotNull Set<ChunkPosition> getChunksOccupied() {
+    public Set<ChunkPosition> getChunksOccupied() {
         return Set.of(new ChunkPosition(getBlock()));
     }
 
@@ -108,12 +107,12 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
+    public boolean isPartOfMultiblock(Block otherBlock) {
         return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(String connectionPoint, double deltaSeconds) {
+    public Map<PylonFluid, Double> getSuppliedFluids(String connectionPoint, double deltaSeconds) {
         return fluidType == null
                 ? Map.of()
                 : Map.of(fluidType, fluidAmount);
@@ -177,7 +176,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
+    public void onInteract(PlayerInteractEvent event) {
         // Only allow inserting water - events trying to insert lava will be cancelled
         if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
             return;
