@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonJumpableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSneakableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
@@ -33,17 +34,21 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
+
+        // TODO: deal with %elevator_range% in translations
     }
 
     public static final NamespacedKey KEY = pylonKey("elevator");
-    public static final NamespacedKey SECOND_KEY = pylonKey("elevator_second");
-    public static final NamespacedKey THIRD_KEY = pylonKey("elevator_third");
+    public static final NamespacedKey SECOND_KEY = pylonKey("elevator_2");
+    public static final NamespacedKey THIRD_KEY = pylonKey("elevator_3");
 
     public static final Material MATERIAL = Material.QUARTZ_SLAB;
 
     public static final ItemStack STACK = ItemStackBuilder.pylonItem(MATERIAL, KEY).build();
     public static final ItemStack SECOND_STACK = ItemStackBuilder.pylonItem(MATERIAL, SECOND_KEY).build();
     public static final ItemStack THIRD_STACK = ItemStackBuilder.pylonItem(MATERIAL, THIRD_KEY).build();
+
+    public static final ElevatorSettings SETTINGS = ElevatorSettings.fromConfig(Settings.get(KEY));
 
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -55,17 +60,15 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         super(block);
     }
 
-    private int getRange() {
+    public int getRange() {
         NamespacedKey key = this.getKey();
-
         if (key == KEY)
-            return 5;
+            return SETTINGS.elevatorFirstRange();
         if (key == SECOND_KEY)
-            return 15;
+            return SETTINGS.elevatorSecondRange();
         if (key == THIRD_KEY)
-            return 384; // 320 + 64
-
-        return 5;
+            return SETTINGS.elevatorThirdRange();
+        return SETTINGS.elevatorFirstRange();
     }
 
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
@@ -89,15 +92,12 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         return elevatorLocation.y() - playerLocation.y();
     }
 
-    @Override
-    public void onSneakStart(@NotNull PlayerToggleSneakEvent event) {
-        Player player = event.getPlayer();
-        Location location = getBlock().getLocation();
-
-        List<PylonBlock> elevators = getElevatorsInRange(true, location);
+    private void teleportPlayer(@NotNull Player player, @NotNull Location location, boolean under) {
+        List<PylonBlock> elevators = getElevatorsInRange(under, location);
 
         if (elevators.isEmpty()) {
-            player.sendActionBar(Component.translatable("pylon.pylonbase.message.elevator.none_within_range.below"));
+            player.sendActionBar(under ? Component.translatable("pylon.pylonbase.message.elevator.none_within_range.below") :
+                    Component.translatable("pylon.pylonbase.message.elevator.none_within_range.above"));
             return;
         }
 
@@ -109,21 +109,12 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     @Override
+    public void onSneakStart(@NotNull PlayerToggleSneakEvent event) {
+        teleportPlayer(event.getPlayer(), getBlock().getLocation(), true);
+    }
+
+    @Override
     public void onJump(@NotNull PlayerJumpEvent event) {
-        Player player = event.getPlayer();
-        Location location = getBlock().getLocation();
-
-        List<PylonBlock> elevators = getElevatorsInRange(false, location);
-
-        if (elevators.isEmpty()) {
-            player.sendActionBar(Component.translatable("pylon.pylonbase.message.elevator.none_within_range.above"));
-            return;
-        }
-
-        PylonBlock elevator = elevators.getFirst();
-        double distance = getDistance(player.getLocation(), elevator.getBlock().getLocation());
-
-        player.teleport(player.getLocation().add(0, distance + 1, 0));
-        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
+        teleportPlayer(event.getPlayer(), getBlock().getLocation(), false);
     }
 }

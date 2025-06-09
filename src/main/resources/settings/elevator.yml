@@ -1,0 +1,5 @@
+range:
+  first: 5
+  second: 20
+  # From bedrock to max build height
+  third: 384

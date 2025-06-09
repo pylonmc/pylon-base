@@ -274,21 +274,21 @@ item:
     name: "Elevator I"
     lore: |-
       <arrow> Shift to go down, jump to go up.
-      <arrow> Maximum 5 blocks.
+      <arrow> Maximum %elevator_range% blocks.
     waila: "Elevator I"
 
-  elevator_second:
+  elevator_2:
     name: "Elevator II"
     lore: |-
       <arrow> Shift to go down, jump to go up.
-      <arrow> Maximum 15 blocks.
+      <arrow> Maximum %elevator_range% blocks.
     waila: "Elevator II"
 
-  elevator_third:
+  elevator_3:
     name: "Elevator III"
     lore: |-
       <arrow> Shift to go down, jump to go up.
-      <arrow> No maximum height.
+      <arrow> Maximum %elevator_range% blocks.
     waila: "Elevator III"
 
   gold_dust:
