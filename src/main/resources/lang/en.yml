@@ -407,6 +407,7 @@ item:
     name: "Smeltery Burner"
     lore: |-
       <star> Smeltery component
+      <arrow> Burns fuel to heat the smeltery
     waila: "Smeltery Burner"
 
   smeltery_caster:
@@ -422,6 +423,7 @@ item:
     lore: |-
       <star> Multiblock
       <star> Smeltery component
+      <arrow> The main component of the smeltery. Place it in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
       <arrow> <insn>Right click</insn> to open the smeltery GUI
     waila: "Smeltery Controller"
 
