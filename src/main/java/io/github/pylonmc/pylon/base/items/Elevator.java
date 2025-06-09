@@ -40,19 +40,18 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
 
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            System.out.println(getKey());
-            System.out.println(getRange(getKey()));
             return Map.of("elevator_range", Component.text(getRange(getKey())));
         }
     }
 
     public static final NamespacedKey KEY = pylonKey("elevator");
+    public static final NamespacedKey FIRST_KEY = pylonKey("elevator_1");
     public static final NamespacedKey SECOND_KEY = pylonKey("elevator_2");
     public static final NamespacedKey THIRD_KEY = pylonKey("elevator_3");
 
     public static final Material MATERIAL = Material.QUARTZ_SLAB;
 
-    public static final ItemStack STACK = ItemStackBuilder.pylonItem(MATERIAL, KEY).build();
+    public static final ItemStack FIRST_STACK = ItemStackBuilder.pylonItem(MATERIAL, FIRST_KEY).build();
     public static final ItemStack SECOND_STACK = ItemStackBuilder.pylonItem(MATERIAL, SECOND_KEY).build();
     public static final ItemStack THIRD_STACK = ItemStackBuilder.pylonItem(MATERIAL, THIRD_KEY).build();
 

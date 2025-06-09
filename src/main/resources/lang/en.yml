@@ -270,7 +270,7 @@ item:
       <arrow> <attr>Drain interval:</attr> %drain_interval%
     waila: "Lava Drainer"
 
-  elevator:
+  elevator_1:
     name: "Elevator I"
     lore: |-
       <arrow> Shift to go down, jump to go up.

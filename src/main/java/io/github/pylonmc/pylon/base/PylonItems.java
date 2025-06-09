@@ -1439,8 +1439,8 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(Elevator.Item.class, Elevator.STACK, Elevator.KEY);
-        ShapedRecipe recipe = new ShapedRecipe(Elevator.KEY, Elevator.STACK)
+        PylonItem.register(Elevator.Item.class, Elevator.FIRST_STACK, Elevator.FIRST_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.FIRST_KEY, Elevator.FIRST_STACK)
                 .shape("   ", "QPQ", "   ")
                 .setIngredient('Q', Material.QUARTZ_BLOCK)
                 .setIngredient('P', Material.ENDER_PEARL);
@@ -1452,7 +1452,7 @@ public final class PylonItems {
         PylonItem.register(Elevator.Item.class, Elevator.SECOND_STACK, Elevator.SECOND_KEY);
         ShapedRecipe recipe = new ShapedRecipe(Elevator.SECOND_KEY, Elevator.SECOND_STACK)
                 .shape("PPP", "PEP", "PPP")
-                .setIngredient('E', Elevator.STACK)
+                .setIngredient('E', Elevator.FIRST_STACK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
