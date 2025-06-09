@@ -102,8 +102,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         List<PylonBlock> elevators = getElevatorsInRange(under, location);
 
         if (elevators.isEmpty()) {
-            player.sendActionBar(under ? Component.translatable("pylon.pylonbase.message.elevator.none_within_range.below") :
-                    Component.translatable("pylon.pylonbase.message.elevator.none_within_range.above"));
+            player.sendActionBar(Component.translatable("pylon.pylonbase.message.elevator.none_within_range." + (under ? "below" : "above")));
             return;
         }
 
