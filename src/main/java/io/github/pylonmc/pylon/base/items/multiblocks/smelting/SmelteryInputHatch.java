@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
-import io.github.pylonmc.pylon.base.util.BlockFaces;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -10,10 +9,10 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +37,8 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
 
     @Override
     public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
-        return Arrays.stream(BlockFaces.ORTHOGONAL)
-                .map(face -> new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, face))
-                .toList();
+        BlockFace face = context instanceof BlockCreateContext.PlayerPlace ctx ? ctx.getClickedFace() : BlockFace.NORTH;
+        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, face));
     }
 
     @Override

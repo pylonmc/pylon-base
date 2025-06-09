@@ -93,9 +93,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
         return List.of(
                 new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.SOUTH),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.EAST),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST)
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.SOUTH)
         );
     }
 
