@@ -40,7 +40,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
 
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of("elevator_range", Component.text(getRange(getKey())));
+            return Map.of("elevator_range", UnitFormat.BLOCKS.format(getRange(getKey())));
         }
     }
 
