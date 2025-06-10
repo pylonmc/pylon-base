@@ -3,6 +3,8 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
+import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
@@ -71,5 +73,10 @@ public final class PylonBlocks {
                     ageable.setAge(ageable.getMaximumAge());
                 })
         ));
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
+        PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
     }
 }

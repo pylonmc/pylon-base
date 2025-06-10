@@ -52,9 +52,41 @@ item:
     lore: ""
 
   enriched_netherrack:
-    name: "Enriched netherrack"
+    name: "Enriched Netherrack"
     lore: "<arrow> Burns hotter than netherrack"
     waila: "Enriched Netherrack"
+
+  explosive_target:
+    name: "Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Doesn't create fire
+    waila: "Explosive Target"
+
+  explosive_target_fiery:
+    name: "Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Creates fire
+    waila: "Fiery Explosive Target"
+
+  explosive_target_super:
+    name: "Super Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Doesn't create fire
+    waila: "Super Explosive Target"
+
+  explosive_target_super_fiery:
+    name: "Super Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Creates fire
+    waila: "Super Fiery Explosive Target"
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -199,6 +231,10 @@ item:
       <arrow> <attr>Void rate:</attr> %void_rate%
     waila: "Fluid Voider <light_purple>III"
 
+  iron_dust:
+    name: "Iron Dust"
+    lore: ""
+
   water_placer:
     name: "Water Placer"
     lore: |-
@@ -269,6 +305,16 @@ item:
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
+  immobilizer:
+    name: "Immobilizer"
+    lore: |-
+      <arrow> Immobilizes players in a range
+      <arrow> Triggered by a redstone signal
+      <attr:Duration:ticks>%duration%</attr>
+      <attr:Radius:blocks>%radius%</attr>
+      <attr:Cooldown:ticks>%cooldown%</attr>
+    waila: "Immobilizer"
+
   iron_sheet:
     name: "Iron Sheet"
     lore: ""
@@ -287,7 +333,7 @@ item:
       <arrow> Breaks an entire tree at once
 
   magic_dust:
-    name: "Magic dust"
+    name: "Magic Dust"
     lore: ""
 
   magic_altar:
@@ -498,7 +544,7 @@ item:
       <arrow> Does not stack
 
   water_pump:
-    name: "Water pump"
+    name: "Water Pump"
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"

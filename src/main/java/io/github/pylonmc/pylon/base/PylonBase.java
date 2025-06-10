@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
+import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.listeners.WitherProofObsidianListener;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
@@ -38,7 +39,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         pm.registerEvents(new WitherProofObsidianListener(), this);
         pm.registerEvents(new ConnectingService(), this);
-
+        pm.registerEvents(new Immobilizer.FreezeListener(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 
