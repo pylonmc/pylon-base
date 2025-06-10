@@ -91,6 +91,7 @@ public final class PylonItems {
                 2,
                 Material.COPPER_BLOCK.createBlockData()
         ));
+        Categories.DUSTS.add(COPPER_DUST);
     }
 
     public static final NamespacedKey GOLD_DUST_KEY = pylonKey("gold_dust");
