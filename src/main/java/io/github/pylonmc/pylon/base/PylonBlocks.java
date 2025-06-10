@@ -70,8 +70,8 @@ public final class PylonBlocks {
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
-        PylonBlock.register(Elevator.FIRST_KEY, Elevator.MATERIAL, Elevator.class);
-        PylonBlock.register(Elevator.SECOND_KEY, Elevator.MATERIAL, Elevator.class);
-        PylonBlock.register(Elevator.THIRD_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.ELEVATOR_1_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.ELEVATOR_2_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.ELEVATOR_3_KEY, Elevator.MATERIAL, Elevator.class);
     }
 }

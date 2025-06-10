@@ -273,22 +273,22 @@ item:
   elevator_1:
     name: "Elevator I"
     lore: |-
-      <arrow> Shift to go down, jump to go up.
-      <arrow> Maximum %elevator_range% blocks.
+      <arrow> Sneak to go down, jump to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
     waila: "Elevator I"
 
   elevator_2:
     name: "Elevator II"
     lore: |-
-      <arrow> Shift to go down, jump to go up.
-      <arrow> Maximum %elevator_range% blocks.
+      <arrow> Sneak to go down, jump to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
     waila: "Elevator II"
 
   elevator_3:
     name: "Elevator III"
     lore: |-
-      <arrow> Shift to go down, jump to go up.
-      <arrow> Maximum %elevator_range% blocks.
+      <arrow> Sneak to go down, jump to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
     waila: "Elevator III"
 
   gold_dust:

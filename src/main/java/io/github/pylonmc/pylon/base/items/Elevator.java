@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Location;
@@ -21,7 +22,6 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,22 +40,23 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
 
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of("elevator_range", UnitFormat.BLOCKS.format(getRange(getKey())));
+            return Map.of("elevator_range",  UnitFormat.BLOCKS.format(getRange(getKey())));
         }
     }
 
-    public static final NamespacedKey KEY = pylonKey("elevator");
-    public static final NamespacedKey FIRST_KEY = pylonKey("elevator_1");
-    public static final NamespacedKey SECOND_KEY = pylonKey("elevator_2");
-    public static final NamespacedKey THIRD_KEY = pylonKey("elevator_3");
+    public static final NamespacedKey ELEVATOR_1_KEY = pylonKey("elevator_1");
+    public static final NamespacedKey ELEVATOR_2_KEY = pylonKey("elevator_2");
+    public static final NamespacedKey ELEVATOR_3_KEY = pylonKey("elevator_3");
 
     public static final Material MATERIAL = Material.QUARTZ_SLAB;
 
-    public static final ItemStack FIRST_STACK = ItemStackBuilder.pylonItem(MATERIAL, FIRST_KEY).build();
-    public static final ItemStack SECOND_STACK = ItemStackBuilder.pylonItem(MATERIAL, SECOND_KEY).build();
-    public static final ItemStack THIRD_STACK = ItemStackBuilder.pylonItem(MATERIAL, THIRD_KEY).build();
+    public static final ItemStack ELEVATOR_1_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_1_KEY).build();
+    public static final ItemStack ELEVATOR_2_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_2_KEY).build();
+    public static final ItemStack ELEVATOR_3_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_3_KEY).build();
 
-    public static final ElevatorSettings SETTINGS = ElevatorSettings.fromConfig(Settings.get(KEY));
+    public static final ElevatorSettings ELEVATOR_1_SETTINGS = ElevatorSettings.fromConfig(Settings.get(ELEVATOR_1_KEY));
+    public static final ElevatorSettings ELEVATOR_2_SETTINGS = ElevatorSettings.fromConfig(Settings.get(ELEVATOR_2_KEY));
+    public static final ElevatorSettings ELEVATOR_3_SETTINGS = ElevatorSettings.fromConfig(Settings.get(ELEVATOR_3_KEY));
 
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -68,13 +69,13 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     public static int getRange(@NotNull NamespacedKey key) {
-        if (key.equals(KEY))
-            return SETTINGS.elevatorFirstRange();
-        if (key.equals(SECOND_KEY))
-            return SETTINGS.elevatorSecondRange();
-        if (key.equals(THIRD_KEY))
-            return SETTINGS.elevatorThirdRange();
-        return SETTINGS.elevatorFirstRange();
+        if (key.equals(ELEVATOR_1_KEY))
+            return ELEVATOR_1_SETTINGS.range();
+        if (key.equals(ELEVATOR_2_KEY))
+            return ELEVATOR_2_SETTINGS.range();
+        if (key.equals(ELEVATOR_3_KEY))
+            return ELEVATOR_3_SETTINGS.range();
+        return ELEVATOR_1_SETTINGS.range();
     }
 
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {

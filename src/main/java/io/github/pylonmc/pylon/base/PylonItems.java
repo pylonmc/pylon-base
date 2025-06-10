@@ -1439,8 +1439,8 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(Elevator.Item.class, Elevator.FIRST_STACK, Elevator.FIRST_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(Elevator.FIRST_KEY, Elevator.FIRST_STACK)
+        PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_1_STACK, Elevator.ELEVATOR_1_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_1_KEY, Elevator.ELEVATOR_1_STACK)
                 .shape("   ", "QPQ", "   ")
                 .setIngredient('Q', Material.QUARTZ_BLOCK)
                 .setIngredient('P', Material.ENDER_PEARL);
@@ -1449,20 +1449,20 @@ public final class PylonItems {
     }
 
     static {
-        PylonItem.register(Elevator.Item.class, Elevator.SECOND_STACK, Elevator.SECOND_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(Elevator.SECOND_KEY, Elevator.SECOND_STACK)
+        PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_2_STACK, Elevator.ELEVATOR_2_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_2_KEY, Elevator.ELEVATOR_2_STACK)
                 .shape("PPP", "PEP", "PPP")
-                .setIngredient('E', Elevator.FIRST_STACK)
+                .setIngredient('E', Elevator.ELEVATOR_1_STACK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
     static {
-        PylonItem.register(Elevator.Item.class, Elevator.THIRD_STACK, Elevator.THIRD_KEY);
-        ShapedRecipe recipe = new ShapedRecipe(Elevator.THIRD_KEY, Elevator.THIRD_STACK)
+        PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_3_STACK, Elevator.ELEVATOR_3_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_3_KEY, Elevator.ELEVATOR_3_STACK)
                 .shape("PPP", "PEP", "PPP")
-                .setIngredient('E', Elevator.SECOND_STACK)
+                .setIngredient('E', Elevator.ELEVATOR_2_STACK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
