@@ -40,6 +40,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     // TODO block setting
     private static final double BURN_EFFICIENCY = 0.45;
+    private static final double DIMINISHING_RETURN = 0.6;
 
     public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(pylonKey("smeltery_burner_fuels"));
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
@@ -152,7 +153,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         SmelteryController controller = getController();
         if (controller != null) {
             if (fuel != null) {
-                controller.heat(getCurrentPowerOutput() * deltaSeconds);
+                controller.heat(getCurrentPowerOutput() * deltaSeconds, DIMINISHING_RETURN);
             } else {
                 itemLoop:
                 for (ItemStack item : inventory.getUnsafeItems()) {

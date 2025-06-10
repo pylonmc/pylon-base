@@ -7,8 +7,10 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonUnloadBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -36,6 +38,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import org.jspecify.annotations.NullMarked;
@@ -51,7 +54,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 @NullMarked
 public final class SmelteryController extends SmelteryComponent
-        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
+        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_controller");
 
@@ -110,6 +113,11 @@ public final class SmelteryController extends SmelteryComponent
         fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), Map.of()));
 
         fluids.defaultReturnValue(-1);
+    }
+
+    @Override
+    public void onUnload(@NotNull PylonBlockUnloadEvent event) {
+        applyHeat();
     }
 
     @Override
@@ -449,9 +457,22 @@ public final class SmelteryController extends SmelteryComponent
         temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / (getHeatCapacity() + getAirHeatCapacity());
     }
 
-    public void heat(double joules) {
+    private double heatAccumulation = 0;
+    private double heaterIndex = 0;
+
+    public void heat(double joules, double diminishingReturnFactor) {
         Preconditions.checkArgument(!Double.isNaN(joules) && !Double.isInfinite(joules), "Joules cannot be NaN or infinite");
-        temperature += joules / (getHeatCapacity() + getAirHeatCapacity());
+        Preconditions.checkArgument(diminishingReturnFactor > 0, "Multiple factor must be positive");
+        Preconditions.checkArgument(diminishingReturnFactor <= 1, "Multiple factor must be less than or equal to 1");
+
+        heatAccumulation += joules * Math.pow(diminishingReturnFactor, heaterIndex);
+        heaterIndex++;
+    }
+
+    private void applyHeat() {
+        temperature += heatAccumulation / (getHeatCapacity() + getAirHeatCapacity());
+        heatAccumulation = 0;
+        heaterIndex = 0;
     }
     // </editor-fold>
 
@@ -534,6 +555,7 @@ public final class SmelteryController extends SmelteryComponent
     public void tick(double deltaSeconds) {
         if (isFormedAndFullyLoaded()) {
             if (running) {
+                applyHeat();
                 performRecipes(deltaSeconds);
             }
             coolNaturally(deltaSeconds);
