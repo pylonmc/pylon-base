@@ -89,7 +89,7 @@ public final class SmelteryController extends SmelteryComponent
     public SmelteryController(Block block, BlockCreateContext context) {
         super(block, context);
 
-        temperature = 20;
+        temperature = ROOM_TEMPERATURE_CELSIUS;
         running = false;
         height = 0;
         capacity = 0;
@@ -102,7 +102,7 @@ public final class SmelteryController extends SmelteryComponent
     public SmelteryController(Block block, PersistentDataContainer pdc) {
         super(block, pdc);
 
-        temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, 20.0);
+        temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, ROOM_TEMPERATURE_CELSIUS);
         running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
         height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
         capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.DOUBLE, 0D);
@@ -363,7 +363,7 @@ public final class SmelteryController extends SmelteryComponent
 
         double originalHeatCapacity = getHeatCapacity();
         double addedHeatCapacity = amountToAdd / 1000.0 * DENSITY * SPECIFIC_HEAT;
-        temperature = (originalHeatCapacity * temperature + addedHeatCapacity * 20) / (originalHeatCapacity + addedHeatCapacity);
+        temperature = (originalHeatCapacity * temperature + addedHeatCapacity * ROOM_TEMPERATURE_CELSIUS) / (originalHeatCapacity + addedHeatCapacity);
     }
 
     public void removeFluid(PylonFluid fluid, double amount) {
@@ -412,14 +412,15 @@ public final class SmelteryController extends SmelteryComponent
 
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
     private static final double SPECIFIC_HEAT = 215; // J/kg*K
-    private static final double SPECIFIC_HEAT_AIR = 717; // J/kg*K
     private static final double DENSITY = 698; // kg/m^3
+    private static final double SPECIFIC_HEAT_AIR = 717; // J/kg*K
     private static final double DENSITY_AIR = 1.2; // kg/m^3 at sea level
     private static final double HEAT_LOSS_COEFFICIENT = 10; // W/C
     private static final double EMISSIVITY = 0.9;
 
     private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_KELVIN = 20 + CELSIUS_TO_KELVIN;
+    private static final double ROOM_TEMPERATURE_CELSIUS = 20; // Room temperature in Celsius
+    private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
         return getTotalFluid() / 1000.0 * DENSITY * SPECIFIC_HEAT;
