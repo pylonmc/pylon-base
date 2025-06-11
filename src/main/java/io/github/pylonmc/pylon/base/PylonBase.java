@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.listeners.WitherProofObsidianListener;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 import java.util.Set;
 
-
+@SuppressWarnings("UnstableApiUsage")
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
     @Getter
@@ -28,6 +29,10 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         registerWithPylon();
 
         saveDefaultConfig();
+
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            commands.registrar().register(PylonBaseCommand.ROOT);
+        });
 
         PylonItems.initialize();
         PylonBlocks.initialize();

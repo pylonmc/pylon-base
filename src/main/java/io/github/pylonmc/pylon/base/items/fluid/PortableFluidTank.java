@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.JoinConfiguration;
@@ -65,9 +66,12 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidInteracti
                 .editPdc(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
                 .build();
 
-        public final double capacity = getSettings().getOrThrow("capacity", Double.class);
+        @Getter
+        private final double capacity = getSettings().getOrThrow("capacity", Double.class);
+
+        @Getter
         @SuppressWarnings("unchecked")
-        public final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
+        private final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
                 .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
                 .collect(Collectors.toList());
 
