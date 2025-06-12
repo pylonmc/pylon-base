@@ -557,6 +557,7 @@ fluid:
   none: "None"
   slurry: "<gray>Slurry"
   slurry_redstone: "<red>Redstone Slurry"
+  slurry_raw_copper: "<red>Raw Copper Slurry"
   sulfur: "<yellow>Sulfur"
   water: "<blue>Water"
 
@@ -607,6 +608,13 @@ research:
     name: "<#d93802>primitive alloying"
   showing_off:
     name: "<rainbow>showing off"
+
+guide:
+  page:
+    resources:
+      name: "Resources"
+      lore: ""
+      title: "Resources"
 
 message:
   fluid_none: "None"
