@@ -552,6 +552,8 @@ item:
     waila: "Water Pump"
 
 fluid:
+  castable:
+    display-text: "<arrow> <gray>Casts into <white>%result%"
   lava: "<#fc4e03>Lava"
   mercury: "<#dedede>Mercury"
   none: "None"
@@ -563,51 +565,51 @@ fluid:
 
 research:
   baking:
-    name: "<gold>baking"
+    name: "<gold>Baking"
   better_health:
-    name: "<green>better health"
+    name: "<green>Better health"
   compression:
-    name: "<black>compression"
+    name: "<gray>Compression"
   fairies:
-    name: "<dark_purple>fairies"
+    name: "<dark_purple>Fairies"
   first_aid:
-    name: "<dark_red>first aid"
+    name: "<dark_red>First aid"
   food_preservation:
-    name: "<#483b29>food preservation"
+    name: "<#483b29>Food preservation"
   french_revolution:
-    name: "<gradient:#0055a4:white:#ef4135>the French revolution"
+    name: "<gradient:#0055a4:white:#ef4135>The French Revolution"
   glitter:
-    name: "<gold>glitter"
+    name: "<gold>Glitter"
   gravity:
-    name: "<blue>gravity"
+    name: "<blue>Gravity"
   grinding:
-    name: "<dark_gray>grinding"
+    name: "<dark_gray>Grinding"
   homogeneity:
-    name: "<blue>homogeneity"
+    name: "<blue>Homogeneity"
   magic:
-    name: "<dark_purple>magic"
+    name: "<dark_purple>Magic"
   medicine:
-    name: "<dark_red>medicine"
+    name: "<dark_red>Medicine"
   metal_ductility:
-    name: "<dark_gray>metal ductility"
+    name: "<dark_gray>Metal ductility"
   newtons_second_law:
     name: "<green>Newton's second law"
   newtons_third_law:
     name: "<green>Newton's third law"
   plant_growth:
-    name: "<green>plant growth"
+    name: "<green>Plant growth"
   plant_growth_automated:
-    name: "<green>automated plant growth"
+    name: "<green>Automated plant growth"
   portability:
-    name: "<blue>portability"
+    name: "<blue>Portability"
   primitive_alloy_tools:
-    name: "<#f6d348>primitive alloy tools"
+    name: "<#f6d348>Primitive alloy tools"
   primitive_alloy_armor:
-    name: "<#f6d348>primitive alloy armor"
+    name: "<#f6d348>Primitive alloy armor"
   primitive_alloying:
-    name: "<#d93802>primitive alloying"
+    name: "<#d93802>Primitive alloying"
   showing_off:
-    name: "<rainbow>showing off"
+    name: "<rainbow>Showing off"
 
 guide:
   page:
