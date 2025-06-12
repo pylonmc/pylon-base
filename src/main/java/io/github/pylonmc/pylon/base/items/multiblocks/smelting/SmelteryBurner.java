@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
-import io.github.pylonmc.pylon.base.util.VanillaOrPylon;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -9,6 +8,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
+import io.github.pylonmc.pylon.core.util.ItemUtils;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -160,7 +160,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 for (ItemStack item : inventory.getUnsafeItems()) {
                     if (item == null) continue;
                     for (Fuel fuel : FUELS) {
-                        if (fuel.material.matches(item)) {
+                        if (ItemUtils.isPylonSimilar(item, fuel.material)) {
                             this.fuel = fuel;
                             item.subtract();
                             secondsElapsed = 0;
@@ -182,8 +182,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     }
 
     public record Fuel(
-            NamespacedKey key,
-            VanillaOrPylon material,
+            @NotNull NamespacedKey key,
+            @NotNull ItemStack material,
             double totalJoules,
             long burnTimeSeconds
     ) implements Keyed {
@@ -196,7 +196,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     static {
         FUELS.register(new Fuel(
                 pylonKey("coal"),
-                new VanillaOrPylon.Vanilla(Material.COAL),
+                new ItemStack(Material.COAL),
                 333_300_000D,
                 30
         ));

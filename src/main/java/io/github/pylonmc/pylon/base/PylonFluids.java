@@ -3,10 +3,10 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.fluid.CastableFluid;
 import io.github.pylonmc.pylon.base.fluid.Slurry;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
-import io.github.pylonmc.pylon.base.util.VanillaOrPylon;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 
 import java.util.Map;
@@ -48,12 +48,12 @@ public final class PylonFluids {
 
     public static final PylonFluid REDSTONE_SLURRY = new Slurry(
             pylonKey("slurry_redstone"),
-            new VanillaOrPylon.Vanilla(Material.REDSTONE)
+            new ItemStack(Material.REDSTONE)
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
             pylonKey("slurry_raw_copper"),
-            new VanillaOrPylon.Vanilla(PylonItems.CRUSHED_RAW_COPPER)
+            new ItemStack(PylonItems.CRUSHED_RAW_COPPER)
     ).addTag(FluidTemperature.NORMAL);
 
     public static void initialize() {
