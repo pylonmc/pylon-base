@@ -73,12 +73,12 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
         fluidAmount = 0;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
         fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
-        fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0D);
+        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override

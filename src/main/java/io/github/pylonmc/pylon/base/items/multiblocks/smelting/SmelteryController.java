@@ -97,16 +97,16 @@ public final class SmelteryController extends SmelteryComponent
         components.add(new BlockPosition(getBlock()));
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public SmelteryController(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, ROOM_TEMPERATURE_CELSIUS);
-        running = pdc.getOrDefault(RUNNING_KEY, PylonSerializers.BOOLEAN, false);
-        height = pdc.getOrDefault(HEIGHT_KEY, PylonSerializers.INTEGER, 0);
-        capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.DOUBLE, 0D);
-        components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
-        fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), Map.of()));
+        temperature = pdc.get(TEMPERATURE_KEY, PylonSerializers.DOUBLE);
+        running = pdc.get(RUNNING_KEY, PylonSerializers.BOOLEAN);
+        height = pdc.get(HEIGHT_KEY, PylonSerializers.INTEGER);
+        capacity = pdc.get(CAPACITY_KEY, PylonSerializers.DOUBLE);
+        components.addAll(pdc.get(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION)));
+        fluids.putAll(pdc.get(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE)));
     }
 
     @Override

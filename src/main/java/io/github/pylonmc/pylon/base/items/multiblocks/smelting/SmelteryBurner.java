@@ -63,12 +63,12 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         secondsElapsed = 0;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public SmelteryBurner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
         fuel = pdc.get(FUEL_KEY, FUEL_TYPE);
-        secondsElapsed = pdc.getOrDefault(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, 0D);
+        secondsElapsed = pdc.get(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
