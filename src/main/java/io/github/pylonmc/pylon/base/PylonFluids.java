@@ -53,7 +53,7 @@ public final class PylonFluids {
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
             pylonKey("slurry_raw_copper"),
-            new VanillaOrPylon.Vanilla(PylonItems.RAW_COPPER_DUST)
+            new VanillaOrPylon.Vanilla(PylonItems.CRUSHED_RAW_COPPER)
     ).addTag(FluidTemperature.NORMAL);
 
     public static void initialize() {
