@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.UUID;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static java.lang.Math.PI;
 
-
+@NullMarked
 public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static final NamespacedKey PEDESTAL_KEY = pylonKey("pedestal");
@@ -39,7 +39,6 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     private double rotation;
     @Setter
     private boolean locked;
-    private final Map<String, UUID> entities;
 
     @SuppressWarnings("unused")
     public Pedestal(Block block, BlockCreateContext context) {
@@ -47,22 +46,24 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         rotation = 0;
         locked = false;
-
-        ItemDisplay display = new ItemDisplayBuilder()
-                .transformation(transformBuilder().buildForItemDisplay())
-                .build(block.getLocation().toCenterLocation());
-        PedestalItemEntity pylonEntity = new PedestalItemEntity(display);
-        EntityStorage.add(pylonEntity);
-
-        entities = Map.of("item", pylonEntity.getUuid());
-    }
+}
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
     public Pedestal(Block block, PersistentDataContainer pdc) {
         super(block);
-        entities = loadHeldEntities(pdc);
+        
         rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
         locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
+    }
+    
+    @Override
+    public Map<String, UUID> createEntities(BlockCreateContext context) {
+        ItemDisplay display = new ItemDisplayBuilder()
+                .transformation(transformBuilder().buildForItemDisplay())
+                .build(getBlock().getLocation().toCenterLocation());
+        PedestalItemEntity pylonEntity = new PedestalItemEntity(display);
+        EntityStorage.add(pylonEntity);
+        return Map.of("item", pylonEntity.getUuid());
     }
 
     public TransformBuilder transformBuilder() {
@@ -73,19 +74,13 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
+    public void write(PersistentDataContainer pdc) {
         pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
         pdc.set(LOCKED_KEY, PylonSerializers.BOOLEAN, locked);
     }
 
     @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
-    }
-
-    @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
+    public void onInteract(PlayerInteractEvent event) {
         if (locked || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
@@ -120,12 +115,12 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
 
     @Override
-    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+    public void onBreak(List<ItemStack> drops, BlockBreakContext context) {
         PylonEntityHolderBlock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
     }
 
-    public @NotNull ItemDisplay getItemDisplay() {
+    public ItemDisplay getItemDisplay() {
         return getHeldEntity(PedestalItemEntity.class, "item").getEntity();
     }
 
@@ -133,7 +128,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         public static final NamespacedKey KEY = pylonKey("pedestal_item");
 
-        public PedestalItemEntity(@NotNull ItemDisplay entity) {
+        public PedestalItemEntity(ItemDisplay entity) {
             super(KEY, entity);
         }
     }

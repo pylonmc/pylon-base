@@ -2,15 +2,28 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
+import io.github.pylonmc.pylon.base.util.Either;
+import io.github.pylonmc.pylon.base.util.KeyUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import lombok.Getter;
+import lombok.Setter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,37 +32,72 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-
-public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock {
+@NullMarked
+public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidInteractionBlock {
 
     public static final NamespacedKey KEY = pylonKey("mixing_pot");
 
+    private static final NamespacedKey FLUID_KEY = KeyUtils.pylonKey("fluid");
+    private static final NamespacedKey FLUID_AMOUNT_KEY = KeyUtils.pylonKey("fluid_amount");
+
+    @Getter
+    @Setter
+    private @Nullable PylonFluid fluidType;
+
+    @Getter
+    @Setter
+    private double fluidAmount;
+
     @SuppressWarnings("unused")
-    public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public MixingPot(Block block, BlockCreateContext context) {
         super(block);
+
+        fluidType = null;
+        fluidAmount = 0;
     }
 
     @SuppressWarnings("unused")
-    public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public MixingPot(Block block, PersistentDataContainer pdc) {
         super(block);
+
+        fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+        fluidAmount = pdc.getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0D);
     }
 
     @Override
-    public @NotNull Set<ChunkPosition> getChunksOccupied() {
+    public void write(PersistentDataContainer pdc) {
+        PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
+        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
+    }
+
+    @Override
+    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
+        return List.of(
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
+                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.SOUTH)
+        );
+    }
+
+    @Override
+    public Set<ChunkPosition> getChunksOccupied() {
         return Set.of(new ChunkPosition(getBlock()));
     }
 
@@ -59,12 +107,76 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
+    public boolean isPartOfMultiblock(Block otherBlock) {
         return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
     }
 
     @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
+    public Map<PylonFluid, Double> getSuppliedFluids(String connectionPoint, double deltaSeconds) {
+        return fluidType == null
+                ? Map.of()
+                : Map.of(fluidType, fluidAmount);
+    }
+
+    @Override
+    public Map<PylonFluid, Double> getRequestedFluids(String connectionPoint, double deltaSeconds) {
+        if (fluidType == null) {
+            return PylonRegistry.FLUIDS.getValues()
+                    .stream()
+                    .collect(Collectors.toMap(Function.identity(), key -> 1000D));
+        }
+        if (fluidAmount >= 1000) {
+            return Map.of();
+        }
+        return Map.of(fluidType, 1000L - fluidAmount);
+    }
+
+    @Override
+    public void addFluid(String connectionPoint, PylonFluid fluid, double amount) {
+        if (fluidType == null) {
+            fluidType = fluid;
+        }
+        fluidAmount += amount;
+        updateCauldron();
+    }
+
+    @Override
+    public void removeFluid(String connectionPoint, PylonFluid fluid, double amount) {
+        fluidAmount -= amount;
+        if (fluidAmount <= 0) {
+            fluidType = null;
+            fluidAmount = 0;
+        }
+        updateCauldron();
+    }
+
+    private void updateCauldron() {
+        int level = (int) fluidAmount / 333;
+        if (level > 0 && getBlock().getType() == Material.CAULDRON) {
+            getBlock().setType(Material.WATER_CAULDRON);
+        } else if (level == 0) {
+            getBlock().setType(Material.CAULDRON);
+        }
+        if (getBlock().getBlockData() instanceof Levelled levelled) {
+            levelled.setLevel(level);
+            getBlock().setBlockData(levelled);
+        }
+    }
+
+    @Override
+    public WailaConfig getWaila(Player player) {
+        Component text = Component.text("").append(getName());
+        if (fluidType != null) {
+            text = text.append(Component.text(" | "))
+                    .append(fluidType.getName())
+                    .append(Component.text(": "))
+                    .append(UnitFormat.MILLIBUCKETS.format(fluidAmount).decimalPlaces(1));
+        }
+        return new WailaConfig(text);
+    }
+
+    @Override
+    public void onInteract(PlayerInteractEvent event) {
         // Only allow inserting water - events trying to insert lava will be cancelled
         if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
             return;
@@ -80,7 +192,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             return;
         }
 
-        if (!(getBlock().getBlockData() instanceof Levelled levelled)) {
+        if (fluidType == null) {
             return;
         }
 
@@ -103,16 +215,30 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 && ignitedBlock.getSchema().getKey().equals(EnrichedNetherrack.KEY);
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-            if (recipe.matches(stacks, isEnrichedFire, levelled.getLevel())) {
+            if (recipe.matches(stacks, isEnrichedFire, fluidType, fluidAmount)) {
                 doRecipe(recipe, items);
                 break;
             }
         }
     }
 
-    private void doRecipe(@NotNull Recipe recipe, @NotNull List<Item> items) {
-        recipe.takeIngredients(items, getBlock());
-        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), recipe.output);
+    private void doRecipe(Recipe recipe, List<Item> items) {
+        for (Map.Entry<RecipeChoice, Integer> choice : recipe.input.entrySet()) {
+            for (Item item1 : items) {
+                ItemStack stack = item1.getItemStack();
+                if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
+                    item1.setItemStack(stack.subtract(choice.getValue()));
+                    break;
+                }
+            }
+        }
+        switch (recipe.output()) {
+            case Either.Left(ItemStack item) -> {
+                removeFluid("", recipe.fluid, recipe.fluidAmount);
+                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+            }
+            case Either.Right(PylonFluid fluid) -> fluidType = fluid;
+        }
 
         new ParticleBuilder(Particle.SPLASH)
                 .count(20)
@@ -136,18 +262,41 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     /**
-     * Liquid amount can be 0 (empty) to 3 (full cauldron / 1 bucket of water)
+     * @param fluidAmount the number of millibuckets of fluid to be used in the recipe
      */
     public record Recipe(
-            @NotNull NamespacedKey key,
-            @NotNull Map<RecipeChoice, Integer> input,
-            @NotNull ItemStack output,
+            NamespacedKey key,
+            Map<RecipeChoice, Integer> input,
+            Either<ItemStack, PylonFluid> output,
             boolean requiresEnrichedFire,
-            int waterAmount
+            PylonFluid fluid,
+            double fluidAmount
     ) implements Keyed {
 
+        public Recipe(
+                NamespacedKey key,
+                Map<RecipeChoice, Integer> input,
+                ItemStack output,
+                boolean requiresEnrichedFire,
+                PylonFluid fluid,
+                double fluidAmount
+        ) {
+            this(key, input, new Either.Left<>(output), requiresEnrichedFire, fluid, fluidAmount);
+        }
+
+        public Recipe(
+                NamespacedKey key,
+                Map<RecipeChoice, Integer> input,
+                PylonFluid output,
+                boolean requiresEnrichedFire,
+                PylonFluid fluid,
+                double fluidAmount
+        ) {
+            this(key, input, new Either.Right<>(output), requiresEnrichedFire, fluid, fluidAmount);
+        }
+
         @Override
-        public @NotNull NamespacedKey getKey() {
+        public NamespacedKey getKey() {
             return key;
         }
 
@@ -159,12 +308,17 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
         }
 
-        public boolean matches(@NotNull List<ItemStack> input, boolean isEnrichedFire, int waterAmount) {
+        public boolean matches(
+                List<ItemStack> input,
+                boolean isEnrichedFire,
+                PylonFluid fluid,
+                double fluidAmount
+        ) {
             if (requiresEnrichedFire && !isEnrichedFire) {
                 return false;
             }
 
-            if (waterAmount < this.waterAmount) {
+            if (fluidAmount < this.fluidAmount || fluid != this.fluid) {
                 return false;
             }
 
@@ -184,28 +338,5 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             return true;
         }
 
-        /**
-         * Assumes that recipe has been already checked to make sure it matches, and the block is a Levelled
-         */
-        void takeIngredients(@NotNull List<Item> items, @NotNull Block block) {
-            Levelled levelled = (Levelled) block.getBlockData();
-            int newLevel = levelled.getLevel() - waterAmount;
-            if (newLevel < levelled.getMinimumLevel()) {
-                block.setType(Material.CAULDRON);
-            } else {
-                levelled.setLevel(newLevel);
-                block.setBlockData(levelled);
-            }
-
-            for (Map.Entry<RecipeChoice, Integer> choice : input.entrySet()) {
-                for (Item item : items) {
-                    ItemStack stack = item.getItemStack();
-                    if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
-                        item.setItemStack(stack.subtract(choice.getValue()));
-                        break;
-                    }
-                }
-            }
-        }
     }
 }

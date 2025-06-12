@@ -5,8 +5,8 @@ item:
     name: "Bandage"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <u:hearts>2</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>2</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>2</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>2</unit>
 
   beheading_sword:
     name: "Beheading Sword"
@@ -39,7 +39,7 @@ item:
     name: "Dimensional Barrel"
     lore: |-
       <arrow> Uses the power of extra dimensions to store more items
-      <arrow> <attr:Size>%size%</attr>
+      <arrow> <attr>Size:</attr> %size%
     waila: "Dimensional Barrel"
 
   disinfectant:
@@ -47,16 +47,48 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   dough:
     name: "Dough"
     lore: ""
 
   enriched_netherrack:
-    name: "Enriched netherrack"
+    name: "Enriched Netherrack"
     lore: "<arrow> Burns hotter than netherrack"
     waila: "Enriched Netherrack"
+
+  explosive_target:
+    name: "Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Doesn't create fire
+    waila: "Explosive Target"
+
+  explosive_target_fiery:
+    name: "Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Creates fire
+    waila: "Fiery Explosive Target"
+
+  explosive_target_super:
+    name: "Super Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Doesn't create fire
+    waila: "Super Explosive Target"
+
+  explosive_target_super_fiery:
+    name: "Super Fiery Explosive Target"
+    lore: |-
+      <arrow> Explodes when shot
+      <arrow> Explosion power: %explosive-power%
+      <arrow> Creates fire
+    waila: "Super Fiery Explosive Target"
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -122,8 +154,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
 
   fluid_pipe_copper:
     name: "Copper Fluid Pipe"
@@ -131,8 +162,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
 
   fluid_pipe_obsidian:
     name: "Obsidian Fluid Pipe"
@@ -140,8 +170,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
 
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
@@ -150,8 +179,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
     waila: "Wooden Portable Fluid Tank | %amount%/%capacity%"
 
   portable_fluid_tank_copper:
@@ -161,8 +189,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
     waila: "Copper Portable Fluid Tank | %amount%/%capacity%"
 
   fluid_valve:
@@ -205,6 +232,10 @@ item:
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
     waila: "Fluid Voider <light_purple>III"
+
+  iron_dust:
+    name: "Iron Dust"
+    lore: ""
 
   water_placer:
     name: "Water Placer"
@@ -276,6 +307,16 @@ item:
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
+  immobilizer:
+    name: "Immobilizer"
+    lore: |-
+      <arrow> Immobilizes players in a range
+      <arrow> Triggered by a redstone signal
+      <attr:Duration:ticks>%duration%</attr>
+      <attr:Radius:blocks>%radius%</attr>
+      <attr:Cooldown:ticks>%cooldown%</attr>
+    waila: "Immobilizer"
+
   iron_sheet:
     name: "Iron Sheet"
     lore: ""
@@ -294,7 +335,7 @@ item:
       <arrow> Breaks an entire tree at once
 
   magic_dust:
-    name: "Magic dust"
+    name: "Magic Dust"
     lore: ""
 
   magic_altar:
@@ -315,8 +356,8 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr>Heals:</attr> <u:hearts>10</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>7</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>10</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>7</unit>
 
   mixing_pot:
     name: "Mixing Pot"
@@ -363,6 +404,10 @@ item:
       <arrow> <insn>Shift right click</insn> to rotate the item
     waila: "Pedestal"
 
+  raw_copper_dust:
+    name: "Raw Copper Dust"
+    lore: ""
+
   raw_ferroduralum:
     name: "Raw Ferroduralum"
     lore: "A primitive alloy"
@@ -371,13 +416,24 @@ item:
     name: "Recoil Arrow"
     lore: |-
       <arrow> Sends you backwards at the velocity of your arrow
-      <arrow> <attr>Efficiency:</attr> <u:percent>75</u>
+      <arrow> <attr>Efficiency:</attr> <unit:percent>75</unit>
+
+  refractory_brick:
+    name: "Refractory Brick"
+    lore: |-
+      <star> Smeltery component
+      <arrow> The most basic and cheapest smeltery component
+    waila: "Refractory Brick"
 
   research_pack_1:
     name: "Research Pack I"
     lore: |-
       <arrow> <insn>Right click</insn> to open
       <arrow> <attr>Research points:</attr> %points%
+
+  rock_dust:
+    name: "Rock Dust"
+    lore: ""
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
@@ -395,12 +451,57 @@ item:
     name: "Shimmer Skull"
     lore: ""
 
+  smeltery_burner:
+    name: "Smeltery Burner"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Burns fuel to heat the smeltery
+    waila: "Smeltery Burner"
+
+  smeltery_caster:
+    name: "Smeltery Caster"
+    lore: |-
+      <star> Smeltery component
+      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
+      <arrow> Casts items from the smeltery
+    waila: "Smeltery Caster"
+
+  smeltery_controller:
+    name: "Smeltery Controller"
+    lore: |-
+      <star> Multiblock
+      <star> Smeltery component
+      <arrow> The main component of the smeltery. Place it in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
+      <arrow> <insn>Right click</insn> to open the smeltery GUI
+    waila: "Smeltery Controller"
+
+  smeltery_hopper:
+    name: "Smeltery Hopper"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as item input for the smeltery
+    waila: "Smeltery Hopper"
+
+  smeltery_input_hatch:
+    name: "Smeltery Input Hatch"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as fluid input for the smeltery
+    waila: "Smeltery Input Hatch"
+
+  smeltery_output_hatch:
+    name: "Smeltery Output Hatch"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as fluid output for the smeltery
+    waila: "Smeltery Output Hatch"
+
   splint:
     name: "Splint"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <u:hearts>7</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>7</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   sprinkler:
     name: "Sprinkler"
@@ -410,6 +511,10 @@ item:
       <arrow> <attr>Water consumption:</attr> %water_consumption%
       <arrow> <attr>Range:</attr> %range%
     waila: "Sprinkler"
+
+  sulfur:
+    name: "Sulfur"
+    lore: ""
 
   watering_can:
     name: "Watering Can"
@@ -441,19 +546,19 @@ item:
       <arrow> Does not stack
 
   water_pump:
-    name: "Water pump"
+    name: "Water Pump"
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"
 
 fluid:
-  water:
-    name: "Water"
-    lore: ""
-
-  lava:
-    name: "Lava"
-    lore: ""
+  lava: "<#fc4e03>Lava"
+  mercury: "<#dedede>Mercury"
+  none: "None"
+  slurry: "<gray>Slurry"
+  slurry_redstone: "<red>Redstone Slurry"
+  sulfur: "<yellow>Sulfur"
+  water: "<blue>Water"
 
 research:
   baking:
@@ -531,3 +636,31 @@ message:
   valve:
     enabled: "enabled"
     disabled: "disabled"
+
+gui:
+  status:
+    name: "Status"
+    toggle: "<insn>Click</insn> to toggle"
+    on: "<green>On"
+    off: "<yellow>Off"
+    running: "<green>Running"
+    not_running: "<yellow>Not running"
+    incomplete: "<red>Multiblock incomplete"
+  smeltery:
+    height: "<attr>Height:</attr> %height%"
+    capacity: "<attr>Capacity:</attr> %capacity%"
+    temperature: "<attr>Temperature:</attr> %temperature%"
+    contents:
+      name: "Contents"
+      fluid: "%amount% of %fluid%"
+  smeltery_burner:
+    burning: "<green>Burning"
+    not_burning: "<yellow>Not burning"
+    energy_left: "<attr>Energy left:</attr> %energy%"
+    power_output: "<attr>Power output:</attr> %power%"
+  smeltery_caster:
+    cast: "Cast"
+    cannot_cast: "<red>Cannot cast"
+    too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
+    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least <unit:millibuckets>111</unit> (you have %amount%)"
+    click_to_cast: "<insn>Click</insn> to cast %item%"

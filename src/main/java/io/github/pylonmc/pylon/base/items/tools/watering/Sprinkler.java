@@ -2,10 +2,10 @@ package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -29,13 +29,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class Sprinkler extends PylonBlock implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBlock {
+public class Sprinkler extends PylonBlock implements PylonFluidInteractionBlock, PylonTickingBlock, PylonFluidBlock {
 
     public static class Item extends PylonItem {
 
@@ -61,7 +61,6 @@ public class Sprinkler extends PylonBlock implements PylonEntityHolderBlock, Pyl
     public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
     public static final double WATER_PER_SECOND = Settings.get(KEY).getOrThrow("water-per-second", Integer.class);
 
-    protected final Map<String, UUID> entities;
     private double waterBuffer;
 
     @SuppressWarnings("unused")
@@ -73,9 +72,6 @@ public class Sprinkler extends PylonBlock implements PylonEntityHolderBlock, Pyl
 
         FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
 
-        entities = Map.of(
-                "input", FluidConnectionInteraction.make(player, input, BlockFace.UP, -0.15F).getUuid()
-        );
         waterBuffer = 0.0;
     }
 
@@ -83,19 +79,17 @@ public class Sprinkler extends PylonBlock implements PylonEntityHolderBlock, Pyl
     public Sprinkler(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        entities = loadHeldEntities(pdc);
         waterBuffer = pdc.get(WATER_BUFFER_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
         pdc.set(WATER_BUFFER_KEY, PylonSerializers.DOUBLE, waterBuffer);
     }
 
     @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
+    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
+        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.UP, -0.15F));
     }
 
     @Override
