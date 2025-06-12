@@ -97,8 +97,6 @@ public final class SmelteryController extends SmelteryComponent
         height = 0;
         capacity = 0;
         components.add(new BlockPosition(getBlock()));
-
-        fluids.defaultReturnValue(-1);
     }
 
     @SuppressWarnings("unused")
@@ -111,8 +109,6 @@ public final class SmelteryController extends SmelteryComponent
         capacity = pdc.getOrDefault(CAPACITY_KEY, PylonSerializers.DOUBLE, 0D);
         components.addAll(pdc.getOrDefault(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), Set.of()));
         fluids.putAll(pdc.getOrDefault(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), Map.of()));
-
-        fluids.defaultReturnValue(-1);
     }
 
     @Override
@@ -477,12 +473,7 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Recipe" defaultstate="collapsed">
-    record Recipe(
-            NamespacedKey key,
-            Map<PylonFluid, Double> inputFluids,
-            Map<PylonFluid, Double> outputFluids,
-            double temperature
-    ) implements Keyed {
+    public static final class Recipe implements Keyed {
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery")) {
             @Override
@@ -491,8 +482,8 @@ public final class SmelteryController extends SmelteryComponent
                 Map<NamespacedKey, Recipe> recipes = getRegisteredRecipes();
                 Map<NamespacedKey, Recipe> newMap = recipes.entrySet().stream()
                         .sorted(
-                                Comparator.<Map.Entry<NamespacedKey, Recipe>>comparingDouble(entry -> -entry.getValue().temperature())
-                                        .thenComparingInt(entry -> -entry.getValue().inputFluids().size())
+                                Comparator.<Map.Entry<NamespacedKey, Recipe>>comparingDouble(entry -> -entry.getValue().getTemperature())
+                                        .thenComparingInt(entry -> -entry.getValue().getInputFluids().size())
                         )
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
@@ -504,13 +495,51 @@ public final class SmelteryController extends SmelteryComponent
                 recipes.putAll(newMap);
             }
         };
+
         static {
             RECIPE_TYPE.register();
         }
 
-        @Override
-        public NamespacedKey getKey() {
-            return key;
+        @Getter(onMethod_ = @Override)
+        private final NamespacedKey key;
+
+        @Getter
+        private final Map<PylonFluid, Double> inputFluids;
+
+        @Getter
+        private final Map<PylonFluid, Double> outputFluids;
+
+        private final PylonFluid highestFluid;
+
+        @Getter
+        private final double temperature;
+
+        public Recipe(
+                NamespacedKey key,
+                Map<PylonFluid, Double> inputFluids,
+                Map<PylonFluid, Double> outputFluids,
+                double temperature
+        ) {
+            this.key = key;
+            this.temperature = temperature;
+
+            var highestFluidEntry = inputFluids.entrySet().stream()
+                    .max(Comparator.comparingDouble(Map.Entry::getValue))
+                    .orElseThrow(() -> new IllegalArgumentException("Input fluids cannot be empty"));
+            this.highestFluid = highestFluidEntry.getKey();
+            double highestFluidAmount = highestFluidEntry.getValue();
+
+            this.inputFluids = new HashMap<>();
+            for (var entry : inputFluids.entrySet()) {
+                Preconditions.checkArgument(entry.getValue() > 0, "Input fluid amount must be positive");
+                this.inputFluids.put(entry.getKey(), entry.getValue() / highestFluidAmount);
+            }
+
+            this.outputFluids = new HashMap<>();
+            for (var entry : outputFluids.entrySet()) {
+                Preconditions.checkArgument(entry.getValue() > 0, "Output fluid amount must be positive");
+                this.outputFluids.put(entry.getKey(), entry.getValue() / highestFluidAmount);
+            }
         }
     }
 
@@ -518,24 +547,25 @@ public final class SmelteryController extends SmelteryComponent
         if (fluids.isEmpty()) return;
         recipeLoop:
         for (Recipe recipe : Recipe.RECIPE_TYPE) {
-            if (recipe.temperature > temperature) continue; // recipe requires higher temperature
-            for (var entry : recipe.inputFluids().entrySet()) {
-                PylonFluid fluid = entry.getKey();
-                double amount = entry.getValue() * deltaSeconds;
-                if (fluids.getDouble(fluid) < amount) {
-                    continue recipeLoop; // not enough fluid for this recipe
-                }
+            if (recipe.temperature > temperature) continue;
+
+            for (PylonFluid fluid : recipe.getInputFluids().keySet()) {
+                if (getFluidAmount(fluid) == 0) continue recipeLoop;
             }
 
-            // Perform recipe
-            for (var entry : recipe.inputFluids().entrySet()) {
+            double highestFluidAmount = getFluidAmount(recipe.highestFluid);
+            double consumptionRatio = Math.min(
+                    highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND),
+                    1
+            );
+            for (var entry : recipe.getInputFluids().entrySet()) {
                 PylonFluid fluid = entry.getKey();
-                double amount = entry.getValue() * deltaSeconds * FLUID_REACTION_PER_SECOND;
+                double amount = entry.getValue() * consumptionRatio;
                 removeFluid(fluid, amount);
             }
-            for (var entry : recipe.outputFluids().entrySet()) {
+            for (var entry : recipe.getOutputFluids().entrySet()) {
                 PylonFluid fluid = entry.getKey();
-                double amount = entry.getValue() * deltaSeconds * FLUID_REACTION_PER_SECOND;
+                double amount = entry.getValue() * consumptionRatio;
                 addFluid(fluid, amount);
             }
         }
