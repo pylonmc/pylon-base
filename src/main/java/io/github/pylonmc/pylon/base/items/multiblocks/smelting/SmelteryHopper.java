@@ -10,7 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_hopper");
@@ -30,11 +29,13 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
                     f -> f.getTag(CastableFluid.class)
             ));
 
-    public SmelteryHopper(Block block, BlockCreateContext context) {
+    @SuppressWarnings("unused")
+    public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public SmelteryHopper(Block block, PersistentDataContainer pdc) {
+    @SuppressWarnings("unused")
+    public SmelteryHopper(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 

@@ -5,24 +5,23 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-@NullMarked
 public sealed interface VanillaOrPylon {
 
-    boolean matches(ItemStack stack);
+    boolean matches(@NotNull ItemStack stack);
     RecipeChoice asRecipeChoice();
 
-    record Vanilla(ItemStack stack) implements VanillaOrPylon {
+    record Vanilla(@NotNull ItemStack stack) implements VanillaOrPylon {
 
-        public Vanilla(Material material) {
+        public Vanilla(@NotNull Material material) {
             this(new ItemStack(material));
         }
 
         @Override
-        public boolean matches(ItemStack stack) {
+        public boolean matches(@NotNull ItemStack stack) {
             return this.stack.isSimilar(stack); // will fail for Pylon items since they have extra data components
         }
 
@@ -32,14 +31,14 @@ public sealed interface VanillaOrPylon {
         }
     }
 
-    record Pylon(PylonItemSchema item) implements VanillaOrPylon {
+    record Pylon(@NotNull PylonItemSchema item) implements VanillaOrPylon {
 
-        public Pylon(ItemStack item) {
+        public Pylon(@NotNull ItemStack item) {
             this(Objects.requireNonNull(PylonItem.fromStack(item)).getSchema());
         }
 
         @Override
-        public boolean matches(ItemStack stack) {
+        public boolean matches(@NotNull ItemStack stack) {
             PylonItem pylonItem = PylonItem.fromStack(stack);
             return pylonItem != null && pylonItem.getSchema().getKey().equals(item.getKey());
         }

@@ -19,14 +19,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public class WaterPump extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock {
 
     public static class Item extends PylonItem {
@@ -58,7 +56,7 @@ public class WaterPump extends PylonBlock implements PylonFluidInteractionBlock,
     }
 
     @Override
-    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
+    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
         return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.UP));
     }
 

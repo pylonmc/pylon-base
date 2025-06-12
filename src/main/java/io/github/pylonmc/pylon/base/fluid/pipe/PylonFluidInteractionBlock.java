@@ -7,21 +7,20 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@NullMarked
 public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, PylonFluidBlock {
 
-    List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context);
+    @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context);
 
     @Override
     @MustBeInvokedByOverriders
-    default Map<String, UUID> createEntities(BlockCreateContext context) {
+    default @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
         List<SimpleFluidConnectionPoint> connectionPoints = createFluidConnectionPoints(context);
         Map<String, UUID> entities = new HashMap<>(connectionPoints.size());
         Player player = null;

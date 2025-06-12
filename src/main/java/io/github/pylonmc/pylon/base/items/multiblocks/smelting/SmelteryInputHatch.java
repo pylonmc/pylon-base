@@ -11,7 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,6 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidInteractionBlock {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_input_hatch");
@@ -27,22 +26,24 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     // TODO block setting
     private static final double FLOW_RATE = 500;
 
-    public SmelteryInputHatch(Block block, BlockCreateContext context) {
+    @SuppressWarnings("unused")
+    public SmelteryInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public SmelteryInputHatch(Block block, PersistentDataContainer pdc) {
+    @SuppressWarnings("unused")
+    public SmelteryInputHatch(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
     @Override
-    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
+    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
         BlockFace face = context instanceof BlockCreateContext.PlayerPlace ctx ? ctx.getClickedFace() : BlockFace.NORTH;
         return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, face));
     }
 
     @Override
-    public Map<PylonFluid, Double> getRequestedFluids(String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         SmelteryController controller = getController();
         if (controller == null) return Map.of();
 
@@ -57,7 +58,7 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     }
 
     @Override
-    public void addFluid(String connectionPoint, PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         SmelteryController controller = getController();
         if (controller == null) return;
         controller.addFluid(fluid, amount);

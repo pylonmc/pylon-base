@@ -11,29 +11,28 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
 
-@NullMarked
 public class Slurry extends PylonFluid implements RegistryHandler {
 
     @Getter
     private final VanillaOrPylon slurryMaterial;
     
-    public Slurry(NamespacedKey key, Component name, VanillaOrPylon slurryMaterial, List<PylonFluidTag> tags) {
+    public Slurry(@NotNull NamespacedKey key, @NotNull Component name, @NotNull VanillaOrPylon slurryMaterial, @NotNull List<PylonFluidTag> tags) {
         super(key, name, Material.LIGHT_GRAY_CONCRETE, tags);
         this.slurryMaterial = slurryMaterial;
     }
 
-    public Slurry(NamespacedKey key, VanillaOrPylon slurryMaterial, PylonFluidTag... tags) {
+    public Slurry(@NotNull NamespacedKey key, @NotNull VanillaOrPylon slurryMaterial, @NotNull PylonFluidTag @NotNull ... tags) {
         super(key, Material.LIGHT_GRAY_CONCRETE, tags);
         this.slurryMaterial = slurryMaterial;
     }
 
     @Override
-    public void onRegister(PylonRegistry<?> registry) {
+    public void onRegister(@NotNull PylonRegistry<?> registry) {
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
                 getKey(),
                 Map.of(slurryMaterial.asRecipeChoice(), 1),

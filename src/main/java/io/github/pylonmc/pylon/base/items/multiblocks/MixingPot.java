@@ -39,8 +39,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,6 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidInteractionBlock {
 
     public static final NamespacedKey KEY = pylonKey("mixing_pot");
@@ -67,7 +66,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     private double fluidAmount;
 
     @SuppressWarnings("unused")
-    public MixingPot(Block block, BlockCreateContext context) {
+    public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         fluidType = null;
@@ -75,7 +74,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @SuppressWarnings("unused")
-    public MixingPot(Block block, PersistentDataContainer pdc) {
+    public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
         fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
@@ -83,13 +82,13 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void write(PersistentDataContainer pdc) {
+    public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
         pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
     }
 
     @Override
-    public List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context) {
+    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
         return List.of(
                 new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
                 new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.SOUTH)
@@ -97,7 +96,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public Set<ChunkPosition> getChunksOccupied() {
+    public @NotNull Set<ChunkPosition> getChunksOccupied() {
         return Set.of(new ChunkPosition(getBlock()));
     }
 
@@ -112,14 +111,14 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public Map<PylonFluid, Double> getSuppliedFluids(String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         return fluidType == null
                 ? Map.of()
                 : Map.of(fluidType, fluidAmount);
     }
 
     @Override
-    public Map<PylonFluid, Double> getRequestedFluids(String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
                     .stream()
@@ -132,7 +131,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void addFluid(String connectionPoint, PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         if (fluidType == null) {
             fluidType = fluid;
         }
@@ -141,7 +140,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void removeFluid(String connectionPoint, PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         fluidAmount -= amount;
         if (fluidAmount <= 0) {
             fluidType = null;
@@ -164,7 +163,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public WailaConfig getWaila(Player player) {
+    public @NotNull WailaConfig getWaila(@NotNull Player player) {
         Component text = Component.text("").append(getName());
         if (fluidType != null) {
             text = text.append(Component.text(" | "))
@@ -176,7 +175,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void onInteract(PlayerInteractEvent event) {
+    public void onInteract(@NotNull PlayerInteractEvent event) {
         // Only allow inserting water - events trying to insert lava will be cancelled
         if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
             return;
@@ -222,7 +221,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
         }
     }
 
-    private void doRecipe(Recipe recipe, List<Item> items) {
+    private void doRecipe(@NotNull Recipe recipe, @NotNull List<Item> items) {
         for (Map.Entry<RecipeChoice, Integer> choice : recipe.input.entrySet()) {
             for (Item item1 : items) {
                 ItemStack stack = item1.getItemStack();
@@ -265,38 +264,38 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
      * @param fluidAmount the number of millibuckets of fluid to be used in the recipe
      */
     public record Recipe(
-            NamespacedKey key,
-            Map<RecipeChoice, Integer> input,
-            Either<ItemStack, PylonFluid> output,
+            @NotNull NamespacedKey key,
+            @NotNull Map<RecipeChoice, Integer> input,
+            @NotNull Either<ItemStack, PylonFluid> output,
             boolean requiresEnrichedFire,
-            PylonFluid fluid,
+            @NotNull PylonFluid fluid,
             double fluidAmount
     ) implements Keyed {
 
         public Recipe(
-                NamespacedKey key,
-                Map<RecipeChoice, Integer> input,
-                ItemStack output,
+                @NotNull NamespacedKey key,
+                @NotNull Map<RecipeChoice, Integer> input,
+                @NotNull ItemStack output,
                 boolean requiresEnrichedFire,
-                PylonFluid fluid,
+                @NotNull PylonFluid fluid,
                 double fluidAmount
         ) {
             this(key, input, new Either.Left<>(output), requiresEnrichedFire, fluid, fluidAmount);
         }
 
         public Recipe(
-                NamespacedKey key,
-                Map<RecipeChoice, Integer> input,
-                PylonFluid output,
+                @NotNull NamespacedKey key,
+                @NotNull Map<RecipeChoice, Integer> input,
+                @NotNull PylonFluid output,
                 boolean requiresEnrichedFire,
-                PylonFluid fluid,
+                @NotNull PylonFluid fluid,
                 double fluidAmount
         ) {
             this(key, input, new Either.Right<>(output), requiresEnrichedFire, fluid, fluidAmount);
         }
 
         @Override
-        public NamespacedKey getKey() {
+        public @NotNull NamespacedKey getKey() {
             return key;
         }
 

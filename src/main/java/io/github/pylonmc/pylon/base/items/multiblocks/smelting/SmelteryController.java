@@ -41,7 +41,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
-import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
@@ -52,7 +51,6 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock {
 
@@ -89,7 +87,7 @@ public final class SmelteryController extends SmelteryComponent
     private final Set<BlockPosition> components = new HashSet<>();
 
     @SuppressWarnings("unused")
-    public SmelteryController(Block block, BlockCreateContext context) {
+    public SmelteryController(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         temperature = ROOM_TEMPERATURE_CELSIUS;
@@ -100,7 +98,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     @SuppressWarnings("unused")
-    public SmelteryController(Block block, PersistentDataContainer pdc) {
+    public SmelteryController(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
         temperature = pdc.getOrDefault(TEMPERATURE_KEY, PylonSerializers.DOUBLE, ROOM_TEMPERATURE_CELSIUS);
@@ -117,7 +115,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     @Override
-    public void write(PersistentDataContainer pdc) {
+    public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
         pdc.set(HEIGHT_KEY, PylonSerializers.INTEGER, height);
@@ -140,7 +138,7 @@ public final class SmelteryController extends SmelteryComponent
     private final Item contentsItem = new ContentsItem();
 
     @Override
-    public Gui createGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
@@ -191,7 +189,7 @@ public final class SmelteryController extends SmelteryComponent
         }
 
         @Override
-        public void handleClick(ClickType clickType, Player player, InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             if (isFormedAndFullyLoaded()) {
                 running = !running;
                 notifyWindows();
@@ -226,7 +224,7 @@ public final class SmelteryController extends SmelteryComponent
         }
 
         @Override
-        public void handleClick(ClickType clickType, Player player, InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
         }
     }
 
@@ -267,7 +265,7 @@ public final class SmelteryController extends SmelteryComponent
     // @formatter:on
 
     @Override
-    public Set<ChunkPosition> getChunksOccupied() {
+    public @NotNull Set<ChunkPosition> getChunksOccupied() {
         return multiblockPositions.stream()
                 .map(BlockPosition::getChunk)
                 .collect(Collectors.toSet());
@@ -317,20 +315,20 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     @Override
-    public boolean isPartOfMultiblock(Block otherBlock) {
+    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         if (otherBlock.getY() < center.getY() - 1) return false;
         return otherBlock.getX() >= center.getX() - 2 && otherBlock.getX() <= center.getX() + 2
                 && otherBlock.getZ() >= center.getZ() - 2 && otherBlock.getZ() <= center.getZ() + 2;
     }
 
-    private static List<BlockPosition> addY(List<BlockPosition> positions, int y) {
+    private static List<BlockPosition> addY(@NotNull List<BlockPosition> positions, int y) {
         if (y == 0) return positions;
         return positions.stream()
                 .map(pos -> pos.addScalar(0, y, 0))
                 .toList();
     }
 
-    private boolean checkAllComponent(List<BlockPosition> positions) {
+    private boolean checkAllComponent(@NotNull List<BlockPosition> positions) {
         Map<BlockPosition, SmelteryComponent> components = new HashMap<>();
         for (BlockPosition pos : positions) {
             if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
@@ -346,7 +344,7 @@ public final class SmelteryController extends SmelteryComponent
         return true;
     }
 
-    private static int countAir(List<BlockPosition> positions) {
+    private static int countAir(@NotNull List<BlockPosition> positions) {
         int count = 0;
         for (BlockPosition pos : positions) {
             if (pos.getBlock().isEmpty()) {
@@ -358,7 +356,7 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid" defaultstate="collapsed">
-    public void addFluid(PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
@@ -370,7 +368,7 @@ public final class SmelteryController extends SmelteryComponent
         temperature = (originalHeatCapacity * temperature + addedHeatCapacity * ROOM_TEMPERATURE_CELSIUS) / (originalHeatCapacity + addedHeatCapacity);
     }
 
-    public void removeFluid(PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
@@ -380,7 +378,7 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
-    public double getFluidAmount(PylonFluid fluid) {
+    public double getFluidAmount(@NotNull PylonFluid fluid) {
         return fluids.getDouble(fluid);
     }
 
@@ -477,7 +475,7 @@ public final class SmelteryController extends SmelteryComponent
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery")) {
             @Override
-            public void addRecipe(Recipe recipe) {
+            public void addRecipe(@NotNull Recipe recipe) {
                 super.addRecipe(recipe);
                 Map<NamespacedKey, Recipe> recipes = getRegisteredRecipes();
                 Map<NamespacedKey, Recipe> newMap = recipes.entrySet().stream()

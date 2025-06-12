@@ -21,8 +21,8 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
@@ -30,18 +30,19 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_caster");
 
     private @Nullable PylonFluid canCast = null;
 
-    public SmelteryCaster(Block block, BlockCreateContext context) {
+    @SuppressWarnings("unused")
+    public SmelteryCaster(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public SmelteryCaster(Block block, PersistentDataContainer pdc) {
+    @SuppressWarnings("unused")
+    public SmelteryCaster(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -49,7 +50,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     private final CastItem castItem = new CastItem();
 
     @Override
-    public Gui createGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
@@ -105,7 +106,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
         }
 
         @Override
-        public void handleClick(ClickType clickType, Player player, InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             SmelteryController controller = getController();
             if (controller == null || canCast == null || controller.getFluidAmount(canCast) < 111) return;
 
@@ -117,7 +118,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             controller.removeFluid(canCast, 111);
         }
 
-        private static TranslatableComponent casterKey(String subkey, TranslationArgument... args) {
+        private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull TranslationArgument @NotNull ... args) {
             return Component.translatable("pylon.pylonbase.gui.smeltery_caster." + subkey, args);
         }
     }
