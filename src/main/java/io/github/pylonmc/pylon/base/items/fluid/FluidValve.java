@@ -56,12 +56,6 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
     public FluidValve(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
-        FluidConnectionPoint eastPoint = new FluidConnectionPoint(getBlock(), "east", FluidConnectionPoint.Type.CONNECTOR);
-        FluidConnectionPoint westPoint = new FluidConnectionPoint(getBlock(), "west", FluidConnectionPoint.Type.CONNECTOR);
-
         enabled = false;
     }
 
