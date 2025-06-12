@@ -456,29 +456,52 @@ fluid:
     lore: ""
 
 research:
-  baking: "<gold>baking"
-  better_health: "<green>better health"
-  compression: "<black>compression"
-  fairies: "<dark_purple>fairies"
-  first_aid: "<dark_red>first aid"
-  food_preservation: "<#483b29>food preservation"
-  french_revolution: "<gradient:#0055a4:white:#ef4135>the French revolution"
-  glitter: "<gold>glitter"
-  gravity: "<blue>gravity"
-  grinding: "<dark_gray>grinding"
-  homogeneity: "<blue>homogeneity"
-  magic: "<dark_purple>magic"
-  medicine: "<dark_red>medicine"
-  metal_ductility: "<dark_gray>metal ductility"
-  newtons_second_law: "<green>Newton's second law"
-  newtons_third_law: "<green>Newton's third law"
-  plant_growth: "<green>plant growth"
-  plant_growth_automated: "<green>automated plant growth"
-  portability: "<blue>portability"
-  primitive_alloy_tools: "<#f6d348>primitive alloy tools"
-  primitive_alloy_armor: "<#f6d348>primitive alloy armor"
-  primitive_alloying: "<#d93802>primitive alloying"
-  showing_off: "<rainbow>showing off"
+  baking:
+    name: "<gold>baking"
+  better_health:
+    name: "<green>better health"
+  compression:
+    name: "<black>compression"
+  fairies:
+    name: "<dark_purple>fairies"
+  first_aid:
+    name: "<dark_red>first aid"
+  food_preservation:
+    name: "<#483b29>food preservation"
+  french_revolution:
+    name: "<gradient:#0055a4:white:#ef4135>the French revolution"
+  glitter:
+    name: "<gold>glitter"
+  gravity:
+    name: "<blue>gravity"
+  grinding:
+    name: "<dark_gray>grinding"
+  homogeneity:
+    name: "<blue>homogeneity"
+  magic:
+    name: "<dark_purple>magic"
+  medicine:
+    name: "<dark_red>medicine"
+  metal_ductility:
+    name: "<dark_gray>metal ductility"
+  newtons_second_law:
+    name: "<green>Newton's second law"
+  newtons_third_law:
+    name: "<green>Newton's third law"
+  plant_growth:
+    name: "<green>plant growth"
+  plant_growth_automated:
+    name: "<green>automated plant growth"
+  portability:
+    name: "<blue>portability"
+  primitive_alloy_tools:
+    name: "<#f6d348>primitive alloy tools"
+  primitive_alloy_armor:
+    name: "<#f6d348>primitive alloy armor"
+  primitive_alloying:
+    name: "<#d93802>primitive alloying"
+  showing_off:
+    name: "<rainbow>showing off"
 
 message:
   fluid_none: "None"

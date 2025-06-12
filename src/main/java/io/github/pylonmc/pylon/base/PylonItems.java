@@ -91,7 +91,7 @@ public final class PylonItems {
                 2,
                 Material.COPPER_BLOCK.createBlockData()
         ));
-        Categories.DUSTS.add(COPPER_DUST);
+        GuidePages.RESOURCES.addItem(COPPER_DUST_KEY);
     }
 
     public static final NamespacedKey GOLD_DUST_KEY = pylonKey("gold_dust");
@@ -181,6 +181,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("newtons_second_law"),
+                Material.STONE_PICKAXE,
                 5L,
                 Hammer.HAMMER_STONE_KEY,
                 Hammer.HAMMER_IRON_KEY,
@@ -199,6 +200,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("plant_growth"),
+                Material.BUCKET,
                 5L,
                 WateringCan.KEY
         ).register();
@@ -235,6 +237,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("food_preservation"),
+                Material.ROTTEN_FLESH,
                 2L,
                 MonsterJerky.KEY
         ).register();
@@ -277,6 +280,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("primitive_alloying"),
+                Material.IRON_INGOT,
                 8L,
                 RAW_FERRODURALUM_KEY,
                 FERRODURALUM_INGOT_KEY
@@ -300,6 +304,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("metal_ductility"),
+                Material.PAPER,
                 5L,
                 COPPER_SHEET_KEY,
                 GOLD_SHEET_KEY,
@@ -416,6 +421,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("primitive_alloy_tools"),
+                Material.IRON_AXE,
                 10L,
                 FERRODURALUM_SWORD_KEY,
                 FERRODURALUM_AXE_KEY,
@@ -535,7 +541,8 @@ public final class PylonItems {
 
     static {
         new Research(
-               pylonKey("primitive_alloy_armor"),
+                pylonKey("primitive_alloy_armor"),
+                Material.IRON_HELMET,
                 10L,
                 FERRODURALUM_HELMET_KEY,
                 FERRODURALUM_CHESTPLATE_KEY,
@@ -589,6 +596,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("compression"),
+                Material.OBSIDIAN,
                 5L,
                 COMPRESSED_WOOD_KEY,
                 COMPRESSED_OBSIDIAN_KEY
@@ -630,6 +638,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("portability"),
+                Material.CRAFTING_TABLE,
                 7L,
                 PORTABILITY_CATALYST_KEY,
                 PortableCraftingTable.KEY,
@@ -706,6 +715,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("first_aid"),
+                Material.COBWEB,
                 5L,
                 BANDAGE_KEY,
                 SPLINT_KEY
@@ -760,6 +770,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("medicine"),
+                Material.BREWER_POTTERY_SHERD,
                 10L,
                 DISINFECTANT_KEY,
                 MEDKIT_KEY
@@ -780,6 +791,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("plant_growth_automated"),
+                Material.FLOWER_POT,
                 10L,
                 Sprinkler.KEY
         ).register();
@@ -799,6 +811,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("newtons_third_law"),
+                Material.ARROW,
                 15L,
                 RecoilArrow.KEY
         ).register();
@@ -816,6 +829,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("gravity"),
+                Material.WOODEN_AXE,
                 10L,
                 LumberAxe.KEY
         ).register();
@@ -847,6 +861,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("grinding"),
+                Material.SMOOTH_STONE_SLAB,
                 5L,
                 Grindstone.KEY,
                 GrindstoneHandle.KEY
@@ -905,6 +920,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("baking"),
+                Material.YELLOW_DYE,
                 2L,
                 FLOUR_KEY,
                 DOUGH_KEY
@@ -942,6 +958,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("better_health"),
+                Material.AMETHYST_SHARD,
                 10L,
                 HealthTalisman.HEALTH_TALISMAN_SIMPLE_KEY,
                 HealthTalisman.HEALTH_TALISMAN_ADVANCED_KEY,
@@ -961,6 +978,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("homogeneity"),
+                Material.CAULDRON,
                 6L,
                 MixingPot.KEY
         ).register();
@@ -1083,6 +1101,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("glitter"),
+                Material.SUGAR,
                 5L,
                 SHIMMER_DUST_1_KEY,
                 SHIMMER_DUST_2_KEY,
@@ -1103,6 +1122,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("french_revolution"),
+                Material.DIAMOND_SWORD,
                 10L,
                 BeheadingSword.KEY
         ).register();
@@ -1120,6 +1140,7 @@ public final class PylonItems {
 
         new Research(
                 pylonKey("showing_off"),
+                Material.STONE_BRICK_WALL,
                 2L,
                 Pedestal.PEDESTAL_KEY
         ).register();
@@ -1153,6 +1174,7 @@ public final class PylonItems {
     static {
         new Research(
                 pylonKey("magic"),
+                Material.LIGHT_BLUE_DYE,
                 6L,
                 Pedestal.MAGIC_PEDESTAL_KEY,
                 MagicAltar.KEY,
