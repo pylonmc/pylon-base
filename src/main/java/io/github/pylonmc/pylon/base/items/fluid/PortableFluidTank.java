@@ -18,6 +18,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -27,6 +28,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.format.Style;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -73,7 +75,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidInteracti
         @SuppressWarnings("unchecked")
         private final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
                 .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
-                .collect(Collectors.toList());
+                .toList();
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -141,7 +143,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidInteracti
         super(block);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public PortableFluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
@@ -256,13 +258,21 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidInteracti
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                Map.of(
-                        "amount", Component.text(Math.round(fluidAmount)),
-                        "capacity", Component.text(Math.round(capacity))
-                )
-        );
+        Component info;
+        if (fluidType == null) {
+            info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
+        } else {
+            info = Component.translatable(
+                    "pylon.pylonbase.waila.fluid_tank.filled",
+                    PylonArgument.of("amount", Math.round(fluidAmount)),
+                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)
+                            .decimalPlaces(0)
+                            .unitStyle(Style.empty())
+                    ),
+                    PylonArgument.of("fluid", fluidType.getName())
+            );
+        }
+        return new WailaConfig(getName(), Map.of("info", info));
     }
 
     @Override

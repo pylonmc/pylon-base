@@ -178,7 +178,7 @@ item:
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
       <arrow> <attr>Temperatures:</attr> %fluids%
-    waila: "Wooden Portable Fluid Tank | %amount%/%capacity%"
+    waila: "Wooden Portable Fluid Tank %info%"
 
   portable_fluid_tank_copper:
     name: "Copper Portable Fluid Tank"
@@ -188,7 +188,7 @@ item:
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
       <arrow> <attr>Temperatures:</attr> %fluids%
-    waila: "Copper Portable Fluid Tank | %amount%/%capacity%"
+    waila: "Copper Portable Fluid Tank %info%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
@@ -557,6 +557,11 @@ fluid:
   slurry_redstone: "<red>Redstone Slurry"
   sulfur: "<yellow>Sulfur"
   water: "<blue>Water"
+
+waila:
+  fluid_tank:
+    empty: "(empty)"
+    filled: "| %amount%/%capacity% of %fluid%"
 
 research:
   baking: "<gold>baking"
