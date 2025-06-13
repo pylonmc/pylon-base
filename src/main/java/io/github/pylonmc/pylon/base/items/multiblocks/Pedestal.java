@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -23,11 +22,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static java.lang.Math.PI;
-
 
 public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
 
@@ -39,30 +36,29 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     private double rotation;
     @Setter
     private boolean locked;
-    private final Map<String, UUID> entities;
 
     @SuppressWarnings("unused")
-    public Pedestal(Block block, BlockCreateContext context) {
+    public Pedestal(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         rotation = 0;
         locked = false;
-
-        ItemDisplay display = new ItemDisplayBuilder()
-                .transformation(transformBuilder().buildForItemDisplay())
-                .build(block.getLocation().toCenterLocation());
-        PedestalItemEntity pylonEntity = new PedestalItemEntity(display);
-        EntityStorage.add(pylonEntity);
-
-        entities = Map.of("item", pylonEntity.getUuid());
-    }
+}
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public Pedestal(Block block, PersistentDataContainer pdc) {
+    public Pedestal(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        entities = loadHeldEntities(pdc);
+        
         rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
         locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
+    }
+    
+    @Override
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        ItemDisplay display = new ItemDisplayBuilder()
+                .transformation(transformBuilder().buildForItemDisplay())
+                .build(getBlock().getLocation().toCenterLocation());
+        return Map.of("item", new PedestalItemEntity(display));
     }
 
     public TransformBuilder transformBuilder() {
@@ -74,14 +70,8 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
         pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
         pdc.set(LOCKED_KEY, PylonSerializers.BOOLEAN, locked);
-    }
-
-    @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
     }
 
     @Override
@@ -125,7 +115,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
         drops.add(getItemDisplay().getItemStack());
     }
 
-    public @NotNull ItemDisplay getItemDisplay() {
+    public ItemDisplay getItemDisplay() {
         return getHeldEntity(PedestalItemEntity.class, "item").getEntity();
     }
 

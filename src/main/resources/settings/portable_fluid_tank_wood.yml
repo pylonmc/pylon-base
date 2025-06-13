@@ -1,4 +1,2 @@
 capacity: 4000.0
-temperature:
-  min: 0
-  max: 80
+allow-fluids: [normal] # can be cold (cryogenic), normal, or hot (molten)
