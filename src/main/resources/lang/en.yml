@@ -273,21 +273,21 @@ item:
   elevator_1:
     name: "Elevator I"
     lore: |-
-      <arrow> Sneak to go down, jump to go up.
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
       <arrow> <attr>Vertical range:</attr> %elevator_range%
     waila: "Elevator I"
 
   elevator_2:
     name: "Elevator II"
     lore: |-
-      <arrow> Sneak to go down, jump to go up.
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
       <arrow> <attr>Vertical range:</attr> %elevator_range%
     waila: "Elevator II"
 
   elevator_3:
     name: "Elevator III"
     lore: |-
-      <arrow> Sneak to go down, jump to go up.
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
       <arrow> <attr>Vertical range:</attr> %elevator_range%
     waila: "Elevator III"
 
