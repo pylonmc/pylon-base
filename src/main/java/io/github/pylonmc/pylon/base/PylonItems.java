@@ -2,13 +2,20 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.*;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.research.*;
-import io.github.pylonmc.pylon.base.items.tools.*;
-import io.github.pylonmc.pylon.base.items.tools.portable.*;
-import io.github.pylonmc.pylon.base.items.tools.watering.*;
-import io.github.pylonmc.pylon.base.items.weapons.*;
+import io.github.pylonmc.pylon.base.items.research.Loupe;
+import io.github.pylonmc.pylon.base.items.research.ResearchPack;
+import io.github.pylonmc.pylon.base.items.tools.Hammer;
+import io.github.pylonmc.pylon.base.items.tools.LumberAxe;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableCraftingTable;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableDustbin;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableEnderChest;
+import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
+import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.IceArrow;
+import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -1435,6 +1442,20 @@ public final class PylonItems {
         recipe.setIngredient('D', SHIMMER_DUST_3);
         recipe.setIngredient('C', Material.HEAVY_CORE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(IceArrow.class, IceArrow.STACK, IceArrow.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(IceArrow.KEY, IceArrow.STACK);
+        recipe.shape(
+                "III",
+                "AAA",
+                "III"
+        );
+        recipe.setIngredient('I', Material.PACKED_ICE);
+        recipe.setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 

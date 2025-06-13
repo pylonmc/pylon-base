@@ -9,8 +9,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
-import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.base.PylonItemEntityInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -35,7 +35,7 @@ import java.util.function.Predicate;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
+public class FluidPipe extends PylonItem implements PylonItemEntityInteractor, PylonInteractor {
 
     public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wood");
     public static final NamespacedKey PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
