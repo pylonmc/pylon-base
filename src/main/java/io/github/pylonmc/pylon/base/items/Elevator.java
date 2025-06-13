@@ -40,7 +40,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
 
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of("elevator_range",  UnitFormat.BLOCKS.format(getRange(getKey())));
+            return Map.of("elevator_range",  UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class)));
         }
     }
 
@@ -68,18 +68,8 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         super(block);
     }
 
-    public static int getRange(@NotNull NamespacedKey key) {
-        if (key.equals(ELEVATOR_1_KEY))
-            return ELEVATOR_1_SETTINGS.range();
-        if (key.equals(ELEVATOR_2_KEY))
-            return ELEVATOR_2_SETTINGS.range();
-        if (key.equals(ELEVATOR_3_KEY))
-            return ELEVATOR_3_SETTINGS.range();
-        return ELEVATOR_1_SETTINGS.range();
-    }
-
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
-        int range = getRange(getKey());
+        int range = getSettings().getOrThrow("range", Integer.class);
         int checkingLevel = 1;
         List<PylonBlock> blocks = new ArrayList<>();
 
