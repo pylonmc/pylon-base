@@ -93,7 +93,7 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
         public FlowRateDisplay(@NotNull Block block, @NotNull Player player, @NotNull BlockFace face) {
             super(KEY, new TextDisplayBuilder()
                     .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, face).getDirection().toVector3d())
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, face, false).getDirection().toVector3d())
                             .translate(new Vector3d(0.0, 0.0, 0.126))
                             .scale(0.3, 0.3, 0.0001)
                     )

@@ -37,9 +37,13 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     }
 
     @Override
+    public boolean allowVerticalConnectionPoints() {
+        return true;
+    }
+
+    @Override
     public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        BlockFace face = context instanceof BlockCreateContext.PlayerPlace ctx ? ctx.getClickedFace() : BlockFace.NORTH;
-        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, face));
+        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH));
     }
 
     @Override

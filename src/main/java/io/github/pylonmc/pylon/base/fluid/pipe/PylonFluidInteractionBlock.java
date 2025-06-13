@@ -18,6 +18,10 @@ public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, Pylo
 
     @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context);
 
+    default boolean allowVerticalConnectionPoints() {
+        return false;
+    }
+
     @Override
     @MustBeInvokedByOverriders
     default @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
@@ -27,6 +31,7 @@ public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, Pylo
         if (context instanceof BlockCreateContext.PlayerPlace ctx) {
             player = ctx.getPlayer();
         }
+        boolean allowVertical = allowVerticalConnectionPoints();
         for (SimpleFluidConnectionPoint simplePoint : connectionPoints) {
             FluidConnectionPoint point = new FluidConnectionPoint(
                     context.getBlock(),
@@ -37,7 +42,8 @@ public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, Pylo
                     player,
                     point,
                     simplePoint.face(),
-                    simplePoint.radius()
+                    simplePoint.radius(),
+                    allowVertical
             );
             entities.put(simplePoint.name(), interaction.getUuid());
         }

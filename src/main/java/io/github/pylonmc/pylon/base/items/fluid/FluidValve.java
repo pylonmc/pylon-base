@@ -158,7 +158,7 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
                     .material(MAIN_MATERIAL)
                     .brightness(BRIGHTNESS_OFF)
                     .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST).getDirection().toVector3d())
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
                             .scale(0.25, 0.25, 0.5)
                     )
                     .build(block.getLocation().toCenterLocation())

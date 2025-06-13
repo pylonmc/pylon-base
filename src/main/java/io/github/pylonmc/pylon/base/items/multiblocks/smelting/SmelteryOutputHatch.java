@@ -35,9 +35,13 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
     }
 
     @Override
+    public boolean allowVerticalConnectionPoints() {
+        return true;
+    }
+
+    @Override
     public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        BlockFace face = context instanceof BlockCreateContext.PlayerPlace ctx ? ctx.getClickedFace() : BlockFace.NORTH;
-        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, face));
+        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.NORTH));
     }
 
     @Override
