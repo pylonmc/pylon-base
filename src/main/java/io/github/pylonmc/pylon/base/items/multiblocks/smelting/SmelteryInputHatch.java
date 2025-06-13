@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
@@ -23,8 +24,7 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
 
     public static final NamespacedKey KEY = pylonKey("smeltery_input_hatch");
 
-    // TODO block setting
-    private static final double FLOW_RATE = 500;
+    public static final double FLOW_RATE = Settings.get(KEY).getOrThrow("flow-rate", Double.class);
 
     @SuppressWarnings("unused")
     public SmelteryInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {

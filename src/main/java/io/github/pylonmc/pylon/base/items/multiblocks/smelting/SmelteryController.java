@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonUnloadBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -56,8 +57,7 @@ public final class SmelteryController extends SmelteryComponent
 
     public static final NamespacedKey KEY = pylonKey("smeltery_controller");
 
-    // TODO setting
-    private static final double FLUID_REACTION_PER_SECOND = 100;
+    public static final double FLUID_REACTION_PER_SECOND = Settings.get(KEY).getOrThrow("fluid-reaction-per-second", Double.class);
 
     private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");
     private static final NamespacedKey RUNNING_KEY = pylonKey("running");
@@ -413,12 +413,12 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
-    private static final double SPECIFIC_HEAT = 215; // J/kg*K
-    private static final double DENSITY = 698; // kg/m^3
-    private static final double SPECIFIC_HEAT_AIR = 717; // J/kg*K
-    private static final double DENSITY_AIR = 1.2; // kg/m^3 at sea level
-    private static final double HEAT_LOSS_COEFFICIENT = 10; // W/C
-    private static final double EMISSIVITY = 0.9;
+    private static final double SPECIFIC_HEAT = Settings.get(KEY).getOrThrow("specific-heat.fluid", Double.class);
+    private static final double DENSITY = Settings.get(KEY).getOrThrow("density.fluid", Double.class);
+    private static final double SPECIFIC_HEAT_AIR = Settings.get(KEY).getOrThrow("specific-heat.air", Double.class);
+    private static final double DENSITY_AIR = Settings.get(KEY).getOrThrow("density.air", Double.class);
+    private static final double HEAT_LOSS_COEFFICIENT = Settings.get(KEY).getOrThrow("heat-loss-coefficient", Double.class);
+    private static final double EMISSIVITY = Settings.get(KEY).getOrThrow("emissivity", Double.class);
 
     private static final double CELSIUS_TO_KELVIN = 273.15;
     private static final double ROOM_TEMPERATURE_CELSIUS = 20; // Room temperature in Celsius

@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import kotlin.Pair;
@@ -21,8 +22,7 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
 
     public static final NamespacedKey KEY = pylonKey("smeltery_output_hatch");
 
-    // TODO blocksetting
-    private static final double FLOW_RATE = 500;
+    public static final double FLOW_RATE = Settings.get(KEY).getOrThrow("flow-rate", Double.class);
 
     @SuppressWarnings("unused")
     public SmelteryOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
