@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInterac
 import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
@@ -30,5 +31,6 @@ public final class PylonEntities {
         PylonEntity.register(FluidValve.FluidValveDisplay.KEY, ItemDisplay.class, FluidValve.FluidValveDisplay.class);
         PylonEntity.register(FluidMeter.FlowRateDisplay.KEY, TextDisplay.class, FluidMeter.FlowRateDisplay.class);
         PylonEntity.register(FluidVoider.MainDisplay.KEY, ItemDisplay.class, FluidVoider.MainDisplay.class);
+        PylonEntity.register(SmelteryController.FluidDisplayEntity.KEY, TextDisplay.class, SmelteryController.FluidDisplayEntity.class);
     }
 }

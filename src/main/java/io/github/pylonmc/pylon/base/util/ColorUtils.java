@@ -1,16 +1,15 @@
 package io.github.pylonmc.pylon.base.util;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.Color;
+import org.jetbrains.annotations.NotNull;
 
+@UtilityClass
 public final class ColorUtils {
 
-    private ColorUtils() {
-        throw new AssertionError("Utility class");
-    }
+    public final Color METAL_GRAY = Color.fromRGB(0xaaaaaa);
 
-    public static final Color METAL_GRAY = Color.fromRGB(0xaaaaaa);
-
-    public static Color colorFromTemperature(double celsius) {
+    public @NotNull Color colorFromTemperature(double celsius) {
         double temp = (celsius + 273.15) / 100.0;
         double red, green, blue;
 
@@ -45,7 +44,7 @@ public final class ColorUtils {
         }
     }
 
-    private static int clampAndRound(double value) {
+    private int clampAndRound(double value) {
         int rounded = (int) Math.round(value);
         return Math.max(0, Math.min(255, rounded));
     }
