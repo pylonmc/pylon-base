@@ -312,9 +312,9 @@ item:
     lore: |-
       <arrow> Immobilizes players in a range
       <arrow> Triggered by a redstone signal
-      <attr:Duration:ticks>%duration%</attr>
-      <attr:Radius:blocks>%radius%</attr>
-      <attr:Cooldown:ticks>%cooldown%</attr>
+      <arrow> <attr>Duration:</attr> %duration%
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Cooldown:</attr> %cooldown%
     waila: "Immobilizer"
 
   iron_sheet:
@@ -448,7 +448,7 @@ item:
     lore: ""
 
   shimmer_skull:
-    name: "Shimmer Skull"
+    name: "<white>Shimmer Skull"
     lore: ""
 
   smeltery_burner:
@@ -613,10 +613,42 @@ research:
 
 guide:
   page:
+    research:
+      name: "Research"
+      lore: ""
     resources:
       name: "Resources"
       lore: ""
-      title: "Resources"
+    components:
+      name: "Components"
+      lore: ""
+    tools:
+      name: "Tools"
+      lore: ""
+    food:
+      name: "Food"
+      lore: ""
+    weapons:
+      name: "Weapons"
+      lore: ""
+    armour:
+      name: "Armour"
+      lore: ""
+    manual_machines:
+      name: "Manual machines"
+      lore: ""
+    fluid_machines:
+      name: "Fluid machines"
+      lore: ""
+    smelting:
+      name: "Smelting"
+      lore: ""
+    machines:
+      name: "Machines"
+      lore: ""
+    building:
+      name: "Building"
+      lore: ""
 
 message:
   fluid_none: "None"
