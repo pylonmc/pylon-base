@@ -11,7 +11,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -47,7 +46,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -166,14 +164,11 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidInteracti
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(getBlock().getLocation().toCenterLocation());
-        FluidTankEntity fluidTankEntity = new FluidTankEntity(fluidDisplay);
-        EntityStorage.add(fluidTankEntity);
-
-        entities.put("fluid", fluidTankEntity.getUuid());
+        entities.put("fluid", new FluidTankEntity(fluidDisplay));
 
         return entities;
     }

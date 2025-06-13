@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -78,9 +76,10 @@ public class FluidVoider extends PylonBlock implements PylonFluidInteractionBloc
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
-        entities.put("main", MainDisplay.make(getBlock(), mainDisplaySize).getUuid());
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
+        @NotNull Block block = getBlock();
+        entities.put("main", new MainDisplay(block, mainDisplaySize));
         return entities;
     }
 
@@ -113,12 +112,6 @@ public class FluidVoider extends PylonBlock implements PylonFluidInteractionBloc
                     )
                     .build(block.getLocation().toCenterLocation())
             );
-        }
-
-        public static @NotNull MainDisplay make(@NotNull Block block, double mainDisplaySize) {
-            MainDisplay display = new MainDisplay(block, mainDisplaySize);
-            EntityStorage.add(display);
-            return display;
         }
     }
 }

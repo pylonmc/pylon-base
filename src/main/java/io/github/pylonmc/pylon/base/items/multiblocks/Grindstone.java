@@ -10,7 +10,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -33,7 +32,6 @@ import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -77,25 +75,23 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         ItemDisplay itemDisplay = new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3)
                         .translate(0, 0.15, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneItemEntity(itemDisplay));
 
         ItemDisplay stoneDisplay = new ItemDisplayBuilder()
                 .material(Material.SMOOTH_STONE_SLAB)
                 .transformation(new TransformBuilder()
                         .translate(0, 0.8, 0))
                 .build(getBlock().getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneBlockEntity(stoneDisplay));
 
         return Map.of(
-                "item", itemDisplay.getUniqueId(),
-                "block", stoneDisplay.getUniqueId()
+                "item", new GrindstoneItemEntity(itemDisplay),
+                "block", new GrindstoneBlockEntity(stoneDisplay)
         );
     }
 

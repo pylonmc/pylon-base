@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import org.bukkit.NamespacedKey;
@@ -42,10 +43,10 @@ public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderB
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         FluidConnectionPoint point = new FluidConnectionPoint(getBlock(), "connector", FluidConnectionPoint.Type.CONNECTOR);
         return Map.of(
-                "connector", FluidConnectionInteraction.make(point).getUuid()
+                "connector", FluidConnectionInteraction.make(point)
         );
     }
 

@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
@@ -583,7 +582,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Location location = center.getLocation().add(-1, 0, -1);
         TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(location, ColorUtils.METAL_GRAY);
         display.setTransformationMatrix(
@@ -592,7 +591,7 @@ public final class SmelteryController extends SmelteryComponent
                         .rotateLocalX((float) Math.toRadians(-90))
                         .scaleLocal(3)
         );
-        return Map.of("fluid_display", EntityStorage.add(new FluidDisplayEntity(display)).getUuid());
+        return Map.of("fluid_display", new FluidDisplayEntity(display));
     }
 
     public @NotNull FluidDisplayEntity getFluidDisplayEntity() {

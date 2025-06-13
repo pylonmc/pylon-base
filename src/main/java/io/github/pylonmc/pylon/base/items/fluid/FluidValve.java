@@ -35,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -92,14 +91,14 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
 
         Block block = context.getBlock();
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        entities.put("main", FluidValveDisplay.make(block, player).getUuid());
+        entities.put("main", new FluidValveDisplay(block, player));
 
         return entities;
     }
@@ -163,12 +162,6 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
                     )
                     .build(block.getLocation().toCenterLocation())
             );
-        }
-
-        public static @NotNull FluidValveDisplay make(@NotNull Block block, @NotNull Player player) {
-            FluidValveDisplay display = new FluidValveDisplay(block, player);
-            EntityStorage.add(display);
-            return display;
         }
 
         public void setEnabled(boolean enabled) {

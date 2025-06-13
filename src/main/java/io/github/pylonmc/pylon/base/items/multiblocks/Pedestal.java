@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -23,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static java.lang.Math.PI;
@@ -56,13 +54,11 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
     
     @Override
-    public Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         ItemDisplay display = new ItemDisplayBuilder()
                 .transformation(transformBuilder().buildForItemDisplay())
                 .build(getBlock().getLocation().toCenterLocation());
-        PedestalItemEntity pylonEntity = new PedestalItemEntity(display);
-        EntityStorage.add(pylonEntity);
-        return Map.of("item", pylonEntity.getUuid());
+        return Map.of("item", new PedestalItemEntity(display));
     }
 
     public TransformBuilder transformBuilder() {

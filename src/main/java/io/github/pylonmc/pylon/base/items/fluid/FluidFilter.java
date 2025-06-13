@@ -12,7 +12,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -40,7 +39,6 @@ import xyz.xenondevs.invui.window.Window;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -89,15 +87,15 @@ public class FluidFilter extends PylonBlock implements PylonFluidInteractionBloc
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
 
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
         Block block = context.getBlock();
 
-        entities.put("main", MainDisplay.make(block, player).getUuid());
-        entities.put("fluid", FluidDisplay.make(block, player).getUuid());
+        entities.put("main", new MainDisplay(block, player));
+        entities.put("fluid", new FluidDisplay(block, player));
 
         return entities;
     }
@@ -188,11 +186,6 @@ public class FluidFilter extends PylonBlock implements PylonFluidInteractionBloc
             );
         }
 
-        public static @NotNull FluidFilter.MainDisplay make(@NotNull Block block, @NotNull Player player) {
-            MainDisplay display = new MainDisplay(block, player);
-            EntityStorage.add(display);
-            return display;
-        }
     }
 
     public static class FluidDisplay extends PylonEntity<ItemDisplay> {
@@ -217,12 +210,6 @@ public class FluidFilter extends PylonBlock implements PylonFluidInteractionBloc
 
         public void setFluid(@Nullable PylonFluid fluid) {
             getEntity().setItemStack(new ItemStack(fluid == null ? NO_FLUID_MATERIAL : fluid.getMaterial()));
-        }
-
-        public static @NotNull FluidDisplay make(@NotNull Block block, @NotNull Player player) {
-            FluidDisplay display = new FluidDisplay(block, player);
-            EntityStorage.add(display);
-            return display;
         }
     }
 }
