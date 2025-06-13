@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -36,7 +36,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class Hammer extends PylonItem implements BlockInteractor {
+public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     public static final NamespacedKey HAMMER_STONE_KEY = pylonKey("hammer_stone");
     public static final NamespacedKey HAMMER_IRON_KEY = pylonKey("hammer_iron");
