@@ -54,10 +54,6 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     public static final ItemStack ELEVATOR_2_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_2_KEY).build();
     public static final ItemStack ELEVATOR_3_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_3_KEY).build();
 
-    public static final ElevatorSettings ELEVATOR_1_SETTINGS = ElevatorSettings.fromConfig(Settings.get(ELEVATOR_1_KEY));
-    public static final ElevatorSettings ELEVATOR_2_SETTINGS = ElevatorSettings.fromConfig(Settings.get(ELEVATOR_2_KEY));
-    public static final ElevatorSettings ELEVATOR_3_SETTINGS = ElevatorSettings.fromConfig(Settings.get(ELEVATOR_3_KEY));
-
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
