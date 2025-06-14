@@ -1438,6 +1438,36 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    static {
+        PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_1_STACK, Elevator.ELEVATOR_1_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_1_KEY, Elevator.ELEVATOR_1_STACK)
+                .shape("   ", "QPQ", "   ")
+                .setIngredient('Q', Material.QUARTZ_BLOCK)
+                .setIngredient('P', Material.ENDER_PEARL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_2_STACK, Elevator.ELEVATOR_2_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_2_KEY, Elevator.ELEVATOR_2_STACK)
+                .shape("PPP", "PEP", "PPP")
+                .setIngredient('E', Elevator.ELEVATOR_1_STACK)
+                .setIngredient('P', Material.ENDER_PEARL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_3_STACK, Elevator.ELEVATOR_3_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_3_KEY, Elevator.ELEVATOR_3_STACK)
+                .shape("PPP", "PEP", "PPP")
+                .setIngredient('E', Elevator.ELEVATOR_2_STACK)
+                .setIngredient('P', Material.ENDER_PEARL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }

@@ -270,6 +270,27 @@ item:
       <arrow> <attr>Drain interval:</attr> %drain_interval%
     waila: "Lava Drainer"
 
+  elevator_1:
+    name: "Elevator I"
+    lore: |-
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
+    waila: "Elevator I"
+
+  elevator_2:
+    name: "Elevator II"
+    lore: |-
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
+    waila: "Elevator II"
+
+  elevator_3:
+    name: "Elevator III"
+    lore: |-
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
+    waila: "Elevator III"
+
   gold_dust:
     name: "Gold Dust"
     lore: ""
@@ -547,3 +568,7 @@ message:
   valve:
     enabled: "enabled"
     disabled: "disabled"
+  elevator:
+    none_within_range:
+      above: "<red>No elevators within range above you"
+      below: "<red>No elevators within range below you"
