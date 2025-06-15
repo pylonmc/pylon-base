@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.items.fluid;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -21,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -49,14 +47,14 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, UUID> entities = super.createEntities(context);
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = super.createEntities(context);
 
         Block block = context.getBlock();
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        entities.put("flow_rate_north", FlowRateDisplay.make(block, player, BlockFace.NORTH).getUuid());
-        entities.put("flow_rate_south", FlowRateDisplay.make(block, player, BlockFace.SOUTH).getUuid());
+        entities.put("flow_rate_north", new FlowRateDisplay(block, player, BlockFace.NORTH));
+        entities.put("flow_rate_south", new FlowRateDisplay(block, player, BlockFace.SOUTH));
         return entities;
     }
 
@@ -93,7 +91,7 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
         public FlowRateDisplay(@NotNull Block block, @NotNull Player player, @NotNull BlockFace face) {
             super(KEY, new TextDisplayBuilder()
                     .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, face).getDirection().toVector3d())
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, face, false).getDirection().toVector3d())
                             .translate(new Vector3d(0.0, 0.0, 0.126))
                             .scale(0.3, 0.3, 0.0001)
                     )
@@ -105,12 +103,6 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
         public void setFlowRate(double flowRate) {
             getEntity().text(UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(flowRate)).asComponent());
-        }
-
-        public static @NotNull FlowRateDisplay make(@NotNull Block block, @NotNull Player player, @NotNull BlockFace face) {
-            FlowRateDisplay display = new FlowRateDisplay(block, player, face);
-            EntityStorage.add(display);
-            return display;
         }
     }
 }

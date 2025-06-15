@@ -1,14 +1,15 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
-import io.github.pylonmc.pylon.base.util.VanillaOrPylon;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
+import io.github.pylonmc.pylon.core.util.ItemUtils;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -22,8 +23,8 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
@@ -33,14 +34,12 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-@NullMarked
 public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_burner");
 
-    // TODO block setting
-    private static final double BURN_EFFICIENCY = 0.45;
-    private static final double DIMINISHING_RETURN = 0.6;
+    public static final double BURN_EFFICIENCY = Settings.get(KEY).getOrThrow("burn-efficiency", Double.class);
+    public static final double DIMINISHING_RETURN = Settings.get(KEY).getOrThrow("diminishing-returns", Double.class);
 
     public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(pylonKey("smeltery_burner_fuels"));
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
@@ -56,22 +55,24 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     private @Nullable Fuel fuel;
     private double secondsElapsed = 0;
 
-    public SmelteryBurner(Block block, BlockCreateContext context) {
+    @SuppressWarnings("unused")
+    public SmelteryBurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         fuel = null;
         secondsElapsed = 0;
     }
 
-    public SmelteryBurner(Block block, PersistentDataContainer pdc) {
+    @SuppressWarnings({"unused", "DataFlowIssue"})
+    public SmelteryBurner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
         fuel = pdc.get(FUEL_KEY, FUEL_TYPE);
-        secondsElapsed = pdc.getOrDefault(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, 0D);
+        secondsElapsed = pdc.get(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
-    public void write(PersistentDataContainer pdc) {
+    public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
         pdc.set(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, secondsElapsed);
     }
@@ -81,7 +82,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     private final BurnerProgressItem progressItem = new BurnerProgressItem();
 
     @Override
-    public Gui createGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
@@ -101,7 +102,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         }
 
         @Override
-        protected void completeItem(ItemStackBuilder builder) {
+        protected void completeItem(@NotNull ItemStackBuilder builder) {
             Component name;
             List<Component> lore = new ArrayList<>();
             double powerOutput = getCurrentPowerOutput();
@@ -159,7 +160,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 for (ItemStack item : inventory.getUnsafeItems()) {
                     if (item == null) continue;
                     for (Fuel fuel : FUELS) {
-                        if (fuel.material.matches(item)) {
+                        if (ItemUtils.isPylonSimilar(item, fuel.material)) {
                             this.fuel = fuel;
                             item.subtract();
                             secondsElapsed = 0;
@@ -181,13 +182,13 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     }
 
     public record Fuel(
-            NamespacedKey key,
-            VanillaOrPylon material,
+            @NotNull NamespacedKey key,
+            @NotNull ItemStack material,
             double totalJoules,
             long burnTimeSeconds
     ) implements Keyed {
         @Override
-        public NamespacedKey getKey() {
+        public @NotNull NamespacedKey getKey() {
             return key;
         }
     }
@@ -195,7 +196,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     static {
         FUELS.register(new Fuel(
                 pylonKey("coal"),
-                new VanillaOrPylon.Vanilla(Material.COAL),
+                new ItemStack(Material.COAL),
                 333_300_000D,
                 30
         ));

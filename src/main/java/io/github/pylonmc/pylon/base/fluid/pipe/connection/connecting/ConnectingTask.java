@@ -136,7 +136,7 @@ public class ConnectingTask {
     public void cancel() {
         task.cancel();
         display.remove();
-        player.sendActionBar();
+        player.sendActionBar(Component.empty());
     }
 
     public @Nullable ConnectingTask.Result finish() {
@@ -146,7 +146,7 @@ public class ConnectingTask {
 
         task.cancel();
         display.remove();
-        player.sendActionBar();
+        player.sendActionBar(Component.empty());
 
         FluidPipeDisplay pipeDisplay = ConnectingService.connect(from, to, pipe);
         FluidConnectionInteraction toInteraction = pipeDisplay.getTo();

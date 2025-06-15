@@ -4,30 +4,34 @@ import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInterac
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-@NullMarked
 public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, PylonFluidBlock {
 
-    List<SimpleFluidConnectionPoint> createFluidConnectionPoints(BlockCreateContext context);
+    @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context);
+
+    default boolean allowVerticalConnectionPoints() {
+        return false;
+    }
 
     @Override
     @MustBeInvokedByOverriders
-    default Map<String, UUID> createEntities(BlockCreateContext context) {
+    default @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         List<SimpleFluidConnectionPoint> connectionPoints = createFluidConnectionPoints(context);
-        Map<String, UUID> entities = new HashMap<>(connectionPoints.size());
+        Map<String, PylonEntity<?>> entities = new HashMap<>(connectionPoints.size());
         Player player = null;
         if (context instanceof BlockCreateContext.PlayerPlace ctx) {
             player = ctx.getPlayer();
         }
+        boolean allowVertical = allowVerticalConnectionPoints();
         for (SimpleFluidConnectionPoint simplePoint : connectionPoints) {
             FluidConnectionPoint point = new FluidConnectionPoint(
                     context.getBlock(),
@@ -38,9 +42,10 @@ public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, Pylo
                     player,
                     point,
                     simplePoint.face(),
-                    simplePoint.radius()
+                    simplePoint.radius(),
+                    allowVertical
             );
-            entities.put(simplePoint.name(), interaction.getUuid());
+            entities.put(simplePoint.name(), interaction);
         }
         return entities;
     }

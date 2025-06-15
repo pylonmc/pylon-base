@@ -111,11 +111,12 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
             @Nullable Player player,
             @NotNull FluidConnectionPoint point,
             @NotNull BlockFace face,
-            float radius
+            float radius,
+            boolean allowVertical
     ) {
         BlockFace finalFace = face;
         if (player != null) {
-            finalFace = PylonUtils.rotateToPlayerFacing(player, face);
+            finalFace = PylonUtils.rotateToPlayerFacing(player, face, allowVertical);
         }
         FluidConnectionInteraction interaction = new FluidConnectionInteraction(point, finalFace, radius);
         EntityStorage.add(interaction);

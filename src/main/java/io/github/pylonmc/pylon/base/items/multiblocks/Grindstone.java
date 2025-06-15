@@ -11,7 +11,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -38,18 +37,15 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
-import org.jspecify.annotations.NullMarked;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 
-@NullMarked
 public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
     public static final NamespacedKey KEY = pylonKey("grindstone");
@@ -66,7 +62,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private @Nullable Integer cycleTicksRemaining;
 
     @SuppressWarnings("unused")
-    public Grindstone(Block block, BlockCreateContext context) {
+    public Grindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         recipe = null;
@@ -75,7 +71,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @SuppressWarnings("unused")
-    public Grindstone(Block block, PersistentDataContainer pdc) {
+    public Grindstone(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         recipe = pdc.get(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
         cyclesRemaining = pdc.get(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER);
@@ -83,42 +79,40 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public void write(PersistentDataContainer pdc) {
+    public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, recipe);
         PdcUtils.setNullable(pdc, CYCLES_REMAINING_KEY, PylonSerializers.INTEGER, cyclesRemaining);
         PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, cycleTicksRemaining);
     }
 
     @Override
-    public Map<String, UUID> createEntities(BlockCreateContext context) {
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         ItemDisplay itemDisplay = new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3)
                         .translate(0, 0.15, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneItemEntity(itemDisplay));
 
         ItemDisplay stoneDisplay = new ItemDisplayBuilder()
                 .material(Material.SMOOTH_STONE_SLAB)
                 .transformation(new TransformBuilder()
                         .translate(0, 0.8, 0))
                 .build(getBlock().getLocation().toCenterLocation());
-        EntityStorage.add(new GrindstoneBlockEntity(stoneDisplay));
 
         return Map.of(
-                "item", itemDisplay.getUniqueId(),
-                "block", stoneDisplay.getUniqueId()
+                "item", new GrindstoneItemEntity(itemDisplay),
+                "block", new GrindstoneBlockEntity(stoneDisplay)
         );
     }
 
     @Override
-    public Map<Vector3i, Component> getComponents() {
+    public @NotNull Map<Vector3i, Component> getComponents() {
         return Map.of(new Vector3i(0, 1, 0), new PylonComponent(GrindstoneHandle.KEY));
     }
 
     @Override
-    public void onInteract(PlayerInteractEvent event) {
+    public void onInteract(@NotNull PlayerInteractEvent event) {
         if (event.getPlayer().isSneaking() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
@@ -153,7 +147,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public void onBreak(List<ItemStack> drops, BlockBreakContext context) {
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonSimpleMultiblock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
     }
@@ -269,7 +263,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         public static final NamespacedKey KEY = pylonKey("grindstone_item");
 
-        public GrindstoneItemEntity(ItemDisplay entity) {
+        public GrindstoneItemEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
         }
     }
@@ -278,7 +272,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         public static final NamespacedKey KEY = pylonKey("grindstone_block");
 
-        public GrindstoneBlockEntity(ItemDisplay entity) {
+        public GrindstoneBlockEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
         }
     }

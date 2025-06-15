@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -19,16 +18,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.jspecify.annotations.NullMarked;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 import static java.lang.Math.PI;
 
-@NullMarked
 public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static final NamespacedKey PEDESTAL_KEY = pylonKey("pedestal");
@@ -41,7 +38,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     private boolean locked;
 
     @SuppressWarnings("unused")
-    public Pedestal(Block block, BlockCreateContext context) {
+    public Pedestal(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         rotation = 0;
@@ -49,7 +46,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
-    public Pedestal(Block block, PersistentDataContainer pdc) {
+    public Pedestal(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         
         rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
@@ -57,13 +54,11 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
     
     @Override
-    public Map<String, UUID> createEntities(BlockCreateContext context) {
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         ItemDisplay display = new ItemDisplayBuilder()
                 .transformation(transformBuilder().buildForItemDisplay())
                 .build(getBlock().getLocation().toCenterLocation());
-        PedestalItemEntity pylonEntity = new PedestalItemEntity(display);
-        EntityStorage.add(pylonEntity);
-        return Map.of("item", pylonEntity.getUuid());
+        return Map.of("item", new PedestalItemEntity(display));
     }
 
     public TransformBuilder transformBuilder() {
@@ -74,13 +69,13 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
 
     @Override
-    public void write(PersistentDataContainer pdc) {
+    public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
         pdc.set(LOCKED_KEY, PylonSerializers.BOOLEAN, locked);
     }
 
     @Override
-    public void onInteract(PlayerInteractEvent event) {
+    public void onInteract(@NotNull PlayerInteractEvent event) {
         if (locked || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
@@ -115,7 +110,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
 
     @Override
-    public void onBreak(List<ItemStack> drops, BlockBreakContext context) {
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonEntityHolderBlock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
     }
@@ -128,7 +123,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         public static final NamespacedKey KEY = pylonKey("pedestal_item");
 
-        public PedestalItemEntity(ItemDisplay entity) {
+        public PedestalItemEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
         }
     }

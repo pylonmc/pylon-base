@@ -35,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -55,12 +54,6 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
     @SuppressWarnings("unused")
     public FluidValve(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
-        FluidConnectionPoint eastPoint = new FluidConnectionPoint(getBlock(), "east", FluidConnectionPoint.Type.CONNECTOR);
-        FluidConnectionPoint westPoint = new FluidConnectionPoint(getBlock(), "west", FluidConnectionPoint.Type.CONNECTOR);
 
         enabled = false;
     }
@@ -98,14 +91,14 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
     }
 
     @Override
-    public @NotNull Map<String, UUID> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, UUID> entities = PylonFluidInteractionBlock.super.createEntities(context);
+    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
 
         Block block = context.getBlock();
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        entities.put("main", FluidValveDisplay.make(block, player).getUuid());
+        entities.put("main", new FluidValveDisplay(block, player));
 
         return entities;
     }
@@ -164,17 +157,11 @@ public class FluidValve extends PylonBlock implements PylonFluidInteractionBlock
                     .material(MAIN_MATERIAL)
                     .brightness(BRIGHTNESS_OFF)
                     .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST).getDirection().toVector3d())
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
                             .scale(0.25, 0.25, 0.5)
                     )
                     .build(block.getLocation().toCenterLocation())
             );
-        }
-
-        public static @NotNull FluidValveDisplay make(@NotNull Block block, @NotNull Player player) {
-            FluidValveDisplay display = new FluidValveDisplay(block, player);
-            EntityStorage.add(display);
-            return display;
         }
 
         public void setEnabled(boolean enabled) {

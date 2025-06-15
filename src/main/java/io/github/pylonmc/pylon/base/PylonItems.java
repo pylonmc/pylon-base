@@ -70,16 +70,17 @@ public final class PylonItems {
         ));
     }
 
-    public static final NamespacedKey RAW_COPPER_DUST_KEY = pylonKey("raw_copper_dust");
-    public static final ItemStack RAW_COPPER_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, RAW_COPPER_DUST_KEY)
+    public static final NamespacedKey CRUSHED_RAW_COPPER_KEY = pylonKey("crushed_raw_copper");
+    public static final ItemStack CRUSHED_RAW_COPPER = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, CRUSHED_RAW_COPPER_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, RAW_COPPER_DUST);
-        GuidePages.RESOURCES.addItem(RAW_COPPER_DUST_KEY);
+        PylonItem.register(PylonItem.class, CRUSHED_RAW_COPPER);
+        GuidePages.RESOURCES.addItem(CRUSHED_RAW_COPPER_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("raw_copper_dust"),
-                new ItemStack(Material.RAW_COPPER),
-                RAW_COPPER_DUST,
+                pylonKey("crushed_raw_copper"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_COPPER)),
+                1,
+                CRUSHED_RAW_COPPER,
                 2,
                 Material.RAW_COPPER_BLOCK.createBlockData()
         ));
