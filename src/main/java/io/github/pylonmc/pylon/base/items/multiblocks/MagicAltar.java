@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -9,9 +10,15 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -22,8 +29,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
+import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -59,12 +68,12 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public void write(PersistentDataContainer pdc) {
+    public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
     }
 
     @Override
-    public Map<Vector3i, Component> getComponents() {
+    public @NotNull Map<Vector3i, Component> getComponents() {
         // use linked to retain order of pedestals - important for recipes
         Map<Vector3i, Component> map = new LinkedHashMap<>();
         map.put(new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
@@ -279,10 +288,10 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
             RecipeChoice catalyst,
             ItemStack result,
             double timeSeconds
-    ) implements Keyed {
+    ) implements PylonRecipe {
 
         @Override
-        public NamespacedKey getKey() {
+        public @NotNull NamespacedKey getKey() {
             return key;
         }
 
@@ -321,6 +330,51 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         public boolean isValidRecipe(List<ItemStack> ingredients, ItemStack catalyst) {
             return ingredientsMatch(ingredients) && this.catalyst.test(catalyst);
+        }
+
+        @Override
+        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
+            List<RecipeChoice> choices = new ArrayList<>(ingredients);
+            choices.add(catalyst);
+            choices.removeIf(Objects::isNull);
+            return choices;
+        }
+
+        @Override
+        public @NotNull List<@NotNull ItemStack> getOutputItems() {
+            return List.of(result);
+        }
+
+        @Override
+        public @NotNull Gui display() {
+            return Gui.normal()
+                    .setStructure(
+                            "# # # # # # # # #",
+                            "# # 7 0 1 # # # #",
+                            "m # 6 c 2 # t # r",
+                            "# # 5 4 3 # # # #",
+                            "# # # # # # # # #"
+                    )
+                    .addIngredient('#', GuiItems.backgroundBlack())
+                    .addIngredient('m', ItemButton.fromStack(PylonItems.MAGIC_ALTAR))
+                    .addIngredient('c', ItemButton.fromChoice(catalyst))
+                    .addIngredient('0', ItemButton.fromChoice(ingredients.get(0)))
+                    .addIngredient('1', ItemButton.fromChoice(ingredients.get(1)))
+                    .addIngredient('2', ItemButton.fromChoice(ingredients.get(2)))
+                    .addIngredient('3', ItemButton.fromChoice(ingredients.get(3)))
+                    .addIngredient('4', ItemButton.fromChoice(ingredients.get(4)))
+                    .addIngredient('5', ItemButton.fromChoice(ingredients.get(5)))
+                    .addIngredient('6', ItemButton.fromChoice(ingredients.get(6)))
+                    .addIngredient('7', ItemButton.fromChoice(ingredients.get(7)))
+                    .addIngredient('t', GuiItems.progressCyclingItem((int) (timeSeconds * 20),
+                            ItemStackBuilder.of(Material.CLOCK)
+                                    .name(net.kyori.adventure.text.Component.translatable(
+                                            "pylon.pylonbase.guide.recipe.magic-altar",
+                                            PylonArgument.of("time", UnitFormat.SECONDS.format(timeSeconds))
+                                    ))
+                    ))
+                    .addIngredient('r', ItemButton.fromStack(result))
+                    .build();
         }
     }
 }

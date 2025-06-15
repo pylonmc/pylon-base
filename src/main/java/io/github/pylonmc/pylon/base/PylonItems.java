@@ -20,7 +20,7 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
-import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
+import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
@@ -63,8 +63,7 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(COPPER_DUST_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("copper_dust"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.COPPER_INGOT)),
-                1,
+                new ItemStack(Material.COPPER_INGOT),
                 COPPER_DUST,
                 2,
                 Material.COPPER_BLOCK.createBlockData()
@@ -79,8 +78,7 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(RAW_COPPER_DUST_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("raw_copper_dust"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_COPPER)),
-                1,
+                new ItemStack(Material.RAW_COPPER),
                 RAW_COPPER_DUST,
                 2,
                 Material.RAW_COPPER_BLOCK.createBlockData()
@@ -96,16 +94,14 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(GOLD_DUST_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("gold_dust_from_gold_ingot"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.GOLD_INGOT)),
-                1,
+                new ItemStack(Material.GOLD_INGOT),
                 GOLD_DUST,
                 2,
                 Material.GOLD_BLOCK.createBlockData()
         ));
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("gold_dust_from_raw_gold"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_GOLD)),
-                1,
+                new ItemStack(Material.RAW_GOLD),
                 GOLD_DUST,
                 2,
                 Material.GOLD_BLOCK.createBlockData()
@@ -121,16 +117,14 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(IRON_DUST_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("iron_dust_from_iron_ingot"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.IRON_INGOT)),
-                1,
+                new ItemStack(Material.IRON_INGOT),
                 IRON_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
         ));
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("iron_dust_from_raw_iron"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_IRON)),
-                1,
+                new ItemStack(Material.RAW_IRON),
                 IRON_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -145,8 +139,7 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(ROCK_DUST_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("rock_dust"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.COBBLESTONE)),
-                1,
+                new ItemStack(Material.COBBLESTONE),
                 ROCK_DUST.asQuantity(2),
                 2,
                 Material.COBBLESTONE.createBlockData()
@@ -173,7 +166,7 @@ public final class PylonItems {
         GuidePages.COMPONENTS.addItem(SULFUR_KEY);
         Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
                 COPPER_SHEET_KEY,
-                List.of(new ItemStack(Material.COPPER_INGOT)),
+                new ItemStack(Material.COPPER_INGOT),
                 COPPER_SHEET,
                 MiningLevel.STONE,
                 0.25f
@@ -189,7 +182,7 @@ public final class PylonItems {
         GuidePages.COMPONENTS.addItem(GOLD_SHEET_KEY);
         Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
                 GOLD_SHEET_KEY,
-                List.of(new ItemStack(Material.GOLD_INGOT)),
+                new ItemStack(Material.GOLD_INGOT),
                 GOLD_SHEET,
                 MiningLevel.STONE,
                 0.25f
@@ -205,7 +198,7 @@ public final class PylonItems {
         GuidePages.COMPONENTS.addItem(IRON_SHEET_KEY);
         Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
                 IRON_SHEET_KEY,
-                List.of(new ItemStack(Material.IRON_INGOT)),
+                new ItemStack(Material.IRON_INGOT),
                 IRON_SHEET,
                 MiningLevel.IRON,
                 0.25f
@@ -217,19 +210,19 @@ public final class PylonItems {
     static {
         PylonItem.register(Hammer.class, Hammer.HAMMER_STONE_STACK);
         GuidePages.TOOLS.addItem(Hammer.HAMMER_STONE_KEY);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(Hammer.getRecipe(Hammer.HAMMER_STONE_KEY, Hammer.HAMMER_STONE_STACK, Material.COBBLESTONE));
+        RecipeType.VANILLA_SHAPED.addRecipe(Hammer.getRecipe(Hammer.HAMMER_STONE_KEY, Hammer.HAMMER_STONE_STACK, Material.COBBLESTONE));
     }
 
     static {
         PylonItem.register(Hammer.class, Hammer.HAMMER_IRON_STACK);
         GuidePages.TOOLS.addItem(Hammer.HAMMER_IRON_KEY);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(Hammer.getRecipe(Hammer.HAMMER_IRON_KEY, Hammer.HAMMER_IRON_STACK, Material.IRON_INGOT));
+        RecipeType.VANILLA_SHAPED.addRecipe(Hammer.getRecipe(Hammer.HAMMER_IRON_KEY, Hammer.HAMMER_IRON_STACK, Material.IRON_INGOT));
     }
 
     static {
         PylonItem.register(Hammer.class, Hammer.HAMMER_DIAMOND_STACK);
         GuidePages.TOOLS.addItem(Hammer.HAMMER_DIAMOND_KEY);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(Hammer.getRecipe(Hammer.HAMMER_DIAMOND_KEY, Hammer.HAMMER_DIAMOND_STACK, Material.DIAMOND));
+        RecipeType.VANILLA_SHAPED.addRecipe(Hammer.getRecipe(Hammer.HAMMER_DIAMOND_KEY, Hammer.HAMMER_DIAMOND_STACK, Material.DIAMOND));
     }
 
     static {
@@ -252,7 +245,7 @@ public final class PylonItems {
                 .shape("  S", "S S", " S ")
                 .setIngredient('S', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("plant_growth"),
@@ -274,7 +267,7 @@ public final class PylonItems {
                 RecipeUtils.DEFAULT_FURNACE_TIME_TICKS
         );
         furnaceRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceRecipe);
+        RecipeType.VANILLA_FURNACE.addRecipe(furnaceRecipe);
 
         SmokingRecipe smokingRecipe = new SmokingRecipe(
                 pylonKey("monster_jerky_smoker"),
@@ -284,13 +277,13 @@ public final class PylonItems {
                 RecipeUtils.DEFAULT_SMOKER_TIME_TICKS
         );
         smokingRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_SMOKING.addRecipe(smokingRecipe);
+        RecipeType.VANILLA_SMOKING.addRecipe(smokingRecipe);
 
         ShapedRecipe leatherRecipe = new ShapedRecipe(pylonKey("leather"), new ItemStack(Material.LEATHER))
                 .shape("RR ", "RR ", "   ")
                 .setIngredient('R', MonsterJerky.STACK);
         leatherRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(leatherRecipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(leatherRecipe);
 
         new Research(
                 pylonKey("food_preservation"),
@@ -313,7 +306,7 @@ public final class PylonItems {
                 .setIngredient('G', Material.GOLD_ORE)
                 .setIngredient('R', Material.REDSTONE);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_INGOT_KEY = pylonKey("ferroduralum_ingot");
@@ -334,7 +327,7 @@ public final class PylonItems {
                 RecipeUtils.DEFAULT_FURNACE_TIME_TICKS
         );
         recipe.setCategory(CookingBookCategory.MISC);
-        RecipeTypes.VANILLA_FURNACE.addRecipe(recipe);
+        RecipeType.VANILLA_FURNACE.addRecipe(recipe);
     }
 
     static {
@@ -356,7 +349,7 @@ public final class PylonItems {
         GuidePages.COMPONENTS.addItem(FERRODURALUM_SHEET_KEY);
         Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
                 FERRODURALUM_SHEET_KEY,
-                List.of(FERRODURALUM_INGOT),
+                FERRODURALUM_INGOT,
                 FERRODURALUM_SHEET,
                 MiningLevel.IRON,
                 0.25f
@@ -395,7 +388,7 @@ public final class PylonItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_AXE_KEY = pylonKey("ferroduralum_axe");
@@ -418,7 +411,8 @@ public final class PylonItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(RecipeUtils.reflect(recipe));
     }
 
     public static final NamespacedKey FERRODURALUM_PICKAXE_KEY = pylonKey("ferroduralum_pickaxe");
@@ -441,7 +435,7 @@ public final class PylonItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_SHOVEL_KEY = pylonKey("ferroduralum_shovel");
@@ -464,7 +458,7 @@ public final class PylonItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_HOE_KEY = pylonKey("ferroduralum_hoe");
@@ -487,7 +481,8 @@ public final class PylonItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(RecipeUtils.reflect(recipe));
     }
 
     static {
@@ -529,7 +524,7 @@ public final class PylonItems {
                 .shape("FFF", "F F", "   ")
                 .setIngredient('F', FERRODURALUM_INGOT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_CHESTPLATE_KEY = pylonKey("ferroduralum_chestplate");
@@ -558,7 +553,7 @@ public final class PylonItems {
                 .shape("F F", "FFF", "FFF")
                 .setIngredient('F', FERRODURALUM_INGOT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_LEGGINGS_KEY = pylonKey("ferroduralum_leggings");
@@ -587,7 +582,7 @@ public final class PylonItems {
                 .shape("FFF", "F F", "F F")
                 .setIngredient('F', FERRODURALUM_INGOT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey FERRODURALUM_BOOTS_KEY = pylonKey("ferroduralum_boots");
@@ -616,7 +611,7 @@ public final class PylonItems {
                 .shape("F F", "F F", "   ")
                 .setIngredient('F', FERRODURALUM_INGOT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -644,7 +639,7 @@ public final class PylonItems {
                 .shape("WWW", "WWW", "WWW")
                 .setIngredient('W', new RecipeChoice.MaterialChoice(Tag.LOGS));
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     //<editor-fold desc="Portable Items" defaultstate=collapsed>
@@ -661,7 +656,7 @@ public final class PylonItems {
                 .setIngredient('R', Material.REDSTONE_BLOCK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey COMPRESSED_OBSIDIAN_KEY = pylonKey("compressed_obsidian");
@@ -676,7 +671,7 @@ public final class PylonItems {
                 .shape("OOO", "OOO", "OOO")
                 .setIngredient('O', Material.OBSIDIAN);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -697,7 +692,7 @@ public final class PylonItems {
                 .setIngredient('W', COMPRESSED_WOOD)
                 .setIngredient('C', PORTABILITY_CATALYST);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -709,7 +704,7 @@ public final class PylonItems {
                 .setIngredient('C', Material.CACTUS)
                 .setIngredient('A', PORTABILITY_CATALYST);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -720,7 +715,7 @@ public final class PylonItems {
                 .setIngredient('O', COMPRESSED_OBSIDIAN)
                 .setIngredient('E', PORTABILITY_CATALYST);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     //</editor-fold>
 
@@ -748,7 +743,7 @@ public final class PylonItems {
                 .shape("SSS", "   ", "   ")
                 .setIngredient('S', Material.STRING);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey PLASTER_KEY = pylonKey("plaster");
@@ -762,7 +757,7 @@ public final class PylonItems {
                 .shape("CC ", "CC ", "   ")
                 .setIngredient('C', Material.CLAY);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey BANDAGE_KEY = pylonKey("bandage");
@@ -784,7 +779,7 @@ public final class PylonItems {
                 .shape("FF ", "FF ", "   ")
                 .setIngredient('F', FIBER);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SPLINT_KEY = pylonKey("splint");
@@ -806,7 +801,7 @@ public final class PylonItems {
                 .shape("PPP", "   ", "PPP")
                 .setIngredient('P', PLASTER);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -839,7 +834,7 @@ public final class PylonItems {
                 .shape("DDD", "D D", "DDD")
                 .setIngredient('D', Material.DRIPSTONE_BLOCK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey MEDKIT_KEY = pylonKey("medkit");
@@ -864,7 +859,7 @@ public final class PylonItems {
                 .setIngredient('D', DISINFECTANT)
                 .setIngredient('F', FIBER);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     //</editor-fold>
 
@@ -890,7 +885,7 @@ public final class PylonItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('R', new ItemStack(Material.REPEATER));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("plant_growth_automated"),
@@ -910,8 +905,7 @@ public final class PylonItems {
                 .setIngredient('S', Material.SLIME_BALL)
                 .setIngredient('A', Material.ARROW);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(RecipeUtils.reflect(recipe));
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("newtons_third_law"),
@@ -930,7 +924,7 @@ public final class PylonItems {
                 .setIngredient('A', Material.WOODEN_AXE)
                 .setIngredient('I', Material.IRON_BLOCK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("gravity"),
@@ -951,7 +945,7 @@ public final class PylonItems {
                 .setIngredient('T', new ItemStack(Material.SMOOTH_STONE))
                 .setIngredient('S', new ItemStack(Material.SMOOTH_STONE_SLAB));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final ItemStack GRINDSTONE_HANDLE = ItemStackBuilder.pylonItem(Material.OAK_FENCE, GrindstoneHandle.KEY)
@@ -964,7 +958,7 @@ public final class PylonItems {
                 .shape("F  ", "F  ", "F  ")
                 .setIngredient('F', new RecipeChoice.MaterialChoice(Tag.FENCES));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -986,8 +980,7 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(FLOUR_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 FLOUR_KEY,
-                new RecipeChoice.ExactChoice(new ItemStack(Material.WHEAT)),
-                2,
+                new ItemStack(Material.WHEAT, 2),
                 FLOUR,
                 2,
                 Material.WHEAT.createBlockData(data -> {
@@ -1022,7 +1015,7 @@ public final class PylonItems {
                 10 * 20
         );
         furnaceBreadRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_FURNACE.addRecipe(furnaceBreadRecipe);
+        RecipeType.VANILLA_FURNACE.addRecipe(furnaceBreadRecipe);
 
         SmokingRecipe smokerBreadRecipe = new SmokingRecipe(
                 pylonKey("bread_from_dough_smoker"),
@@ -1031,7 +1024,7 @@ public final class PylonItems {
                 0.2F,
                 5 * 20);
         smokerBreadRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeTypes.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
+        RecipeType.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
 
         new Research(
                 pylonKey("baking"),
@@ -1050,7 +1043,7 @@ public final class PylonItems {
                 .setIngredient('G', Material.GLISTERING_MELON_SLICE)
                 .setIngredient('R', Material.REDSTONE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1060,7 +1053,7 @@ public final class PylonItems {
                 .shape("SSS", "SSS", "SSS")
                 .setIngredient('S', HealthTalisman.HEALTH_TALISMAN_SIMPLE_STACK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1070,7 +1063,7 @@ public final class PylonItems {
                 .shape("AAA", "AAA", "AAA")
                 .setIngredient('A', HealthTalisman.HEALTH_TALISMAN_ADVANCED_STACK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1094,7 +1087,7 @@ public final class PylonItems {
                 .shape("f f", "f f", "fff")
                 .setIngredient('f', FERRODURALUM_INGOT);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("homogeneity"),
@@ -1117,7 +1110,7 @@ public final class PylonItems {
                 .addIngredient(Material.FLINT)
                 .addIngredient(Material.CLAY_BALL);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     public static final NamespacedKey SHIMMER_DUST_2_KEY = pylonKey("shimmer_dust_2");
@@ -1143,6 +1136,7 @@ public final class PylonItems {
     }
 
     public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylonItem(Material.NETHERRACK, EnrichedNetherrack.KEY)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
 
     static {
@@ -1153,7 +1147,7 @@ public final class PylonItems {
                 .setIngredient('n', new ItemStack(Material.NETHERRACK))
                 .setIngredient('s', SHIMMER_DUST_2);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey COVALENT_BINDER_KEY = pylonKey("covalent_binder");
@@ -1253,7 +1247,7 @@ public final class PylonItems {
                 .setIngredient('S', Material.DIAMOND_SWORD)
                 .setIngredient('K', SHIMMER_SKULL);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("french_revolution"),
@@ -1273,7 +1267,7 @@ public final class PylonItems {
                 .shape("s  ", "s  ", "s  ")
                 .setIngredient('s', new ItemStack(Material.STONE_BRICK_WALL));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
 
         new Research(
                 pylonKey("showing_off"),
@@ -1294,7 +1288,7 @@ public final class PylonItems {
                 .setIngredient('p', PEDESTAL)
                 .setIngredient('c', COVALENT_BINDER);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final ItemStack MAGIC_ALTAR = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, MagicAltar.KEY)
@@ -1309,7 +1303,7 @@ public final class PylonItems {
                 .setIngredient('s', new ItemStack(Material.SMOOTH_STONE_SLAB))
                 .setIngredient('d', SHIMMER_DUST_2);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1336,7 +1330,7 @@ public final class PylonItems {
                 .setIngredient('b', new ItemStack(Material.IRON_BARS))
                 .setIngredient('o', COMPRESSED_OBSIDIAN);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     // </editor-fold>
 
@@ -1350,7 +1344,7 @@ public final class PylonItems {
                 .shape("www", "   ", "www")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1362,7 +1356,7 @@ public final class PylonItems {
                 .shape("ccc", "   ", "ccc")
                 .setIngredient('c', COPPER_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1374,7 +1368,7 @@ public final class PylonItems {
                 .shape("ooo", "   ", "ooo")
                 .setIngredient('o', new ItemStack(Material.OBSIDIAN));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1389,7 +1383,7 @@ public final class PylonItems {
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS))
                 .setIngredient('g', new ItemStack(Material.GLASS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1404,7 +1398,7 @@ public final class PylonItems {
                 .setIngredient('c', COPPER_SHEET)
                 .setIngredient('g', new ItemStack(Material.GLASS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, WaterPump.KEY)
@@ -1419,7 +1413,7 @@ public final class PylonItems {
                 .setIngredient('p', FluidPipe.PIPE_COPPER_STACK)
                 .setIngredient('b', new ItemStack(Material.BUCKET));
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     // </editor-fold>
 
@@ -1507,7 +1501,7 @@ public final class PylonItems {
                 .setIngredient('C', Material.COPPER_INGOT)
                 .setIngredient('G', Material.GLASS);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1528,7 +1522,7 @@ public final class PylonItems {
                 .setIngredient('B', Material.BARREL)
                 .setIngredient('E', Material.ENDER_EYE);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     //</editor-fold>
 
@@ -1545,7 +1539,7 @@ public final class PylonItems {
                 .setIngredient('N', Material.NETHER_BRICK)
                 .setIngredient('R', Material.RED_NETHER_BRICKS);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SMELTERY_CONTROLLER_KEY = pylonKey("smeltery_controller");
@@ -1560,7 +1554,7 @@ public final class PylonItems {
                 .setIngredient('F', Material.BLAST_FURNACE)
                 .setIngredient('R', Material.REDSTONE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SMELTERY_INPUT_HATCH_KEY = pylonKey("smeltery_input_hatch");
@@ -1574,7 +1568,7 @@ public final class PylonItems {
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('I', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SMELTERY_OUTPUT_HATCH_KEY = pylonKey("smeltery_output_hatch");
@@ -1589,7 +1583,7 @@ public final class PylonItems {
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('I', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SMELTERY_HOPPER_KEY = pylonKey("smeltery_hopper");
@@ -1603,7 +1597,7 @@ public final class PylonItems {
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('I', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SMELTERY_CASTER_KEY = pylonKey("smeltery_caster");
@@ -1617,7 +1611,7 @@ public final class PylonItems {
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('P', Material.FLOWER_POT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final NamespacedKey SMELTERY_BURNER_KEY = pylonKey("smeltery_burner");
@@ -1632,7 +1626,7 @@ public final class PylonItems {
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('F', Material.FURNACE);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     // </editor-fold>
 
@@ -1648,7 +1642,7 @@ public final class PylonItems {
         recipe.setIngredient('T', Material.TNT);
         recipe.setIngredient('X', Material.TARGET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1658,7 +1652,7 @@ public final class PylonItems {
         recipe.addIngredient(ExplosiveTarget.EXPLOSIVE_TARGET_STACK);
         recipe.addIngredient(Material.FIRE_CHARGE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     static {
@@ -1667,7 +1661,7 @@ public final class PylonItems {
         ShapelessRecipe recipe = new ShapelessRecipe(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_KEY, ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_STACK);
         recipe.addIngredient(4, ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_STACK);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     static {
@@ -1677,7 +1671,7 @@ public final class PylonItems {
         recipe.addIngredient(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_STACK);
         recipe.addIngredient(Material.FIRE_CHARGE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     static {
@@ -1693,7 +1687,7 @@ public final class PylonItems {
         recipe.setIngredient('D', SHIMMER_DUST_3);
         recipe.setIngredient('C', Material.HEAVY_CORE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
@@ -13,8 +14,11 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.guide.button.FluidButton;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -29,7 +33,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
-import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -37,6 +40,8 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -482,7 +487,7 @@ public final class SmelteryController extends SmelteryComponent
             Map<PylonFluid, Double> inputFluids,
             Map<PylonFluid, Double> outputFluids,
             double temperature
-    ) implements Keyed {
+    ) implements PylonRecipe {
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery")) {
             @Override
@@ -511,6 +516,62 @@ public final class SmelteryController extends SmelteryComponent
         @Override
         public NamespacedKey getKey() {
             return key;
+        }
+
+        @Override
+        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
+            return List.of();
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonFluid> getInputFluids() {
+            return inputFluids.keySet().stream().toList();
+        }
+
+        @Override
+        public @NotNull List<@NotNull ItemStack> getOutputItems() {
+            return List.of();
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
+            return outputFluids.keySet().stream().toList();
+        }
+
+        @Override
+        public @NotNull Gui display() {
+            Preconditions.checkState(inputFluids.size() < 6);
+            Preconditions.checkState(outputFluids.size() < 6);
+            Gui gui = Gui.normal()
+                    .setStructure(
+                            "# # # # # # # # #",
+                            "# . . # # # . . #",
+                            "# . . # s # . . #",
+                            "# . . # t # . . #",
+                            "# # # # # # # # #"
+                    )
+                    .addIngredient('#', GuiItems.backgroundBlack())
+                    .addIngredient('s', ItemButton.fromStack(PylonItems.SMELTERY_CONTROLLER))
+                    .addIngredient('t', ItemStackBuilder.of(Material.COAL)
+                            .name(Component.translatable(
+                                    "pylon.pylonbase.gui.smeltery.temperature",
+                                    PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                            )))
+                    .build();
+
+            int i = 0;
+            for (Map.Entry<PylonFluid, Double> entry : inputFluids.entrySet()) {
+                gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
+                i++;
+            }
+
+            i = 0;
+            for (Map.Entry<PylonFluid, Double> entry : outputFluids.entrySet()) {
+                gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
+                i++;
+            }
+
+            return gui;
         }
     }
 
