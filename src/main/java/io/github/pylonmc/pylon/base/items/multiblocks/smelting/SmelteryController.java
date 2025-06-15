@@ -490,7 +490,7 @@ public final class SmelteryController extends SmelteryComponent
                 Map<NamespacedKey, Recipe> newMap = recipes.entrySet().stream()
                         .sorted(
                                 Comparator.<Map.Entry<NamespacedKey, Recipe>>comparingDouble(entry -> -entry.getValue().getTemperature())
-                                        .thenComparingInt(entry -> -entry.getValue().getInputFluids().size())
+                                        .thenComparingInt(entry -> -entry.getValue().getFluidInputs().size())
                         )
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
@@ -511,10 +511,10 @@ public final class SmelteryController extends SmelteryComponent
         private final NamespacedKey key;
 
         @Getter
-        private final Map<PylonFluid, Double> inputFluids;
+        private final Map<PylonFluid, Double> fluidInputs;
 
         @Getter
-        private final Map<PylonFluid, Double> outputFluids;
+        private final Map<PylonFluid, Double> fluidOutputs;
 
         private final PylonFluid highestFluid;
 
@@ -536,16 +536,16 @@ public final class SmelteryController extends SmelteryComponent
             this.highestFluid = highestFluidEntry.getKey();
             double highestFluidAmount = highestFluidEntry.getValue();
 
-            this.inputFluids = new HashMap<>();
+            this.fluidInputs = new HashMap<>();
             for (var entry : inputFluids.entrySet()) {
                 Preconditions.checkArgument(entry.getValue() > 0, "Input fluid amount must be positive");
-                this.inputFluids.put(entry.getKey(), entry.getValue() / highestFluidAmount);
+                this.fluidInputs.put(entry.getKey(), entry.getValue() / highestFluidAmount);
             }
 
-            this.outputFluids = new HashMap<>();
+            this.fluidOutputs = new HashMap<>();
             for (var entry : outputFluids.entrySet()) {
                 Preconditions.checkArgument(entry.getValue() > 0, "Output fluid amount must be positive");
-                this.outputFluids.put(entry.getKey(), entry.getValue() / highestFluidAmount);
+                this.fluidOutputs.put(entry.getKey(), entry.getValue() / highestFluidAmount);
             }
         }
 
@@ -556,7 +556,7 @@ public final class SmelteryController extends SmelteryComponent
 
         @Override
         public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-            return inputFluids.keySet().stream().toList();
+            return fluidInputs.keySet().stream().toList();
         }
 
         @Override
@@ -566,13 +566,13 @@ public final class SmelteryController extends SmelteryComponent
 
         @Override
         public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-            return outputFluids.keySet().stream().toList();
+            return fluidOutputs.keySet().stream().toList();
         }
 
         @Override
         public @NotNull Gui display() {
-            Preconditions.checkState(inputFluids.size() < 6);
-            Preconditions.checkState(outputFluids.size() < 6);
+            Preconditions.checkState(fluidInputs.size() < 6);
+            Preconditions.checkState(fluidOutputs.size() < 6);
             Gui gui = Gui.normal()
                     .setStructure(
                             "# # # # # # # # #",
@@ -591,13 +591,13 @@ public final class SmelteryController extends SmelteryComponent
                     .build();
 
             int i = 0;
-            for (Map.Entry<PylonFluid, Double> entry : inputFluids.entrySet()) {
+            for (Map.Entry<PylonFluid, Double> entry : fluidInputs.entrySet()) {
                 gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
                 i++;
             }
 
             i = 0;
-            for (Map.Entry<PylonFluid, Double> entry : outputFluids.entrySet()) {
+            for (Map.Entry<PylonFluid, Double> entry : fluidOutputs.entrySet()) {
                 gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
                 i++;
             }
@@ -612,7 +612,7 @@ public final class SmelteryController extends SmelteryComponent
         for (Recipe recipe : Recipe.RECIPE_TYPE) {
             if (recipe.temperature > temperature) continue;
 
-            for (PylonFluid fluid : recipe.getInputFluids().keySet()) {
+            for (PylonFluid fluid : recipe.fluidInputs.keySet()) {
                 if (getFluidAmount(fluid) == 0) continue recipeLoop;
             }
 
@@ -621,12 +621,12 @@ public final class SmelteryController extends SmelteryComponent
                     highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND),
                     1
             );
-            for (var entry : recipe.getInputFluids().entrySet()) {
+            for (var entry : recipe.fluidInputs.entrySet()) {
                 PylonFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
                 removeFluid(fluid, amount);
             }
-            for (var entry : recipe.getOutputFluids().entrySet()) {
+            for (var entry : recipe.fluidOutputs.entrySet()) {
                 PylonFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
                 addFluid(fluid, amount);

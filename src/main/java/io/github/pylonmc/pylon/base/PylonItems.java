@@ -78,8 +78,7 @@ public final class PylonItems {
         GuidePages.RESOURCES.addItem(CRUSHED_RAW_COPPER_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("crushed_raw_copper"),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_COPPER)),
-                1,
+                new ItemStack(Material.RAW_COPPER),
                 CRUSHED_RAW_COPPER,
                 2,
                 Material.RAW_COPPER_BLOCK.createBlockData()
