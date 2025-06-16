@@ -636,6 +636,8 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
+    private double lastHeight = 0;
+
     private void updateFluidDisplay() {
         Color color = ColorUtils.colorFromTemperature(temperature);
         double fill = getTotalFluid() / capacity;
@@ -657,16 +659,19 @@ public final class SmelteryController extends SmelteryComponent
                     z,
                     cumulativeSeconds,
                     0.01,
-                    Math.min(1, (temperature - 300) / 1200 + 0.01),
+                    1 - Math.max(0, Math.min(1, (temperature - 300) / 1200 + 0.01)),
                     true
             );
             int brightness = (int) Math.max(0, Math.min(15, Math.round((value + 1) / 2 * 15)));
-            entity.setBrightness(new Display.Brightness(brightness, 0));
+            entity.setBrightness(new Display.Brightness(0, brightness));
 
-            Location location = entity.getLocation();
-            location.setY(finalHeight);
-            entity.teleportAsync(location);
+            if (lastHeight != finalHeight) {
+                Location location = entity.getLocation();
+                location.setY(finalHeight);
+                entity.teleportAsync(location);
+            }
         }
+        lastHeight = finalHeight;
     }
     // </editor-fold>
 
