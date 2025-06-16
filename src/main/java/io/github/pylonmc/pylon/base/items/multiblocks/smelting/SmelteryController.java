@@ -27,6 +27,7 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
@@ -34,11 +35,13 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Directional;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
@@ -52,6 +55,7 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
+@Slf4j
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock, PylonEntityHolderBlock {
 
@@ -581,50 +585,94 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
+    private final List<FluidPixelEntity> pixels = new ArrayList<>();
+    private static final int RESOLUTION = 16;
+    private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
+
+    private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
+           getBlock().getWorld().getSeed(), 4
+    );
+    {
+        noise.setScale(1 / 16.0);
+    }
+    private double cumulativeSeconds = 0;
+
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Location location = center.getLocation().add(-1, 0, -1);
-        TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(location, ColorUtils.METAL_GRAY);
-        display.setTransformationMatrix(
-                TransformUtil.transformationToMatrix(display.getTransformation())
-                        .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
-                        .rotateLocalX((float) Math.toRadians(-90))
-                        .scaleLocal(3)
-        );
-        return Map.of("fluid_display", new FluidDisplayEntity(display));
+        Map<String, PylonEntity<?>> entities = new HashMap<>();
+        int counter = 0;
+        for (int x = 0; x < PIXELS_PER_SIDE; x++) {
+            for (int z = 0; z < PIXELS_PER_SIDE; z++) {
+                Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
+                TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(relative, ColorUtils.METAL_GRAY);
+                display.setTransformationMatrix(
+                        TransformUtil.transformationToMatrix(display.getTransformation())
+                                .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
+                                .rotateLocalX((float) Math.toRadians(-90))
+                                .scaleLocal(1 / 16f)
+                );
+                entities.put("pixel_" + counter++, new FluidPixelEntity(display));
+            }
+        }
+        return entities;
     }
 
-    public @NotNull FluidDisplayEntity getFluidDisplayEntity() {
-        return Objects.requireNonNull(getHeldEntity(FluidDisplayEntity.class, "fluid_display"));
+    public @NotNull List<FluidPixelEntity> getPixels() {
+        if (pixels.isEmpty()) {
+            for (int i = 0; i < PIXELS_PER_SIDE * PIXELS_PER_SIDE; i++) {
+                pixels.add(getHeldEntity(FluidPixelEntity.class, "pixel_" + i));
+            }
+        }
+        return pixels;
     }
 
-    public static final class FluidDisplayEntity extends PylonEntity<TextDisplay> {
+    public static final class FluidPixelEntity extends PylonEntity<TextDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("smeltery_fluid_display");
+        public static final NamespacedKey KEY = pylonKey("smeltery_fluid_pixel");
 
-        public FluidDisplayEntity(@NotNull TextDisplay entity) {
+        public FluidPixelEntity(@NotNull TextDisplay entity) {
             super(KEY, entity);
         }
     }
 
     private void updateFluidDisplay() {
-        TextDisplay display = getFluidDisplayEntity().getEntity();
-
         Color color = ColorUtils.colorFromTemperature(temperature);
-        display.setBackgroundColor(color);
-
         double fill = getTotalFluid() / capacity;
         if (Double.isNaN(fill) || Double.isInfinite(fill)) {
             fill = 0;
         }
-        Location location = center.getLocation();
-        location.add(-1, height * fill - 0.01, -1);
-        display.teleportAsync(location);
+        double finalHeight = center.getY() + height * fill - 0.01;
+
+        List<FluidPixelEntity> pixels = getPixels();
+        for (int i = 0; i < pixels.size(); i++) {
+            FluidPixelEntity pixel = pixels.get(i);
+            TextDisplay entity = pixel.getEntity();
+            entity.setBackgroundColor(color);
+
+            int x = i % (3 * RESOLUTION);
+            int z = (i / (3 * RESOLUTION)) % (3 * RESOLUTION);
+            double value = noise.noise(
+                    x,
+                    z,
+                    cumulativeSeconds,
+                    0.01,
+                    Math.min(1, (temperature - 300) / 1200 + 0.01),
+                    true
+            );
+            int brightness = (int) Math.max(0, Math.min(15, Math.round((value + 1) / 2 * 15)));
+            entity.setBrightness(new Display.Brightness(brightness, 0));
+
+            Location location = entity.getLocation();
+            location.setY(finalHeight);
+            entity.teleportAsync(location);
+        }
     }
     // </editor-fold>
 
     @Override
     public void tick(double deltaSeconds) {
+        cumulativeSeconds += deltaSeconds;
         if (isFormedAndFullyLoaded()) {
             if (running) {
                 applyHeat();
