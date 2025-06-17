@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
+import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -32,7 +33,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
-import org.bukkit.*;
+import org.bukkit.Keyed;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Display;
@@ -586,7 +590,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<FluidPixelEntity> pixels = new ArrayList<>();
-    private static final int RESOLUTION = 16;
+    private static final int RESOLUTION = 1 << 3;
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
@@ -610,8 +614,9 @@ public final class SmelteryController extends SmelteryComponent
                         TransformUtil.transformationToMatrix(display.getTransformation())
                                 .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
                                 .rotateLocalX((float) Math.toRadians(-90))
-                                .scaleLocal(1 / 16f)
+                                .scaleLocal(1f / RESOLUTION)
                 );
+                display.setBrightness(new Display.Brightness(15, 15));
                 entities.put("pixel_" + counter++, new FluidPixelEntity(display));
             }
         }
@@ -637,9 +642,10 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private double lastHeight = 0;
+    private static final double LIGHTNESS_VARIATION = 0.3;
 
     private void updateFluidDisplay() {
-        Color color = ColorUtils.colorFromTemperature(temperature);
+        HslColor color = HslColor.fromRgb(ColorUtils.colorFromTemperature(temperature));
         double fill = getTotalFluid() / capacity;
         if (Double.isNaN(fill) || Double.isInfinite(fill)) {
             fill = 0;
@@ -650,20 +656,24 @@ public final class SmelteryController extends SmelteryComponent
         for (int i = 0; i < pixels.size(); i++) {
             FluidPixelEntity pixel = pixels.get(i);
             TextDisplay entity = pixel.getEntity();
-            entity.setBackgroundColor(color);
+            if (!entity.isValid()) continue;
 
-            int x = i % (3 * RESOLUTION);
-            int z = (i / (3 * RESOLUTION)) % (3 * RESOLUTION);
+            int x = i % PIXELS_PER_SIDE;
+            int z = (i / PIXELS_PER_SIDE) % PIXELS_PER_SIDE;
             double value = noise.noise(
                     x,
                     z,
-                    cumulativeSeconds,
+                    cumulativeSeconds * 3,
                     0.01,
-                    1 - Math.max(0, Math.min(1, (temperature - 300) / 1200 + 0.01)),
+                    0.01,
                     true
             );
-            int brightness = (int) Math.max(0, Math.min(15, Math.round((value + 1) / 2 * 15)));
-            entity.setBrightness(new Display.Brightness(0, brightness));
+            HslColor newColor = new HslColor(
+                    color.hue(),
+                    color.saturation(),
+                    color.lightness() + value * LIGHTNESS_VARIATION
+            );
+            entity.setBackgroundColor(newColor.toRgb());
 
             if (lastHeight != finalHeight) {
                 Location location = entity.getLocation();
