@@ -430,7 +430,7 @@ public final class SmelteryController extends SmelteryComponent
     private static final double EMISSIVITY = Settings.get(KEY).getOrThrow("emissivity", Double.class);
 
     private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_CELSIUS = 20; // Room temperature in Celsius
+    private static final double ROOM_TEMPERATURE_CELSIUS = Settings.get(KEY).getOrThrow("room-temperature", Double.class);
     private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
@@ -590,7 +590,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<FluidPixelEntity> pixels = new ArrayList<>();
-    private static final int RESOLUTION = 1 << 3;
+    private static final int RESOLUTION = Settings.get(KEY).getOrThrow("display.resolution", Integer.class);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
@@ -642,7 +642,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private double lastHeight = 0;
-    private static final double LIGHTNESS_VARIATION = 0.3;
+    private static final double LIGHTNESS_VARIATION = Settings.get(KEY).getOrThrow("display.lightness-variation", Double.class);
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(ColorUtils.colorFromTemperature(temperature));
