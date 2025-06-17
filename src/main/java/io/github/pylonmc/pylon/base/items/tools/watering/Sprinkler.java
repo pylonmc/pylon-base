@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -35,7 +35,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class Sprinkler extends PylonBlock implements PylonFluidInteractionBlock, PylonTickingBlock, PylonFluidBlock {
+public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonFluidBlock {
 
     public static class Item extends PylonItem {
 

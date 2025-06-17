@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.fluid;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class PortableFluidTank extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock, PylonInteractableBlock {
+public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -165,7 +165,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidInteracti
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
+        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
 
         ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(getBlock().getLocation().toCenterLocation());
         entities.put("fluid", new FluidTankEntity(fluidDisplay));

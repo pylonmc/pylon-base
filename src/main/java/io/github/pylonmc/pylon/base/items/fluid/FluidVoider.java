@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidVoider extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock {
+public class FluidVoider extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock {
 
     public static class Item extends PylonItem {
 
@@ -77,7 +77,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidInteractionBloc
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
+        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
         @NotNull Block block = getBlock();
         entities.put("main", new MainDisplay(block, mainDisplaySize));
         return entities;

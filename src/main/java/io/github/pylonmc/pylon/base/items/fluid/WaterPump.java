@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class WaterPump extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock {
+public class WaterPump extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock {
 
     public static class Item extends PylonItem {
 

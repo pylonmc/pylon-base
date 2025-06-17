@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public interface PylonFluidInteractionBlock extends PylonEntityHolderBlock, PylonFluidBlock {
+public interface PylonFluidIoBlock extends PylonEntityHolderBlock, PylonFluidBlock {
 
     @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context);
 

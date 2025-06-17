@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidInteractionBlock {
+public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidIoBlock {
 
     public static final NamespacedKey KEY = pylonKey("smeltery_input_hatch");
 
