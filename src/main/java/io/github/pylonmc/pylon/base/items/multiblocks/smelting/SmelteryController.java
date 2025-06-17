@@ -522,9 +522,9 @@ public final class SmelteryController extends SmelteryComponent
         private final double temperature;
 
         public Recipe(
-                NamespacedKey key,
-                Map<PylonFluid, Double> inputFluids,
-                Map<PylonFluid, Double> outputFluids,
+                @NotNull NamespacedKey key,
+                @NotNull Map<PylonFluid, Double> inputFluids,
+                @NotNull Map<PylonFluid, Double> outputFluids,
                 double temperature
         ) {
             this.key = key;
