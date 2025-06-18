@@ -1257,6 +1257,35 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
+
+    static {
+        PylonItem.register(Loupe.class, Loupe.STACK);
+        ShapedRecipe recipe = new ShapedRecipe(Loupe.KEY, Loupe.STACK)
+                .shape(" C ", "CGC", " C ")
+                .setIngredient('C', Material.COPPER_INGOT)
+                .setIngredient('G', Material.GLASS);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(ResearchPack.class, ResearchPack.RESEARCH_PACK_1_STACK);
+        // TODO recipe when fluid api is done
+    }
+
+    public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DimensionalBarrel.KEY)
+            .build();
+
+    static {
+        PylonItem.register(DimensionalBarrel.Item.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(DimensionalBarrel.KEY, DIMENSIONAL_BARREL)
+                .shape("CBC", "BEB", "CBC")
+                .setIngredient('C', COVALENT_BINDER)
+                .setIngredient('B', Material.BARREL)
+                .setIngredient('E', Material.ENDER_EYE);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
     // </editor-fold>
 
     // <editor-fold desc="Fluids" defaultstate=collapsed>
@@ -1330,7 +1359,6 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
-    // </editor-fold>
 
     public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidValve.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
@@ -1397,36 +1425,7 @@ public final class PylonItems {
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
     }
-
-    static {
-        PylonItem.register(Loupe.class, Loupe.STACK);
-        ShapedRecipe recipe = new ShapedRecipe(Loupe.KEY, Loupe.STACK)
-                .shape(" C ", "CGC", " C ")
-                .setIngredient('C', Material.COPPER_INGOT)
-                .setIngredient('G', Material.GLASS);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-    }
-
-    static {
-        PylonItem.register(ResearchPack.class, ResearchPack.RESEARCH_PACK_1_STACK);
-        // TODO recipe when fluid api is done
-    }
-
-    public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DimensionalBarrel.KEY)
-            .build();
-
-    static {
-        PylonItem.register(DimensionalBarrel.Item.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
-        ShapedRecipe recipe = new ShapedRecipe(DimensionalBarrel.KEY, DIMENSIONAL_BARREL)
-                .shape("CBC", "BEB", "CBC")
-                .setIngredient('C', COVALENT_BINDER)
-                .setIngredient('B', Material.BARREL)
-                .setIngredient('E', Material.ENDER_EYE);
-        recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
-    }
-    //</editor-fold>
+    // </editor-fold>
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
     public static final NamespacedKey REFRACTORY_BRICK_KEY = pylonKey("refractory_brick");
