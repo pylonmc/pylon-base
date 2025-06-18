@@ -1425,6 +1425,18 @@ public final class PylonItems {
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
     }
+
+    public static final ItemStack SLURRY_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, SlurryStrainer.KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SLURRY_STRAINER, SlurryStrainer.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(SlurryStrainer.KEY, SLURRY_STRAINER)
+                .shape("c c", " C ", "c c")
+                .setIngredient('c', COPPER_SHEET)
+                .setIngredient('C', Material.COPPER_GRATE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
     // </editor-fold>
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
