@@ -25,19 +25,19 @@ public class GuidePages {
     public static final SimpleStaticGuidePage BUILDING = new SimpleStaticGuidePage(pylonKey("building"), Material.STONE_BRICK_WALL);
 
     static {
-        PylonGuide.rootPage.addPage(RESEARCH);
-        PylonGuide.rootPage.addPage(RESOURCES);
-        PylonGuide.rootPage.addPage(COMPONENTS);
-        PylonGuide.rootPage.addPage(TOOLS);
-        PylonGuide.rootPage.addPage(WEAPONS);
-        PylonGuide.rootPage.addPage(ARMOUR);
-        PylonGuide.rootPage.addPage(FOOD);
+        PylonGuide.getRootPage().addPage(RESEARCH);
+        PylonGuide.getRootPage().addPage(RESOURCES);
+        PylonGuide.getRootPage().addPage(COMPONENTS);
+        PylonGuide.getRootPage().addPage(TOOLS);
+        PylonGuide.getRootPage().addPage(WEAPONS);
+        PylonGuide.getRootPage().addPage(ARMOUR);
+        PylonGuide.getRootPage().addPage(FOOD);
 
         MACHINES.addPage(MANUAL_MACHINES);
         MACHINES.addPage(FLUID_MACHINES);
         MACHINES.addPage(SMELTING);
-        PylonGuide.rootPage.addPage(MACHINES);
+        PylonGuide.getRootPage().addPage(MACHINES);
 
-        PylonGuide.rootPage.addPage(BUILDING);
+        PylonGuide.getRootPage().addPage(BUILDING);
     }
 }
