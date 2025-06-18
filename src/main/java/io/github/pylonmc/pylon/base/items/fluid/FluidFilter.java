@@ -81,8 +81,8 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonF
     @Override
     public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
         return List.of(
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.EAST, 0.25F),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST, 0.25F)
+                new SimpleFluidConnectionPoint("input", FluidConnectionPoint.Type.INPUT, BlockFace.EAST, 0.25F),
+                new SimpleFluidConnectionPoint("output", FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST, 0.25F)
         );
     }
 
