@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items.tools;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
@@ -52,8 +53,6 @@ public class Hammer extends PylonItem implements BlockInteractor {
     public static final ItemStack HAMMER_STONE_STACK = createItemStack(HAMMER_STONE_KEY, Material.STONE_PICKAXE, (1.0 / 3) - 4, 1, 1);
     public static final ItemStack HAMMER_IRON_STACK = createItemStack(HAMMER_IRON_KEY, Material.IRON_PICKAXE, (1.0 / 2) - 4, 1.5, 3);
     public static final ItemStack HAMMER_DIAMOND_STACK = createItemStack(HAMMER_DIAMOND_KEY, Material.DIAMOND_PICKAXE, (1.0/ 1) - 4, 2, 5);
-
-    public static final List<ItemStack> HAMMER_STACKS = List.of(HAMMER_STONE_STACK, HAMMER_IRON_STACK, HAMMER_DIAMOND_STACK);
 
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
@@ -149,8 +148,10 @@ public class Hammer extends PylonItem implements BlockInteractor {
     }
 
     private static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
-        return HAMMER_STACKS.stream()
-                .filter(item -> ((Hammer) fromStack(item)).miningLevel.isAtLeast(level))
+        return PylonRegistry.ITEMS.getValues().stream()
+                .map(PylonItemSchema::getItemStack)
+                .filter(item -> fromStack(item) instanceof Hammer hammer
+                                && hammer.miningLevel.isAtLeast(level))
                 .toList();
     }
 
