@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
+import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -31,6 +32,7 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
@@ -40,6 +42,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Directional;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
@@ -47,6 +50,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
@@ -60,6 +64,7 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
+@Slf4j
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock, PylonEntityHolderBlock {
 
@@ -430,7 +435,7 @@ public final class SmelteryController extends SmelteryComponent
     private static final double EMISSIVITY = Settings.get(KEY).getOrThrow("emissivity", Double.class);
 
     private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_CELSIUS = 20; // Room temperature in Celsius
+    private static final double ROOM_TEMPERATURE_CELSIUS = Settings.get(KEY).getOrThrow("room-temperature", Double.class);
     private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
@@ -522,9 +527,9 @@ public final class SmelteryController extends SmelteryComponent
         private final double temperature;
 
         public Recipe(
-                NamespacedKey key,
-                Map<PylonFluid, Double> inputFluids,
-                Map<PylonFluid, Double> outputFluids,
+                @NotNull NamespacedKey key,
+                @NotNull Map<PylonFluid, Double> inputFluids,
+                @NotNull Map<PylonFluid, Double> outputFluids,
                 double temperature
         ) {
             this.key = key;
@@ -645,50 +650,105 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
+    private final List<FluidPixelEntity> pixels = new ArrayList<>();
+    private static final int RESOLUTION = Settings.get(KEY).getOrThrow("display.resolution", Integer.class);
+    private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
+
+    private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
+           getBlock().getWorld().getSeed(), 4
+    );
+    {
+        noise.setScale(1 / 16.0);
+    }
+    private double cumulativeSeconds = 0;
+
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Location location = center.getLocation().add(-1, 0, -1);
-        TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(location, ColorUtils.METAL_GRAY);
-        display.setTransformationMatrix(
-                TransformUtil.transformationToMatrix(display.getTransformation())
-                        .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
-                        .rotateLocalX((float) Math.toRadians(-90))
-                        .scaleLocal(3)
-        );
-        return Map.of("fluid_display", new FluidDisplayEntity(display));
+        Map<String, PylonEntity<?>> entities = new HashMap<>();
+        int counter = 0;
+        for (int x = 0; x < PIXELS_PER_SIDE; x++) {
+            for (int z = 0; z < PIXELS_PER_SIDE; z++) {
+                Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
+                TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(relative, ColorUtils.METAL_GRAY);
+                display.setTransformationMatrix(
+                        TransformUtil.transformationToMatrix(display.getTransformation())
+                                .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
+                                .rotateLocalX((float) Math.toRadians(-90))
+                                .scaleLocal(1f / RESOLUTION)
+                );
+                display.setBrightness(new Display.Brightness(15, 15));
+                entities.put("pixel_" + counter++, new FluidPixelEntity(display));
+            }
+        }
+        return entities;
     }
 
-    public @NotNull FluidDisplayEntity getFluidDisplayEntity() {
-        return Objects.requireNonNull(getHeldEntity(FluidDisplayEntity.class, "fluid_display"));
+    public @NotNull List<FluidPixelEntity> getPixels() {
+        if (pixels.isEmpty()) {
+            for (int i = 0; i < PIXELS_PER_SIDE * PIXELS_PER_SIDE; i++) {
+                pixels.add(getHeldEntity(FluidPixelEntity.class, "pixel_" + i));
+            }
+        }
+        return pixels;
     }
 
-    public static final class FluidDisplayEntity extends PylonEntity<TextDisplay> {
+    public static final class FluidPixelEntity extends PylonEntity<TextDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("smeltery_fluid_display");
+        public static final NamespacedKey KEY = pylonKey("smeltery_fluid_pixel");
 
-        public FluidDisplayEntity(@NotNull TextDisplay entity) {
+        public FluidPixelEntity(@NotNull TextDisplay entity) {
             super(KEY, entity);
         }
     }
 
+    private double lastHeight = 0;
+    private static final double LIGHTNESS_VARIATION = Settings.get(KEY).getOrThrow("display.lightness-variation", Double.class);
+
     private void updateFluidDisplay() {
-        TextDisplay display = getFluidDisplayEntity().getEntity();
-
-        Color color = ColorUtils.colorFromTemperature(temperature);
-        display.setBackgroundColor(color);
-
+        HslColor color = HslColor.fromRgb(ColorUtils.colorFromTemperature(temperature));
         double fill = getTotalFluid() / capacity;
         if (Double.isNaN(fill) || Double.isInfinite(fill)) {
             fill = 0;
         }
-        Location location = center.getLocation();
-        location.add(-1, height * fill - 0.01, -1);
-        display.teleportAsync(location);
+        double finalHeight = center.getY() + height * fill - 0.01;
+
+        List<FluidPixelEntity> pixels = getPixels();
+        for (int i = 0; i < pixels.size(); i++) {
+            FluidPixelEntity pixel = pixels.get(i);
+            TextDisplay entity = pixel.getEntity();
+            if (!entity.isValid()) continue;
+
+            int x = i % PIXELS_PER_SIDE;
+            int z = (i / PIXELS_PER_SIDE) % PIXELS_PER_SIDE;
+            double value = noise.noise(
+                    x,
+                    z,
+                    cumulativeSeconds * 3,
+                    0.01,
+                    0.01,
+                    true
+            );
+            HslColor newColor = new HslColor(
+                    color.hue(),
+                    color.saturation(),
+                    color.lightness() + value * LIGHTNESS_VARIATION
+            );
+            entity.setBackgroundColor(newColor.toRgb());
+
+            if (lastHeight != finalHeight) {
+                Location location = entity.getLocation();
+                location.setY(finalHeight);
+                entity.teleportAsync(location);
+            }
+        }
+        lastHeight = finalHeight;
     }
     // </editor-fold>
 
     @Override
     public void tick(double deltaSeconds) {
+        cumulativeSeconds += deltaSeconds;
         if (isFormedAndFullyLoaded()) {
             if (running) {
                 applyHeat();

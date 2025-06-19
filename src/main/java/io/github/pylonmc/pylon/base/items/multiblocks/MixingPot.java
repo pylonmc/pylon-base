@@ -4,7 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonItems;
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.base.util.KeyUtils;
@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidInteractionBlock {
+public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidIoBlock {
 
     public static final NamespacedKey KEY = pylonKey("mixing_pot");
 

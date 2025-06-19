@@ -1415,7 +1415,6 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
-    // </editor-fold>
 
     public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidValve.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
@@ -1512,7 +1511,6 @@ public final class PylonItems {
 
     public static final ItemStack DIMENSIONAL_BARREL = ItemStackBuilder.pylonItem(Material.BARREL, DimensionalBarrel.KEY)
             .build();
-
     static {
         PylonItem.register(DimensionalBarrel.Item.class, DIMENSIONAL_BARREL, DimensionalBarrel.KEY);
         GuidePages.BUILDING.addItem(DimensionalBarrel.KEY);
@@ -1524,7 +1522,20 @@ public final class PylonItems {
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
-    //</editor-fold>
+
+    public static final ItemStack SLURRY_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, SlurryStrainer.KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SLURRY_STRAINER, SlurryStrainer.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(SlurryStrainer.KEY, SLURRY_STRAINER)
+                .shape("c c", " C ", "c c")
+                .setIngredient('c', COPPER_SHEET)
+                .setIngredient('C', Material.COPPER_GRATE);
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+
+    }
+    // </editor-fold>
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
     public static final NamespacedKey REFRACTORY_BRICK_KEY = pylonKey("refractory_brick");

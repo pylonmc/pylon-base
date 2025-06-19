@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -32,7 +32,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidDrainer extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock, PylonTickingBlock, PylonInteractableBlock {
+public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonTickingBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 

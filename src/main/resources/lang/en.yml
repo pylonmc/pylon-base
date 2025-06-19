@@ -451,6 +451,13 @@ item:
     name: "<white>Shimmer Skull"
     lore: ""
 
+  slurry_strainer:
+    name: "Slurry Strainer"
+    lore: |-
+      <arrow> Filters out items from slurry
+      <arrow> <insn>Right click</insn> to open the inventory
+    waila: "Slurry Strainer%info%"
+
   smeltery_burner:
     name: "Smeltery Burner"
     lore: |-
@@ -559,7 +566,7 @@ fluid:
   none: "None"
   slurry: "<gray>Slurry"
   slurry_redstone: "<red>Redstone Slurry"
-  slurry_raw_copper: "<red>Raw Copper Slurry"
+  slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   sulfur: "<yellow>Sulfur"
   water: "<blue>Water"
 
@@ -567,6 +574,8 @@ waila:
   fluid_tank:
     empty: "(empty)"
     filled: "| %amount%/%capacity% of %fluid%"
+  slurry_strainer:
+    straining: " | Straining %item%: %progress%"
 
 research:
   baking: "<gold>Baking"

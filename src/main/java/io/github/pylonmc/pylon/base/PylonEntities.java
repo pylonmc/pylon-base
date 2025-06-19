@@ -31,6 +31,6 @@ public final class PylonEntities {
         PylonEntity.register(FluidValve.FluidValveDisplay.KEY, ItemDisplay.class, FluidValve.FluidValveDisplay.class);
         PylonEntity.register(FluidMeter.FlowRateDisplay.KEY, TextDisplay.class, FluidMeter.FlowRateDisplay.class);
         PylonEntity.register(FluidVoider.MainDisplay.KEY, ItemDisplay.class, FluidVoider.MainDisplay.class);
-        PylonEntity.register(SmelteryController.FluidDisplayEntity.KEY, TextDisplay.class, SmelteryController.FluidDisplayEntity.class);
+        PylonEntity.register(SmelteryController.FluidPixelEntity.KEY, TextDisplay.class, SmelteryController.FluidPixelEntity.class);
     }
 }

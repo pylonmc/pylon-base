@@ -60,6 +60,7 @@ public final class PylonBlocks {
         PylonBlock.register(SmelteryHopper.KEY, Material.HOPPER, SmelteryHopper.class);
         PylonBlock.register(SmelteryCaster.KEY, Material.BRICKS, SmelteryCaster.class);
         PylonBlock.register(SmelteryBurner.KEY, Material.FURNACE, SmelteryBurner.class);
+        PylonBlock.register(SlurryStrainer.KEY, Material.COPPER_GRATE, SlurryStrainer.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("string_from_bamboo"),

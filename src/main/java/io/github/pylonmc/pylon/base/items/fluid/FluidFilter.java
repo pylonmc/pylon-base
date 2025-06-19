@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidInteractionBlock;
+import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.items.fluid.gui.FluidSelector;
@@ -43,7 +43,7 @@ import java.util.Objects;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidFilter extends PylonBlock implements PylonFluidInteractionBlock, PylonFluidBlock, PylonInteractableBlock {
+public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonInteractableBlock {
 
     public static final NamespacedKey KEY = pylonKey("fluid_filter");
 
@@ -81,14 +81,14 @@ public class FluidFilter extends PylonBlock implements PylonFluidInteractionBloc
     @Override
     public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
         return List.of(
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.EAST, 0.25F),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST, 0.25F)
+                new SimpleFluidConnectionPoint("input", FluidConnectionPoint.Type.INPUT, BlockFace.EAST, 0.25F),
+                new SimpleFluidConnectionPoint("output", FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST, 0.25F)
         );
     }
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonFluidInteractionBlock.super.createEntities(context);
+        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
 
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
