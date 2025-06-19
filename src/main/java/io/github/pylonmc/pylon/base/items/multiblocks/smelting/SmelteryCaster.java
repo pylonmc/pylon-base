@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
-import io.github.pylonmc.pylon.base.fluid.CastableFluid;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -34,7 +33,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
 
     public static final NamespacedKey KEY = pylonKey("smeltery_caster");
 
-    private @Nullable PylonFluid canCast = null;
+    private @Nullable PylonFluid bottomFluid = null;
 
     @SuppressWarnings("unused")
     public SmelteryCaster(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -69,14 +68,17 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
         @Override
         public ItemProvider getItemProvider() {
             SmelteryController controller = getController();
-            if (controller == null || canCast == null) {
+            CastRecipe recipe = null;
+            if (bottomFluid != null) {
+                recipe = CastRecipe.getCastRecipeFor(bottomFluid);
+            }
+            if (controller == null || bottomFluid == null || recipe == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
                         .name(casterKey("cannot_cast"));
             } else {
-                CastableFluid fluid = canCast.getTag(CastableFluid.class);
-                ItemStack result = fluid.castResult();
+                ItemStack result = recipe.result();
                 Component name = result.effectiveName();
-                double temperature = fluid.castTemperature();
+                double temperature = recipe.temperature();
                 if (controller.getTemperature() < temperature) {
                     return ItemStackBuilder.of(Material.BARRIER)
                             .name(casterKey("cannot_cast"))
@@ -85,14 +87,14 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                                     PylonArgument.of("item", name),
                                     PylonArgument.of("temperature", temperature)
                             ));
-                } else if (controller.getFluidAmount(canCast) < 111) {
+                } else if (controller.getFluidAmount(bottomFluid) < 111) {
                     return ItemStackBuilder.of(Material.BARRIER)
                             .name(casterKey("cannot_cast"))
                             .lore(casterKey(
                                     "not_enough",
-                                    PylonArgument.of("fluid", canCast.getName()),
+                                    PylonArgument.of("fluid", bottomFluid.getName()),
                                     PylonArgument.of("item", name),
-                                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(canCast)))
+                                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(bottomFluid)))
                             ));
                 } else {
                     return ItemStackBuilder.of(result.getType())
@@ -108,14 +110,14 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             SmelteryController controller = getController();
-            if (controller == null || canCast == null || controller.getFluidAmount(canCast) < 111) return;
+            if (controller == null || bottomFluid == null || controller.getFluidAmount(bottomFluid) < 111) return;
 
-            CastableFluid fluid = canCast.getTag(CastableFluid.class);
-            if (controller.getTemperature() < fluid.castTemperature()) return;
+            CastRecipe recipe = CastRecipe.getCastRecipeFor(bottomFluid);
+            if (recipe == null || controller.getTemperature() < recipe.temperature()) return;
 
-            ItemStack result = fluid.castResult();
+            ItemStack result = recipe.result();
             inventory.addItem(null, result);
-            controller.removeFluid(canCast, 111);
+            controller.removeFluid(bottomFluid, 111);
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull TranslationArgument @NotNull ... args) {
@@ -127,18 +129,13 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     public void tick(double deltaSeconds) {
         SmelteryController controller = getController();
         if (controller == null) {
-            canCast = null;
+            bottomFluid = null;
         } else {
             Pair<PylonFluid, Double> bottomFluid = controller.getBottomFluid();
             if (bottomFluid == null) {
-                canCast = null;
+                this.bottomFluid = null;
             } else {
-                PylonFluid fluid = bottomFluid.getFirst();
-                if (fluid.hasTag(CastableFluid.class)) {
-                    canCast = fluid;
-                } else {
-                    canCast = null;
-                }
+                this.bottomFluid = bottomFluid.getFirst();
             }
         }
         castItem.notifyWindows();

@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.fluid.CastableFluid;
 import io.github.pylonmc.pylon.base.fluid.Slurry;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.CastRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import org.bukkit.Material;
@@ -32,9 +32,7 @@ public final class PylonFluids {
     public static final PylonFluid SULFUR = new PylonFluid(
             pylonKey("sulfur"),
             Material.YELLOW_CONCRETE
-    )
-            .addTag(FluidTemperature.HOT)
-            .addTag(new CastableFluid(PylonItems.SULFUR, 112.8));
+    ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid MERCURY = new PylonFluid(
             pylonKey("mercury"),
@@ -60,6 +58,13 @@ public final class PylonFluids {
         WATER.register();
         LAVA.register();
         SULFUR.register();
+        CastRecipe.RECIPE_TYPE.addRecipe(new CastRecipe(
+                pylonKey("sulfur"),
+                SULFUR,
+                PylonItems.SULFUR,
+                112.8
+        ));
+
         MERCURY.register();
         SLURRY.register();
         REDSTONE_SLURRY.register();
