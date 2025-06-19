@@ -32,7 +32,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AutoCycleItem;
 
 import java.util.ArrayList;
@@ -53,6 +52,8 @@ public class Hammer extends PylonItem implements BlockInteractor {
     public static final ItemStack HAMMER_STONE_STACK = createItemStack(HAMMER_STONE_KEY, Material.STONE_PICKAXE, (1.0 / 3) - 4, 1, 1);
     public static final ItemStack HAMMER_IRON_STACK = createItemStack(HAMMER_IRON_KEY, Material.IRON_PICKAXE, (1.0 / 2) - 4, 1.5, 3);
     public static final ItemStack HAMMER_DIAMOND_STACK = createItemStack(HAMMER_DIAMOND_KEY, Material.DIAMOND_PICKAXE, (1.0/ 1) - 4, 2, 5);
+
+    public static final List<ItemStack> HAMMER_STACKS = List.of(HAMMER_STONE_STACK, HAMMER_IRON_STACK, HAMMER_DIAMOND_STACK);
 
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
@@ -148,12 +149,9 @@ public class Hammer extends PylonItem implements BlockInteractor {
     }
 
     private static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
-        return switch (level) {
-            case ANY, WOOD, GOLD, STONE -> List.of(HAMMER_STONE_STACK, HAMMER_IRON_STACK, HAMMER_DIAMOND_STACK);
-            case IRON -> List.of(HAMMER_IRON_STACK, HAMMER_DIAMOND_STACK);
-            case DIAMOND -> List.of(HAMMER_DIAMOND_STACK);
-            case NETHERITE -> List.of();
-        };
+        return HAMMER_STACKS.stream()
+                .filter(item -> ((Hammer) fromStack(item)).miningLevel.isAtLeast(level))
+                .toList();
     }
 
     private static boolean containsAtLeast(@NotNull Collection<ItemStack> items, ItemStack item) {
