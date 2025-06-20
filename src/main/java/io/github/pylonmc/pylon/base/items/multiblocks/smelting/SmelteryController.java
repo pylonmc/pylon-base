@@ -565,6 +565,7 @@ public final class SmelteryController extends SmelteryComponent
                     highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND),
                     1
             );
+            double currentTemperature = temperature;
             for (var entry : recipe.getInputFluids().entrySet()) {
                 PylonFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
@@ -575,15 +576,22 @@ public final class SmelteryController extends SmelteryComponent
                 double amount = entry.getValue() * consumptionRatio;
                 addFluid(fluid, amount);
             }
+            temperature = currentTemperature; // offset addFluid/removeFluid temperature change
         }
     }
 
     static {
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("redstone_decomposition"),
-                Map.of(PylonFluids.REDSTONE_SLURRY, 1D),
+                Map.of(PylonFluids.REDSTONE_SLURRY, 1.0),
                 Map.of(PylonFluids.SULFUR, 0.25, PylonFluids.MERCURY, 0.25, PylonFluids.SLURRY, 0.5),
                 345
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                pylonKey("coal_to_coke"),
+                Map.of(PylonFluids.COAL_SLURRY, 1.0),
+                Map.of(PylonFluids.COKE_SLURRY, 0.9, PylonFluids.SLURRY, 0.1),
+                1000
         ));
     }
     // </editor-fold>

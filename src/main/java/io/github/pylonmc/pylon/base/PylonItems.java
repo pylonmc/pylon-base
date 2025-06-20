@@ -148,6 +148,36 @@ public final class PylonItems {
         ));
     }
 
+    public static final NamespacedKey COAL_DUST_KEY = pylonKey("coal_dust");
+    public static final ItemStack COAL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COAL_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, COAL_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("coal_dust_from_coal"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.COAL)),
+                1,
+                COAL_DUST,
+                2,
+                Material.COAL_BLOCK.createBlockData()
+        ));
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                pylonKey("coal_dust_from_charcoal"),
+                new RecipeChoice.ExactChoice(new ItemStack(Material.CHARCOAL)),
+                1,
+                COAL_DUST,
+                2,
+                Material.COAL_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey COKE_DUST_KEY = pylonKey("coke_dust");
+    public static final ItemStack COKE_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COKE_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, COKE_DUST);
+    }
+
     // Not technically a dust but whatever
     public static final NamespacedKey SULFUR_KEY = pylonKey("sulfur");
     public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, SULFUR_KEY)

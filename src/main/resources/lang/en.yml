@@ -13,6 +13,14 @@ item:
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
 
+  coal_dust:
+    name: "Coal Dust"
+    lore: ""
+
+  coke_dust:
+    name: "Coke Dust"
+    lore: ""
+
   compressed_obsidian:
     name: "Compressed Obsidian"
     lore: ""
@@ -561,6 +569,8 @@ fluid:
   mercury: "<#dedede>Mercury"
   none: "None"
   slurry: "<gray>Slurry"
+  slurry_coal: "<black>Coal Slurry"
+  slurry_coke: "<black>Coke Slurry"
   slurry_redstone: "<red>Redstone Slurry"
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   sulfur: "<yellow>Sulfur"

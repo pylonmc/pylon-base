@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -197,7 +198,25 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         FUELS.register(new Fuel(
                 pylonKey("coal"),
                 new ItemStack(Material.COAL),
-                333_300_000D,
+                333_300_000,
+                30
+        ));
+        FUELS.register(new Fuel(
+                pylonKey("coal_dust"),
+                PylonItems.COAL_DUST,
+                333_300_000,
+                30
+        ));
+        FUELS.register(new Fuel(
+                pylonKey("charcoal"),
+                new ItemStack(Material.CHARCOAL),
+                350_000_000,
+                30
+        ));
+        FUELS.register(new Fuel(
+                pylonKey("coke"),
+                PylonItems.COKE_DUST,
+                500_000_000,
                 30
         ));
     }

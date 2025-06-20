@@ -51,7 +51,17 @@ public final class PylonFluids {
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
             pylonKey("slurry_raw_copper"),
-            new ItemStack(PylonItems.CRUSHED_RAW_COPPER)
+            PylonItems.CRUSHED_RAW_COPPER
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid COAL_SLURRY = new Slurry(
+            pylonKey("slurry_coal"),
+            PylonItems.COAL_DUST
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid COKE_SLURRY = new Slurry(
+            pylonKey("slurry_coke"),
+            PylonItems.COKE_DUST
     ).addTag(FluidTemperature.NORMAL);
 
     public static void initialize() {
@@ -69,6 +79,8 @@ public final class PylonFluids {
         SLURRY.register();
         REDSTONE_SLURRY.register();
         RAW_COPPER_SLURRY.register();
+        COAL_SLURRY.register();
+        COKE_SLURRY.register();
 
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
                 pylonKey("slurry"),
