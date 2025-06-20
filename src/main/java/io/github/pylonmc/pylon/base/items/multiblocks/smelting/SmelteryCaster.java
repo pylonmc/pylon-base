@@ -87,13 +87,14 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                                     PylonArgument.of("item", name),
                                     PylonArgument.of("temperature", temperature)
                             ));
-                } else if (controller.getFluidAmount(bottomFluid) < 111) {
+                } else if (controller.getFluidAmount(bottomFluid) < CastRecipe.CAST_AMOUNT) {
                     return ItemStackBuilder.of(Material.BARRIER)
                             .name(casterKey("cannot_cast"))
                             .lore(casterKey(
                                     "not_enough",
                                     PylonArgument.of("fluid", bottomFluid.getName()),
                                     PylonArgument.of("item", name),
+                                    PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastRecipe.CAST_AMOUNT)),
                                     PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(bottomFluid)))
                             ));
                 } else {
@@ -110,14 +111,14 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             SmelteryController controller = getController();
-            if (controller == null || bottomFluid == null || controller.getFluidAmount(bottomFluid) < 111) return;
+            if (controller == null || bottomFluid == null || controller.getFluidAmount(bottomFluid) < CastRecipe.CAST_AMOUNT) return;
 
             CastRecipe recipe = CastRecipe.getCastRecipeFor(bottomFluid);
             if (recipe == null || controller.getTemperature() < recipe.temperature()) return;
 
             ItemStack result = recipe.result();
             inventory.addItem(null, result);
-            controller.removeFluid(bottomFluid, 111);
+            controller.removeFluid(bottomFluid, CastRecipe.CAST_AMOUNT);
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull TranslationArgument @NotNull ... args) {

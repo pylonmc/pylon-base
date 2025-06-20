@@ -49,7 +49,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             }
             if (fluid == null) continue;
             if (controller.getTemperature() >= temperature) {
-                controller.addFluid(fluid, 111);
+                controller.addFluid(fluid, CastRecipe.CAST_AMOUNT);
                 item.subtract();
             }
         }

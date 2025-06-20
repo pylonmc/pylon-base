@@ -17,6 +17,8 @@ public record CastRecipe(
         double temperature
 ) implements Keyed {
 
+    public static final double CAST_AMOUNT = 500;
+
     public static final RecipeType<CastRecipe> RECIPE_TYPE = new RecipeType<>(
             pylonKey("cast_recipe")
     );
