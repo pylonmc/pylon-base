@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.fluid;
 
 import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.items.fluid.FluidStrainer;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.PylonFluidTag;
@@ -41,6 +42,13 @@ public class Slurry extends PylonFluid implements RegistryHandler {
                 false,
                 PylonFluids.SLURRY,
                 1000
+        ));
+        FluidStrainer.Recipe.RECIPE_TYPE.addRecipe(new FluidStrainer.Recipe(
+                getKey(),
+                this,
+                1000,
+                PylonFluids.SLURRY,
+                slurryMaterial
         ));
     }
 }

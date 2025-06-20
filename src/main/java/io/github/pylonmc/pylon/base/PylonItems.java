@@ -61,7 +61,7 @@ public final class PylonItems {
     static {
         PylonItem.register(PylonItem.class, COPPER_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("copper_dust"),
+                COPPER_DUST_KEY,
                 new RecipeChoice.ExactChoice(new ItemStack(Material.COPPER_INGOT)),
                 1,
                 COPPER_DUST,
@@ -76,7 +76,7 @@ public final class PylonItems {
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_COPPER);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("crushed_raw_copper"),
+                CRUSHED_RAW_COPPER_KEY,
                 new RecipeChoice.ExactChoice(new ItemStack(Material.RAW_COPPER)),
                 1,
                 CRUSHED_RAW_COPPER,
@@ -139,7 +139,7 @@ public final class PylonItems {
     static {
         PylonItem.register(PylonItem.class, ROCK_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
-                pylonKey("rock_dust"),
+                ROCK_DUST_KEY,
                 new RecipeChoice.ExactChoice(new ItemStack(Material.COBBLESTONE)),
                 1,
                 ROCK_DUST.asQuantity(2),
@@ -1426,11 +1426,11 @@ public final class PylonItems {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
     }
 
-    public static final ItemStack SLURRY_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, SlurryStrainer.KEY)
+    public static final ItemStack SLURRY_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, FluidStrainer.KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, SLURRY_STRAINER, SlurryStrainer.KEY);
-        ShapedRecipe recipe = new ShapedRecipe(SlurryStrainer.KEY, SLURRY_STRAINER)
+        PylonItem.register(PylonItem.class, SLURRY_STRAINER, FluidStrainer.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(FluidStrainer.KEY, SLURRY_STRAINER)
                 .shape("c c", " C ", "c c")
                 .setIngredient('c', COPPER_SHEET)
                 .setIngredient('C', Material.COPPER_GRATE);

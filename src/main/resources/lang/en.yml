@@ -449,10 +449,10 @@ item:
     name: "Shimmer Skull"
     lore: ""
 
-  slurry_strainer:
-    name: "Slurry Strainer"
+  fluid_strainer:
+    name: "Fluid Strainer"
     lore: |-
-      <arrow> Filters out items from slurry
+      <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
     waila: "Slurry Strainer%info%"
 
@@ -570,7 +570,7 @@ waila:
   fluid_tank:
     empty: "(empty)"
     filled: "| %amount%/%capacity% of %fluid%"
-  slurry_strainer:
+  fluid_strainer:
     straining: " | Straining %item%: %progress%"
 
 research:
