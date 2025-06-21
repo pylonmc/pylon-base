@@ -95,7 +95,8 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                                     PylonArgument.of("fluid", bottomFluid.getName()),
                                     PylonArgument.of("item", name),
                                     PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastRecipe.CAST_AMOUNT)),
-                                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(bottomFluid)))
+                                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(bottomFluid))
+                                            .decimalPlaces(1))
                             ));
                 } else {
                     return ItemStackBuilder.of(result.getType())
