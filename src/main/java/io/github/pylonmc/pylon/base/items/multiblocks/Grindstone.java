@@ -295,7 +295,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     ) implements PylonRecipe {
 
         @Override
-        public NamespacedKey getKey() {
+        public @NotNull NamespacedKey getKey() {
             return key;
         }
 

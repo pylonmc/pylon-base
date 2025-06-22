@@ -101,6 +101,16 @@ public final class PylonFluids {
             new ItemStack(Material.REDSTONE)
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid PLANT_OIL = new PylonFluid(
+            pylonKey("plant_oil"),
+            Material.YELLOW_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid HYDRAULIC_FLUID = new PylonFluid(
+            pylonKey("hydraulic_fluid"),
+            Material.BLUE_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
     public static void initialize() {
         WATER.register();
         LAVA.register();
@@ -123,14 +133,25 @@ public final class PylonFluids {
         RAW_IRON_SLURRY.register();
         RAW_SILVER_SLURRY.register();
         REDSTONE_SLURRY.register();
+        PLANT_OIL.register();
+        HYDRAULIC_FLUID.register();
 
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
-                pylonKey("slurry"),
+                SLURRY.getKey(),
                 Map.of(new RecipeChoice.ExactChoice(PylonItems.ROCK_DUST), 1),
                 SLURRY,
                 false,
                 WATER,
                 1000
+        ));
+
+        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+                HYDRAULIC_FLUID.getKey(),
+                Map.of(new RecipeChoice.ExactChoice(PylonItems.SHIMMER_DUST_1), 1),
+                HYDRAULIC_FLUID,
+                false,
+                PLANT_OIL,
+                200
         ));
     }
 

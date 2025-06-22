@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.*;
+import io.github.pylonmc.pylon.base.items.hydraulic.Press;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
@@ -1769,6 +1770,12 @@ public final class PylonItems {
         recipe.setIngredient('C', Material.HEAVY_CORE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack PRESS = ItemStackBuilder.pylonItem(Material.COMPOSTER, Press.KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, PRESS, Press.KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

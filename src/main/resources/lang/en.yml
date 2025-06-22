@@ -586,6 +586,12 @@ item:
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"
 
+  press:
+    name: "Press"
+    lore: |-
+      <arrow> Presses plants into plant oil
+      <arrow> Throw some plants in and <insn>right click</insn to press them into plant oil
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -606,6 +612,7 @@ fluid:
   silver: "<#b0b0b0>Silver"
   sulfur: "<yellow>Sulfur"
   water: "<blue>Water"
+  plant_oil: "<#c4b352>Plant Oil"
 
 waila:
   fluid_tank:
@@ -655,6 +662,7 @@ guide:
     building: "Building"
   recipe:
     grindstone: "<attr>Grinding time:</attr> %time%"
+    press: "<attr>Pressing time:</attr> %time%"
     magic-altar: "<attr>Ritual time:</attr> %time%"
 
 message:
