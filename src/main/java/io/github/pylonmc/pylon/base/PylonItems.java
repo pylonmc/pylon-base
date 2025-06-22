@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.*;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.items.hydraulic.Press;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
@@ -1776,6 +1777,12 @@ public final class PylonItems {
             .build();
     static {
         PylonItem.register(PylonItem.class, PRESS, Press.KEY);
+    }
+
+    public static final ItemStack HYDRAULIC_GRINDSTONE_TURNER = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE, HydraulicGrindstoneTurner.KEY)
+            .build();
+    static {
+        PylonItem.register(HydraulicGrindstoneTurner.Item.class, HYDRAULIC_GRINDSTONE_TURNER, HydraulicGrindstoneTurner.KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

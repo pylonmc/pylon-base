@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.items.hydraulic.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
@@ -79,5 +80,6 @@ public final class PylonBlocks {
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
         PylonBlock.register(Press.KEY, Material.COMPOSTER, Press.class);
+        PylonBlock.register(HydraulicGrindstoneTurner.KEY, Material.SMOOTH_STONE, HydraulicGrindstoneTurner.class);
     }
 }

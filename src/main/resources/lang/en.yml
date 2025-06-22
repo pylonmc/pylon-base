@@ -590,7 +590,15 @@ item:
     name: "Press"
     lore: |-
       <arrow> Presses plants into plant oil
-      <arrow> Throw some plants in and <insn>right click</insn to press them into plant oil
+      <arrow> Throw some plants in and <insn>right click</insn> to press them into plant oil
+
+  hydraulic_grindstone_turner:
+    name: "Hydraulic Grindstone Turner"
+    lore: |-
+      <arrow> Place below a constructed grindstone
+      <arrow> Automatically turns the grindstone
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
 
 fluid:
   castable:
@@ -613,6 +621,8 @@ fluid:
   sulfur: "<yellow>Sulfur"
   water: "<blue>Water"
   plant_oil: "<#c4b352>Plant Oil"
+  hydraulic_fluid: "<#212d99>Hydraulic Fluid"
+  dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
 
 waila:
   fluid_tank:
@@ -620,6 +630,7 @@ waila:
     filled: "| %amount%/%capacity% of %fluid%"
   fluid_strainer:
     straining: " | Straining %item%: %progress%"
+
 
 research:
   baking: "<gold>Baking"

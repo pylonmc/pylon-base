@@ -6,81 +6,81 @@ return-to-start-time-ticks: 5
 capacity-mb: 1000
 
 oil-amount:
-  oak_leaves: 10
-  spruce_leaves: 10
-  birch_leaves: 10
-  jungle_leaves: 10
-  acacia_leaves: 10
-  dark_oak_leaves: 10
-  mangrove_leaves: 10
-  cherry_leaves: 10
-  pale_oak_leaves: 10
-  azalea_leaves: 10
-  flowering_azalea_leaves: 10
+  oak_leaves: 40
+  spruce_leaves: 40
+  birch_leaves: 40
+  jungle_leaves: 40
+  acacia_leaves: 40
+  dark_oak_leaves: 40
+  mangrove_leaves: 40
+  cherry_leaves: 40
+  pale_oak_leaves: 40
+  azalea_leaves: 40
+  flowering_azalea_leaves: 40
 
-  kelp: 20
-  bamboo: 20
-  short_grass: 20
+  kelp: 80
+  bamboo: 80
+  short_grass: 80
 
-  tall_grass: 40
+  tall_grass: 150
 
-  wheat_seeds: 40
-  melon_seeds: 40
-  pumpkin_seeds: 40
-  beetroot_seeds: 40
-  torchflower_seeds: 40
+  wheat_seeds: 150
+  melon_seeds: 150
+  pumpkin_seeds: 150
+  beetroot_seeds: 150
+  torchflower_seeds: 150
 
-  oak_sapling: 40
-  spruce_sapling: 40
-  birch_sapling: 40
-  jungle_sapling: 40
-  acacia_sapling: 40
-  dark_oak_sapling: 40
-  cherry_sapling: 40
-  pale_oak_sapling: 40
+  oak_sapling: 150
+  spruce_sapling: 150
+  birch_sapling: 150
+  jungle_sapling: 150
+  acacia_sapling: 150
+  dark_oak_sapling: 150
+  cherry_sapling: 150
+  pale_oak_sapling: 150
 
-  melon_slice: 40
+  melon_slice: 150
 
-  fern: 60
-  large_fern: 60
-  dead_bush: 60
+  fern: 250
+  large_fern: 250
+  dead_bush: 250
 
-  wheat: 60
-  beetroot: 60
-  carrot: 60
-  potato: 60
-  sugar_cane: 60
-  cactus: 60
+  wheat: 250
+  beetroot: 250
+  carrot: 250
+  potato: 250
+  sugar_cane: 250
+  cactus: 250
 
-  melon: 80
-  pumpkin: 80
-  sweet_berries: 80
+  melon: 320
+  pumpkin: 320
+  sweet_berries: 320
 
-  brown_mushroom: 80
-  red_mushroom: 80
+  brown_mushroom: 320
+  red_mushroom: 320
 
-  dandelion: 100
-  poppy: 100
-  blue_orchid: 100
-  allium: 100
-  azure_bluet: 100
-  red_tulip: 100
-  orange_tulip: 100
-  white_tulip: 100
-  pink_tulip: 100
-  oxeye_daisy: 100
-  cornflower: 100
-  lily_of_the_valley: 100
-  torchflower: 100
-  closed_eyeblossom: 100
-  open_eyeblossom: 100
+  dandelion: 400
+  poppy: 400
+  blue_orchid: 400
+  allium: 400
+  azure_bluet: 400
+  red_tulip: 400
+  orange_tulip: 400
+  white_tulip: 400
+  pink_tulip: 400
+  oxeye_daisy: 400
+  cornflower: 400
+  lily_of_the_valley: 400
+  torchflower: 400
+  closed_eyeblossom: 400
+  open_eyeblossom: 400
 
-  vine: 100
-  seagrass: 100
-  lily_pad: 100
+  vine: 400
+  seagrass: 400
+  lily_pad: 400
 
-  sunflower: 120
-  lilac: 120
-  rose_bush: 120
-  peony: 120
-  pitcher_plant: 120
+  sunflower: 500
+  lilac: 500
+  rose_bush: 500
+  peony: 500
+  pitcher_plant: 500

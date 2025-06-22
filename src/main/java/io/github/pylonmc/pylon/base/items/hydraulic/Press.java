@@ -64,9 +64,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     // Not worth the effort to persist across unloads
     @Getter private @Nullable Recipe currentRecipe;
-
-    @Getter
-    private double oilAmount;
+    @Getter private double oilAmount;
 
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull BlockCreateContext context) {

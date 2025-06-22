@@ -111,6 +111,12 @@ public final class PylonFluids {
             Material.BLUE_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+
+    public static final PylonFluid DIRTY_HYDRAULIC_FLUID = new PylonFluid(
+            pylonKey("dirty_hydraulic_fluid"),
+            Material.BLUE_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
     public static void initialize() {
         WATER.register();
         LAVA.register();
@@ -135,6 +141,7 @@ public final class PylonFluids {
         REDSTONE_SLURRY.register();
         PLANT_OIL.register();
         HYDRAULIC_FLUID.register();
+        DIRTY_HYDRAULIC_FLUID.register();
 
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
                 SLURRY.getKey(),
@@ -151,7 +158,7 @@ public final class PylonFluids {
                 HYDRAULIC_FLUID,
                 false,
                 PLANT_OIL,
-                200
+                1000
         ));
     }
 
