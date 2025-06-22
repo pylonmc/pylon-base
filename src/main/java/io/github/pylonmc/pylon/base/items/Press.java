@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.hydraulic;
+package io.github.pylonmc.pylon.base.items;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
@@ -109,15 +109,15 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (!event.getAction().isRightClick()
-                || event.getHand() != EquipmentSlot.HAND
-                || event.getPlayer().isSneaking()
-                || currentRecipe != null
-        ) {
+        if (!event.getAction().isRightClick() || event.getHand() != EquipmentSlot.HAND || event.getPlayer().isSneaking()) {
             return;
         }
 
         event.setCancelled(true);
+
+        if (currentRecipe != null) {
+            return;
+        }
 
         List<Item> items = getBlock()
                 .getLocation()

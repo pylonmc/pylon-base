@@ -60,8 +60,8 @@ public class HydraulicGrindstoneTurner extends PylonBlock implements PylonFluidI
         }
     }
 
-    @Getter double hydraulicFluidAmount;
-    @Getter double dirtyHydraulicFluidAmount;
+    @Getter private double hydraulicFluidAmount;
+    @Getter private double dirtyHydraulicFluidAmount;
 
     @SuppressWarnings("unused")
     public HydraulicGrindstoneTurner(@NotNull Block block, @NotNull BlockCreateContext context) {

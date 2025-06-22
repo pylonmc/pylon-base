@@ -590,7 +590,7 @@ item:
     name: "Press"
     lore: |-
       <arrow> Presses plants into plant oil
-      <arrow> Throw some plants in and <insn>right click</insn> to press them into plant oil
+      <arrow> Throw plants in and <insn>right click</insn> to press them into plant oil
 
   hydraulic_grindstone_turner:
     name: "Hydraulic Grindstone Turner"
@@ -599,6 +599,15 @@ item:
       <arrow> Automatically turns the grindstone
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
+
+  hydraulic_mixing_attachment:
+    name: "Hydraulic Mixing Attachment"
+    lore: |-
+      <arrow> Place above the mixer, leaving a one block gap
+      <arrow> Automatically triggers the mixer
+      <arrow> <attr>Cooldown time:</attr> %cooldown%
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
 
 fluid:
   castable:
