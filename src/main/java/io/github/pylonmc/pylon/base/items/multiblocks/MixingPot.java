@@ -15,6 +15,8 @@ import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
@@ -221,6 +223,10 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, fluidType, fluidAmount)) {
+                if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()) {
+                    continue;
+                }
+
                 doRecipe(recipe, items);
                 break;
             }
@@ -244,6 +250,8 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
             }
             case Either.Right(PylonFluid fluid) -> fluidType = fluid;
         }
+
+        new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
 
         new ParticleBuilder(Particle.SPLASH)
                 .count(20)
