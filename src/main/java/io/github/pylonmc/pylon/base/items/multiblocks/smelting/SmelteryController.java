@@ -593,18 +593,18 @@ public final class SmelteryController extends SmelteryComponent
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("copper_smelting"),
                 Map.of(PylonFluids.RAW_COPPER_SLURRY, 1.0),
-                Map.of(PylonFluids.COPPER, 0.9, PylonFluids.SLURRY, 0.1),
+                Map.of(PylonFluids.COPPER, 0.5, PylonFluids.SLURRY, 0.5),
                 1085
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("copper_smelting_with_sulfur"),
                 Map.of(PylonFluids.RAW_COPPER_SLURRY, 1.0, PylonFluids.SULFUR, 0.1),
                 Map.of(
-                        PylonFluids.COPPER, 0.9,
-                        PylonFluids.SLURRY, 0.1,
-                        PylonFluids.RAW_IRON_SLURRY, 0.05,
-                        PylonFluids.RAW_SILVER_SLURRY, 0.03,
-                        PylonFluids.RAW_GOLD_SLURRY, 0.02
+                        PylonFluids.COPPER, 0.5,
+                        PylonFluids.SLURRY, 0.3,
+                        PylonFluids.RAW_IRON_SLURRY, 0.1,
+                        PylonFluids.RAW_SILVER_SLURRY, 0.06,
+                        PylonFluids.RAW_GOLD_SLURRY, 0.04
                 ),
                 1085
         ));
