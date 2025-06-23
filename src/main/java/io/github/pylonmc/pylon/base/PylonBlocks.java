@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
@@ -83,5 +84,6 @@ public final class PylonBlocks {
         PylonBlock.register(Press.KEY, Material.COMPOSTER, Press.class);
         PylonBlock.register(HydraulicGrindstoneTurner.KEY, Material.SMOOTH_STONE, HydraulicGrindstoneTurner.class);
         PylonBlock.register(HydraulicMixingAttachment.KEY, Material.GRAY_CONCRETE, HydraulicMixingAttachment.class);
+        PylonBlock.register(HydraulicPressPiston.KEY, Material.BROWN_CONCRETE, HydraulicPressPiston.class);
     }
 }

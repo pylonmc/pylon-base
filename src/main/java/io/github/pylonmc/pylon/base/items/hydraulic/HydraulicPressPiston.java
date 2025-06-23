@@ -2,20 +2,18 @@ package io.github.pylonmc.pylon.base.items.hydraulic;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
+import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import lombok.Getter;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,15 +33,9 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
+public class HydraulicPressPiston extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("hydraulic_mixing_attachment");
-    public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = pylonKey("cooldown_time_remaining");
-
-    public static final int COOLDOWN_TICKS = Settings.get(KEY).getOrThrow("cooldown-ticks", Integer.class);
-
-    public static final int DOWN_ANIMATION_TIME_TICKS = Settings.get(KEY).getOrThrow("down-animation-time-ticks", Integer.class);
-    public static final int UP_ANIMATION_TIME_TICKS = Settings.get(KEY).getOrThrow("up-animation-time-ticks", Integer.class);
+    public static final NamespacedKey KEY = pylonKey("hydraulic_press_piston");
 
     public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
     public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
@@ -61,25 +53,20 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
             return Map.of(
-                    "cooldown", UnitFormat.SECONDS.format(COOLDOWN_TICKS / 20.0),
                     "hydraulic_fluid_per_craft", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_MB_PER_CRAFT),
                     "dirty_hydraulic_fluid_per_craft", UnitFormat.MILLIBUCKETS.format(DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT)
             );
         }
     }
 
-    @Getter private double cooldownTimeRemaining;
-
     @SuppressWarnings("unused")
-    public HydraulicMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        cooldownTimeRemaining = 0.0;
     }
 
     @SuppressWarnings("unused")
-    public HydraulicMixingAttachment(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public HydraulicPressPiston(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        cooldownTimeRemaining = pdc.get(COOLDOWN_TIME_REMAINING_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
@@ -93,15 +80,9 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        super.write(pdc);
-        pdc.set(COOLDOWN_TIME_REMAINING_KEY, PylonSerializers.DOUBLE, cooldownTimeRemaining);
-    }
-
-    @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Map<String, PylonEntity<?>> entities = super.createEntities(context);
-        entities.put("mixing_attachment_shaft", new ShaftEntity(getBlock()));
+        entities.put("press_piston_shaft", new PistonShaftEntity(getBlock()));
         return entities;
     }
 
@@ -112,7 +93,7 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
 
     @Override
     public boolean checkFormed() {
-        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN)) instanceof MixingPot;
+        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN)) instanceof Press;
     }
 
     @Override
@@ -131,60 +112,61 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
             return;
         }
 
-        cooldownTimeRemaining = Math.max(0, cooldownTimeRemaining - deltaSeconds);
+        Press press = BlockStorage.getAs(Press.class, getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+        Preconditions.checkState(press != null);
 
-        if (cooldownTimeRemaining > 1.0e-5) {
-            return;
-        }
-
-        MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
-        Preconditions.checkState(mixingPot != null);
-
-        if (canStartCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) && mixingPot.tryDoRecipe(null)) {
+        if (canStartCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) && press.tryStartRecipe(null)) {
             startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
-            cooldownTimeRemaining = COOLDOWN_TICKS / 20.0;
-            getMotorShaft().goDown();
-            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> getMotorShaft().goUp(), DOWN_ANIMATION_TIME_TICKS);
+            getPistonShaft().goDown();
+            Bukkit.getScheduler().runTaskLater(
+                    PylonBase.getInstance(),
+                    () -> getPistonShaft().goUp(),
+                    Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
+            );
         }
     }
 
-    public @NotNull HydraulicMixingAttachment.ShaftEntity getMotorShaft() {
-        return Objects.requireNonNull(getHeldEntity(ShaftEntity.class, "mixing_attachment_shaft"));
+    public @NotNull HydraulicPressPiston.PistonShaftEntity getPistonShaft() {
+        return Objects.requireNonNull(getHeldEntity(PistonShaftEntity.class, "press_piston_shaft"));
     }
 
-    public static class ShaftEntity extends PylonEntity<ItemDisplay> {
+    public static class PistonShaftEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("mixing_attachment_shaft");
+        public static final NamespacedKey KEY = pylonKey("press_piston_shaft");
 
         @SuppressWarnings("unused")
-        public ShaftEntity(@NotNull ItemDisplay entity) {
+        public PistonShaftEntity(@NotNull ItemDisplay entity) {
             super(entity);
         }
 
-        public ShaftEntity(@NotNull  Block block) {
-            super(KEY, new ItemDisplayBuilder()
-                            .material(Material.LIGHT_GRAY_CONCRETE)
-                            .transformation(getTransformation(0.7))
+        public PistonShaftEntity(@NotNull  Block block) {
+            super(
+                    KEY,
+                    new ItemDisplayBuilder()
+                            .material(Material.SPRUCE_LOG)
+                            .transformation(new TransformBuilder()
+                                    .translate(0, 0.2, 0)
+                                    .scale(0.3, 1.6, 0.3))
                             .build(block.getLocation().toCenterLocation().add(0, -1, 0))
             );
         }
 
         public void goDown() {
-            getEntity().setTransformationMatrix(getTransformation(0.2));
+            getEntity().setTransformationMatrix(getTransformation(-0.3));
             getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(DOWN_ANIMATION_TIME_TICKS);
+            getEntity().setInterpolationDuration(Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS);
         }
 
         public void goUp() {
-            getEntity().setTransformationMatrix(getTransformation(0.7));
+            getEntity().setTransformationMatrix(getTransformation(1.6));
             getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(UP_ANIMATION_TIME_TICKS);
+            getEntity().setInterpolationDuration(Press.RETURN_TO_START_TIME_TICKS);
         }
 
         private static @NotNull Matrix4f getTransformation(double yTranslation) {
             return new TransformBuilder()
                     .translate(0, yTranslation, 0)
-                    .scale(0.2, 1.5, 0.2)
+                    .scale(0.3, yTranslation, 0.3)
                     .buildForItemDisplay();
 
         }

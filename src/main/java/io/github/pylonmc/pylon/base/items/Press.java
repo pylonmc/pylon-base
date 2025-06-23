@@ -36,6 +36,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -119,10 +120,14 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
             return;
         }
 
+        tryStartRecipe(event.getPlayer());
+    }
+
+    public boolean tryStartRecipe(@Nullable Player player) {
         List<Item> items = getBlock()
                 .getLocation()
                 .toCenterLocation()
-                .getNearbyEntities(0.5, 0.5, 0.5)
+                .getNearbyEntities(0.5, 0.8, 0.5)
                 .stream()
                 .filter(Item.class::isInstance)
                 .map(Item.class::cast)
@@ -136,16 +141,18 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
             for (ItemStack stack : stacks) {
                 if (isPylonSimilar(recipe.input, stack)) {
                     double availableSpace = CAPACITY_MB - oilAmount;
-                    if (recipe.oilAmount > availableSpace || !new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()) {
+                    if (recipe.oilAmount > availableSpace || !new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
                         continue;
                     }
 
                     stack.subtract();
                     startRecipe(recipe);
-                    break;
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     public void startRecipe(Recipe recipe) {

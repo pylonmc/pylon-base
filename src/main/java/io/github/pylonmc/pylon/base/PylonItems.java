@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
@@ -1790,6 +1791,12 @@ public final class PylonItems {
             .build();
     static {
         PylonItem.register(HydraulicMixingAttachment.Item.class, HYDRAULIC_MIXING_ATTACHMENT, HydraulicMixingAttachment.KEY);
+    }
+
+    public static final ItemStack HYDRAULIC_PRESS_PISTON = ItemStackBuilder.pylonItem(Material.BROWN_CONCRETE, HydraulicPressPiston.KEY)
+            .build();
+    static {
+        PylonItem.register(HydraulicPressPiston.Item.class, HYDRAULIC_PRESS_PISTON, HydraulicPressPiston.KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

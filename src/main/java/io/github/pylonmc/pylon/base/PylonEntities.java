@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInterac
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
@@ -36,5 +37,6 @@ public final class PylonEntities {
         PylonEntity.register(SmelteryController.FluidPixelEntity.KEY, TextDisplay.class, SmelteryController.FluidPixelEntity.class);
         PylonEntity.register(Press.PressCoverEntity.KEY, ItemDisplay.class, Press.PressCoverEntity.class);
         PylonEntity.register(HydraulicMixingAttachment.ShaftEntity.KEY, ItemDisplay.class, HydraulicMixingAttachment.ShaftEntity.class);
+        PylonEntity.register(HydraulicPressPiston.PistonShaftEntity.KEY, ItemDisplay.class, HydraulicPressPiston.PistonShaftEntity.class);
     }
 }

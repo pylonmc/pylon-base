@@ -114,7 +114,7 @@ public final class PylonFluids {
 
     public static final PylonFluid DIRTY_HYDRAULIC_FLUID = new PylonFluid(
             pylonKey("dirty_hydraulic_fluid"),
-            Material.BLUE_CONCRETE_POWDER
+            Material.BROWN_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
     public static void initialize() {

@@ -608,6 +608,15 @@ item:
       <arrow> <attr>Cooldown time:</attr> %cooldown%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      
+
+  hydraulic_press_piston:
+    name: "Hydraulic Press Piston"
+    lore: |-
+      <arrow> Place above the press, leaving a one block gap
+      <arrow> Automatically triggers the press
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
 
 fluid:
   castable:
