@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.hydraulic;
+package io.github.pylonmc.pylon.base.items.hydraulic.machines;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;

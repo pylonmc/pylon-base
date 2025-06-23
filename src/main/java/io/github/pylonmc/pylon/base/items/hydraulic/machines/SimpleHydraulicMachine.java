@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.hydraulic;
+package io.github.pylonmc.pylon.base.items.hydraulic.machines;
 
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;

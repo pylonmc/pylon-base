@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.items.hydraulic;
+package io.github.pylonmc.pylon.base.items.hydraulic.machines;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;

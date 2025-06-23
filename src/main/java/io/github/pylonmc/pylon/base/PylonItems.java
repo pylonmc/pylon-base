@@ -2,11 +2,11 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.*;
-import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
-import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
@@ -49,8 +49,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
