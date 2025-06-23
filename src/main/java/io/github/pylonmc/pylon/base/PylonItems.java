@@ -50,6 +50,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class PylonItems {
@@ -133,6 +135,54 @@ public final class PylonItems {
                 IRON_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey QUARTZ_DUST_KEY = pylonKey("quartz_dust");
+    public static final ItemStack QUARTZ_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, QUARTZ_DUST_KEY)
+            .build();
+
+    static {
+        PylonItem.register(PylonItem.class, QUARTZ_DUST);
+        GuidePages.RESOURCES.addItem(QUARTZ_DUST_KEY);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                QUARTZ_DUST_KEY,
+                new ItemStack(Material.QUARTZ),
+                QUARTZ_DUST,
+                4,
+                Material.QUARTZ.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey DIAMOND_DUST_KEY = pylonKey("quartz_dust");
+    public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, DIAMOND_DUST_KEY)
+            .build();
+
+    static {
+        PylonItem.register(PylonItem.class, DIAMOND_DUST);
+        GuidePages.RESOURCES.addItem(DIAMOND_DUST_KEY);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                DIAMOND_DUST_KEY,
+                new ItemStack(Material.DIAMOND),
+                DIAMOND_DUST,
+                6,
+                Material.DIAMOND_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey EMERALD_DUST_KEY = pylonKey("quartz_dust");
+    public static final ItemStack EMERALD_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, EMERALD_DUST_KEY)
+            .build();
+
+    static {
+        PylonItem.register(PylonItem.class, DIAMOND_DUST);
+        GuidePages.RESOURCES.addItem(EMERALD_DUST_KEY);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                EMERALD_DUST_KEY,
+                new ItemStack(Material.EMERALD),
+                EMERALD_DUST,
+                6,
+                Material.EMERALD_BLOCK.createBlockData()
         ));
     }
 

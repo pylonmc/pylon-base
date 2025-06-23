@@ -171,6 +171,14 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
         }
     }
 
+    @Override
+    public void postBreak() {
+        super.postBreak();
+        if (hammer != null) {
+            getBlock().getLocation().getWorld().dropItemNaturally(getBlock().getLocation(), hammer.getStack());
+        }
+    }
+
     public @NotNull HydraulicHammerHead.HammerHeadEntity getPistonShaft() {
         return Objects.requireNonNull(getHeldEntity(HammerHeadEntity.class, "hammer_head"));
     }

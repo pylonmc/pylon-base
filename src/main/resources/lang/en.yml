@@ -623,6 +623,18 @@ item:
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
 
+  quartz_dust:
+    name: "Quartz Dust"
+    lore: ""
+
+  diamond_dust:
+    name: "Diamond Dust"
+    lore: ""
+
+  emerald_dust:
+    name: "Emerald Dust"
+    lore: ""
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
