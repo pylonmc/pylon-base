@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicHammerHead;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicPressPiston;
@@ -1797,6 +1798,13 @@ public final class PylonItems {
             .build();
     static {
         PylonItem.register(HydraulicPressPiston.Item.class, HYDRAULIC_PRESS_PISTON, HydraulicPressPiston.KEY);
+    }
+
+
+    public static final ItemStack HYDRAULIC_HAMMER_HEAD = ItemStackBuilder.pylonItem(Material.STONE_BRICKS, HydraulicHammerHead.KEY)
+            .build();
+    static {
+        PylonItem.register(HydraulicHammerHead.Item.class, HYDRAULIC_HAMMER_HEAD, HydraulicHammerHead.KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

@@ -596,7 +596,6 @@ item:
     name: "Hydraulic Grindstone Turner"
     lore: |-
       <arrow> Place below a constructed grindstone
-      <arrow> Automatically turns the grindstone
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
 
@@ -604,17 +603,23 @@ item:
     name: "Hydraulic Mixing Attachment"
     lore: |-
       <arrow> Place above the mixer, leaving a one block gap
-      <arrow> Automatically triggers the mixer
       <arrow> <attr>Cooldown time:</attr> %cooldown%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-      
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
     lore: |-
       <arrow> Place above the press, leaving a one block gap
-      <arrow> Automatically triggers the press
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+
+  hydraulic_hammer_head:
+    name: "Hydraulic Hammer Head"
+    lore: |-
+      <arrow> <insn>Right click</insn> with a hammer to insert the hammer
+      <arrow> <insn>Right click</insn> again to take out the hammer
+      <arrow> Place above the hammer's base block, leaving a two block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
 

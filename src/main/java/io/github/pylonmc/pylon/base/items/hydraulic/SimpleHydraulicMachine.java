@@ -24,7 +24,7 @@ import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 public abstract class SimpleHydraulicMachine extends PylonBlock implements PylonFluidIoBlock {
 
     public static final NamespacedKey HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("hydraulic_fluid_amount");
-    public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("hydraulic_fluid_amount");
+    public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("dirty_hydraulic_fluid_amount");
 
 
     @Getter protected double hydraulicFluidAmount;

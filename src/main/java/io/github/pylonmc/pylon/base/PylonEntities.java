@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicHammerHead;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
@@ -38,5 +39,7 @@ public final class PylonEntities {
         PylonEntity.register(Press.PressCoverEntity.KEY, ItemDisplay.class, Press.PressCoverEntity.class);
         PylonEntity.register(HydraulicMixingAttachment.ShaftEntity.KEY, ItemDisplay.class, HydraulicMixingAttachment.ShaftEntity.class);
         PylonEntity.register(HydraulicPressPiston.PistonShaftEntity.KEY, ItemDisplay.class, HydraulicPressPiston.PistonShaftEntity.class);
+        PylonEntity.register(HydraulicHammerHead.HammerHeadEntity.KEY, ItemDisplay.class, HydraulicHammerHead.HammerHeadEntity.class);
+        PylonEntity.register(HydraulicHammerHead.HammerTipEntity.KEY, ItemDisplay.class, HydraulicHammerHead.HammerTipEntity.class);
     }
 }

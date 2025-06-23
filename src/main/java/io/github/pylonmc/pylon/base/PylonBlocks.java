@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicHammerHead;
 import io.github.pylonmc.pylon.base.items.hydraulic.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
@@ -85,5 +86,6 @@ public final class PylonBlocks {
         PylonBlock.register(HydraulicGrindstoneTurner.KEY, Material.SMOOTH_STONE, HydraulicGrindstoneTurner.class);
         PylonBlock.register(HydraulicMixingAttachment.KEY, Material.GRAY_CONCRETE, HydraulicMixingAttachment.class);
         PylonBlock.register(HydraulicPressPiston.KEY, Material.BROWN_CONCRETE, HydraulicPressPiston.class);
+        PylonBlock.register(HydraulicHammerHead.KEY, Material.STONE_BRICKS, HydraulicHammerHead.class);
     }
 }
