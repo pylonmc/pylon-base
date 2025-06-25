@@ -61,6 +61,21 @@ public final class PylonFluids {
             Material.WHITE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
+    public static final PylonFluid LEAD = new PylonFluid(
+            pylonKey("lead"),
+            Material.LIGHT_GRAY_CONCRETE
+    ).addTag(FluidTemperature.HOT);
+
+    public static final PylonFluid TIN = new PylonFluid(
+            pylonKey("tin"),
+            Material.LIGHT_GRAY_CONCRETE
+    ).addTag(FluidTemperature.HOT);
+
+    public static final PylonFluid ZINC = new PylonFluid(
+            pylonKey("zinc"),
+            Material.LIGHT_GRAY_CONCRETE
+    ).addTag(FluidTemperature.HOT);
+
     public static final PylonFluid SLURRY = new PylonFluid(
             pylonKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE
@@ -91,9 +106,19 @@ public final class PylonFluids {
             PylonItems.CRUSHED_RAW_IRON
     ).addTag(FluidTemperature.NORMAL);
 
-    public static final PylonFluid RAW_SILVER_SLURRY = new Slurry(
-            pylonKey("slurry_raw_silver"),
-            PylonItems.CRUSHED_RAW_SILVER
+    public static final PylonFluid RAW_LEAD_SLURRY = new Slurry(
+            pylonKey("slurry_raw_lead"),
+            PylonItems.CRUSHED_RAW_LEAD
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid RAW_TIN_SLURRY = new Slurry(
+            pylonKey("slurry_raw_tin"),
+            PylonItems.CRUSHED_RAW_TIN
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid RAW_ZINC_SLURRY = new Slurry(
+            pylonKey("slurry_raw_zinc"),
+            PylonItems.CRUSHED_RAW_ZINC
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid REDSTONE_SLURRY = new Slurry(
@@ -114,6 +139,12 @@ public final class PylonFluids {
         addSolidForms(IRON, 1538, new ItemStack(Material.IRON_INGOT), PylonItems.IRON_DUST);
         SILVER.register();
         addSolidForms(SILVER, 961.8, PylonItems.SILVER_INGOT, PylonItems.SILVER_DUST);
+        LEAD.register();
+        addSolidForms(LEAD, 327.5, PylonItems.LEAD_INGOT, PylonItems.LEAD_DUST);
+        TIN.register();
+        addSolidForms(TIN, 231.9, PylonItems.TIN_INGOT, PylonItems.TIN_DUST);
+        ZINC.register();
+        addSolidForms(ZINC, 419.5, PylonItems.ZINC_INGOT, PylonItems.ZINC_DUST);
         MERCURY.register();
         SLURRY.register();
         COAL_SLURRY.register();
@@ -121,7 +152,9 @@ public final class PylonFluids {
         RAW_COPPER_SLURRY.register();
         RAW_GOLD_SLURRY.register();
         RAW_IRON_SLURRY.register();
-        RAW_SILVER_SLURRY.register();
+        RAW_LEAD_SLURRY.register();
+        RAW_TIN_SLURRY.register();
+        RAW_ZINC_SLURRY.register();
         REDSTONE_SLURRY.register();
 
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(

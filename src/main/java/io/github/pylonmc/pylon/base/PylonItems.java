@@ -154,13 +154,6 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, SILVER_INGOT);
     }
 
-    public static final NamespacedKey CRUSHED_RAW_SILVER_KEY = pylonKey("crushed_raw_silver");
-    public static final ItemStack CRUSHED_RAW_SILVER = ItemStackBuilder.pylonItem(Material.GUNPOWDER, CRUSHED_RAW_SILVER_KEY)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, CRUSHED_RAW_SILVER);
-    }
-
     public static final NamespacedKey SILVER_DUST_KEY = pylonKey("silver_dust");
     public static final ItemStack SILVER_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, SILVER_DUST_KEY)
             .build();
@@ -171,6 +164,35 @@ public final class PylonItems {
                 new RecipeChoice.ExactChoice(SILVER_INGOT),
                 1,
                 SILVER_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey ZINC_INGOT_KEY = pylonKey("zinc_ingot");
+    public static final ItemStack ZINC_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ZINC_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ZINC_INGOT);
+    }
+
+    public static final NamespacedKey CRUSHED_RAW_ZINC_KEY = pylonKey("crushed_raw_zinc");
+    public static final ItemStack CRUSHED_RAW_ZINC = ItemStackBuilder.pylonItem(Material.GUNPOWDER, CRUSHED_RAW_ZINC_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CRUSHED_RAW_ZINC);
+    }
+
+    public static final NamespacedKey ZINC_DUST_KEY = pylonKey("zinc_dust");
+    public static final ItemStack ZINC_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ZINC_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ZINC_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                ZINC_DUST_KEY,
+                new RecipeChoice.ExactChoice(ZINC_INGOT),
+                1,
+                ZINC_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
         ));
@@ -188,6 +210,64 @@ public final class PylonItems {
                 ROCK_DUST.asQuantity(2),
                 2,
                 Material.COBBLESTONE.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey LEAD_INGOT_KEY = pylonKey("lead_ingot");
+    public static final ItemStack LEAD_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, LEAD_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, LEAD_INGOT);
+    }
+
+    public static final NamespacedKey CRUSHED_RAW_LEAD_KEY = pylonKey("crushed_raw_lead");
+    public static final ItemStack CRUSHED_RAW_LEAD = ItemStackBuilder.pylonItem(Material.GUNPOWDER, CRUSHED_RAW_LEAD_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CRUSHED_RAW_LEAD);
+    }
+
+    public static final NamespacedKey LEAD_DUST_KEY = pylonKey("lead_dust");
+    public static final ItemStack LEAD_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, LEAD_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, LEAD_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                LEAD_DUST_KEY,
+                new RecipeChoice.ExactChoice(LEAD_INGOT),
+                1,
+                LEAD_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey TIN_INGOT_KEY = pylonKey("tin_ingot");
+    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, TIN_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, TIN_INGOT);
+    }
+
+    public static final NamespacedKey CRUSHED_RAW_TIN_KEY = pylonKey("crushed_raw_tin");
+    public static final ItemStack CRUSHED_RAW_TIN = ItemStackBuilder.pylonItem(Material.GUNPOWDER, CRUSHED_RAW_TIN_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CRUSHED_RAW_TIN);
+    }
+
+    public static final NamespacedKey TIN_DUST_KEY = pylonKey("tin_dust");
+    public static final ItemStack TIN_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, TIN_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, TIN_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                TIN_DUST_KEY,
+                new RecipeChoice.ExactChoice(TIN_INGOT),
+                1,
+                TIN_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
         ));
     }
 

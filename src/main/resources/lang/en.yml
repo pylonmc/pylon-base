@@ -53,10 +53,6 @@ item:
     name: "Crushed Raw Iron"
     lore: ""
 
-  crushed_raw_silver:
-    name: "Crushed Raw Silver"
-    lore: ""
-
   dimensional_barrel:
     name: "Dimensional Barrel"
     lore: |-
@@ -343,6 +339,14 @@ item:
     name: "Iron Sheet"
     lore: ""
 
+  lead_dust:
+    name: "Lead Dust"
+    lore: ""
+
+  lead_ingot:
+    name: "Lead Ingot"
+    lore: ""
+
   loupe:
     name: "Loupe"
     lore: |-
@@ -549,6 +553,14 @@ item:
     name: "Sulfur"
     lore: ""
 
+  tin_dust:
+    name: "Tin Dust"
+    lore: ""
+
+  tin_ingot:
+    name: "Tin Ingot"
+    lore: ""
+
   watering_can:
     name: "Watering Can"
     lore: |-
@@ -584,11 +596,20 @@ item:
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"
 
+  zinc_dust:
+    name: "Zinc Dust"
+    lore: ""
+
+  zinc_ingot:
+    name: "Zinc Ingot"
+    lore: ""
+
 fluid:
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
   iron: "<gray>Iron"
   lava: "<#fc4e03>Lava"
+  lead: "<gray>Lead"
   mercury: "<#dedede>Mercury"
   none: "None"
   slurry: "<gray>Slurry"
@@ -598,10 +619,14 @@ fluid:
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"
   slurry_raw_iron: "<gray>Raw Iron Slurry"
-  slurry_raw_silver: "<#b0b0b0>Raw Silver Slurry"
+  slurry_raw_lead: "<gray>Raw Lead Slurry"
+  slurry_raw_tin: "<gray>Raw Tin Slurry"
+  slurry_raw_zinc: "<gray>Raw Zinc Slurry"
   silver: "<#b0b0b0>Silver"
   sulfur: "<yellow>Sulfur"
+  tin: "<gray>Tin"
   water: "<blue>Water"
+  zinc: "<gray>Zinc"
 
 waila:
   fluid_tank:
