@@ -111,9 +111,9 @@ public final class PylonFluids {
             PylonItems.COAL_DUST
     ).addTag(FluidTemperature.NORMAL);
 
-    public static final PylonFluid COKE_SLURRY = new Slurry(
-            pylonKey("slurry_coke"),
-            PylonItems.COKE_DUST
+    public static final PylonFluid CARBON_SLURRY = new Slurry(
+            pylonKey("slurry_carbon"),
+            PylonItems.CARBON_DUST
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
@@ -183,7 +183,7 @@ public final class PylonFluids {
         MERCURY.register();
         SLURRY.register();
         COAL_SLURRY.register();
-        COKE_SLURRY.register();
+        CARBON_SLURRY.register();
         RAW_COPPER_SLURRY.register();
         RAW_GOLD_SLURRY.register();
         RAW_IRON_SLURRY.register();

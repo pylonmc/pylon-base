@@ -41,8 +41,8 @@ item:
     name: "Cobalt Ingot"
     lore: ""
 
-  coke_dust:
-    name: "Coke Dust"
+  carbon_dust:
+    name: "Carbon Dust"
     lore: ""
 
   compressed_obsidian:
@@ -658,7 +658,7 @@ fluid:
   none: "None"
   slurry: "<gray>Slurry"
   slurry_coal: "<black>Coal Slurry"
-  slurry_coke: "<black>Coke Slurry"
+  slurry_carbon: "<black>Carbon Slurry"
   slurry_redstone: "<red>Redstone Slurry"
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"

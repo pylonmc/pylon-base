@@ -338,11 +338,11 @@ public final class PylonItems {
         ));
     }
 
-    public static final NamespacedKey COKE_DUST_KEY = pylonKey("coke_dust");
-    public static final ItemStack COKE_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COKE_DUST_KEY)
+    public static final NamespacedKey CARBON_DUST_KEY = pylonKey("carbon_dust");
+    public static final ItemStack CARBON_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, CARBON_DUST_KEY)
             .build();
     static {
-        PylonItem.register(PylonItem.class, COKE_DUST);
+        PylonItem.register(PylonItem.class, CARBON_DUST);
     }
 
     // Not technically a dust but whatever

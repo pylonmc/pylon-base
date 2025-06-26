@@ -589,10 +589,10 @@ public final class SmelteryController extends SmelteryComponent
                 345
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("coal_to_coke"),
+                pylonKey("coal_to_carbon"),
                 Map.of(PylonFluids.COAL_SLURRY, 1.0),
                 Map.of(
-                        PylonFluids.COKE_SLURRY, 0.9,
+                        PylonFluids.CARBON_SLURRY, 0.9,
                         PylonFluids.SLURRY, 0.1
                 ),
                 1000
@@ -639,7 +639,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("tin_smelting"),
                 Map.of(
                         PylonFluids.RAW_TIN_SLURRY, 1.0,
-                        PylonFluids.COKE_SLURRY, 0.5
+                        PylonFluids.CARBON_SLURRY, 0.5
                 ),
                 Map.of(
                         PylonFluids.TIN, 1.0,
@@ -651,7 +651,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("lead_smelting"),
                 Map.of(
                         PylonFluids.RAW_LEAD_SLURRY, 1.0,
-                        PylonFluids.COKE_SLURRY, 0.5,
+                        PylonFluids.CARBON_SLURRY, 0.5,
                         PylonFluids.SULFUR, 0.1
                 ),
                 Map.of(
@@ -665,7 +665,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("zinc_smelting"),
                 Map.of(
                         PylonFluids.RAW_ZINC_SLURRY, 1.0,
-                        PylonFluids.COKE_SLURRY, 0.5
+                        PylonFluids.CARBON_SLURRY, 0.5
                 ),
                 Map.of(
                         PylonFluids.ZINC, 1.0,
@@ -677,7 +677,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("iron_smelting"),
                 Map.of(
                         PylonFluids.RAW_IRON_SLURRY, 1.0,
-                        PylonFluids.COKE_SLURRY, 0.5
+                        PylonFluids.CARBON_SLURRY, 0.5
                 ),
                 Map.of(
                         PylonFluids.IRON, 1.0,
@@ -689,7 +689,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("iron_smelting_with_sulfur"),
                 Map.of(
                         PylonFluids.RAW_IRON_SLURRY, 1.0,
-                        PylonFluids.COKE_SLURRY, 0.5,
+                        PylonFluids.CARBON_SLURRY, 0.5,
                         PylonFluids.SULFUR, 0.1
                 ),
                 Map.of(
@@ -724,7 +724,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("steel"),
                 Map.of(
                         PylonFluids.IRON, 1.0 - 0.04,
-                        PylonFluids.COKE_SLURRY, 0.04
+                        PylonFluids.CARBON_SLURRY, 0.04
                 ),
                 Map.of(PylonFluids.STEEL, 1.0),
                 1540
