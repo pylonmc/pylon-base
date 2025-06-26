@@ -15,23 +15,18 @@ item:
 
   compressed_obsidian:
     name: "Compressed Obsidian"
-    lore: ""
 
   compressed_wood:
     name: "Compressed Wood"
-    lore: ""
 
   copper_dust:
     name: "Copper Dust"
-    lore: ""
 
   copper_sheet:
     name: "Copper Sheet"
-    lore: ""
 
   covalent_binder:
     name: "Covalent Binder"
-    lore: ""
 
   dimensional_barrel:
     name: "Dimensional Barrel"
@@ -48,7 +43,6 @@ item:
 
   dough:
     name: "Dough"
-    lore: ""
 
   enriched_netherrack:
     name: "Enriched Netherrack"
@@ -84,23 +78,18 @@ item:
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
-    lore: ""
 
   ferroduralum_boots:
     name: "Ferroduralum Boots"
-    lore: ""
 
   ferroduralum_chestplate:
     name: "Ferroduralum Chestplate"
-    lore: ""
 
   ferroduralum_helmet:
     name: "Ferroduralum Helmet"
-    lore: ""
 
   ferroduralum_hoe:
     name: "Ferroduralum Hoe"
-    lore: ""
 
   ferroduralum_ingot:
     name: "Ferroduralum Ingot"
@@ -108,31 +97,24 @@ item:
 
   ferroduralum_leggings:
     name: "Ferroduralum Leggings"
-    lore: ""
 
   ferroduralum_pickaxe:
     name: "Ferroduralum Pickaxe"
-    lore: ""
 
   ferroduralum_sheet:
     name: "Ferroduralum Sheet"
-    lore: ""
 
   ferroduralum_shovel:
     name: "Ferroduralum Shovel"
-    lore: ""
 
   ferroduralum_sword:
     name: "Ferroduralum Sword"
-    lore: ""
 
   fiber:
     name: "Fiber"
-    lore: ""
 
   flour:
     name: "Flour"
-    lore: ""
 
   fluid_pipe_connector:
     waila: "%pipe%"
@@ -229,7 +211,6 @@ item:
 
   iron_dust:
     name: "Iron Dust"
-    lore: ""
 
   water_placer:
     name: "Water Placer"
@@ -277,11 +258,9 @@ item:
 
   gold_dust:
     name: "Gold Dust"
-    lore: ""
 
   gold_sheet:
     name: "Gold Sheet"
-    lore: ""
 
   grindstone:
     name: "Grindstone"
@@ -324,7 +303,6 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
-    lore: ""
 
   loupe:
     name: "Loupe"
@@ -341,7 +319,6 @@ item:
 
   magic_dust:
     name: "Magic Dust"
-    lore: ""
 
   magic_altar:
     name: "Magic Altar"
@@ -372,7 +349,6 @@ item:
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"
-    lore: ""
 
   monster_jerky:
     name: "Monster Jerky"
@@ -380,11 +356,9 @@ item:
 
   plaster:
     name: "Plaster"
-    lore: ""
 
   portability_catalyst:
     name: "Portability Catalyst"
-    lore: ""
 
   portable_crafting_table:
     name: "Portable Crafting Table"
@@ -422,19 +396,15 @@ item:
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
-    lore: ""
 
   shimmer_dust_2:
     name: "Shimmer Dust II"
-    lore: ""
 
   shimmer_dust_3:
     name: "Shimmer Dust III"
-    lore: ""
 
   shimmer_skull:
     name: "Shimmer Skull"
-    lore: ""
 
   splint:
     name: "Splint"
