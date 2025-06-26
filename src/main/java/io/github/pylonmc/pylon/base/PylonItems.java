@@ -1468,6 +1468,34 @@ public final class PylonItems {
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
     }
 
+    static {
+        PylonItem.register(PylonItem.class, FoodProcessor.SIMPLE_STACK, FoodProcessor.SIMPLE_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(FoodProcessor.SIMPLE_KEY, FoodProcessor.SIMPLE_STACK)
+                .shape("GPG", "GBG", "GGG")
+                .setIngredient('G', Material.GLASS)
+                .setIngredient('P', Material.PISTON)
+                .setIngredient('B', Material.BOWL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(PylonItem.class, FoodProcessor.FoodProcessorHandle.STACK, FoodProcessor.FoodProcessorHandle.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(FoodProcessor.FoodProcessorHandle.KEY, FoodProcessor.FoodProcessorHandle.STACK)
+                .shape("CCC", "CLC", "CCC")
+                .setIngredient('C', Material.COBBLESTONE)
+                .setIngredient('L', Material.LEVER);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        FoodProcessor.SimpleRecipe bread = new FoodProcessor.SimpleRecipe(
+                pylonKey("bread_from_cobble"),
+                Map.of(new RecipeChoice.MaterialChoice(Material.COBBLESTONE), 8,
+                        new RecipeChoice.MaterialChoice(Tag.PLANKS), 4),
+                ItemStack.of(Material.BREAD)
+        );
+        FoodProcessor.SimpleRecipe.RECIPE_TYPE.addRecipe(bread);
+    }
+
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }

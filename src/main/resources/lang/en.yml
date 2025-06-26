@@ -227,6 +227,11 @@ item:
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
+  food_processor_simple:
+    name: "Simple Food Processor"
+    lore: |-
+      <arrow> Combines multiple ingredients into nutritious yummies
+
   iron_dust:
     name: "Iron Dust"
     lore: ""
