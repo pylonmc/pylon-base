@@ -17,6 +17,14 @@ item:
     name: "Coal Dust"
     lore: ""
 
+  cobalt_dust:
+    name: "Cobalt Dust"
+    lore: ""
+
+  cobalt_ingot:
+    name: "Cobalt Ingot"
+    lore: ""
+
   coke_dust:
     name: "Coke Dust"
     lore: ""
@@ -394,14 +402,17 @@ item:
       <arrow> Can also be used like a normal cauldron
     waila: "Mixing Pot"
 
-  wither_proof_obsidian:
-    name: "Wither Proof Obsidian"
-    lore: ""
-    waila: "Wither Proof Obsidian"
-
   monster_jerky:
     name: "Monster Jerky"
     lore: "Slightly tastier and tougher than rotten flesh"
+
+  nickel_dust:
+    name: "Nickel Dust"
+    lore: ""
+
+  nickel_ingot:
+    name: "Nickel Ingot"
+    lore: ""
 
   plaster:
     name: "Plaster"
@@ -596,6 +607,11 @@ item:
       <arrow> <attr>Pump rate:</attr> %water_per_second%
     waila: "Water Pump"
 
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+    lore: ""
+    waila: "Wither Proof Obsidian"
+
   zinc_dust:
     name: "Zinc Dust"
     lore: ""
@@ -605,12 +621,14 @@ item:
     lore: ""
 
 fluid:
+  cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
   iron: "<gray>Iron"
   lava: "<#fc4e03>Lava"
   lead: "<gray>Lead"
   mercury: "<#dedede>Mercury"
+  nickel: "<gray>Nickel"
   none: "None"
   slurry: "<gray>Slurry"
   slurry_coal: "<black>Coal Slurry"

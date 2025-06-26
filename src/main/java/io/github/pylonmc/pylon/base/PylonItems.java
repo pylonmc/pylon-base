@@ -271,6 +271,50 @@ public final class PylonItems {
         ));
     }
 
+    public static final NamespacedKey COBALT_INGOT_KEY = pylonKey("cobalt_ingot");
+    public static final ItemStack COBALT_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COBALT_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, COBALT_INGOT);
+    }
+
+    public static final NamespacedKey COBALT_DUST_KEY = pylonKey("cobalt_dust");
+    public static final ItemStack COBALT_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COBALT_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, COBALT_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                COBALT_DUST_KEY,
+                new RecipeChoice.ExactChoice(COBALT_INGOT),
+                1,
+                COBALT_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey NICKEL_INGOT_KEY = pylonKey("nickel_ingot");
+    public static final ItemStack NICKEL_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, NICKEL_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, NICKEL_INGOT);
+    }
+
+    public static final NamespacedKey NICKEL_DUST_KEY = pylonKey("nickel_dust");
+    public static final ItemStack NICKEL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, NICKEL_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, NICKEL_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                NICKEL_DUST_KEY,
+                new RecipeChoice.ExactChoice(NICKEL_INGOT),
+                1,
+                NICKEL_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
+        ));
+    }
+
     public static final NamespacedKey COAL_DUST_KEY = pylonKey("coal_dust");
     public static final ItemStack COAL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COAL_DUST_KEY)
             .build();

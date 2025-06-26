@@ -629,7 +629,7 @@ public final class SmelteryController extends SmelteryComponent
                 pylonKey("tin_smelting"),
                 Map.of(PylonFluids.RAW_TIN_SLURRY, 1.0, PylonFluids.COKE_SLURRY, 0.5),
                 Map.of(PylonFluids.TIN, 1.0, PylonFluids.SLURRY, 0.5),
-                400
+                250
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("lead_smelting"),
@@ -643,13 +643,34 @@ public final class SmelteryController extends SmelteryComponent
                         PylonFluids.SLURRY, 0.5,
                         PylonFluids.SILVER, 0.1
                 ),
-                700
+                350
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("zinc_smelting"),
                 Map.of(PylonFluids.RAW_ZINC_SLURRY, 1.0, PylonFluids.COKE_SLURRY, 0.5),
                 Map.of(PylonFluids.ZINC, 1.0, PylonFluids.SLURRY, 0.5),
                 700
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                pylonKey("iron_smelting"),
+                Map.of(PylonFluids.RAW_IRON_SLURRY, 1.0, PylonFluids.COKE_SLURRY, 0.5),
+                Map.of(PylonFluids.IRON, 1.0, PylonFluids.SLURRY, 0.5),
+                1540
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                pylonKey("iron_smelting_with_sulfur"),
+                Map.of(
+                        PylonFluids.RAW_IRON_SLURRY, 1.0,
+                        PylonFluids.COKE_SLURRY, 0.5,
+                        PylonFluids.SULFUR, 0.1
+                ),
+                Map.of(
+                        PylonFluids.IRON, 1.0,
+                        PylonFluids.SLURRY, 0.4,
+                        PylonFluids.COBALT, 0.1,
+                        PylonFluids.NICKEL, 0.1
+                ),
+                1540
         ));
     }
     // </editor-fold>
