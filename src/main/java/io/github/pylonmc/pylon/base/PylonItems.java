@@ -2,13 +2,19 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.*;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.research.*;
-import io.github.pylonmc.pylon.base.items.tools.*;
-import io.github.pylonmc.pylon.base.items.tools.portable.*;
-import io.github.pylonmc.pylon.base.items.tools.watering.*;
-import io.github.pylonmc.pylon.base.items.weapons.*;
+import io.github.pylonmc.pylon.base.items.research.Loupe;
+import io.github.pylonmc.pylon.base.items.research.ResearchPack;
+import io.github.pylonmc.pylon.base.items.tools.Hammer;
+import io.github.pylonmc.pylon.base.items.tools.LumberAxe;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableCraftingTable;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableDustbin;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableEnderChest;
+import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
+import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -18,9 +24,12 @@ import io.github.pylonmc.pylon.core.recipe.RecipeTypes;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.SuspiciousStewEffects;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.potion.SuspiciousEffectEntry;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -1291,6 +1300,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidValve.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(PylonItem.class, FLUID_VALVE, FluidValve.KEY);
     }
@@ -1298,6 +1308,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_FILTER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidFilter.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(PylonItem.class, FLUID_FILTER, FluidFilter.KEY);
     }
@@ -1305,30 +1316,35 @@ public final class PylonItems {
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidMeter.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(PylonItem.class, FLUID_METER, FluidMeter.KEY);
     }
 
     public static final ItemStack WATER_PLACER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidPlacer.WATER_PLACER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidPlacer.Item.class, WATER_PLACER, FluidPlacer.WATER_PLACER_KEY);
     }
 
     public static final ItemStack LAVA_PLACER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidPlacer.LAVA_PLACER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidPlacer.Item.class, LAVA_PLACER, FluidPlacer.LAVA_PLACER_KEY);
     }
 
     public static final ItemStack WATER_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.WATER_DRAINER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidDrainer.Item.class, WATER_DRAINER, FluidDrainer.WATER_DRAINER_KEY);
     }
 
     public static final ItemStack LAVA_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.LAVA_DRAINER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidDrainer.Item.class, LAVA_DRAINER, FluidDrainer.LAVA_DRAINER_KEY);
     }
@@ -1336,6 +1352,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VOIDER_1 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_1_KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_1, FluidVoider.FLUID_VOIDER_1_KEY);
     }
@@ -1343,6 +1360,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VOIDER_2 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_2_KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_2, FluidVoider.FLUID_VOIDER_2_KEY);
     }
@@ -1350,6 +1368,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VOIDER_3 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_3_KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
     }
@@ -1466,6 +1485,107 @@ public final class PylonItems {
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
         RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    static {
+        PylonItem.register(PylonItem.class, FoodProcessor.SIMPLE_STACK, FoodProcessor.SIMPLE_KEY);
+        ShapedRecipe recipe = new ShapedRecipe(FoodProcessor.SIMPLE_KEY, FoodProcessor.SIMPLE_STACK)
+                .shape("GPG", "GBG", "GGG")
+                .setIngredient('G', Material.GLASS)
+                .setIngredient('P', Material.PISTON)
+                .setIngredient('B', Material.BOWL);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+    }
+
+    public static final NamespacedKey SALAD_KEY = pylonKey("salad");
+    public static final ItemStack SALAD_STACK = ItemStackBuilder.pylonItem(Material.SUSPICIOUS_STEW, SALAD_KEY)
+            .set(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.suspiciousStewEffects()
+                    .add(SuspiciousEffectEntry.create(PotionEffectType.INSTANT_HEALTH, 1)).build())
+            .set(DataComponentTypes.FOOD, FoodProperties.food()
+                    .canAlwaysEat(Settings.get(SALAD_KEY).getOrThrow("canAlwaysEat", Boolean.class))
+                    .nutrition(Settings.get(SALAD_KEY).getOrThrow("nutrition", Integer.class))
+                    .saturation(Settings.get(SALAD_KEY).getOrThrow("saturation", Double.class).floatValue())
+                    .build())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SALAD_STACK);
+    }
+
+    public static final NamespacedKey FRUIT_SALAD_KEY = pylonKey("fruit_salad");
+    public static final ItemStack FRUIT_SALAD_STACK = ItemStackBuilder.pylonItem(Material.SUSPICIOUS_STEW, FRUIT_SALAD_KEY)
+            .set(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.suspiciousStewEffects()
+                    .add(SuspiciousEffectEntry.create(PotionEffectType.REGENERATION, Settings.get(FRUIT_SALAD_KEY).getOrThrow("regen-duration-ticks", Integer.class))).build())
+            .set(DataComponentTypes.FOOD, FoodProperties.food()
+                    .canAlwaysEat(Settings.get(FRUIT_SALAD_KEY).getOrThrow("canAlwaysEat", Boolean.class))
+                    .nutrition(Settings.get(FRUIT_SALAD_KEY).getOrThrow("nutrition", Integer.class))
+                    .saturation(Settings.get(FRUIT_SALAD_KEY).getOrThrow("saturation", Double.class).floatValue())
+                    .build())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FRUIT_SALAD_STACK);
+    }
+
+    public static final NamespacedKey GOLDEN_PIE_KEY = pylonKey("golden_pie");
+    public static final ItemStack GOLDEN_PIE_STACK = ItemStackBuilder.pylonItem(Material.PUMPKIN_PIE, GOLDEN_PIE_KEY)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .set(DataComponentTypes.FOOD, FoodProperties.food()
+                    .canAlwaysEat(Settings.get(GOLDEN_PIE_KEY).getOrThrow("canAlwaysEat", Boolean.class))
+                    .nutrition(Settings.get(GOLDEN_PIE_KEY).getOrThrow("nutrition", Integer.class))
+                    .saturation(Settings.get(GOLDEN_PIE_KEY).getOrThrow("saturation", Double.class).floatValue())
+                    .build())
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                    .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                            new PotionEffect(PotionEffectType.ABSORPTION, Settings.get(GOLDEN_PIE_KEY).getOrThrow("absorption-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("absorption-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.REGENERATION, Settings.get(GOLDEN_PIE_KEY).getOrThrow("regeneration-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("regeneration-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.JUMP_BOOST, Settings.get(GOLDEN_PIE_KEY).getOrThrow("jumpboost-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("jumpboost-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Settings.get(GOLDEN_PIE_KEY).getOrThrow("fireres-duration-ticks", Integer.class), 1),
+                            new PotionEffect(PotionEffectType.WATER_BREATHING, Settings.get(GOLDEN_PIE_KEY).getOrThrow("waterbreathing-duration-ticks", Integer.class), 1),
+                            new PotionEffect(PotionEffectType.LUCK, Settings.get(GOLDEN_PIE_KEY).getOrThrow("luck-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("luck-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.RESISTANCE, Settings.get(GOLDEN_PIE_KEY).getOrThrow("resistance-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("resistance-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.SPEED, Settings.get(GOLDEN_PIE_KEY).getOrThrow("speed-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("speed-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.STRENGTH, Settings.get(GOLDEN_PIE_KEY).getOrThrow("strength-duration-ticks", Integer.class),
+                                    Settings.get(GOLDEN_PIE_KEY).getOrThrow("strength-strength", Integer.class))
+                    ), 1))
+                    .build())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, GOLDEN_PIE_STACK);
+    }
+
+    static {
+        PylonItem.register(PylonItem.class, FoodProcessor.FoodProcessorHandle.STACK, FoodProcessor.FoodProcessorHandle.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(FoodProcessor.FoodProcessorHandle.KEY, FoodProcessor.FoodProcessorHandle.STACK)
+                .shape("CCC", "CLC", "CCC")
+                .setIngredient('C', Material.COBBLESTONE)
+                .setIngredient('L', Material.LEVER);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        FoodProcessor.SimpleRecipe salad = new FoodProcessor.SimpleRecipe(
+                SALAD_KEY,
+                Map.of(new RecipeChoice.MaterialChoice(Material.CARROT, Material.BAKED_POTATO, Material.BEETROOT, Material.PUMPKIN_SEEDS, Material.PUMPKIN), 8),
+                SALAD_STACK
+        );
+        FoodProcessor.SimpleRecipe.RECIPE_TYPE.addRecipe(salad);
+        FoodProcessor.SimpleRecipe fruitSalad = new FoodProcessor.SimpleRecipe(
+                FRUIT_SALAD_KEY,
+                Map.of(new RecipeChoice.MaterialChoice(Material.APPLE, Material.MELON_SLICE, Material.CHORUS_FRUIT), 8),
+                FRUIT_SALAD_STACK
+        );
+        FoodProcessor.SimpleRecipe.RECIPE_TYPE.addRecipe(fruitSalad);
+        FoodProcessor.SimpleRecipe goldenPie = new FoodProcessor.SimpleRecipe(
+                GOLDEN_PIE_KEY,
+                Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 1,
+                        new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 1),
+                GOLDEN_PIE_STACK
+        );
+        FoodProcessor.SimpleRecipe.RECIPE_TYPE.addRecipe(goldenPie);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

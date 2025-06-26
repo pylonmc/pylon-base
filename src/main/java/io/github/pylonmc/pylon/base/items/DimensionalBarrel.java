@@ -49,7 +49,7 @@ public class DimensionalBarrel extends PylonInventoryBlock {
     }
 
     public DimensionalBarrel(Block block, PersistentDataContainer pdc) {
-        super(block);
+        super(block, pdc);
     }
 
     @Override

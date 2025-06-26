@@ -73,5 +73,7 @@ public final class PylonBlocks {
         PylonBlock.register(Elevator.ELEVATOR_1_KEY, Elevator.MATERIAL, Elevator.class);
         PylonBlock.register(Elevator.ELEVATOR_2_KEY, Elevator.MATERIAL, Elevator.class);
         PylonBlock.register(Elevator.ELEVATOR_3_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(FoodProcessor.SIMPLE_KEY, Material.DISPENSER, FoodProcessor.class);
+        PylonBlock.register(FoodProcessor.FoodProcessorHandle.KEY, Material.LEVER, FoodProcessor.FoodProcessorHandle.class);
     }
 }

@@ -1,0 +1,4 @@
+canAlwaysEat: true
+nutrition: 10
+saturation: 15.0
+regen-duration-ticks: 300
