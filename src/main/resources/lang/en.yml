@@ -167,6 +167,12 @@ item:
       <arrow> <attr>Temperature (min):</attr> %min_temperature%
       <arrow> <attr>Temperature (max):</attr> %max_temperature%
 
+  fruit_salad:
+    name: "Fruit Salad"
+    lore: |-
+      <arrow> Grants regeneration upon eating
+      <arrow> More nutritious than most other foods
+
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
     lore: |-
@@ -287,6 +293,12 @@ item:
   gold_sheet:
     name: "Gold Sheet"
     lore: ""
+
+  golden_pie:
+    name: "Golden Pie"
+    lore: |-
+      <arrow> Makes you temporarily superhuman upon eating
+      <arrow> An sign of ultimate wealth
 
   grindstone:
     name: "Grindstone"
@@ -424,6 +436,12 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to open
       <arrow> <attr>Research points:</attr> %points%
+
+  salad:
+    name: "Salad"
+    lore: |-
+      <arrow> Grants an instant health boost upon eating
+      <arrow> More nutritious than most other foods
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
