@@ -352,6 +352,72 @@ public final class PylonItems {
     static {
         PylonItem.register(PylonItem.class, SULFUR);
     }
+
+    public static final NamespacedKey BRONZE_INGOT_KEY = pylonKey("bronze_ingot");
+    public static final ItemStack BRONZE_INGOT = ItemStackBuilder.pylonItem(Material.GOLD_INGOT, BRONZE_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_INGOT);
+    }
+
+    public static final NamespacedKey BRONZE_DUST_KEY = pylonKey("bronze_dust");
+    public static final ItemStack BRONZE_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BRONZE_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                BRONZE_DUST_KEY,
+                new RecipeChoice.ExactChoice(BRONZE_INGOT),
+                1,
+                BRONZE_DUST,
+                2,
+                Material.GOLD_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey BRASS_INGOT_KEY = pylonKey("brass_ingot");
+    public static final ItemStack BRASS_INGOT = ItemStackBuilder.pylonItem(Material.GOLD_INGOT, BRASS_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRASS_INGOT);
+    }
+
+    public static final NamespacedKey BRASS_DUST_KEY = pylonKey("brass_dust");
+    public static final ItemStack BRASS_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BRASS_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRASS_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                BRASS_DUST_KEY,
+                new RecipeChoice.ExactChoice(BRASS_INGOT),
+                1,
+                BRASS_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
+        ));
+    }
+
+    public static final NamespacedKey STEEL_INGOT_KEY = pylonKey("steel_ingot");
+    public static final ItemStack STEEL_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, STEEL_INGOT_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, STEEL_INGOT);
+    }
+
+    public static final NamespacedKey STEEL_DUST_KEY = pylonKey("steel_dust");
+    public static final ItemStack STEEL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, STEEL_DUST_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, STEEL_DUST);
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                STEEL_DUST_KEY,
+                new RecipeChoice.ExactChoice(STEEL_INGOT),
+                1,
+                STEEL_DUST,
+                2,
+                Material.IRON_BLOCK.createBlockData()
+        ));
+    }
     // </editor-fold>
 
     //<editor-fold desc="Sheets" defaultstate=collapsed>

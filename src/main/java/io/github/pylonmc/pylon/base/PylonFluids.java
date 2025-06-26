@@ -86,6 +86,21 @@ public final class PylonFluids {
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
+    public static final PylonFluid BRONZE = new PylonFluid(
+            pylonKey("bronze"),
+            Material.BROWN_CONCRETE
+    ).addTag(FluidTemperature.HOT);
+
+    public static final PylonFluid BRASS = new PylonFluid(
+            pylonKey("brass"),
+            Material.GOLD_BLOCK
+    ).addTag(FluidTemperature.HOT);
+
+    public static final PylonFluid STEEL = new PylonFluid(
+            pylonKey("steel"),
+            Material.ORANGE_CONCRETE
+    ).addTag(FluidTemperature.HOT);
+
     public static final PylonFluid SLURRY = new PylonFluid(
             pylonKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE
@@ -159,6 +174,12 @@ public final class PylonFluids {
         addSolidForms(COBALT, 1495, PylonItems.COBALT_INGOT, PylonItems.COBALT_DUST);
         NICKEL.register();
         addSolidForms(NICKEL, 1455, PylonItems.NICKEL_INGOT, PylonItems.NICKEL_DUST);
+        BRONZE.register();
+        addSolidForms(BRONZE, 950, PylonItems.BRONZE_INGOT, PylonItems.BRONZE_DUST);
+        BRASS.register();
+        addSolidForms(BRASS, 900, PylonItems.BRASS_INGOT, PylonItems.BRASS_DUST);
+        STEEL.register();
+        addSolidForms(STEEL, 1540, PylonItems.STEEL_INGOT, PylonItems.STEEL_DUST);
         MERCURY.register();
         SLURRY.register();
         COAL_SLURRY.register();

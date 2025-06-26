@@ -13,6 +13,22 @@ item:
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
 
+  brass_dust:
+    name: "Brass Dust"
+    lore: ""
+
+  brass_ingot:
+    name: "Brass Ingot"
+    lore: ""
+
+  bronze_dust:
+    name: "Bronze Dust"
+    lore: ""
+
+  bronze_ingot:
+    name: "Bronze Ingot"
+    lore: ""
+
   coal_dust:
     name: "Coal Dust"
     lore: ""
@@ -560,6 +576,14 @@ item:
       <arrow> <attr>Range:</attr> %range%
     waila: "Sprinkler"
 
+  steel_dust:
+    name: "Steel Dust"
+    lore: ""
+
+  steel_ingot:
+    name: "Steel Ingot"
+    lore: ""
+
   sulfur:
     name: "Sulfur"
     lore: ""
@@ -621,6 +645,8 @@ item:
     lore: ""
 
 fluid:
+  brass: "<gold>Brass"
+  bronze: "<brown>Bronze"
   cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
@@ -641,6 +667,7 @@ fluid:
   slurry_raw_tin: "<gray>Raw Tin Slurry"
   slurry_raw_zinc: "<gray>Raw Zinc Slurry"
   silver: "<#b0b0b0>Silver"
+  steel: "<gray>Steel"
   sulfur: "<yellow>Sulfur"
   tin: "<gray>Tin"
   water: "<blue>Water"
