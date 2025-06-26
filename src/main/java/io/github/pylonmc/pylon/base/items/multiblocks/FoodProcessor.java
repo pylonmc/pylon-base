@@ -40,30 +40,30 @@ public class FoodProcessor extends PylonInventoryBlock implements PylonSimpleMul
     public static final ItemStack SIMPLE_STACK = ItemStackBuilder.pylonItem(Material.DISPENSER, SIMPLE_KEY).build();
     private final Map<String, UUID> entities;
 
-    public FoodProcessor(Block block, BlockCreateContext context){
+    public FoodProcessor(Block block, BlockCreateContext context) {
         super(block);
         entities = new HashMap<>();
         spawnMultiblockGhosts();
     }
 
-    public FoodProcessor(Block block, PersistentDataContainer pdc){
+    public FoodProcessor(Block block, PersistentDataContainer pdc) {
         super(block, pdc);
         entities = loadHeldEntities(pdc);
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull UUID> getHeldEntities(){
+    public @NotNull Map<@NotNull String, @NotNull UUID> getHeldEntities() {
         return entities;
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc){
+    public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
         saveHeldEntities(pdc);
     }
 
     @Override
-    public @NotNull Map<Vector3i, Component> getComponents(){
+    public @NotNull Map<Vector3i, Component> getComponents() {
         return Map.of(new Vector3i(-1, 0, 0), new VanillaComponent(Material.PISTON),
                 new Vector3i(1, 0, 0), new VanillaComponent(Material.PISTON),
                 new Vector3i(0, 0, -1), new VanillaComponent(Material.PISTON),
@@ -72,7 +72,7 @@ public class FoodProcessor extends PylonInventoryBlock implements PylonSimpleMul
     }
 
     @Override
-    protected @NotNull Gui createGui(){
+    protected @NotNull Gui createGui() {
         return PagedGui.inventories()
                 .setStructure(
                         "x x x",
@@ -84,9 +84,9 @@ public class FoodProcessor extends PylonInventoryBlock implements PylonSimpleMul
                 .build();
     }
 
-    void cook(){
-        for(SimpleRecipe recipe : SimpleRecipe.RECIPE_TYPE.getRecipes()){
-            if(matchRecipeChoiceMap(recipe.input, getItems())){
+    void cook() {
+        for (SimpleRecipe recipe : SimpleRecipe.RECIPE_TYPE.getRecipes()) {
+            if (matchRecipeChoiceMap(recipe.input, getItems())) {
                 Location dropLoc = getBlock().getLocation();
                 dropLoc.add(0, 1, 0);
                 getBlock().getWorld().dropItem(dropLoc, recipe.output);
@@ -120,15 +120,19 @@ public class FoodProcessor extends PylonInventoryBlock implements PylonSimpleMul
         public static final NamespacedKey KEY = pylonKey("food_processor_handle");
         public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.LEVER, KEY).build();
 
-        public FoodProcessorHandle(Block block, BlockCreateContext context){ super(block, context); }
+        public FoodProcessorHandle(Block block, BlockCreateContext context) {
+            super(block, context);
+        }
 
-        public FoodProcessorHandle(Block block, PersistentDataContainer pdc){ super(block, pdc); }
+        public FoodProcessorHandle(Block block, PersistentDataContainer pdc) {
+            super(block, pdc);
+        }
 
         @Override
         public void onInteract(@NotNull PlayerInteractEvent event) {
             //noinspection ConstantConditions no npe on getClickedBlock since event.getClickedBlock != null is checked by the function that calls onInteract
             FoodProcessor processor = BlockStorage.getAs(FoodProcessor.class, event.getClickedBlock().getRelative(BlockFace.DOWN));
-            if(processor == null) return;
+            if (processor == null) return;
             processor.cook();
         }
     }

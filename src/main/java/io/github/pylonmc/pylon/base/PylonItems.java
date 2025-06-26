@@ -2,13 +2,19 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.*;
+import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.research.*;
-import io.github.pylonmc.pylon.base.items.tools.*;
-import io.github.pylonmc.pylon.base.items.tools.portable.*;
-import io.github.pylonmc.pylon.base.items.tools.watering.*;
-import io.github.pylonmc.pylon.base.items.weapons.*;
+import io.github.pylonmc.pylon.base.items.research.Loupe;
+import io.github.pylonmc.pylon.base.items.research.ResearchPack;
+import io.github.pylonmc.pylon.base.items.tools.Hammer;
+import io.github.pylonmc.pylon.base.items.tools.LumberAxe;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableCraftingTable;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableDustbin;
+import io.github.pylonmc.pylon.base.items.tools.portable.PortableEnderChest;
+import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
+import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -1291,6 +1297,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidValve.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(PylonItem.class, FLUID_VALVE, FluidValve.KEY);
     }
@@ -1298,6 +1305,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_FILTER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidFilter.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(PylonItem.class, FLUID_FILTER, FluidFilter.KEY);
     }
@@ -1305,30 +1313,35 @@ public final class PylonItems {
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidMeter.KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(PylonItem.class, FLUID_METER, FluidMeter.KEY);
     }
 
     public static final ItemStack WATER_PLACER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidPlacer.WATER_PLACER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidPlacer.Item.class, WATER_PLACER, FluidPlacer.WATER_PLACER_KEY);
     }
 
     public static final ItemStack LAVA_PLACER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidPlacer.LAVA_PLACER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidPlacer.Item.class, LAVA_PLACER, FluidPlacer.LAVA_PLACER_KEY);
     }
 
     public static final ItemStack WATER_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.WATER_DRAINER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidDrainer.Item.class, WATER_DRAINER, FluidDrainer.WATER_DRAINER_KEY);
     }
 
     public static final ItemStack LAVA_DRAINER = ItemStackBuilder.pylonItem(Material.DISPENSER, FluidDrainer.LAVA_DRAINER_KEY)
             .build();
+
     static {
         PylonItem.register(FluidDrainer.Item.class, LAVA_DRAINER, FluidDrainer.LAVA_DRAINER_KEY);
     }
@@ -1336,6 +1349,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VOIDER_1 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_1_KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_1, FluidVoider.FLUID_VOIDER_1_KEY);
     }
@@ -1343,6 +1357,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VOIDER_2 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_2_KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_2, FluidVoider.FLUID_VOIDER_2_KEY);
     }
@@ -1350,6 +1365,7 @@ public final class PylonItems {
     public static final ItemStack FLUID_VOIDER_3 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, FluidVoider.FLUID_VOIDER_3_KEY)
             .set(DataComponentTypes.ITEM_MODEL, Material.BLACK_TERRACOTTA.getKey())
             .build();
+
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, FluidVoider.FLUID_VOIDER_3_KEY);
     }
