@@ -148,7 +148,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey SILVER_INGOT_KEY = pylonKey("silver_ingot");
-    public static final ItemStack SILVER_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, SILVER_INGOT_KEY)
+    public static final ItemStack SILVER_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, SILVER_INGOT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, SILVER_INGOT);
@@ -170,7 +170,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey ZINC_INGOT_KEY = pylonKey("zinc_ingot");
-    public static final ItemStack ZINC_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, ZINC_INGOT_KEY)
+    public static final ItemStack ZINC_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, ZINC_INGOT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, ZINC_INGOT);
@@ -214,7 +214,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey LEAD_INGOT_KEY = pylonKey("lead_ingot");
-    public static final ItemStack LEAD_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, LEAD_INGOT_KEY)
+    public static final ItemStack LEAD_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, LEAD_INGOT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, LEAD_INGOT);
@@ -243,7 +243,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey TIN_INGOT_KEY = pylonKey("tin_ingot");
-    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, TIN_INGOT_KEY)
+    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, TIN_INGOT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, TIN_INGOT);
@@ -272,7 +272,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey COBALT_INGOT_KEY = pylonKey("cobalt_ingot");
-    public static final ItemStack COBALT_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, COBALT_INGOT_KEY)
+    public static final ItemStack COBALT_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, COBALT_INGOT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, COBALT_INGOT);
@@ -294,7 +294,7 @@ public final class PylonItems {
     }
 
     public static final NamespacedKey NICKEL_INGOT_KEY = pylonKey("nickel_ingot");
-    public static final ItemStack NICKEL_INGOT = ItemStackBuilder.pylonItem(Material.GUNPOWDER, NICKEL_INGOT_KEY)
+    public static final ItemStack NICKEL_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, NICKEL_INGOT_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, NICKEL_INGOT);
