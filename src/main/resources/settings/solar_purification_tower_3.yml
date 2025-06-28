@@ -1,0 +1,5 @@
+fluid-mb-per-second: 140
+fluid-buffer-mb: 1000
+rain-speed-fraction: 0.6
+lens-layers: 3
+tick-interval: 40

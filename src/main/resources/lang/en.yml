@@ -635,6 +635,71 @@ item:
     name: "Emerald Dust"
     lore: ""
 
+  solar_lens:
+    name: "Solar Lens"
+    lore: ""
+
+  purification_tower_glass:
+    name: "Purification Tower Glass"
+    lore: ""
+
+  purification_tower_cap:
+    name: "Purification Tower Cap"
+    lore: ""
+
+  solar_purification_tower_1:
+    name: "Solar Purification Tower I"
+    lore: |-
+      <star> Multiblock
+      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
+      <arrow> Only works during the day
+      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+
+  solar_purification_tower_2:
+    name: "Solar Purification Tower II"
+    lore: |-
+      <star> Multiblock
+      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
+      <arrow> Only works during the day
+      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+
+  solar_purification_tower_3:
+    name: "Solar Purification Tower III"
+    lore: |-
+      <star> Multiblock
+      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
+      <arrow> Only works during the day
+      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+
+  solar_purification_tower_4:
+    name: "Solar Purification Tower IV"
+    lore: |-
+      <star> Multiblock
+      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
+      <arrow> Only works during the day
+      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+
+  solar_purification_tower_5:
+    name: "Solar Purification Tower V"
+    lore: |-
+      <star> Multiblock
+      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
+      <arrow> Only works during the day
+      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+
+  coal_fired_purification_tower:
+    name: "Coal-fired Purification Tower"
+    lore: |-
+      <star> Multiblock
+      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
+      <arrow> Burns coal or charcoal
+      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"

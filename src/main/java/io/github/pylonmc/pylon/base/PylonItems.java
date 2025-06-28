@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.research.Loupe;
@@ -148,11 +149,11 @@ public final class PylonItems {
                 new ItemStack(Material.QUARTZ),
                 QUARTZ_DUST,
                 4,
-                Material.QUARTZ.createBlockData()
+                Material.QUARTZ_BLOCK.createBlockData()
         ));
     }
 
-    public static final NamespacedKey DIAMOND_DUST_KEY = pylonKey("quartz_dust");
+    public static final NamespacedKey DIAMOND_DUST_KEY = pylonKey("diamond_dust");
     public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, DIAMOND_DUST_KEY)
             .build();
 
@@ -168,12 +169,12 @@ public final class PylonItems {
         ));
     }
 
-    public static final NamespacedKey EMERALD_DUST_KEY = pylonKey("quartz_dust");
+    public static final NamespacedKey EMERALD_DUST_KEY = pylonKey("emerald_dust");
     public static final ItemStack EMERALD_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, EMERALD_DUST_KEY)
             .build();
 
     static {
-        PylonItem.register(PylonItem.class, DIAMOND_DUST);
+        PylonItem.register(PylonItem.class, EMERALD_DUST);
         GuidePages.RESOURCES.addItem(EMERALD_DUST_KEY);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 EMERALD_DUST_KEY,
@@ -1848,11 +1849,48 @@ public final class PylonItems {
         PylonItem.register(HydraulicPressPiston.Item.class, HYDRAULIC_PRESS_PISTON, HydraulicPressPiston.KEY);
     }
 
-
     public static final ItemStack HYDRAULIC_HAMMER_HEAD = ItemStackBuilder.pylonItem(Material.STONE_BRICKS, HydraulicHammerHead.KEY)
             .build();
     static {
         PylonItem.register(HydraulicHammerHead.Item.class, HYDRAULIC_HAMMER_HEAD, HydraulicHammerHead.KEY);
+    }
+
+    public static final ItemStack SOLAR_LENS = ItemStackBuilder.pylonItem(Material.GLASS_PANE, PylonBlocks.SOLAR_LENS_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SOLAR_LENS, PylonBlocks.SOLAR_LENS_KEY);
+    }
+
+    public static final ItemStack PURIFICATION_TOWER_GLASS = ItemStackBuilder.pylonItem(Material.LIGHT_GRAY_STAINED_GLASS, PylonBlocks.PURIFICATION_TOWER_GLASS_KEY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, PURIFICATION_TOWER_GLASS, PylonBlocks.PURIFICATION_TOWER_GLASS_KEY);
+    }
+
+    public static final ItemStack PURIFICATION_TOWER_CAP = ItemStackBuilder.pylonItem(Material.QUARTZ_SLAB, PylonBlocks.PURIFICATION_TOWER_CAP)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, PURIFICATION_TOWER_CAP, PylonBlocks.PURIFICATION_TOWER_CAP);
+    }
+
+    static {
+        PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_KEY);
+    }
+
+    static {
+        PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_KEY);
+    }
+
+    static {
+        PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_KEY);
+    }
+
+    static {
+        PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_KEY);
+    }
+
+    static {
+        PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
