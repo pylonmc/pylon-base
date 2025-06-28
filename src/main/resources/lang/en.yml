@@ -15,12 +15,36 @@ item:
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
 
+  brass_dust:
+    name: "Brass Dust"
+    lore: ""
+
+  brass_ingot:
+    name: "Brass Ingot"
+    lore: ""
+
+  bronze_dust:
+    name: "Bronze Dust"
+    lore: ""
+
+  bronze_ingot:
+    name: "Bronze Ingot"
+    lore: ""
+
   coal_dust:
     name: "Coal Dust"
     lore: ""
 
-  coke_dust:
-    name: "Coke Dust"
+  cobalt_dust:
+    name: "Cobalt Dust"
+    lore: ""
+
+  cobalt_ingot:
+    name: "Cobalt Ingot"
+    lore: ""
+
+  carbon_dust:
+    name: "Carbon Dust"
     lore: ""
 
   compressed_obsidian:
@@ -55,10 +79,6 @@ item:
     name: "Crushed Raw Iron"
     lore: ""
 
-  crushed_raw_silver:
-    name: "Crushed Raw Silver"
-    lore: ""
-
   dimensional_barrel:
     name: "Dimensional Barrel"
     lore: |-
@@ -80,7 +100,6 @@ item:
   enriched_netherrack:
     name: "Enriched Netherrack"
     lore: "<arrow> Burns hotter than netherrack"
-    waila: "Enriched Netherrack"
 
   explosive_target:
     name: "Explosive Target"
@@ -88,7 +107,6 @@ item:
       <arrow> Explodes when shot
       <arrow> Explosion power: %explosive-power%
       <arrow> Doesn't create fire
-    waila: "Explosive Target"
 
   explosive_target_fiery:
     name: "Fiery Explosive Target"
@@ -96,7 +114,6 @@ item:
       <arrow> Explodes when shot
       <arrow> Explosion power: %explosive-power%
       <arrow> Creates fire
-    waila: "Fiery Explosive Target"
 
   explosive_target_super:
     name: "Super Explosive Target"
@@ -104,7 +121,6 @@ item:
       <arrow> Explodes when shot
       <arrow> Explosion power: %explosive-power%
       <arrow> Doesn't create fire
-    waila: "Super Explosive Target"
 
   explosive_target_super_fiery:
     name: "Super Fiery Explosive Target"
@@ -112,7 +128,6 @@ item:
       <arrow> Explodes when shot
       <arrow> Explosion power: %explosive-power%
       <arrow> Creates fire
-    waila: "Super Fiery Explosive Target"
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
@@ -241,21 +256,18 @@ item:
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
-    waila: "Fluid Voider <light_purple>I"
 
   fluid_voider_2:
     name: "Fluid Voider <light_purple>II"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
-    waila: "Fluid Voider <light_purple>II"
 
   fluid_voider_3:
     name: "Fluid Voider <light_purple>III"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
-    waila: "Fluid Voider <light_purple>III"
 
   iron_dust:
     name: "Iron Dust"
@@ -267,7 +279,6 @@ item:
       <arrow> Fills the block in front of it with water
       <arrow> Must be supplied with water to function
       <arrow> <attr>Fill interval:</attr> %fill_interval%
-    waila: "Water Placer"
 
   lava_placer:
     name: "Lava Placer"
@@ -275,21 +286,36 @@ item:
       <arrow> Fills the block in front of it with lava
       <arrow> Must be supplied with lava to function
       <arrow> <attr>Fill interval:</attr> %fill_interval%
-    waila: "Lava Placer"
 
   water_drainer:
     name: "Water Drainer"
     lore: |-
       <arrow> Drains water from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
-    waila: "Water Drainer"
 
   lava_drainer:
     name: "Lava Drainer"
     lore: |-
       <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
-    waila: "Lava Drainer"
+
+  elevator_1:
+    name: "Elevator I"
+    lore: |-
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
+
+  elevator_2:
+    name: "Elevator II"
+    lore: |-
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
+
+  elevator_3:
+    name: "Elevator III"
+    lore: |-
+      <arrow> <insn>Sneak</insn> to go down, <insn>jump</insn> to go up.
+      <arrow> <attr>Vertical range:</attr> %elevator_range%
 
   gold_dust:
     name: "Gold Dust"
@@ -306,12 +332,10 @@ item:
       <arrow> Requires a Grindstone Handle on top
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
-    waila: "Grindstone"
 
   grindstone_handle:
     name: "Grindstone Handle"
     lore: "<arrow> Component of the Grindstone multiblock"
-    waila: "Grindstone Handle"
 
   hammer_diamond:
     name: "Diamond Hammer"
@@ -345,6 +369,14 @@ item:
     name: "Iron Sheet"
     lore: ""
 
+  lead_dust:
+    name: "Lead Dust"
+    lore: ""
+
+  lead_ingot:
+    name: "Lead Ingot"
+    lore: ""
+
   loupe:
     name: "Loupe"
     lore: |-
@@ -365,7 +397,6 @@ item:
   magic_altar:
     name: "Magic Altar"
     lore: "<star> Multiblock"
-    waila: "Magic Altar"
 
   magic_pedestal:
     name: "Magic Pedestal"
@@ -373,7 +404,6 @@ item:
       <arrow> Used to build the Magic Altar
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
-    waila: "Magic Pedestal"
 
   medkit:
     name: "Medkit"
@@ -390,16 +420,18 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
-    waila: "Mixing Pot"
-
-  wither_proof_obsidian:
-    name: "Wither Proof Obsidian"
-    lore: ""
-    waila: "Wither Proof Obsidian"
 
   monster_jerky:
     name: "Monster Jerky"
     lore: "Slightly tastier and tougher than rotten flesh"
+
+  nickel_dust:
+    name: "Nickel Dust"
+    lore: ""
+
+  nickel_ingot:
+    name: "Nickel Ingot"
+    lore: ""
 
   plaster:
     name: "Plaster"
@@ -426,7 +458,6 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
-    waila: "Pedestal"
 
   raw_ferroduralum:
     name: "Raw Ferroduralum"
@@ -545,10 +576,25 @@ item:
       <arrow> Requires water to be piped in
       <arrow> <attr>Water consumption:</attr> %water_consumption%
       <arrow> <attr>Range:</attr> %range%
-    waila: "Sprinkler"
+
+  steel_dust:
+    name: "Steel Dust"
+    lore: ""
+
+  steel_ingot:
+    name: "Steel Ingot"
+    lore: ""
 
   sulfur:
     name: "Sulfur"
+    lore: ""
+
+  tin_dust:
+    name: "Tin Dust"
+    lore: ""
+
+  tin_ingot:
+    name: "Tin Ingot"
     lore: ""
 
   watering_can:
@@ -584,28 +630,49 @@ item:
     name: "Water Pump"
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
-    waila: "Water Pump"
+
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+    lore: ""
+
+  zinc_dust:
+    name: "Zinc Dust"
+    lore: ""
+
+  zinc_ingot:
+    name: "Zinc Ingot"
+    lore: ""
 
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
+  brass: "<gold>Brass"
+  bronze: "<brown>Bronze"
+  cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
   iron: "<gray>Iron"
   lava: "<#fc4e03>Lava"
+  lead: "<gray>Lead"
   mercury: "<#dedede>Mercury"
+  nickel: "<gray>Nickel"
   none: "None"
   slurry: "<gray>Slurry"
   slurry_coal: "<black>Coal Slurry"
-  slurry_coke: "<black>Coke Slurry"
+  slurry_carbon: "<black>Carbon Slurry"
   slurry_redstone: "<red>Redstone Slurry"
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"
   slurry_raw_iron: "<gray>Raw Iron Slurry"
-  slurry_raw_silver: "<#b0b0b0>Raw Silver Slurry"
+  slurry_raw_lead: "<gray>Raw Lead Slurry"
+  slurry_raw_tin: "<gray>Raw Tin Slurry"
+  slurry_raw_zinc: "<gray>Raw Zinc Slurry"
   silver: "<#b0b0b0>Silver"
+  steel: "<gray>Steel"
   sulfur: "<yellow>Sulfur"
+  tin: "<gray>Tin"
   water: "<blue>Water"
+  zinc: "<gray>Zinc"
 
 waila:
   fluid_tank:
@@ -685,6 +752,10 @@ message:
   valve:
     enabled: "enabled"
     disabled: "disabled"
+  elevator:
+    none_within_range:
+      above: "<red>No elevators within range above you"
+      below: "<red>No elevators within range below you"
 
 gui:
   status:
