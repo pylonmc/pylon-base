@@ -40,7 +40,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             if (item == null) continue;
             PylonFluid fluid = null;
             double temperature = Double.NaN;
-            for (MeltRecipe recipe : MeltRecipe.RECIPE_TYPE) {
+            for (MeltingRecipe recipe : MeltingRecipe.RECIPE_TYPE) {
                 if (recipe.input().isSimilar(item)) {
                     fluid = recipe.result();
                     temperature = recipe.temperature();
@@ -49,7 +49,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             }
             if (fluid == null) continue;
             if (controller.getTemperature() >= temperature) {
-                controller.addFluid(fluid, CastRecipe.CAST_AMOUNT);
+                controller.addFluid(fluid, CastingRecipe.CAST_AMOUNT);
                 item.subtract();
             }
         }

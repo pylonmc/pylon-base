@@ -9,14 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public record MeltRecipe(
+public record MeltingRecipe(
         @NotNull NamespacedKey key,
         @NotNull ItemStack input,
         @NotNull PylonFluid result,
         double temperature
 ) implements Keyed {
 
-    public static final RecipeType<MeltRecipe> RECIPE_TYPE = new RecipeType<>(
+    public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(
             pylonKey("melt_recipe")
     );
 
