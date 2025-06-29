@@ -144,9 +144,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
                     KEY,
                     new ItemDisplayBuilder()
                             .material(Material.SPRUCE_LOG)
-                            .transformation(new TransformBuilder()
-                                    .translate(0, 0.2, 0)
-                                    .scale(0.3, 1.6, 0.3))
+                            .transformation(getTransformation(0.0))
                             .build(block.getLocation().toCenterLocation().add(0, -1, 0))
             );
         }
@@ -158,7 +156,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
         }
 
         public void goUp() {
-            getEntity().setTransformationMatrix(getTransformation(1.6));
+            getEntity().setTransformationMatrix(getTransformation(0.0));
             getEntity().setInterpolationDelay(0);
             getEntity().setInterpolationDuration(Press.RETURN_TO_START_TIME_TICKS);
         }
@@ -166,7 +164,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
         private static @NotNull Matrix4f getTransformation(double yTranslation) {
             return new TransformBuilder()
                     .translate(0, yTranslation, 0)
-                    .scale(0.3, yTranslation, 0.3)
+                    .scale(0.3, 1.6, 0.3)
                     .buildForItemDisplay();
 
         }
