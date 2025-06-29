@@ -187,8 +187,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, ZINC_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 ZINC_DUST_KEY,
-                new RecipeChoice.ExactChoice(ZINC_INGOT),
-                1,
+                ZINC_INGOT,
                 ZINC_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -231,8 +230,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, LEAD_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 LEAD_DUST_KEY,
-                new RecipeChoice.ExactChoice(LEAD_INGOT),
-                1,
+                LEAD_INGOT,
                 LEAD_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -260,8 +258,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, TIN_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 TIN_DUST_KEY,
-                new RecipeChoice.ExactChoice(TIN_INGOT),
-                1,
+                TIN_INGOT,
                 TIN_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -282,8 +279,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, COBALT_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 COBALT_DUST_KEY,
-                new RecipeChoice.ExactChoice(COBALT_INGOT),
-                1,
+                COBALT_INGOT,
                 COBALT_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -304,8 +300,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, NICKEL_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 NICKEL_DUST_KEY,
-                new RecipeChoice.ExactChoice(NICKEL_INGOT),
-                1,
+                NICKEL_INGOT,
                 NICKEL_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -363,8 +358,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, BRONZE_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 BRONZE_DUST_KEY,
-                new RecipeChoice.ExactChoice(BRONZE_INGOT),
-                1,
+                BRONZE_INGOT,
                 BRONZE_DUST,
                 2,
                 Material.GOLD_BLOCK.createBlockData()
@@ -385,8 +379,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, BRASS_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 BRASS_DUST_KEY,
-                new RecipeChoice.ExactChoice(BRASS_INGOT),
-                1,
+                BRASS_INGOT,
                 BRASS_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -407,8 +400,7 @@ public final class PylonItems {
         PylonItem.register(PylonItem.class, STEEL_DUST);
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 STEEL_DUST_KEY,
-                new RecipeChoice.ExactChoice(STEEL_INGOT),
-                1,
+                STEEL_INGOT,
                 STEEL_DUST,
                 2,
                 Material.IRON_BLOCK.createBlockData()
@@ -1968,7 +1960,7 @@ public final class PylonItems {
                 .setIngredient('Q', Material.QUARTZ_BLOCK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1978,7 +1970,7 @@ public final class PylonItems {
                 .setIngredient('E', Elevator.ELEVATOR_1_STACK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     static {
@@ -1988,7 +1980,7 @@ public final class PylonItems {
                 .setIngredient('E', Elevator.ELEVATOR_2_STACK)
                 .setIngredient('P', Material.ENDER_PEARL);
         recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeTypes.VANILLA_CRAFTING.addRecipe(recipe);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
