@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
 import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
@@ -2103,6 +2104,10 @@ public final class PylonItems {
 
     static {
         PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY);
+    }
+
+    static {
+        PylonItem.register(CoalFiredPurificationTower.Item.class, CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_STACK, CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

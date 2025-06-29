@@ -756,6 +756,9 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Burns coal or charcoal
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+    progress_item:
+      running: "<green>Running"
+      idle: "<yellow>Idle"
 
 fluid:
   castable:

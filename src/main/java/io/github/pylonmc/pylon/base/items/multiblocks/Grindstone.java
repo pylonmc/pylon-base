@@ -110,8 +110,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public @NotNull Map<Vector3i, Component> getComponents() {
-        return Map.of(new Vector3i(0, 1, 0), new PylonComponent(GrindstoneHandle.KEY));
+    public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
+        return Map.of(new Vector3i(0, 1, 0), new PylonMultiblockComponent(GrindstoneHandle.KEY));
     }
 
     @Override

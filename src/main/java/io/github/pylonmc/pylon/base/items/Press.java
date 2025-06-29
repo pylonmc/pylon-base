@@ -65,6 +65,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     // Not worth the effort to persist across unloads
     @Getter private @Nullable Recipe currentRecipe;
+
     @Getter private double oilAmount;
 
     @SuppressWarnings("unused")
@@ -124,6 +125,10 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     }
 
     public boolean tryStartRecipe(@Nullable Player player) {
+        if (currentRecipe != null) {
+            return false;
+        }
+
         List<Item> items = getBlock()
                 .getLocation()
                 .toCenterLocation()

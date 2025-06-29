@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAtta
 import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
 import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
@@ -103,5 +104,6 @@ public final class PylonBlocks {
         PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
     }
 }

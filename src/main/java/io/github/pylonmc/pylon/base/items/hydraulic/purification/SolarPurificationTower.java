@@ -85,20 +85,20 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
     }
 
     @Override
-    public @NotNull Map<@NotNull Vector3i, @NotNull Component> getComponents() {
-        Map<Vector3i, Component> components = new HashMap<>();
+    public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
+        Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 1, 0), new PylonComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 2, 0), new PylonComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 3, 0), new PylonComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 4, 0), new PylonComponent(PylonBlocks.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
+        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
+        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
+        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_CAP));
 
         for (int j = 1; j < lensLayers + 1; j++) {
             for (int i = 0; i < 1 + 4*j; i++) {
-                components.put(new Vector3i(2*j, 1, i - 2*j), new PylonComponent(PylonBlocks.SOLAR_LENS_KEY));
-                components.put(new Vector3i(-2*j, 1, i - 2*j), new PylonComponent(PylonBlocks.SOLAR_LENS_KEY));
-                components.put(new Vector3i(i - 2*j, 1, 2*j), new PylonComponent(PylonBlocks.SOLAR_LENS_KEY));
-                components.put(new Vector3i(i - 2*j, 1, -2*j), new PylonComponent(PylonBlocks.SOLAR_LENS_KEY));
+                components.put(new Vector3i(2*j, 1, i - 2*j), new PylonMultiblockComponent(PylonBlocks.SOLAR_LENS_KEY));
+                components.put(new Vector3i(-2*j, 1, i - 2*j), new PylonMultiblockComponent(PylonBlocks.SOLAR_LENS_KEY));
+                components.put(new Vector3i(i - 2*j, 1, 2*j), new PylonMultiblockComponent(PylonBlocks.SOLAR_LENS_KEY));
+                components.put(new Vector3i(i - 2*j, 1, -2*j), new PylonMultiblockComponent(PylonBlocks.SOLAR_LENS_KEY));
             }
         }
 
