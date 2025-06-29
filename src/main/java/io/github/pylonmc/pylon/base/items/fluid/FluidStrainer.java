@@ -12,16 +12,17 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -168,7 +169,7 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
             double inputAmount,
             @NotNull PylonFluid outputFluid,
             @NotNull ItemStack outputItem
-    ) implements Keyed {
+    ) implements PylonRecipe {
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
                 pylonKey("fluid_strainer")
@@ -184,6 +185,32 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
         @Override
         public @NotNull NamespacedKey getKey() {
             return key;
+        }
+
+        @Override
+        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
+            return List.of();
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonFluid> getInputFluids() {
+            return List.of(inputFluid);
+        }
+
+        @Override
+        public @NotNull List<@NotNull ItemStack> getOutputItems() {
+            return List.of(outputItem);
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
+            return List.of(outputFluid);
+        }
+
+        @Override
+        public @NotNull Gui display() {
+            // TODO
+            return null;
         }
     }
 }

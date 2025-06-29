@@ -1,12 +1,16 @@
 package io.github.pylonmc.pylon.base.items.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
@@ -16,6 +20,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -26,6 +31,9 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.impl.AutoCycleItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +88,7 @@ public class Hammer extends PylonItem implements BlockInteractor {
 
         List<ItemStack> items = new ArrayList<>();
         for (Entity e : world.getNearbyEntities(BoundingBox.of(blockAbove))) {
-            if (e instanceof org.bukkit.entity.Item entity) {
+            if (e instanceof Item entity) {
                 items.add(entity.getItemStack());
                 entity.remove();
             }
@@ -99,14 +107,13 @@ public class Hammer extends PylonItem implements BlockInteractor {
                     (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
             if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
 
-            for (ItemStack ingredient : recipe.ingredients()) {
-                for (ItemStack item : items) {
-                    if (item.isSimilar(ingredient)) {
-                        item.subtract(ingredient.getAmount());
-                        break;
-                    }
+            for (ItemStack item : items) {
+                if (item.isSimilar(recipe.input)) {
+                    item.subtract(recipe.input.getAmount());
+                    break;
                 }
             }
+
             items.removeIf(item -> item.getAmount() <= 0);
             items.add(recipe.result().clone());
             break;
@@ -140,15 +147,21 @@ public class Hammer extends PylonItem implements BlockInteractor {
         ).get(key);
     }
 
+    private static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
+        return PylonRegistry.ITEMS.getValues().stream()
+                .map(PylonItemSchema::getItemStack)
+                .filter(item -> fromStack(item) instanceof Hammer hammer
+                                && hammer.miningLevel.isAtLeast(level))
+                .toList();
+    }
+
     private static boolean containsAtLeast(@NotNull Collection<ItemStack> items, ItemStack item) {
         return items.stream()
                 .anyMatch(i -> i.isSimilar(item) && i.getAmount() >= item.getAmount());
     }
 
     private static boolean recipeMatches(List<ItemStack> items, @NotNull Recipe recipe) {
-        return recipe.ingredients()
-                .stream()
-                .allMatch(ingredient -> containsAtLeast(items, ingredient));
+        return containsAtLeast(items, recipe.input);
     }
 
     protected static @NotNull ItemStack createItemStack(
@@ -193,11 +206,12 @@ public class Hammer extends PylonItem implements BlockInteractor {
 
     public record Recipe(
             NamespacedKey key,
-            List<ItemStack> ingredients,
+            ItemStack input,
             ItemStack result,
             MiningLevel level,
             float chance
-    ) implements Keyed {
+    ) implements PylonRecipe {
+
         @Override
         public @NotNull NamespacedKey getKey() {
             return key;
@@ -209,6 +223,39 @@ public class Hammer extends PylonItem implements BlockInteractor {
 
         static {
             PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
+        }
+
+        @Override
+        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
+            return List.of(new RecipeChoice.ExactChoice(input));
+        }
+
+        @Override
+        public @NotNull List<@NotNull ItemStack> getOutputItems() {
+            return List.of(result);
+        }
+
+        @Override
+        public @NotNull Gui display() {
+            return Gui.normal()
+                    .setStructure(
+                            "# # # # # # # # #",
+                            "# # # # # # # # #",
+                            "# # # i h o # # #",
+                            "# # # # # # # # #",
+                            "# # # # # # # # #"
+                    )
+                    .addIngredient('#', GuiItems.backgroundBlack())
+                    .addIngredient('i', ItemButton.fromStack(input))
+                    .addIngredient('h', new AutoCycleItem(20,
+                            hammersWithMiningLevelAtLeast(level)
+                                    .stream()
+                                    .map(ItemStackBuilder::of)
+                                    .toList()
+                                    .toArray(new ItemStackBuilder[]{})
+                    ))
+                    .addIngredient('o', ItemButton.fromStack(result))
+                    .build();
         }
     }
 }
