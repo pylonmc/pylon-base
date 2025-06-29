@@ -3,6 +3,8 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -117,9 +119,15 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             CastRecipe recipe = CastRecipe.getCastRecipeFor(bottomFluid);
             if (recipe == null || controller.getTemperature() < recipe.temperature()) return;
 
+            if (!new PrePylonCraftEvent<>(CastRecipe.RECIPE_TYPE, recipe, controller, player).callEvent()) {
+                return;
+            }
+
             ItemStack result = recipe.result();
             inventory.addItem(null, result);
             controller.removeFluid(bottomFluid, CastRecipe.CAST_AMOUNT);
+
+            new PylonCraftEvent<>(CastRecipe.RECIPE_TYPE, recipe, controller).callEvent();
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull TranslationArgument @NotNull ... args) {

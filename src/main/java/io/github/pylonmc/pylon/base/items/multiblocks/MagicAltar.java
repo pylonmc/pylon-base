@@ -10,6 +10,8 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -124,6 +126,10 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
             for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
                 if (recipe.isValidRecipe(ingredients, catalyst)) {
+                    if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()) {
+                        continue;
+                    }
+
                     ItemStack stackToInsert = catalyst.clone();
                     stackToInsert.setAmount(1);
                     itemDisplay.setItemStack(stackToInsert);
@@ -231,6 +237,8 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
             pedestal.getItemDisplay().setItemStack(null);
             pedestal.setLocked(false);
         }
+
+        new PylonCraftEvent<>(Recipe.RECIPE_TYPE, getCurrentRecipe(), this).callEvent();
 
         itemDisplay.setItemStack(getCurrentRecipe().result);
         processingRecipe = null;
