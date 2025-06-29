@@ -21,7 +21,7 @@ public record CastRecipe(
         double temperature
 ) implements PylonRecipe {
 
-    public static final double CAST_AMOUNT = 500;
+    public static final double CAST_AMOUNT = 250;
 
     public static final RecipeType<CastRecipe> RECIPE_TYPE = new RecipeType<>(
             pylonKey("cast_recipe")
