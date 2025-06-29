@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
+import io.github.pylonmc.pylon.base.util.EntityUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -18,7 +19,6 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -762,7 +762,7 @@ public final class SmelteryController extends SmelteryComponent
         for (int x = 0; x < PIXELS_PER_SIDE; x++) {
             for (int z = 0; z < PIXELS_PER_SIDE; z++) {
                 Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
-                TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(relative, ColorUtils.METAL_GRAY);
+                TextDisplay display = EntityUtils.spawnUnitSquareTextDisplay(relative, ColorUtils.METAL_GRAY);
                 display.setTransformationMatrix(
                         TransformUtil.transformationToMatrix(display.getTransformation())
                                 .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
