@@ -17,67 +17,51 @@ item:
 
   brass_dust:
     name: "Brass Dust"
-    lore: ""
 
   brass_ingot:
     name: "Brass Ingot"
-    lore: ""
 
   bronze_dust:
     name: "Bronze Dust"
-    lore: ""
 
   bronze_ingot:
     name: "Bronze Ingot"
-    lore: ""
 
   coal_dust:
     name: "Coal Dust"
-    lore: ""
 
   cobalt_dust:
     name: "Cobalt Dust"
-    lore: ""
 
   cobalt_ingot:
     name: "Cobalt Ingot"
-    lore: ""
 
   carbon_dust:
     name: "Carbon Dust"
-    lore: ""
 
   compressed_obsidian:
     name: "Compressed Obsidian"
-    lore: ""
 
   compressed_wood:
     name: "Compressed Wood"
-    lore: ""
 
   copper_dust:
     name: "Copper Dust"
-    lore: ""
 
   copper_sheet:
     name: "Copper Sheet"
-    lore: ""
 
   covalent_binder:
     name: "Covalent Binder"
-    lore: ""
 
   crushed_raw_copper:
     name: "Crushed Raw Copper"
-    lore: ""
 
   crushed_raw_gold:
     name: "Crushed Raw Gold"
-    lore: ""
 
   crushed_raw_iron:
     name: "Crushed Raw Iron"
-    lore: ""
 
   dimensional_barrel:
     name: "Dimensional Barrel"
@@ -95,7 +79,6 @@ item:
 
   dough:
     name: "Dough"
-    lore: ""
 
   enriched_netherrack:
     name: "Enriched Netherrack"
@@ -131,23 +114,18 @@ item:
 
   ferroduralum_axe:
     name: "Ferroduralum Axe"
-    lore: ""
 
   ferroduralum_boots:
     name: "Ferroduralum Boots"
-    lore: ""
 
   ferroduralum_chestplate:
     name: "Ferroduralum Chestplate"
-    lore: ""
 
   ferroduralum_helmet:
     name: "Ferroduralum Helmet"
-    lore: ""
 
   ferroduralum_hoe:
     name: "Ferroduralum Hoe"
-    lore: ""
 
   ferroduralum_ingot:
     name: "Ferroduralum Ingot"
@@ -155,31 +133,24 @@ item:
 
   ferroduralum_leggings:
     name: "Ferroduralum Leggings"
-    lore: ""
 
   ferroduralum_pickaxe:
     name: "Ferroduralum Pickaxe"
-    lore: ""
 
   ferroduralum_sheet:
     name: "Ferroduralum Sheet"
-    lore: ""
 
   ferroduralum_shovel:
     name: "Ferroduralum Shovel"
-    lore: ""
 
   ferroduralum_sword:
     name: "Ferroduralum Sword"
-    lore: ""
 
   fiber:
     name: "Fiber"
-    lore: ""
 
   flour:
     name: "Flour"
-    lore: ""
 
   fluid_pipe_connector:
     waila: "%pipe%"
@@ -271,7 +242,6 @@ item:
 
   iron_dust:
     name: "Iron Dust"
-    lore: ""
 
   water_placer:
     name: "Water Placer"
@@ -319,11 +289,9 @@ item:
 
   gold_dust:
     name: "Gold Dust"
-    lore: ""
 
   gold_sheet:
     name: "Gold Sheet"
-    lore: ""
 
   grindstone:
     name: "Grindstone"
@@ -367,15 +335,12 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
-    lore: ""
 
   lead_dust:
     name: "Lead Dust"
-    lore: ""
 
   lead_ingot:
     name: "Lead Ingot"
-    lore: ""
 
   loupe:
     name: "Loupe"
@@ -392,7 +357,6 @@ item:
 
   magic_dust:
     name: "Magic Dust"
-    lore: ""
 
   magic_altar:
     name: "Magic Altar"
@@ -421,25 +385,24 @@ item:
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
 
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+
   monster_jerky:
     name: "Monster Jerky"
     lore: "Slightly tastier and tougher than rotten flesh"
 
   nickel_dust:
     name: "Nickel Dust"
-    lore: ""
 
   nickel_ingot:
     name: "Nickel Ingot"
-    lore: ""
 
   plaster:
     name: "Plaster"
-    lore: ""
 
   portability_catalyst:
     name: "Portability Catalyst"
-    lore: ""
 
   portable_crafting_table:
     name: "Portable Crafting Table"
@@ -484,31 +447,24 @@ item:
 
   rock_dust:
     name: "Rock Dust"
-    lore: ""
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
-    lore: ""
 
   shimmer_dust_2:
     name: "Shimmer Dust II"
-    lore: ""
 
   shimmer_dust_3:
     name: "Shimmer Dust III"
-    lore: ""
 
   shimmer_skull:
     name: "<white>Shimmer Skull"
-    lore: ""
 
   silver_dust:
     name: "Silver Dust"
-    lore: ""
 
   silver_ingot:
     name: "Silver Ingot"
-    lore: ""
 
   fluid_strainer:
     name: "Fluid Strainer"
@@ -579,23 +535,18 @@ item:
 
   steel_dust:
     name: "Steel Dust"
-    lore: ""
 
   steel_ingot:
     name: "Steel Ingot"
-    lore: ""
 
   sulfur:
     name: "Sulfur"
-    lore: ""
 
   tin_dust:
     name: "Tin Dust"
-    lore: ""
 
   tin_ingot:
     name: "Tin Ingot"
-    lore: ""
 
   watering_can:
     name: "Watering Can"
@@ -631,17 +582,11 @@ item:
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
-  wither_proof_obsidian:
-    name: "Wither Proof Obsidian"
-    lore: ""
-
   zinc_dust:
     name: "Zinc Dust"
-    lore: ""
 
   zinc_ingot:
     name: "Zinc Ingot"
-    lore: ""
 
 fluid:
   castable:
