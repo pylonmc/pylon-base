@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.items;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,6 +24,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
+@SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItem {
 
     public static final NamespacedKey HEALTH_TALISMAN_SIMPLE_KEY = pylonKey("health_talisman_simple");
@@ -43,12 +43,11 @@ public class HealthTalisman extends PylonItem {
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
 
-    private final int maxHealthBoost = Settings.get(getKey()).getOrThrow("max-health-boost", Integer.class);
+    private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", Integer.class);
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);
     }
-
     public final AttributeModifier healthModifier = new AttributeModifier(
             HEALTH_BOOSTED_KEY,
             maxHealthBoost,
@@ -58,7 +57,7 @@ public class HealthTalisman extends PylonItem {
     @Override
     public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of(
-            "health-boost", UnitFormat.HEARTS.format(maxHealthBoost).asComponent()
+            "health-boost", UnitFormat.HEARTS.format(maxHealthBoost)
         );
     }
 

@@ -1,13 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.Elevator;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
-import io.github.pylonmc.pylon.base.items.fluid.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ public final class PylonBlocks {
     }
 
     public static final NamespacedKey WITHER_PROOF_OBSIDIAN_KEY = pylonKey("wither_proof_obsidian");
+    public static final NamespacedKey REFRACTORY_BRICK_KEY = pylonKey("refractory_brick");
 
     public static void initialize() {
         PylonBlock.register(Sprinkler.KEY, Material.FLOWER_POT, Sprinkler.class);
@@ -53,6 +55,14 @@ public final class PylonBlocks {
         PylonBlock.register(FluidVoider.FLUID_VOIDER_1_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(FluidVoider.FLUID_VOIDER_2_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(FluidVoider.FLUID_VOIDER_3_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
+        PylonBlock.register(REFRACTORY_BRICK_KEY, Material.DEEPSLATE_TILES, SmelteryComponent.class);
+        PylonBlock.register(SmelteryController.KEY, Material.BLAST_FURNACE, SmelteryController.class);
+        PylonBlock.register(SmelteryInputHatch.KEY, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
+        PylonBlock.register(SmelteryOutputHatch.KEY, Material.ORANGE_TERRACOTTA, SmelteryOutputHatch.class);
+        PylonBlock.register(SmelteryHopper.KEY, Material.HOPPER, SmelteryHopper.class);
+        PylonBlock.register(SmelteryCaster.KEY, Material.BRICKS, SmelteryCaster.class);
+        PylonBlock.register(SmelteryBurner.KEY, Material.FURNACE, SmelteryBurner.class);
+        PylonBlock.register(FluidStrainer.KEY, Material.COPPER_GRATE, FluidStrainer.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("string_from_bamboo"),

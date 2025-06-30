@@ -3,8 +3,8 @@ item:
     name: "Bandage"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <u:hearts>2</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>2</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>2</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>2</unit>
 
   beheading_sword:
     name: "Beheading Sword"
@@ -12,6 +12,38 @@ item:
       <arrow> Gives you the heads of what you kill
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
+
+  brass_dust:
+    name: "Brass Dust"
+    lore: ""
+
+  brass_ingot:
+    name: "Brass Ingot"
+    lore: ""
+
+  bronze_dust:
+    name: "Bronze Dust"
+    lore: ""
+
+  bronze_ingot:
+    name: "Bronze Ingot"
+    lore: ""
+
+  coal_dust:
+    name: "Coal Dust"
+    lore: ""
+
+  cobalt_dust:
+    name: "Cobalt Dust"
+    lore: ""
+
+  cobalt_ingot:
+    name: "Cobalt Ingot"
+    lore: ""
+
+  carbon_dust:
+    name: "Carbon Dust"
+    lore: ""
 
   compressed_obsidian:
     name: "Compressed Obsidian"
@@ -33,18 +65,31 @@ item:
     name: "Covalent Binder"
     lore: ""
 
+  crushed_raw_copper:
+    name: "Crushed Raw Copper"
+    lore: ""
+
+  crushed_raw_gold:
+    name: "Crushed Raw Gold"
+    lore: ""
+
+  crushed_raw_iron:
+    name: "Crushed Raw Iron"
+    lore: ""
+
   dimensional_barrel:
     name: "Dimensional Barrel"
     lore: |-
       <arrow> Uses the power of extra dimensions to store more items
-      <arrow> <attr:Size>%size%</attr>
+      <arrow> <attr>Size:</attr> %size%
+    waila: "Dimensional Barrel"
 
   disinfectant:
     name: "Disinfectant"
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   dough:
     name: "Dough"
@@ -146,8 +191,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
 
   fluid_pipe_copper:
     name: "Copper Fluid Pipe"
@@ -155,8 +199,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
 
   fluid_pipe_obsidian:
     name: "Obsidian Fluid Pipe"
@@ -164,8 +207,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
+      <arrow> <attr>Temperatures:</attr> %fluids%
 
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
@@ -174,9 +216,8 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
-    waila: "Wooden Portable Fluid Tank | %amount%/%capacity%"
+      <arrow> <attr>Temperatures:</attr> %fluids%
+    waila: "Wooden Portable Fluid Tank %info%"
 
   portable_fluid_tank_copper:
     name: "Copper Portable Fluid Tank"
@@ -185,9 +226,8 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperature (min):</attr> %min_temperature%
-      <arrow> <attr>Temperature (max):</attr> %max_temperature%
-    waila: "Copper Portable Fluid Tank | %amount%/%capacity%"
+      <arrow> <attr>Temperatures:</attr> %fluids%
+    waila: "Copper Portable Fluid Tank %info%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
@@ -326,6 +366,14 @@ item:
     name: "Iron Sheet"
     lore: ""
 
+  lead_dust:
+    name: "Lead Dust"
+    lore: ""
+
+  lead_ingot:
+    name: "Lead Ingot"
+    lore: ""
+
   loupe:
     name: "Loupe"
     lore: |-
@@ -359,8 +407,8 @@ item:
     lore: |-
       <arrow> <insn>Right click</insn> to use
       <arrow> Clears all effects
-      <arrow> <attr>Heals:</attr> <u:hearts>10</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>7</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>10</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>7</unit>
 
   mixing_pot:
     name: "Mixing Pot"
@@ -370,13 +418,17 @@ item:
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
 
-  wither_proof_obsidian:
-    name: "Wither Proof Obsidian"
-    lore: ""
-
   monster_jerky:
     name: "Monster Jerky"
     lore: "Slightly tastier and tougher than rotten flesh"
+
+  nickel_dust:
+    name: "Nickel Dust"
+    lore: ""
+
+  nickel_ingot:
+    name: "Nickel Ingot"
+    lore: ""
 
   plaster:
     name: "Plaster"
@@ -412,13 +464,24 @@ item:
     name: "Recoil Arrow"
     lore: |-
       <arrow> Sends you backwards at the velocity of your arrow
-      <arrow> <attr>Efficiency:</attr> <u:percent>75</u>
+      <arrow> <attr>Efficiency:</attr> <unit:percent>75</unit>
+
+  refractory_brick:
+    name: "Refractory Brick"
+    lore: |-
+      <star> Smeltery component
+      <arrow> The most basic and cheapest smeltery component
+    waila: "Refractory Brick"
 
   research_pack_1:
     name: "Research Pack I"
     lore: |-
       <arrow> <insn>Right click</insn> to open
       <arrow> <attr>Research points:</attr> %points%
+
+  rock_dust:
+    name: "Rock Dust"
+    lore: ""
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
@@ -436,12 +499,72 @@ item:
     name: "Shimmer Skull"
     lore: ""
 
+  silver_dust:
+    name: "Silver Dust"
+    lore: ""
+
+  silver_ingot:
+    name: "Silver Ingot"
+    lore: ""
+
+  fluid_strainer:
+    name: "Fluid Strainer"
+    lore: |-
+      <arrow> Filters out items from fluids
+      <arrow> <insn>Right click</insn> to open the inventory
+    waila: "Slurry Strainer%info%"
+
+  smeltery_burner:
+    name: "Smeltery Burner"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Burns fuel to heat the smeltery
+    waila: "Smeltery Burner"
+
+  smeltery_caster:
+    name: "Smeltery Caster"
+    lore: |-
+      <star> Smeltery component
+      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
+      <arrow> Casts items from the smeltery
+    waila: "Smeltery Caster"
+
+  smeltery_controller:
+    name: "Smeltery Controller"
+    lore: |-
+      <star> Multiblock
+      <star> Smeltery component
+      <arrow> The main component of the smeltery. Place it in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
+      <arrow> <insn>Right click</insn> to open the smeltery GUI
+    waila: "Smeltery Controller"
+
+  smeltery_hopper:
+    name: "Smeltery Hopper"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as item input for the smeltery
+    waila: "Smeltery Hopper"
+
+  smeltery_input_hatch:
+    name: "Smeltery Input Hatch"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as fluid input for the smeltery
+    waila: "Smeltery Input Hatch"
+
+  smeltery_output_hatch:
+    name: "Smeltery Output Hatch"
+    lore: |-
+      <star> Smeltery component
+      <arrow> Serves as fluid output for the smeltery
+    waila: "Smeltery Output Hatch"
+
   splint:
     name: "Splint"
     lore: |-
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <u:hearts>7</u>
-      <arrow> <attr>Apply time:</attr> <u:seconds>3</u>
+      <arrow> <attr>Heals:</attr> <unit:hearts>7</unit>
+      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   sprinkler:
     name: "Sprinkler"
@@ -450,6 +573,26 @@ item:
       <arrow> Requires water to be piped in
       <arrow> <attr>Water consumption:</attr> %water_consumption%
       <arrow> <attr>Range:</attr> %range%
+
+  steel_dust:
+    name: "Steel Dust"
+    lore: ""
+
+  steel_ingot:
+    name: "Steel Ingot"
+    lore: ""
+
+  sulfur:
+    name: "Sulfur"
+    lore: ""
+
+  tin_dust:
+    name: "Tin Dust"
+    lore: ""
+
+  tin_ingot:
+    name: "Tin Ingot"
+    lore: ""
 
   watering_can:
     name: "Watering Can"
@@ -485,10 +628,53 @@ item:
     lore: |- 
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
+  wither_proof_obsidian:
+    name: "Wither Proof Obsidian"
+    lore: ""
+
+  zinc_dust:
+    name: "Zinc Dust"
+    lore: ""
+
+  zinc_ingot:
+    name: "Zinc Ingot"
+    lore: ""
+
 fluid:
+  brass: "<gold>Brass"
+  bronze: "<brown>Bronze"
+  cobalt: "<gray>Cobalt"
+  copper: "<#b5591b>Copper"
+  gold: "<gold>Gold"
+  iron: "<gray>Iron"
+  lava: "<#fc4e03>Lava"
+  lead: "<gray>Lead"
+  mercury: "<#dedede>Mercury"
+  nickel: "<gray>Nickel"
   none: "None"
-  water: "Water"
-  lava: "Lava"
+  slurry: "<gray>Slurry"
+  slurry_coal: "<gray>Coal Slurry"
+  slurry_carbon: "<gray>Carbon Slurry"
+  slurry_redstone: "<red>Redstone Slurry"
+  slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
+  slurry_raw_gold: "<gold>Raw Gold Slurry"
+  slurry_raw_iron: "<gray>Raw Iron Slurry"
+  slurry_raw_lead: "<gray>Raw Lead Slurry"
+  slurry_raw_tin: "<gray>Raw Tin Slurry"
+  slurry_raw_zinc: "<gray>Raw Zinc Slurry"
+  silver: "<#b0b0b0>Silver"
+  steel: "<gray>Steel"
+  sulfur: "<yellow>Sulfur"
+  tin: "<gray>Tin"
+  water: "<blue>Water"
+  zinc: "<gray>Zinc"
+
+waila:
+  fluid_tank:
+    empty: "(empty)"
+    filled: "| %amount%/%capacity% of %fluid%"
+  fluid_strainer:
+    straining: " | Straining %item%: %progress%"
 
 research:
   baking: "<gold>baking"
@@ -546,3 +732,32 @@ message:
     none_within_range:
       above: "<red>No elevators within range above you"
       below: "<red>No elevators within range below you"
+
+gui:
+  status:
+    name: "Status"
+    toggle: "<insn>Click</insn> to toggle"
+    on: "<green>On"
+    off: "<yellow>Off"
+    running: "<green>Running"
+    not_running: "<yellow>Not running"
+    incomplete: "<red>Multiblock incomplete"
+  smeltery:
+    height: "<attr>Height:</attr> %height%"
+    capacity: "<attr>Capacity:</attr> %capacity%"
+    temperature: "<attr>Temperature:</attr> %temperature%"
+    contents:
+      name: "Contents"
+      fluid: "%amount% of %fluid%"
+      empty: "Empty"
+  smeltery_burner:
+    burning: "<green>Burning"
+    not_burning: "<yellow>Not burning"
+    energy_left: "<attr>Energy left:</attr> %energy%"
+    power_output: "<attr>Power output:</attr> %power%"
+  smeltery_caster:
+    cast: "Cast"
+    cannot_cast: "<red>Cannot cast"
+    too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
+    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least %needed% (you have %amount%)"
+    click_to_cast: "<insn>Click</insn> to cast %item% using %amount% of %fluid%"

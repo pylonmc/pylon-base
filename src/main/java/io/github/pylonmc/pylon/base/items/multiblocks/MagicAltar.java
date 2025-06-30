@@ -9,9 +9,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
-import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
-import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -25,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
@@ -46,52 +42,29 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     private @Nullable NamespacedKey processingRecipe;
     private double remainingTimeSeconds;
-    private final Map<String, UUID> entities;
 
     private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(Pedestal.MAGIC_PEDESTAL_KEY);
 
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {
         super(block);
-
-        ItemDisplay display = new ItemDisplayBuilder()
-                .transformation(new TransformBuilder()
-                        .translate(0, 0.3, 0)
-                        .scale(0.6)
-                        .buildForItemDisplay())
-                .build(block.getLocation().toCenterLocation());
-
-        entities = new HashMap<>();
-        entities.put("item", display.getUniqueId());
-
-        spawnMultiblockGhosts();
-
-        Pedestal.PedestalItemEntity pylonEntity = new Pedestal.PedestalItemEntity(display);
-        EntityStorage.add(pylonEntity);
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
     public MagicAltar(Block block, PersistentDataContainer pdc) {
         super(block);
 
-        entities = loadHeldEntities(pdc);
         processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);
         remainingTimeSeconds = pdc.get(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE);
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        saveHeldEntities(pdc);
+    public void write(PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
     }
 
     @Override
-    public @NotNull Map<String, UUID> getHeldEntities() {
-        return entities;
-    }
-
-    @Override
-    public @NotNull Map<Vector3i, Component> getComponents() {
+    public Map<Vector3i, Component> getComponents() {
         // use linked to retain order of pedestals - important for recipes
         Map<Vector3i, Component> map = new LinkedHashMap<>();
         map.put(new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
@@ -106,7 +79,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
+    public void onInteract(PlayerInteractEvent event) {
         if (event.getPlayer().isSneaking()) {
             return;
         }
@@ -277,10 +250,10 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     public static void drawLine(
-            @NotNull Location start,
-            @NotNull Location end,
+            Location start,
+            Location end,
             double spacing,
-            @NotNull Consumer<Location> spawnParticle
+            Consumer<Location> spawnParticle
     ) {
         double currentPoint = 0;
         Vector startToEnd = end.clone().subtract(start).toVector();
@@ -301,15 +274,15 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
      * Ingredients and catalyst must have an amount of 1
      */
     public record Recipe(
-            @NotNull NamespacedKey key,
-            @NotNull List<RecipeChoice> ingredients,
-            @NotNull RecipeChoice catalyst,
-            @NotNull ItemStack result,
+            NamespacedKey key,
+            List<RecipeChoice> ingredients,
+            RecipeChoice catalyst,
+            ItemStack result,
             double timeSeconds
     ) implements Keyed {
 
         @Override
-        public @NotNull NamespacedKey getKey() {
+        public NamespacedKey getKey() {
             return key;
         }
 
@@ -321,7 +294,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
             PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
         }
 
-        public boolean ingredientsMatch(@NotNull List<ItemStack> ingredients) {
+        public boolean ingredientsMatch(List<ItemStack> ingredients) {
             assert this.ingredients.size() == PEDESTAL_COUNT;
             assert ingredients.size() == PEDESTAL_COUNT;
 
@@ -346,7 +319,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return false;
         }
 
-        public boolean isValidRecipe(@NotNull List<ItemStack> ingredients, ItemStack catalyst) {
+        public boolean isValidRecipe(List<ItemStack> ingredients, ItemStack catalyst) {
             return ingredientsMatch(ingredients) && this.catalyst.test(catalyst);
         }
     }
