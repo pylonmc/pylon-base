@@ -838,6 +838,7 @@ guide:
     armour: "Armour"
     manual_machines: "Manual machines"
     fluid_machines: "Fluid machines"
+    hydraulics: "Hydraulics"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"

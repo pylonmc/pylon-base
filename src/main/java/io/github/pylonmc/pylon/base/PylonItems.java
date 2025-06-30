@@ -2010,6 +2010,7 @@ public final class PylonItems {
 
     static {
         PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_1_STACK, Elevator.ELEVATOR_1_KEY);
+        GuidePages.BUILDING.addItem(Elevator.ELEVATOR_1_KEY);
         ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_1_KEY, Elevator.ELEVATOR_1_STACK)
                 .shape("   ", "QPQ", "   ")
                 .setIngredient('Q', Material.QUARTZ_BLOCK)
@@ -2020,6 +2021,7 @@ public final class PylonItems {
 
     static {
         PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_2_STACK, Elevator.ELEVATOR_2_KEY);
+        GuidePages.BUILDING.addItem(Elevator.ELEVATOR_2_KEY);
         ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_2_KEY, Elevator.ELEVATOR_2_STACK)
                 .shape("PPP", "PEP", "PPP")
                 .setIngredient('E', Elevator.ELEVATOR_1_STACK)
@@ -2030,6 +2032,7 @@ public final class PylonItems {
 
     static {
         PylonItem.register(Elevator.Item.class, Elevator.ELEVATOR_3_STACK, Elevator.ELEVATOR_3_KEY);
+        GuidePages.BUILDING.addItem(Elevator.ELEVATOR_3_KEY);
         ShapedRecipe recipe = new ShapedRecipe(Elevator.ELEVATOR_3_KEY, Elevator.ELEVATOR_3_STACK)
                 .shape("PPP", "PEP", "PPP")
                 .setIngredient('E', Elevator.ELEVATOR_2_STACK)
@@ -2042,72 +2045,86 @@ public final class PylonItems {
             .build();
     static {
         PylonItem.register(PylonItem.class, PRESS, Press.KEY);
+        GuidePages.HYDRAULICS.addItem(Press.KEY);
     }
 
     public static final ItemStack HYDRAULIC_GRINDSTONE_TURNER = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE, HydraulicGrindstoneTurner.KEY)
             .build();
     static {
         PylonItem.register(HydraulicGrindstoneTurner.Item.class, HYDRAULIC_GRINDSTONE_TURNER, HydraulicGrindstoneTurner.KEY);
+        GuidePages.HYDRAULICS.addItem(HydraulicGrindstoneTurner.KEY);
     }
 
     public static final ItemStack HYDRAULIC_MIXING_ATTACHMENT = ItemStackBuilder.pylonItem(Material.GRAY_CONCRETE, HydraulicMixingAttachment.KEY)
             .build();
     static {
         PylonItem.register(HydraulicMixingAttachment.Item.class, HYDRAULIC_MIXING_ATTACHMENT, HydraulicMixingAttachment.KEY);
+        GuidePages.HYDRAULICS.addItem(HydraulicMixingAttachment.KEY);
     }
 
     public static final ItemStack HYDRAULIC_PRESS_PISTON = ItemStackBuilder.pylonItem(Material.BROWN_CONCRETE, HydraulicPressPiston.KEY)
             .build();
     static {
         PylonItem.register(HydraulicPressPiston.Item.class, HYDRAULIC_PRESS_PISTON, HydraulicPressPiston.KEY);
+        GuidePages.HYDRAULICS.addItem(HydraulicPressPiston.KEY);
     }
 
     public static final ItemStack HYDRAULIC_HAMMER_HEAD = ItemStackBuilder.pylonItem(Material.STONE_BRICKS, HydraulicHammerHead.KEY)
             .build();
     static {
         PylonItem.register(HydraulicHammerHead.Item.class, HYDRAULIC_HAMMER_HEAD, HydraulicHammerHead.KEY);
+        GuidePages.HYDRAULICS.addItem(HydraulicHammerHead.KEY);
     }
 
     public static final ItemStack SOLAR_LENS = ItemStackBuilder.pylonItem(Material.GLASS_PANE, PylonBlocks.SOLAR_LENS_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, SOLAR_LENS, PylonBlocks.SOLAR_LENS_KEY);
+        GuidePages.HYDRAULICS.addItem(PylonBlocks.SOLAR_LENS_KEY);
     }
 
     public static final ItemStack PURIFICATION_TOWER_GLASS = ItemStackBuilder.pylonItem(Material.LIGHT_GRAY_STAINED_GLASS, PylonBlocks.PURIFICATION_TOWER_GLASS_KEY)
             .build();
     static {
         PylonItem.register(PylonItem.class, PURIFICATION_TOWER_GLASS, PylonBlocks.PURIFICATION_TOWER_GLASS_KEY);
+        GuidePages.HYDRAULICS.addItem(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY);
     }
 
     public static final ItemStack PURIFICATION_TOWER_CAP = ItemStackBuilder.pylonItem(Material.QUARTZ_SLAB, PylonBlocks.PURIFICATION_TOWER_CAP)
             .build();
     static {
         PylonItem.register(PylonItem.class, PURIFICATION_TOWER_CAP, PylonBlocks.PURIFICATION_TOWER_CAP);
+        GuidePages.HYDRAULICS.addItem(PylonBlocks.PURIFICATION_TOWER_CAP);
     }
 
     static {
         PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_KEY);
+        GuidePages.HYDRAULICS.addItem(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_KEY);
     }
 
     static {
         PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_KEY);
+        GuidePages.HYDRAULICS.addItem(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_KEY);
     }
 
     static {
         PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_KEY);
+        GuidePages.HYDRAULICS.addItem(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_KEY);
     }
 
     static {
         PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_KEY);
+        GuidePages.HYDRAULICS.addItem(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_KEY);
     }
 
     static {
         PylonItem.register(SolarPurificationTower.Item.class, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_STACK, SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY);
+        GuidePages.HYDRAULICS.addItem(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY);
     }
 
     static {
         PylonItem.register(CoalFiredPurificationTower.Item.class, CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_STACK, CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY);
+        GuidePages.HYDRAULICS.addItem(CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {

@@ -6,7 +6,6 @@ import org.bukkit.Material;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-
 public class GuidePages {
 
     public static final SimpleStaticGuidePage RESEARCH = new SimpleStaticGuidePage(pylonKey("research"), Material.BOOK);
@@ -19,6 +18,7 @@ public class GuidePages {
 
     public static final SimpleStaticGuidePage MANUAL_MACHINES = new SimpleStaticGuidePage(pylonKey("manual_machines"), Material.SMOOTH_STONE_SLAB);
     public static final SimpleStaticGuidePage FLUID_MACHINES = new SimpleStaticGuidePage(pylonKey("fluid_machines"), Material.ORANGE_TERRACOTTA);
+    public static final SimpleStaticGuidePage HYDRAULICS = new SimpleStaticGuidePage(pylonKey("hydraulics"), Material.BLUE_CONCRETE_POWDER);
     public static final SimpleStaticGuidePage SMELTING = new SimpleStaticGuidePage(pylonKey("smelting"), Material.DEEPSLATE_TILES);
     private static final SimpleStaticGuidePage MACHINES = new SimpleStaticGuidePage(pylonKey("machines"), Material.BLAST_FURNACE);
 
@@ -35,6 +35,7 @@ public class GuidePages {
 
         MACHINES.addPage(MANUAL_MACHINES);
         MACHINES.addPage(FLUID_MACHINES);
+        MACHINES.addPage(HYDRAULICS);
         MACHINES.addPage(SMELTING);
         PylonGuide.getRootPage().addPage(MACHINES);
 
