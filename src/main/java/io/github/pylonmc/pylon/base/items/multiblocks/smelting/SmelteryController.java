@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
 import io.github.pylonmc.pylon.base.util.EntityUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
@@ -16,8 +17,11 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.guide.button.FluidButton;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -33,8 +37,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
-import org.bukkit.Keyed;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -44,6 +47,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -484,7 +489,7 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Recipe" defaultstate="collapsed">
-    public static final class Recipe implements Keyed {
+    public static final class Recipe implements PylonRecipe {
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery")) {
             @Override
@@ -494,7 +499,7 @@ public final class SmelteryController extends SmelteryComponent
                 Map<NamespacedKey, Recipe> newMap = recipes.entrySet().stream()
                         .sorted(
                                 Comparator.<Map.Entry<NamespacedKey, Recipe>>comparingDouble(entry -> -entry.getValue().getTemperature())
-                                        .thenComparingInt(entry -> -entry.getValue().getInputFluids().size())
+                                        .thenComparingInt(entry -> -entry.getValue().getFluidInputs().size())
                         )
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
@@ -515,10 +520,10 @@ public final class SmelteryController extends SmelteryComponent
         private final NamespacedKey key;
 
         @Getter
-        private final Map<PylonFluid, Double> inputFluids;
+        private final Map<PylonFluid, Double> fluidInputs;
 
         @Getter
-        private final Map<PylonFluid, Double> outputFluids;
+        private final Map<PylonFluid, Double> fluidOutputs;
 
         private final PylonFluid highestFluid;
 
@@ -540,17 +545,73 @@ public final class SmelteryController extends SmelteryComponent
             this.highestFluid = highestFluidEntry.getKey();
             double highestFluidAmount = highestFluidEntry.getValue();
 
-            this.inputFluids = new HashMap<>();
+            this.fluidInputs = new HashMap<>();
             for (var entry : inputFluids.entrySet()) {
                 Preconditions.checkArgument(entry.getValue() > 0, "Input fluid amount must be positive");
-                this.inputFluids.put(entry.getKey(), entry.getValue() / highestFluidAmount);
+                this.fluidInputs.put(entry.getKey(), entry.getValue() / highestFluidAmount);
             }
 
-            this.outputFluids = new HashMap<>();
+            this.fluidOutputs = new HashMap<>();
             for (var entry : outputFluids.entrySet()) {
                 Preconditions.checkArgument(entry.getValue() > 0, "Output fluid amount must be positive");
-                this.outputFluids.put(entry.getKey(), entry.getValue() / highestFluidAmount);
+                this.fluidOutputs.put(entry.getKey(), entry.getValue() / highestFluidAmount);
             }
+        }
+
+        @Override
+        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
+            return List.of();
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonFluid> getInputFluids() {
+            return fluidInputs.keySet().stream().toList();
+        }
+
+        @Override
+        public @NotNull List<@NotNull ItemStack> getOutputItems() {
+            return List.of();
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
+            return fluidOutputs.keySet().stream().toList();
+        }
+
+        @Override
+        public @NotNull Gui display() {
+            Preconditions.checkState(fluidInputs.size() < 6);
+            Preconditions.checkState(fluidOutputs.size() < 6);
+            Gui gui = Gui.normal()
+                    .setStructure(
+                            "# # # # # # # # #",
+                            "# . . # # # . . #",
+                            "# . . # s # . . #",
+                            "# . . # t # . . #",
+                            "# # # # # # # # #"
+                    )
+                    .addIngredient('#', GuiItems.backgroundBlack())
+                    .addIngredient('s', ItemButton.fromStack(PylonItems.SMELTERY_CONTROLLER))
+                    .addIngredient('t', ItemStackBuilder.of(Material.COAL)
+                            .name(Component.translatable(
+                                    "pylon.pylonbase.gui.smeltery.temperature",
+                                    PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                            )))
+                    .build();
+
+            int i = 0;
+            for (Map.Entry<PylonFluid, Double> entry : fluidInputs.entrySet()) {
+                gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
+                i++;
+            }
+
+            i = 0;
+            for (Map.Entry<PylonFluid, Double> entry : fluidOutputs.entrySet()) {
+                gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
+                i++;
+            }
+
+            return gui;
         }
     }
 
@@ -560,19 +621,19 @@ public final class SmelteryController extends SmelteryComponent
         for (Recipe recipe : Recipe.RECIPE_TYPE) {
             if (recipe.temperature > temperature) continue;
 
-            for (PylonFluid fluid : recipe.getInputFluids().keySet()) {
+            for (PylonFluid fluid : recipe.fluidInputs.keySet()) {
                 if (getFluidAmount(fluid) == 0) continue recipeLoop;
             }
 
             double highestFluidAmount = getFluidAmount(recipe.highestFluid);
             double consumptionRatio = highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND);
             double currentTemperature = temperature;
-            for (var entry : recipe.getInputFluids().entrySet()) {
+            for (var entry : recipe.fluidInputs.entrySet()) {
                 PylonFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
                 removeFluid(fluid, amount);
             }
-            for (var entry : recipe.getOutputFluids().entrySet()) {
+            for (var entry : recipe.fluidOutputs.entrySet()) {
                 PylonFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
                 addFluid(fluid, amount);

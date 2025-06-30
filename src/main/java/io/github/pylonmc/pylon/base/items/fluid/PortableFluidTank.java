@@ -114,7 +114,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
                     "fluids", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
                             allowedFluids.stream()
-                                    .map(FluidTemperature::getDisplayName)
+                                    .map(FluidTemperature::getValueText)
                                     .collect(Collectors.toList())
                     )
             );

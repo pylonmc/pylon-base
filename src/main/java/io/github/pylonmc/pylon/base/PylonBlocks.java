@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -66,8 +65,7 @@ public final class PylonBlocks {
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("string_from_bamboo"),
-                new RecipeChoice.MaterialChoice(Material.BAMBOO),
-                4,
+                new ItemStack(Material.BAMBOO, 4),
                 new ItemStack(Material.STRING),
                 3,
                 Material.BAMBOO.createBlockData(data -> {
