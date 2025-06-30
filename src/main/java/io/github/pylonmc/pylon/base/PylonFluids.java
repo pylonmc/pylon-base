@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.fluid.Slurry;
 import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.CastRecipe;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.MeltRecipe;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.CastingRecipe;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.MeltingRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import org.bukkit.Material;
@@ -204,13 +204,13 @@ public final class PylonFluids {
 
     private static void addSolidForms(PylonFluid fluid, double temperature, ItemStack main, ItemStack... additional) {
         NamespacedKey fluidKey = fluid.getKey();
-        CastRecipe.RECIPE_TYPE.addRecipe(new CastRecipe(
+        CastingRecipe.RECIPE_TYPE.addRecipe(new CastingRecipe(
                 fluidKey,
                 fluid,
                 main,
                 temperature
         ));
-        MeltRecipe.RECIPE_TYPE.addRecipe(new MeltRecipe(
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluidKey,
                 main,
                 fluid,
@@ -218,7 +218,7 @@ public final class PylonFluids {
         ));
         for (int i = 0; i < additional.length; i++) {
             ItemStack item = additional[i];
-            MeltRecipe.RECIPE_TYPE.addRecipe(new MeltRecipe(
+            MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                     new NamespacedKey(fluidKey.namespace(), fluidKey.value() + "_" + i),
                     item,
                     fluid,

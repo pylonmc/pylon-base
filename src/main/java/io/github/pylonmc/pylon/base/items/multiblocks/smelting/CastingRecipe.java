@@ -14,7 +14,7 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public record CastRecipe(
+public record CastingRecipe(
         @NotNull NamespacedKey key,
         @NotNull PylonFluid fluid,
         @NotNull ItemStack result,
@@ -23,7 +23,7 @@ public record CastRecipe(
 
     public static final double CAST_AMOUNT = 250;
 
-    public static final RecipeType<CastRecipe> RECIPE_TYPE = new RecipeType<>(
+    public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
             pylonKey("cast_recipe")
     );
 
@@ -31,8 +31,8 @@ public record CastRecipe(
         RECIPE_TYPE.register();
     }
 
-    public static @Nullable CastRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
-        for (CastRecipe recipe : RECIPE_TYPE) {
+    public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
+        for (CastingRecipe recipe : RECIPE_TYPE) {
             if (recipe.fluid.equals(fluid)) {
                 return recipe;
             }

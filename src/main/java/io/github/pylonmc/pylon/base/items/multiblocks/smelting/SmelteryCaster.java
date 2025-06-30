@@ -68,58 +68,58 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
         @Override
         public ItemProvider getItemProvider() {
             SmelteryController controller = getController();
-            CastRecipe recipe = null;
-            if (bottomFluid != null) {
-                recipe = CastRecipe.getCastRecipeFor(bottomFluid);
-            }
+            CastingRecipe recipe = (bottomFluid == null) ? null : CastingRecipe.getCastRecipeFor(bottomFluid);
             if (controller == null || bottomFluid == null || recipe == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
                         .name(casterKey("cannot_cast"));
-            } else {
-                ItemStack result = recipe.result();
-                Component name = result.effectiveName();
-                double temperature = recipe.temperature();
-                if (controller.getTemperature() < temperature) {
-                    return ItemStackBuilder.of(Material.BARRIER)
-                            .name(casterKey("cannot_cast"))
-                            .lore(casterKey(
-                                    "too_cold",
-                                    PylonArgument.of("item", name),
-                                    PylonArgument.of("temperature", temperature)
-                            ));
-                } else if (controller.getFluidAmount(bottomFluid) < CastRecipe.CAST_AMOUNT) {
-                    return ItemStackBuilder.of(Material.BARRIER)
-                            .name(casterKey("cannot_cast"))
-                            .lore(casterKey(
-                                    "not_enough",
-                                    PylonArgument.of("fluid", bottomFluid.getName()),
-                                    PylonArgument.of("item", name),
-                                    PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastRecipe.CAST_AMOUNT)),
-                                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(bottomFluid))
-                                            .decimalPlaces(1))
-                            ));
-                } else {
-                    return ItemStackBuilder.of(result.getType())
-                            .name(casterKey("cast"))
-                            .lore(casterKey(
-                                    "click_to_cast",
-                                    PylonArgument.of("item", name)
-                            ));
-                }
             }
+            ItemStack result = recipe.result();
+            Component name = result.effectiveName();
+            double temperature = recipe.temperature();
+            if (controller.getTemperature() < temperature) {
+                return ItemStackBuilder.of(Material.BARRIER)
+                        .name(casterKey("cannot_cast"))
+                        .lore(casterKey(
+                                "too_cold",
+                                PylonArgument.of("item", name),
+                                PylonArgument.of("temperature", temperature)
+                        ));
+            }
+            double bottomAmount = controller.getFluidAmount(bottomFluid);
+            if (bottomAmount < CastingRecipe.CAST_AMOUNT) {
+                return ItemStackBuilder.of(Material.BARRIER)
+                        .name(casterKey("cannot_cast"))
+                        .lore(casterKey(
+                                "not_enough",
+                                PylonArgument.of("fluid", bottomFluid.getName()),
+                                PylonArgument.of("item", name),
+                                PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
+                                PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)
+                                        .decimalPlaces(1))
+                        ));
+            }
+            return ItemStackBuilder.of(result.getType())
+                    .name(casterKey("cast"))
+                    .lore(casterKey(
+                            "click_to_cast",
+                            PylonArgument.of("item", name),
+                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
+                            PylonArgument.of("fluid", bottomFluid.getName())
+                    ));
         }
 
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             SmelteryController controller = getController();
-            if (controller == null || bottomFluid == null || controller.getFluidAmount(bottomFluid) < CastRecipe.CAST_AMOUNT) return;
+            if (controller == null || bottomFluid == null || controller.getFluidAmount(bottomFluid) < CastingRecipe.CAST_AMOUNT)
+                return;
 
-            CastRecipe recipe = CastRecipe.getCastRecipeFor(bottomFluid);
+            CastingRecipe recipe = CastingRecipe.getCastRecipeFor(bottomFluid);
             if (recipe == null || controller.getTemperature() < recipe.temperature()) return;
 
             ItemStack result = recipe.result();
             inventory.addItem(null, result);
-            controller.removeFluid(bottomFluid, CastRecipe.CAST_AMOUNT);
+            controller.removeFluid(bottomFluid, CastingRecipe.CAST_AMOUNT);
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull TranslationArgument @NotNull ... args) {

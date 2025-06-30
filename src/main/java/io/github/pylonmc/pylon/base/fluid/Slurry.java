@@ -37,7 +37,7 @@ public class Slurry extends PylonFluid implements RegistryHandler {
     public void onRegister(@NotNull PylonRegistry<?> registry) {
         MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
                 getKey(),
-                Map.of(ItemUtils.asRecipeChoice(slurryMaterial), 1),
+                Map.of(ItemUtils.recipeChoiceFromItem(slurryMaterial), 1),
                 this,
                 false,
                 PylonFluids.SLURRY,
