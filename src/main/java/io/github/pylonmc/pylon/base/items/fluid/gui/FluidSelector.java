@@ -5,8 +5,8 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import net.kyori.adventure.text.Component;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -68,7 +68,10 @@ public final class FluidSelector {
                             "pylon.pylonbase.message.fluid_selector.current_fluid",
                             PylonArgument.of(
                                     "fluid",
-                                    Component.translatable("pylon.pylonbase.fluid." + (fluid == null ? "none" : fluid.getKey().getKey()))
+                                    Component.translatable((fluid == null
+                                            ? "pylon.pylonbase.message.fluid_none"
+                                            : "pylon.pylonbase.fluid." + fluid.getKey().getKey()
+                                    ))
                             ))
                     );
         }

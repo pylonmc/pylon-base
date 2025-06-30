@@ -1,4 +1,2 @@
 fluid-per-second: 500.0
-temperature:
-  min: 0
-  max: 900
+allow-fluids: [normal] # can be cold (cryogenic), normal, or hot (molten)

@@ -1,20 +1,16 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionDisplay;
-import io.github.pylonmc.pylon.base.items.fluid.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidFilter;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidMeter;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidVoider;
-import io.github.pylonmc.pylon.base.items.fluid.items.PortableFluidTank;
-import io.github.pylonmc.pylon.base.items.fluid.items.FluidValve;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeDisplay;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionDisplay;
+import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.Grindstone;
 import io.github.pylonmc.pylon.base.items.multiblocks.Pedestal;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.SmelteryController;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
-
 
 public final class PylonEntities {
 
@@ -35,5 +31,6 @@ public final class PylonEntities {
         PylonEntity.register(FluidValve.FluidValveDisplay.KEY, ItemDisplay.class, FluidValve.FluidValveDisplay.class);
         PylonEntity.register(FluidMeter.FlowRateDisplay.KEY, TextDisplay.class, FluidMeter.FlowRateDisplay.class);
         PylonEntity.register(FluidVoider.MainDisplay.KEY, ItemDisplay.class, FluidVoider.MainDisplay.class);
+        PylonEntity.register(SmelteryController.FluidPixelEntity.KEY, TextDisplay.class, SmelteryController.FluidPixelEntity.class);
     }
 }
