@@ -14,6 +14,8 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -28,6 +30,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -214,7 +217,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         cycleTicksRemaining -= TICK_RATE;
     }
 
-    public void tryStartRecipe() {
+    public void tryStartRecipe(Player player) {
         if (recipe != null || cyclesRemaining != null || cycleTicksRemaining != null) {
             return;
         }
@@ -226,6 +229,10 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
             if (isPylonSimilar(recipe.input, input) && input.getAmount() >= recipe.input.getAmount()) {
+                if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
+                    continue;
+                }
+
                 getItemDisplay().setItemStack(input.subtract(recipe.input.getAmount()));
                 this.recipe = recipe.key;
                 cyclesRemaining = recipe.cycles;
@@ -240,6 +247,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         Recipe recipe = Recipe.RECIPE_TYPE.getRecipe(this.recipe);
         assert recipe != null;
         getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), recipe.output);
+
+        new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
 
         // lift stone up
         getStoneDisplay().setTransformationMatrix(new TransformBuilder()

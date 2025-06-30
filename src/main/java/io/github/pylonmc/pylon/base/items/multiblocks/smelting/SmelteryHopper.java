@@ -2,7 +2,8 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
@@ -38,19 +39,21 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
         Hopper hopper = (Hopper) getBlock().getState(false);
         for (ItemStack item : hopper.getInventory().getContents()) {
             if (item == null) continue;
-            PylonFluid fluid = null;
-            double temperature = Double.NaN;
-            for (MeltingRecipe recipe : MeltingRecipe.RECIPE_TYPE) {
-                if (recipe.input().isSimilar(item)) {
-                    fluid = recipe.result();
-                    temperature = recipe.temperature();
+            MeltingRecipe recipe = null;
+            for (MeltingRecipe meltingRecipe : MeltingRecipe.RECIPE_TYPE) {
+                if (meltingRecipe.input().isSimilar(item)) {
+                    if (!new PrePylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, meltingRecipe, controller).callEvent()) {
+                        continue;
+                    }
+                    recipe = meltingRecipe;
                     break;
                 }
             }
-            if (fluid == null) continue;
-            if (controller.getTemperature() >= temperature) {
-                controller.addFluid(fluid, CastingRecipe.CAST_AMOUNT);
+            if (recipe == null) continue;
+            if (controller.getTemperature() >= recipe.temperature()) {
+                controller.addFluid(recipe.result(), CastingRecipe.CAST_AMOUNT);
                 item.subtract();
+                new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
             }
         }
     }

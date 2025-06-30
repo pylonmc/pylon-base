@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.items.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -100,6 +102,10 @@ public class Hammer extends PylonItem implements BlockInteractor {
 
             if (!recipeMatches(items, recipe)) continue;
 
+            if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, null, player).callEvent()) {
+                continue;
+            }
+
             anyRecipeAttempted = true;
 
             float adjustedChance = recipe.chance() *
@@ -116,6 +122,7 @@ public class Hammer extends PylonItem implements BlockInteractor {
 
             items.removeIf(item -> item.getAmount() <= 0);
             items.add(recipe.result().clone());
+            new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe).callEvent();
             break;
         }
 
