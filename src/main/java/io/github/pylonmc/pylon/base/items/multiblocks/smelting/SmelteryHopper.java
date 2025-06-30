@@ -39,21 +39,21 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
         Hopper hopper = (Hopper) getBlock().getState(false);
         for (ItemStack item : hopper.getInventory().getContents()) {
             if (item == null) continue;
-            MeltRecipe recipe = null;
-            for (MeltRecipe meltRecipe : MeltRecipe.RECIPE_TYPE) {
-                if (meltRecipe.input().isSimilar(item)) {
-                    if (!new PrePylonCraftEvent<>(MeltRecipe.RECIPE_TYPE, meltRecipe, controller).callEvent()) {
+            MeltingRecipe recipe = null;
+            for (MeltingRecipe meltingRecipe : MeltingRecipe.RECIPE_TYPE) {
+                if (meltingRecipe.input().isSimilar(item)) {
+                    if (!new PrePylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, meltingRecipe, controller).callEvent()) {
                         continue;
                     }
-                    recipe = meltRecipe;
+                    recipe = meltingRecipe;
                     break;
                 }
             }
             if (recipe == null) continue;
             if (controller.getTemperature() >= recipe.temperature()) {
-                controller.addFluid(recipe.result(), CastRecipe.CAST_AMOUNT);
+                controller.addFluid(recipe.result(), CastingRecipe.CAST_AMOUNT);
                 item.subtract();
-                new PylonCraftEvent<>(MeltRecipe.RECIPE_TYPE, recipe, controller).callEvent();
+                new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
             }
         }
     }

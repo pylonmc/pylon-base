@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.PylonFluids;
 import io.github.pylonmc.pylon.base.PylonItems;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
+import io.github.pylonmc.pylon.base.util.EntityUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -22,7 +23,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -218,19 +218,23 @@ public final class SmelteryController extends SmelteryComponent
         @Override
         public ItemProvider getItemProvider() {
             List<Component> lore = new ArrayList<>();
-            for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
-                PylonFluid fluid = entry.getKey();
-                double amount = entry.getDoubleValue();
-                lore.add(Component.text().build().append(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.contents.fluid",
-                        PylonArgument.of(
-                                "amount",
-                                UnitFormat.MILLIBUCKETS.format(amount)
-                                        .decimalPlaces(1)
-                                        .unitStyle(Style.empty())
-                        ),
-                        PylonArgument.of("fluid", fluid.getName())
-                )));
+            if (fluids.isEmpty()) {
+                lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.contents.empty"));
+            } else {
+                for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
+                    PylonFluid fluid = entry.getKey();
+                    double amount = entry.getDoubleValue();
+                    lore.add(Component.text().build().append(Component.translatable(
+                            "pylon.pylonbase.gui.smeltery.contents.fluid",
+                            PylonArgument.of(
+                                    "amount",
+                                    UnitFormat.MILLIBUCKETS.format(amount)
+                                            .decimalPlaces(1)
+                                            .unitStyle(Style.empty())
+                            ),
+                            PylonArgument.of("fluid", fluid.getName())
+                    )));
+                }
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
                     .name(Component.translatable("pylon.pylonbase.gui.smeltery.contents.name"))
@@ -823,7 +827,7 @@ public final class SmelteryController extends SmelteryComponent
         for (int x = 0; x < PIXELS_PER_SIDE; x++) {
             for (int z = 0; z < PIXELS_PER_SIDE; z++) {
                 Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
-                TextDisplay display = PylonUtils.spawnUnitSquareTextDisplay(relative, ColorUtils.METAL_GRAY);
+                TextDisplay display = EntityUtils.spawnUnitSquareTextDisplay(relative, ColorUtils.METAL_GRAY);
                 display.setTransformationMatrix(
                         TransformUtil.transformationToMatrix(display.getTransformation())
                                 .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
