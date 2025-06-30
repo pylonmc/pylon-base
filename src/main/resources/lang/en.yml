@@ -749,6 +749,7 @@ gui:
     contents:
       name: "Contents"
       fluid: "%amount% of %fluid%"
+      empty: "Empty"
   smeltery_burner:
     burning: "<green>Burning"
     not_burning: "<yellow>Not burning"

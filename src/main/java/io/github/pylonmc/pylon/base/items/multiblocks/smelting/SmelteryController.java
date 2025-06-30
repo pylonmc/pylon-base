@@ -213,19 +213,23 @@ public final class SmelteryController extends SmelteryComponent
         @Override
         public ItemProvider getItemProvider() {
             List<Component> lore = new ArrayList<>();
-            for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
-                PylonFluid fluid = entry.getKey();
-                double amount = entry.getDoubleValue();
-                lore.add(Component.text().build().append(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.contents.fluid",
-                        PylonArgument.of(
-                                "amount",
-                                UnitFormat.MILLIBUCKETS.format(amount)
-                                        .decimalPlaces(1)
-                                        .unitStyle(Style.empty())
-                        ),
-                        PylonArgument.of("fluid", fluid.getName())
-                )));
+            if (fluids.isEmpty()) {
+                lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.contents.empty"));
+            } else {
+                for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
+                    PylonFluid fluid = entry.getKey();
+                    double amount = entry.getDoubleValue();
+                    lore.add(Component.text().build().append(Component.translatable(
+                            "pylon.pylonbase.gui.smeltery.contents.fluid",
+                            PylonArgument.of(
+                                    "amount",
+                                    UnitFormat.MILLIBUCKETS.format(amount)
+                                            .decimalPlaces(1)
+                                            .unitStyle(Style.empty())
+                            ),
+                            PylonArgument.of("fluid", fluid.getName())
+                    )));
+                }
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
                     .name(Component.translatable("pylon.pylonbase.gui.smeltery.contents.name"))
