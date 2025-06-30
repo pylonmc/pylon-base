@@ -156,14 +156,16 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         if (controller != null) {
             if (fuel != null) {
                 controller.heat(getCurrentPowerOutput() * deltaSeconds, DIMINISHING_RETURN);
-            } else {
+            } else if (controller.isRunning()) {
                 itemLoop:
-                for (ItemStack item : inventory.getUnsafeItems()) {
+                for (int i = 0; i < inventory.getSize(); i++) {
+                    ItemStack item = inventory.getItem(i);
                     if (item == null) continue;
                     for (Fuel fuel : FUELS) {
                         if (ItemUtils.isPylonSimilar(item, fuel.material)) {
                             this.fuel = fuel;
                             item.subtract();
+                            inventory.setItem(null, i, item);
                             secondsElapsed = 0;
                             break itemLoop;
                         }

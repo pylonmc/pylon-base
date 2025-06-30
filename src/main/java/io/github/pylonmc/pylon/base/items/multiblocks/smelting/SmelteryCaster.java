@@ -85,7 +85,8 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                                 PylonArgument.of("temperature", temperature)
                         ));
             }
-            if (controller.getFluidAmount(bottomFluid) < CastingRecipe.CAST_AMOUNT) {
+            double bottomAmount = controller.getFluidAmount(bottomFluid);
+            if (bottomAmount < CastingRecipe.CAST_AMOUNT) {
                 return ItemStackBuilder.of(Material.BARRIER)
                         .name(casterKey("cannot_cast"))
                         .lore(casterKey(
@@ -93,7 +94,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                                 PylonArgument.of("fluid", bottomFluid.getName()),
                                 PylonArgument.of("item", name),
                                 PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
-                                PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(controller.getFluidAmount(bottomFluid))
+                                PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)
                                         .decimalPlaces(1))
                         ));
             }
@@ -101,7 +102,9 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                     .name(casterKey("cast"))
                     .lore(casterKey(
                             "click_to_cast",
-                            PylonArgument.of("item", name)
+                            PylonArgument.of("item", name),
+                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
+                            PylonArgument.of("fluid", bottomFluid.getName())
                     ));
         }
 
