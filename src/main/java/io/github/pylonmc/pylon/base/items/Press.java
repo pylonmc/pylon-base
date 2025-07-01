@@ -36,6 +36,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -64,9 +65,9 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     public static final int RETURN_TO_START_TIME_TICKS = Settings.get(KEY).getOrThrow("return-to-start-time-ticks", Integer.class);
     public static final int CAPACITY_MB = Settings.get(KEY).getOrThrow("capacity-mb", Integer.class);
 
-    public static class Item extends PylonItem {
+    public static class PressItem extends PylonItem {
 
-        public Item(@NotNull ItemStack stack) {
+        public PressItem(@NotNull ItemStack stack) {
             super(stack);
         }
 
@@ -154,7 +155,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
                 .toList();
 
         List<ItemStack> stacks = items.stream()
-                .map(Item::getStack)
+                .map(Item::getItemStack)
                 .toList();
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {

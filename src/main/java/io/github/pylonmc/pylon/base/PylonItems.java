@@ -2044,7 +2044,7 @@ public final class PylonItems {
     public static final ItemStack PRESS = ItemStackBuilder.pylonItem(Material.COMPOSTER, Press.KEY)
             .build();
     static {
-        PylonItem.register(Press.Item.class, PRESS, Press.KEY);
+        PylonItem.register(Press.PressItem.class, PRESS, Press.KEY);
         GuidePages.HYDRAULICS.addItem(Press.KEY);
     }
 
