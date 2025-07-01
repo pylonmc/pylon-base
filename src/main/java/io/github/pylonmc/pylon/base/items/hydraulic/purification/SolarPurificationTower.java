@@ -7,6 +7,8 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -46,6 +48,9 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
     public final int lensLayers = getSettings().getOrThrow("lens-layers", Integer.class);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
 
+    public static final Component NO_SUNLIGHT = Component.translatable("pylon.pylonbase.message.hydraulic_status.no_fuel");
+    public static final Component WORKING_WITH_REDUCED_EFFICIENCY = Component.translatable("pylon.pylonbase.message.hydraulic_status.working_with_reduced_efficiency");
+
     public static class Item extends PylonItem {
 
         public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", Integer.class);
@@ -63,6 +68,8 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
             );
         }
     }
+
+    @Getter private Component status = IDLE;
 
     @SuppressWarnings("unused")
     public SolarPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -113,11 +120,22 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
     @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
+            status = INCOMPLETE;
             return;
         }
 
-        if (getBlock().getWorld().isDayTime()) {
-            purify(deltaSeconds * fluidMbPerSecond * (getBlock().getWorld().isClearWeather() ? 1.0 : rainSpeedFraction));
+        if (!getBlock().getWorld().isDayTime()) {
+            status = NO_SUNLIGHT;
+            return;
         }
+
+        if (!getBlock().getWorld().isClearWeather()) {
+            purify(deltaSeconds * fluidMbPerSecond * rainSpeedFraction);
+            status = WORKING_WITH_REDUCED_EFFICIENCY;
+            return;
+        }
+
+        purify(deltaSeconds * fluidMbPerSecond);
+        status = WORKING;
     }
 }

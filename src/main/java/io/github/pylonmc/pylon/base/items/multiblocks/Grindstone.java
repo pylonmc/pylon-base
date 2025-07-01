@@ -234,20 +234,21 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 .orElse(null);
     }
 
-    public void tryStartRecipe(@NotNull Recipe nextRecipe, @Nullable Player player) {
+    public boolean tryStartRecipe(@NotNull Recipe nextRecipe, @Nullable Player player) {
         if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, nextRecipe, this, player).callEvent()) {
-            return;
+            return false;
         }
 
         ItemStack input = getItemDisplay().getItemStack();
         if (input.getType().isAir()) {
-            return;
+            return false;
         }
 
         getItemDisplay().setItemStack(input.subtract(nextRecipe.input.getAmount()));
         this.recipe = nextRecipe.key;
         cyclesRemaining = nextRecipe.cycles;
         cycleTicksRemaining = CYCLE_TIME_TICKS;
+        return true;
     }
 
     public void finishRecipe() {

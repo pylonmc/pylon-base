@@ -16,6 +16,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -52,6 +53,8 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
 
     public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
 
+    public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_mixing_pot");
+
     public static class Item extends PylonItem {
 
         public Item(@NotNull ItemStack stack) {
@@ -69,6 +72,7 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     }
 
     @Getter private double cooldownTimeRemaining;
+    @Getter private Component status = IDLE;
 
     @SuppressWarnings("unused")
     public HydraulicMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -128,24 +132,40 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
+            status = MISSING_MIXING_POT;
             return;
         }
 
         cooldownTimeRemaining = Math.max(0, cooldownTimeRemaining - deltaSeconds);
 
         if (cooldownTimeRemaining > 1.0e-5) {
+            status = WORKING;
             return;
         }
 
         MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
         Preconditions.checkState(mixingPot != null);
 
-        if (canStartCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) && mixingPot.tryDoRecipe(null)) {
-            startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
-            cooldownTimeRemaining = COOLDOWN_TICKS / 20.0;
-            getMotorShaft().goDown();
-            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> getMotorShaft().goUp(), DOWN_ANIMATION_TIME_TICKS);
+        if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {
+            status = NOT_ENOUGH_HYDRAULIC_FLUID;
+            return;
         }
+
+        if (getRemainingDirtyCapacity() < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) {
+            status = DIRTY_HYDRAULIC_FLUID_BUFFER_FULL;
+            return;
+        }
+
+        if (!mixingPot.tryDoRecipe(null)) {
+            status = IDLE;
+            return;
+        }
+
+        startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
+        cooldownTimeRemaining = COOLDOWN_TICKS / 20.0;
+        getMotorShaft().goDown();
+        Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> getMotorShaft().goUp(), DOWN_ANIMATION_TIME_TICKS);
+        status = WORKING;
     }
 
     public @NotNull HydraulicMixingAttachment.ShaftEntity getMotorShaft() {

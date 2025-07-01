@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
@@ -27,7 +28,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
-import xyz.xenondevs.invui.inventory.event.UpdateReason;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -58,6 +58,8 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
     private static final NamespacedKey FUEL_KEY = pylonKey("fuel");
     private static final NamespacedKey FUEL_SECONDS_ELAPSED_KEY = pylonKey("fuel_seconds_elapsed");
 
+    public static final Component NO_FUEL = Component.translatable("pylon.pylonbase.message.hydraulic_status.no_fuel");
+
     private @Nullable ItemStack fuel;
     private double fuelSecondsElapsed;
 
@@ -77,6 +79,8 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
             );
         }
     }
+
+    @Getter private Component status = IDLE;
 
     private class FuelProgressItem extends ProgressItem {
         public FuelProgressItem() {
@@ -164,6 +168,7 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
     @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
+            status = INCOMPLETE;
             return;
         }
 
@@ -179,17 +184,24 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
                 fuelSecondsElapsed = 0.0;
                 break;
             }
-        }
-
-        if (isRunning()) {
-            purify(deltaSeconds * FLUID_MB_PER_SECOND);
-            fuelSecondsElapsed += deltaSeconds;
-            progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
-            if (fuelSecondsElapsed >= FUELS.get(fuel)) {
-                fuel = null;
-                progressItem.notifyWindows();
+            if (fuel == null) {
+                status = NO_FUEL;
             }
         }
+
+        if (!isRunning()) {
+            status = IDLE;
+            return;
+        }
+
+        purify(deltaSeconds * FLUID_MB_PER_SECOND);
+        fuelSecondsElapsed += deltaSeconds;
+        progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
+        if (fuelSecondsElapsed >= FUELS.get(fuel)) {
+            fuel = null;
+            progressItem.notifyWindows();
+        }
+        status = WORKING;
     }
 
     public boolean isRunning() {

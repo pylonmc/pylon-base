@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -30,6 +31,7 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -123,6 +125,18 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     @Override
     public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         oilAmount -= amount;
+    }
+
+    @Override
+    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(
+                getName(),
+                Map.of(
+                        "plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(oilAmount)),
+                        "plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB),
+                        "plant_oil", PylonFluids.PLANT_OIL.getName()
+                )
+        );
     }
 
     @Override

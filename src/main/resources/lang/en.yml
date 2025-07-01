@@ -594,6 +594,7 @@ item:
       <arrow> Presses plants into plant oil
       <arrow> Throw plants in and <insn>right click</insn> to press them into plant oil
       <arrow> <attr>Time per item:</attr> %time_per_item%
+    waila: "Press (%plant_oil_amount% / %plant_oil_capacity% %plant_oil%)"
 
   hydraulic_grindstone_turner:
     name: "Hydraulic Grindstone Turner"
@@ -601,6 +602,7 @@ item:
       <arrow> Place below a constructed grindstone
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
+    waila: "Hydraulic Grindstone Turner (%status%)"
 
   hydraulic_mixing_attachment:
     name: "Hydraulic Mixing Attachment"
@@ -609,6 +611,7 @@ item:
       <arrow> <attr>Cooldown time:</attr> %cooldown%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+    waila: "Hydraulic Mixing Attachment (%status%)"
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
@@ -616,6 +619,7 @@ item:
       <arrow> Place above the press, leaving a one block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+    waila: "Hydraulic Press Piston (%status%)"
 
   hydraulic_hammer_head:
     name: "Hydraulic Hammer Head"
@@ -625,6 +629,7 @@ item:
       <arrow> Place above the hammer's base block, leaving a two block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+    waila: "Hydraulic Hammer Head (%status%)"
 
   quartz_dust:
     name: "Quartz Dust"
@@ -747,7 +752,6 @@ waila:
   fluid_strainer:
     straining: " | Straining %item%: %progress%"
 
-
 research:
   baking: "<gold>Baking"
   better_health: "<green>Better health"
@@ -825,6 +829,20 @@ message:
     none_within_range:
       above: "<red>No elevators within range above you"
       below: "<red>No elevators within range below you"
+  hydraulic_status:
+    not_enough_hydraulic_fluid: "<red>Not enough hydraulic fluid"
+    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic fluid buffer full"
+    working: "<green>Working"
+    idle: "<yellow>Idle"
+    missing_grindstone: "<red>Missing grindstone"
+    missing_mixing_pot: "<red>Missing mixing pot"
+    missing_press: "<red>Missing press"
+    missing_hammer: "<red>Missing hammer"
+    missing_base: "<red>Missing base"
+    no_fuel: "<red>No fuel"
+    incomplete: "<red>Incomplete"
+    working_with_reduced_efficiency: "<green>Working with reduced efficiency"
+    no_sunlight: "<red>No sunlight"
 
 gui:
   status:

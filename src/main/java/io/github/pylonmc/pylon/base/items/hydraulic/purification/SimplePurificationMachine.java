@@ -5,13 +5,16 @@ import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +31,12 @@ public abstract class SimplePurificationMachine extends PylonBlock implements Py
 
     @Getter protected double dirtyHydraulicFluidAmount;
     @Getter protected double hydraulicFluidAmount;
+
+    public static final Component WORKING = Component.translatable("pylon.pylonbase.message.hydraulic_status.not_enough_hydraulic_fluid");
+    public static final Component IDLE = Component.translatable("pylon.pylonbase.message.hydraulic_status.not_enough_hydraulic_fluid");
+    public static final Component INCOMPLETE = Component.translatable("pylon.pylonbase.message.hydraulic_status.incomplete");
+
+    abstract Component getStatus();
 
     @SuppressWarnings("unused")
     protected SimplePurificationMachine(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -84,5 +93,13 @@ public abstract class SimplePurificationMachine extends PylonBlock implements Py
         double toPurify = Math.min(amount, Math.min(dirtyHydraulicFluidAmount, getHydraulicFluidBuffer() - hydraulicFluidAmount));
         dirtyHydraulicFluidAmount -= toPurify;
         hydraulicFluidAmount += toPurify;
+    }
+
+    @Override
+    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(
+                getName(),
+                Map.of("status", getStatus())
+        );
     }
 }

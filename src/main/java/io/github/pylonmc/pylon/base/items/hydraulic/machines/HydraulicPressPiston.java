@@ -14,6 +14,8 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -44,6 +46,8 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
 
     public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
 
+    public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_press");
+
     public static class Item extends PylonItem {
 
         public Item(@NotNull ItemStack stack) {
@@ -58,6 +62,8 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
             );
         }
     }
+
+    @Getter private Component status = IDLE;
 
     @SuppressWarnings("unused")
     public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -109,21 +115,36 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
     @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
+            status = MISSING_MIXING_POT;
             return;
         }
 
         Press press = BlockStorage.getAs(Press.class, getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
         Preconditions.checkState(press != null);
 
-        if (canStartCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) && press.tryStartRecipe(null)) {
-            startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
-            getPistonShaft().goDown();
-            Bukkit.getScheduler().runTaskLater(
-                    PylonBase.getInstance(),
-                    () -> getPistonShaft().goUp(),
-                    Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
-            );
+        if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {
+            status = NOT_ENOUGH_HYDRAULIC_FLUID;
+            return;
         }
+
+        if (getRemainingDirtyCapacity() < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) {
+            status = DIRTY_HYDRAULIC_FLUID_BUFFER_FULL;
+            return;
+        }
+
+        if (!press.tryStartRecipe(null)) {
+            status = IDLE;
+            return;
+        }
+
+        startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
+        getPistonShaft().goDown();
+        Bukkit.getScheduler().runTaskLater(
+                PylonBase.getInstance(),
+                () -> getPistonShaft().goUp(),
+                Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
+        );
+        status = WORKING;
     }
 
     public @NotNull HydraulicPressPiston.PistonShaftEntity getPistonShaft() {

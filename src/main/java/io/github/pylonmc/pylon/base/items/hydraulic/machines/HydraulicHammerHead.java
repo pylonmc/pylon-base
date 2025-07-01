@@ -16,6 +16,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -51,6 +52,9 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
     public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
 
+    public static final Component MISSING_HAMMER = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_head");
+    public static final Component MISSING_BASE = Component.translatable("pylon.pylonbase.message.hydaulic_status.missing_base");
+
     public static class Item extends PylonItem {
 
         public Item(@NotNull ItemStack stack) {
@@ -68,6 +72,7 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
     @Getter @Nullable private Hammer hammer;
     @Getter double cooldown;
+    @Getter private Component status = IDLE;
 
     @SuppressWarnings("unused")
     public HydraulicHammerHead(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -136,7 +141,13 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
     public void tick(double deltaSeconds) {
         cooldown = Math.max(0, cooldown - deltaSeconds);
 
-        if (hammer == null || cooldown > 1.0e-5) {
+        if (cooldown > 1.0e-5) {
+            status = WORKING;
+            return;
+        }
+
+        if (hammer == null) {
+            status = MISSING_HAMMER;
             return;
         }
 
@@ -146,10 +157,26 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
                 .getRelative(BlockFace.DOWN);
 
         if (BlockStorage.isPylonBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
+            status = MISSING_BASE;
             return;
         }
 
-        if (canStartCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) && hammer.tryDoRecipe(baseBlock, null)) {
+        if (hammer.getStack().getAmount() == 0) {
+            this.hammer = null;
+            getPistonTip().setHammer(hammer);
+        }
+
+        if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {
+            status = NOT_ENOUGH_HYDRAULIC_FLUID;
+            return;
+        }
+
+        if (getRemainingDirtyCapacity() < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) {
+            status = DIRTY_HYDRAULIC_FLUID_BUFFER_FULL;
+            return;
+        }
+
+        if (hammer.tryDoRecipe(baseBlock, null)) {
             startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
             getPistonShaft().goDown();
             getPistonTip().goDown();
@@ -163,11 +190,9 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
                         .spawn();
             }, GO_DOWN_TIME_TICKS);
             cooldown = hammer.cooldownTicks / 20.0;
-        }
-
-        if (hammer.getStack().getAmount() == 0) {
-            this.hammer = null;
-            getPistonTip().setHammer(hammer);
+            status = WORKING;
+        } else {
+            status = IDLE;
         }
     }
 
