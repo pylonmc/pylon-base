@@ -593,6 +593,7 @@ item:
     lore: |-
       <arrow> Presses plants into plant oil
       <arrow> Throw plants in and <insn>right click</insn> to press them into plant oil
+      <arrow> <attr>Time per item:</attr> %time_per_item%
 
   hydraulic_grindstone_turner:
     name: "Hydraulic Grindstone Turner"
@@ -627,27 +628,27 @@ item:
 
   quartz_dust:
     name: "Quartz Dust"
-    lore: ""
 
   diamond_dust:
     name: "Diamond Dust"
-    lore: ""
 
   emerald_dust:
     name: "Emerald Dust"
-    lore: ""
 
   solar_lens:
     name: "Solar Lens"
-    lore: ""
+    lore: |-
+      <star> Smeltery component
 
   purification_tower_glass:
     name: "Purification Tower Glass"
-    lore: ""
+    lore: |-
+      <star> Smeltery component
 
   purification_tower_cap:
     name: "Purification Tower Cap"
-    lore: ""
+    lore: |-
+      <star> Smeltery component
 
   solar_purification_tower_1:
     name: "Solar Purification Tower I"
@@ -655,7 +656,7 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
-      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
 
   solar_purification_tower_2:
@@ -664,7 +665,7 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
-      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
 
   solar_purification_tower_3:
@@ -673,7 +674,7 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
-      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
 
   solar_purification_tower_4:
@@ -682,7 +683,7 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
-      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
 
   solar_purification_tower_5:
@@ -691,7 +692,7 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
-      <arrow> Runs at %rain_efficiency% speed when it's raining/snowing
+      <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
 
   coal_fired_purification_tower:

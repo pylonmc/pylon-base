@@ -22,6 +22,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -29,12 +30,12 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -62,6 +63,20 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     public static final int TIME_PER_ITEM_TICKS = Settings.get(KEY).getOrThrow("time-per-item-ticks", Integer.class);
     public static final int RETURN_TO_START_TIME_TICKS = Settings.get(KEY).getOrThrow("return-to-start-time-ticks", Integer.class);
     public static final int CAPACITY_MB = Settings.get(KEY).getOrThrow("capacity-mb", Integer.class);
+
+    public static class Item extends PylonItem {
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
+            return Map.of(
+                    "time_per_item", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0)
+            );
+        }
+    }
 
     // Not worth the effort to persist across unloads
     @Getter private @Nullable Recipe currentRecipe;
@@ -139,7 +154,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
                 .toList();
 
         List<ItemStack> stacks = items.stream()
-                .map(Item::getItemStack)
+                .map(Item::getStack)
                 .toList();
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
