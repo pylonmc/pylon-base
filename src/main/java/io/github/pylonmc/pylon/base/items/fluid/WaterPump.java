@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class WaterPump extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock {
+public class WaterPump extends PylonBlock implements PylonFluidIoBlock {
 
     public static class Item extends PylonItem {
 

@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidVoider extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock {
+public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
 
     public static class Item extends PylonItem {
 

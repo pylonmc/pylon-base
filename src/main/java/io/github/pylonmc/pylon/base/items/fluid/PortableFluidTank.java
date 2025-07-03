@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonInteractableBlock {
+public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
