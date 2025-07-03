@@ -104,7 +104,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getLocation());
+        return otherBlock.getLocation().equals(getBlock().getRelative(BlockFace.DOWN, 2).getLocation());
     }
 
     @Override
