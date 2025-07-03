@@ -643,17 +643,17 @@ item:
   solar_lens:
     name: "Solar Lens"
     lore: |-
-      <star> Smeltery component
+      <star> Solar purification tower component
 
   purification_tower_glass:
     name: "Purification Tower Glass"
     lore: |-
-      <star> Smeltery component
+      <star> Solar purification tower component
 
   purification_tower_cap:
     name: "Purification Tower Cap"
     lore: |-
-      <star> Smeltery component
+      <star> Solar purification tower component
 
   solar_purification_tower_1:
     name: "Solar Purification Tower I"
