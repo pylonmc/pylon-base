@@ -277,8 +277,6 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
     /**
      * Maximum 7 input items
-     * @param fluidAmount the number of millibuckets of fluid to be used in the recipe. Should be set
-     *                    to 1000 if the recipe has a fluid output.
      */
     public record Recipe(
             @NotNull NamespacedKey key,
