@@ -2045,7 +2045,7 @@ public final class PylonItems {
             .build();
     static {
         PylonItem.register(Press.PressItem.class, PRESS, Press.KEY);
-        GuidePages.HYDRAULICS.addItem(Press.KEY);
+        GuidePages.MANUAL_MACHINES.addItem(Press.KEY);
     }
 
     public static final ItemStack HYDRAULIC_GRINDSTONE_TURNER = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE, HydraulicGrindstoneTurner.KEY)
