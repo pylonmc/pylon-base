@@ -99,7 +99,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
 
     @Override
     public boolean checkFormed() {
-        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN)) instanceof Press;
+        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN, 2)) instanceof Press;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
             return;
         }
 
-        Press press = BlockStorage.getAs(Press.class, getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+        Press press = BlockStorage.getAs(Press.class, getBlock().getRelative(BlockFace.DOWN, 2));
         Preconditions.checkState(press != null);
 
         if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {

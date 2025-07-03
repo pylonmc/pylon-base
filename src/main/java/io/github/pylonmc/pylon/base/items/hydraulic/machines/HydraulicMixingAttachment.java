@@ -116,7 +116,7 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
 
     @Override
     public boolean checkFormed() {
-        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN)) instanceof MixingPot;
+        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN, 2)) instanceof MixingPot;
     }
 
     @Override
@@ -143,7 +143,7 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
             return;
         }
 
-        MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN));
+        MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN, 2));
         Preconditions.checkState(mixingPot != null);
 
         if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {

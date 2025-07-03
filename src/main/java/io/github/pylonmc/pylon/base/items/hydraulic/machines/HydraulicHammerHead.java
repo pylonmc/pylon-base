@@ -151,10 +151,7 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
             return;
         }
 
-        Block baseBlock = getBlock()
-                .getRelative(BlockFace.DOWN)
-                .getRelative(BlockFace.DOWN)
-                .getRelative(BlockFace.DOWN);
+        Block baseBlock = getBlock().getRelative(BlockFace.DOWN, 3);
 
         if (BlockStorage.isPylonBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
             status = MISSING_BASE;
