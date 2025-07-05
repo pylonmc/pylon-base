@@ -6,7 +6,14 @@ import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.items.Elevator;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
+import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.fluid.*;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
 import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
@@ -27,6 +34,9 @@ public final class PylonBlocks {
 
     public static final NamespacedKey WITHER_PROOF_OBSIDIAN_KEY = pylonKey("wither_proof_obsidian");
     public static final NamespacedKey REFRACTORY_BRICK_KEY = pylonKey("refractory_brick");
+    public static final NamespacedKey SOLAR_LENS_KEY = pylonKey("solar_lens");
+    public static final NamespacedKey PURIFICATION_TOWER_GLASS_KEY = pylonKey("purification_tower_glass");
+    public static final NamespacedKey PURIFICATION_TOWER_CAP = pylonKey("purification_tower_cap");
 
     public static void initialize() {
         PylonBlock.register(Sprinkler.KEY, Material.FLOWER_POT, Sprinkler.class);
@@ -81,5 +91,19 @@ public final class PylonBlocks {
         PylonBlock.register(Elevator.ELEVATOR_1_KEY, Elevator.MATERIAL, Elevator.class);
         PylonBlock.register(Elevator.ELEVATOR_2_KEY, Elevator.MATERIAL, Elevator.class);
         PylonBlock.register(Elevator.ELEVATOR_3_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Press.KEY, Material.COMPOSTER, Press.class);
+        PylonBlock.register(HydraulicGrindstoneTurner.KEY, Material.SMOOTH_STONE, HydraulicGrindstoneTurner.class);
+        PylonBlock.register(HydraulicMixingAttachment.KEY, Material.GRAY_CONCRETE, HydraulicMixingAttachment.class);
+        PylonBlock.register(HydraulicPressPiston.KEY, Material.BROWN_CONCRETE, HydraulicPressPiston.class);
+        PylonBlock.register(HydraulicHammerHead.KEY, Material.STONE_BRICKS, HydraulicHammerHead.class);
+        PylonBlock.register(SOLAR_LENS_KEY, Material.GLASS_PANE, PylonBlock.class);
+        PylonBlock.register(PURIFICATION_TOWER_GLASS_KEY, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
+        PylonBlock.register(PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
     }
 }

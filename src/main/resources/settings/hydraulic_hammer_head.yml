@@ -1,0 +1,4 @@
+tick-interval: 10
+go-down-time-ticks: 1
+hydraulic-fluid-mb-per-craft: 80
+dirty-hydraulic-fluid-mb-per-craft: 76

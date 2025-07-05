@@ -25,7 +25,7 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import net.kyori.adventure.text.Component;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -60,7 +60,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
     private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = pylonKey("cycle_ticks_remaining");
 
-    private @Nullable NamespacedKey recipe;
+    @Getter private @Nullable NamespacedKey recipe;
     private @Nullable Integer cyclesRemaining;
     private @Nullable Integer cycleTicksRemaining;
 
@@ -110,8 +110,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public @NotNull Map<Vector3i, Component> getComponents() {
-        return Map.of(new Vector3i(0, 1, 0), new PylonComponent(GrindstoneHandle.KEY));
+    public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
+        return Map.of(new Vector3i(0, 1, 0), new PylonMultiblockComponent(GrindstoneHandle.KEY));
     }
 
     @Override
@@ -217,29 +217,38 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         cycleTicksRemaining -= TICK_RATE;
     }
 
-    public void tryStartRecipe(Player player) {
+    public @Nullable Recipe getNextRecipe() {
         if (recipe != null || cyclesRemaining != null || cycleTicksRemaining != null) {
-            return;
+            return null;
         }
 
         ItemStack input = getItemDisplay().getItemStack();
         if (input.getType().isAir()) {
-            return;
+            return null;
         }
 
-        for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-            if (isPylonSimilar(recipe.input, input) && input.getAmount() >= recipe.input.getAmount()) {
-                if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
-                    continue;
-                }
+        return Recipe.RECIPE_TYPE.getRecipes()
+                .stream()
+                .filter(recipe -> isPylonSimilar(recipe.input, input) && input.getAmount() >= recipe.input.getAmount())
+                .findFirst()
+                .orElse(null);
+    }
 
-                getItemDisplay().setItemStack(input.subtract(recipe.input.getAmount()));
-                this.recipe = recipe.key;
-                cyclesRemaining = recipe.cycles;
-                cycleTicksRemaining = CYCLE_TIME_TICKS;
-                break;
-            }
+    public boolean tryStartRecipe(@NotNull Recipe nextRecipe, @Nullable Player player) {
+        if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, nextRecipe, this, player).callEvent()) {
+            return false;
         }
+
+        ItemStack input = getItemDisplay().getItemStack();
+        if (input.getType().isAir()) {
+            return false;
+        }
+
+        getItemDisplay().setItemStack(input.subtract(nextRecipe.input.getAmount()));
+        this.recipe = nextRecipe.key;
+        cyclesRemaining = nextRecipe.cycles;
+        cycleTicksRemaining = CYCLE_TIME_TICKS;
+        return true;
     }
 
     public void finishRecipe() {
@@ -295,7 +304,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     ) implements PylonRecipe {
 
         @Override
-        public NamespacedKey getKey() {
+        public @NotNull NamespacedKey getKey() {
             return key;
         }
 
@@ -305,6 +314,11 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         static {
             PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
+        }
+
+        public int timeTicks() {
+            // add 2*tick rate to account for stone going up and down
+            return cycles * CYCLE_TIME_TICKS + 2 * TICK_RATE;
         }
 
         @Override

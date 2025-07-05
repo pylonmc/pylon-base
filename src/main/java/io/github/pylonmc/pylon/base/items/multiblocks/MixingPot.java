@@ -114,7 +114,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public boolean isPartOfMultiblock(Block otherBlock) {
+    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
     }
 
@@ -195,18 +195,18 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
         event.setCancelled(true);
 
-        if (!isFormedAndFullyLoaded()) {
+        if (!isFormedAndFullyLoaded() || fluidType == null) {
             return;
         }
 
-        if (fluidType == null) {
-            return;
-        }
+        tryDoRecipe(event.getPlayer());
+    }
 
+    public boolean tryDoRecipe(@Nullable Player player) {
         List<Item> items = getBlock()
                 .getLocation()
                 .toCenterLocation()
-                .getNearbyEntities(0.5, 0.5, 0.5)
+                .getNearbyEntities(0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
                 .stream()
                 .filter(Item.class::isInstance)
                 .map(Item.class::cast)
@@ -216,21 +216,22 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 .map(Item::getItemStack)
                 .toList();
 
-
         PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
         boolean isEnrichedFire = ignitedBlock != null
                 && ignitedBlock.getSchema().getKey().equals(EnrichedNetherrack.KEY);
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, fluidType, fluidAmount)) {
-                if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()) {
+                if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
                     continue;
                 }
 
                 doRecipe(recipe, items);
-                break;
+                return true;
             }
         }
+
+        return false;
     }
 
     private void doRecipe(@NotNull Recipe recipe, @NotNull List<Item> items) {
@@ -276,7 +277,6 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
     /**
      * Maximum 7 input items
-     * @param fluidAmount the number of millibuckets of fluid to be used in the recipe
      */
     public record Recipe(
             @NotNull NamespacedKey key,
@@ -332,7 +332,8 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                 return false;
             }
 
-            if (fluidAmount < this.fluidAmount || fluid != this.fluid) {
+            // stupid floating point
+            if (fluidAmount < this.fluidAmount - 1.0e-5 || !fluid.equals(this.fluid)) {
                 return false;
             }
 

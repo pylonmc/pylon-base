@@ -54,7 +54,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private @Nullable NamespacedKey processingRecipe;
     private double remainingTimeSeconds;
 
-    private static final Component MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonComponent(Pedestal.MAGIC_PEDESTAL_KEY);
+    private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(Pedestal.MAGIC_PEDESTAL_KEY);
 
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {
@@ -75,9 +75,9 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     @Override
-    public @NotNull Map<Vector3i, Component> getComponents() {
+    public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         // use linked to retain order of pedestals - important for recipes
-        Map<Vector3i, Component> map = new LinkedHashMap<>();
+        Map<Vector3i, MultiblockComponent> map = new LinkedHashMap<>();
         map.put(new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
         map.put(new Vector3i(2, 0, 2), MAGIC_PEDESTAL_COMPONENT);
         map.put(new Vector3i(0, 0, 3), MAGIC_PEDESTAL_COMPONENT);
