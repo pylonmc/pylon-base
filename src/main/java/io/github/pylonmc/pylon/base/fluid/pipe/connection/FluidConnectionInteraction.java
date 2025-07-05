@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 
 public class FluidConnectionInteraction extends PylonEntity<Interaction> implements PylonDeathEntity, PylonUnloadEntity {

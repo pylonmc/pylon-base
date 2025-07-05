@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
-import io.github.pylonmc.pylon.base.items.fluid.FluidPipe;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;

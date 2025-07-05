@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderBlock {
 

@@ -779,14 +779,14 @@ research:
 
 guide:
   page:
-    research: "Research items"
+    science: "Science"
     resources: "Resources"
     components: "Components"
     tools: "Tools"
     food: "Food"
-    weapons: "Weapons"
+    combat: "Combat"
     armour: "Armour"
-    manual_machines: "Manual machines"
+    simple_machines: "Simple machines"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulics"
     smelting: "Smelting"

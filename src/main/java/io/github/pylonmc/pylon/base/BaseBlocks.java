@@ -1,29 +1,48 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.content.building.Pedestal;
+import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidFilter;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidMeter;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidValve;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
+import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
+import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.content.machines.simple.GrindstoneHandle;
+import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryBurner;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryCaster;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryComponent;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryController;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryHopper;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryInputHatch;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryOutputHatch;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
-import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
-import io.github.pylonmc.pylon.base.items.Elevator;
-import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
-import io.github.pylonmc.pylon.base.items.Immobilizer;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.items.Press;
-import io.github.pylonmc.pylon.base.items.fluid.*;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
-import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
-import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
+import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.content.building.Elevator;
+import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
+import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
+import io.github.pylonmc.pylon.base.content.machines.simple.Press;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 
 public final class BaseBlocks {

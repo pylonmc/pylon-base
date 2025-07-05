@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.fluid.Slurry;
-import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.CastingRecipe;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.MeltingRecipe;
+import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.machines.smelting.CastingRecipe;
+import io.github.pylonmc.pylon.base.content.machines.smelting.MeltingRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import org.bukkit.Material;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.RecipeChoice;
 
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 public final class BaseFluids {
 

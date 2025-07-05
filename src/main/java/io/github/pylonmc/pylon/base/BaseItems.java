@@ -1,28 +1,52 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.*;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.items.Press;
-import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
-import io.github.pylonmc.pylon.base.items.multiblocks.*;
-import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
-import io.github.pylonmc.pylon.base.items.research.Loupe;
-import io.github.pylonmc.pylon.base.items.research.ResearchPack;
-import io.github.pylonmc.pylon.base.items.tools.Hammer;
-import io.github.pylonmc.pylon.base.items.tools.LumberAxe;
-import io.github.pylonmc.pylon.base.items.tools.portable.PortableCraftingTable;
-import io.github.pylonmc.pylon.base.items.tools.portable.PortableDustbin;
-import io.github.pylonmc.pylon.base.items.tools.portable.PortableEnderChest;
-import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
-import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
-import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
-import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
-import io.github.pylonmc.pylon.base.util.RecipeUtils;
+import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.content.building.Elevator;
+import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
+import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.building.Pedestal;
+import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
+import io.github.pylonmc.pylon.base.content.food.MonsterJerky;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidFilter;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidMeter;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidValve;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
+import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
+import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.content.machines.simple.GrindstoneHandle;
+import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryBurner;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryCaster;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryController;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryHopper;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryInputHatch;
+import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryOutputHatch;
+import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
+import io.github.pylonmc.pylon.base.content.machines.simple.Press;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.science.Loupe;
+import io.github.pylonmc.pylon.base.content.science.ResearchPack;
+import io.github.pylonmc.pylon.base.content.tools.Hammer;
+import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
+import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
+import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
+import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
+import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
+import io.github.pylonmc.pylon.base.content.tools.WateringCan;
+import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
+import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -571,7 +595,7 @@ public final class BaseItems {
                 MonsterJerky.STACK,
                 Material.ROTTEN_FLESH,
                 MonsterJerky.COOKING_XP,
-                RecipeUtils.DEFAULT_FURNACE_TIME_TICKS
+                BaseUtils.DEFAULT_FURNACE_TIME_TICKS
         );
         furnaceRecipe.setCategory(CookingBookCategory.FOOD);
         RecipeType.VANILLA_FURNACE.addRecipe(furnaceRecipe);
@@ -581,7 +605,7 @@ public final class BaseItems {
                 MonsterJerky.STACK,
                 Material.ROTTEN_FLESH,
                 MonsterJerky.COOKING_XP,
-                RecipeUtils.DEFAULT_SMOKER_TIME_TICKS
+                BaseUtils.DEFAULT_SMOKER_TIME_TICKS
         );
         smokingRecipe.setCategory(CookingBookCategory.FOOD);
         RecipeType.VANILLA_SMOKING.addRecipe(smokingRecipe);
@@ -631,7 +655,7 @@ public final class BaseItems {
                 FERRODURALUM_INGOT,
                 new RecipeChoice.ExactChoice(RAW_FERRODURALUM),
                 FERRODURALUM_INGOT_COOKING_XP,
-                RecipeUtils.DEFAULT_FURNACE_TIME_TICKS
+                BaseUtils.DEFAULT_FURNACE_TIME_TICKS
         );
         recipe.setCategory(CookingBookCategory.MISC);
         RecipeType.VANILLA_FURNACE.addRecipe(recipe);
@@ -719,7 +743,7 @@ public final class BaseItems {
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-        RecipeType.VANILLA_SHAPED.addRecipe(RecipeUtils.reflect(recipe));
+        RecipeType.VANILLA_SHAPED.addRecipe(BaseUtils.reflectRecipe(recipe));
     }
 
     public static final NamespacedKey FERRODURALUM_PICKAXE_KEY = pylonKey("ferroduralum_pickaxe");
@@ -789,7 +813,7 @@ public final class BaseItems {
                 .setIngredient('S', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-        RecipeType.VANILLA_SHAPED.addRecipe(RecipeUtils.reflect(recipe));
+        RecipeType.VANILLA_SHAPED.addRecipe(BaseUtils.reflectRecipe(recipe));
     }
 
     static {
@@ -1246,7 +1270,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, GRINDSTONE, Grindstone.KEY);
-        BasePages.MANUAL_MACHINES.addItem(Grindstone.KEY);
+        BasePages.SIMPLE_MACHINES.addItem(Grindstone.KEY);
         ShapedRecipe recipe = new ShapedRecipe(Grindstone.KEY, GRINDSTONE)
                 .shape("STS", "   ", "   ")
                 .setIngredient('T', new ItemStack(Material.SMOOTH_STONE))
@@ -1260,7 +1284,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, GRINDSTONE_HANDLE, GrindstoneHandle.KEY);
-        BasePages.MANUAL_MACHINES.addItem(GrindstoneHandle.KEY);
+        BasePages.SIMPLE_MACHINES.addItem(GrindstoneHandle.KEY);
         ShapedRecipe recipe = new ShapedRecipe(GrindstoneHandle.KEY, GRINDSTONE_HANDLE)
                 .shape("F  ", "F  ", "F  ")
                 .setIngredient('F', new RecipeChoice.MaterialChoice(Tag.FENCES));
@@ -1389,7 +1413,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, MIXING_POT, MixingPot.KEY);
-        BasePages.MANUAL_MACHINES.addItem(MixingPot.KEY);
+        BasePages.SIMPLE_MACHINES.addItem(MixingPot.KEY);
         ShapedRecipe recipe = new ShapedRecipe(MixingPot.KEY, MIXING_POT)
                 .shape("f f", "f f", "fff")
                 .setIngredient('f', FERRODURALUM_INGOT);
@@ -1589,7 +1613,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, MAGIC_PEDESTAL, Pedestal.MAGIC_PEDESTAL_KEY);
-        BasePages.MANUAL_MACHINES.addItem(Pedestal.MAGIC_PEDESTAL_KEY);
+        BasePages.SIMPLE_MACHINES.addItem(Pedestal.MAGIC_PEDESTAL_KEY);
         ShapedRecipe recipe = new ShapedRecipe(Pedestal.MAGIC_PEDESTAL_KEY, MAGIC_PEDESTAL)
                 .shape("c c", " p ", "c c")
                 .setIngredient('p', PEDESTAL)
@@ -1603,7 +1627,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, MAGIC_ALTAR, MagicAltar.KEY);
-        BasePages.MANUAL_MACHINES.addItem(MagicAltar.KEY);
+        BasePages.SIMPLE_MACHINES.addItem(MagicAltar.KEY);
         ShapedRecipe recipe = new ShapedRecipe(MagicAltar.KEY, MAGIC_ALTAR)
                 .shape("   ", "dpd", "dsd")
                 .setIngredient('p', PEDESTAL)
@@ -2045,7 +2069,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(Press.PressItem.class, PRESS, Press.KEY);
-        BasePages.MANUAL_MACHINES.addItem(Press.KEY);
+        BasePages.SIMPLE_MACHINES.addItem(Press.KEY);
     }
 
     public static final ItemStack HYDRAULIC_GRINDSTONE_TURNER = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE, HydraulicGrindstoneTurner.KEY)

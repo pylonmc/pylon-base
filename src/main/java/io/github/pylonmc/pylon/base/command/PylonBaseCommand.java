@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import io.github.pylonmc.pylon.base.items.fluid.PortableFluidTank;
+import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
 import io.github.pylonmc.pylon.core.command.RegistryCommandArgument;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;

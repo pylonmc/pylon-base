@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.items.fluid.FluidStrainer;
-import io.github.pylonmc.pylon.base.items.multiblocks.MixingPot;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;
+import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.PylonFluidTag;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;

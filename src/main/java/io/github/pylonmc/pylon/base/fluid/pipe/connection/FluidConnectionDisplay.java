@@ -12,7 +12,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 
 public class FluidConnectionDisplay extends PylonEntity<ItemDisplay> {
