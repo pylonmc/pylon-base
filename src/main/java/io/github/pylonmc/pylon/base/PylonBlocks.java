@@ -1,19 +1,27 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
+import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.items.DimensionalBarrel;
+import io.github.pylonmc.pylon.base.items.Elevator;
 import io.github.pylonmc.pylon.base.items.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
-import io.github.pylonmc.pylon.base.items.fluid.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipeMarker;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
+import io.github.pylonmc.pylon.base.items.Press;
+import io.github.pylonmc.pylon.base.items.fluid.*;
+import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.items.multiblocks.*;
+import io.github.pylonmc.pylon.base.items.multiblocks.smelting.*;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
@@ -25,6 +33,10 @@ public final class PylonBlocks {
     }
 
     public static final NamespacedKey WITHER_PROOF_OBSIDIAN_KEY = pylonKey("wither_proof_obsidian");
+    public static final NamespacedKey REFRACTORY_BRICK_KEY = pylonKey("refractory_brick");
+    public static final NamespacedKey SOLAR_LENS_KEY = pylonKey("solar_lens");
+    public static final NamespacedKey PURIFICATION_TOWER_GLASS_KEY = pylonKey("purification_tower_glass");
+    public static final NamespacedKey PURIFICATION_TOWER_CAP = pylonKey("purification_tower_cap");
 
     public static void initialize() {
         PylonBlock.register(Sprinkler.KEY, Material.FLOWER_POT, Sprinkler.class);
@@ -52,11 +64,18 @@ public final class PylonBlocks {
         PylonBlock.register(FluidVoider.FLUID_VOIDER_1_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(FluidVoider.FLUID_VOIDER_2_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(FluidVoider.FLUID_VOIDER_3_KEY, Material.STRUCTURE_VOID, FluidVoider.class);
+        PylonBlock.register(REFRACTORY_BRICK_KEY, Material.DEEPSLATE_TILES, SmelteryComponent.class);
+        PylonBlock.register(SmelteryController.KEY, Material.BLAST_FURNACE, SmelteryController.class);
+        PylonBlock.register(SmelteryInputHatch.KEY, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
+        PylonBlock.register(SmelteryOutputHatch.KEY, Material.ORANGE_TERRACOTTA, SmelteryOutputHatch.class);
+        PylonBlock.register(SmelteryHopper.KEY, Material.HOPPER, SmelteryHopper.class);
+        PylonBlock.register(SmelteryCaster.KEY, Material.BRICKS, SmelteryCaster.class);
+        PylonBlock.register(SmelteryBurner.KEY, Material.FURNACE, SmelteryBurner.class);
+        PylonBlock.register(FluidStrainer.KEY, Material.COPPER_GRATE, FluidStrainer.class);
 
         Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
                 pylonKey("string_from_bamboo"),
-                new RecipeChoice.MaterialChoice(Material.BAMBOO),
-                4,
+                new ItemStack(Material.BAMBOO, 4),
                 new ItemStack(Material.STRING),
                 3,
                 Material.BAMBOO.createBlockData(data -> {
@@ -69,5 +88,22 @@ public final class PylonBlocks {
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(ExplosiveTarget.EXPLOSIVE_TARGET_SUPER_FIERY_KEY, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(Immobilizer.KEY, Material.PISTON, Immobilizer.class);
+        PylonBlock.register(Elevator.ELEVATOR_1_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.ELEVATOR_2_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Elevator.ELEVATOR_3_KEY, Elevator.MATERIAL, Elevator.class);
+        PylonBlock.register(Press.KEY, Material.COMPOSTER, Press.class);
+        PylonBlock.register(HydraulicGrindstoneTurner.KEY, Material.SMOOTH_STONE, HydraulicGrindstoneTurner.class);
+        PylonBlock.register(HydraulicMixingAttachment.KEY, Material.GRAY_CONCRETE, HydraulicMixingAttachment.class);
+        PylonBlock.register(HydraulicPressPiston.KEY, Material.BROWN_CONCRETE, HydraulicPressPiston.class);
+        PylonBlock.register(HydraulicHammerHead.KEY, Material.STONE_BRICKS, HydraulicHammerHead.class);
+        PylonBlock.register(SOLAR_LENS_KEY, Material.GLASS_PANE, PylonBlock.class);
+        PylonBlock.register(PURIFICATION_TOWER_GLASS_KEY, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
+        PylonBlock.register(PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_1_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_2_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_3_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_4_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(SolarPurificationTower.SOLAR_PURIFICATION_TOWER_5_KEY, Material.BLACK_CONCRETE, SolarPurificationTower.class);
+        PylonBlock.register(CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
     }
 }
