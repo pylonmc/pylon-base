@@ -1,0 +1,7 @@
+fluid-mb-per-second: 20
+fluid-buffer-mb: 80
+tick-interval: 20
+
+fuels:
+  coal: 15
+  charcoal: 10

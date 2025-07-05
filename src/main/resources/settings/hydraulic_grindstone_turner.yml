@@ -1,0 +1,4 @@
+hydraulic-fluid-input-mb-per-second: 40
+dirty-hydraulic-fluid-output-mb-per-second: 38
+hydraulic-fluid-buffer: 800
+dirty-hydraulic-fluid-buffer: 760

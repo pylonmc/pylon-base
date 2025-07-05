@@ -37,13 +37,13 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
     }
 
     public static final NamespacedKey EXPLOSIVE_TARGET_KEY = pylonKey("explosive_target");
-    public static final NamespacedKey FIERY_EXPLOSIVE_TARGET_KEY = pylonKey("explosive_target_fiery");
-    public static final NamespacedKey SUPER_EXPLOSIVE_TARGET_KEY = pylonKey("explosive_target_super");
-    public static final NamespacedKey SUPER_FIERY_EXPLOSIVE_TARGET_KEY = pylonKey("explosive_target_super_fiery");
+    public static final NamespacedKey EXPLOSIVE_TARGET_FIERY_KEY = pylonKey("explosive_target_fiery");
+    public static final NamespacedKey EXPLOSIVE_TARGET_SUPER_KEY = pylonKey("explosive_target_super");
+    public static final NamespacedKey EXPLOSIVE_TARGET_SUPER_FIERY_KEY = pylonKey("explosive_target_super_fiery");
     public static final ItemStack EXPLOSIVE_TARGET_STACK = ItemStackBuilder.pylonItem(Material.TARGET, EXPLOSIVE_TARGET_KEY).build();
-    public static final ItemStack FIERY_EXPLOSIVE_TARGET_STACK = ItemStackBuilder.pylonItem(Material.TARGET, FIERY_EXPLOSIVE_TARGET_KEY).build();
-    public static final ItemStack SUPER_EXPLOSIVE_TARGET_STACK = ItemStackBuilder.pylonItem(Material.TARGET, SUPER_EXPLOSIVE_TARGET_KEY).build();
-    public static final ItemStack SUPER_FIERY_EXPLOSIVE_TARGET_STACK = ItemStackBuilder.pylonItem(Material.TARGET, SUPER_FIERY_EXPLOSIVE_TARGET_KEY).build();
+    public static final ItemStack EXPLOSIVE_TARGET_FIERY_STACK = ItemStackBuilder.pylonItem(Material.TARGET, EXPLOSIVE_TARGET_FIERY_KEY).build();
+    public static final ItemStack EXPLOSIVE_TARGET_SUPER_STACK = ItemStackBuilder.pylonItem(Material.TARGET, EXPLOSIVE_TARGET_SUPER_KEY).build();
+    public static final ItemStack EXPLOSIVE_TARGET_SUPER_FIERY_STACK = ItemStackBuilder.pylonItem(Material.TARGET, EXPLOSIVE_TARGET_SUPER_FIERY_KEY).build();
     public final double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
     public final boolean createsFire = getSettings().getOrThrow("creates-fire", Boolean.class);
 

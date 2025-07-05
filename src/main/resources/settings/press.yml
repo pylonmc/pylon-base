@@ -1,0 +1,86 @@
+time-per-item-ticks: 30
+
+# Must be lower than time-per-item-ticks
+return-to-start-time-ticks: 5
+
+capacity-mb: 1000
+
+oil-amount:
+  oak_leaves: 40
+  spruce_leaves: 40
+  birch_leaves: 40
+  jungle_leaves: 40
+  acacia_leaves: 40
+  dark_oak_leaves: 40
+  mangrove_leaves: 40
+  cherry_leaves: 40
+  pale_oak_leaves: 40
+  azalea_leaves: 40
+  flowering_azalea_leaves: 40
+
+  kelp: 80
+  bamboo: 80
+  short_grass: 80
+
+  tall_grass: 150
+
+  wheat_seeds: 150
+  melon_seeds: 150
+  pumpkin_seeds: 150
+  beetroot_seeds: 150
+  torchflower_seeds: 150
+
+  oak_sapling: 150
+  spruce_sapling: 150
+  birch_sapling: 150
+  jungle_sapling: 150
+  acacia_sapling: 150
+  dark_oak_sapling: 150
+  cherry_sapling: 150
+  pale_oak_sapling: 150
+
+  melon_slice: 150
+
+  fern: 250
+  large_fern: 250
+  dead_bush: 250
+
+  wheat: 250
+  beetroot: 250
+  carrot: 250
+  potato: 250
+  sugar_cane: 250
+  cactus: 250
+
+  melon: 320
+  pumpkin: 320
+  sweet_berries: 320
+
+  brown_mushroom: 320
+  red_mushroom: 320
+
+  dandelion: 400
+  poppy: 400
+  blue_orchid: 400
+  allium: 400
+  azure_bluet: 400
+  red_tulip: 400
+  orange_tulip: 400
+  white_tulip: 400
+  pink_tulip: 400
+  oxeye_daisy: 400
+  cornflower: 400
+  lily_of_the_valley: 400
+  torchflower: 400
+  closed_eyeblossom: 400
+  open_eyeblossom: 400
+
+  vine: 400
+  seagrass: 400
+  lily_pad: 400
+
+  sunflower: 500
+  lilac: 500
+  rose_bush: 500
+  peony: 500
+  pitcher_plant: 500
