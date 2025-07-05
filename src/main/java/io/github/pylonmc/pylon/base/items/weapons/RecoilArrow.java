@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.items.weapons;
 import com.destroystokyo.paper.event.player.PlayerReadyArrowEvent;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Arrow;
+import io.github.pylonmc.pylon.core.item.base.PylonArrow;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class RecoilArrow extends PylonItem implements Arrow {
+public class RecoilArrow extends PylonItem implements PylonArrow {
 
     public static final NamespacedKey KEY = pylonKey("recoil_arrow");
 

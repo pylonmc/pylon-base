@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.items.fluid.*;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.items.Press;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.items.hydraulic.purification.CoalFiredPurificationTower;
 import io.github.pylonmc.pylon.base.items.hydraulic.purification.SolarPurificationTower;
@@ -21,6 +20,7 @@ import io.github.pylonmc.pylon.base.items.tools.portable.PortableEnderChest;
 import io.github.pylonmc.pylon.base.items.tools.watering.Sprinkler;
 import io.github.pylonmc.pylon.base.items.tools.watering.WateringCan;
 import io.github.pylonmc.pylon.base.items.weapons.BeheadingSword;
+import io.github.pylonmc.pylon.base.items.weapons.IceArrow;
 import io.github.pylonmc.pylon.base.items.weapons.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.RecipeUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -2125,6 +2125,20 @@ public final class PylonItems {
     static {
         PylonItem.register(CoalFiredPurificationTower.Item.class, CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_STACK, CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY);
         GuidePages.HYDRAULICS.addItem(CoalFiredPurificationTower.COAL_FIRED_PURIFICATION_TOWER_KEY);
+    }
+
+    static {
+        PylonItem.register(IceArrow.class, IceArrow.STACK, IceArrow.KEY);
+        ShapedRecipe recipe = new ShapedRecipe(IceArrow.KEY, IceArrow.STACK);
+        recipe.shape(
+                "III",
+                "AAA",
+                "III"
+        );
+        recipe.setIngredient('I', Material.PACKED_ICE);
+        recipe.setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     private static @NotNull NamespacedKey pylonKey(@NotNull String key) {
