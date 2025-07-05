@@ -689,7 +689,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_SWORD);
-        BasePages.WEAPONS.addItem(FERRODURALUM_SWORD_KEY);
+        BasePages.COMBAT.addItem(FERRODURALUM_SWORD_KEY);
         ShapedRecipe recipe = new ShapedRecipe(FERRODURALUM_SWORD_KEY, FERRODURALUM_SWORD)
                 .shape(" F ", " F ", " S ")
                 .setIngredient('F', FERRODURALUM_INGOT)
@@ -1204,7 +1204,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(RecoilArrow.class, RecoilArrow.STACK);
-        BasePages.WEAPONS.addItem(RecoilArrow.KEY);
+        BasePages.COMBAT.addItem(RecoilArrow.KEY);
         ItemStack output = RecoilArrow.STACK.clone();
         output.setAmount(8);
         ShapedRecipe recipe = new ShapedRecipe(RecoilArrow.KEY, RecoilArrow.STACK)
@@ -1547,7 +1547,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(BeheadingSword.class, BeheadingSword.STACK);
-        BasePages.WEAPONS.addItem(BeheadingSword.KEY);
+        BasePages.COMBAT.addItem(BeheadingSword.KEY);
         ShapedRecipe recipe = new ShapedRecipe(BeheadingSword.KEY, BeheadingSword.STACK)
                 .shape(" B ", " S ", " K ")
                 .setIngredient('B', Material.BLAZE_ROD)
@@ -1801,7 +1801,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(Loupe.class, Loupe.STACK);
-        BasePages.RESEARCH.addItem(Loupe.KEY);
+        BasePages.SCIENCE.addItem(Loupe.KEY);
         ShapedRecipe recipe = new ShapedRecipe(Loupe.KEY, Loupe.STACK)
                 .shape(" C ", "CGC", " C ")
                 .setIngredient('C', Material.COPPER_INGOT)
@@ -1812,7 +1812,7 @@ public final class BaseItems {
 
     static {
         PylonItem.register(ResearchPack.class, ResearchPack.RESEARCH_PACK_1_STACK);
-        BasePages.RESEARCH.addItem(ResearchPack.RESEARCH_PACK_1_KEY);
+        BasePages.SCIENCE.addItem(ResearchPack.RESEARCH_PACK_1_KEY);
         // TODO recipe when fluid api is done
     }
 
