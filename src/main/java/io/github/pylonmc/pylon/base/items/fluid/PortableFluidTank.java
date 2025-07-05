@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonInteractableBlock {
+public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -224,7 +224,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
     public void setAmount(double amount) {
         this.fluidAmount = amount;
 
-        if (Math.abs(fluidAmount) < 1.0e-6) {
+        if (fluidAmount < 1.0e-6) {
             setFluid(null);
             fluidAmount = 0.0;
         }

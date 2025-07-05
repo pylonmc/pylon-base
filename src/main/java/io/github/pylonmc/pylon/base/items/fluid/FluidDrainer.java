@@ -32,7 +32,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonTickingBlock, PylonInteractableBlock {
+public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 

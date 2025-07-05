@@ -150,7 +150,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     @Override
     public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         fluidAmount -= amount;
-        if (fluidAmount <= 0) {
+        if (fluidAmount <= 1.0e-6) {
             fluidType = null;
             fluidAmount = 0;
         }

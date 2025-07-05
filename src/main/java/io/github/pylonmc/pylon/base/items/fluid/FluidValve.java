@@ -39,7 +39,7 @@ import java.util.Objects;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonInteractableBlock {
+public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
     public static final NamespacedKey KEY = pylonKey("fluid_valve");
 

@@ -43,7 +43,7 @@ import java.util.Objects;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonFluidBlock, PylonInteractableBlock {
+public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
     public static final NamespacedKey KEY = pylonKey("fluid_filter");
 
@@ -163,6 +163,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonF
 
     public void setFluid(PylonFluid fluid) {
         this.fluid = fluid;
+        this.buffer = 0;
         getFluidDisplay().setFluid(fluid);
     }
 
