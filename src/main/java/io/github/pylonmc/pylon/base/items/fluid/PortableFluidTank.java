@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
@@ -302,13 +301,13 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
         if (item.getType() == Material.WATER_BUCKET) {
             event.setUseItemInHand(Event.Result.DENY);
 
-            if (PylonFluids.WATER.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
+            if (BaseFluids.WATER.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
                 setAmount(fluidAmount + 1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
 
             if (fluidType == null) {
-                setFluid(PylonFluids.WATER);
+                setFluid(BaseFluids.WATER);
                 setAmount(1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
@@ -318,13 +317,13 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
         if (item.getType() == Material.LAVA_BUCKET) {
             event.setUseItemInHand(Event.Result.DENY);
 
-            if (PylonFluids.LAVA.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
+            if (BaseFluids.LAVA.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
                 setAmount(fluidAmount + 1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
 
             if (fluidType == null) {
-                setFluid(PylonFluids.LAVA);
+                setFluid(BaseFluids.LAVA);
                 setAmount(1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
@@ -334,13 +333,13 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
             event.setUseItemInHand(Event.Result.DENY);
 
             // Taking water
-            if (PylonFluids.WATER.equals(fluidType) && fluidAmount >= 1000.0) {
+            if (BaseFluids.WATER.equals(fluidType) && fluidAmount >= 1000.0) {
                 setAmount(fluidAmount - 1000.0);
                 newItemStack = new ItemStack(Material.WATER_BUCKET);
             }
 
             // Taking lava
-            if (PylonFluids.LAVA.equals(fluidType) && fluidAmount >= 1000.0) {
+            if (BaseFluids.LAVA.equals(fluidType) && fluidAmount >= 1000.0) {
                 setAmount(fluidAmount - 1000.0);
                 newItemStack = new ItemStack(Material.LAVA_BUCKET);
             }

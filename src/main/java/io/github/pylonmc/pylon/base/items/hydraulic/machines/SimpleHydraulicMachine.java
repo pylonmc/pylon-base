@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.items.hydraulic.machines;
 
-import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -63,7 +63,7 @@ public abstract class SimpleHydraulicMachine extends PylonBlock implements Pylon
 
     @Override
     public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
-        return Map.of(PylonFluids.DIRTY_HYDRAULIC_FLUID, dirtyHydraulicFluidAmount);
+        return Map.of(BaseFluids.DIRTY_HYDRAULIC_FLUID, dirtyHydraulicFluidAmount);
     }
 
     @Override
@@ -73,7 +73,7 @@ public abstract class SimpleHydraulicMachine extends PylonBlock implements Pylon
 
     @Override
     public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
-        return Map.of(PylonFluids.HYDRAULIC_FLUID, getHydraulicFluidBuffer() - hydraulicFluidAmount);
+        return Map.of(BaseFluids.HYDRAULIC_FLUID, getHydraulicFluidBuffer() - hydraulicFluidAmount);
     }
 
     @Override

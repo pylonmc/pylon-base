@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.core.config.Config;
 
 
 @SuppressWarnings("DataFlowIssue")
-public final class PylonBaseConfig {
+public final class BaseConfig {
 
     private static final Config config = new Config(PylonBase.getInstance(), "config.yml");
 
@@ -12,5 +12,5 @@ public final class PylonBaseConfig {
 
     public static final int PIPE_PLACEMENT_MAX_DISTANCE = config.get("pipe-placement.max-distance", Integer.class);
 
-    private PylonBaseConfig() {}
+    private BaseConfig() {}
 }

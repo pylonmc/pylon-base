@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -132,8 +131,8 @@ public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, Pylon
 
     private @NotNull PylonFluid getFluid() {
         return Map.of(
-                WATER_DRAINER_KEY, PylonFluids.WATER,
-                LAVA_DRAINER_KEY, PylonFluids.LAVA
+                WATER_DRAINER_KEY, BaseFluids.WATER,
+                LAVA_DRAINER_KEY, BaseFluids.LAVA
         ).get(getKey());
     }
 

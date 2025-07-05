@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.util.ColorUtils;
 import io.github.pylonmc.pylon.base.util.EntityUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
@@ -591,7 +591,7 @@ public final class SmelteryController extends SmelteryComponent
                             "# # # # # # # # #"
                     )
                     .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('s', ItemButton.fromStack(PylonItems.SMELTERY_CONTROLLER))
+                    .addIngredient('s', ItemButton.fromStack(BaseItems.SMELTERY_CONTROLLER))
                     .addIngredient('t', ItemStackBuilder.of(Material.COAL)
                             .name(Component.translatable(
                                     "pylon.pylonbase.gui.smeltery.temperature",
@@ -645,123 +645,123 @@ public final class SmelteryController extends SmelteryComponent
     static {
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("redstone_decomposition"),
-                Map.of(PylonFluids.REDSTONE_SLURRY, 1.0),
+                Map.of(BaseFluids.REDSTONE_SLURRY, 1.0),
                 Map.of(
-                        PylonFluids.SULFUR, 0.25,
-                        PylonFluids.MERCURY, 0.25,
-                        PylonFluids.SLURRY, 0.5
+                        BaseFluids.SULFUR, 0.25,
+                        BaseFluids.MERCURY, 0.25,
+                        BaseFluids.SLURRY, 0.5
                 ),
                 345
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("coal_to_carbon"),
-                Map.of(PylonFluids.COAL_SLURRY, 1.0),
+                Map.of(BaseFluids.COAL_SLURRY, 1.0),
                 Map.of(
-                        PylonFluids.CARBON_SLURRY, 0.9,
-                        PylonFluids.SLURRY, 0.1
+                        BaseFluids.CARBON_SLURRY, 0.9,
+                        BaseFluids.SLURRY, 0.1
                 ),
                 1000
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("copper_smelting"),
-                Map.of(PylonFluids.RAW_COPPER_SLURRY, 1.0),
+                Map.of(BaseFluids.RAW_COPPER_SLURRY, 1.0),
                 Map.of(
-                        PylonFluids.COPPER, 0.5,
-                        PylonFluids.SLURRY, 0.5
+                        BaseFluids.COPPER, 0.5,
+                        BaseFluids.SLURRY, 0.5
                 ),
                 1085
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("copper_smelting_with_sulfur"),
                 Map.of(
-                        PylonFluids.RAW_COPPER_SLURRY, 1.0,
-                        PylonFluids.SULFUR, 0.1
+                        BaseFluids.RAW_COPPER_SLURRY, 1.0,
+                        BaseFluids.SULFUR, 0.1
                 ),
                 Map.of(
-                        PylonFluids.COPPER, 0.5,
-                        PylonFluids.SLURRY, 0.3,
-                        PylonFluids.RAW_LEAD_SLURRY, 0.1,
-                        PylonFluids.RAW_ZINC_SLURRY, 0.1
+                        BaseFluids.COPPER, 0.5,
+                        BaseFluids.SLURRY, 0.3,
+                        BaseFluids.RAW_LEAD_SLURRY, 0.1,
+                        BaseFluids.RAW_ZINC_SLURRY, 0.1
                 ),
                 1085
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("gold_smelting"),
                 Map.of(
-                        PylonFluids.RAW_GOLD_SLURRY, 1.0,
-                        PylonFluids.MERCURY, 1.0
+                        BaseFluids.RAW_GOLD_SLURRY, 1.0,
+                        BaseFluids.MERCURY, 1.0
                 ),
                 Map.of(
-                        PylonFluids.GOLD, 0.5,
-                        PylonFluids.SLURRY, 0.3,
-                        PylonFluids.SILVER, 0.15,
-                        PylonFluids.RAW_TIN_SLURRY, 0.15,
-                        PylonFluids.MERCURY, 0.9
+                        BaseFluids.GOLD, 0.5,
+                        BaseFluids.SLURRY, 0.3,
+                        BaseFluids.SILVER, 0.15,
+                        BaseFluids.RAW_TIN_SLURRY, 0.15,
+                        BaseFluids.MERCURY, 0.9
                 ),
                 1064
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("tin_smelting"),
                 Map.of(
-                        PylonFluids.RAW_TIN_SLURRY, 1.0,
-                        PylonFluids.CARBON_SLURRY, 0.5
+                        BaseFluids.RAW_TIN_SLURRY, 1.0,
+                        BaseFluids.CARBON_SLURRY, 0.5
                 ),
                 Map.of(
-                        PylonFluids.TIN, 1.0,
-                        PylonFluids.SLURRY, 0.5
+                        BaseFluids.TIN, 1.0,
+                        BaseFluids.SLURRY, 0.5
                 ),
                 250
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("lead_smelting"),
                 Map.of(
-                        PylonFluids.RAW_LEAD_SLURRY, 1.0,
-                        PylonFluids.CARBON_SLURRY, 0.5,
-                        PylonFluids.SULFUR, 0.1
+                        BaseFluids.RAW_LEAD_SLURRY, 1.0,
+                        BaseFluids.CARBON_SLURRY, 0.5,
+                        BaseFluids.SULFUR, 0.1
                 ),
                 Map.of(
-                        PylonFluids.LEAD, 1.0,
-                        PylonFluids.SLURRY, 0.5,
-                        PylonFluids.SILVER, 0.1
+                        BaseFluids.LEAD, 1.0,
+                        BaseFluids.SLURRY, 0.5,
+                        BaseFluids.SILVER, 0.1
                 ),
                 350
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("zinc_smelting"),
                 Map.of(
-                        PylonFluids.RAW_ZINC_SLURRY, 1.0,
-                        PylonFluids.CARBON_SLURRY, 0.5
+                        BaseFluids.RAW_ZINC_SLURRY, 1.0,
+                        BaseFluids.CARBON_SLURRY, 0.5
                 ),
                 Map.of(
-                        PylonFluids.ZINC, 1.0,
-                        PylonFluids.SLURRY, 0.5
+                        BaseFluids.ZINC, 1.0,
+                        BaseFluids.SLURRY, 0.5
                 ),
                 700
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("iron_smelting"),
                 Map.of(
-                        PylonFluids.RAW_IRON_SLURRY, 1.0,
-                        PylonFluids.CARBON_SLURRY, 0.5
+                        BaseFluids.RAW_IRON_SLURRY, 1.0,
+                        BaseFluids.CARBON_SLURRY, 0.5
                 ),
                 Map.of(
-                        PylonFluids.IRON, 1.0,
-                        PylonFluids.SLURRY, 0.5
+                        BaseFluids.IRON, 1.0,
+                        BaseFluids.SLURRY, 0.5
                 ),
                 1540
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("iron_smelting_with_sulfur"),
                 Map.of(
-                        PylonFluids.RAW_IRON_SLURRY, 1.0,
-                        PylonFluids.CARBON_SLURRY, 0.5,
-                        PylonFluids.SULFUR, 0.1
+                        BaseFluids.RAW_IRON_SLURRY, 1.0,
+                        BaseFluids.CARBON_SLURRY, 0.5,
+                        BaseFluids.SULFUR, 0.1
                 ),
                 Map.of(
-                        PylonFluids.IRON, 1.0,
-                        PylonFluids.SLURRY, 0.4,
-                        PylonFluids.COBALT, 0.1,
-                        PylonFluids.NICKEL, 0.1
+                        BaseFluids.IRON, 1.0,
+                        BaseFluids.SLURRY, 0.4,
+                        BaseFluids.COBALT, 0.1,
+                        BaseFluids.NICKEL, 0.1
                 ),
                 1540
         ));
@@ -770,37 +770,37 @@ public final class SmelteryController extends SmelteryComponent
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("bronze"),
                 Map.of(
-                        PylonFluids.COPPER, 1.0 - 0.12,
-                        PylonFluids.TIN, 0.12
+                        BaseFluids.COPPER, 1.0 - 0.12,
+                        BaseFluids.TIN, 0.12
                 ),
-                Map.of(PylonFluids.BRONZE, 1.0),
+                Map.of(BaseFluids.BRONZE, 1.0),
                 950
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("brass"),
                 Map.of(
-                        PylonFluids.COPPER, 1.0 - 0.3,
-                        PylonFluids.ZINC, 0.3
+                        BaseFluids.COPPER, 1.0 - 0.3,
+                        BaseFluids.ZINC, 0.3
                 ),
-                Map.of(PylonFluids.BRASS, 1.0),
+                Map.of(BaseFluids.BRASS, 1.0),
                 900
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("steel"),
                 Map.of(
-                        PylonFluids.IRON, 1.0 - 0.04,
-                        PylonFluids.CARBON_SLURRY, 0.04
+                        BaseFluids.IRON, 1.0 - 0.04,
+                        BaseFluids.CARBON_SLURRY, 0.04
                 ),
-                Map.of(PylonFluids.STEEL, 1.0),
+                Map.of(BaseFluids.STEEL, 1.0),
                 1540
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 pylonKey("decarburization"), // yes this is a real word
                 Map.of(
-                        PylonFluids.STEEL, 1.0,
-                        PylonFluids.WATER, 0.1
+                        BaseFluids.STEEL, 1.0,
+                        BaseFluids.WATER, 0.1
                 ),
-                Map.of(PylonFluids.IRON, 1.0),
+                Map.of(BaseFluids.IRON, 1.0),
                 1540
         ));
     }

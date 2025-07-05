@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base.items;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonFluids;
-import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -31,7 +31,6 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -119,7 +118,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     @Override
     public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
-        return Map.of(PylonFluids.PLANT_OIL, oilAmount);
+        return Map.of(BaseFluids.PLANT_OIL, oilAmount);
     }
 
     @Override
@@ -134,7 +133,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
                 Map.of(
                         "plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(oilAmount)),
                         "plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB),
-                        "plant_oil", PylonFluids.PLANT_OIL.getName()
+                        "plant_oil", BaseFluids.PLANT_OIL.getName()
                 )
         );
     }
@@ -284,7 +283,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
         @Override
         public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-            return List.of(PylonFluids.PLANT_OIL);
+            return List.of(BaseFluids.PLANT_OIL);
         }
 
         @Override
@@ -298,7 +297,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
                             "# # # # # # # # #"
                     )
                     .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('p', ItemButton.fromStack(PylonItems.PRESS))
+                    .addIngredient('p', ItemButton.fromStack(BaseItems.PRESS))
                     .addIngredient('i', ItemButton.fromStack(input))
                     .addIngredient('c', GuiItems.progressCyclingItem(TIME_PER_ITEM_TICKS,
                             ItemStackBuilder.of(Material.CLOCK)
@@ -307,7 +306,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
                                             PylonArgument.of("time", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0))
                                     ))
                     ))
-                    .addIngredient('o', new FluidButton(PylonFluids.PLANT_OIL.getKey(), oilAmount))
+                    .addIngredient('o', new FluidButton(BaseFluids.PLANT_OIL.getKey(), oilAmount))
                     .build();
         }
     }

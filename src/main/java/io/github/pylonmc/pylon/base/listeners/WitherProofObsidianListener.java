@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.listeners;
 
-import io.github.pylonmc.pylon.base.PylonBlocks;
+import io.github.pylonmc.pylon.base.BaseBlocks;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockBreakEvent;
 import org.bukkit.entity.EntityType;
@@ -13,7 +13,7 @@ public class WitherProofObsidianListener implements Listener {
     @EventHandler
     private void onExplode(PrePylonBlockBreakEvent event) {
         var key = event.getPylonBlock().getSchema().getKey();
-        if (!key.equals(PylonBlocks.WITHER_PROOF_OBSIDIAN_KEY.getKey())) {
+        if (!key.equals(BaseBlocks.WITHER_PROOF_OBSIDIAN_KEY.getKey())) {
             return;
         }
 

@@ -6,7 +6,7 @@ import org.bukkit.Material;
 
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
-public class GuidePages {
+public class BasePages {
 
     public static final SimpleStaticGuidePage RESEARCH = new SimpleStaticGuidePage(pylonKey("research"), Material.BOOK);
     public static final SimpleStaticGuidePage RESOURCES = new SimpleStaticGuidePage(pylonKey("resources"), Material.GUNPOWDER);

@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base;
+package io.github.pylonmc.pylon.base.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings({"UnstableApiUsage", "SameReturnValue"})
 @UtilityClass
-class PylonBaseCommand {
+public class PylonBaseCommand {
 
     public final LiteralCommandNode<CommandSourceStack> ROOT = Commands.literal("pylonbase")
             .then(Commands.literal("fillfluid")

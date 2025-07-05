@@ -26,9 +26,9 @@ import org.bukkit.inventory.ItemStack;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public final class PylonBlocks {
+public final class BaseBlocks {
 
-    private PylonBlocks() {
+    private BaseBlocks() {
         throw new AssertionError("Utility class");
     }
 

@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.items.HealthTalisman;
 import io.github.pylonmc.pylon.base.items.Immobilizer;
@@ -35,10 +36,10 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
             commands.registrar().register(PylonBaseCommand.ROOT);
         });
 
-        PylonItems.initialize();
-        PylonBlocks.initialize();
-        PylonEntities.initialize();
-        PylonFluids.initialize();
+        BaseItems.initialize();
+        BaseBlocks.initialize();
+        BaseEntities.initialize();
+        BaseFluids.initialize();
 
         PluginManager pm = Bukkit.getPluginManager();
 

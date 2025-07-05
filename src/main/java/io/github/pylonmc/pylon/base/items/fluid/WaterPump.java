@@ -1,10 +1,9 @@
 package io.github.pylonmc.pylon.base.items.fluid;
 
-import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
@@ -65,7 +64,7 @@ public class WaterPump extends PylonBlock implements PylonFluidIoBlock {
         if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
             return Map.of();
         }
-        return Map.of(PylonFluids.WATER, WATER_PER_SECOND * deltaSeconds);
+        return Map.of(BaseFluids.WATER, WATER_PER_SECOND * deltaSeconds);
     }
 
     @Override

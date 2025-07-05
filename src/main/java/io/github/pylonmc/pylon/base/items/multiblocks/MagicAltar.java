@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -364,7 +364,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
                             "# # # # # # # # #"
                     )
                     .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('m', ItemButton.fromStack(PylonItems.MAGIC_ALTAR))
+                    .addIngredient('m', ItemButton.fromStack(BaseItems.MAGIC_ALTAR))
                     .addIngredient('c', ItemButton.fromChoice(catalyst))
                     .addIngredient('0', ItemButton.fromChoice(ingredients.get(0)))
                     .addIngredient('1', ItemButton.fromChoice(ingredients.get(1)))

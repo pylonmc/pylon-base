@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.items.tools.watering;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.PylonFluids;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -108,7 +108,7 @@ public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTic
     @Override
     public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         // should make sure we always have enough water for next tick, multiply by 2 to be safe
-        return Map.of(PylonFluids.WATER, Math.max(0.0, 2 * TICK_INTERVAL * WATER_PER_SECOND * deltaSeconds - waterBuffer));
+        return Map.of(BaseFluids.WATER, Math.max(0.0, 2 * TICK_INTERVAL * WATER_PER_SECOND * deltaSeconds - waterBuffer));
     }
 
     @Override

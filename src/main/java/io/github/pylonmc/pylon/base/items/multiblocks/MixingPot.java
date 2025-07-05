@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 import com.destroystokyo.paper.ParticleBuilder;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.fluid.pipe.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.Either;
@@ -392,9 +392,9 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
                     )
                     .addIngredient('#', GuiItems.backgroundBlack())
                     .addIngredient('f', new FluidButton(fluid.getKey(), fluidAmount))
-                    .addIngredient('m', ItemButton.fromStack(PylonItems.MIXING_POT))
+                    .addIngredient('m', ItemButton.fromStack(BaseItems.MIXING_POT))
                     .addIngredient('i', requiresEnrichedFire
-                            ? ItemButton.fromStack(PylonItems.ENRICHED_NETHERRACK)
+                            ? ItemButton.fromStack(BaseItems.ENRICHED_NETHERRACK)
                             : GuiItems.background()
                     );
 

@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.items.multiblocks.smelting;
 
-import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -205,7 +205,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         ));
         FUELS.register(new Fuel(
                 pylonKey("coal_dust"),
-                PylonItems.COAL_DUST,
+                BaseItems.COAL_DUST,
                 333_300_000,
                 30
         ));
@@ -217,7 +217,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         ));
         FUELS.register(new Fuel(
                 pylonKey("carbon"),
-                PylonItems.CARBON_DUST,
+                BaseItems.CARBON_DUST,
                 6_000_000_000.0,
                 60
         ));

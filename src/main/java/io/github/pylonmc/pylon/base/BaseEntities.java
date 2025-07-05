@@ -16,9 +16,9 @@ import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 
-public final class PylonEntities {
+public final class BaseEntities {
 
-    private PylonEntities() {
+    private BaseEntities() {
         throw new AssertionError("Utility class");
     }
 

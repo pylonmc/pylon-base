@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.items.hydraulic.purification;
 
-import io.github.pylonmc.pylon.base.PylonBlocks;
+import io.github.pylonmc.pylon.base.BaseBlocks;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -152,10 +152,10 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(PylonBlocks.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
+        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
+        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
+        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_CAP));
 
         return components;
     }

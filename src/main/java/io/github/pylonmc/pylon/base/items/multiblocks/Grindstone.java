@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.items.multiblocks;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.PylonItems;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
@@ -342,7 +342,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                             "# # # # # # # # #"
                     )
                     .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('g', ItemButton.fromStack(PylonItems.GRINDSTONE))
+                    .addIngredient('g', ItemButton.fromStack(BaseItems.GRINDSTONE))
                     .addIngredient('i', ItemButton.fromStack(input))
                     .addIngredient('c', GuiItems.progressCyclingItem(cycles * CYCLE_TIME_TICKS,
                             ItemStackBuilder.of(Material.CLOCK)
