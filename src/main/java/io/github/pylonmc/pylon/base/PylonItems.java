@@ -1629,7 +1629,7 @@ public final class PylonItems {
             .build();
 
     static {
-        PylonItem.register(PylonItem.class, WITHER_PROOF_OBSIDIAN);
+        PylonItem.register(PylonItem.class, WITHER_PROOF_OBSIDIAN, PylonBlocks.WITHER_PROOF_OBSIDIAN_KEY);
         GuidePages.BUILDING.addItem(WITHER_PROOF_OBSIDIAN_KEY);
         ShapedRecipe recipe = new ShapedRecipe(WITHER_PROOF_OBSIDIAN_KEY, WITHER_PROOF_OBSIDIAN)
                 .shape("fbf", "bob", "fbf")
