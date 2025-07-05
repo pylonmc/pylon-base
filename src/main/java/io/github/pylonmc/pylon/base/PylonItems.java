@@ -2,8 +2,6 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.items.*;
 import io.github.pylonmc.pylon.base.items.fluid.*;
-import io.github.pylonmc.pylon.base.items.fluid.items.*;
-import io.github.pylonmc.pylon.base.items.fluid.pipe.FluidPipe;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicHammerHead;
 import io.github.pylonmc.pylon.base.items.hydraulic.machines.HydraulicMixingAttachment;

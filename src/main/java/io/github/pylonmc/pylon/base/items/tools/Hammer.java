@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -17,7 +17,10 @@ import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
-import org.bukkit.*;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
@@ -48,7 +51,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
 
 
-public class Hammer extends PylonItem implements BlockInteractor {
+public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     public static final NamespacedKey HAMMER_STONE_KEY = pylonKey("hammer_stone");
     public static final NamespacedKey HAMMER_IRON_KEY = pylonKey("hammer_iron");
