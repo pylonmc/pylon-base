@@ -42,7 +42,7 @@ public class IceArrow extends PylonItem implements PylonArrow {
         return Map.of("freeze-duration", Component.text(freezeDuration));
     }
 
-    public static class DOTRunnable extends BukkitRunnable {
+    private static class DOTRunnable extends BukkitRunnable {
         private final LivingEntity applyTo;
         private final int freezeDuration;
         private final int startTick;
