@@ -31,9 +31,9 @@ public class IceArrow extends PylonItem implements PylonArrow {
 
     @Override
     public void onArrowDamage(@NotNull EntityDamageByEntityEvent event) {
-        if(event.getEntity() instanceof LivingEntity) {
+        if (event.getEntity() instanceof LivingEntity) {
             // Has to be run every tick or effect will flicker in and out from game resetting it since the player isn't in a powdered snow block
-            new DOTRunnable((LivingEntity)event.getEntity(), freezeDuration, Bukkit.getCurrentTick(), (float) freezeSpeed).runTaskTimer(PylonBase.getInstance(), 0, 1);
+            new DOTRunnable((LivingEntity) event.getEntity(), freezeDuration, Bukkit.getCurrentTick(), (float) freezeSpeed).runTaskTimer(PylonBase.getInstance(), 0, 1);
         }
     }
 
@@ -48,7 +48,7 @@ public class IceArrow extends PylonItem implements PylonArrow {
         private final int startTick;
         private final float freezeSpeed;
 
-        public DOTRunnable(LivingEntity applyTo, int freezeDuration, int startTick, float freezeSpeed){
+        public DOTRunnable(LivingEntity applyTo, int freezeDuration, int startTick, float freezeSpeed) {
             this.applyTo = applyTo;
             this.freezeDuration = freezeDuration;
             this.startTick = startTick;
@@ -57,7 +57,7 @@ public class IceArrow extends PylonItem implements PylonArrow {
 
         @Override
         public void run() {
-            if(Bukkit.getCurrentTick() - startTick > freezeDuration){
+            if (Bukkit.getCurrentTick() - startTick > freezeDuration) {
                 applyTo.setFreezeTicks(0);
                 this.cancel();
             }
