@@ -277,9 +277,9 @@ public class ConnectingTask {
     }
 
     private boolean isPlacementValid() {
-        Set<UUID> intersection = new HashSet<>(from.getConnectedInteractions());
-        intersection.retainAll(to.getConnectedInteractions());
-        boolean startAndEndNotAlreadyConnected = intersection.isEmpty();
+        boolean startAndEndNotAlreadyConnected
+                = !(to.getInteraction() != null && from.getConnectedInteractions().contains(to.getInteraction().getUuid()))
+                && !(from.getInteraction() != null && to.getConnectedInteractions().contains(from.getInteraction().getUuid()));
 
         boolean startAndEndEmptyIfNewBlock = !(
                 from instanceof ConnectingPointNewBlock(BlockPosition position1) && !position1.getBlock().getType().isAir()

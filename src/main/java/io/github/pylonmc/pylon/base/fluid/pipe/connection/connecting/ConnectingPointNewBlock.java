@@ -49,4 +49,9 @@ public record ConnectingPointNewBlock(@NotNull BlockPosition position) implement
     public @NotNull Set<UUID> getConnectedInteractions() {
         return Set.of();
     }
+
+    @Override
+    public @Nullable FluidConnectionInteraction getInteraction() {
+        return null;
+    }
 }
