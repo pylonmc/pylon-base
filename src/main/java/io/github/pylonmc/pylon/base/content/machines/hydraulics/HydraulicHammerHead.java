@@ -5,10 +5,12 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -26,7 +28,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +37,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.Map;
-import java.util.Objects;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -45,13 +45,11 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
-    public static final int GO_DOWN_TIME_TICKS = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("go-down-time-ticks", Integer.class);
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double HYDRAULIC_FLUID_BUFFER = HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-
-    public static final int TICK_INTERVAL = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("tick-interval", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD);
+    public static final int GO_DOWN_TIME_TICKS = settings.getOrThrow("go-down-time-ticks", Integer.class);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
 
     public static final Component MISSING_HAMMER = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_head");
     public static final Component MISSING_BASE = Component.translatable("pylon.pylonbase.message.hydaulic_status.missing_base");
@@ -95,19 +93,30 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
     @Override
     public double getHydraulicFluidBuffer() {
-        return HYDRAULIC_FLUID_BUFFER;
+        return HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     }
 
     @Override
     public double getDirtyHydraulicFluidBuffer() {
-        return DIRTY_HYDRAULIC_FLUID_BUFFER;
+        return DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     }
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Map<String, PylonEntity<?>> entities = super.createEntities(context);
-        entities.put("hammer_head", new HammerHeadEntity(getBlock()));
-        entities.put("hammer_tip", new HammerTipEntity(getBlock()));
+
+        entities.put("hammer_head", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.GRAY_CONCRETE)
+                .transformation(getHeadTransformation(0.7))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
+
+        entities.put("hammer_tip", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.AIR)
+                .transformation(getTipTransformation(-0.3))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
+
         return entities;
     }
 
@@ -135,7 +144,7 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
             }
         }
 
-        getPistonTip().setHammer(hammer);
+        getHammerTip().getEntity().setItemStack(new ItemStack(hammer == null ? Material.AIR : hammer.baseBlock));
     }
 
     @Override
@@ -161,7 +170,7 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
         if (hammer.getStack().getAmount() == 0) {
             this.hammer = null;
-            getPistonTip().setHammer(hammer);
+            getHammerTip().getEntity().setItemStack(new ItemStack(hammer == null ? Material.AIR : hammer.baseBlock));
         }
 
         if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {
@@ -176,17 +185,19 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
         if (hammer.tryDoRecipe(baseBlock, null)) {
             startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
-            getPistonShaft().goDown();
-            getPistonTip().goDown();
+            getHammerHead().setTransform(GO_DOWN_TIME_TICKS, getHeadTransformation(-0.7));
+            getHammerTip().setTransform(GO_DOWN_TIME_TICKS, getTipTransformation(-1.7));
+
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                getPistonShaft().goUp(hammer);
-                getPistonTip().goUp(hammer);
+                getHammerHead().setTransform(hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
+                getHammerTip().setTransform(hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getTipTransformation(0.3));
                 new ParticleBuilder(Particle.BLOCK)
                         .data(baseBlock.getBlockData())
                         .count(20)
                         .location(baseBlock.getLocation().toCenterLocation().add(0, 0.6, 0))
                         .spawn();
             }, GO_DOWN_TIME_TICKS);
+
             cooldown = hammer.cooldownTicks / 20.0;
             status = WORKING;
         } else {
@@ -202,98 +213,25 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
         }
     }
 
-    public @NotNull HydraulicHammerHead.HammerHeadEntity getPistonShaft() {
-        return Objects.requireNonNull(getHeldEntity(HammerHeadEntity.class, "hammer_head"));
+    public @NotNull SimpleItemDisplay getHammerHead() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "hammer_head");
     }
 
-    public @NotNull HydraulicHammerHead.HammerTipEntity getPistonTip() {
-        return Objects.requireNonNull(getHeldEntity(HammerTipEntity.class, "hammer_tip"));
+    public @NotNull SimpleItemDisplay getHammerTip() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "hammer_tip");
     }
 
-    public static class HammerHeadEntity extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("hammer_head");
-
-        @SuppressWarnings("unused")
-        public HammerHeadEntity(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public HammerHeadEntity(@NotNull  Block block) {
-            super(
-                    KEY,
-                    new ItemDisplayBuilder()
-                            .material(Material.GRAY_CONCRETE)
-                            .transformation(getTransformation(0.7))
-                            .build(block.getLocation().toCenterLocation().add(0, -1, 0))
-            );
-        }
-
-        public void goDown() {
-            getEntity().setTransformationMatrix(getTransformation(-0.7));
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(GO_DOWN_TIME_TICKS);
-        }
-
-        public void goUp(@NotNull Hammer hammer) {
-            getEntity().setTransformationMatrix(getTransformation(0.7));
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(hammer.cooldownTicks - GO_DOWN_TIME_TICKS);
-        }
-
-        private static @NotNull Matrix4f getTransformation(double yTranslation) {
-            return new TransformBuilder()
-                    .translate(0, yTranslation, 0)
-                    .scale(0.3, 2.0, 0.3)
-                    .buildForItemDisplay();
-
-        }
+    public static @NotNull Matrix4f getHeadTransformation(double translationY) {
+        return new TransformBuilder()
+                .translate(0, translationY, 0)
+                .scale(0.3, 2.0, 0.3)
+                .buildForItemDisplay();
     }
 
-    public static class HammerTipEntity extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("hammer_tip");
-
-        @SuppressWarnings("unused")
-        public HammerTipEntity(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public HammerTipEntity(@NotNull Block block) {
-            super(
-                    KEY,
-                    new ItemDisplayBuilder()
-                            .material(Material.AIR)
-                            .transformation(getTransformation(-0.3))
-                            .build(block.getLocation().toCenterLocation().add(0, -1, 0))
-            );
-        }
-
-        public void goDown() {
-            getEntity().setTransformationMatrix(getTransformation(-1.7));
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(GO_DOWN_TIME_TICKS);
-        }
-
-        public void goUp(@NotNull Hammer hammer) {
-            getEntity().setTransformationMatrix(getTransformation(-0.3));
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(hammer.cooldownTicks - GO_DOWN_TIME_TICKS);
-        }
-
-        public void setHammer(@Nullable Hammer hammer) {
-            if (hammer == null) {
-                getEntity().setItemStack(new ItemStack(Material.AIR));
-            } else {
-                getEntity().setItemStack(new ItemStack(hammer.baseBlock));
-            }
-        }
-
-        private static @NotNull Matrix4f getTransformation(double yTranslation) {
-            return new TransformBuilder()
-                    .translate(0, yTranslation, 0)
-                    .scale(0.6, 0.1, 0.6)
-                    .buildForItemDisplay();
-        }
+    public static @NotNull Matrix4f getTipTransformation(double translationY) {
+        return new TransformBuilder()
+                .translate(0, translationY, 0)
+                .scale(0.6, 0.1, 0.6)
+                .buildForItemDisplay();
     }
 }

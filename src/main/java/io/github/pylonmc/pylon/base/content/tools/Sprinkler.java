@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
@@ -54,10 +55,10 @@ public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTic
 
     public static final NamespacedKey WATER_BUFFER_KEY = baseKey("water_buffer");
 
-    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(BaseKeys.SPRINKLER));
-
-    public static final int TICK_INTERVAL = Settings.get(BaseKeys.SPRINKLER).getOrThrow("tick-interval", Integer.class);
-    public static final double WATER_PER_SECOND = Settings.get(BaseKeys.SPRINKLER).getOrThrow("water-per-second", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.SPRINKLER);
+    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(settings);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
+    public static final double WATER_PER_SECOND = settings.getOrThrow("water-per-second", Integer.class);
 
     private double waterBuffer;
 

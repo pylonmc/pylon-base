@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -15,10 +16,8 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
@@ -73,8 +70,13 @@ public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-        @NotNull Block block = getBlock();
-        entities.put("main", new MainDisplay(block, mainDisplaySize));
+        entities.put("main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(MAIN_MATERIAL)
+                .transformation(new TransformBuilder()
+                        .scale(mainDisplaySize)
+                )
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
         return entities;
     }
 
@@ -88,25 +90,5 @@ public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
     @Override
     public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
         // do nothing lol
-    }
-
-    public static class MainDisplay extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("fluid_voider_main_display");
-
-        @SuppressWarnings("unused")
-        public MainDisplay(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public MainDisplay(@NotNull Block block, double mainDisplaySize) {
-            super(KEY, new ItemDisplayBuilder()
-                    .material(MAIN_MATERIAL)
-                    .transformation(new TransformBuilder()
-                            .scale(mainDisplaySize)
-                    )
-                    .build(block.getLocation().toCenterLocation())
-            );
-        }
     }
 }

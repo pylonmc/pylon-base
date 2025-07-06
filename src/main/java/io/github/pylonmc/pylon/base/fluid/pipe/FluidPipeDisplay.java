@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.fluid.pipe;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
@@ -29,9 +30,6 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
-
-    public static final NamespacedKey KEY = baseKey("fluid_pipe_display");
-
     private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
     private static final NamespacedKey PIPE_KEY = baseKey("pipe");
     private static final NamespacedKey FROM_KEY = baseKey("from");
@@ -73,7 +71,7 @@ public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
             @NotNull FluidConnectionInteraction from,
             @NotNull FluidConnectionInteraction to
     ) {
-        super(KEY, makeDisplay(pipe, from, to));
+        super(BaseKeys.FLUID_PIPE_DISPLAY, makeDisplay(pipe, from, to));
         this.pipe = pipe;
         this.amount = amount;
         this.from = from.getUuid();

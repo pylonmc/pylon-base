@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
@@ -37,7 +38,6 @@ import xyz.xenondevs.invui.window.Window;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -91,8 +91,21 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
         Block block = context.getBlock();
 
-        entities.put("main", new MainDisplay(block, player));
-        entities.put("fluid", new FluidDisplay(block, player));
+        entities.put("main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(MAIN_MATERIAL)
+                .transformation(new TransformBuilder()
+                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                        .scale(0.25, 0.25, 0.5)
+                )
+                .build(block.getLocation().toCenterLocation())));
+
+        entities.put("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(NO_FLUID_MATERIAL)
+                .transformation(new TransformBuilder()
+                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                        .scale(0.2, 0.3, 0.45)
+                )
+                .build(block.getLocation().toCenterLocation())));
 
         return entities;
     }
@@ -118,8 +131,8 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
         ));
     }
 
-    private @NotNull FluidDisplay getFluidDisplay() {
-        return Objects.requireNonNull(getHeldEntity(FluidDisplay.class, "fluid"));
+    private @NotNull ItemDisplay getFluidDisplay() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid").getEntity();
     }
 
     @Override
@@ -149,65 +162,16 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
     }
 
     private @NotNull FluidConnectionPoint getOutputPoint() {
-        //noinspection DataFlowIssue
-        return getHeldEntity(FluidConnectionInteraction.class, "output").getPoint();
+        return getHeldEntityOrThrow(FluidConnectionInteraction.class, "output").getPoint();
     }
 
     private @NotNull FluidConnectionPoint getInputPoint() {
-        //noinspection DataFlowIssue
-        return getHeldEntity(FluidConnectionInteraction.class, "input").getPoint();
+        return getHeldEntityOrThrow(FluidConnectionInteraction.class, "input").getPoint();
     }
 
     public void setFluid(PylonFluid fluid) {
         this.fluid = fluid;
         this.buffer = 0;
-        getFluidDisplay().setFluid(fluid);
-    }
-
-    public static class MainDisplay extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("fluid_filter_main_display");
-
-        @SuppressWarnings("unused")
-        public MainDisplay(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public MainDisplay(@NotNull Block block, @NotNull Player player) {
-            super(KEY, new ItemDisplayBuilder()
-                    .material(MAIN_MATERIAL)
-                    .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                            .scale(0.25, 0.25, 0.5)
-                    )
-                    .build(block.getLocation().toCenterLocation())
-            );
-        }
-
-    }
-
-    public static class FluidDisplay extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("fluid_filter_fluid_display");
-
-        @SuppressWarnings("unused")
-        public FluidDisplay(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public FluidDisplay(@NotNull Block block, @NotNull Player player) {
-            super(KEY, new ItemDisplayBuilder()
-                    .material(NO_FLUID_MATERIAL)
-                    .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                            .scale(0.2, 0.3, 0.45)
-                    )
-                    .build(block.getLocation().toCenterLocation())
-            );
-        }
-
-        public void setFluid(@Nullable PylonFluid fluid) {
-            getEntity().setItemStack(new ItemStack(fluid == null ? NO_FLUID_MATERIAL : fluid.getMaterial()));
-        }
+        getFluidDisplay().setItemStack(new ItemStack(fluid == null ? NO_FLUID_MATERIAL : fluid.getMaterial()));
     }
 }

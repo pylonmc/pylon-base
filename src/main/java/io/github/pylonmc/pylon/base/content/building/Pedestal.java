@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.building;
 
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -52,17 +53,10 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        ItemDisplay display = new ItemDisplayBuilder()
+        return Map.of("item", new SimpleItemDisplay(new ItemDisplayBuilder()
                 .transformation(transformBuilder().buildForItemDisplay())
-                .build(getBlock().getLocation().toCenterLocation());
-        return Map.of("item", new PedestalItemEntity(display));
-    }
-
-    public TransformBuilder transformBuilder() {
-        return new TransformBuilder()
-                .translate(0, 0.7, 0)
-                .scale(0.4)
-                .rotate(0, rotation, 0);
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
     }
 
     @Override
@@ -79,7 +73,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         event.setCancelled(true);
 
-        ItemDisplay display = getHeldEntity(PedestalItemEntity.class, "item").getEntity();
+        ItemDisplay display = getItemDisplay();
 
         // rotate
         if (event.getPlayer().isSneaking()) {
@@ -113,15 +107,13 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     }
 
     public ItemDisplay getItemDisplay() {
-        return getHeldEntity(PedestalItemEntity.class, "item").getEntity();
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
     }
 
-    public static class PedestalItemEntity extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("pedestal_item");
-
-        public PedestalItemEntity(@NotNull ItemDisplay entity) {
-            super(KEY, entity);
-        }
+    public TransformBuilder transformBuilder() {
+        return new TransformBuilder()
+                .translate(0, 0.7, 0)
+                .scale(0.4)
+                .rotate(0, rotation, 0);
     }
 }

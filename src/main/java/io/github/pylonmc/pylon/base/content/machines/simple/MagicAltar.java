@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -12,6 +13,9 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -72,6 +76,21 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
+        pdc.set(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE, remainingTimeSeconds);
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        Map<String, PylonEntity<?>> entities = PylonSimpleMultiblock.super.createEntities(context);
+        entities.put("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .translate(0, 0.5, 0)
+                        .scale(0.5)
+                        .buildForItemDisplay()
+                )
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+        return entities;
     }
 
     @Override
@@ -101,7 +120,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         event.setCancelled(true);
 
-        ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalItemEntity.class, "item").getEntity();
+        ItemDisplay itemDisplay = getItemDisplay().getEntity();
 
         // drop item if not processing and an item is already on the altar
         ItemStack displayItem = itemDisplay.getItemStack();
@@ -180,6 +199,10 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
         return Recipe.RECIPE_TYPE.getRecipe(processingRecipe);
     }
 
+    public SimpleItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    }
+
     public void startRecipe(Recipe recipe) {
         for (Pedestal pedestal : getPedestals()) {
             pedestal.setLocked(true);
@@ -231,7 +254,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     public void finishRecipe() {
-        ItemDisplay itemDisplay = getHeldEntity(Pedestal.PedestalItemEntity.class, "item").getEntity();
+        ItemDisplay itemDisplay = getItemDisplay().getEntity();
 
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
