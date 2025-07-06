@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -45,18 +46,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class Hammer extends PylonItem implements BlockInteractor {
 
-    public static final NamespacedKey HAMMER_STONE_KEY = pylonKey("hammer_stone");
-    public static final NamespacedKey HAMMER_IRON_KEY = pylonKey("hammer_iron");
-    public static final NamespacedKey HAMMER_DIAMOND_KEY = pylonKey("hammer_diamond");
-
-    public static final ItemStack HAMMER_STONE_STACK = createItemStack(HAMMER_STONE_KEY, Material.STONE_PICKAXE, (1.0 / 3) - 4, 1, 1);
-    public static final ItemStack HAMMER_IRON_STACK = createItemStack(HAMMER_IRON_KEY, Material.IRON_PICKAXE, (1.0 / 2) - 4, 1.5, 3);
-    public static final ItemStack HAMMER_DIAMOND_STACK = createItemStack(HAMMER_DIAMOND_KEY, Material.DIAMOND_PICKAXE, (1.0/ 1) - 4, 2, 5);
 
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
@@ -159,17 +153,17 @@ public class Hammer extends PylonItem implements BlockInteractor {
 
     private static Material getBaseBlock(@NotNull NamespacedKey key) {
         return Map.of(
-                HAMMER_STONE_KEY, Material.STONE,
-                HAMMER_IRON_KEY, Material.IRON_BLOCK,
-                HAMMER_DIAMOND_KEY, Material.DIAMOND_BLOCK
+                BaseKeys.HAMMER_STONE, Material.STONE,
+                BaseKeys.HAMMER_IRON, Material.IRON_BLOCK,
+                BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_BLOCK
         ).get(key);
     }
 
     private static MiningLevel getMiningLevel(@NotNull NamespacedKey key) {
         return Map.of(
-                HAMMER_STONE_KEY, MiningLevel.STONE,
-                HAMMER_IRON_KEY, MiningLevel.IRON,
-                HAMMER_DIAMOND_KEY, MiningLevel.DIAMOND
+                BaseKeys.HAMMER_STONE, MiningLevel.STONE,
+                BaseKeys.HAMMER_IRON, MiningLevel.IRON,
+                BaseKeys.HAMMER_DIAMOND, MiningLevel.DIAMOND
         ).get(key);
     }
 
@@ -190,7 +184,7 @@ public class Hammer extends PylonItem implements BlockInteractor {
         return containsAtLeast(items, recipe.input);
     }
 
-    protected static @NotNull ItemStack createItemStack(
+    public static @NotNull ItemStack createItemStack(
             NamespacedKey key,
             Material material,
             double attackSpeed,
@@ -200,17 +194,17 @@ public class Hammer extends PylonItem implements BlockInteractor {
         return ItemStackBuilder.pylonItem(material, key)
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                            pylonKey("hammer_attack_speed"),
+                            baseKey("hammer_attack_speed"),
                             attackSpeed,
                             AttributeModifier.Operation.ADD_NUMBER
                     ))
                     .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
-                            pylonKey("hammer_attack_knockback"),
+                            baseKey("hammer_attack_knockback"),
                             knockback,
                             AttributeModifier.Operation.ADD_NUMBER
                     ))
                     .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                            pylonKey("hammer_attack_damage"),
+                            baseKey("hammer_attack_damage"),
                             attackDamage,
                             AttributeModifier.Operation.ADD_NUMBER
                     )))

@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidPlacer extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonInteractableBlock {
@@ -50,10 +51,7 @@ public class FluidPlacer extends PylonBlock implements PylonFluidIoBlock, PylonT
         }
     }
 
-    public static final NamespacedKey WATER_PLACER_KEY = pylonKey("water_placer");
-    public static final NamespacedKey LAVA_PLACER_KEY = pylonKey("lava_placer");
-
-    public static final NamespacedKey BUFFER_KEY = pylonKey("buffer");
+    public static final NamespacedKey BUFFER_KEY = baseKey("buffer");
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
 
@@ -131,15 +129,15 @@ public class FluidPlacer extends PylonBlock implements PylonFluidIoBlock, PylonT
 
     private @NotNull PylonFluid getFluid() {
         return Map.of(
-                WATER_PLACER_KEY, BaseFluids.WATER,
-                LAVA_PLACER_KEY, BaseFluids.LAVA
+                BaseKeys.WATER_PLACER, BaseFluids.WATER,
+                BaseKeys.LAVA_PLACER, BaseFluids.LAVA
         ).get(getKey());
     }
 
     private @NotNull Material getPlaceMaterial() {
         return Map.of(
-                WATER_PLACER_KEY, Material.WATER,
-                LAVA_PLACER_KEY, Material.LAVA
+                BaseKeys.WATER_PLACER, Material.WATER,
+                BaseKeys.LAVA_PLACER, Material.LAVA
         ).get(getKey());
     }
 }

@@ -35,14 +35,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
-    public static final NamespacedKey KEY = pylonKey("fluid_valve");
-
-    public static final NamespacedKey ENABLED_KEY = pylonKey("enabled");
+    public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
     private static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
     private static final int BRIGHTNESS_OFF = 6;
@@ -144,7 +142,7 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
 
     public static class FluidValveDisplay extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("fluid_valve_display");
+        public static final NamespacedKey KEY = baseKey("fluid_valve_display");
 
         @SuppressWarnings("unused")
         public FluidValveDisplay(@NotNull ItemDisplay entity) {

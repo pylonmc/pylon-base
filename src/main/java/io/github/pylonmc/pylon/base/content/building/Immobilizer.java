@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class Immobilizer extends PylonBlock implements PylonPiston {
     public static class Item extends PylonItem {
@@ -48,15 +48,13 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
     }
 
     public static Set<Player> frozenPlayers = new HashSet<>();
-    private final NamespacedKey cooldownKey = pylonKey("immobilizer_cooldown");
+    private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown");
     private final double radius = getSettings().getOrThrow("radius", Double.class);
     private final int duration = getSettings().getOrThrow("duration", Integer.class);
     private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
     private final int particleCount = getSettings().getOrThrow("particle.count", Integer.class);
     private final double particleRadius = getSettings().getOrThrow("particle.radius", Double.class);
     private final int particlePeriod = getSettings().getOrThrow("particle.period", Integer.class);
-    public static final NamespacedKey KEY = pylonKey("immobilizer");
-    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.PISTON, KEY).build();
 
     public Immobilizer(Block block, BlockCreateContext context) {
         super(block);

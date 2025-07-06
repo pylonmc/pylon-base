@@ -11,7 +11,6 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,11 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 public class FluidPipeConnector extends PylonBlock implements PylonEntityHolderBlock {
-
-    public static final NamespacedKey KEY =  pylonKey("fluid_pipe_connector");
 
     @SuppressWarnings("unused")
     public FluidPipeConnector(@NotNull Block block, @NotNull BlockCreateContext context) {

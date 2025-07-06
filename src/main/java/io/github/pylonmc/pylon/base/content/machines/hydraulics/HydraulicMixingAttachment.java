@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
@@ -34,25 +35,24 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("hydraulic_mixing_attachment");
-    public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = pylonKey("cooldown_time_remaining");
+    public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = baseKey("cooldown_time_remaining");
 
-    public static final int COOLDOWN_TICKS = Settings.get(KEY).getOrThrow("cooldown-ticks", Integer.class);
+    public static final int COOLDOWN_TICKS = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT).getOrThrow("cooldown-ticks", Integer.class);
 
-    public static final int DOWN_ANIMATION_TIME_TICKS = Settings.get(KEY).getOrThrow("down-animation-time-ticks", Integer.class);
-    public static final int UP_ANIMATION_TIME_TICKS = Settings.get(KEY).getOrThrow("up-animation-time-ticks", Integer.class);
+    public static final int DOWN_ANIMATION_TIME_TICKS = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT).getOrThrow("down-animation-time-ticks", Integer.class);
+    public static final int UP_ANIMATION_TIME_TICKS = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT).getOrThrow("up-animation-time-ticks", Integer.class);
 
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
     public static final double HYDRAULIC_FLUID_BUFFER = HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
 
-    public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT).getOrThrow("tick-interval", Integer.class);
 
     public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_mixing_pot");
 
@@ -175,7 +175,7 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
 
     public static class ShaftEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("mixing_attachment_shaft");
+        public static final NamespacedKey KEY = baseKey("mixing_attachment_shaft");
 
         @SuppressWarnings("unused")
         public ShaftEntity(@NotNull ItemDisplay entity) {

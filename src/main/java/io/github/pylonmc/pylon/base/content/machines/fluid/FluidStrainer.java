@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -35,17 +34,15 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonGuiBlock {
 
-    public static final NamespacedKey KEY = pylonKey("fluid_strainer");
+    public final double bufferSize = getSettings().getOrThrow("buffer-size", Double.class);
 
-    public static final double BUFFER_SIZE = Settings.get(KEY).getOrThrow("buffer-size", Double.class);
-
-    private static final NamespacedKey CURRENT_RECIPE_KEY = pylonKey("current_recipe");
-    private static final NamespacedKey BUFFER_KEY = pylonKey("buffer");
-    private static final NamespacedKey PASSED_FLUID_KEY = pylonKey("passed_fluid");
+    private static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("current_recipe");
+    private static final NamespacedKey BUFFER_KEY = baseKey("buffer");
+    private static final NamespacedKey PASSED_FLUID_KEY = baseKey("passed_fluid");
 
     private @Nullable Recipe currentRecipe;
     private double buffer;
@@ -95,7 +92,7 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
     public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
         return Recipe.RECIPE_TYPE.getRecipes().stream()
                 .map(Recipe::inputFluid)
-                .collect(Collectors.toMap(Function.identity(), f -> BUFFER_SIZE - buffer));
+                .collect(Collectors.toMap(Function.identity(), f -> bufferSize - buffer));
     }
 
     @Override
@@ -172,7 +169,7 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
     ) implements PylonRecipe {
 
         public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
-                pylonKey("fluid_strainer")
+                baseKey("fluid_strainer")
         );
 
         static {

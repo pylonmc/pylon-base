@@ -25,17 +25,17 @@ import org.joml.Vector3f;
 
 import java.util.UUID;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidPipeDisplay extends PylonEntity<ItemDisplay> {
 
-    public static final NamespacedKey KEY = pylonKey("fluid_pipe_display");
+    public static final NamespacedKey KEY = baseKey("fluid_pipe_display");
 
-    private static final NamespacedKey AMOUNT_KEY = pylonKey("amount");
-    private static final NamespacedKey PIPE_KEY = pylonKey("pipe");
-    private static final NamespacedKey FROM_KEY = pylonKey("from");
-    private static final NamespacedKey TO_KEY = pylonKey("to");
+    private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
+    private static final NamespacedKey PIPE_KEY = baseKey("pipe");
+    private static final NamespacedKey FROM_KEY = baseKey("from");
+    private static final NamespacedKey TO_KEY = baseKey("to");
 
     @Getter private final FluidPipe pipe;
     private final int amount;

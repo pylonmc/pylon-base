@@ -5,14 +5,12 @@ import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -22,11 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 public class WaterPump extends PylonBlock implements PylonFluidIoBlock {
 
     public static class Item extends PylonItem {
+
+        public final double waterPerSecond = getSettings().getOrThrow("water-per-second", Double.class);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -35,14 +34,12 @@ public class WaterPump extends PylonBlock implements PylonFluidIoBlock {
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
             return Map.of(
-                    "water_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND)
+                    "water_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(waterPerSecond)
             );
         }
     }
 
-    public static final NamespacedKey KEY = pylonKey("water_pump");
-
-    public static final double WATER_PER_SECOND = Settings.get(KEY).getOrThrow("water-per-second", Double.class);
+    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", Double.class);
 
     @SuppressWarnings("unused")
     public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -64,7 +61,7 @@ public class WaterPump extends PylonBlock implements PylonFluidIoBlock {
         if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
             return Map.of();
         }
-        return Map.of(BaseFluids.WATER, WATER_PER_SECOND * deltaSeconds);
+        return Map.of(BaseFluids.WATER, waterPerSecond * deltaSeconds);
     }
 
     @Override

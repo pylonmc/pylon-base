@@ -390,7 +390,9 @@ item:
 
   monster_jerky:
     name: "Monster Jerky"
-    lore: "Slightly tastier and tougher than rotten flesh"
+    lore: |-
+      <arrow> Slightly tastier and tougher than rotten flesh
+      <arrow> Can be crafted into leather
 
   nickel_dust:
     name: "Nickel Dust"

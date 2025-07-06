@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -14,7 +15,6 @@ import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -24,20 +24,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 public class HydraulicGrindstoneTurner extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
-
-    public static final NamespacedKey KEY = pylonKey("hydraulic_grindstone_turner");
-
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = Settings.get(KEY).getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = Settings.get(KEY).getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
-
-    public static final double HYDRAULIC_FLUID_BUFFER = Settings.get(KEY).getOrThrow("hydraulic-fluid-buffer", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = Settings.get(KEY).getOrThrow("dirty-hydraulic-fluid-buffer", Integer.class);
-
     public static final Component MISSING_GRINDSTONE = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_grindstone");
+
+    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
+    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
+
+    public static final double HYDRAULIC_FLUID_BUFFER = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("hydraulic-fluid-buffer", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("dirty-hydraulic-fluid-buffer", Integer.class);
+
 
     public static class Item extends PylonItem {
 

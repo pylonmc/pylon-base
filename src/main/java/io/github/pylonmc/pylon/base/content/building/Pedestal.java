@@ -23,16 +23,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
 
 public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
 
-    public static final NamespacedKey PEDESTAL_KEY = pylonKey("pedestal");
-    public static final NamespacedKey MAGIC_PEDESTAL_KEY = pylonKey("magic_pedestal");
-
-    private static final NamespacedKey ROTATION_KEY = pylonKey("rotation");
-    private static final NamespacedKey LOCKED_KEY = pylonKey("locked");
+    private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
+    private static final NamespacedKey LOCKED_KEY = baseKey("locked");
     private double rotation;
     @Setter
     private boolean locked;
@@ -121,7 +118,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
     public static class PedestalItemEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("pedestal_item");
+        public static final NamespacedKey KEY = baseKey("pedestal_item");
 
         public PedestalItemEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);

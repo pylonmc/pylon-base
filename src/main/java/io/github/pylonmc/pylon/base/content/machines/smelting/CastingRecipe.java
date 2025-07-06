@@ -12,7 +12,7 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public record CastingRecipe(
         @NotNull NamespacedKey key,
@@ -24,7 +24,7 @@ public record CastingRecipe(
     public static final double CAST_AMOUNT = 250;
 
     public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
-            pylonKey("cast_recipe")
+            baseKey("cast_recipe")
     );
 
     static {

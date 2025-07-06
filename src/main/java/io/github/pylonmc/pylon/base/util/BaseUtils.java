@@ -28,7 +28,7 @@ public class BaseUtils {
     public final int DEFAULT_BLAST_FURNACE_TIME_TICKS = 20 * 5;
 
     public final MaterialSetTag SEEDS = new MaterialSetTag(
-            pylonKey("seeds"),
+            baseKey("seeds"),
             Material.WHEAT_SEEDS,
             Material.BEETROOT_SEEDS,
             Material.PUMPKIN_SEEDS,
@@ -36,7 +36,7 @@ public class BaseUtils {
             Material.TORCHFLOWER_SEEDS
     );
 
-    public static @NotNull NamespacedKey pylonKey(@NotNull String key) {
+    public static @NotNull NamespacedKey baseKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
     }
 

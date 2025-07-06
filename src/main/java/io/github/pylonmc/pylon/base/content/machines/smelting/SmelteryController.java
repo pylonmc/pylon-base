@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
@@ -61,22 +62,20 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Slf4j
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock, PylonEntityHolderBlock {
 
-    public static final NamespacedKey KEY = pylonKey("smeltery_controller");
+    public static final double FLUID_REACTION_PER_SECOND = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("fluid-reaction-per-second", Double.class);
 
-    public static final double FLUID_REACTION_PER_SECOND = Settings.get(KEY).getOrThrow("fluid-reaction-per-second", Double.class);
-
-    private static final NamespacedKey TEMPERATURE_KEY = pylonKey("temperature");
-    private static final NamespacedKey RUNNING_KEY = pylonKey("running");
-    private static final NamespacedKey HEIGHT_KEY = pylonKey("height");
-    private static final NamespacedKey CAPACITY_KEY = pylonKey("capacity");
-    private static final NamespacedKey COMPONENTS_KEY = pylonKey("components");
-    private static final NamespacedKey FLUIDS_KEY = pylonKey("fluids");
+    private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
+    private static final NamespacedKey RUNNING_KEY = baseKey("running");
+    private static final NamespacedKey HEIGHT_KEY = baseKey("height");
+    private static final NamespacedKey CAPACITY_KEY = baseKey("capacity");
+    private static final NamespacedKey COMPONENTS_KEY = baseKey("components");
+    private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
     @Getter
     @Setter
@@ -430,15 +429,15 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
-    private static final double SPECIFIC_HEAT = Settings.get(KEY).getOrThrow("specific-heat.fluid", Double.class);
-    private static final double DENSITY = Settings.get(KEY).getOrThrow("density.fluid", Double.class);
-    private static final double SPECIFIC_HEAT_AIR = Settings.get(KEY).getOrThrow("specific-heat.air", Double.class);
-    private static final double DENSITY_AIR = Settings.get(KEY).getOrThrow("density.air", Double.class);
-    private static final double HEAT_LOSS_COEFFICIENT = Settings.get(KEY).getOrThrow("heat-loss-coefficient", Double.class);
-    private static final double EMISSIVITY = Settings.get(KEY).getOrThrow("emissivity", Double.class);
+    private static final double SPECIFIC_HEAT = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("specific-heat.fluid", Double.class);
+    private static final double DENSITY = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("density.fluid", Double.class);
+    private static final double SPECIFIC_HEAT_AIR = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("specific-heat.air", Double.class);
+    private static final double DENSITY_AIR = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("density.air", Double.class);
+    private static final double HEAT_LOSS_COEFFICIENT = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("heat-loss-coefficient", Double.class);
+    private static final double EMISSIVITY = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("emissivity", Double.class);
 
     private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_CELSIUS = Settings.get(KEY).getOrThrow("room-temperature", Double.class);
+    private static final double ROOM_TEMPERATURE_CELSIUS = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("room-temperature", Double.class);
     private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
@@ -490,7 +489,7 @@ public final class SmelteryController extends SmelteryComponent
     // <editor-fold desc="Recipe" defaultstate="collapsed">
     public static final class Recipe implements PylonRecipe {
 
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(pylonKey("smeltery")) {
+        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery")) {
             @Override
             public void addRecipe(@NotNull Recipe recipe) {
                 super.addRecipe(recipe);
@@ -643,7 +642,7 @@ public final class SmelteryController extends SmelteryComponent
 
     static {
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("redstone_decomposition"),
+                baseKey("redstone_decomposition"),
                 Map.of(BaseFluids.REDSTONE_SLURRY, 1.0),
                 Map.of(
                         BaseFluids.SULFUR, 0.25,
@@ -653,7 +652,7 @@ public final class SmelteryController extends SmelteryComponent
                 345
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("coal_to_carbon"),
+                baseKey("coal_to_carbon"),
                 Map.of(BaseFluids.COAL_SLURRY, 1.0),
                 Map.of(
                         BaseFluids.CARBON_SLURRY, 0.9,
@@ -662,7 +661,7 @@ public final class SmelteryController extends SmelteryComponent
                 1000
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("copper_smelting"),
+                baseKey("copper_smelting"),
                 Map.of(BaseFluids.RAW_COPPER_SLURRY, 1.0),
                 Map.of(
                         BaseFluids.COPPER, 0.5,
@@ -671,7 +670,7 @@ public final class SmelteryController extends SmelteryComponent
                 1085
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("copper_smelting_with_sulfur"),
+                baseKey("copper_smelting_with_sulfur"),
                 Map.of(
                         BaseFluids.RAW_COPPER_SLURRY, 1.0,
                         BaseFluids.SULFUR, 0.1
@@ -685,7 +684,7 @@ public final class SmelteryController extends SmelteryComponent
                 1085
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("gold_smelting"),
+                baseKey("gold_smelting"),
                 Map.of(
                         BaseFluids.RAW_GOLD_SLURRY, 1.0,
                         BaseFluids.MERCURY, 1.0
@@ -700,7 +699,7 @@ public final class SmelteryController extends SmelteryComponent
                 1064
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("tin_smelting"),
+                baseKey("tin_smelting"),
                 Map.of(
                         BaseFluids.RAW_TIN_SLURRY, 1.0,
                         BaseFluids.CARBON_SLURRY, 0.5
@@ -712,7 +711,7 @@ public final class SmelteryController extends SmelteryComponent
                 250
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("lead_smelting"),
+                baseKey("lead_smelting"),
                 Map.of(
                         BaseFluids.RAW_LEAD_SLURRY, 1.0,
                         BaseFluids.CARBON_SLURRY, 0.5,
@@ -726,7 +725,7 @@ public final class SmelteryController extends SmelteryComponent
                 350
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("zinc_smelting"),
+                baseKey("zinc_smelting"),
                 Map.of(
                         BaseFluids.RAW_ZINC_SLURRY, 1.0,
                         BaseFluids.CARBON_SLURRY, 0.5
@@ -738,7 +737,7 @@ public final class SmelteryController extends SmelteryComponent
                 700
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("iron_smelting"),
+                baseKey("iron_smelting"),
                 Map.of(
                         BaseFluids.RAW_IRON_SLURRY, 1.0,
                         BaseFluids.CARBON_SLURRY, 0.5
@@ -750,7 +749,7 @@ public final class SmelteryController extends SmelteryComponent
                 1540
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("iron_smelting_with_sulfur"),
+                baseKey("iron_smelting_with_sulfur"),
                 Map.of(
                         BaseFluids.RAW_IRON_SLURRY, 1.0,
                         BaseFluids.CARBON_SLURRY, 0.5,
@@ -767,7 +766,7 @@ public final class SmelteryController extends SmelteryComponent
 
         // Alloys
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("bronze"),
+                baseKey("bronze"),
                 Map.of(
                         BaseFluids.COPPER, 1.0 - 0.12,
                         BaseFluids.TIN, 0.12
@@ -776,7 +775,7 @@ public final class SmelteryController extends SmelteryComponent
                 950
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("brass"),
+                baseKey("brass"),
                 Map.of(
                         BaseFluids.COPPER, 1.0 - 0.3,
                         BaseFluids.ZINC, 0.3
@@ -785,7 +784,7 @@ public final class SmelteryController extends SmelteryComponent
                 900
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("steel"),
+                baseKey("steel"),
                 Map.of(
                         BaseFluids.IRON, 1.0 - 0.04,
                         BaseFluids.CARBON_SLURRY, 0.04
@@ -794,7 +793,7 @@ public final class SmelteryController extends SmelteryComponent
                 1540
         ));
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                pylonKey("decarburization"), // yes this is a real word
+                baseKey("decarburization"), // yes this is a real word
                 Map.of(
                         BaseFluids.STEEL, 1.0,
                         BaseFluids.WATER, 0.1
@@ -807,7 +806,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<FluidPixelEntity> pixels = new ArrayList<>();
-    private static final int RESOLUTION = Settings.get(KEY).getOrThrow("display.resolution", Integer.class);
+    private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", Integer.class);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
@@ -851,7 +850,7 @@ public final class SmelteryController extends SmelteryComponent
 
     public static final class FluidPixelEntity extends PylonEntity<TextDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("smeltery_fluid_pixel");
+        public static final NamespacedKey KEY = baseKey("smeltery_fluid_pixel");
 
         public FluidPixelEntity(@NotNull TextDisplay entity) {
             super(KEY, entity);
@@ -859,7 +858,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private double lastHeight = 0;
-    private static final double LIGHTNESS_VARIATION = Settings.get(KEY).getOrThrow("display.lightness-variation", Double.class);
+    private static final double LIGHTNESS_VARIATION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.lightness-variation", Double.class);
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(BaseUtils.colorFromTemperature(temperature));

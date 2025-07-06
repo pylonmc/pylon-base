@@ -39,15 +39,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
-    public static final NamespacedKey KEY = pylonKey("fluid_filter");
-
-    public static final NamespacedKey FLUID_KEY = pylonKey("fluid");
-    public static final NamespacedKey BUFFER_KEY = pylonKey("buffer");
+    public static final NamespacedKey FLUID_KEY = baseKey("fluid");
+    public static final NamespacedKey BUFFER_KEY = baseKey("buffer");
 
     public static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
     public static final Material NO_FLUID_MATERIAL = Material.RED_TERRACOTTA;
@@ -168,7 +166,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
 
     public static class MainDisplay extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("fluid_filter_main_display");
+        public static final NamespacedKey KEY = baseKey("fluid_filter_main_display");
 
         @SuppressWarnings("unused")
         public MainDisplay(@NotNull ItemDisplay entity) {
@@ -190,7 +188,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
 
     public static class FluidDisplay extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("fluid_filter_fluid_display");
+        public static final NamespacedKey KEY = baseKey("fluid_filter_fluid_display");
 
         @SuppressWarnings("unused")
         public FluidDisplay(@NotNull ItemDisplay entity) {

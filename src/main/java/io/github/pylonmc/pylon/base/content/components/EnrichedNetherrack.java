@@ -4,23 +4,17 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Settings;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 public final class EnrichedNetherrack extends PylonBlock implements PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("enriched_netherrack");
-
-    public static final int TICK_RATE = Settings.get(KEY).getOrThrow("tick-rate", Integer.class);
+    public final int tickRate = getSettings().getOrThrow("tick-rate", Integer.class);
 
     @SuppressWarnings("unused")
     public EnrichedNetherrack(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -34,7 +28,7 @@ public final class EnrichedNetherrack extends PylonBlock implements PylonTicking
 
     @Override
     public int getCustomTickRate(int globalTickRate) {
-        return TICK_RATE;
+        return tickRate;
     }
 
     @Override

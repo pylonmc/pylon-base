@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
@@ -53,18 +54,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 
 public class Press extends PylonBlock implements PylonInteractableBlock, PylonFluidIoBlock {
 
-    public static final NamespacedKey KEY = pylonKey("press");
-    public static final NamespacedKey OIL_AMOUNT_KEY = pylonKey("oil_amount");
+    public static final NamespacedKey OIL_AMOUNT_KEY = baseKey("oil_amount");
 
-    public static final int TIME_PER_ITEM_TICKS = Settings.get(KEY).getOrThrow("time-per-item-ticks", Integer.class);
-    public static final int RETURN_TO_START_TIME_TICKS = Settings.get(KEY).getOrThrow("return-to-start-time-ticks", Integer.class);
-    public static final int CAPACITY_MB = Settings.get(KEY).getOrThrow("capacity-mb", Integer.class);
+    public static final int TIME_PER_ITEM_TICKS = Settings.get(BaseKeys.PRESS).getOrThrow("time-per-item-ticks", Integer.class);
+    public static final int RETURN_TO_START_TIME_TICKS = Settings.get(BaseKeys.PRESS).getOrThrow("return-to-start-time-ticks", Integer.class);
+    public static final int CAPACITY_MB = Settings.get(BaseKeys.PRESS).getOrThrow("capacity-mb", Integer.class);
 
     public static class PressItem extends PylonItem {
 
@@ -208,7 +208,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     public static class PressCoverEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("press_cover");
+        public static final NamespacedKey KEY = baseKey("press_cover");
 
         @SuppressWarnings("unused")
         public PressCoverEntity(@NotNull ItemDisplay entity) {
@@ -257,7 +257,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
         static {
             PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-            ConfigSection config = Settings.get(KEY).getSectionOrThrow("oil-amount");
+            ConfigSection config = Settings.get(BaseKeys.PRESS).getSectionOrThrow("oil-amount");
             for (String key : config.getKeys()) {
                 Material material = Material.getMaterial(key.toUpperCase());
                 Preconditions.checkState(material != null, "No such material " + key);

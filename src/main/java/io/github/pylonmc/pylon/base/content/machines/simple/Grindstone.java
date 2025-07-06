@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -28,6 +29,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
@@ -45,20 +47,18 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 
 public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("grindstone");
+    private static final NamespacedKey RECIPE_KEY = baseKey("recipe");
+    private static final NamespacedKey CYCLES_REMAINING_KEY = baseKey("cycles_remaining");
+    private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = baseKey("cycle_ticks_remaining");
 
-    public static final int TICK_RATE = Settings.get(KEY).getOrThrow("tick-rate", Integer.class);
-    public static final int CYCLE_TIME_TICKS = Settings.get(KEY).getOrThrow("cycle-time-ticks", Integer.class);
-
-    private static final NamespacedKey RECIPE_KEY = pylonKey("recipe");
-    private static final NamespacedKey CYCLES_REMAINING_KEY = pylonKey("cycles_remaining");
-    private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = pylonKey("cycle_ticks_remaining");
+    public static final int TICK_RATE = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("tick-rate", Integer.class);
+    public static final int CYCLE_TIME_TICKS = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("cycle-time-ticks", Integer.class);
 
     @Getter private @Nullable NamespacedKey recipe;
     private @Nullable Integer cyclesRemaining;
@@ -111,7 +111,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     @Override
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
-        return Map.of(new Vector3i(0, 1, 0), new PylonMultiblockComponent(GrindstoneHandle.KEY));
+        return Map.of(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.GRINDSTONE_HANDLE));
     }
 
     @Override
@@ -279,7 +279,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     public static class GrindstoneItemEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("grindstone_item");
+        public static final NamespacedKey KEY = baseKey("grindstone_item");
 
         public GrindstoneItemEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
@@ -288,11 +288,24 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     public static class GrindstoneBlockEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("grindstone_block");
+        public static final NamespacedKey KEY = baseKey("grindstone_block");
 
         public GrindstoneBlockEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);
         }
+    }
+
+    static {
+        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+                baseKey("string_from_bamboo"),
+                new ItemStack(Material.BAMBOO, 4),
+                new ItemStack(Material.STRING),
+                3,
+                Material.BAMBOO.createBlockData(data -> {
+                    Ageable ageable = (Ageable) data;
+                    ageable.setAge(ageable.getMaximumAge());
+                })
+        ));
     }
 
     public record Recipe(

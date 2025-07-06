@@ -1,27 +1,15 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
-import com.destroystokyo.paper.event.player.PlayerReadyArrowEvent;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Arrow;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 public class RecoilArrow extends PylonItem implements Arrow {
 
-    public static final NamespacedKey KEY = pylonKey("recoil_arrow");
-
-    public static final double EFFICIENCY = Settings.get(KEY).getOrThrow("efficiency", Double.class);
-
-    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.ARROW, KEY)
-            .build();
+    public final double efficiency = getSettings().getOrThrow("efficiency", Double.class);
 
     public RecoilArrow(@NotNull ItemStack stack) {
         super(stack);
@@ -29,11 +17,6 @@ public class RecoilArrow extends PylonItem implements Arrow {
 
     @Override
     public void onArrowShotFromBow(@NotNull EntityShootBowEvent event) {
-        event.getEntity().setVelocity(event.getEntity().getVelocity().add(event.getProjectile().getVelocity().multiply(-EFFICIENCY)));
-    }
-
-    @Override
-    public void onArrowReady(@NotNull PlayerReadyArrowEvent event) {
-        // Intentionally blank
+        event.getEntity().setVelocity(event.getEntity().getVelocity().add(event.getProjectile().getVelocity().multiply(-efficiency)));
     }
 }

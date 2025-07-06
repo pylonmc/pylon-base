@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseBlocks;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimplePurificationMachine;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
@@ -34,30 +35,26 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class CoalFiredPurificationTower extends SimplePurificationMachine
         implements PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
 
-    public static final NamespacedKey COAL_FIRED_PURIFICATION_TOWER_KEY = pylonKey("coal_fired_purification_tower");
-    public static final ItemStack COAL_FIRED_PURIFICATION_TOWER_STACK = ItemStackBuilder.pylonItem(Material.BLACK_CONCRETE, COAL_FIRED_PURIFICATION_TOWER_KEY)
-            .build();
-
-    public static final double FLUID_MB_PER_SECOND = Settings.get(COAL_FIRED_PURIFICATION_TOWER_KEY).getOrThrow("fluid-mb-per-second", Integer.class);
-    public static final double FLUID_BUFFER = Settings.get(COAL_FIRED_PURIFICATION_TOWER_KEY).getOrThrow("fluid-buffer-mb", Integer.class);
-    public static final int TICK_INTERVAL = Settings.get(COAL_FIRED_PURIFICATION_TOWER_KEY).getOrThrow("tick-interval", Integer.class);
+    public static final double FLUID_MB_PER_SECOND = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getOrThrow("fluid-mb-per-second", Integer.class);
+    public static final double FLUID_BUFFER = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getOrThrow("fluid-buffer-mb", Integer.class);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getOrThrow("tick-interval", Integer.class);
     public static final Map<ItemStack, Integer> FUELS = new HashMap<>();
 
     static {
-        ConfigSection config = Settings.get(COAL_FIRED_PURIFICATION_TOWER_KEY).getSectionOrThrow("fuels");
+        ConfigSection config = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getSectionOrThrow("fuels");
         for (String key : config.getKeys()) {
             FUELS.put(config.getItemOrThrow(key), config.getOrThrow(key, Integer.class));
         }
     }
 
-    private static final NamespacedKey FUEL_KEY = pylonKey("fuel");
-    private static final NamespacedKey FUEL_SECONDS_ELAPSED_KEY = pylonKey("fuel_seconds_elapsed");
+    private static final NamespacedKey FUEL_KEY = baseKey("fuel");
+    private static final NamespacedKey FUEL_SECONDS_ELAPSED_KEY = baseKey("fuel_seconds_elapsed");
 
     public static final Component NO_FUEL = Component.translatable("pylon.pylonbase.message.hydraulic_status.no_fuel");
 
@@ -153,10 +150,10 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
 
         return components;
     }

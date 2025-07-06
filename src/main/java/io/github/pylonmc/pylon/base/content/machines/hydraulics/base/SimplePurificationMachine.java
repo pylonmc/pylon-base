@@ -21,13 +21,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public abstract class SimplePurificationMachine extends PylonBlock implements PylonFluidIoBlock {
 
-    public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("dirty_hydraulic_fluid_amount");
-    public static final NamespacedKey HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("hydraulic_fluid_amount");
+    public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = baseKey("dirty_hydraulic_fluid_amount");
+    public static final NamespacedKey HYDRAULIC_FLUID_AMOUNT_KEY = baseKey("hydraulic_fluid_amount");
 
     @Getter protected double dirtyHydraulicFluidAmount;
     @Getter protected double hydraulicFluidAmount;

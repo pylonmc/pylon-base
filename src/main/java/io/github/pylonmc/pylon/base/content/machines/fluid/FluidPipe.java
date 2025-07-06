@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
@@ -14,10 +15,8 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.JoinConfiguration;
@@ -39,24 +38,9 @@ import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 @SuppressWarnings("UnstableApiUsage")
 public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
-
-    public static final NamespacedKey PIPE_WOOD_KEY = pylonKey("fluid_pipe_wood");
-    public static final NamespacedKey PIPE_COPPER_KEY = pylonKey("fluid_pipe_copper");
-    public static final NamespacedKey PIPE_OBSIDIAN_KEY = pylonKey("fluid_pipe_obsidian");
-
-    public static final ItemStack PIPE_WOOD_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_WOOD_KEY)
-            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_WOOD_KEY).getKey())
-            .build();
-    public static final ItemStack PIPE_COPPER_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_COPPER_KEY)
-            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_COPPER_KEY).getKey())
-            .build();
-    public static final ItemStack PIPE_OBSIDIAN_STACK = ItemStackBuilder.pylonItem(Material.CLAY_BALL, PIPE_OBSIDIAN_KEY)
-            .set(DataComponentTypes.ITEM_MODEL, getMaterial(PIPE_OBSIDIAN_KEY).getKey())
-            .build();
 
     public final Material material = getMaterial(getKey());
     public final double fluidPerSecond = getSettings().getOrThrow("fluid-per-second", Double.class);
@@ -130,11 +114,11 @@ public class FluidPipe extends PylonItem implements EntityInteractor, Interactor
         }
     }
 
-    private static Material getMaterial(@NotNull NamespacedKey key) {
+    public static Material getMaterial(@NotNull NamespacedKey key) {
         return Map.of(
-                PIPE_WOOD_KEY, Material.BROWN_TERRACOTTA,
-                PIPE_COPPER_KEY, Material.ORANGE_TERRACOTTA,
-                PIPE_OBSIDIAN_KEY, Material.BLACK_TERRACOTTA
+                BaseKeys.FLUID_PIPE_WOOD, Material.BROWN_TERRACOTTA,
+                BaseKeys.FLUID_PIPE_COPPER, Material.ORANGE_TERRACOTTA,
+                BaseKeys.FLUID_PIPE_OBSIDIAN, Material.BLACK_TERRACOTTA
         ).get(key);
     }
 

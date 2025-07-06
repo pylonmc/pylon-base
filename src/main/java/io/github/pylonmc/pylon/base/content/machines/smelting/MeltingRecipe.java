@@ -11,7 +11,7 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public record MeltingRecipe(
         @NotNull NamespacedKey key,
@@ -21,7 +21,7 @@ public record MeltingRecipe(
 ) implements PylonRecipe {
 
     public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(
-            pylonKey("melt_recipe")
+            baseKey("melt_recipe")
     );
 
     static {

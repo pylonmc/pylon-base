@@ -13,7 +13,7 @@ import org.bukkit.inventory.RecipeChoice;
 
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class BaseFluids {
 
@@ -22,148 +22,148 @@ public final class BaseFluids {
     }
 
     public static final PylonFluid WATER = new PylonFluid(
-            pylonKey("water"),
+            baseKey("water"),
             Material.BLUE_CONCRETE
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid LAVA = new PylonFluid(
-            pylonKey("lava"),
+            baseKey("lava"),
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SULFUR = new PylonFluid(
-            pylonKey("sulfur"),
+            baseKey("sulfur"),
             Material.YELLOW_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid MERCURY = new PylonFluid(
-            pylonKey("mercury"),
+            baseKey("mercury"),
             Material.GRAY_CONCRETE
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid COPPER = new PylonFluid(
-            pylonKey("copper"),
+            baseKey("copper"),
             Material.TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid GOLD = new PylonFluid(
-            pylonKey("gold"),
+            baseKey("gold"),
             Material.GOLD_BLOCK
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid IRON = new PylonFluid(
-            pylonKey("iron"),
+            baseKey("iron"),
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SILVER = new PylonFluid(
-            pylonKey("silver"),
+            baseKey("silver"),
             Material.WHITE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid LEAD = new PylonFluid(
-            pylonKey("lead"),
+            baseKey("lead"),
             Material.LIGHT_GRAY_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid TIN = new PylonFluid(
-            pylonKey("tin"),
+            baseKey("tin"),
             Material.LIGHT_GRAY_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid ZINC = new PylonFluid(
-            pylonKey("zinc"),
+            baseKey("zinc"),
             Material.LIGHT_GRAY_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid COBALT = new PylonFluid(
-            pylonKey("cobalt"),
+            baseKey("cobalt"),
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid NICKEL = new PylonFluid(
-            pylonKey("nickel"),
+            baseKey("nickel"),
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid BRONZE = new PylonFluid(
-            pylonKey("bronze"),
+            baseKey("bronze"),
             Material.BROWN_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid BRASS = new PylonFluid(
-            pylonKey("brass"),
+            baseKey("brass"),
             Material.GOLD_BLOCK
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid STEEL = new PylonFluid(
-            pylonKey("steel"),
+            baseKey("steel"),
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SLURRY = new PylonFluid(
-            pylonKey("slurry"),
+            baseKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid COAL_SLURRY = new Slurry(
-            pylonKey("slurry_coal"),
+            baseKey("slurry_coal"),
             BaseItems.COAL_DUST
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid CARBON_SLURRY = new Slurry(
-            pylonKey("slurry_carbon"),
+            baseKey("slurry_carbon"),
             BaseItems.CARBON_DUST
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
-            pylonKey("slurry_raw_copper"),
+            baseKey("slurry_raw_copper"),
             BaseItems.CRUSHED_RAW_COPPER
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_GOLD_SLURRY = new Slurry(
-            pylonKey("slurry_raw_gold"),
+            baseKey("slurry_raw_gold"),
             BaseItems.CRUSHED_RAW_GOLD
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_IRON_SLURRY = new Slurry(
-            pylonKey("slurry_raw_iron"),
+            baseKey("slurry_raw_iron"),
             BaseItems.CRUSHED_RAW_IRON
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_LEAD_SLURRY = new Slurry(
-            pylonKey("slurry_raw_lead"),
+            baseKey("slurry_raw_lead"),
             BaseItems.CRUSHED_RAW_LEAD
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_TIN_SLURRY = new Slurry(
-            pylonKey("slurry_raw_tin"),
+            baseKey("slurry_raw_tin"),
             BaseItems.CRUSHED_RAW_TIN
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_ZINC_SLURRY = new Slurry(
-            pylonKey("slurry_raw_zinc"),
+            baseKey("slurry_raw_zinc"),
             BaseItems.CRUSHED_RAW_ZINC
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid REDSTONE_SLURRY = new Slurry(
-            pylonKey("slurry_redstone"),
+            baseKey("slurry_redstone"),
             new ItemStack(Material.REDSTONE)
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid PLANT_OIL = new PylonFluid(
-            pylonKey("plant_oil"),
+            baseKey("plant_oil"),
             Material.YELLOW_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid HYDRAULIC_FLUID = new PylonFluid(
-            pylonKey("hydraulic_fluid"),
+            baseKey("hydraulic_fluid"),
             Material.BLUE_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
 
     public static final PylonFluid DIRTY_HYDRAULIC_FLUID = new PylonFluid(
-            pylonKey("dirty_hydraulic_fluid"),
+            baseKey("dirty_hydraulic_fluid"),
             Material.BROWN_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 

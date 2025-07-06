@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseBlocks;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimplePurificationMachine;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -22,26 +23,10 @@ import org.joml.Vector3i;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class SolarPurificationTower extends SimplePurificationMachine implements PylonSimpleMultiblock, PylonTickingBlock {
-
-    public static final NamespacedKey SOLAR_PURIFICATION_TOWER_1_KEY = pylonKey("solar_purification_tower_1");
-    public static final NamespacedKey SOLAR_PURIFICATION_TOWER_2_KEY = pylonKey("solar_purification_tower_2");
-    public static final NamespacedKey SOLAR_PURIFICATION_TOWER_3_KEY = pylonKey("solar_purification_tower_3");
-    public static final NamespacedKey SOLAR_PURIFICATION_TOWER_4_KEY = pylonKey("solar_purification_tower_4");
-    public static final NamespacedKey SOLAR_PURIFICATION_TOWER_5_KEY = pylonKey("solar_purification_tower_5");
-    public static final ItemStack SOLAR_PURIFICATION_TOWER_1_STACK = ItemStackBuilder.pylonItem(Material.BLACK_CONCRETE, SOLAR_PURIFICATION_TOWER_1_KEY)
-            .build();
-    public static final ItemStack SOLAR_PURIFICATION_TOWER_2_STACK = ItemStackBuilder.pylonItem(Material.BLACK_CONCRETE, SOLAR_PURIFICATION_TOWER_2_KEY)
-            .build();
-    public static final ItemStack SOLAR_PURIFICATION_TOWER_3_STACK = ItemStackBuilder.pylonItem(Material.BLACK_CONCRETE, SOLAR_PURIFICATION_TOWER_3_KEY)
-            .build();
-    public static final ItemStack SOLAR_PURIFICATION_TOWER_4_STACK = ItemStackBuilder.pylonItem(Material.BLACK_CONCRETE, SOLAR_PURIFICATION_TOWER_4_KEY)
-            .build();
-    public static final ItemStack SOLAR_PURIFICATION_TOWER_5_STACK = ItemStackBuilder.pylonItem(Material.BLACK_CONCRETE, SOLAR_PURIFICATION_TOWER_5_KEY)
-            .build();
 
     public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", Integer.class);
     public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", Integer.class);
@@ -96,17 +81,17 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_GLASS_KEY));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseBlocks.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
 
         for (int j = 1; j < lensLayers + 1; j++) {
             for (int i = 0; i < 1 + 4*j; i++) {
-                components.put(new Vector3i(2*j, 1, i - 2*j), new PylonMultiblockComponent(BaseBlocks.SOLAR_LENS_KEY));
-                components.put(new Vector3i(-2*j, 1, i - 2*j), new PylonMultiblockComponent(BaseBlocks.SOLAR_LENS_KEY));
-                components.put(new Vector3i(i - 2*j, 1, 2*j), new PylonMultiblockComponent(BaseBlocks.SOLAR_LENS_KEY));
-                components.put(new Vector3i(i - 2*j, 1, -2*j), new PylonMultiblockComponent(BaseBlocks.SOLAR_LENS_KEY));
+                components.put(new Vector3i(2*j, 1, i - 2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(-2*j, 1, i - 2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(i - 2*j, 1, 2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(i - 2*j, 1, -2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
             }
         }
 

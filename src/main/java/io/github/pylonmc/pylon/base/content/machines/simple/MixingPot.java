@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
@@ -56,22 +57,16 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidIoBlock {
 
-    public static final NamespacedKey KEY = pylonKey("mixing_pot");
+    private static final NamespacedKey FLUID_KEY = baseKey("fluid");
+    private static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
 
-    private static final NamespacedKey FLUID_KEY = pylonKey("fluid");
-    private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
+    @Getter @Setter private @Nullable PylonFluid fluidType;
 
-    @Getter
-    @Setter
-    private @Nullable PylonFluid fluidType;
-
-    @Getter
-    @Setter
-    private double fluidAmount;
+    @Getter @Setter private double fluidAmount;
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -218,7 +213,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
         PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
         boolean isEnrichedFire = ignitedBlock != null
-                && ignitedBlock.getSchema().getKey().equals(EnrichedNetherrack.KEY);
+                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, fluidType, fluidAmount)) {

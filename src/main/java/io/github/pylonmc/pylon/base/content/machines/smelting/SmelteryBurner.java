@@ -33,25 +33,25 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("smeltery_burner");
+    public static final NamespacedKey KEY = baseKey("smeltery_burner");
 
     public static final double BURN_EFFICIENCY = Settings.get(KEY).getOrThrow("burn-efficiency", Double.class);
     public static final double DIMINISHING_RETURN = Settings.get(KEY).getOrThrow("diminishing-returns", Double.class);
 
-    public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(pylonKey("smeltery_burner_fuels"));
+    public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(baseKey("smeltery_burner_fuels"));
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
 
     static {
         PylonRegistry.addRegistry(FUELS);
     }
 
-    private static final NamespacedKey FUEL_KEY = pylonKey("fuel");
+    private static final NamespacedKey FUEL_KEY = baseKey("fuel");
     private static final PersistentDataType<?, Fuel> FUEL_TYPE = PylonSerializers.KEYED.keyedTypeFrom(Fuel.class, FUELS::getOrThrow);
-    private static final NamespacedKey SECONDS_ELAPSED_KEY = pylonKey("seconds_elapsed");
+    private static final NamespacedKey SECONDS_ELAPSED_KEY = baseKey("seconds_elapsed");
 
     private @Nullable Fuel fuel;
     private double secondsElapsed = 0;
@@ -198,25 +198,25 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     static {
         FUELS.register(new Fuel(
-                pylonKey("coal"),
+                baseKey("coal"),
                 new ItemStack(Material.COAL),
                 333_300_000,
                 30
         ));
         FUELS.register(new Fuel(
-                pylonKey("coal_dust"),
+                baseKey("coal_dust"),
                 BaseItems.COAL_DUST,
                 333_300_000,
                 30
         ));
         FUELS.register(new Fuel(
-                pylonKey("charcoal"),
+                baseKey("charcoal"),
                 new ItemStack(Material.CHARCOAL),
                 350_000_000,
                 30
         ));
         FUELS.register(new Fuel(
-                pylonKey("carbon"),
+                baseKey("carbon"),
                 BaseItems.CARBON_DUST,
                 6_000_000_000.0,
                 60

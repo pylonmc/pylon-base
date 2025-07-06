@@ -15,7 +15,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.TranslationArgument;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -29,11 +28,7 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
-
-    public static final NamespacedKey KEY = pylonKey("smeltery_caster");
 
     private @Nullable PylonFluid bottomFluid = null;
 

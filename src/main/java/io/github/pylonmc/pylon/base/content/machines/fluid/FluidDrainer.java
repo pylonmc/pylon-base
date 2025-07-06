@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonInteractableBlock {
@@ -50,10 +51,7 @@ public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, Pylon
         }
     }
 
-    public static final NamespacedKey WATER_DRAINER_KEY = pylonKey("water_drainer");
-    public static final NamespacedKey LAVA_DRAINER_KEY = pylonKey("lava_drainer");
-
-    public static final NamespacedKey BUFFER_KEY = pylonKey("buffer");
+    public static final NamespacedKey BUFFER_KEY = baseKey("buffer");
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
 
@@ -131,15 +129,15 @@ public class FluidDrainer extends PylonBlock implements PylonFluidIoBlock, Pylon
 
     private @NotNull PylonFluid getFluid() {
         return Map.of(
-                WATER_DRAINER_KEY, BaseFluids.WATER,
-                LAVA_DRAINER_KEY, BaseFluids.LAVA
+                BaseKeys.WATER_DRAINER, BaseFluids.WATER,
+                BaseKeys.LAVA_DRAINER, BaseFluids.LAVA
         ).get(getKey());
     }
 
     private @NotNull Material getDrainMaterial() {
         return Map.of(
-                WATER_DRAINER_KEY, Material.WATER,
-                LAVA_DRAINER_KEY, Material.LAVA
+                BaseKeys.WATER_DRAINER, Material.WATER,
+                BaseKeys.LAVA_DRAINER, Material.LAVA
         ).get(getKey());
     }
 }

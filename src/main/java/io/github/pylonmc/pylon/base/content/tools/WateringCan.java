@@ -1,14 +1,11 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -21,17 +18,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Random;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 public class WateringCan extends PylonItem implements BlockInteractor {
 
-    public static final NamespacedKey KEY = pylonKey("watering_can");
 
-    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(KEY));
-
-    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.BUCKET, KEY)
-            .build();
+    public final WateringSettings settings = WateringSettings.fromConfig(getSettings());
 
     private static final Random random = new Random();
 
@@ -41,7 +32,7 @@ public class WateringCan extends PylonItem implements BlockInteractor {
 
         @Override
         public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-            return Map.of("range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange()));
+            return Map.of("range", UnitFormat.BLOCKS.format(settings.horizontalRange()));
         }
 
     @Override
@@ -57,7 +48,7 @@ public class WateringCan extends PylonItem implements BlockInteractor {
             return;
         }
 
-        water(center.getRelative(BlockFace.UP), SETTINGS);
+        water(center.getRelative(BlockFace.UP), settings);
     }
 
     // TODO this will likely need to be profiled and optimised, will not perform well with a lot of sprinklers I think

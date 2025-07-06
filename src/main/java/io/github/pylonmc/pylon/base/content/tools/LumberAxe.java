@@ -1,15 +1,11 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Tool;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.BlockUtils;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,19 +20,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 @SuppressWarnings("UnstableApiUsage")
 public class LumberAxe extends PylonItem implements Tool {
-
-    public static final NamespacedKey KEY = pylonKey("lumber_axe");
-
-    public static final int DURABILITY = Settings.get(KEY).getOrThrow("durability", Integer.class);
-
-    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, KEY)
-            .set(DataComponentTypes.MAX_DAMAGE, DURABILITY)
-            .build();
 
     public LumberAxe( @NotNull ItemStack stack) {
         super(stack);

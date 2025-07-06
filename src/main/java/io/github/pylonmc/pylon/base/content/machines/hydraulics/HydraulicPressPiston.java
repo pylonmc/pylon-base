@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
@@ -33,19 +34,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicPressPiston extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("hydraulic_press_piston");
-
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
     public static final double HYDRAULIC_FLUID_BUFFER = HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
 
-    public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON).getOrThrow("tick-interval", Integer.class);
 
     public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_press");
 
@@ -154,7 +153,7 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
 
     public static class PistonShaftEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("press_piston_shaft");
+        public static final NamespacedKey KEY = baseKey("press_piston_shaft");
 
         @SuppressWarnings("unused")
         public PistonShaftEntity(@NotNull ItemDisplay entity) {

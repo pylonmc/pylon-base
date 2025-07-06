@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -21,14 +20,12 @@ import org.joml.Vector3d;
 
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
-    public static final NamespacedKey KEY = pylonKey("fluid_meter");
-
-    public static final int INTERVAL_TICKS = Settings.get(KEY).getOrThrow("interval-ticks", Integer.class);
+    public final int intervalTicks = getSettings().getOrThrow("interval-ticks", Integer.class);
 
     private double removedSinceLastUpdate;
 
@@ -67,7 +64,7 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
     @Override
     public int getCustomTickRate(int globalTickRate) {
-        return INTERVAL_TICKS;
+        return intervalTicks;
     }
 
     @Override
@@ -81,7 +78,7 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
     public static class FlowRateDisplay extends PylonEntity<TextDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("fluid_meter_flow_rate_display");
+        public static final NamespacedKey KEY = baseKey("fluid_meter_flow_rate_display");
 
         @SuppressWarnings("unused")
         public FlowRateDisplay(@NotNull TextDisplay entity) {

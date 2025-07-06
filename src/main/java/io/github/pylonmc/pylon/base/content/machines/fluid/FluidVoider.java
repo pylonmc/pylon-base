@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
@@ -48,10 +48,6 @@ public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
             );
         }
     }
-
-    public static final NamespacedKey FLUID_VOIDER_1_KEY = pylonKey("fluid_voider_1");
-    public static final NamespacedKey FLUID_VOIDER_2_KEY= pylonKey("fluid_voider_2");
-    public static final NamespacedKey FLUID_VOIDER_3_KEY= pylonKey("fluid_voider_3");
 
     private static final Material MAIN_MATERIAL = Material.BLACK_TERRACOTTA;
 
@@ -96,7 +92,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidIoBlock {
 
     public static class MainDisplay extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("fluid_voider_main_display");
+        public static final NamespacedKey KEY = baseKey("fluid_voider_main_display");
 
         @SuppressWarnings("unused")
         public MainDisplay(@NotNull ItemDisplay entity) {

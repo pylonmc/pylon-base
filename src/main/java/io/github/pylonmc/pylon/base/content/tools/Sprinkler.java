@@ -2,11 +2,11 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -32,10 +32,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonFluidBlock {
+public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock {
 
     public static class Item extends PylonItem {
 
@@ -52,14 +52,12 @@ public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTic
         }
     }
 
-    public static final NamespacedKey KEY = pylonKey("sprinkler");
+    public static final NamespacedKey WATER_BUFFER_KEY = baseKey("water_buffer");
 
-    public static final NamespacedKey WATER_BUFFER_KEY = pylonKey("water_buffer");
+    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(BaseKeys.SPRINKLER));
 
-    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(Settings.get(KEY));
-
-    public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
-    public static final double WATER_PER_SECOND = Settings.get(KEY).getOrThrow("water-per-second", Integer.class);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.SPRINKLER).getOrThrow("tick-interval", Integer.class);
+    public static final double WATER_PER_SECOND = Settings.get(BaseKeys.SPRINKLER).getOrThrow("water-per-second", Integer.class);
 
     private double waterBuffer;
 

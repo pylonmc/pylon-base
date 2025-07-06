@@ -2,12 +2,9 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -21,27 +18,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 @SuppressWarnings("UnstableApiUsage")
 public class HealthTalisman extends PylonItem {
 
-    public static final NamespacedKey HEALTH_TALISMAN_SIMPLE_KEY = pylonKey("health_talisman_simple");
-    public static final NamespacedKey HEALTH_TALISMAN_ADVANCED_KEY = pylonKey("health_talisman_advanced");
-    public static final NamespacedKey HEALTH_TALISMAN_ULTIMATE_KEY = pylonKey("health_talisman_ultimate");
-
     private static final NamespacedKey HEALTH_BOOSTED_KEY = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
-
-    public static final ItemStack HEALTH_TALISMAN_SIMPLE_STACK = ItemStackBuilder.pylonItem(Material.AMETHYST_SHARD, HEALTH_TALISMAN_SIMPLE_KEY)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
-    public static final ItemStack HEALTH_TALISMAN_ADVANCED_STACK = ItemStackBuilder.pylonItem(Material.AMETHYST_CLUSTER, HEALTH_TALISMAN_ADVANCED_KEY)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
-    public static final ItemStack HEALTH_TALISMAN_ULTIMATE_STACK = ItemStackBuilder.pylonItem(Material.BUDDING_AMETHYST, HEALTH_TALISMAN_ULTIMATE_KEY)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
 
     private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", Integer.class);
 

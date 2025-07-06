@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
@@ -37,21 +38,20 @@ import org.joml.Matrix4f;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicHammerHead extends SimpleHydraulicMachine implements PylonTickingBlock, PylonInteractableBlock {
 
-    public static final NamespacedKey KEY = pylonKey("hydraulic_hammer_head");
-    public static final NamespacedKey HAMMER_KEY = pylonKey("hammer");
+    public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
-    public static final int GO_DOWN_TIME_TICKS = Settings.get(KEY).getOrThrow("go-down-time-ticks", Integer.class);
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(KEY).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final int GO_DOWN_TIME_TICKS = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("go-down-time-ticks", Integer.class);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
     public static final double HYDRAULIC_FLUID_BUFFER = HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
 
-    public static final int TICK_INTERVAL = Settings.get(KEY).getOrThrow("tick-interval", Integer.class);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD).getOrThrow("tick-interval", Integer.class);
 
     public static final Component MISSING_HAMMER = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_head");
     public static final Component MISSING_BASE = Component.translatable("pylon.pylonbase.message.hydaulic_status.missing_base");
@@ -212,7 +212,7 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
     public static class HammerHeadEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("hammer_head");
+        public static final NamespacedKey KEY = baseKey("hammer_head");
 
         @SuppressWarnings("unused")
         public HammerHeadEntity(@NotNull ItemDisplay entity) {
@@ -252,7 +252,7 @@ public class HydraulicHammerHead extends SimpleHydraulicMachine implements Pylon
 
     public static class HammerTipEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("hammer_tip");
+        public static final NamespacedKey KEY = baseKey("hammer_tip");
 
         @SuppressWarnings("unused")
         public HammerTipEntity(@NotNull ItemDisplay entity) {

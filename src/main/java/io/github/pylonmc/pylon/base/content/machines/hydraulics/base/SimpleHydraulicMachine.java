@@ -21,13 +21,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public abstract class SimpleHydraulicMachine extends PylonBlock implements PylonFluidIoBlock {
 
-    public static final NamespacedKey HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("hydraulic_fluid_amount");
-    public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = pylonKey("dirty_hydraulic_fluid_amount");
+    public static final NamespacedKey HYDRAULIC_FLUID_AMOUNT_KEY = baseKey("hydraulic_fluid_amount");
+    public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = baseKey("dirty_hydraulic_fluid_amount");
 
     public static final Component NOT_ENOUGH_HYDRAULIC_FLUID = Component.translatable("pylon.pylonbase.message.hydraulic_status.not_enough_hydraulic_fluid");
     public static final Component DIRTY_HYDRAULIC_FLUID_BUFFER_FULL = Component.translatable("pylon.pylonbase.message.hydraulic_status.dirty_hydraulic_fluid_buffer_full");

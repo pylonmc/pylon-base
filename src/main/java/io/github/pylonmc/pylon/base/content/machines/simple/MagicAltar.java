@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
@@ -40,22 +41,20 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractableBlock {
 
-    public static final NamespacedKey KEY = pylonKey("magic_altar");
-
     private static final int PEDESTAL_COUNT = 8;
 
-    private static final NamespacedKey PROCESSING_RECIPE = pylonKey("processing_recipe");
-    private static final NamespacedKey REMAINING_TIME_SECONDS = pylonKey("remaining_time_seconds");
+    private static final NamespacedKey PROCESSING_RECIPE = baseKey("processing_recipe");
+    private static final NamespacedKey REMAINING_TIME_SECONDS = baseKey("remaining_time_seconds");
     private static final Random random = new Random();
 
     private @Nullable NamespacedKey processingRecipe;
     private double remainingTimeSeconds;
 
-    private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(Pedestal.MAGIC_PEDESTAL_KEY);
+    private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.MAGIC_PEDESTAL);
 
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {

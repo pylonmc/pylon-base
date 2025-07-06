@@ -18,7 +18,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -48,22 +47,12 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
-
-        public static final ItemStack PORTABLE_FLUID_TANK_WOOD_STACK
-                = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, PORTABLE_FLUID_TANK_WOOD_KEY)
-                .editPdc(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
-                .build();
-
-        public static final ItemStack PORTABLE_FLUID_TANK_COPPER_STACK
-                = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, PORTABLE_FLUID_TANK_COPPER_KEY)
-                .editPdc(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
-                .build();
 
         @Getter
         private final double capacity = getSettings().getOrThrow("capacity", Double.class);
@@ -120,11 +109,8 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
         }
     }
 
-    public static final NamespacedKey PORTABLE_FLUID_TANK_WOOD_KEY =  pylonKey("portable_fluid_tank_wood");
-    public static final NamespacedKey PORTABLE_FLUID_TANK_COPPER_KEY =  pylonKey("portable_fluid_tank_copper");
-
-    private static final NamespacedKey FLUID_AMOUNT_KEY = pylonKey("fluid_amount");
-    private static final NamespacedKey FLUID_TYPE_KEY = pylonKey("fluid_type");
+    public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
+    private static final NamespacedKey FLUID_TYPE_KEY = baseKey("fluid_type");
 
     public final double capacity = getSettings().getOrThrow("capacity", Double.class);
     @SuppressWarnings("unchecked")
@@ -271,10 +257,8 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
 
     @Override
     public @Nullable ItemStack getItem(@NotNull BlockItemContext context) {
-        ItemStack stack = Map.of(
-                PORTABLE_FLUID_TANK_WOOD_KEY, Item.PORTABLE_FLUID_TANK_WOOD_STACK,
-                PORTABLE_FLUID_TANK_COPPER_KEY, Item.PORTABLE_FLUID_TANK_COPPER_STACK
-        ).get(getKey()).clone();
+        // TODO implement clone for PylonItem and just clone it
+        ItemStack stack = PylonRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
 
         Item item = new Item(stack);
         item.setFluid(fluidType);
@@ -358,7 +342,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
 
     public static class FluidTankEntity extends PylonEntity<ItemDisplay> {
 
-        public static final NamespacedKey KEY = pylonKey("fluid_tank_entity");
+        public static final NamespacedKey KEY = baseKey("fluid_tank_entity");
 
         public FluidTankEntity(@NotNull ItemDisplay entity) {
             super(KEY, entity);

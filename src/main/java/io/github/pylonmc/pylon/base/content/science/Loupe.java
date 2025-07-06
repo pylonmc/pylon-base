@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.science;
 
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -8,10 +9,8 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.Consumable;
 import io.github.pylonmc.pylon.core.item.base.Interactor;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -31,20 +30,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 
 @SuppressWarnings("UnstableApiUsage")
 public class Loupe extends PylonItem implements Interactor, Consumable {
-
-    public static final NamespacedKey KEY = pylonKey("loupe");
-    public static final ItemStack STACK = ItemStackBuilder.pylonItem(Material.GLASS_PANE, KEY)
-            .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
-                    .animation(ItemUseAnimation.SPYGLASS)
-                    .hasConsumeParticles(false)
-                    .consumeSeconds(3)
-            )
-            .build();
 
     private static final NamespacedKey CONSUMED_KEY = new NamespacedKey(PylonBase.getInstance(), "consumed");
     private static final PersistentDataType<PersistentDataContainer, Map<Material, Integer>> CONSUMED_TYPE =
@@ -60,7 +48,7 @@ public class Loupe extends PylonItem implements Interactor, Consumable {
         for (ItemRarity rarity : ItemRarity.values()) {
             itemConfigs.put(
                     rarity,
-                    ItemConfig.loadFrom(Settings.get(KEY).getSectionOrThrow(rarity.name().toLowerCase(Locale.ROOT)))
+                    ItemConfig.loadFrom(Settings.get(BaseKeys.LOUPE).getSectionOrThrow(rarity.name().toLowerCase(Locale.ROOT)))
             );
         }
     }

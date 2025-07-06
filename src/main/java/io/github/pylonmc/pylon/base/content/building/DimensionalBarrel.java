@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.building;
 
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -8,7 +9,6 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -19,8 +19,6 @@ import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.Map;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 
 // Totally not a test item for inventory saving
@@ -40,9 +38,7 @@ public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
         }
     }
 
-    public static final NamespacedKey KEY = pylonKey("dimensional_barrel");
-
-    public static final int SIZE = Settings.get(KEY).getOrThrow("size", Integer.class);
+    public static final int SIZE = Settings.get(BaseKeys.DIMENSIONAL_BARREL).getOrThrow("size", Integer.class);
 
     public DimensionalBarrel(Block block, BlockCreateContext context) {
         super(block);

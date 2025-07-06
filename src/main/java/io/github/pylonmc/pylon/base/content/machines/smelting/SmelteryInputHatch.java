@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -8,7 +9,6 @@ import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -18,13 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
-
 public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidIoBlock {
-
-    public static final NamespacedKey KEY = pylonKey("smeltery_input_hatch");
-
-    public static final double FLOW_RATE = Settings.get(KEY).getOrThrow("flow-rate", Double.class);
+    public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_INPUT_HATCH).getOrThrow("flow-rate", Double.class);
 
     @SuppressWarnings("unused")
     public SmelteryInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {

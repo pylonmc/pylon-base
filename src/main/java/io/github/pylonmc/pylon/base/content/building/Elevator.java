@@ -7,13 +7,10 @@ import io.github.pylonmc.pylon.core.block.base.PylonJumpableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSneakableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -25,8 +22,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.pylonKey;
 
 
 public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpableBlock {
@@ -42,16 +37,6 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
             return Map.of("elevator_range",  UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class)));
         }
     }
-
-    public static final NamespacedKey ELEVATOR_1_KEY = pylonKey("elevator_1");
-    public static final NamespacedKey ELEVATOR_2_KEY = pylonKey("elevator_2");
-    public static final NamespacedKey ELEVATOR_3_KEY = pylonKey("elevator_3");
-
-    public static final Material MATERIAL = Material.QUARTZ_SLAB;
-
-    public static final ItemStack ELEVATOR_1_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_1_KEY).build();
-    public static final ItemStack ELEVATOR_2_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_2_KEY).build();
-    public static final ItemStack ELEVATOR_3_STACK = ItemStackBuilder.pylonItem(MATERIAL, ELEVATOR_3_KEY).build();
 
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
