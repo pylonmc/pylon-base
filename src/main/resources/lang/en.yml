@@ -63,6 +63,15 @@ item:
   crushed_raw_iron:
     name: "Crushed Raw Iron"
 
+  crushed_raw_lead:
+    name: "Crushed Raw Lead"
+
+  crushed_raw_tin:
+    name: "Crushed Raw Tin"
+
+  crushed_raw_zinc:
+    name: "Crushed Raw Zinc"
+
   dimensional_barrel:
     name: "Dimensional Barrel"
     lore: |-
