@@ -1,23 +1,19 @@
 package io.github.pylonmc.pylon.base.fluid.pipe.connection;
 
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
 
 public class FluidConnectionDisplay extends PylonEntity<ItemDisplay> {
-
-    public static final NamespacedKey KEY = baseKey("fluid_connection_display");
 
     @SuppressWarnings("unused")
     public FluidConnectionDisplay(@NotNull ItemDisplay entity) {
@@ -25,11 +21,11 @@ public class FluidConnectionDisplay extends PylonEntity<ItemDisplay> {
     }
 
     public FluidConnectionDisplay(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
-        super(KEY, makeDisplay(point, face.getDirection().clone().multiply(radius).toVector3d()));
+        super(BaseKeys.FLUID_CONNECTION_DISPLAY, makeDisplay(point, face.getDirection().clone().multiply(radius).toVector3d()));
     }
 
     public FluidConnectionDisplay(@NotNull FluidConnectionPoint point) {
-        super(KEY, makeDisplay(point, new Vector3d(0, 0, 0)));
+        super(BaseKeys.FLUID_CONNECTION_DISPLAY, makeDisplay(point, new Vector3d(0, 0, 0)));
     }
 
     private static @NotNull Material materialFromType(@NotNull FluidConnectionPoint.Type type) {

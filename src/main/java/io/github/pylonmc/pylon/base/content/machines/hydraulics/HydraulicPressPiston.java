@@ -5,10 +5,12 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -21,30 +23,23 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicPressPiston extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
 
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON).getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON).getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double HYDRAULIC_FLUID_BUFFER = HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-
-    public static final int TICK_INTERVAL = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON).getOrThrow("tick-interval", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
 
     public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_press");
 
@@ -77,18 +72,22 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
 
     @Override
     public double getHydraulicFluidBuffer() {
-        return HYDRAULIC_FLUID_BUFFER;
+        return HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     }
 
     @Override
     public double getDirtyHydraulicFluidBuffer() {
-        return DIRTY_HYDRAULIC_FLUID_BUFFER;
+        return DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
     }
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Map<String, PylonEntity<?>> entities = super.createEntities(context);
-        entities.put("press_piston_shaft", new PistonShaftEntity(getBlock()));
+        entities.put("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.SPRUCE_LOG)
+                .transformation(getTransformation(0.0))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
         return entities;
     }
 
@@ -138,56 +137,26 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
         }
 
         startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
-        getPistonShaft().goDown();
+        getPistonShaft().setTransform(
+                Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS,
+                getTransformation(-0.3)
+        );
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
-                () -> getPistonShaft().goUp(),
+                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(-0.3)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
         status = WORKING;
     }
 
-    public @NotNull HydraulicPressPiston.PistonShaftEntity getPistonShaft() {
-        return Objects.requireNonNull(getHeldEntity(PistonShaftEntity.class, "press_piston_shaft"));
+    private static @NotNull Matrix4f getTransformation(double yTranslation) {
+        return new TransformBuilder()
+                .translate(0, yTranslation, 0)
+                .scale(0.3, 1.6, 0.3)
+                .buildForItemDisplay();
     }
 
-    public static class PistonShaftEntity extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("press_piston_shaft");
-
-        @SuppressWarnings("unused")
-        public PistonShaftEntity(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public PistonShaftEntity(@NotNull  Block block) {
-            super(
-                    KEY,
-                    new ItemDisplayBuilder()
-                            .material(Material.SPRUCE_LOG)
-                            .transformation(getTransformation(0.0))
-                            .build(block.getLocation().toCenterLocation().add(0, -1, 0))
-            );
-        }
-
-        public void goDown() {
-            getEntity().setTransformationMatrix(getTransformation(-0.3));
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS);
-        }
-
-        public void goUp() {
-            getEntity().setTransformationMatrix(getTransformation(0.0));
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(Press.RETURN_TO_START_TIME_TICKS);
-        }
-
-        private static @NotNull Matrix4f getTransformation(double yTranslation) {
-            return new TransformBuilder()
-                    .translate(0, yTranslation, 0)
-                    .scale(0.3, 1.6, 0.3)
-                    .buildForItemDisplay();
-
-        }
+    public @NotNull SimpleItemDisplay getPistonShaft() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "press_piston_shaft");
     }
 }

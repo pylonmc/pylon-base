@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
@@ -22,7 +23,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
@@ -33,7 +33,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -89,14 +88,19 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-
-        Block block = context.getBlock();
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        entities.put("main", new FluidValveDisplay(block, player));
-
+        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
+        entities.put("main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                    .material(MAIN_MATERIAL)
+                    .brightness(BRIGHTNESS_OFF)
+                    .transformation(new TransformBuilder()
+                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                            .scale(0.25, 0.25, 0.5)
+                    )
+                    .build(getBlock().getLocation().toCenterLocation()))
+        );
         return entities;
     }
 
@@ -110,7 +114,9 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
 
         enabled = !enabled;
 
-        getMainDisplay().setEnabled(enabled);
+        getHeldEntityOrThrow(SimpleItemDisplay.class, "main")
+                .getEntity()
+                .setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
 
         if (enabled) {
             FluidManager.connect(getEastPoint(), getWestPoint());
@@ -126,10 +132,6 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
         ));
     }
 
-    private @NotNull FluidValveDisplay getMainDisplay() {
-        return Objects.requireNonNull(getHeldEntity(FluidValveDisplay.class, "main"));
-    }
-
     private @NotNull FluidConnectionPoint getEastPoint() {
         //noinspection DataFlowIssue
         return getHeldEntity(FluidConnectionInteraction.class, "east").getPoint();
@@ -138,31 +140,5 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
     private @NotNull FluidConnectionPoint getWestPoint() {
         //noinspection DataFlowIssue
         return getHeldEntity(FluidConnectionInteraction.class, "west").getPoint();
-    }
-
-    public static class FluidValveDisplay extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("fluid_valve_display");
-
-        @SuppressWarnings("unused")
-        public FluidValveDisplay(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public FluidValveDisplay(@NotNull Block block, @NotNull Player player) {
-            super(KEY, new ItemDisplayBuilder()
-                    .material(MAIN_MATERIAL)
-                    .brightness(BRIGHTNESS_OFF)
-                    .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                            .scale(0.25, 0.25, 0.5)
-                    )
-                    .build(block.getLocation().toCenterLocation())
-            );
-        }
-
-        public void setEnabled(boolean enabled) {
-            getEntity().setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
-        }
     }
 }

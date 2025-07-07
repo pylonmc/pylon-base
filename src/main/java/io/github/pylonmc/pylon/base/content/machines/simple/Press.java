@@ -5,12 +5,14 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -39,7 +41,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -48,11 +49,11 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
@@ -62,9 +63,10 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     public static final NamespacedKey OIL_AMOUNT_KEY = baseKey("oil_amount");
 
-    public static final int TIME_PER_ITEM_TICKS = Settings.get(BaseKeys.PRESS).getOrThrow("time-per-item-ticks", Integer.class);
-    public static final int RETURN_TO_START_TIME_TICKS = Settings.get(BaseKeys.PRESS).getOrThrow("return-to-start-time-ticks", Integer.class);
-    public static final int CAPACITY_MB = Settings.get(BaseKeys.PRESS).getOrThrow("capacity-mb", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.PRESS);
+    public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", Integer.class);
+    public static final int RETURN_TO_START_TIME_TICKS = settings.getOrThrow("return-to-start-time-ticks", Integer.class);
+    public static final int CAPACITY_MB = settings.getOrThrow("capacity-mb", Integer.class);
 
     public static class PressItem extends PylonItem {
 
@@ -112,7 +114,11 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-        entities.put("press_cover", new PressCoverEntity(getBlock()));
+        entities.put("press_cover", new SimpleItemDisplay(new ItemDisplayBuilder()
+                            .material(Material.SPRUCE_PLANKS)
+                            .transformation(getCoverTransform(0.4))
+                            .build(getBlock().getLocation().toCenterLocation())
+        ));
         return entities;
     }
 
@@ -191,9 +197,11 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
 
     public void startRecipe(Recipe recipe) {
         this.currentRecipe = recipe;
-        getCover().goDown();
+        getCover().setTransform(TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
+
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            getCover().goUp();
+            getCover().setTransform(RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
+
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                 this.oilAmount += recipe.oilAmount;
                 new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
@@ -202,47 +210,15 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
         }, TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS);
     }
 
-    public @NotNull PressCoverEntity getCover() {
-        return Objects.requireNonNull(getHeldEntity(PressCoverEntity.class, "press_cover"));
+    public @NotNull SimpleItemDisplay getCover() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "press_cover");
     }
 
-    public static class PressCoverEntity extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("press_cover");
-
-        @SuppressWarnings("unused")
-        public PressCoverEntity(@NotNull ItemDisplay entity) {
-            super(entity);
-        }
-
-        public PressCoverEntity(@NotNull  Block block) {
-            super(
-                    KEY,
-                    new ItemDisplayBuilder()
-                            .material(Material.SPRUCE_PLANKS)
-                            .transformation(new TransformBuilder()
-                                    .translate(0, 0.4, 0)
-                                    .scale(0.9, 0.1, 0.9))
-                            .build(block.getLocation().toCenterLocation())
-            );
-        }
-
-        public void goDown() {
-            getEntity().setTransformationMatrix(new TransformBuilder()
-                    .scale(0.9, 0.1, 0.9)
-                    .buildForItemDisplay());
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS);
-        }
-
-        public void goUp() {
-            getEntity().setTransformationMatrix(new TransformBuilder()
-                    .translate(0, 0.4, 0)
-                    .scale(0.9, 0.1, 0.9)
-                    .buildForItemDisplay());
-            getEntity().setInterpolationDelay(0);
-            getEntity().setInterpolationDuration(RETURN_TO_START_TIME_TICKS);
-        }
+    public static @NotNull Matrix4f getCoverTransform(double translation) {
+        return new TransformBuilder()
+                .translate(0, translation, 0)
+                .scale(0.9, 0.1, 0.9)
+                .buildForItemDisplay();
     }
 
     public record Recipe(

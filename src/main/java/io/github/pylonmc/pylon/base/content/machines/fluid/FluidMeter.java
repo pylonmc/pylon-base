@@ -1,5 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
+import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -8,19 +10,16 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
 import java.util.Map;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidMeter extends FluidFilter implements PylonTickingBlock {
@@ -45,13 +44,12 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = super.createEntities(context);
-
-        Block block = context.getBlock();
+        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        entities.put("flow_rate_north", new FlowRateDisplay(block, player, BlockFace.NORTH));
-        entities.put("flow_rate_south", new FlowRateDisplay(block, player, BlockFace.SOUTH));
+        Map<String, PylonEntity<?>> entities = super.createEntities(context);
+        entities.put("flow_rate_north", createTextDisplay(player, BlockFace.NORTH));
+        entities.put("flow_rate_south", createTextDisplay(player, BlockFace.SOUTH));
         return entities;
     }
 
@@ -69,37 +67,22 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
     @Override
     public void tick(double deltaSeconds) {
-
-        getHeldEntity(FlowRateDisplay.class, "flow_rate_north").setFlowRate(removedSinceLastUpdate / deltaSeconds);
-        getHeldEntity(FlowRateDisplay.class, "flow_rate_south").setFlowRate(removedSinceLastUpdate / deltaSeconds);
-
+        Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / deltaSeconds)).asComponent();
+        getHeldEntityOrThrow(SimpleTextDisplay.class, "flow_rate_north").getEntity().text(component);
+        getHeldEntityOrThrow(SimpleTextDisplay.class, "flow_rate_south").getEntity().text(component);
         removedSinceLastUpdate = 0.0;
     }
 
-    public static class FlowRateDisplay extends PylonEntity<TextDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("fluid_meter_flow_rate_display");
-
-        @SuppressWarnings("unused")
-        public FlowRateDisplay(@NotNull TextDisplay entity) {
-            super(entity);
-        }
-
-        public FlowRateDisplay(@NotNull Block block, @NotNull Player player, @NotNull BlockFace face) {
-            super(KEY, new TextDisplayBuilder()
-                    .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, face, false).getDirection().toVector3d())
-                            .translate(new Vector3d(0.0, 0.0, 0.126))
-                            .scale(0.3, 0.3, 0.0001)
-                    )
-                    .backgroundColor(Color.fromARGB(0, 0, 0, 0))
-                    .text(UnitFormat.MILLIBUCKETS_PER_SECOND.format(0).asComponent())
-                    .build(block.getLocation().toCenterLocation())
-            );
-        }
-
-        public void setFlowRate(double flowRate) {
-            getEntity().text(UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(flowRate)).asComponent());
-        }
+    private @NotNull SimpleTextDisplay createTextDisplay(@NotNull Player player, @NotNull BlockFace face) {
+        return new SimpleTextDisplay(new TextDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, face, false).getDirection().toVector3d())
+                        .translate(new Vector3d(0.0, 0.0, 0.126))
+                        .scale(0.3, 0.3, 0.0001)
+                )
+                .backgroundColor(Color.fromARGB(0, 0, 0, 0))
+                .text(UnitFormat.MILLIBUCKETS_PER_SECOND.format(0).asComponent())
+                .build(getBlock().getLocation().toCenterLocation())
+        );
     }
 }

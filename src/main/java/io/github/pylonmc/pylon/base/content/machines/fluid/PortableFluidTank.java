@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
 import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -31,7 +32,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -151,10 +151,9 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
     @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-
-        ItemDisplay fluidDisplay = new ItemDisplayBuilder().build(getBlock().getLocation().toCenterLocation());
-        entities.put("fluid", new FluidTankEntity(fluidDisplay));
-
+        entities.put("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .build(getBlock().getLocation().toCenterLocation()))
+        );
         return entities;
     }
 
@@ -199,11 +198,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
 
     public void setFluid(@Nullable PylonFluid fluid) {
         this.fluidType = fluid;
-
-        ItemDisplay display = getFluidDisplay();
-        if (display != null) {
-            display.setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
-        }
+        getFluidDisplay().getEntity().setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
     }
 
     public void setAmount(double amount) {
@@ -219,21 +214,15 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
 
     public void updateFluidDisplayHeight() {
         float scale = (float) (0.9F * fluidAmount / capacity);
-        ItemDisplay display = getFluidDisplay();
-        if (display != null) {
-            display.setTransformationMatrix(new TransformBuilder()
+        getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
                     .translate(0.0, -0.45 + scale / 2, 0.0)
                     .scale(0.9, scale, 0.9)
-                    .buildForItemDisplay());
-        }
+                    .buildForItemDisplay()
+        );
     }
 
-    private @Nullable ItemDisplay getFluidDisplay() {
-        FluidTankEntity fluidTankEntity = getHeldEntity(FluidTankEntity.class, "fluid");
-        if (fluidTankEntity == null) {
-            return null;
-        }
-        return fluidTankEntity.getEntity();
+    public @NotNull SimpleItemDisplay getFluidDisplay() {
+        return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid");
     }
 
     @Override
@@ -337,15 +326,6 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
                 item.subtract();
                 event.getPlayer().give(finalNewItemStack);
             }, 0);
-        }
-    }
-
-    public static class FluidTankEntity extends PylonEntity<ItemDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("fluid_tank_entity");
-
-        public FluidTankEntity(@NotNull ItemDisplay entity) {
-            super(KEY, entity);
         }
     }
 }

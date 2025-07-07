@@ -200,6 +200,15 @@ public class BaseKeys {
     public static final NamespacedKey SOLAR_PURIFICATION_TOWER_5 = baseKey("solar_purification_tower_5");
     public static final NamespacedKey COAL_FIRED_PURIFICATION_TOWER = baseKey("coal_fired_purification_tower");
 
-    public static final NamespacedKey FLUID_PIPE_MARKER =  baseKey("fluid_pipe_marker");
-    public static final NamespacedKey FLUID_PIPE_CONNECTOR =  baseKey("fluid_pipe_connector");
+    public static final NamespacedKey FLUID_PIPE_MARKER = baseKey("fluid_pipe_marker");
+    public static final NamespacedKey FLUID_PIPE_CONNECTOR = baseKey("fluid_pipe_connector");
+
+    public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
+    public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
+
+    public static final NamespacedKey FLUID_CONNECTION_DISPLAY = baseKey("fluid_connection_display");
+    public static final NamespacedKey FLUID_CONNECTION_INTERACTION = baseKey("fluid_connection_interaction");
+
+    public static final NamespacedKey FLUID_PIPE_DISPLAY = baseKey("fluid_pipe_display");
+
 }

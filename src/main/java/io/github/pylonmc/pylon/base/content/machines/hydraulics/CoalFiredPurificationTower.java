@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -41,13 +42,14 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CoalFiredPurificationTower extends SimplePurificationMachine
         implements PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
 
-    public static final double FLUID_MB_PER_SECOND = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getOrThrow("fluid-mb-per-second", Integer.class);
-    public static final double FLUID_BUFFER = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getOrThrow("fluid-buffer-mb", Integer.class);
-    public static final int TICK_INTERVAL = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getOrThrow("tick-interval", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
+    public static final double FLUID_MB_PER_SECOND = settings.getOrThrow("fluid-mb-per-second", Integer.class);
+    public static final double FLUID_BUFFER = settings.getOrThrow("fluid-buffer-mb", Integer.class);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
     public static final Map<ItemStack, Integer> FUELS = new HashMap<>();
 
     static {
-        ConfigSection config = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER).getSectionOrThrow("fuels");
+        ConfigSection config = settings.getSectionOrThrow("fuels");
         for (String key : config.getKeys()) {
             FUELS.put(config.getItemOrThrow(key), config.getOrThrow(key, Integer.class));
         }

@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.fluid.pipe.connection;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeDisplay;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
@@ -35,8 +36,6 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
 
     public static final float POINT_SIZE = 0.12F;
 
-    public static final NamespacedKey KEY = baseKey("fluid_connection_interaction");
-
     private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = baseKey("connected_pipe_displays");
     private static final NamespacedKey CONNECTION_POINT_KEY = baseKey("connection_point");
     private static final NamespacedKey DISPLAY_KEY = baseKey("display");
@@ -65,7 +64,7 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point, @NotNull BlockFace face, float radius) {
-        super(KEY, makeInteraction(point, face.getDirection().clone().multiply(radius)));
+        super(BaseKeys.FLUID_CONNECTION_INTERACTION, makeInteraction(point, face.getDirection().clone().multiply(radius)));
 
         this.connectedPipeDisplays = new HashSet<>();
         this.point = point;
@@ -77,7 +76,7 @@ public class FluidConnectionInteraction extends PylonEntity<Interaction> impleme
     }
 
     private FluidConnectionInteraction(@NotNull FluidConnectionPoint point) {
-        super(KEY, makeInteraction(point, new Vector(0, 0, 0)));
+        super(BaseKeys.FLUID_CONNECTION_INTERACTION, makeInteraction(point, new Vector(0, 0, 0)));
 
         this.connectedPipeDisplays = new HashSet<>();
         this.point = point;

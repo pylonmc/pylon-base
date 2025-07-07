@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -28,12 +29,11 @@ import java.util.Set;
 public class HydraulicGrindstoneTurner extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
     public static final Component MISSING_GRINDSTONE = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_grindstone");
 
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
-
-    public static final double HYDRAULIC_FLUID_BUFFER = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("hydraulic-fluid-buffer", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER).getOrThrow("dirty-hydraulic-fluid-buffer", Integer.class);
-
+    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER);
+    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
+    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
+    public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", Integer.class);
+    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", Integer.class);
 
     public static class Item extends PylonItem {
 

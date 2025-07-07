@@ -5,11 +5,13 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
@@ -428,16 +430,16 @@ public final class SmelteryController extends SmelteryComponent
         return emissivity * STEFAN_BOLTZMANN_CONSTANT * (Math.pow(t, 4) - Math.pow(t0, 4)) * dt;
     }
 
+    private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
-    private static final double SPECIFIC_HEAT = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("specific-heat.fluid", Double.class);
-    private static final double DENSITY = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("density.fluid", Double.class);
-    private static final double SPECIFIC_HEAT_AIR = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("specific-heat.air", Double.class);
-    private static final double DENSITY_AIR = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("density.air", Double.class);
-    private static final double HEAT_LOSS_COEFFICIENT = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("heat-loss-coefficient", Double.class);
-    private static final double EMISSIVITY = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("emissivity", Double.class);
-
+    private static final double SPECIFIC_HEAT = settings.getOrThrow("specific-heat.fluid", Double.class);
+    private static final double DENSITY = settings.getOrThrow("density.fluid", Double.class);
+    private static final double SPECIFIC_HEAT_AIR = settings.getOrThrow("specific-heat.air", Double.class);
+    private static final double DENSITY_AIR = settings.getOrThrow("density.air", Double.class);
+    private static final double HEAT_LOSS_COEFFICIENT = settings.getOrThrow("heat-loss-coefficient", Double.class);
+    private static final double EMISSIVITY = settings.getOrThrow("emissivity", Double.class);
     private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_CELSIUS = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("room-temperature", Double.class);
+    private static final double ROOM_TEMPERATURE_CELSIUS = settings.getOrThrow("room-temperature", Double.class);
     private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
@@ -805,8 +807,8 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
-    private final List<FluidPixelEntity> pixels = new ArrayList<>();
-    private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", Integer.class);
+    private final List<SimpleTextDisplay> pixels = new ArrayList<>();
+    private static final int RESOLUTION = settings.getOrThrow("display.resolution", Integer.class);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
@@ -833,32 +835,23 @@ public final class SmelteryController extends SmelteryComponent
                                 .scaleLocal(1f / RESOLUTION)
                 );
                 display.setBrightness(new Display.Brightness(15, 15));
-                entities.put("pixel_" + counter++, new FluidPixelEntity(display));
+                entities.put("pixel_" + counter++, new SimpleTextDisplay(display));
             }
         }
         return entities;
     }
 
-    public @NotNull List<FluidPixelEntity> getPixels() {
+    public @NotNull List<SimpleTextDisplay> getPixels() {
         if (pixels.isEmpty()) {
             for (int i = 0; i < PIXELS_PER_SIDE * PIXELS_PER_SIDE; i++) {
-                pixels.add(getHeldEntity(FluidPixelEntity.class, "pixel_" + i));
+                pixels.add(getHeldEntityOrThrow(SimpleTextDisplay.class, "pixel_" + i));
             }
         }
         return pixels;
     }
 
-    public static final class FluidPixelEntity extends PylonEntity<TextDisplay> {
-
-        public static final NamespacedKey KEY = baseKey("smeltery_fluid_pixel");
-
-        public FluidPixelEntity(@NotNull TextDisplay entity) {
-            super(KEY, entity);
-        }
-    }
-
     private double lastHeight = 0;
-    private static final double LIGHTNESS_VARIATION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.lightness-variation", Double.class);
+    private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", Double.class);
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(BaseUtils.colorFromTemperature(temperature));
@@ -868,9 +861,9 @@ public final class SmelteryController extends SmelteryComponent
         }
         double finalHeight = center.getY() + height * fill - 0.01;
 
-        List<FluidPixelEntity> pixels = getPixels();
+        List<SimpleTextDisplay> pixels = getPixels();
         for (int i = 0; i < pixels.size(); i++) {
-            FluidPixelEntity pixel = pixels.get(i);
+            SimpleTextDisplay pixel = pixels.get(i);
             TextDisplay entity = pixel.getEntity();
             if (!entity.isValid()) continue;
 
