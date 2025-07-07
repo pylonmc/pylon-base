@@ -49,4 +49,9 @@ public record ConnectingPointInteraction(@NotNull FluidConnectionInteraction int
     public @NotNull Set<UUID> getConnectedInteractions() {
         return Set.of(interaction.getUuid());
     }
+
+    @Override
+    public FluidConnectionInteraction getInteraction() {
+        return interaction;
+    }
 }
