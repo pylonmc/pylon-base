@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
@@ -1121,22 +1122,6 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack RECOIL_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.RECOIL_ARROW)
-            .build();
-    static {
-        PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
-        BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
-
-        ItemStack output = RECOIL_ARROW.clone();
-        output.setAmount(8);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
-                .shape("SSS", "SAS", "SSS")
-                .setIngredient('S', Material.SLIME_BALL)
-                .setIngredient('A', Material.ARROW);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
     public static final ItemStack LUMBER_AXE = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, BaseKeys.LUMBER_AXE)
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.LUMBER_AXE).getOrThrow("durability", Integer.class))
             .build();
@@ -2046,6 +2031,42 @@ public final class BaseItems {
         PylonItem.register(CoalFiredPurificationTower.Item.class, COAL_FIRED_PURIFICATION_TOWER, BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
         BasePages.HYDRAULICS.addItem(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
     }
+
+    public static final ItemStack ICE_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.ICE_ARROW).build();
+    static {
+        PylonItem.register(IceArrow.class, ICE_ARROW, BaseKeys.ICE_ARROW);
+        BasePages.COMBAT.addItem(BaseKeys.ICE_ARROW);
+
+        ItemStack arrowResult = ICE_ARROW.clone();
+        arrowResult.setAmount(8);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_ARROW, arrowResult);
+        recipe.shape(
+                "III",
+                "AAA",
+                "III"
+        );
+        recipe.setIngredient('I', Material.PACKED_ICE);
+        recipe.setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack RECOIL_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.RECOIL_ARROW)
+            .build();
+    static {
+        PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
+        BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
+
+        ItemStack output = RECOIL_ARROW.clone();
+        output.setAmount(8);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
+                .shape("SSS", "SAS", "SSS")
+                .setIngredient('S', Material.SLIME_BALL)
+                .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
 
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
