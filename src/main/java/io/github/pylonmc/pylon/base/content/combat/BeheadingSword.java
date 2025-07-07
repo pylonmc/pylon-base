@@ -1,13 +1,11 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Weapon;
+import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
 import io.papermc.paper.tag.EntityTags;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -18,11 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
 
 @SuppressWarnings("UnstableApiUsage")
-public class BeheadingSword extends PylonItem implements Weapon {
+public class BeheadingSword extends PylonItem implements PylonWeapon {
 
     private final double normalEntityHeadChance = getSettings().getOrThrow("head-chance.normal-entity", Double.class);
     private final double witherSkeletonHeadChance = getSettings().getOrThrow("head-chance.wither-skeleton", Double.class);

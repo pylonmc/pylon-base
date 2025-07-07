@@ -8,7 +8,7 @@ import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -49,7 +49,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class Hammer extends PylonItem implements BlockInteractor {
+public class Hammer extends PylonItem implements PylonBlockInteractor {
 
 
     public final Material baseBlock = getBaseBlock(getKey());

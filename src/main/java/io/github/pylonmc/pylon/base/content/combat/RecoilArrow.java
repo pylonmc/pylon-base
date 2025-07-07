@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Arrow;
+import io.github.pylonmc.pylon.core.item.base.PylonArrow;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 
-public class RecoilArrow extends PylonItem implements Arrow {
+public class RecoilArrow extends PylonItem implements PylonArrow {
 
     public final double efficiency = getSettings().getOrThrow("efficiency", Double.class);
 

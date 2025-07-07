@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Tool;
+import io.github.pylonmc.pylon.core.item.base.PylonTool;
 import io.github.pylonmc.pylon.core.util.BlockUtils;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -22,7 +22,7 @@ import java.util.*;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public class LumberAxe extends PylonItem implements Tool {
+public class LumberAxe extends PylonItem implements PylonTool {
 
     public LumberAxe( @NotNull ItemStack stack) {
         super(stack);
