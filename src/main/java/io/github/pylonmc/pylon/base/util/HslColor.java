@@ -55,7 +55,7 @@ public record HslColor(double hue, double saturation, double lightness) {
         return Color.fromRGB((int) r, (int) g, (int) b);
     }
 
-    private double hueToRgb(double p, double q, double t) {
+    private static double hueToRgb(double p, double q, double t) {
         if (t < 0) {
             t += 1;
         }

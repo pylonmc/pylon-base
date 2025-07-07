@@ -28,20 +28,20 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static io.github.pylonmc.pylon.base.util.KeyUtils.pylonKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidConnectionInteraction extends PylonEntity<Interaction> implements PylonDeathEntity, PylonUnloadEntity {
 
     public static final float POINT_SIZE = 0.12F;
 
-    public static final NamespacedKey KEY = pylonKey("fluid_connection_interaction");
+    public static final NamespacedKey KEY = baseKey("fluid_connection_interaction");
 
-    private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = pylonKey("connected_pipe_displays");
-    private static final NamespacedKey CONNECTION_POINT_KEY = pylonKey("connection_point");
-    private static final NamespacedKey DISPLAY_KEY = pylonKey("display");
-    private static final NamespacedKey FACE_KEY = pylonKey("face");
-    private static final NamespacedKey RADIUS_KEY = pylonKey("radius");
+    private static final NamespacedKey CONNECTED_PIPE_DISPLAYS_KEY = baseKey("connected_pipe_displays");
+    private static final NamespacedKey CONNECTION_POINT_KEY = baseKey("connection_point");
+    private static final NamespacedKey DISPLAY_KEY = baseKey("display");
+    private static final NamespacedKey FACE_KEY = baseKey("face");
+    private static final NamespacedKey RADIUS_KEY = baseKey("radius");
 
     @Getter private final Set<UUID> connectedPipeDisplays;
     @Getter private final FluidConnectionPoint point;
