@@ -53,4 +53,9 @@ public record ConnectingPointPipeConnector(@NotNull FluidPipeConnector connector
         Preconditions.checkState(interaction != null);
         return Set.of(interaction.getUuid());
     }
+
+    @Override
+    public @Nullable FluidConnectionInteraction getInteraction() {
+        return connector.getFluidConnectionInteraction();
+    }
 }

@@ -63,6 +63,15 @@ item:
   crushed_raw_iron:
     name: "Crushed Raw Iron"
 
+  crushed_raw_lead:
+    name: "Crushed Raw Lead"
+
+  crushed_raw_tin:
+    name: "Crushed Raw Tin"
+
+  crushed_raw_zinc:
+    name: "Crushed Raw Zinc"
+
   dimensional_barrel:
     name: "Dimensional Barrel"
     lore: |-
@@ -397,7 +406,9 @@ item:
 
   monster_jerky:
     name: "Monster Jerky"
-    lore: "Slightly tastier and tougher than rotten flesh"
+    lore: |-
+      <arrow> Slightly tastier and tougher than rotten flesh
+      <arrow> Can be crafted into leather
 
   nickel_dust:
     name: "Nickel Dust"
@@ -786,14 +797,14 @@ research:
 
 guide:
   page:
-    research: "Research items"
+    science: "Science"
     resources: "Resources"
     components: "Components"
     tools: "Tools"
     food: "Food"
-    weapons: "Weapons"
+    combat: "Combat"
     armour: "Armour"
-    manual_machines: "Manual machines"
+    simple_machines: "Simple machines"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulics"
     smelting: "Smelting"
