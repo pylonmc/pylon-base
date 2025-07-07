@@ -485,9 +485,8 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(PylonItem.class, COPPER_SHEET);
-        BasePages.RESOURCES.addItem(BaseKeys.COPPER_DUST);
+        BasePages.RESOURCES.addItem(BaseKeys.COPPER_SHEET);
 
-        BasePages.COMPONENTS.addItem(BaseKeys.SULFUR);
         Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
                 BaseKeys.COPPER_SHEET,
                 new ItemStack(Material.COPPER_INGOT),
@@ -1871,7 +1870,7 @@ public final class BaseItems {
         BasePages.BUILDING.addItem(BaseKeys.EXPLOSIVE_TARGET_SUPER);
 
         ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.EXPLOSIVE_TARGET_SUPER, EXPLOSIVE_TARGET_SUPER)
-                .addIngredient(4, EXPLOSIVE_TARGET_SUPER);
+                .addIngredient(4, EXPLOSIVE_TARGET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }

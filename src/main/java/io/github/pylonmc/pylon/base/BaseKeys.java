@@ -73,10 +73,9 @@ public class BaseKeys {
 
     public static final NamespacedKey COMPRESSED_WOOD = baseKey("compressed_wood");
     public static final NamespacedKey COMPRESSED_OBSIDIAN = baseKey("compressed_obsidian");
+
     public static final NamespacedKey FIBER = baseKey("fiber");
     public static final NamespacedKey PLASTER = baseKey("plaster");
-
-    public static final NamespacedKey PORTABILITY_CATALYST = baseKey("portability_catalyst");
 
     public static final NamespacedKey FERRODURALUM_SWORD = baseKey("ferroduralum_sword");
     public static final NamespacedKey FERRODURALUM_AXE = baseKey("ferroduralum_axe");
@@ -94,6 +93,7 @@ public class BaseKeys {
     public static final NamespacedKey MEDKIT = baseKey("medkit");
 
     public static final NamespacedKey MONSTER_JERKY = baseKey("monster_jerky");
+
     public static final NamespacedKey FLOUR = baseKey("flour");
     public static final NamespacedKey DOUGH = baseKey("dough");
 
@@ -105,6 +105,8 @@ public class BaseKeys {
 
     public static final NamespacedKey WATERING_CAN = baseKey("watering_can");
     public static final NamespacedKey SPRINKLER = baseKey("sprinkler");
+
+    public static final NamespacedKey PORTABILITY_CATALYST = baseKey("portability_catalyst");
 
     public static final NamespacedKey PORTABLE_CRAFTING_TABLE = baseKey("portable_crafting_table");
     public static final NamespacedKey PORTABLE_DUSTBIN = baseKey("portable_dustbin");
@@ -124,11 +126,13 @@ public class BaseKeys {
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
     public static final NamespacedKey MAGIC_PEDESTAL = baseKey("magic_pedestal");
-
     public static final NamespacedKey MAGIC_ALTAR = baseKey("magic_altar");
+
     public static final NamespacedKey GRINDSTONE = baseKey("grindstone");
     public static final NamespacedKey GRINDSTONE_HANDLE = baseKey("grindstone_handle");
+
     public static final NamespacedKey MIXING_POT = baseKey("mixing_pot");
+
     public static final NamespacedKey PRESS = baseKey("press");
 
     public static final NamespacedKey FLUID_PIPE_WOOD = baseKey("fluid_pipe_wood");
