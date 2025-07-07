@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.BlockInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-public class WateringCan extends PylonItem implements BlockInteractor {
+public class WateringCan extends PylonItem implements PylonBlockInteractor {
 
 
     public final WateringSettings settings = WateringSettings.fromConfig(getSettings());

@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 
-public class PortableEnderChest extends PylonItem implements Interactor {
+public class PortableEnderChest extends PylonItem implements PylonInteractor {
 
     public PortableEnderChest(@NotNull ItemStack stack) {
         super(stack);

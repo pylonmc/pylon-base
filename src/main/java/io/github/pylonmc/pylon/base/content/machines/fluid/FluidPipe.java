@@ -13,8 +13,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.EntityInteractor;
-import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonItemEntityInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public class FluidPipe extends PylonItem implements EntityInteractor, Interactor {
+public class FluidPipe extends PylonItem implements PylonItemEntityInteractor, PylonInteractor {
 
     public final Material material = getMaterial(getKey());
     public final double fluidPerSecond = getSettings().getOrThrow("fluid-per-second", Double.class);

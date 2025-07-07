@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.Interactor;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.MenuType;
 import org.jetbrains.annotations.NotNull;
 
 
-public class PortableDustbin extends PylonItem implements Interactor{
+public class PortableDustbin extends PylonItem implements PylonInteractor {
 
     public PortableDustbin(@NotNull ItemStack stack) {
         super(stack);
