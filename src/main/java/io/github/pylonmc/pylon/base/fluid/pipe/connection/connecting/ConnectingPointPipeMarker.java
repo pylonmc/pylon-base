@@ -82,4 +82,9 @@ public record ConnectingPointPipeMarker(@NotNull FluidPipeMarker marker) impleme
     public @NotNull Set<UUID> getConnectedInteractions() {
         return Set.of(marker.getFromId(), marker.getToId());
     }
+
+    @Override
+    public @Nullable FluidConnectionInteraction getInteraction() {
+        return null;
+    }
 }

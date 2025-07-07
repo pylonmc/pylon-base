@@ -1477,7 +1477,7 @@ public final class BaseItems {
     public static final ItemStack WITHER_PROOF_OBSIDIAN = ItemStackBuilder.pylonItem(Material.OBSIDIAN, BaseKeys.WITHER_PROOF_OBSIDIAN)
             .build();
     static {
-        PylonItem.register(PylonItem.class, WITHER_PROOF_OBSIDIAN);
+        PylonItem.register(PylonItem.class, WITHER_PROOF_OBSIDIAN, BaseKeys.WITHER_PROOF_OBSIDIAN);
         BasePages.BUILDING.addItem(BaseKeys.WITHER_PROOF_OBSIDIAN);
 
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.WITHER_PROOF_OBSIDIAN, WITHER_PROOF_OBSIDIAN)
