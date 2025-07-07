@@ -2032,12 +2032,14 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
     }
 
-    public static final ItemStack ICE_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.ICE_ARROW).amount(8).build();
+    public static final ItemStack ICE_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.ICE_ARROW).build();
     static {
         PylonItem.register(IceArrow.class, ICE_ARROW, BaseKeys.ICE_ARROW);
         BasePages.COMBAT.addItem(BaseKeys.ICE_ARROW);
 
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_ARROW, ICE_ARROW);
+        ItemStack arrowResult = ICE_ARROW.clone();
+        arrowResult.setAmount(8);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_ARROW, arrowResult);
         recipe.shape(
                 "III",
                 "AAA",

@@ -22,9 +22,4 @@ public class RecoilArrow extends PylonItem implements PylonArrow {
     public void onArrowShotFromBow(@NotNull EntityShootBowEvent event) {
         event.getEntity().setVelocity(event.getEntity().getVelocity().add(event.getProjectile().getVelocity().multiply(-EFFICIENCY)));
     }
-
-    @Override
-    public void onArrowReady(@NotNull PlayerReadyArrowEvent event) {
-        // Intentionally blank
-    }
 }
