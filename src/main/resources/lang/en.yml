@@ -191,12 +191,6 @@ item:
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
       <arrow> <attr>Temperatures:</attr> %fluids%
 
-  fruit_salad:
-    name: "Fruit Salad"
-    lore: |-
-      <arrow> Grants regeneration upon eating
-      <arrow> More nutritious than most other foods
-
   ice_arrow:
     name: "Ice Arrow"
     lore: |-
@@ -482,12 +476,6 @@ item:
 
   rock_dust:
     name: "Rock Dust"
-
-  salad:
-    name: "Salad"
-    lore: |-
-      <arrow> Grants an instant health boost upon eating
-      <arrow> More nutritious than most other foods
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
