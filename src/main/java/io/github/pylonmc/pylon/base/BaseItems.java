@@ -6,8 +6,6 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
-import io.github.pylonmc.pylon.base.content.machines.fluid.*;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
@@ -2215,11 +2213,11 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack FOOD_PROCESSOR_SIMPLE = ItemStackBuilder.pylonItem(Material.DISPENSER, BaseKeys.FOOD_PROCESSOR_SIMPLE).build();
+    public static final ItemStack MYSTICAL_FOOD_ENHANCER_SIMPLE = ItemStackBuilder.pylonItem(Material.DISPENSER, BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE).build();
 
     static {
-        PylonItem.register(PylonItem.class, FOOD_PROCESSOR_SIMPLE, BaseKeys.FOOD_PROCESSOR_SIMPLE);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FOOD_PROCESSOR_SIMPLE, FOOD_PROCESSOR_SIMPLE)
+        PylonItem.register(PylonItem.class, MYSTICAL_FOOD_ENHANCER_SIMPLE, BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE, MYSTICAL_FOOD_ENHANCER_SIMPLE)
                 .shape("GPG", "GBG", "GGG")
                 .setIngredient('G', Material.GLASS)
                 .setIngredient('P', Material.PISTON)
@@ -2228,11 +2226,11 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack FOOD_PROCESSOR_HANDLE = ItemStackBuilder.pylonItem(Material.LEVER, BaseKeys.FOOD_PROCESSOR_HANDLE).build();
+    public static final ItemStack MYSTICAL_FOOD_ENHANCER_HANDLE = ItemStackBuilder.pylonItem(Material.LEVER, BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE).build();
 
     static {
-        PylonItem.register(PylonItem.class, FOOD_PROCESSOR_HANDLE, BaseKeys.FOOD_PROCESSOR_HANDLE);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FOOD_PROCESSOR_HANDLE, FOOD_PROCESSOR_HANDLE)
+        PylonItem.register(PylonItem.class, MYSTICAL_FOOD_ENHANCER_HANDLE, BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE, MYSTICAL_FOOD_ENHANCER_HANDLE)
                 .shape("CCC", "CLC", "CCC")
                 .setIngredient('C', Material.COBBLESTONE)
                 .setIngredient('L', Material.LEVER);
@@ -2271,13 +2269,13 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, GOLDEN_PIE);
-        FoodProcessor.SimpleRecipe goldenPie = new FoodProcessor.SimpleRecipe(
+        MysticalFoodEnhancer.SimpleRecipe goldenPie = new MysticalFoodEnhancer.SimpleRecipe(
                 BaseKeys.GOLDEN_PIE,
                 Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 1,
                         new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 1),
                 GOLDEN_PIE
         );
-        FoodProcessor.SimpleRecipe.RECIPE_TYPE.addRecipe(goldenPie);
+        MysticalFoodEnhancer.SimpleRecipe.RECIPE_TYPE.addRecipe(goldenPie);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

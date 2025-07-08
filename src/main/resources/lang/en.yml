@@ -256,11 +256,6 @@ item:
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
-  food_processor_simple:
-    name: "Simple Food Processor"
-    lore: |-
-      <arrow> Combines multiple ingredients into nutritious yummies
-
   iron_dust:
     name: "Iron Dust"
 
@@ -411,6 +406,16 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
+
+  mystical_food_enhancer_handle:
+    name: "Mystical Food Enhancer Handle"
+    lore: |-
+      <arrow> Component of the Mystical Food Enhancer
+
+  mystical_food_enhancer_simple:
+    name: "Mystical Food Enhancer(Simple)"
+    lore: |-
+      <arrow> Combines multiple ingredients into nutritious yummies
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"

@@ -1,18 +1,15 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -36,13 +33,13 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.matchRecipeChoiceMap;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.removeRecipeChoiceMapFromGui;
 
-public class FoodProcessor extends PylonBlock implements PylonSimpleMultiblock, PylonGuiBlock {
-    public FoodProcessor(Block block, BlockCreateContext context) {
+public class MysticalFoodEnhancer extends PylonBlock implements PylonSimpleMultiblock, PylonGuiBlock {
+    public MysticalFoodEnhancer(Block block, BlockCreateContext context) {
         super(block, context);
         spawnGhostBlocks();
     }
 
-    public FoodProcessor(Block block, PersistentDataContainer pdc) {
+    public MysticalFoodEnhancer(Block block, PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -52,10 +49,11 @@ public class FoodProcessor extends PylonBlock implements PylonSimpleMultiblock, 
                 new Vector3i(1, 0, 0), new VanillaMultiblockComponent(Material.PISTON),
                 new Vector3i(0, 0, -1), new VanillaMultiblockComponent(Material.PISTON),
                 new Vector3i(0, 0, 1), new VanillaMultiblockComponent(Material.PISTON),
-                new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.FOOD_PROCESSOR_HANDLE));
+                new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE));
     }
 
-    @Override @NotNull
+    @Override
+    @NotNull
     public Gui createGui() {
         return PagedGui.inventories()
                 .setStructure(
@@ -91,8 +89,8 @@ public class FoodProcessor extends PylonBlock implements PylonSimpleMultiblock, 
             return key;
         }
 
-        public static final RecipeType<FoodProcessor.SimpleRecipe> RECIPE_TYPE = new RecipeType<>(
-                new NamespacedKey(PylonBase.getInstance(), "simple_food_processor")
+        public static final RecipeType<MysticalFoodEnhancer.SimpleRecipe> RECIPE_TYPE = new RecipeType<>(
+                BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE
         );
 
         static {
@@ -102,8 +100,8 @@ public class FoodProcessor extends PylonBlock implements PylonSimpleMultiblock, 
         @Override
         public @NotNull List<@NotNull RecipeChoice> getInputItems() {
             List<@NotNull RecipeChoice> inputs = new ArrayList<RecipeChoice>();
-            for(Map.Entry<RecipeChoice, Integer> entry : input.entrySet()){
-                for(int i = 0; i < entry.getValue(); i++){
+            for (Map.Entry<RecipeChoice, Integer> entry : input.entrySet()) {
+                for (int i = 0; i < entry.getValue(); i++) {
                     inputs.add(entry.getKey());
                 }
             }
@@ -122,20 +120,20 @@ public class FoodProcessor extends PylonBlock implements PylonSimpleMultiblock, 
         }
     }
 
-    public static class FoodProcessorHandle extends PylonBlock implements PylonInteractableBlock {
+    public static class MysticalFoodEnhancerHandle extends PylonBlock implements PylonInteractableBlock {
 
-        public FoodProcessorHandle(Block block, BlockCreateContext context) {
+        public MysticalFoodEnhancerHandle(Block block, BlockCreateContext context) {
             super(block, context);
         }
 
-        public FoodProcessorHandle(Block block, PersistentDataContainer pdc) {
+        public MysticalFoodEnhancerHandle(Block block, PersistentDataContainer pdc) {
             super(block, pdc);
         }
 
         @Override
         public void onInteract(@NotNull PlayerInteractEvent event) {
             //noinspection ConstantConditions no npe on getClickedBlock since event.getClickedBlock != null is checked by the function that calls onInteract
-            FoodProcessor processor = BlockStorage.getAs(FoodProcessor.class, event.getClickedBlock().getRelative(BlockFace.DOWN));
+            MysticalFoodEnhancer processor = BlockStorage.getAs(MysticalFoodEnhancer.class, event.getClickedBlock().getRelative(BlockFace.DOWN));
             if (processor == null) return;
             processor.cook();
         }
