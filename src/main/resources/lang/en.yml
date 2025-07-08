@@ -309,6 +309,12 @@ item:
   gold_sheet:
     name: "Gold Sheet"
 
+  golden_pie:
+    name: "Golden Pie"
+    lore: |-
+      <arrow> Makes you temporarily superhuman upon eating
+      <arrow> An sign of ultimate wealth
+
   grindstone:
     name: "Grindstone"
     lore: |-
@@ -400,6 +406,16 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
+
+  mystical_food_enhancer_handle:
+    name: "Mystical Food Enhancer Handle"
+    lore: |-
+      <arrow> Component of the Mystical Food Enhancer
+
+  mystical_food_enhancer_simple:
+    name: "Mystical Food Enhancer(Simple)"
+    lore: |-
+      <arrow> Combines multiple ingredients into nutritious yummies
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"

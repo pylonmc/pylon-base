@@ -212,4 +212,8 @@ public class BaseKeys {
 
     public static final NamespacedKey FLUID_PIPE_DISPLAY = baseKey("fluid_pipe_display");
 
+    public static final NamespacedKey MYSTICAL_FOOD_ENHANCER_SIMPLE = baseKey("mystical_food_enhancer_simple");
+    public static final NamespacedKey MYSTICAL_FOOD_ENHANCER_HANDLE = baseKey("mystical_food_enhancer_handle");
+
+    public static final NamespacedKey GOLDEN_PIE = baseKey("golden_pie");
 }
