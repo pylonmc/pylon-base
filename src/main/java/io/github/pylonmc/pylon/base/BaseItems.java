@@ -9,6 +9,24 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
+import io.github.pylonmc.pylon.base.content.combat.IceArrow;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
+import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
+import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
+import io.github.pylonmc.pylon.base.content.machines.simple.Press;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -2160,6 +2178,41 @@ public final class BaseItems {
     static {
         PylonItem.register(CoalFiredPurificationTower.Item.class, COAL_FIRED_PURIFICATION_TOWER, BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
         BasePages.HYDRAULICS.addItem(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
+    }
+
+    public static final ItemStack ICE_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.ICE_ARROW).build();
+    static {
+        PylonItem.register(IceArrow.class, ICE_ARROW, BaseKeys.ICE_ARROW);
+        BasePages.COMBAT.addItem(BaseKeys.ICE_ARROW);
+
+        ItemStack arrowResult = ICE_ARROW.clone();
+        arrowResult.setAmount(8);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_ARROW, arrowResult);
+        recipe.shape(
+                "III",
+                "AAA",
+                "III"
+        );
+        recipe.setIngredient('I', Material.PACKED_ICE);
+        recipe.setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack RECOIL_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.RECOIL_ARROW)
+            .build();
+    static {
+        PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
+        BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
+
+        ItemStack output = RECOIL_ARROW.clone();
+        output.setAmount(8);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
+                .shape("SSS", "SAS", "SSS")
+                .setIngredient('S', Material.SLIME_BALL)
+                .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
     public static final ItemStack FOOD_PROCESSOR_SIMPLE = ItemStackBuilder.pylonItem(Material.DISPENSER, BaseKeys.FOOD_PROCESSOR_SIMPLE).build();

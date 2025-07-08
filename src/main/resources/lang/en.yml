@@ -197,6 +197,13 @@ item:
       <arrow> Grants regeneration upon eating
       <arrow> More nutritious than most other foods
 
+  ice_arrow:
+    name: "Ice Arrow"
+    lore: |-
+      <arrow> Slows and freezes enemies hit with this arrow's icy punch
+      <arrow> <attr>Freeze duration:</attr> %freeze-duration%
+      
+
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
     lore: |-

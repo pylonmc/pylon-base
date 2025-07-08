@@ -112,9 +112,10 @@ public class BaseKeys {
     public static final NamespacedKey PORTABLE_DUSTBIN = baseKey("portable_dustbin");
     public static final NamespacedKey PORTABLE_ENDER_CHEST = baseKey("portable_ender_chest");
 
-    public static final NamespacedKey RECOIL_ARROW = baseKey("recoil_arrow");
-
     public static final NamespacedKey BEHEADING_SWORD = baseKey("beheading_sword");
+
+    public static final NamespacedKey ICE_ARROW = baseKey("ice_arrow");
+    public static final NamespacedKey RECOIL_ARROW = baseKey("recoil_arrow");
 
     public static final NamespacedKey LUMBER_AXE = baseKey("lumber_axe");
 
