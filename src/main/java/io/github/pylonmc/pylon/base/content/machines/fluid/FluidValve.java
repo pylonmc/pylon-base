@@ -2,19 +2,20 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
-import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.text.Component;
@@ -31,13 +32,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
+public class FluidValve extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
@@ -65,8 +65,8 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
     protected void postLoad() {
         if (enabled) {
             // connect east and west points when they load
-            EntityStorage.whenEntityLoads(getHeldEntityUuid("east"), FluidConnectionInteraction.class, east -> {
-                EntityStorage.whenEntityLoads(getHeldEntityUuid("west"), FluidConnectionInteraction.class, west -> {
+            EntityStorage.whenEntityLoads(getHeldEntityUuid("east"), FluidPointInteraction.class, east -> {
+                EntityStorage.whenEntityLoads(getHeldEntityUuid("west"), FluidPointInteraction.class, west -> {
                     FluidManager.connect(getEastPoint(), getWestPoint());
                 });
             });
@@ -79,29 +79,22 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(
-                new SimpleFluidConnectionPoint("east", FluidConnectionPoint.Type.CONNECTOR, BlockFace.EAST, 0.25F),
-                new SimpleFluidConnectionPoint("west", FluidConnectionPoint.Type.CONNECTOR, BlockFace.WEST, 0.25F)
-        );
-    }
-
-    @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-        entities.put("main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                    .material(MAIN_MATERIAL)
-                    .brightness(BRIGHTNESS_OFF)
-                    .transformation(new TransformBuilder()
-                            .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                            .scale(0.25, 0.25, 0.5)
-                    )
-                    .build(getBlock().getLocation().toCenterLocation()))
+        return Map.of(
+                "east", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.EAST, 0.25F),
+                "west", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.WEST, 0.25F),
+                "main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                        .material(MAIN_MATERIAL)
+                        .brightness(BRIGHTNESS_OFF)
+                        .transformation(new TransformBuilder()
+                                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                                .scale(0.25, 0.25, 0.5)
+                        )
+                        .build(getBlock().getLocation().toCenterLocation()))
         );
-        return entities;
     }
 
     @Override
@@ -132,13 +125,13 @@ public class FluidValve extends PylonBlock implements PylonFluidIoBlock, PylonIn
         ));
     }
 
-    private @NotNull FluidConnectionPoint getEastPoint() {
+    private @NotNull VirtualFluidPoint getEastPoint() {
         //noinspection DataFlowIssue
-        return getHeldEntity(FluidConnectionInteraction.class, "east").getPoint();
+        return getHeldEntity(FluidPointInteraction.class, "east").getPoint();
     }
 
-    private @NotNull FluidConnectionPoint getWestPoint() {
+    private @NotNull VirtualFluidPoint getWestPoint() {
         //noinspection DataFlowIssue
-        return getHeldEntity(FluidConnectionInteraction.class, "west").getPoint();
+        return getHeldEntity(FluidPointInteraction.class, "west").getPoint();
     }
 }

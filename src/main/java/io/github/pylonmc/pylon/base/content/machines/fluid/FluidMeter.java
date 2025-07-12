@@ -54,8 +54,8 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
-        super.removeFluid(connectionPoint, fluid, amount);
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
+        super.removeFluid(fluid, amount);
 
         removedSinceLastUpdate += amount;
     }

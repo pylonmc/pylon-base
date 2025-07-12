@@ -22,8 +22,6 @@ import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryController
 import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryInputHatch;
 import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryOutputHatch;
-import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeConnector;
-import io.github.pylonmc.pylon.base.fluid.pipe.FluidPipeMarker;
 import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
@@ -58,8 +56,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.MIXING_POT, Material.CAULDRON, MixingPot.class);
         PylonBlock.register(BaseKeys.DIMENSIONAL_BARREL, Material.BARREL, DimensionalBarrel.class);
         PylonBlock.register(BaseKeys.WITHER_PROOF_OBSIDIAN, Material.OBSIDIAN, PylonBlock.class);
-        PylonBlock.register(BaseKeys.FLUID_PIPE_MARKER, Material.STRUCTURE_VOID, FluidPipeMarker.class);
-        PylonBlock.register(BaseKeys.FLUID_PIPE_CONNECTOR, Material.STRUCTURE_VOID, FluidPipeConnector.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_WOOD, Material.BROWN_STAINED_GLASS, PortableFluidTank.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_COPPER, Material.ORANGE_STAINED_GLASS, PortableFluidTank.class);
         PylonBlock.register(BaseKeys.FLUID_VALVE, Material.STRUCTURE_VOID, FluidValve.class);
