@@ -212,4 +212,6 @@ public class BaseKeys {
 
     public static final NamespacedKey FLUID_PIPE_DISPLAY = baseKey("fluid_pipe_display");
 
+    public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
+
 }
