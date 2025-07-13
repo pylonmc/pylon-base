@@ -272,12 +272,14 @@ item:
     lore: |-
       <arrow> Drains water from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+      <arrow> <attr>Buffer:</attr> %buffer%
 
   lava_drainer:
     name: "Lava Drainer"
     lore: |-
       <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+      <arrow> <attr>Buffer:</attr> %buffer%
 
   elevator_1:
     name: "Elevator I"
@@ -483,6 +485,7 @@ item:
     lore: |-
       <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Slurry Strainer%info%"
 
   smeltery_burner:

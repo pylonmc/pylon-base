@@ -11,17 +11,17 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -45,35 +45,48 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class FluidFilter extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
+    public static class Item extends PylonItem {
+
+        public final double buffer = getSettings().getOrThrow("buffer", Double.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull Map<String, ComponentLike> getPlaceholders() {
+            return Map.of(
+                    "buffer", UnitFormat.MILLIBUCKETS.format(buffer)
+            );
+        }
+    }
+
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
-    public static final NamespacedKey BUFFER_KEY = baseKey("buffer");
 
     public static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
     public static final Material NO_FLUID_MATERIAL = Material.RED_TERRACOTTA;
 
+    public final double buffer = getSettings().getOrThrow("buffer", Double.class);
+
     protected @Nullable PylonFluid fluid;
-    protected double buffer;
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         fluid = null;
-        buffer = 0.0;
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
         fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
-        buffer = pdc.get(BUFFER_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
-        pdc.set(BUFFER_KEY, PylonSerializers.DOUBLE, buffer);
     }
 
     @Override
@@ -130,37 +143,14 @@ public class FluidFilter extends PylonBlock implements PylonFluidBlock, PylonEnt
         return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid").getEntity();
     }
 
-    @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
-        VirtualFluidPoint output = getHeldEntityOrThrow(FluidPointInteraction.class, "output").getPoint();
-        VirtualFluidPoint input = getHeldEntityOrThrow(FluidPointInteraction.class, "input").getPoint();
-        double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
-        double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
-        return fluid == null
-            ? Map.of()
-            : Map.of(fluid, Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond) * PylonConfig.getFluidIntervalTicks() * deltaSeconds - buffer));
-    }
-
-    @Override
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
-        buffer += amount;
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
-        return fluid == null
-                ? Map.of()
-                : Map.of(fluid, buffer);
-    }
-
-    @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        buffer -= amount;
-    }
-
     public void setFluid(PylonFluid fluid) {
+        if (this.fluid != null) {
+            deleteFluidBuffer(this.fluid);
+        }
+        if (fluid != null) {
+            createFluidBuffer(fluid, buffer);
+        }
         this.fluid = fluid;
-        this.buffer = 0;
         getFluidDisplay().setItemStack(new ItemStack(fluid == null ? NO_FLUID_MATERIAL : fluid.getMaterial()));
     }
 }

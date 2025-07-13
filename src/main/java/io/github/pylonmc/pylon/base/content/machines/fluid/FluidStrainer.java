@@ -41,14 +41,12 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class FluidStrainer extends PylonBlock
         implements PylonFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonGuiBlock {
 
-    public final double bufferSize = getSettings().getOrThrow("buffer-size", Double.class);
+    public final double buffer = getSettings().getOrThrow("buffer", Double.class);
 
     private static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("current_recipe");
-    private static final NamespacedKey BUFFER_KEY = baseKey("buffer");
     private static final NamespacedKey PASSED_FLUID_KEY = baseKey("passed_fluid");
 
     private @Nullable Recipe currentRecipe;
-    private double buffer;
     private double passedFluid;
 
     @SuppressWarnings("unused")
@@ -56,7 +54,6 @@ public class FluidStrainer extends PylonBlock
         super(block, context);
 
         currentRecipe = null;
-        buffer = 0;
         passedFluid = 0;
     }
 
@@ -65,14 +62,12 @@ public class FluidStrainer extends PylonBlock
         super(block, pdc);
 
         currentRecipe = pdc.get(CURRENT_RECIPE_KEY, Recipe.DATA_TYPE);
-        buffer = pdc.get(BUFFER_KEY, PylonSerializers.DOUBLE);
         passedFluid = pdc.get(PASSED_FLUID_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, CURRENT_RECIPE_KEY, Recipe.DATA_TYPE, currentRecipe);
-        pdc.set(BUFFER_KEY, PylonSerializers.DOUBLE, buffer);
         pdc.set(PASSED_FLUID_KEY, PylonSerializers.DOUBLE, passedFluid);
     }
 
@@ -100,6 +95,7 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void addFluid(@NotNull PylonFluid fluid, double amount) {
+        PylonFluidBlock.super.addFluid(fluid, amount);
         if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
             passedFluid = 0;
             currentRecipe = null;
@@ -115,11 +111,6 @@ public class FluidStrainer extends PylonBlock
         }
         buffer += amount;
         passedFluid += amount;
-    }
-
-    @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        buffer -= amount;
     }
 
     @Override
