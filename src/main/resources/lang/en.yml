@@ -718,6 +718,23 @@ item:
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
 
+  wither_sword:
+    name: "Wither Sword"
+    lore: |-
+      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+    charged:
+      true: "charged"
+      false: "not charged"
+
+  wither_sword_super:
+    name: "Super Wither Sword"
+    lore: |-
+      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+
   coal_fired_purification_tower:
     name: "Coal-fired Purification Tower"
     lore: |-

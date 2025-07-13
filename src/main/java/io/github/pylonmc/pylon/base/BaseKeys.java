@@ -212,4 +212,6 @@ public class BaseKeys {
 
     public static final NamespacedKey FLUID_PIPE_DISPLAY = baseKey("fluid_pipe_display");
 
+    public static final NamespacedKey WITHER_SWORD = baseKey("wither_sword");
+    public static final NamespacedKey WITHER_SWORD_SUPER = baseKey("wither_sword_super");
 }

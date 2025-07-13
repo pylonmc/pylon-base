@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
+import io.github.pylonmc.pylon.base.content.combat.WitherSword;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
@@ -44,6 +45,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.UseCooldown;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
@@ -2065,6 +2067,46 @@ public final class BaseItems {
                 .setIngredient('A', Material.ARROW);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack WITHER_SWORD = ItemStackBuilder.pylonItem(Material.NETHERITE_SWORD, BaseKeys.WITHER_SWORD)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                            Settings.get(BaseKeys.WITHER_SWORD).getOrThrow("cooldown-secs", Double.class).floatValue())
+                    .build())
+            .build();
+    static {
+        PylonItem.register(WitherSword.class, WITHER_SWORD);
+        BasePages.COMBAT.addItem(BaseKeys.WITHER_SWORD);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.WITHER_SWORD, WITHER_SWORD)
+                .shape(" N ", " S ", "RRR")
+                .setIngredient('N', Material.NETHERITE_SWORD)
+                .setIngredient('S', Material.STICK)
+                .setIngredient('R', Material.NETHER_STAR);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack WITHER_SWORD_SUPER = ItemStackBuilder.pylonItem(Material.NETHERITE_SWORD, BaseKeys.WITHER_SWORD_SUPER)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                            Settings.get(BaseKeys.WITHER_SWORD).getOrThrow("cooldown-secs", Double.class).floatValue())
+                    .build())
+            .build();
+    static {
+        PylonItem.register(WitherSword.class, WITHER_SWORD_SUPER);
+        BasePages.COMBAT.addItem(BaseKeys.WITHER_SWORD_SUPER);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.WITHER_SWORD_SUPER, WITHER_SWORD_SUPER)
+                .shape("MNM", "MSM", "RRR")
+                .setIngredient('N', Material.NETHERITE_SWORD)
+                .setIngredient('S', Material.STICK)
+                .setIngredient('M', SHIMMER_SKULL)
+                .setIngredient('R', Material.NETHER_STAR);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+        ShapelessRecipe upgrade = new ShapelessRecipe(baseKey("wither_sword_super_upgrade"), WITHER_SWORD_SUPER)
+                .addIngredient(WITHER_SWORD)
+                .addIngredient(4, SHIMMER_SKULL);
+        upgrade.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(upgrade);
     }
 
 
