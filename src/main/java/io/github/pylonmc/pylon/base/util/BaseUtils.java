@@ -9,12 +9,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.TextDisplay;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import xyz.xenondevs.invui.gui.AbstractGui;
+import xyz.xenondevs.invui.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -114,5 +118,44 @@ public class BaseUtils {
             reflected.setIngredient(entry.getKey(), entry.getValue());
         }
         return reflected;
+    }
+
+    public static boolean matchRecipeChoiceMap(Map<RecipeChoice, Integer> recipe, List<ItemStack> stacks){
+        for(Map.Entry<RecipeChoice, Integer> component : recipe.entrySet()){
+            int sumItems = 0;
+            for(ItemStack stack : stacks){
+                if(component.getKey().test(stack)){
+                    sumItems += stack.getAmount();
+                }
+            }
+            if(sumItems < component.getValue()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void removeRecipeChoiceMapFromGui(Map<RecipeChoice, Integer> recipe, AbstractGui gui){
+        for(Map.Entry<RecipeChoice, Integer> component : recipe.entrySet()){
+            int required = component.getValue();
+            rmitemloop:
+            for(Inventory inventory : gui.getAllInventories()){
+                for(int i = 0; i < inventory.getSize(); i++){
+                    ItemStack curItem = inventory.getItem(i);
+                    if(curItem != null && component.getKey().test(curItem)){
+                        if(required <= curItem.getAmount()){
+                            curItem.subtract(required);
+                            inventory.setItemSilently(i, curItem);
+                            break rmitemloop;
+                        }
+                        else {
+                            required -= curItem.getAmount();
+                            curItem.subtract(curItem.getAmount());
+                            inventory.setItemSilently(i, curItem);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
