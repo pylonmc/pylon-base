@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -37,7 +37,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class Sprinkler extends PylonBlock implements PylonFluidBlock, PylonTickingBlock, PylonEntityHolderBlock {
+public class Sprinkler extends PylonBlock implements PylonMultiBufferFluidBlock, PylonTickingBlock, PylonEntityHolderBlock {
 
     public static class Item extends PylonItem {
 

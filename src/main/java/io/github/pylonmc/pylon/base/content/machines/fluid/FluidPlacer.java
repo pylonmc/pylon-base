@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 
 public class FluidPlacer extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractableBlock {
+        implements PylonMultiBufferFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 

@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidBlock, PylonEntityHolderBlock {
+public final class SmelteryInputHatch extends SmelteryComponent implements PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
     public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_INPUT_HATCH).getOrThrow("flow-rate", Double.class);
 
     @SuppressWarnings("unused")

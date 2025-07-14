@@ -1,12 +1,15 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -18,8 +21,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -34,14 +35,13 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class HydraulicPressPiston extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
+public class HydraulicPressPiston extends PylonBlock
+        implements PylonMultiblock, PylonTickingBlock, PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON);
     public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
     public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
-
-    public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_press");
 
     public static class Item extends PylonItem {
 
@@ -58,11 +58,11 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
         }
     }
 
-    @Getter private Component status = IDLE;
-
     @SuppressWarnings("unused")
     public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
     }
 
     @SuppressWarnings("unused")
@@ -71,24 +71,12 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
     }
 
     @Override
-    public double getHydraulicFluidBuffer() {
-        return HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-    }
-
-    @Override
-    public double getDirtyHydraulicFluidBuffer() {
-        return DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-    }
-
-    @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = super.createEntities(context);
-        entities.put("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
+        return Map.of("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
                 .material(Material.SPRUCE_LOG)
                 .transformation(getTransformation(0.0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
         ));
-        return entities;
     }
 
     @Override
@@ -114,29 +102,22 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
     @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
-            status = MISSING_MIXING_POT;
             return;
         }
 
         Press press = BlockStorage.getAs(Press.class, getBlock().getRelative(BlockFace.DOWN, 2));
         Preconditions.checkState(press != null);
 
-        if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {
-            status = NOT_ENOUGH_HYDRAULIC_FLUID;
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
+                || fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+                || !press.tryStartRecipe(null)
+        ) {
             return;
         }
 
-        if (getRemainingDirtyCapacity() < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) {
-            status = DIRTY_HYDRAULIC_FLUID_BUFFER_FULL;
-            return;
-        }
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
 
-        if (!press.tryStartRecipe(null)) {
-            status = IDLE;
-            return;
-        }
-
-        startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
         getPistonShaft().setTransform(
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS,
                 getTransformation(-0.3)
@@ -146,7 +127,6 @@ public class HydraulicPressPiston extends SimpleHydraulicMachine implements Pylo
                 () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(-0.3)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
-        status = WORKING;
     }
 
     private static @NotNull Matrix4f getTransformation(double yTranslation) {

@@ -617,7 +617,6 @@ item:
       <arrow> Place below a constructed grindstone
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
-    waila: "Hydraulic Grindstone Turner (%status%)"
 
   hydraulic_mixing_attachment:
     name: "Hydraulic Mixing Attachment"
@@ -626,7 +625,6 @@ item:
       <arrow> <attr>Cooldown time:</attr> %cooldown%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Mixing Attachment (%status%)"
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
@@ -634,7 +632,6 @@ item:
       <arrow> Place above the press, leaving a one block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Press Piston (%status%)"
 
   hydraulic_hammer_head:
     name: "Hydraulic Hammer Head"
@@ -644,7 +641,6 @@ item:
       <arrow> Place above the hammer's base block, leaving a two block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Hammer Head (%status%)"
 
   quartz_dust:
     name: "Quartz Dust"

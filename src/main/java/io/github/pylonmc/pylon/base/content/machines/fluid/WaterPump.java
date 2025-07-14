@@ -61,14 +61,11 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
 
     @Override
     public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
-        if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
-            return Map.of();
-        }
-        return Map.of(BaseFluids.WATER, waterPerSecond * deltaSeconds);
+        return getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER
+                ? Map.of(BaseFluids.WATER, waterPerSecond * deltaSeconds)
+                : Map.of() ;
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        // nothing, water block is treated as infinite lol
-    }
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {}
 }

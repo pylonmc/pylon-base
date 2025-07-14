@@ -9,7 +9,7 @@ import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -61,7 +61,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class MixingPot extends PylonBlock
-        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidBlock {
+        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonMultiBufferFluidBlock {
 
     private static final NamespacedKey FLUID_KEY = baseKey("fluid");
     private static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");

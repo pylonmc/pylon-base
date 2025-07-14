@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
@@ -43,7 +43,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidFilter extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+public class FluidFilter extends PylonBlock implements PylonMultiBufferFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 

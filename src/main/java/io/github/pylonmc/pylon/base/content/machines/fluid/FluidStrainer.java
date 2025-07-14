@@ -39,14 +39,16 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class FluidStrainer extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonGuiBlock {
+        implements PylonFluidBlock, PylonTickingBlock, PylonGuiBlock, PylonEntityHolderBlock {
 
-    public final double buffer = getSettings().getOrThrow("buffer", Double.class);
+    public final double bufferSize = getSettings().getOrThrow("buffer-size", Double.class);
 
     private static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("current_recipe");
+    private static final NamespacedKey BUFFER_KEY = baseKey("buffer");
     private static final NamespacedKey PASSED_FLUID_KEY = baseKey("passed_fluid");
 
     private @Nullable Recipe currentRecipe;
+    private double buffer;
     private double passedFluid;
 
     @SuppressWarnings("unused")
@@ -54,6 +56,7 @@ public class FluidStrainer extends PylonBlock
         super(block, context);
 
         currentRecipe = null;
+        buffer = 0;
         passedFluid = 0;
     }
 
@@ -62,12 +65,14 @@ public class FluidStrainer extends PylonBlock
         super(block, pdc);
 
         currentRecipe = pdc.get(CURRENT_RECIPE_KEY, Recipe.DATA_TYPE);
+        buffer = pdc.get(BUFFER_KEY, PylonSerializers.DOUBLE);
         passedFluid = pdc.get(PASSED_FLUID_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, CURRENT_RECIPE_KEY, Recipe.DATA_TYPE, currentRecipe);
+        pdc.set(BUFFER_KEY, PylonSerializers.DOUBLE, buffer);
         pdc.set(PASSED_FLUID_KEY, PylonSerializers.DOUBLE, passedFluid);
     }
 
@@ -80,14 +85,14 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
         return currentRecipe == null ?
                 Map.of() :
                 Map.of(currentRecipe.outputFluid(), buffer);
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(double deltaSeconds) {
         return Recipe.RECIPE_TYPE.getRecipes().stream()
                 .map(Recipe::inputFluid)
                 .collect(Collectors.toMap(Function.identity(), f -> bufferSize - buffer));
@@ -95,7 +100,6 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void addFluid(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidBlock.super.addFluid(fluid, amount);
         if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
             passedFluid = 0;
             currentRecipe = null;
@@ -111,6 +115,11 @@ public class FluidStrainer extends PylonBlock
         }
         buffer += amount;
         passedFluid += amount;
+    }
+
+    @Override
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
+        buffer -= amount;
     }
 
     @Override
@@ -148,7 +157,7 @@ public class FluidStrainer extends PylonBlock
             inventory.addItem(null, currentRecipe.outputItem().clone());
             passedFluid -= currentRecipe.inputAmount();
         }
-        if (passedFluid < 1.0e-9) {
+        if (passedFluid < 1e-9) {
             currentRecipe = null;
             passedFluid = 0;
         }

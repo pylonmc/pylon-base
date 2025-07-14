@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -51,7 +50,6 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
     public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", Double.class);
     public final double mainDisplaySize = getSettings().getOrThrow("main-display-size", Double.class);
 
-
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -80,7 +78,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
     public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
         return PylonRegistry.FLUIDS.getValues()
                 .stream()
-                .collect(Collectors.toMap(Function.identity(), key -> voidRate * deltaSeconds * PylonConfig.getFluidIntervalTicks()));
+                .collect(Collectors.toMap(Function.identity(), key -> voidRate * deltaSeconds));
     }
 
     @Override

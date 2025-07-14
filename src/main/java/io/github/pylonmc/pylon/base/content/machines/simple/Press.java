@@ -8,7 +8,7 @@ import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
@@ -60,7 +60,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 
-public class Press extends PylonBlock implements PylonInteractableBlock, PylonFluidBlock, PylonEntityHolderBlock {
+public class Press extends PylonBlock implements PylonInteractableBlock, PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
 
     public static final NamespacedKey OIL_AMOUNT_KEY = baseKey("oil_amount");
 
