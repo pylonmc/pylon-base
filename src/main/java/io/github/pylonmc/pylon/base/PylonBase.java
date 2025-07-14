@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
-import io.github.pylonmc.pylon.base.fluid.pipe.connection.connecting.ConnectingService;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
@@ -46,14 +45,8 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         pm.registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         pm.registerEvents(new WitherProofObsidianListener(), this);
-        pm.registerEvents(new ConnectingService(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
-    }
-
-    @Override
-    public void onDisable() {
-        ConnectingService.cleanup();
     }
 
     @Override
