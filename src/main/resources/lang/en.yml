@@ -31,7 +31,7 @@ item:
     name: "Cleansing Potion"
     lore: |-
       <arrow> Instantly turns a zombie villager back into a normal villager
-      <arrow> Also heals them to full health
+      <arrow> Also heals it to full health
 
   coal_dust:
     name: "Coal Dust"
