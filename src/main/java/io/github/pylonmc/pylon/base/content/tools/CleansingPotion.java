@@ -20,10 +20,10 @@ public class CleansingPotion extends PylonItem implements PylonSplashPotion {
 
     @Override
     public void onSplash(@NotNull PotionSplashEvent event) {
-        for(LivingEntity entity : event.getAffectedEntities()){
-            if(entity.getType() == EntityType.ZOMBIE_VILLAGER){
+        for (LivingEntity entity : event.getAffectedEntities()) {
+            if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
                 // Convert to regular villager
-                ((ZombieVillager)entity).setConversionTime(0, true);
+                ((ZombieVillager) entity).setConversionTime(0, true);
                 entity.heal(requireNonNull(entity.getAttribute(Attribute.MAX_HEALTH)).getValue());
             }
         }
