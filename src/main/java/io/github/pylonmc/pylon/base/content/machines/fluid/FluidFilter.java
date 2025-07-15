@@ -2,9 +2,10 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
-import io.github.pylonmc.pylon.base.fluid.pipe.connection.FluidConnectionInteraction;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -15,7 +16,7 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
@@ -36,13 +37,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.window.Window;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
+public class FluidFilter extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
     public static final NamespacedKey BUFFER_KEY = baseKey("buffer");
@@ -76,37 +77,31 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(
-                new SimpleFluidConnectionPoint("input", FluidConnectionPoint.Type.INPUT, BlockFace.EAST, 0.25F),
-                new SimpleFluidConnectionPoint("output", FluidConnectionPoint.Type.OUTPUT, BlockFace.WEST, 0.25F)
-        );
-    }
-
-    @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
         Block block = context.getBlock();
 
+        Map<String, PylonEntity<?>> entities = new HashMap<>();
+
         entities.put("main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(MAIN_MATERIAL)
-                .transformation(new TransformBuilder()
-                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                        .scale(0.25, 0.25, 0.5)
-                )
-                .build(block.getLocation().toCenterLocation())));
-
+                        .material(MAIN_MATERIAL)
+                        .transformation(new TransformBuilder()
+                                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                                .scale(0.25, 0.25, 0.5)
+                        )
+                        .build(block.getLocation().toCenterLocation()))
+        );
         entities.put("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(NO_FLUID_MATERIAL)
-                .transformation(new TransformBuilder()
-                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                        .scale(0.2, 0.3, 0.45)
-                )
-                .build(block.getLocation().toCenterLocation())));
-
+                        .material(NO_FLUID_MATERIAL)
+                        .transformation(new TransformBuilder()
+                                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                                .scale(0.2, 0.3, 0.45)
+                        )
+                        .build(block.getLocation().toCenterLocation()))
+        );
+        entities.put("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.EAST, 0.25F));
+        entities.put("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.WEST, 0.25F));
         return entities;
     }
 
@@ -136,37 +131,31 @@ public class FluidFilter extends PylonBlock implements PylonFluidIoBlock, PylonI
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
-        double outputFluidPerSecond = FluidManager.getFluidPerSecond(getOutputPoint().getSegment());
-        double inputFluidPerSecond = FluidManager.getFluidPerSecond(getInputPoint().getSegment());
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
+        VirtualFluidPoint output = getHeldEntityOrThrow(FluidPointInteraction.class, "output").getPoint();
+        VirtualFluidPoint input = getHeldEntityOrThrow(FluidPointInteraction.class, "input").getPoint();
+        double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
+        double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
         return fluid == null
             ? Map.of()
             : Map.of(fluid, Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond) * PylonConfig.getFluidIntervalTicks() * deltaSeconds - buffer));
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         buffer += amount;
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
         return fluid == null
                 ? Map.of()
                 : Map.of(fluid, buffer);
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         buffer -= amount;
-    }
-
-    private @NotNull FluidConnectionPoint getOutputPoint() {
-        return getHeldEntityOrThrow(FluidConnectionInteraction.class, "output").getPoint();
-    }
-
-    private @NotNull FluidConnectionPoint getInputPoint() {
-        return getHeldEntityOrThrow(FluidConnectionInteraction.class, "input").getPoint();
     }
 
     public void setFluid(PylonFluid fluid) {

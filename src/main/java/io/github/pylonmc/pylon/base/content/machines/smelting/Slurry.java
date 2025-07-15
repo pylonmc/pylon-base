@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.fluid;
+package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;

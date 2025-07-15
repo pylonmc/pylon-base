@@ -1,13 +1,16 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics.base;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -18,13 +21,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public abstract class SimplePurificationMachine extends PylonBlock implements PylonFluidIoBlock {
+public abstract class SimplePurificationMachine extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock {
 
     public static final NamespacedKey DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY = baseKey("dirty_hydraulic_fluid_amount");
     public static final NamespacedKey HYDRAULIC_FLUID_AMOUNT_KEY = baseKey("hydraulic_fluid_amount");
@@ -61,30 +63,30 @@ public abstract class SimplePurificationMachine extends PylonBlock implements Py
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
         return Map.of(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidAmount);
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         hydraulicFluidAmount -= amount;
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(double deltaSeconds) {
         return Map.of(BaseFluids.DIRTY_HYDRAULIC_FLUID, getDirtyHydraulicFluidBuffer() - dirtyHydraulicFluidAmount);
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         dirtyHydraulicFluidAmount += amount;
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.SOUTH)
+    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        return Map.of(
+                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
+                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
         );
     }
 

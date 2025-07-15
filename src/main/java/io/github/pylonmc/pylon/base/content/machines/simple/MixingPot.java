@@ -5,20 +5,21 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -59,7 +60,8 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractableBlock, PylonFluidIoBlock {
+public final class MixingPot extends PylonBlock
+        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidBlock {
 
     private static final NamespacedKey FLUID_KEY = baseKey("fluid");
     private static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
@@ -91,10 +93,10 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.SOUTH)
+    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        return Map.of(
+                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
+                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
         );
     }
 
@@ -114,14 +116,14 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
         return fluidType == null
                 ? Map.of()
                 : Map.of(fluidType, fluidAmount);
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
                     .stream()
@@ -134,7 +136,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         if (fluidType == null) {
             fluidType = fluid;
         }
@@ -143,7 +145,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         fluidAmount -= amount;
         if (fluidAmount <= 1.0e-6) {
             fluidType = null;
@@ -241,7 +243,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
         }
         switch (recipe.output()) {
             case Either.Left(ItemStack item) -> {
-                removeFluid("", recipe.fluid, recipe.fluidAmount);
+                removeFluid(recipe.fluid, recipe.fluidAmount);
                 getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
             }
             case Either.Right(PylonFluid fluid) -> fluidType = fluid;
