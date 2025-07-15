@@ -10,8 +10,8 @@ import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
-import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -100,7 +101,7 @@ public abstract class SimplePurificationMachine extends PylonBlock implements Py
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
-                Map.of("status", getStatus())
+                List.of(PylonArgument.of("status", getStatus()))
         );
     }
 }
