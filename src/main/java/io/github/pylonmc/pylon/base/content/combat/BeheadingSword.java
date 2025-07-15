@@ -1,10 +1,9 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
 import io.papermc.paper.tag.EntityTags;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -13,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -67,10 +67,10 @@ public class BeheadingSword extends PylonItem implements PylonWeapon {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-        return Map.of(
-                "default-chance", Component.text(normalEntityHeadChance * 100),
-                "wither-skeleton-chance", Component.text(witherSkeletonHeadChance * 100)
+    public @NotNull List<PylonArgument> getPlaceholders() {
+        return List.of(
+                PylonArgument.of("default-chance", normalEntityHeadChance * 100),
+                PylonArgument.of("wither-skeleton-chance", witherSkeletonHeadChance * 100)
         );
     }
 }

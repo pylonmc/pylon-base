@@ -1,10 +1,9 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonArrow;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -12,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.List;
 
 
 public class IceArrow extends PylonItem implements PylonArrow {
@@ -32,8 +31,8 @@ public class IceArrow extends PylonItem implements PylonArrow {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-        return Map.of("freeze-duration", Component.text(freezeDuration));
+    public @NotNull List<PylonArgument> getPlaceholders() {
+        return List.of(PylonArgument.of("freeze-duration", freezeDuration));
     }
 
     private static class DamageOverTimeRunnable extends BukkitRunnable {

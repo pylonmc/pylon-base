@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.List;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -36,10 +36,8 @@ public class HealthTalisman extends PylonItem {
     );
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-        return Map.of(
-            "health-boost", UnitFormat.HEARTS.format(maxHealthBoost)
-        );
+    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        return List.of(PylonArgument.of("health-boost", UnitFormat.HEARTS.format(maxHealthBoost)));
     }
 
     public static class HealthTalismanTicker extends BukkitRunnable {
