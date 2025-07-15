@@ -39,6 +39,6 @@ public class WitherSword extends PylonItem implements PylonInteractor, PylonCool
     @Override
     public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
         return Map.of("chargedskulls", chargedSkulls ? trueCharged : falseCharged,
-                "skullspeed", UnitFormat.METERS_PER_SECOND.format(skullSpeed));
+                "skullspeed", UnitFormat.BLOCKS_PER_SECOND.format(skullSpeed));
     }
 }
