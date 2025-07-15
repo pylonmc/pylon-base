@@ -161,12 +161,6 @@ item:
   flour:
     name: "Flour"
 
-  fluid_pipe_connector:
-    waila: "%pipe%"
-
-  fluid_pipe_marker:
-    waila: "%pipe%"
-
   fluid_pipe_wood:
     name: "Wooden Fluid Pipe"
     lore: |-

@@ -1,2 +1,3 @@
+material: brown_terracotta
 fluid-per-second: 250.0
 allow-fluids: [normal] # can be cold (cryogenic), normal, or hot (molten)

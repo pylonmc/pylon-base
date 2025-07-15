@@ -3,8 +3,10 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -14,7 +16,6 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -50,7 +51,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, PylonInteractableBlock {
+public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -141,31 +142,24 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.UP),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.DOWN)
-        );
-    }
-
-    @Override
     public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonFluidIoBlock.super.createEntities(context);
-        entities.put("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .build(getBlock().getLocation().toCenterLocation()))
+        return Map.of(
+                "fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+                        .build(getBlock().getLocation().toCenterLocation())),
+                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP),
+                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN)
         );
-        return entities;
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
         return fluidType == null
                 ? Map.of()
                 : Map.of(fluidType, fluidAmount);
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
         // If no fluid contained, allow any fluid to be added
         if (fluidType == null) {
             return PylonRegistry.FLUIDS.getValues()
@@ -184,7 +178,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         if (!fluid.equals(fluidType)) {
             setFluid(fluid);
         }
@@ -192,7 +186,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidIoBlock, 
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         setAmount(fluidAmount - amount);
     }
 

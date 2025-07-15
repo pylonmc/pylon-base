@@ -1,14 +1,16 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
@@ -36,7 +38,8 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock, PylonGuiBlock {
+public class FluidStrainer extends PylonBlock
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonGuiBlock {
 
     public final double bufferSize = getSettings().getOrThrow("buffer-size", Double.class);
 
@@ -74,29 +77,29 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.NORTH),
-                new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.SOUTH)
+    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        return Map.of(
+                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
+                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
         );
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
         return currentRecipe == null ?
                 Map.of() :
                 Map.of(currentRecipe.outputFluid(), buffer);
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
         return Recipe.RECIPE_TYPE.getRecipes().stream()
                 .map(Recipe::inputFluid)
                 .collect(Collectors.toMap(Function.identity(), f -> bufferSize - buffer));
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
             passedFluid = 0;
             currentRecipe = null;
@@ -115,7 +118,7 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         buffer -= amount;
     }
 
@@ -154,7 +157,7 @@ public class FluidStrainer extends PylonBlock implements PylonFluidIoBlock, Pylo
             inventory.addItem(null, currentRecipe.outputItem().clone());
             passedFluid -= currentRecipe.inputAmount();
         }
-        if (passedFluid < 1e-9) {
+        if (passedFluid < 1.0e-9) {
             currentRecipe = null;
             passedFluid = 0;
         }

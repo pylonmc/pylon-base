@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.core.guide.PylonGuide;
+import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.guide.pages.base.SimpleStaticGuidePage;
 import org.bukkit.Material;
 
