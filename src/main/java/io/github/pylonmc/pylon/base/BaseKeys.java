@@ -203,4 +203,7 @@ public class BaseKeys {
 
     public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
+
+    public static final NamespacedKey WITHER_SWORD = baseKey("wither_sword");
+    public static final NamespacedKey WITHER_SWORD_SUPER = baseKey("wither_sword_super");
 }
