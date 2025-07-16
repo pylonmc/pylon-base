@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonCooldownable;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class WitherSword extends PylonItem implements PylonInteractor, PylonCooldownable {
+public class WitherSword extends PylonItem implements PylonInteractor {
     private final boolean chargedSkulls = getSettings().getOrThrow("charged-skulls", Boolean.class);
     private final double skullSpeed = getSettings().getOrThrow("skull-speed", Double.class);
     private static final TranslatableComponent trueCharged = Component.translatable("pylon.pylonbase.item.wither_sword.charged.true");
