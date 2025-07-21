@@ -3,10 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
@@ -44,7 +41,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class CoalFiredPurificationTower extends PylonBlock
-        implements PylonMultiBufferFluidBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
+        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
 
     private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
     public static final double FLUID_MB_PER_SECOND = settings.getOrThrow("fluid-mb-per-second", Integer.class);
@@ -107,8 +104,8 @@ public class CoalFiredPurificationTower extends PylonBlock
         super(block, context);
         fuel = null;
         fuelSecondsElapsed = 0.0;
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, FLUID_BUFFER);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings("unused")

@@ -3,8 +3,10 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -16,6 +18,7 @@ import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
@@ -43,7 +46,8 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidFilter extends PylonBlock implements PylonMultiBufferFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+public class FluidFilter extends PylonBlock
+        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -66,21 +70,20 @@ public class FluidFilter extends PylonBlock implements PylonMultiBufferFluidBloc
     public static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
     public static final Material NO_FLUID_MATERIAL = Material.RED_TERRACOTTA;
 
-    public final double buffer = getSettings().getOrThrow("buffer", Double.class);
-
     protected @Nullable PylonFluid fluid;
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
         fluid = null;
+        // a bit of a hack - treat capacity as effectively infinite and override
+        // fluidAmountRequested to control how much fluid comes in
+        setCapacity(1.0e9);
     }
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-
         fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
     }
 
@@ -143,13 +146,31 @@ public class FluidFilter extends PylonBlock implements PylonMultiBufferFluidBloc
         return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid").getEntity();
     }
 
+    @Override
+    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+        return true;
+    }
+
+    @Override
+    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+        if (fluid != this.fluid) {
+            return 0.0;
+        }
+
+        // Make sure the filter always has enough fluid for one tick's worth of output
+        // somewhat hacky
+        VirtualFluidPoint output = getHeldEntityOrThrow(FluidPointInteraction.class, "output").getPoint();
+        VirtualFluidPoint input = getHeldEntityOrThrow(FluidPointInteraction.class, "input").getPoint();
+        double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
+        double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
+        return Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond)
+                * PylonConfig.getFluidIntervalTicks()
+                * deltaSeconds
+                - fluidAmount()
+        );
+    }
+
     public void setFluid(PylonFluid fluid) {
-        if (this.fluid != null) {
-            deleteFluidBuffer(this.fluid);
-        }
-        if (fluid != null) {
-            createFluidBuffer(fluid, buffer);
-        }
         this.fluid = fluid;
         getFluidDisplay().setItemStack(new ItemStack(fluid == null ? NO_FLUID_MATERIAL : fluid.getMaterial()));
     }

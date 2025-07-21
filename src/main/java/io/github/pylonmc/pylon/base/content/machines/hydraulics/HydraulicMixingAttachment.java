@@ -9,7 +9,7 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -43,7 +43,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicMixingAttachment extends PylonBlock
-        implements PylonMultiblock, PylonTickingBlock, PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
+        implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = baseKey("cooldown_time_remaining");
 
@@ -77,8 +77,8 @@ public class HydraulicMixingAttachment extends PylonBlock
     public HydraulicMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         cooldownTimeRemaining = 0.0;
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
 
     @SuppressWarnings("unused")

@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
@@ -38,7 +38,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidValve extends PylonBlock
-        implements PylonMultiBufferFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 

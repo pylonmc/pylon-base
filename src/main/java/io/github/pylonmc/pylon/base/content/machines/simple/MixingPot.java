@@ -8,14 +8,10 @@ import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -26,13 +22,10 @@ import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import lombok.Getter;
-import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -55,41 +48,20 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class MixingPot extends PylonBlock
-        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonMultiBufferFluidBlock {
-
-    private static final NamespacedKey FLUID_KEY = baseKey("fluid");
-    private static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
-
-    @Getter @Setter private @Nullable PylonFluid fluidType;
-
-    @Getter @Setter private double fluidAmount;
+        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidTank {
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
-        fluidType = null;
-        fluidAmount = 0;
+        setCapacity(1000.0);
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-
-        fluidType = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
-        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluidType);
-        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
     }
 
     @Override
@@ -116,46 +88,24 @@ public final class MixingPot extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
-        return fluidType == null
-                ? Map.of()
-                : Map.of(fluidType, fluidAmount);
+    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+        return true;
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
-        if (fluidType == null) {
-            return PylonRegistry.FLUIDS.getValues()
-                    .stream()
-                    .collect(Collectors.toMap(Function.identity(), key -> 1000D));
-        }
-        if (fluidAmount >= 1000) {
-            return Map.of();
-        }
-        return Map.of(fluidType, 1000L - fluidAmount);
-    }
-
-    @Override
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
-        if (fluidType == null) {
-            fluidType = fluid;
-        }
-        fluidAmount += amount;
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
+        PylonFluidTank.super.onFluidAdded(fluid, amount);
         updateCauldron();
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        fluidAmount -= amount;
-        if (fluidAmount <= 1.0e-6) {
-            fluidType = null;
-            fluidAmount = 0;
-        }
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
+        PylonFluidTank.super.onFluidRemoved(fluid, amount);
         updateCauldron();
     }
 
     private void updateCauldron() {
-        int level = (int) fluidAmount / 333;
+        int level = (int) fluidAmount() / 333;
         if (level > 0 && getBlock().getType() == Material.CAULDRON) {
             getBlock().setType(Material.WATER_CAULDRON);
         } else if (level == 0) {
@@ -170,11 +120,11 @@ public final class MixingPot extends PylonBlock
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         Component text = Component.text("").append(getName());
-        if (fluidType != null) {
+        if (fluidType() != null) {
             text = text.append(Component.text(" | "))
-                    .append(fluidType.getName())
+                    .append(fluidType().getName())
                     .append(Component.text(": "))
-                    .append(UnitFormat.MILLIBUCKETS.format(fluidAmount).decimalPlaces(1));
+                    .append(UnitFormat.MILLIBUCKETS.format(fluidAmount()).decimalPlaces(1));
         }
         return new WailaConfig(text);
     }
@@ -192,7 +142,7 @@ public final class MixingPot extends PylonBlock
 
         event.setCancelled(true);
 
-        if (!isFormedAndFullyLoaded() || fluidType == null) {
+        if (!isFormedAndFullyLoaded() || fluidType() == null) {
             return;
         }
 
@@ -218,7 +168,7 @@ public final class MixingPot extends PylonBlock
                 && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
 
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
-            if (recipe.matches(stacks, isEnrichedFire, fluidType, fluidAmount)) {
+            if (recipe.matches(stacks, isEnrichedFire, fluidType(), fluidAmount())) {
                 if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
                     continue;
                 }
@@ -243,10 +193,10 @@ public final class MixingPot extends PylonBlock
         }
         switch (recipe.output()) {
             case Either.Left(ItemStack item) -> {
-                removeFluid(recipe.fluid, recipe.fluidAmount);
+                removeFluid(recipe.fluidAmount);
                 getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
             }
-            case Either.Right(PylonFluid fluid) -> fluidType = fluid;
+            case Either.Right(PylonFluid fluid) -> setFluidType(fluid);
         }
 
         new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
@@ -264,11 +214,11 @@ public final class MixingPot extends PylonBlock
                 .spawn();
     }
 
-    public Block getFire() {
+    public @NotNull Block getFire() {
         return getBlock().getRelative(BlockFace.DOWN);
     }
 
-    public Block getIgnitedBlock() {
+    public @NotNull Block getIgnitedBlock() {
         return getFire().getRelative(BlockFace.DOWN);
     }
 

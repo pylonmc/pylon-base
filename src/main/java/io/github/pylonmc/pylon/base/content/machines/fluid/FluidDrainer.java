@@ -1,14 +1,11 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -27,7 +24,7 @@ import java.util.Map;
 
 
 public class FluidDrainer extends PylonBlock
-        implements PylonMultiBufferFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractableBlock {
+        implements PylonFluidBufferBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
 
@@ -52,17 +49,23 @@ public class FluidDrainer extends PylonBlock
     public final PylonFluid fluid = getSettings().getFluidOrThrow("fluid");
     public final double buffer = getSettings().getOrThrow("buffer", Double.class);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final Block drainBlock;
 
     @SuppressWarnings("unused")
     public FluidDrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
-        createFluidBuffer(fluid, buffer);
+        createFluidBuffer(fluid, buffer, false, true);
+        Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
+        Directional directional = (Directional) getBlock().getBlockData();
+        drainBlock = getBlock().getRelative(directional.getFacing());
     }
 
     @SuppressWarnings("unused")
     public FluidDrainer(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+        Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
+        Directional directional = (Directional) getBlock().getBlockData();
+        drainBlock = getBlock().getRelative(directional.getFacing());
     }
 
     @Override
@@ -74,16 +77,8 @@ public class FluidDrainer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (fluidSpaceRemaining(fluid) < 1000.0) {
-            return;
-        }
-
-        Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
-        Directional directional = (Directional) getBlock().getBlockData();
-        Block placeBlock = getBlock().getRelative(directional.getFacing());
-
-        if (placeBlock.getType() == material) {
-            placeBlock.setType(Material.AIR);
+        if (fluidSpaceRemaining(fluid) >= 1000.0 && drainBlock.getType() == material) {
+            drainBlock.setType(Material.AIR);
             addFluid(fluid, 1000.0);
         }
     }

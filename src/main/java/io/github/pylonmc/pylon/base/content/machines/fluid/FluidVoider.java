@@ -12,7 +12,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
@@ -23,8 +22,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 
 public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock {
@@ -75,14 +72,12 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
-        return PylonRegistry.FLUIDS.getValues()
-                .stream()
-                .collect(Collectors.toMap(Function.identity(), key -> voidRate * deltaSeconds));
+    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+        return voidRate * deltaSeconds;
     }
 
     @Override
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
         // do nothing lol
     }
 }

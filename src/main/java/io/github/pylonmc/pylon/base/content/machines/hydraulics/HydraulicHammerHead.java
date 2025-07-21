@@ -8,10 +8,7 @@ import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -46,7 +43,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicHammerHead extends PylonBlock
-        implements PylonTickingBlock, PylonInteractableBlock, PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
+        implements PylonTickingBlock, PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
@@ -78,8 +75,8 @@ public class HydraulicHammerHead extends PylonBlock
     public HydraulicHammerHead(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         hammer = null;
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
 
     @SuppressWarnings("unused")

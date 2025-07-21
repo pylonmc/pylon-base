@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 public class SolarPurificationTower extends PylonBlock
-        implements PylonSimpleMultiblock, PylonTickingBlock, PylonMultiBufferFluidBlock {
+        implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
     public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", Integer.class);
     public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", Integer.class);
@@ -50,8 +50,8 @@ public class SolarPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public SolarPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, fluidBuffer);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidBuffer);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidBuffer, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, fluidBuffer, false, true);
     }
 
     @SuppressWarnings("unused")

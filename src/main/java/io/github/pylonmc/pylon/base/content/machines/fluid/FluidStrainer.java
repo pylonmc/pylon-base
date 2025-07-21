@@ -33,8 +33,6 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -92,14 +90,16 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getRequestedFluids(double deltaSeconds) {
-        return Recipe.RECIPE_TYPE.getRecipes().stream()
-                .map(Recipe::inputFluid)
-                .collect(Collectors.toMap(Function.identity(), f -> bufferSize - buffer));
+    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+        if (Recipe.RECIPE_TYPE.getRecipes().stream().anyMatch(recipe -> fluid.equals(recipe.inputFluid))) {
+            return bufferSize - buffer;
+        } else {
+            return 0.0;
+        }
     }
 
     @Override
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
         if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
             passedFluid = 0;
             currentRecipe = null;
@@ -118,7 +118,7 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
         buffer -= amount;
     }
 

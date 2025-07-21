@@ -9,7 +9,7 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -36,7 +36,7 @@ import java.util.Set;
 
 
 public class HydraulicPressPiston extends PylonBlock
-        implements PylonMultiblock, PylonTickingBlock, PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
+        implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON);
     public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
@@ -61,8 +61,8 @@ public class HydraulicPressPiston extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
 
     @SuppressWarnings("unused")

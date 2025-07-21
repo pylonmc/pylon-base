@@ -67,5 +67,5 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {}
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {}
 }

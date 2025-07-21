@@ -8,7 +8,7 @@ import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
@@ -16,7 +16,6 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -56,13 +55,11 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 
-public class Press extends PylonBlock implements PylonInteractableBlock, PylonMultiBufferFluidBlock, PylonEntityHolderBlock {
-
-    public static final NamespacedKey OIL_AMOUNT_KEY = baseKey("oil_amount");
+public class Press extends PylonBlock
+        implements PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", Integer.class);
@@ -86,23 +83,15 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonMu
     // Not worth the effort to persist across unloads
     @Getter private @Nullable Recipe currentRecipe;
 
-    @Getter private double oilAmount;
-
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        oilAmount = 0.0;
+        createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
     }
 
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        oilAmount = pdc.get(OIL_AMOUNT_KEY, PylonSerializers.DOUBLE);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(OIL_AMOUNT_KEY, PylonSerializers.DOUBLE, oilAmount);
     }
 
     @Override
@@ -118,21 +107,11 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonMu
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
-        return Map.of(BaseFluids.PLANT_OIL, oilAmount);
-    }
-
-    @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        oilAmount -= amount;
-    }
-
-    @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
                 Map.of(
-                        "plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(oilAmount)),
+                        "plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL))),
                         "plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB),
                         "plant_oil", BaseFluids.PLANT_OIL.getName()
                 )
@@ -175,7 +154,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonMu
         for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
             for (ItemStack stack : stacks) {
                 if (isPylonSimilar(recipe.input, stack)) {
-                    double availableSpace = CAPACITY_MB - oilAmount;
+                    double availableSpace = CAPACITY_MB - fluidAmount(BaseFluids.PLANT_OIL);
                     if (recipe.oilAmount > availableSpace || !new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
                         continue;
                     }
@@ -198,7 +177,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonMu
             getCover().setTransform(RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
 
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                this.oilAmount += recipe.oilAmount;
+                addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount);
                 new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
                 this.currentRecipe = null;
             }, RETURN_TO_START_TIME_TICKS);

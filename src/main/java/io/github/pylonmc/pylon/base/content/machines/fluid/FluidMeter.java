@@ -31,14 +31,12 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     @SuppressWarnings("unused")
     public FluidMeter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-
         removedSinceLastUpdate = 0.0;
     }
 
     @SuppressWarnings("unused")
     public FluidMeter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-
         removedSinceLastUpdate = 0.0;
     }
 
@@ -54,9 +52,8 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        super.removeFluid(fluid, amount);
-
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
+        super.onFluidRemoved(fluid, amount);
         removedSinceLastUpdate += amount;
     }
 

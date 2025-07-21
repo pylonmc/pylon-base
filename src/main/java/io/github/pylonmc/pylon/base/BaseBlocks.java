@@ -33,7 +33,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
-import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 

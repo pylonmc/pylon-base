@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiBufferFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -28,7 +28,7 @@ import java.util.Set;
 
 
 public class HydraulicGrindstoneTurner extends PylonBlock
-        implements PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock, PylonMultiBufferFluidBlock {
+        implements PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock, PylonFluidBufferBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER);
     public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
@@ -54,8 +54,8 @@ public class HydraulicGrindstoneTurner extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicGrindstoneTurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings("unused")
