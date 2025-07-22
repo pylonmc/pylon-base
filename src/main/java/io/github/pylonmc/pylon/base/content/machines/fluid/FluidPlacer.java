@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -54,6 +53,7 @@ public class FluidPlacer extends PylonBlock
     @SuppressWarnings("unused")
     public FluidPlacer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.SOUTH));
         createFluidBuffer(fluid, buffer, true, false);
         Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
         Directional directional = (Directional) getBlock().getBlockData();
@@ -66,13 +66,6 @@ public class FluidPlacer extends PylonBlock
         Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
         Directional directional = (Directional) getBlock().getBlockData();
         placeBlock = getBlock().getRelative(directional.getFacing());
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.SOUTH)
-        );
     }
 
     @Override

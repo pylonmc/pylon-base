@@ -15,7 +15,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -61,6 +60,11 @@ public class HydraulicPressPiston extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        addEntity("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.SPRUCE_LOG)
+                .transformation(getTransformation(0.0))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
@@ -68,15 +72,6 @@ public class HydraulicPressPiston extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicPressPiston(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.SPRUCE_LOG)
-                .transformation(getTransformation(0.0))
-                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
-        ));
     }
 
     @Override

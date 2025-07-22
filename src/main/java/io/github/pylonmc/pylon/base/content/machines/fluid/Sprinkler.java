@@ -13,7 +13,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -58,20 +57,13 @@ public class Sprinkler extends PylonBlock
     @SuppressWarnings("unused")
     public Sprinkler(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, -0.15F));
         createFluidBuffer(BaseFluids.WATER, WATER_PER_SECOND * 5, true, false);
     }
 
     @SuppressWarnings("unused")
     public Sprinkler(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, -0.15F)
-        );
     }
 
     @Override

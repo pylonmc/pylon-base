@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -50,25 +49,19 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, (float) (mainDisplaySize / 2.0)));
+        addEntity("main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(MAIN_MATERIAL)
+                .transformation(new TransformBuilder()
+                        .scale(mainDisplaySize)
+                )
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
     }
 
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, (float) (mainDisplaySize / 2.0)),
-                "main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(MAIN_MATERIAL)
-                        .transformation(new TransformBuilder()
-                                .scale(mainDisplaySize)
-                        )
-                        .build(getBlock().getLocation().toCenterLocation())
-                )
-        );
     }
 
     @Override

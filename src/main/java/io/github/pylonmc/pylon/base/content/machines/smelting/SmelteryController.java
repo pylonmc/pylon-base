@@ -14,7 +14,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -102,6 +101,23 @@ public final class SmelteryController extends SmelteryComponent
     @SuppressWarnings("unused")
     public SmelteryController(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+
+        Location location = center.getLocation().add(-1, 0, -1);
+        int counter = 0;
+        for (int x = 0; x < PIXELS_PER_SIDE; x++) {
+            for (int z = 0; z < PIXELS_PER_SIDE; z++) {
+                Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
+                TextDisplay display = BaseUtils.spawnUnitSquareTextDisplay(relative, BaseUtils.METAL_GRAY);
+                display.setTransformationMatrix(
+                        TransformUtil.transformationToMatrix(display.getTransformation())
+                                .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
+                                .rotateLocalX((float) Math.toRadians(-90))
+                                .scaleLocal(1f / RESOLUTION)
+                );
+                display.setBrightness(new Display.Brightness(15, 15));
+                addEntity("pixel_" + counter++, new SimpleTextDisplay(display));
+            }
+        }
 
         temperature = ROOM_TEMPERATURE_CELSIUS;
         running = false;
@@ -818,28 +834,6 @@ public final class SmelteryController extends SmelteryComponent
         noise.setScale(1 / 16.0);
     }
     private double cumulativeSeconds = 0;
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Location location = center.getLocation().add(-1, 0, -1);
-        Map<String, PylonEntity<?>> entities = new HashMap<>();
-        int counter = 0;
-        for (int x = 0; x < PIXELS_PER_SIDE; x++) {
-            for (int z = 0; z < PIXELS_PER_SIDE; z++) {
-                Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
-                TextDisplay display = BaseUtils.spawnUnitSquareTextDisplay(relative, BaseUtils.METAL_GRAY);
-                display.setTransformationMatrix(
-                        TransformUtil.transformationToMatrix(display.getTransformation())
-                                .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
-                                .rotateLocalX((float) Math.toRadians(-90))
-                                .scaleLocal(1f / RESOLUTION)
-                );
-                display.setBrightness(new Display.Brightness(15, 15));
-                entities.put("pixel_" + counter++, new SimpleTextDisplay(display));
-            }
-        }
-        return entities;
-    }
 
     public @NotNull List<SimpleTextDisplay> getPixels() {
         if (pixels.isEmpty()) {

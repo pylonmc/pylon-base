@@ -14,7 +14,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -40,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.window.Window;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -75,10 +73,34 @@ public class FluidFilter extends PylonBlock
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+
         fluid = null;
+
         // a bit of a hack - treat capacity as effectively infinite and override
         // fluidAmountRequested to control how much fluid comes in
         setCapacity(1.0e9);
+
+        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
+        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
+
+        addEntity("main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(MAIN_MATERIAL)
+                .transformation(new TransformBuilder()
+                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                        .scale(0.25, 0.25, 0.5)
+                )
+                .build(block.getLocation().toCenterLocation()))
+        );
+        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(NO_FLUID_MATERIAL)
+                .transformation(new TransformBuilder()
+                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                        .scale(0.2, 0.3, 0.45)
+                )
+                .build(block.getLocation().toCenterLocation()))
+        );
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.EAST, 0.25F));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.WEST, 0.25F));
     }
 
     @SuppressWarnings("unused")
@@ -90,35 +112,6 @@ public class FluidFilter extends PylonBlock
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-        Block block = context.getBlock();
-
-        Map<String, PylonEntity<?>> entities = new HashMap<>();
-
-        entities.put("main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(MAIN_MATERIAL)
-                        .transformation(new TransformBuilder()
-                                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                                .scale(0.25, 0.25, 0.5)
-                        )
-                        .build(block.getLocation().toCenterLocation()))
-        );
-        entities.put("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(NO_FLUID_MATERIAL)
-                        .transformation(new TransformBuilder()
-                                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                                .scale(0.2, 0.3, 0.45)
-                        )
-                        .build(block.getLocation().toCenterLocation()))
-        );
-        entities.put("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.EAST, 0.25F));
-        entities.put("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.WEST, 0.25F));
-        return entities;
     }
 
     @Override

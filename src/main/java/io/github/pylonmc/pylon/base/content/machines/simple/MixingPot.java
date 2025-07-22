@@ -12,7 +12,6 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -56,20 +55,15 @@ public final class MixingPot extends PylonBlock
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+
         setCapacity(1000.0);
     }
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
-        );
     }
 
     @Override

@@ -10,7 +10,6 @@ import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -104,6 +103,8 @@ public class CoalFiredPurificationTower extends PylonBlock
         super(block, context);
         fuel = null;
         fuelSecondsElapsed = 0.0;
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, FLUID_BUFFER, false, true);
     }
@@ -115,13 +116,6 @@ public class CoalFiredPurificationTower extends PylonBlock
         fuelSecondsElapsed = pdc.get(FUEL_SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE);
     }
 
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
-        );
-    }
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);

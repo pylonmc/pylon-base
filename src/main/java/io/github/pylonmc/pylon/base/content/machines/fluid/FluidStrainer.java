@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -53,6 +52,9 @@ public class FluidStrainer extends PylonBlock
     public FluidStrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+
         currentRecipe = null;
         buffer = 0;
         passedFluid = 0;
@@ -72,14 +74,6 @@ public class FluidStrainer extends PylonBlock
         PdcUtils.setNullable(pdc, CURRENT_RECIPE_KEY, Recipe.DATA_TYPE, currentRecipe);
         pdc.set(BUFFER_KEY, PylonSerializers.DOUBLE, buffer);
         pdc.set(PASSED_FLUID_KEY, PylonSerializers.DOUBLE, passedFluid);
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
-        );
     }
 
     @Override

@@ -13,7 +13,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -122,22 +121,17 @@ public class PortableFluidTank extends PylonBlock
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
         setCapacity(capacity);
     }
 
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .build(getBlock().getLocation().toCenterLocation())),
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN)
-        );
     }
 
     @Override

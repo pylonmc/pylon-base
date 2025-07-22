@@ -14,7 +14,6 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -74,7 +73,22 @@ public class HydraulicHammerHead extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicHammerHead(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+
         hammer = null;
+
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        addEntity("hammer_head", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.GRAY_CONCRETE)
+                .transformation(getHeadTransformation(0.7))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
+        addEntity("hammer_tip", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.AIR)
+                .transformation(getTipTransformation(-0.3))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
+
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
@@ -89,23 +103,6 @@ public class HydraulicHammerHead extends PylonBlock
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
         PdcUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH),
-                "hammer_head", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(Material.GRAY_CONCRETE)
-                        .transformation(getHeadTransformation(0.7))
-                        .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))),
-                "hammer_tip", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(Material.AIR)
-                        .transformation(getTipTransformation(-0.3))
-                        .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
-                )
-        );
     }
 
     @Override

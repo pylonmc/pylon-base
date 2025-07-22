@@ -13,7 +13,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -70,6 +69,20 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     public Grindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
+        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .scale(0.3)
+                        .translate(0, 0.15, 0)
+                        .rotate(Math.PI / 2, 0, 0))
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+        addEntity("block", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.SMOOTH_STONE_SLAB)
+                .transformation(new TransformBuilder()
+                        .translate(0, 0.8, 0))
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+
         recipe = null;
         cyclesRemaining = null;
         cycleTicksRemaining = null;
@@ -78,6 +91,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+
         recipe = pdc.get(RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
         cyclesRemaining = pdc.get(CYCLES_REMAINING_KEY, PylonSerializers.INTEGER);
         cycleTicksRemaining = pdc.get(CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
@@ -88,25 +102,6 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         PdcUtils.setNullable(pdc, RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, recipe);
         PdcUtils.setNullable(pdc, CYCLES_REMAINING_KEY, PylonSerializers.INTEGER, cyclesRemaining);
         PdcUtils.setNullable(pdc, CYCLE_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, cycleTicksRemaining);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "item", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .transformation(new TransformBuilder()
-                                .scale(0.3)
-                                .translate(0, 0.15, 0)
-                                .rotate(Math.PI / 2, 0, 0))
-                        .build(getBlock().getLocation().toCenterLocation())
-                ),
-                "block", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(Material.SMOOTH_STONE_SLAB)
-                        .transformation(new TransformBuilder()
-                                .translate(0, 0.8, 0))
-                        .build(getBlock().getLocation().toCenterLocation())
-                )
-        );
     }
 
     @Override

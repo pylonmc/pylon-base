@@ -16,7 +16,6 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -86,24 +85,20 @@ public class Press extends PylonBlock
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+
+        addEntity("press_cover", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.SPRUCE_PLANKS)
+                .transformation(getCoverTransform(0.4))
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH));
+
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
     }
 
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "press_cover", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(Material.SPRUCE_PLANKS)
-                        .transformation(getCoverTransform(0.4))
-                        .build(getBlock().getLocation().toCenterLocation())
-                ),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH)
-        );
     }
 
     @Override

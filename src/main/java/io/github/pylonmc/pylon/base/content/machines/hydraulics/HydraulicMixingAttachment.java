@@ -17,7 +17,6 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -76,7 +75,17 @@ public class HydraulicMixingAttachment extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+
         cooldownTimeRemaining = 0.0;
+
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        addEntity("mixing_attachment_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.LIGHT_GRAY_CONCRETE)
+                .transformation(getShaftTransformation(0.7))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
+
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
@@ -91,19 +100,6 @@ public class HydraulicMixingAttachment extends PylonBlock
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
         pdc.set(COOLDOWN_TIME_REMAINING_KEY, PylonSerializers.DOUBLE, cooldownTimeRemaining);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH),
-                "mixing_attachment_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(Material.LIGHT_GRAY_CONCRETE)
-                        .transformation(getShaftTransformation(0.7))
-                        .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
-                )
-        );
     }
 
     @Override

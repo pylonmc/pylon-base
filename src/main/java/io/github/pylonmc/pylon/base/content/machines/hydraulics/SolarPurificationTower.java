@@ -7,10 +7,13 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +53,8 @@ public class SolarPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public SolarPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidBuffer, true, false);
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, fluidBuffer, false, true);
     }
