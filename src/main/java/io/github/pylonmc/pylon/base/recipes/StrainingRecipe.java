@@ -1,12 +1,16 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.guide.button.FluidButton;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
@@ -15,10 +19,13 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
+/**
+ * @param fluidAmount the amount of fluid per recipe, both input and output
+ */
 public record StrainingRecipe(
         @NotNull NamespacedKey key,
         @NotNull PylonFluid inputFluid,
-        double inputAmount,
+        double fluidAmount,
         @NotNull PylonFluid outputFluid,
         @NotNull ItemStack outputItem
 ) implements PylonRecipe {
@@ -40,28 +47,31 @@ public record StrainingRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-        return List.of();
+    public @NotNull List<FluidOrItem> getInputs() {
+        return List.of(FluidOrItem.of(inputFluid, fluidAmount));
     }
 
     @Override
-    public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-        return List.of(inputFluid);
-    }
-
-    @Override
-    public @NotNull List<@NotNull ItemStack> getOutputItems() {
-        return List.of(outputItem);
-    }
-
-    @Override
-    public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-        return List.of(outputFluid);
+    public @NotNull List<FluidOrItem> getResults() {
+        return List.of(FluidOrItem.of(outputItem), FluidOrItem.of(outputFluid, fluidAmount));
     }
 
     @Override
     public @NotNull Gui display() {
-        // TODO
-        return null;
+        // 'n' can never be an item, it's just set to air to try and make the gui clearer
+        return Gui.normal()
+                .setStructure(
+                        "# # # # # # # # #",
+                        "# # # i # # # # #",
+                        "# # # s # t # # #",
+                        "# # # o # # # # #",
+                        "# # # # # # # # #"
+                )
+                .addIngredient('#', GuiItems.backgroundBlack())
+                .addIngredient('i', new FluidButton(inputFluid.getKey(), fluidAmount))
+                .addIngredient('s', BaseItems.FLUID_STRAINER)
+                .addIngredient('o', new FluidButton(outputFluid.getKey(), fluidAmount))
+                .addIngredient('t', ItemButton.fromStack(outputItem))
+                .build();
     }
 }

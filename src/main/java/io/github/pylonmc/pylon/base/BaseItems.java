@@ -39,6 +39,7 @@ import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -61,7 +62,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -1192,11 +1192,11 @@ public final class BaseItems {
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.DOUGH,
-                Map.of(new RecipeChoice.ExactChoice(FLOUR), 1),
-                DOUGH,
-                false,
+                List.of(FLOUR),
                 BaseFluids.WATER,
-                333
+                333,
+                FluidOrItem.of(DOUGH),
+                false
         ));
 
         FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
@@ -1296,19 +1296,17 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COVALENT_BINDER);
         BasePages.RESOURCES.addItem(BaseKeys.COVALENT_BINDER);
+        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER);
+        gunpowderInput.setAmount(4);
         ItemStack output = COVALENT_BINDER.clone();
         output.setAmount(6);
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.COVALENT_BINDER,
-                Map.of(
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.GUNPOWDER)), 4,
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.EMERALD)), 1,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_1), 1
-                ),
-                output,
-                true,
+                List.of(gunpowderInput, new ItemStack(Material.EMERALD), SHIMMER_DUST_1),
                 BaseFluids.WATER,
-                1000
+                1000,
+                FluidOrItem.of(output),
+                true
         ));
     }
 
@@ -1322,15 +1320,15 @@ public final class BaseItems {
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.SHIMMER_DUST_2,
-                Map.of(
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_1), 1,
-                        new RecipeChoice.ExactChoice(GOLD_DUST), 1,
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
+                List.of(
+                        SHIMMER_DUST_1,
+                        GOLD_DUST,
+                        new ItemStack(Material.REDSTONE)
                 ),
-                SHIMMER_DUST_2,
-                false,
                 BaseFluids.WATER,
-                333
+                333,
+                FluidOrItem.of(SHIMMER_DUST_2),
+                false
         ));
     }
 
@@ -1344,16 +1342,16 @@ public final class BaseItems {
         MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
                 BaseKeys.SHIMMER_DUST_3,
                 new ArrayList<>(Arrays.asList(
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE_BLOCK)),
+                        new ItemStack(Material.REDSTONE_BLOCK),
                         null,
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
+                        COVALENT_BINDER,
+                        COVALENT_BINDER,
                         null,
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
+                        COVALENT_BINDER,
+                        COVALENT_BINDER,
                         null
                 )),
-                new RecipeChoice.ExactChoice(SHIMMER_DUST_2),
+                SHIMMER_DUST_2,
                 SHIMMER_DUST_3,
                 5
         ));
@@ -1386,16 +1384,16 @@ public final class BaseItems {
         MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
                 BaseKeys.SHIMMER_SKULL,
                 new ArrayList<>(Arrays.asList(
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null
                 )),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.WITHER_SKELETON_SKULL)),
+                new ItemStack(Material.WITHER_SKELETON_SKULL),
                 SHIMMER_SKULL,
                 30
         ));
@@ -1710,13 +1708,13 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack SLURRY_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
+    public static final ItemStack FLUID_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
             .build();
     static {
-        PylonItem.register(PylonItem.class, SLURRY_STRAINER, BaseKeys.FLUID_STRAINER);
+        PylonItem.register(PylonItem.class, FLUID_STRAINER, BaseKeys.FLUID_STRAINER);
         BasePages.SIMPLE_MACHINES.addItem(BaseKeys.FLUID_STRAINER);
 
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_STRAINER, SLURRY_STRAINER)
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_STRAINER, FLUID_STRAINER)
                 .shape("c c", " C ", "c c")
                 .setIngredient('c', COPPER_SHEET)
                 .setIngredient('C', Material.COPPER_GRATE);

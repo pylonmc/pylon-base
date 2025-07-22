@@ -231,7 +231,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         assert recipe != null;
         GrindstoneRecipe recipe = GrindstoneRecipe.RECIPE_TYPE.getRecipe(this.recipe);
         assert recipe != null;
-        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), recipe.output());
+        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), recipe.result());
 
         new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, recipe, this).callEvent();
 

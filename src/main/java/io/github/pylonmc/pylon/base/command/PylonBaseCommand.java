@@ -24,7 +24,7 @@ public class PylonBaseCommand {
                     .requires(source ->
                             source.getSender().hasPermission("pylonbase.command.fillfluid") && source.getSender() instanceof Player
                     )
-                    .then(Commands.argument("fluid", new RegistryCommandArgument<>(PylonRegistry.FLUIDS))
+                    .then(Commands.argument("input", new RegistryCommandArgument<>(PylonRegistry.FLUIDS))
                             .executes(PylonBaseCommand::fillFluid)
                     )
             )
@@ -42,11 +42,11 @@ public class PylonBaseCommand {
                 itemStack.getAmount() > 1 ||
                 !(item instanceof PortableFluidTank.Item tank && tank.getAmount() == 0)
         ) {
-            sender.sendRichMessage("<red>You must be holding one empty portable fluid tank to use this command");
+            sender.sendRichMessage("<red>You must be holding one empty portable inputItems tank to use this command");
             return Command.SINGLE_SUCCESS;
         }
 
-        PylonFluid fluid = ctx.getArgument("fluid", PylonFluid.class);
+        PylonFluid fluid = ctx.getArgument("input", PylonFluid.class);
         tank.setFluid(fluid);
         tank.setAmount(tank.getCapacity());
 

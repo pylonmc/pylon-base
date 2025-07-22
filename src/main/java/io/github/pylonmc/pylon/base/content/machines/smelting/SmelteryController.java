@@ -22,6 +22,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -48,8 +49,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -575,23 +574,19 @@ public final class SmelteryController extends SmelteryComponent
         }
 
         @Override
-        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-            return List.of();
+        public @NotNull List<FluidOrItem> getInputs() {
+            return fluidInputs.entrySet()
+                    .stream()
+                    .map(pair -> (FluidOrItem) FluidOrItem.of(pair.getKey(), pair.getValue()))
+                    .toList();
         }
 
         @Override
-        public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-            return fluidInputs.keySet().stream().toList();
-        }
-
-        @Override
-        public @NotNull List<@NotNull ItemStack> getOutputItems() {
-            return List.of();
-        }
-
-        @Override
-        public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-            return fluidOutputs.keySet().stream().toList();
+        public @NotNull List<FluidOrItem> getResults() {
+            return fluidOutputs.entrySet()
+                    .stream()
+                    .map(pair -> (FluidOrItem) FluidOrItem.of(pair.getKey(), pair.getValue()))
+                    .toList();
         }
 
         @Override

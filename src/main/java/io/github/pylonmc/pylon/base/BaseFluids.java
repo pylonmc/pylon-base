@@ -6,12 +6,12 @@ import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 
-import java.util.Map;
+import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -213,20 +213,20 @@ public final class BaseFluids {
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 SLURRY.getKey(),
-                Map.of(new RecipeChoice.ExactChoice(BaseItems.ROCK_DUST), 1),
-                SLURRY,
-                false,
+                List.of(BaseItems.ROCK_DUST),
                 WATER,
-                1000
+                1000,
+                FluidOrItem.of(SLURRY, 1000),
+                false
         ));
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 HYDRAULIC_FLUID.getKey(),
-                Map.of(new RecipeChoice.ExactChoice(BaseItems.SHIMMER_DUST_1), 1),
-                HYDRAULIC_FLUID,
-                false,
+                List.of(BaseItems.SHIMMER_DUST_1),
                 PLANT_OIL,
-                1000
+                1000,
+                FluidOrItem.of(HYDRAULIC_FLUID, 1000),
+                false
         ));
     }
 

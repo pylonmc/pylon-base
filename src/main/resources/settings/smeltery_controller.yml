@@ -1,7 +1,7 @@
 fluid-reaction-per-second: 100.0
 display:
-  resolution: 8 # pixels per block; defines the resolution of the fluid display
-  lightness-variation: 0.3 # defines the lightness variation of the fluid display; 0.0 is no variation, 1.0 is full variation
+  resolution: 8 # pixels per block; defines the resolution of the inputItems display
+  lightness-variation: 0.3 # defines the lightness variation of the inputItems display; 0.0 is no variation, 1.0 is full variation
 
 # Warning: physical constants. Don't mess with these unless you know what you're doing,
 # lest you destabilize the heat simulation.

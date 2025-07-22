@@ -47,8 +47,8 @@ public class FluidStrainer extends PylonBlock
     public FluidStrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
 
         currentRecipe = null;
         buffer = 0;
@@ -142,9 +142,9 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (currentRecipe != null && passedFluid >= currentRecipe.inputAmount()) {
+        if (currentRecipe != null && passedFluid >= currentRecipe.fluidAmount()) {
             inventory.addItem(null, currentRecipe.outputItem().clone());
-            passedFluid -= currentRecipe.inputAmount();
+            passedFluid -= currentRecipe.fluidAmount();
         }
         if (passedFluid < 1e-9) {
             currentRecipe = null;

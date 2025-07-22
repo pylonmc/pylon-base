@@ -3,56 +3,40 @@ package io.github.pylonmc.pylon.base.recipes;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 /**
- * Maximum 7 input items
+ * @param inputItems the items needed inside the mixing pot (max. 7) (respects item amount)
+ * @param inputFluid the fluid that must be in the mixing pot already
+ * @param inputFluidAmount the amount of fluid that must be in the mixing pot already
+ * @param output the item or fluid that will be output
+ * @param requiresEnrichedFire whether enriched fire must be placed below to do this recipe
  */
 public record MixingPotRecipe(
         @NotNull NamespacedKey key,
-        @NotNull Map<RecipeChoice, Integer> input,
-        @NotNull Either<ItemStack, PylonFluid> output,
-        boolean requiresEnrichedFire,
-        @NotNull PylonFluid fluid,
-        double fluidAmount
+        @NotNull List<ItemStack> inputItems,
+        @NotNull PylonFluid inputFluid,
+        double inputFluidAmount,
+        @NotNull FluidOrItem output,
+        boolean requiresEnrichedFire
 ) implements PylonRecipe {
-
-    public MixingPotRecipe(
-            @NotNull NamespacedKey key,
-            @NotNull Map<RecipeChoice, Integer> input,
-            @NotNull ItemStack output,
-            boolean requiresEnrichedFire,
-            @NotNull PylonFluid fluid,
-            double fluidAmount
-    ) {
-        this(key, input, new Either.Left<>(output), requiresEnrichedFire, fluid, fluidAmount);
-    }
-
-    public MixingPotRecipe(
-            @NotNull NamespacedKey key,
-            @NotNull Map<RecipeChoice, Integer> input,
-            @NotNull PylonFluid output,
-            boolean requiresEnrichedFire,
-            @NotNull PylonFluid fluid,
-            double fluidAmount
-    ) {
-        this(key, input, new Either.Right<>(output), requiresEnrichedFire, fluid, fluidAmount);
-    }
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -73,19 +57,17 @@ public record MixingPotRecipe(
             PylonFluid fluid,
             double fluidAmount
     ) {
-        if (requiresEnrichedFire && !isEnrichedFire) {
+        if (requiresEnrichedFire && !isEnrichedFire
+                || fluidAmount < this.inputFluidAmount - 1.0e-9
+                || !fluid.equals(this.inputFluid)
+        ) {
             return false;
         }
 
-        // stupid floating point
-        if (fluidAmount < this.fluidAmount - 1.0e-5 || !fluid.equals(this.fluid)) {
-            return false;
-        }
-
-        for (Map.Entry<RecipeChoice, Integer> choice : this.input.entrySet()) {
+        for (ItemStack inputStack : this.inputItems) {
             boolean anyMatches = false;
             for (ItemStack stack : input) {
-                if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
+                if (isPylonSimilar(inputStack, stack) && stack.getAmount() >= inputStack.getAmount()) {
                     anyMatches = true;
                     break;
                 }
@@ -99,34 +81,24 @@ public record MixingPotRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-        return input.keySet().stream().toList();
+    public @NotNull List<FluidOrItem> getInputs() {
+        List<FluidOrItem> inputs = new ArrayList<>();
+        inputs.add(FluidOrItem.of(inputFluid, inputFluidAmount));
+        inputs.addAll(inputItems.stream()
+                .map(FluidOrItem::of)
+                .toList()
+        );
+        return inputs;
     }
 
     @Override
-    public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-        return List.of(fluid);
-    }
-
-    @Override
-    public @NotNull List<@NotNull ItemStack> getOutputItems() {
-        if (output instanceof Either.Left<ItemStack, PylonFluid>(ItemStack left)) {
-            return List.of(left);
-        }
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-        if (output instanceof Either.Right<ItemStack, PylonFluid>(PylonFluid right)) {
-            return List.of(right);
-        }
-        return List.of();
+    public @NotNull List<FluidOrItem> getResults() {
+        return List.of(output);
     }
 
     @Override
     public @NotNull Gui display() {
-        Preconditions.checkState(input.size() <= 7);
+        Preconditions.checkState(inputItems.size() <= 7);
         Gui.Builder.Normal builder = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
@@ -136,26 +108,24 @@ public record MixingPotRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('f', new FluidButton(fluid.getKey(), fluidAmount))
+                .addIngredient('f', new FluidButton(inputFluid.getKey(), inputFluidAmount))
                 .addIngredient('m', ItemButton.fromStack(BaseItems.MIXING_POT))
                 .addIngredient('i', requiresEnrichedFire
                         ? ItemButton.fromStack(BaseItems.ENRICHED_NETHERRACK)
                         : GuiItems.background()
                 );
 
-        if (output instanceof Either.Left<ItemStack, PylonFluid>(ItemStack left)) {
-            builder.addIngredient('o', ItemButton.fromStack(left));
+        if (output instanceof FluidOrItem.Item item) {
+            builder.addIngredient('o', ItemButton.fromStack(item.item()));
         }
-        if (output instanceof Either.Right<ItemStack, PylonFluid>(PylonFluid right)) {
-            builder.addIngredient('o', new FluidButton(right.getKey(), fluidAmount));
+        if (output instanceof FluidOrItem.Fluid fluid) {
+            builder.addIngredient('o', new FluidButton(fluid.fluid().getKey(), fluid.amountMillibuckets()));
         }
 
         Gui gui = builder.build();
 
         int i = 0;
-        for (Map.Entry<RecipeChoice, Integer> entry : input.entrySet()) {
-            ItemStack stack = entry.getKey().getItemStack().clone();
-            stack.setAmount(entry.getValue());
+        for (ItemStack stack : inputItems) {
             gui.setItem(10 + ((i / 3) * 9) + i % 3, ItemButton.fromStack(stack));
             i++;
         }

@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -13,7 +14,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
@@ -22,9 +22,14 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
+/**
+ * @param input the input inputFluid, of which CAST_AMOUNT mB is used per recipe
+ * @param result the output of the cast (respects amount)
+ * @param temperature the minimum temperature the smeltery must be
+ */
 public record CastingRecipe(
         @NotNull NamespacedKey key,
-        @NotNull PylonFluid fluid,
+        @NotNull PylonFluid input,
         @NotNull ItemStack result,
         double temperature
 ) implements PylonRecipe {
@@ -41,7 +46,7 @@ public record CastingRecipe(
 
     public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
         for (CastingRecipe recipe : RECIPE_TYPE) {
-            if (recipe.fluid.equals(fluid)) {
+            if (recipe.input.equals(fluid)) {
                 return recipe;
             }
         }
@@ -54,23 +59,13 @@ public record CastingRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-        return List.of();
+    public @NotNull List<FluidOrItem> getInputs() {
+        return List.of(FluidOrItem.of(input, CAST_AMOUNT));
     }
 
     @Override
-    public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-        return List.of(fluid);
-    }
-
-    @Override
-    public @NotNull List<@NotNull ItemStack> getOutputItems() {
-        return List.of(result);
-    }
-
-    @Override
-    public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-        return List.of();
+    public @NotNull List<FluidOrItem> getResults() {
+        return List.of(FluidOrItem.of(result));
     }
 
     @Override
@@ -85,7 +80,7 @@ public record CastingRecipe(
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('c', ItemButton.fromStack(BaseItems.SMELTERY_CASTER))
-                .addIngredient('i', new FluidButton(fluid.getKey(), CAST_AMOUNT))
+                .addIngredient('i', new FluidButton(input.getKey(), CAST_AMOUNT))
                 .addIngredient('t', ItemStackBuilder.of(Material.BLAZE_POWDER)
                         .name(net.kyori.adventure.text.Component.translatable(
                                 "pylon.pylonbase.guide.recipe.melting",

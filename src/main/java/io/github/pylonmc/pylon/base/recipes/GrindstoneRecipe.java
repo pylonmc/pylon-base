@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -15,16 +16,21 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
+/**
+ * @param input the input item (respects amount)
+ * @param result the result item (respects amount)
+ * @param cycles the number of full rotations needed to complete the recipe
+ * @param particleBlockData the block data to use for the particles shown while grinding
+ */
 public record GrindstoneRecipe(
         NamespacedKey key,
         ItemStack input,
-        ItemStack output,
+        ItemStack result,
         int cycles,
         BlockData particleBlockData
 ) implements PylonRecipe {
@@ -48,13 +54,13 @@ public record GrindstoneRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-        return List.of(new RecipeChoice.ExactChoice(input));
+    public @NotNull List<FluidOrItem> getInputs() {
+        return List.of(FluidOrItem.of(input));
     }
 
     @Override
-    public @NotNull List<@NotNull ItemStack> getOutputItems() {
-        return List.of(output);
+    public @NotNull List<FluidOrItem> getResults() {
+        return List.of(FluidOrItem.of(result));
     }
 
     @Override
@@ -77,7 +83,7 @@ public record GrindstoneRecipe(
                                         PylonArgument.of("time", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_TIME_TICKS / 20))
                                 ))
                 ))
-                .addIngredient('o', ItemButton.fromStack(output))
+                .addIngredient('o', ItemButton.fromStack(result))
                 .build();
     }
 }

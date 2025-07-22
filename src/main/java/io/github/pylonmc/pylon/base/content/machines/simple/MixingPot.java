@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
-import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -14,6 +13,7 @@ import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
@@ -29,14 +29,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 public final class MixingPot extends PylonBlock
         implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidTank {
@@ -166,21 +166,25 @@ public final class MixingPot extends PylonBlock
     }
 
     private void doRecipe(@NotNull MixingPotRecipe recipe, @NotNull List<Item> items) {
-        for (Map.Entry<RecipeChoice, Integer> choice : recipe.input().entrySet()) {
-            for (Item item1 : items) {
-                ItemStack stack = item1.getItemStack();
-                if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
-                    item1.setItemStack(stack.subtract(choice.getValue()));
+        for (ItemStack choice : recipe.inputItems()) {
+            for (Item item : items) {
+                ItemStack stack = item.getItemStack();
+                if (isPylonSimilar(choice, stack) && stack.getAmount() >= choice.getAmount()) {
+                    item.setItemStack(stack.subtract(choice.getAmount()));
                     break;
                 }
             }
         }
         switch (recipe.output()) {
-            case Either.Left(ItemStack item) -> {
-                removeFluid(recipe.fluidAmount());
-                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+            case FluidOrItem.Item item -> {
+                removeFluid(recipe.inputFluidAmount());
+                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item.item());
             }
-            case Either.Right(PylonFluid fluid) -> setFluidType(fluid);
+            case FluidOrItem.Fluid fluid -> {
+                setFluidType(fluid.fluid());
+                setFluid(fluid.amountMillibuckets());
+            }
+            default -> {}
         }
 
         new PylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this).callEvent();

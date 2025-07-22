@@ -8,11 +8,11 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -21,12 +21,14 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
+/**
+ * @param input input item (assumed to be of item amount 1)
+ */
 public record PressRecipe(
         NamespacedKey key,
         ItemStack input,
@@ -54,18 +56,13 @@ public record PressRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-        return List.of(new RecipeChoice.ExactChoice(input));
+    public @NotNull List<FluidOrItem> getInputs() {
+        return List.of(FluidOrItem.of(input));
     }
 
     @Override
-    public @NotNull List<@NotNull ItemStack> getOutputItems() {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-        return List.of(BaseFluids.PLANT_OIL);
+    public @NotNull List<FluidOrItem> getResults() {
+        return List.of(FluidOrItem.of(BaseFluids.PLANT_OIL, oilAmount));
     }
 
     @Override

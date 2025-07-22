@@ -5,9 +5,9 @@ import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.recipes.StrainingRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.PylonFluidTag;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.registry.RegistryHandler;
-import io.github.pylonmc.pylon.core.util.ItemUtils;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -16,39 +16,38 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
 
 public class Slurry extends PylonFluid implements RegistryHandler {
 
     @Getter
-    private final ItemStack slurryMaterial;
+    private final ItemStack slurryStack;
     
-    public Slurry(@NotNull NamespacedKey key, @NotNull Component name, @NotNull ItemStack slurryMaterial, @NotNull List<PylonFluidTag> tags) {
+    public Slurry(@NotNull NamespacedKey key, @NotNull Component name, @NotNull ItemStack slurryStack, @NotNull List<PylonFluidTag> tags) {
         super(key, name, Material.LIGHT_GRAY_CONCRETE, tags);
-        this.slurryMaterial = slurryMaterial;
+        this.slurryStack = slurryStack;
     }
 
-    public Slurry(@NotNull NamespacedKey key, @NotNull ItemStack slurryMaterial, @NotNull PylonFluidTag @NotNull ... tags) {
+    public Slurry(@NotNull NamespacedKey key, @NotNull ItemStack slurryStack, @NotNull PylonFluidTag @NotNull ... tags) {
         super(key, Material.LIGHT_GRAY_CONCRETE, tags);
-        this.slurryMaterial = slurryMaterial;
+        this.slurryStack = slurryStack;
     }
 
     @Override
     public void onRegister(@NotNull PylonRegistry<?> registry) {
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 getKey(),
-                Map.of(ItemUtils.recipeChoiceFromItem(slurryMaterial), 1),
-                this,
-                false,
+                List.of(slurryStack),
                 BaseFluids.SLURRY,
-                1000
+                1000,
+                FluidOrItem.of(this, 1000),
+                false
         ));
         StrainingRecipe.RECIPE_TYPE.addRecipe(new StrainingRecipe(
                 getKey(),
                 this,
                 1000,
                 BaseFluids.SLURRY,
-                slurryMaterial
+                slurryStack
         ));
     }
 }

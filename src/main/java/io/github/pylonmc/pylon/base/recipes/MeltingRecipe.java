@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -13,7 +14,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
@@ -21,6 +21,11 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
+/**
+ * @param input the input item (assumed to have an amount of one)
+ * @param result the output inputFluid, of which MELT_AMOUNT will is produced per recipe
+ * @param temperature the minimum temperature the smeltery must be at
+ */
 public record MeltingRecipe(
         @NotNull NamespacedKey key,
         @NotNull ItemStack input,
@@ -44,23 +49,13 @@ public record MeltingRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-        return List.of(new RecipeChoice.ExactChoice(input));
+    public @NotNull List<FluidOrItem> getInputs() {
+        return List.of(FluidOrItem.of(input));
     }
 
     @Override
-    public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ItemStack> getOutputItems() {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-        return List.of(result);
+    public @NotNull List<FluidOrItem> getResults() {
+        return List.of(FluidOrItem.of(result, MELT_AMOUNT));
     }
 
     @Override

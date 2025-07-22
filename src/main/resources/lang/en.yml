@@ -223,14 +223,14 @@ item:
     lore: |-
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
-    waila: "Fluid Filter (%fluid%)"
+    waila: "Fluid Filter (%inputItems%)"
 
   fluid_meter:
     name: "<white>Fluid Meter"
     lore: |-
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
-    waila: "Fluid Meter (%fluid%)"
+    waila: "Fluid Meter (%inputItems%)"
 
   fluid_voider_1:
     name: "Fluid Voider <light_purple>I"
@@ -486,7 +486,7 @@ item:
       <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
       <arrow> <attr>Buffer:</attr> %buffer%
-    waila: "Slurry Strainer%info%"
+    waila: "Fluid Strainer%info%"
 
   smeltery_burner:
     name: "Smeltery Burner"
@@ -759,7 +759,7 @@ fluid:
 waila:
   fluid_tank:
     empty: "(empty)"
-    filled: "| %amount%/%capacity% of %fluid%"
+    filled: "| %amount%/%capacity% of %inputItems%"
   fluid_strainer:
     straining: " | Straining %item%: %progress%"
 
@@ -813,7 +813,7 @@ guide:
 message:
   fluid_none: "None"
   fluid_selector:
-    current_fluid: "<white>Current fluid: %fluid%"
+    current_fluid: "<white>Current inputItems: %inputItems%"
     clear: "<white>Clear"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
@@ -843,8 +843,8 @@ message:
       above: "<red>No elevators within range above you"
       below: "<red>No elevators within range below you"
   hydraulic_status:
-    not_enough_hydraulic_fluid: "<red>Not enough hydraulic fluid"
-    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic fluid buffer full"
+    not_enough_hydraulic_fluid: "<red>Not enough hydraulic inputItems"
+    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic inputItems buffer full"
     working: "<green>Working"
     idle: "<yellow>Idle"
     missing_grindstone: "<red>Missing grindstone"
@@ -872,16 +872,16 @@ gui:
     temperature: "<attr>Temperature:</attr> %temperature%"
     contents:
       name: "Contents"
-      fluid: "%amount% of %fluid%"
+      fluid: "%amount% of %inputItems%"
       empty: "Empty"
   smeltery_burner:
     burning: "<green>Burning"
     not_burning: "<yellow>Not burning"
     energy_left: "<attr>Energy left:</attr> %energy%"
-    power_output: "<attr>Power output:</attr> %power%"
+    power_output: "<attr>Power result:</attr> %power%"
   smeltery_caster:
     cast: "Cast"
     cannot_cast: "<red>Cannot cast"
     too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
-    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least %needed% (you have %amount%)"
-    click_to_cast: "<insn>Click</insn> to cast %item% using %amount% of %fluid%"
+    not_enough: "<red>Not enough %inputItems% to cast %item%, needs at least %needed% (you have %amount%)"
+    click_to_cast: "<insn>Click</insn> to cast %item% using %amount% of %inputItems%"
