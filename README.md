@@ -6,5 +6,8 @@ Pylon uses an addon system, meaning anyone can add content to Pylon by writing a
 - Extensive configuration options, including per-machine configuration. 
 - An intuitive and user-friendly guide to help players figure out the plugin.
 
-## Join our Discord server to find out more
+# Find out more on our website
+https://pylonmc.github.io/
+
+## Join our Discord server
 Discord: https://discord.gg/4tMAnBAacW  
