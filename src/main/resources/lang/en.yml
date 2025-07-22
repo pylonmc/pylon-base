@@ -807,6 +807,8 @@ guide:
     grindstone: "<attr>Grinding time:</attr> %time%"
     press: "<attr>Pressing time:</attr> %time%"
     magic-altar: "<attr>Ritual time:</attr> %time%"
+    melting: "<attr>Temperature:</attr> %temperature%"
+    casting: "<attr>Temperature:</attr> %temperature%"
 
 message:
   fluid_none: "None"

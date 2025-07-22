@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -48,7 +47,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             }
             if (recipe == null) continue;
             if (controller.getTemperature() >= recipe.temperature()) {
-                controller.addFluid(recipe.result(), CastingRecipe.CAST_AMOUNT);
+                controller.addFluid(recipe.result(), MeltingRecipe.MELT_AMOUNT);
                 item.subtract();
                 new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
             }

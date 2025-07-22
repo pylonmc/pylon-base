@@ -1,8 +1,16 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.guide.button.FluidButton;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -67,7 +75,24 @@ public record CastingRecipe(
 
     @Override
     public @NotNull Gui display() {
-        // TODO
-        return null;
+        return Gui.normal()
+                .setStructure(
+                        "# # # # # # # # #",
+                        "# # # # # # # # #",
+                        "# c # # i t o # #",
+                        "# # # # # # # # #",
+                        "# # # # # # # # #"
+                )
+                .addIngredient('#', GuiItems.backgroundBlack())
+                .addIngredient('c', ItemButton.fromStack(BaseItems.SMELTERY_CASTER))
+                .addIngredient('i', new FluidButton(fluid.getKey(), CAST_AMOUNT))
+                .addIngredient('t', ItemStackBuilder.of(Material.BLAZE_POWDER)
+                        .name(net.kyori.adventure.text.Component.translatable(
+                                "pylon.pylonbase.guide.recipe.melting",
+                                PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                        ))
+                )
+                .addIngredient('o', ItemButton.fromStack(result))
+                .build();
     }
 }
