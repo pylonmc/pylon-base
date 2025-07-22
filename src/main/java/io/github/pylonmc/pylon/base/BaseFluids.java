@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.content.machines.smelting.CastingRecipe;
-import io.github.pylonmc.pylon.base.content.machines.smelting.MeltingRecipe;
+import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
+import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
+import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import org.bukkit.Material;
@@ -211,7 +211,7 @@ public final class BaseFluids {
         HYDRAULIC_FLUID.register();
         DIRTY_HYDRAULIC_FLUID.register();
 
-        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 SLURRY.getKey(),
                 Map.of(new RecipeChoice.ExactChoice(BaseItems.ROCK_DUST), 1),
                 SLURRY,
@@ -220,7 +220,7 @@ public final class BaseFluids {
                 1000
         ));
 
-        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 HYDRAULIC_FLUID.getKey(),
                 Map.of(new RecipeChoice.ExactChoice(BaseItems.SHIMMER_DUST_1), 1),
                 HYDRAULIC_FLUID,

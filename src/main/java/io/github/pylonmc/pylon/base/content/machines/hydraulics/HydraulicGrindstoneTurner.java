@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -100,7 +101,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
             return;
         }
 
-        Grindstone.Recipe nextRecipe = grindstone.getNextRecipe();
+        GrindstoneRecipe nextRecipe = grindstone.getNextRecipe();
         if (nextRecipe == null) {
             return;
         }

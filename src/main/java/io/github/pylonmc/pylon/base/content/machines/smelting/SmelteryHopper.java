@@ -1,5 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
+import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;

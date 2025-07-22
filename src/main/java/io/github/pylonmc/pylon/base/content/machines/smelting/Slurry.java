@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.PylonFluidTag;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
@@ -35,7 +35,7 @@ public class Slurry extends PylonFluid implements RegistryHandler {
 
     @Override
     public void onRegister(@NotNull PylonRegistry<?> registry) {
-        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 getKey(),
                 Map.of(ItemUtils.recipeChoiceFromItem(slurryMaterial), 1),
                 this,
