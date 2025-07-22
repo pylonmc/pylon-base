@@ -67,10 +67,10 @@ public final class FluidSelector {
                     .name(Component.translatable(
                             "pylon.pylonbase.message.fluid_selector.current_fluid",
                             PylonArgument.of(
-                                    "input",
+                                    "fluid",
                                     Component.translatable((fluid == null
                                             ? "pylon.pylonbase.message.fluid_none"
-                                            : "pylon.pylonbase.inputItems." + fluid.getKey().getKey()
+                                            : "pylon.pylonbase.fluid." + fluid.getKey().getKey()
                                     ))
                             ))
                     );
@@ -99,7 +99,7 @@ public final class FluidSelector {
                         .name(Component.translatable("pylon.pylonbase.message.fluid_selector.clear"));
             }
             return ItemStackBuilder.of(itemFluid.getMaterial())
-                    .name(Component.translatable("pylon.pylonbase.inputItems." + itemFluid.getKey().getKey()));
+                    .name(Component.translatable("pylon.pylonbase.fluid." + itemFluid.getKey().getKey()));
         }
 
         @Override
