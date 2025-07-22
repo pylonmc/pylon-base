@@ -844,7 +844,7 @@ message:
       below: "<red>No elevators within range below you"
   hydraulic_status:
     not_enough_hydraulic_fluid: "<red>Not enough hydraulic fluid"
-    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic inputItems buffer full"
+    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic fluid buffer full"
     working: "<green>Working"
     idle: "<yellow>Idle"
     missing_grindstone: "<red>Missing grindstone"
