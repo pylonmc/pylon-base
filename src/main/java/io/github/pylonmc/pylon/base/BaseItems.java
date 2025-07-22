@@ -30,6 +30,7 @@ import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
+import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
 import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
@@ -488,7 +489,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, COPPER_SHEET);
         BasePages.RESOURCES.addItem(BaseKeys.COPPER_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.COPPER_SHEET,
                 new ItemStack(Material.COPPER_INGOT),
                 COPPER_SHEET,
@@ -503,7 +504,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, GOLD_SHEET);
         BasePages.COMPONENTS.addItem(BaseKeys.GOLD_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.GOLD_SHEET,
                 new ItemStack(Material.GOLD_INGOT),
                 GOLD_SHEET,
@@ -518,7 +519,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, IRON_SHEET);
         BasePages.COMPONENTS.addItem(BaseKeys.IRON_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.IRON_SHEET,
                 new ItemStack(Material.IRON_INGOT),
                 IRON_SHEET,
@@ -671,7 +672,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, FERRODURALUM_SHEET);
         BasePages.COMPONENTS.addItem(BaseKeys.FERRODURALUM_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.FERRODURALUM_SHEET,
                 FERRODURALUM_INGOT,
                 FERRODURALUM_SHEET,
