@@ -4,12 +4,9 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonPiston;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -24,7 +21,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -40,10 +37,12 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
         }
 
         @Override
-        public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-            return Map.of("duration", Component.text(duration),
-                    "radius", Component.text(radius),
-                    "cooldown", Component.text(cooldown));
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("duration", duration),
+                    PylonArgument.of("radius", radius),
+                    PylonArgument.of("cooldown", cooldown)
+            );
         }
     }
 

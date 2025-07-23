@@ -1,19 +1,15 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
-import io.github.pylonmc.pylon.base.BaseBlocks;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimplePurificationMachine;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -21,9 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class SolarPurificationTower extends SimplePurificationMachine implements PylonSimpleMultiblock, PylonTickingBlock {
@@ -47,10 +42,10 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100),
-                    "fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidMbPerSecond)
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100)),
+                    PylonArgument.of("fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidMbPerSecond))
             );
         }
     }

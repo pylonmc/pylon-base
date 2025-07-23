@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Tag;
@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
 
 
@@ -31,8 +31,8 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor {
     }
 
         @Override
-        public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-            return Map.of("range", UnitFormat.BLOCKS.format(settings.horizontalRange()));
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of("range", UnitFormat.BLOCKS.format(settings.horizontalRange())));
         }
 
     @Override

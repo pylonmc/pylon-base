@@ -4,16 +4,15 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTargetBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.papermc.paper.event.block.TargetHitEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -27,8 +26,8 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
         }
 
         @Override
-        public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-            return Map.of("explosive-power", Component.text(explosivePower));
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of("explosive-power", explosivePower));
         }
     }
 
