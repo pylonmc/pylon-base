@@ -2,19 +2,15 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
@@ -40,8 +36,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
-import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.item.impl.AutoCycleItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,12 +81,12 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         }
 
         boolean anyRecipeAttempted = false;
-        for (Recipe recipe : Recipe.RECIPE_TYPE) {
+        for (HammerRecipe recipe : HammerRecipe.RECIPE_TYPE) {
             if (!miningLevel.isAtLeast(recipe.level())) continue;
 
             if (!recipeMatches(items, recipe)) continue;
 
-            if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, null, player).callEvent()) {
+            if (!new PrePylonCraftEvent<>(HammerRecipe.RECIPE_TYPE, recipe, null, player).callEvent()) {
                 continue;
             }
 
@@ -104,15 +98,15 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
             if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
 
             for (ItemStack item : items) {
-                if (item.isSimilar(recipe.input)) {
-                    item.subtract(recipe.input.getAmount());
+                if (item.isSimilar(recipe.input())) {
+                    item.subtract(recipe.input().getAmount());
                     break;
                 }
             }
 
             items.removeIf(item -> item.getAmount() <= 0);
             items.add(recipe.result().clone());
-            new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe).callEvent();
+            new PylonCraftEvent<>(HammerRecipe.RECIPE_TYPE, recipe).callEvent();
             break;
         }
 
@@ -170,7 +164,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         ).get(key);
     }
 
-    private static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
+    public static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
         return PylonRegistry.ITEMS.getValues().stream()
                 .map(PylonItemSchema::getItemStack)
                 .filter(item -> fromStack(item) instanceof Hammer hammer
@@ -183,8 +177,8 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                 .anyMatch(i -> i.isSimilar(item) && i.getAmount() >= item.getAmount());
     }
 
-    private static boolean recipeMatches(List<ItemStack> items, @NotNull Recipe recipe) {
-        return containsAtLeast(items, recipe.input);
+    private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
+        return containsAtLeast(items, recipe.input());
     }
 
     public static @NotNull ItemStack createItemStack(
@@ -227,58 +221,5 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         return recipe;
     }
 
-    public record Recipe(
-            NamespacedKey key,
-            ItemStack input,
-            ItemStack result,
-            MiningLevel level,
-            float chance
-    ) implements PylonRecipe {
 
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return key;
-        }
-
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
-                new NamespacedKey(PylonBase.getInstance(), "hammer")
-        );
-
-        static {
-            PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-        }
-
-        @Override
-        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-            return List.of(new RecipeChoice.ExactChoice(input));
-        }
-
-        @Override
-        public @NotNull List<@NotNull ItemStack> getOutputItems() {
-            return List.of(result);
-        }
-
-        @Override
-        public @NotNull Gui display() {
-            return Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# # # # # # # # #",
-                            "# # # i h o # # #",
-                            "# # # # # # # # #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('i', ItemButton.fromStack(input))
-                    .addIngredient('h', new AutoCycleItem(20,
-                            hammersWithMiningLevelAtLeast(level)
-                                    .stream()
-                                    .map(ItemStackBuilder::of)
-                                    .toList()
-                                    .toArray(new ItemStackBuilder[]{})
-                    ))
-                    .addIngredient('o', ItemButton.fromStack(result))
-                    .build();
-        }
-    }
 }

@@ -3,9 +3,8 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
+import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -18,12 +17,8 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
-import io.github.pylonmc.pylon.core.guide.button.FluidButton;
-import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -48,8 +43,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -504,324 +497,6 @@ public final class SmelteryController extends SmelteryComponent
     }
     // </editor-fold>
 
-    // <editor-fold desc="Recipe" defaultstate="collapsed">
-    public static final class Recipe implements PylonRecipe {
-
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery")) {
-            @Override
-            public void addRecipe(@NotNull Recipe recipe) {
-                super.addRecipe(recipe);
-                Map<NamespacedKey, Recipe> recipes = getRegisteredRecipes();
-                Map<NamespacedKey, Recipe> newMap = recipes.entrySet().stream()
-                        .sorted(
-                                Comparator.<Map.Entry<NamespacedKey, Recipe>>comparingDouble(entry -> -entry.getValue().getTemperature())
-                                        .thenComparingInt(entry -> -entry.getValue().getFluidInputs().size())
-                        )
-                        .collect(Collectors.toMap(
-                                Map.Entry::getKey,
-                                Map.Entry::getValue,
-                                (existing, replacement) -> existing,
-                                () -> new LinkedHashMap<>(recipes.size())
-                        ));
-                recipes.clear();
-                recipes.putAll(newMap);
-            }
-        };
-
-        static {
-            RECIPE_TYPE.register();
-        }
-
-        @Getter(onMethod_ = @Override)
-        private final NamespacedKey key;
-
-        @Getter
-        private final Map<PylonFluid, Double> fluidInputs;
-
-        @Getter
-        private final Map<PylonFluid, Double> fluidOutputs;
-
-        private final PylonFluid highestFluid;
-
-        @Getter
-        private final double temperature;
-
-        public Recipe(
-                @NotNull NamespacedKey key,
-                @NotNull Map<PylonFluid, Double> inputFluids,
-                @NotNull Map<PylonFluid, Double> outputFluids,
-                double temperature
-        ) {
-            this.key = key;
-            this.temperature = temperature;
-
-            var highestFluidEntry = inputFluids.entrySet().stream()
-                    .max(Comparator.comparingDouble(Map.Entry::getValue))
-                    .orElseThrow(() -> new IllegalArgumentException("Input fluids cannot be empty"));
-            this.highestFluid = highestFluidEntry.getKey();
-            double highestFluidAmount = highestFluidEntry.getValue();
-
-            this.fluidInputs = new HashMap<>();
-            for (var entry : inputFluids.entrySet()) {
-                Preconditions.checkArgument(entry.getValue() > 0, "Input fluid amount must be positive");
-                this.fluidInputs.put(entry.getKey(), entry.getValue() / highestFluidAmount);
-            }
-
-            this.fluidOutputs = new HashMap<>();
-            for (var entry : outputFluids.entrySet()) {
-                Preconditions.checkArgument(entry.getValue() > 0, "Output fluid amount must be positive");
-                this.fluidOutputs.put(entry.getKey(), entry.getValue() / highestFluidAmount);
-            }
-        }
-
-        @Override
-        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-            return List.of();
-        }
-
-        @Override
-        public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-            return fluidInputs.keySet().stream().toList();
-        }
-
-        @Override
-        public @NotNull List<@NotNull ItemStack> getOutputItems() {
-            return List.of();
-        }
-
-        @Override
-        public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-            return fluidOutputs.keySet().stream().toList();
-        }
-
-        @Override
-        public @NotNull Gui display() {
-            Preconditions.checkState(fluidInputs.size() < 6);
-            Preconditions.checkState(fluidOutputs.size() < 6);
-            Gui gui = Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# . . # # # . . #",
-                            "# . . # s # . . #",
-                            "# . . # t # . . #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('s', ItemButton.fromStack(BaseItems.SMELTERY_CONTROLLER))
-                    .addIngredient('t', ItemStackBuilder.of(Material.COAL)
-                            .name(Component.translatable(
-                                    "pylon.pylonbase.gui.smeltery.temperature",
-                                    PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
-                            )))
-                    .build();
-
-            int i = 0;
-            for (Map.Entry<PylonFluid, Double> entry : fluidInputs.entrySet()) {
-                gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
-                i++;
-            }
-
-            i = 0;
-            for (Map.Entry<PylonFluid, Double> entry : fluidOutputs.entrySet()) {
-                gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
-                i++;
-            }
-
-            return gui;
-        }
-    }
-
-    private void performRecipes(double deltaSeconds) {
-        if (fluids.isEmpty()) return;
-        recipeLoop:
-        for (Recipe recipe : Recipe.RECIPE_TYPE) {
-            if (recipe.temperature > temperature) continue;
-
-            for (PylonFluid fluid : recipe.fluidInputs.keySet()) {
-                if (getFluidAmount(fluid) == 0) continue recipeLoop;
-            }
-
-            double highestFluidAmount = getFluidAmount(recipe.highestFluid);
-            double consumptionRatio = highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND);
-            double currentTemperature = temperature;
-            for (var entry : recipe.fluidInputs.entrySet()) {
-                PylonFluid fluid = entry.getKey();
-                double amount = entry.getValue() * consumptionRatio;
-                removeFluid(fluid, amount);
-            }
-            for (var entry : recipe.fluidOutputs.entrySet()) {
-                PylonFluid fluid = entry.getKey();
-                double amount = entry.getValue() * consumptionRatio;
-                addFluid(fluid, amount);
-            }
-            temperature = currentTemperature; // offset addFluid/removeFluid temperature change
-        }
-    }
-
-    static {
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("redstone_decomposition"),
-                Map.of(BaseFluids.REDSTONE_SLURRY, 1.0),
-                Map.of(
-                        BaseFluids.SULFUR, 0.25,
-                        BaseFluids.MERCURY, 0.25,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                345
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("coal_to_carbon"),
-                Map.of(BaseFluids.COAL_SLURRY, 1.0),
-                Map.of(
-                        BaseFluids.CARBON_SLURRY, 0.9,
-                        BaseFluids.SLURRY, 0.1
-                ),
-                1000
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("copper_smelting"),
-                Map.of(BaseFluids.RAW_COPPER_SLURRY, 1.0),
-                Map.of(
-                        BaseFluids.COPPER, 0.5,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                1085
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("copper_smelting_with_sulfur"),
-                Map.of(
-                        BaseFluids.RAW_COPPER_SLURRY, 1.0,
-                        BaseFluids.SULFUR, 0.1
-                ),
-                Map.of(
-                        BaseFluids.COPPER, 0.5,
-                        BaseFluids.SLURRY, 0.3,
-                        BaseFluids.RAW_LEAD_SLURRY, 0.1,
-                        BaseFluids.RAW_ZINC_SLURRY, 0.1
-                ),
-                1085
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("gold_smelting"),
-                Map.of(
-                        BaseFluids.RAW_GOLD_SLURRY, 1.0,
-                        BaseFluids.MERCURY, 1.0
-                ),
-                Map.of(
-                        BaseFluids.GOLD, 0.5,
-                        BaseFluids.SLURRY, 0.3,
-                        BaseFluids.SILVER, 0.15,
-                        BaseFluids.RAW_TIN_SLURRY, 0.15,
-                        BaseFluids.MERCURY, 0.9
-                ),
-                1064
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("tin_smelting"),
-                Map.of(
-                        BaseFluids.RAW_TIN_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5
-                ),
-                Map.of(
-                        BaseFluids.TIN, 1.0,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                250
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("lead_smelting"),
-                Map.of(
-                        BaseFluids.RAW_LEAD_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5,
-                        BaseFluids.SULFUR, 0.1
-                ),
-                Map.of(
-                        BaseFluids.LEAD, 1.0,
-                        BaseFluids.SLURRY, 0.5,
-                        BaseFluids.SILVER, 0.1
-                ),
-                350
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("zinc_smelting"),
-                Map.of(
-                        BaseFluids.RAW_ZINC_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5
-                ),
-                Map.of(
-                        BaseFluids.ZINC, 1.0,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                700
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("iron_smelting"),
-                Map.of(
-                        BaseFluids.RAW_IRON_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5
-                ),
-                Map.of(
-                        BaseFluids.IRON, 1.0,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                1540
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("iron_smelting_with_sulfur"),
-                Map.of(
-                        BaseFluids.RAW_IRON_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5,
-                        BaseFluids.SULFUR, 0.1
-                ),
-                Map.of(
-                        BaseFluids.IRON, 1.0,
-                        BaseFluids.SLURRY, 0.4,
-                        BaseFluids.COBALT, 0.1,
-                        BaseFluids.NICKEL, 0.1
-                ),
-                1540
-        ));
-
-        // Alloys
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("bronze"),
-                Map.of(
-                        BaseFluids.COPPER, 1.0 - 0.12,
-                        BaseFluids.TIN, 0.12
-                ),
-                Map.of(BaseFluids.BRONZE, 1.0),
-                950
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("brass"),
-                Map.of(
-                        BaseFluids.COPPER, 1.0 - 0.3,
-                        BaseFluids.ZINC, 0.3
-                ),
-                Map.of(BaseFluids.BRASS, 1.0),
-                900
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("steel"),
-                Map.of(
-                        BaseFluids.IRON, 1.0 - 0.04,
-                        BaseFluids.CARBON_SLURRY, 0.04
-                ),
-                Map.of(BaseFluids.STEEL, 1.0),
-                1540
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("decarburization"), // yes this is a real word
-                Map.of(
-                        BaseFluids.STEEL, 1.0,
-                        BaseFluids.WATER, 0.1
-                ),
-                Map.of(BaseFluids.IRON, 1.0),
-                1540
-        ));
-    }
-    // </editor-fold>
-
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<SimpleTextDisplay> pixels = new ArrayList<>();
     private static final int RESOLUTION = settings.getOrThrow("display.resolution", Integer.class);
@@ -887,6 +562,33 @@ public final class SmelteryController extends SmelteryComponent
         lastHeight = finalHeight;
     }
     // </editor-fold>
+
+    private void performRecipes(double deltaSeconds) {
+        if (fluids.isEmpty()) return;
+        recipeLoop:
+        for (SmelteryRecipe recipe : SmelteryRecipe.RECIPE_TYPE) {
+            if (recipe.getTemperature() > temperature) continue;
+
+            for (PylonFluid fluid : recipe.getFluidInputs().keySet()) {
+                if (getFluidAmount(fluid) == 0) continue recipeLoop;
+            }
+
+            double highestFluidAmount = getFluidAmount(recipe.getHighestFluid());
+            double consumptionRatio = highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND);
+            double currentTemperature = temperature;
+            for (var entry : recipe.getFluidInputs().entrySet()) {
+                PylonFluid fluid = entry.getKey();
+                double amount = entry.getValue() * consumptionRatio;
+                removeFluid(fluid, amount);
+            }
+            for (var entry : recipe.getFluidOutputs().entrySet()) {
+                PylonFluid fluid = entry.getKey();
+                double amount = entry.getValue() * consumptionRatio;
+                addFluid(fluid, amount);
+            }
+            temperature = currentTemperature; // offset addFluid/removeFluid temperature change
+        }
+    }
 
     @Override
     public void tick(double deltaSeconds) {

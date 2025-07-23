@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
+import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
@@ -17,33 +17,22 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import io.github.pylonmc.pylon.core.guide.button.ItemButton;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
-import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 import java.util.Map;
@@ -192,10 +181,10 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                     2 * Math.PI * ((double) cycleTicksRemaining / CYCLE_TIME_TICKS))
             );
 
-            Recipe recipe = Recipe.RECIPE_TYPE.getRecipe(this.recipe);
+            GrindstoneRecipe recipe = GrindstoneRecipe.RECIPE_TYPE.getRecipe(this.recipe);
             assert recipe != null;
             new ParticleBuilder(Particle.BLOCK)
-                    .data(recipe.particleBlockData)
+                    .data(recipe.particleBlockData())
                     .count(10)
                     .location(getBlock().getLocation().toCenterLocation())
                     .spawn();
@@ -204,7 +193,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         cycleTicksRemaining -= TICK_RATE;
     }
 
-    public @Nullable Recipe getNextRecipe() {
+    public @Nullable GrindstoneRecipe getNextRecipe() {
         if (recipe != null || cyclesRemaining != null || cycleTicksRemaining != null) {
             return null;
         }
@@ -214,15 +203,15 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return null;
         }
 
-        return Recipe.RECIPE_TYPE.getRecipes()
+        return GrindstoneRecipe.RECIPE_TYPE.getRecipes()
                 .stream()
-                .filter(recipe -> isPylonSimilar(recipe.input, input) && input.getAmount() >= recipe.input.getAmount())
+                .filter(recipe -> isPylonSimilar(recipe.input(), input) && input.getAmount() >= recipe.input().getAmount())
                 .findFirst()
                 .orElse(null);
     }
 
-    public boolean tryStartRecipe(@NotNull Recipe nextRecipe, @Nullable Player player) {
-        if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, nextRecipe, this, player).callEvent()) {
+    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe, @Nullable Player player) {
+        if (!new PrePylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this, player).callEvent()) {
             return false;
         }
 
@@ -231,20 +220,20 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return false;
         }
 
-        getItemDisplay().getEntity().setItemStack(input.subtract(nextRecipe.input.getAmount()));
-        this.recipe = nextRecipe.key;
-        cyclesRemaining = nextRecipe.cycles;
+        getItemDisplay().getEntity().setItemStack(input.subtract(nextRecipe.input().getAmount()));
+        this.recipe = nextRecipe.key();
+        cyclesRemaining = nextRecipe.cycles();
         cycleTicksRemaining = CYCLE_TIME_TICKS;
         return true;
     }
 
     public void finishRecipe() {
         assert recipe != null;
-        Recipe recipe = Recipe.RECIPE_TYPE.getRecipe(this.recipe);
+        GrindstoneRecipe recipe = GrindstoneRecipe.RECIPE_TYPE.getRecipe(this.recipe);
         assert recipe != null;
-        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), recipe.output);
+        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), recipe.result());
 
-        new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
+        new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
         getStoneDisplay().setTransform(TICK_RATE, getStoneDisplayMatrix(0.8, 0.0));
 
@@ -267,7 +256,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     static {
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 baseKey("string_from_bamboo"),
                 new ItemStack(Material.BAMBOO, 4),
                 new ItemStack(Material.STRING),
@@ -279,64 +268,5 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         ));
     }
 
-    public record Recipe(
-            NamespacedKey key,
-            ItemStack input,
-            ItemStack output,
-            int cycles,
-            BlockData particleBlockData
-    ) implements PylonRecipe {
 
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return key;
-        }
-
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
-                new NamespacedKey(PylonBase.getInstance(), "grindstone")
-        );
-
-        static {
-            PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-        }
-
-        public int timeTicks() {
-            // add 2*tick rate to account for stone going up and down
-            return cycles * CYCLE_TIME_TICKS + 2 * TICK_RATE;
-        }
-
-        @Override
-        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-            return List.of(new RecipeChoice.ExactChoice(input));
-        }
-
-        @Override
-        public @NotNull List<@NotNull ItemStack> getOutputItems() {
-            return List.of(output);
-        }
-
-        @Override
-        public @NotNull Gui display() {
-            return Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# # # # # # # # #",
-                            "# g # # i c o # #",
-                            "# # # # # # # # #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('g', ItemButton.fromStack(BaseItems.GRINDSTONE))
-                    .addIngredient('i', ItemButton.fromStack(input))
-                    .addIngredient('c', GuiItems.progressCyclingItem(cycles * CYCLE_TIME_TICKS,
-                            ItemStackBuilder.of(Material.CLOCK)
-                                    .name(net.kyori.adventure.text.Component.translatable(
-                                            "pylon.pylonbase.guide.recipe.grindstone",
-                                            PylonArgument.of("time", UnitFormat.SECONDS.format(cycles * CYCLE_TIME_TICKS / 20))
-                                    ))
-                    ))
-                    .addIngredient('o', ItemButton.fromStack(output))
-                    .build();
-        }
-    }
 }

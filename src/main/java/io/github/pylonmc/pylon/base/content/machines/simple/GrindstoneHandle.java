@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
+import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
@@ -37,7 +38,7 @@ public class GrindstoneHandle extends PylonBlock implements PylonInteractableBlo
         event.setCancelled(true);
 
         if (BlockStorage.get(getBlock().getRelative(BlockFace.DOWN)) instanceof Grindstone grindstone) {
-            Grindstone.Recipe nextRecipe = grindstone.getNextRecipe();
+            GrindstoneRecipe nextRecipe = grindstone.getNextRecipe();
             if (nextRecipe != null) {
                 grindstone.tryStartRecipe(nextRecipe, event.getPlayer());
             }

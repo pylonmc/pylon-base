@@ -1,11 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.util.Either;
+import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -16,18 +13,12 @@ import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.guide.button.FluidButton;
-import io.github.pylonmc.pylon.core.guide.button.ItemButton;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,15 +29,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 public final class MixingPot extends PylonBlock
         implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidTank {
@@ -161,9 +151,9 @@ public final class MixingPot extends PylonBlock
         boolean isEnrichedFire = ignitedBlock != null
                 && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
 
-        for (Recipe recipe : Recipe.RECIPE_TYPE.getRecipes()) {
+        for (MixingPotRecipe recipe : MixingPotRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, fluidType(), fluidAmount())) {
-                if (!new PrePylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
+                if (!new PrePylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
                     continue;
                 }
 
@@ -175,25 +165,29 @@ public final class MixingPot extends PylonBlock
         return false;
     }
 
-    private void doRecipe(@NotNull Recipe recipe, @NotNull List<Item> items) {
-        for (Map.Entry<RecipeChoice, Integer> choice : recipe.input.entrySet()) {
-            for (Item item1 : items) {
-                ItemStack stack = item1.getItemStack();
-                if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
-                    item1.setItemStack(stack.subtract(choice.getValue()));
+    private void doRecipe(@NotNull MixingPotRecipe recipe, @NotNull List<Item> items) {
+        for (ItemStack choice : recipe.inputItems()) {
+            for (Item item : items) {
+                ItemStack stack = item.getItemStack();
+                if (isPylonSimilar(choice, stack) && stack.getAmount() >= choice.getAmount()) {
+                    item.setItemStack(stack.subtract(choice.getAmount()));
                     break;
                 }
             }
         }
         switch (recipe.output()) {
-            case Either.Left(ItemStack item) -> {
-                removeFluid(recipe.fluidAmount);
-                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item);
+            case FluidOrItem.Item item -> {
+                removeFluid(recipe.inputFluidAmount());
+                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item.item());
             }
-            case Either.Right(PylonFluid fluid) -> setFluidType(fluid);
+            case FluidOrItem.Fluid fluid -> {
+                setFluidType(fluid.fluid());
+                setFluid(fluid.amountMillibuckets());
+            }
+            default -> {}
         }
 
-        new PylonCraftEvent<>(Recipe.RECIPE_TYPE, recipe, this).callEvent();
+        new PylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
         new ParticleBuilder(Particle.SPLASH)
                 .count(20)
@@ -216,147 +210,5 @@ public final class MixingPot extends PylonBlock
         return getFire().getRelative(BlockFace.DOWN);
     }
 
-    /**
-     * Maximum 7 input items
-     */
-    public record Recipe(
-            @NotNull NamespacedKey key,
-            @NotNull Map<RecipeChoice, Integer> input,
-            @NotNull Either<ItemStack, PylonFluid> output,
-            boolean requiresEnrichedFire,
-            @NotNull PylonFluid fluid,
-            double fluidAmount
-    ) implements PylonRecipe {
 
-        public Recipe(
-                @NotNull NamespacedKey key,
-                @NotNull Map<RecipeChoice, Integer> input,
-                @NotNull ItemStack output,
-                boolean requiresEnrichedFire,
-                @NotNull PylonFluid fluid,
-                double fluidAmount
-        ) {
-            this(key, input, new Either.Left<>(output), requiresEnrichedFire, fluid, fluidAmount);
-        }
-
-        public Recipe(
-                @NotNull NamespacedKey key,
-                @NotNull Map<RecipeChoice, Integer> input,
-                @NotNull PylonFluid output,
-                boolean requiresEnrichedFire,
-                @NotNull PylonFluid fluid,
-                double fluidAmount
-        ) {
-            this(key, input, new Either.Right<>(output), requiresEnrichedFire, fluid, fluidAmount);
-        }
-
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return key;
-        }
-
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
-                new NamespacedKey(PylonBase.getInstance(), "mixing_pot")
-        );
-
-        static {
-            PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-        }
-
-        public boolean matches(
-                List<ItemStack> input,
-                boolean isEnrichedFire,
-                PylonFluid fluid,
-                double fluidAmount
-        ) {
-            if (requiresEnrichedFire && !isEnrichedFire) {
-                return false;
-            }
-
-            // stupid floating point
-            if (fluidAmount < this.fluidAmount - 1.0e-5 || !fluid.equals(this.fluid)) {
-                return false;
-            }
-
-            for (Map.Entry<RecipeChoice, Integer> choice : this.input.entrySet()) {
-                boolean anyMatches = false;
-                for (ItemStack stack : input) {
-                    if (choice.getKey().test(stack) && stack.getAmount() >= choice.getValue()) {
-                        anyMatches = true;
-                        break;
-                    }
-                }
-                if (!anyMatches) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        @Override
-        public @NotNull List<@NotNull RecipeChoice> getInputItems() {
-            return input.keySet().stream().toList();
-        }
-
-        @Override
-        public @NotNull List<@NotNull PylonFluid> getInputFluids() {
-            return List.of(fluid);
-        }
-
-        @Override
-        public @NotNull List<@NotNull ItemStack> getOutputItems() {
-            if (output instanceof Either.Left<ItemStack, PylonFluid>(ItemStack left)) {
-                return List.of(left);
-            }
-            return List.of();
-        }
-
-        @Override
-        public @NotNull List<@NotNull PylonFluid> getOutputFluids() {
-            if (output instanceof Either.Right<ItemStack, PylonFluid>(PylonFluid right)) {
-                return List.of(right);
-            }
-            return List.of();
-        }
-
-        @Override
-        public @NotNull Gui display() {
-            Preconditions.checkState(input.size() <= 7);
-            Gui.Builder.Normal builder = Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# . . . # f # # #",
-                            "# . . . # m # o #",
-                            "# . . . # i # # #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('f', new FluidButton(fluid.getKey(), fluidAmount))
-                    .addIngredient('m', ItemButton.fromStack(BaseItems.MIXING_POT))
-                    .addIngredient('i', requiresEnrichedFire
-                            ? ItemButton.fromStack(BaseItems.ENRICHED_NETHERRACK)
-                            : GuiItems.background()
-                    );
-
-            if (output instanceof Either.Left<ItemStack, PylonFluid>(ItemStack left)) {
-                builder.addIngredient('o', ItemButton.fromStack(left));
-            }
-            if (output instanceof Either.Right<ItemStack, PylonFluid>(PylonFluid right)) {
-                builder.addIngredient('o', new FluidButton(right.getKey(), fluidAmount));
-            }
-
-            Gui gui = builder.build();
-
-            int i = 0;
-            for (Map.Entry<RecipeChoice, Integer> entry : input.entrySet()) {
-                ItemStack stack = entry.getKey().getItemStack().clone();
-                stack.setAmount(entry.getValue());
-                gui.setItem(10 + ((i / 3) * 9) + i % 3, ItemButton.fromStack(stack));
-                i++;
-            }
-
-            return gui;
-        }
-    }
 }
