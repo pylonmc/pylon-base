@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -33,7 +35,8 @@ public record MeltingRecipe(
         double temperature
 ) implements PylonRecipe {
 
-    public static final double MELT_AMOUNT = 250;
+    public static final double MELT_AMOUNT
+            = Settings.get(BaseKeys.SMELTERY_HOPPER).getOrThrow("melt-amount-mb", Double.class);
 
     public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(
             baseKey("melt_recipe")
