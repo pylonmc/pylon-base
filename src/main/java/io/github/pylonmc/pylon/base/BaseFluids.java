@@ -177,6 +177,11 @@ public final class BaseFluids {
         SULFUR.register();
         addSolidForms(SULFUR, 112.8, BaseItems.SULFUR);
 
+        MERCURY.register();
+
+        COPPER.register();
+        addSolidForms(COPPER, 1083, new ItemStack(Material.COPPER_INGOT), BaseItems.COPPER_DUST);
+
         GOLD.register();
         addSolidForms(GOLD, 1064, new ItemStack(Material.GOLD_INGOT), BaseItems.GOLD_DUST);
 
@@ -245,8 +250,6 @@ public final class BaseFluids {
                 Map.of(BaseFluids.IRON, 1.0),
                 1540
         ));
-
-        MERCURY.register();
 
         SLURRY.register();
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
