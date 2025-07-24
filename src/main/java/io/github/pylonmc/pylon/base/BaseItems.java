@@ -2195,22 +2195,6 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack RECOIL_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.RECOIL_ARROW)
-            .build();
-    static {
-        PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
-        BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
-
-        ItemStack output = RECOIL_ARROW.clone();
-        output.setAmount(8);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
-                .shape("SSS", "SAS", "SSS")
-                .setIngredient('S', Material.SLIME_BALL)
-                .setIngredient('A', Material.ARROW);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
     public static final ItemStack MYSTICAL_FOOD_ENHANCER_SIMPLE = ItemStackBuilder.pylonItem(Material.DISPENSER, BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE).build();
 
     static {
