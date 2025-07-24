@@ -7,9 +7,11 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,10 +27,13 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.impl.AutoCycleItem;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.matchRecipeChoiceMap;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.removeRecipeChoiceMapFromGui;
@@ -83,6 +88,11 @@ public class MysticalFoodEnhancer extends PylonBlock implements PylonSimpleMulti
             @NotNull Map<RecipeChoice, Integer> input,
             @NotNull ItemStack output
     ) implements PylonRecipe {
+        public SimpleRecipe {
+            if (input.size() > 7) {
+                throw new IllegalArgumentException("input map of recipe " + key.toString() + " must be of size 7 or less");
+            }
+        }
 
         @Override
         public @NotNull NamespacedKey getKey() {
@@ -115,8 +125,31 @@ public class MysticalFoodEnhancer extends PylonBlock implements PylonSimpleMulti
 
         @Override
         public @NotNull Gui display() {
-            // TODO: Figure out how on earth to render this in a gui in a nice dynamic way
-            return null;
+            Gui recipeGui = Gui.normal()
+                    .setStructure(
+                            "x x x x x x x x x",
+                            "x a b c d e f g x",
+                            "x 1 2 3 4 5 6 7 x",
+                            "x y y y y y y y x",
+                            "x x x x o x x x x",
+                            "x x x x x x x x x"
+                    )
+                    .addIngredient('x', GuiItems.backgroundBlack())
+                    .addIngredient('y', ItemStack.of(Material.YELLOW_WOOL))
+                    .addIngredient('o', output)
+                    .build();
+            int i = 1;
+            for(Map.Entry<RecipeChoice, Integer> input : input.entrySet()){
+                ItemStack amountStack = ItemStack.of(Material.WHITE_STAINED_GLASS);
+                amountStack.setAmount(input.getValue());
+                recipeGui.setItem(i + 1, 1, ItemButton.fromStack(amountStack));
+                recipeGui.setItem(i + 1, 2, ItemButton.fromChoice(input.getKey()));
+            }
+            for(; i <= 7 - input.size(); i++){
+                recipeGui.setItem(i + 1, 2, GuiItems.background());
+                recipeGui.setItem(i + 1, 2, GuiItems.background());
+            }
+            return recipeGui;
         }
     }
 
