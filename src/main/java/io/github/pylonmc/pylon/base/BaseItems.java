@@ -2255,8 +2255,8 @@ public final class BaseItems {
         BasePages.FOOD.addItem(BaseKeys.GOLDEN_PIE);
         MysticalFoodEnhancer.SimpleRecipe goldenPie = new MysticalFoodEnhancer.SimpleRecipe(
                 BaseKeys.GOLDEN_PIE,
-                Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 2,
-                        new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 3),
+                Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 1,
+                        new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 1),
                 GOLDEN_PIE
         );
         MysticalFoodEnhancer.SimpleRecipe.RECIPE_TYPE.addRecipe(goldenPie);
