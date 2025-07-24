@@ -27,13 +27,10 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
-import xyz.xenondevs.invui.item.impl.AutoCycleItem;
-import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.matchRecipeChoiceMap;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.removeRecipeChoiceMapFromGui;
@@ -139,15 +136,16 @@ public class MysticalFoodEnhancer extends PylonBlock implements PylonSimpleMulti
                     .addIngredient('o', output)
                     .build();
             int i = 1;
-            for(Map.Entry<RecipeChoice, Integer> input : input.entrySet()){
+            for (Map.Entry<RecipeChoice, Integer> input : input.entrySet()) {
                 ItemStack amountStack = ItemStack.of(Material.WHITE_STAINED_GLASS);
                 amountStack.setAmount(input.getValue());
-                recipeGui.setItem(i + 1, 1, ItemButton.fromStack(amountStack));
-                recipeGui.setItem(i + 1, 2, ItemButton.fromChoice(input.getKey()));
+                recipeGui.setItem(i, 1, ItemButton.fromStack(amountStack));
+                recipeGui.setItem(i, 2, ItemButton.fromChoice(input.getKey()));
+                i++;
             }
-            for(; i <= 7 - input.size(); i++){
-                recipeGui.setItem(i + 1, 2, GuiItems.background());
-                recipeGui.setItem(i + 1, 2, GuiItems.background());
+            for (; i <= 7; i++) {
+                recipeGui.setItem(i, 1, GuiItems.background());
+                recipeGui.setItem(i, 2, GuiItems.background());
             }
             return recipeGui;
         }

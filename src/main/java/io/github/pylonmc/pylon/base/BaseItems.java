@@ -2177,6 +2177,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack ICE_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.ICE_ARROW).build();
+
     static {
         PylonItem.register(IceArrow.class, ICE_ARROW, BaseKeys.ICE_ARROW);
         BasePages.COMBAT.addItem(BaseKeys.ICE_ARROW);
@@ -2251,10 +2252,11 @@ public final class BaseItems {
 
     static {
         PylonItem.register(PylonItem.class, GOLDEN_PIE);
+        BasePages.FOOD.addItem(BaseKeys.GOLDEN_PIE);
         MysticalFoodEnhancer.SimpleRecipe goldenPie = new MysticalFoodEnhancer.SimpleRecipe(
                 BaseKeys.GOLDEN_PIE,
-                Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 1,
-                        new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 1),
+                Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 2,
+                        new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 3),
                 GOLDEN_PIE
         );
         MysticalFoodEnhancer.SimpleRecipe.RECIPE_TYPE.addRecipe(goldenPie);
