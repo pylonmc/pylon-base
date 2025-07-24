@@ -3,17 +3,19 @@ package io.github.pylonmc.pylon.base.content.tools;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -30,13 +32,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTickingBlock {
+public class Sprinkler extends PylonBlock implements PylonFluidBlock, PylonTickingBlock, PylonEntityHolderBlock {
 
     public static class Item extends PylonItem {
 
@@ -69,8 +70,6 @@ public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTic
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
-        FluidConnectionPoint input = new FluidConnectionPoint(getBlock(), "input", FluidConnectionPoint.Type.INPUT);
-
         waterBuffer = 0.0;
     }
 
@@ -87,8 +86,10 @@ public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTic
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.INPUT, BlockFace.UP, -0.15F));
+    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        return Map.of(
+                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, -0.15F)
+        );
     }
 
     @Override
@@ -105,13 +106,13 @@ public class Sprinkler extends PylonBlock implements PylonFluidIoBlock, PylonTic
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
         // should make sure we always have enough water for next tick, multiply by 2 to be safe
         return Map.of(BaseFluids.WATER, Math.max(0.0, 2 * TICK_INTERVAL * WATER_PER_SECOND * deltaSeconds - waterBuffer));
     }
 
     @Override
-    public void addFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull PylonFluid fluid, double amount) {
         waterBuffer += amount;
     }
 

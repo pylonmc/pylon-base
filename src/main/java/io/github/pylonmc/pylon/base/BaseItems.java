@@ -5,31 +5,17 @@ import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
-import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
-import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPipe;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
-import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.fluid.*;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -1574,7 +1560,11 @@ public final class BaseItems {
 
     // <editor-fold desc="Fluids" defaultstate=collapsed>
     public static final ItemStack FLUID_PIPE_WOOD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_WOOD)
-            .set(DataComponentTypes.ITEM_MODEL, FluidPipe.getMaterial(BaseKeys.FLUID_PIPE_WOOD).getKey())
+            .set(DataComponentTypes.ITEM_MODEL,
+                    Material.getMaterial(
+                            Settings.get(BaseKeys.FLUID_PIPE_WOOD).getOrThrow("material", String.class).toUpperCase()
+                    ).getKey()
+            )
             .build();
 
     static {
@@ -1591,7 +1581,11 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_PIPE_COPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_COPPER)
-            .set(DataComponentTypes.ITEM_MODEL, FluidPipe.getMaterial(BaseKeys.FLUID_PIPE_COPPER).getKey())
+            .set(DataComponentTypes.ITEM_MODEL,
+                    Material.getMaterial(
+                            Settings.get(BaseKeys.FLUID_PIPE_COPPER).getOrThrow("material", String.class).toUpperCase()
+                    ).getKey()
+            )
             .build();
 
     static {
@@ -1608,7 +1602,11 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_PIPE_OBSIDIAN = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_OBSIDIAN)
-            .set(DataComponentTypes.ITEM_MODEL, FluidPipe.getMaterial(BaseKeys.FLUID_PIPE_OBSIDIAN).getKey())
+            .set(DataComponentTypes.ITEM_MODEL,
+                    Material.getMaterial(
+                            Settings.get(BaseKeys.FLUID_PIPE_OBSIDIAN).getOrThrow("material", String.class).toUpperCase()
+                    ).getKey()
+            )
             .build();
 
     static {

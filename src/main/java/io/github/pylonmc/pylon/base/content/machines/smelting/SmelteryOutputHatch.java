@@ -1,11 +1,13 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.fluid.PylonFluidIoBlock;
-import io.github.pylonmc.pylon.base.fluid.pipe.SimpleFluidConnectionPoint;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.fluid.FluidConnectionPoint;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import kotlin.Pair;
 import org.bukkit.block.Block;
@@ -13,10 +15,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
-public final class SmelteryOutputHatch extends SmelteryComponent implements PylonFluidIoBlock {
+public final class SmelteryOutputHatch extends SmelteryComponent implements PylonEntityHolderBlock, PylonFluidBlock {
 
     public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_OUTPUT_HATCH).getOrThrow("flow-rate", Double.class);
 
@@ -31,17 +32,14 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
     }
 
     @Override
-    public boolean allowVerticalConnectionPoints() {
-        return true;
+    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
+        return Map.of(
+                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH, 0.5F, true)
+        );
     }
 
     @Override
-    public @NotNull List<SimpleFluidConnectionPoint> createFluidConnectionPoints(@NotNull BlockCreateContext context) {
-        return List.of(new SimpleFluidConnectionPoint(FluidConnectionPoint.Type.OUTPUT, BlockFace.NORTH));
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(@NotNull String connectionPoint, double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
         SmelteryController controller = getController();
         if (controller == null) return Map.of();
 
@@ -52,7 +50,7 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
     }
 
     @Override
-    public void removeFluid(@NotNull String connectionPoint, @NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
         SmelteryController controller = getController();
         if (controller == null) return;
         controller.removeFluid(fluid, amount);
