@@ -5,11 +5,7 @@ import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
@@ -25,7 +21,6 @@ import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
 import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
 import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
 import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
@@ -1573,6 +1568,58 @@ public final class BaseItems {
                 .setIngredient('g', new ItemStack(Material.GLASS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack PORTABLE_FLUID_TANK_OBSIDIAN
+            = ItemStackBuilder.pylonItem(Material.BLACK_STAINED_GLASS, BaseKeys.PORTABLE_FLUID_TANK_OBSIDIAN)
+            .editPdc(pdc -> pdc.set(PortableFluidTank.Item.FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
+            .build();
+    static {
+        PylonItem.register(
+                PortableFluidTank.Item.class,
+                PORTABLE_FLUID_TANK_OBSIDIAN,
+                BaseKeys.PORTABLE_FLUID_TANK_OBSIDIAN
+        );
+        BasePages.FLUID_MACHINES.addItem(BaseKeys.PORTABLE_FLUID_TANK_OBSIDIAN);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.PORTABLE_FLUID_TANK_OBSIDIAN, PORTABLE_FLUID_TANK_OBSIDIAN)
+                .shape("gcg", "c c", "gcg")
+                .setIngredient('c', Material.OBSIDIAN)
+                .setIngredient('g', new ItemStack(Material.GLASS));
+        recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack FLUID_TANK
+            = ItemStackBuilder.pylonItem(Material.GRAY_TERRACOTTA, BaseKeys.FLUID_TANK)
+            .build();
+    static {
+        PylonItem.register(FluidTank.Item.class, FLUID_TANK, BaseKeys.FLUID_TANK);
+        BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_TANK);
+    }
+
+    public static final ItemStack FLUID_TANK_CASING_WOOD
+            = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, BaseKeys.FLUID_TANK_CASING_WOOD)
+            .build();
+    static {
+        PylonItem.register(FluidTankCasing.Item.class, FLUID_TANK_CASING_WOOD, BaseKeys.FLUID_TANK_CASING_WOOD);
+        BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_TANK_CASING_WOOD);
+    }
+
+    public static final ItemStack FLUID_TANK_CASING_COPPER
+            = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, BaseKeys.FLUID_TANK_CASING_COPPER)
+            .build();
+    static {
+        PylonItem.register(FluidTankCasing.Item.class, FLUID_TANK_CASING_COPPER, BaseKeys.FLUID_TANK_CASING_COPPER);
+        BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_TANK_CASING_COPPER);
+    }
+
+    public static final ItemStack FLUID_TANK_CASING_OBSIDIAN
+            = ItemStackBuilder.pylonItem(Material.BLACK_STAINED_GLASS, BaseKeys.FLUID_TANK_CASING_OBSIDIAN)
+            .build();
+    static {
+        PylonItem.register(FluidTankCasing.Item.class, FLUID_TANK_CASING_OBSIDIAN, BaseKeys.FLUID_TANK_CASING_OBSIDIAN);
+        BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_TANK_CASING_OBSIDIAN);
     }
 
     public static final ItemStack WATER_PUMP = ItemStackBuilder.pylonItem(Material.BLUE_TERRACOTTA, BaseKeys.WATER_PUMP)

@@ -199,7 +199,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
     waila: "Wooden Portable Fluid Tank %info%"
 
   portable_fluid_tank_copper:
@@ -209,8 +209,18 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
     waila: "Copper Portable Fluid Tank %info%"
+
+  portable_fluid_tank_obsidian:
+      name: "Obsidian Portable Fluid Tank"
+      lore: |-
+        <arrow> Can be placed down and connected with pipes
+        <arrow> Retains contents when broken
+        <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+        <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+        <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      waila: "Obsidian Portable Fluid Tank %info%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
@@ -721,6 +731,36 @@ item:
     progress_item:
       running: "<green>Running"
       idle: "<yellow>Idle"
+
+  fluid_tank:
+    name: "Fluid Tank"
+    lore: |-
+      <star> Multiblock
+      <arrow> Place fluid casings on top to increase the capacity
+      <arrow> All the casings must be the same material
+      <arrow> <attr>Max height:</attr> %max-height%
+    waila: "Fluid Tank %info%"
+
+  fluid_tank_casing_wood:
+    name: "Wooden Fluid Tank Casing"
+    lore: |-
+      <star> Multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_copper:
+    name: "Copper Fluid Tank Casing"
+    lore: |-
+      <star> Multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_obsidian:
+    name: "Obsidian Fluid Tank Casing"
+    lore: |-
+      <star> Multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
 fluid:
   castable:
