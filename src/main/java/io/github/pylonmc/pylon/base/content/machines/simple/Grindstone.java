@@ -36,6 +36,7 @@ import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
@@ -46,6 +47,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private static final NamespacedKey RECIPE_KEY = baseKey("recipe");
     private static final NamespacedKey CYCLES_REMAINING_KEY = baseKey("cycles_remaining");
     private static final NamespacedKey CYCLE_TICKS_REMAINING_KEY = baseKey("cycle_ticks_remaining");
+
+    private static final Random random = new Random();
 
     public static final int TICK_RATE = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("tick-rate", Integer.class);
     public static final int CYCLE_TIME_TICKS = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("cycle-time-ticks", Integer.class);
@@ -231,7 +234,14 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         assert recipe != null;
         GrindstoneRecipe recipe = GrindstoneRecipe.RECIPE_TYPE.getRecipe(this.recipe);
         assert recipe != null;
-        getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), recipe.result());
+
+        for (Map.Entry<ItemStack, Double> pair : recipe.results().entrySet()) {
+            if (random.nextDouble() < pair.getValue()) {
+                getBlock().getWorld().dropItemNaturally(
+                        getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), pair.getKey()
+                );
+            }
+        }
 
         new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, recipe, this).callEvent();
 

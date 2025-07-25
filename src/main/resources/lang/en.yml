@@ -921,7 +921,9 @@ guide:
     machines: "Machines"
     building: "Building"
   recipe:
-    grindstone: "<attr>Grinding time:</attr> %time%"
+    grindstone:
+      time: "<attr>Grinding time:</attr> %time%"
+      chance: "<attr>Chance:</attr> %chance%"
     press: "<attr>Pressing time:</attr> %time%"
     magic-altar: "<attr>Ritual time:</attr> %time%"
     melting: "<attr>Temperature:</attr> %temperature%"

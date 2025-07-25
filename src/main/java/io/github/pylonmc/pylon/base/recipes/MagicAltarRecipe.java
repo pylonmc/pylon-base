@@ -84,6 +84,7 @@ public record MagicAltarRecipe(
     @Override
     public @NotNull List<FluidOrItem> getInputs() {
         List<FluidOrItem> inputs = new ArrayList<>(this.inputs.stream()
+                .filter(Objects::nonNull)
                 .map(input -> (FluidOrItem) FluidOrItem.of(input))
                 .toList()
         );

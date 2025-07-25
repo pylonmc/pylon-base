@@ -55,6 +55,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -2197,6 +2198,18 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SHALLOW_CORE_CHUNK, BaseKeys.SHALLOW_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SHALLOW_CORE_CHUNK);
+
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                BaseKeys.SHALLOW_CORE_CHUNK,
+                SHALLOW_CORE_CHUNK,
+                Map.of(
+                        new ItemStack(Material.COAL), 0.5,
+                        new ItemStack(Material.RAW_COPPER), 0.4,
+                        CRUSHED_RAW_TIN, 0.3
+                ),
+                6,
+                Material.STONE.createBlockData()
+        ));
     }
 
     public static final ItemStack SUBSURFACE_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SUBSURFACE_CORE_CHUNK)
@@ -2204,6 +2217,22 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SUBSURFACE_CORE_CHUNK);
+
+        ItemStack tinOutput = CRUSHED_RAW_TIN.clone();
+        tinOutput.setAmount(2);
+
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                BaseKeys.SUBSURFACE_CORE_CHUNK,
+                SUBSURFACE_CORE_CHUNK,
+                Map.of(
+                        new ItemStack(Material.COAL, 2), 0.3,
+                        new ItemStack(Material.RAW_COPPER, 2), 0.25,
+                        tinOutput, 0.2,
+                        new ItemStack(Material.RAW_IRON), 0.4
+                ),
+                8,
+                Material.STONE.createBlockData()
+        ));
     }
 
     public static final ItemStack INTERMEDIATE_CORE_CHUNK
@@ -2212,6 +2241,23 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.INTERMEDIATE_CORE_CHUNK);
+
+        ItemStack tinOutput = CRUSHED_RAW_TIN.clone();
+        tinOutput.setAmount(2);
+
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                BaseKeys.INTERMEDIATE_CORE_CHUNK,
+                INTERMEDIATE_CORE_CHUNK,
+                Map.of(
+                        new ItemStack(Material.COAL, 3), 0.4,
+                        new ItemStack(Material.RAW_COPPER, 2), 0.6,
+                        tinOutput, 0.5,
+                        new ItemStack(Material.RAW_IRON, 2), 0.3,
+                        new ItemStack(Material.RAW_GOLD), 0.25
+                ),
+                10,
+                Material.STONE.createBlockData()
+        ));
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
