@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.ItemUtils;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -51,7 +52,7 @@ public class CoalFiredPurificationTower extends PylonBlock
     static {
         ConfigSection config = settings.getSectionOrThrow("fuels");
         for (String key : config.getKeys()) {
-            FUELS.put(config.getItemOrThrow(key), config.getOrThrow(key, Integer.class));
+            FUELS.put(PylonUtils.itemFromName(key), config.getOrThrow(key, Integer.class));
         }
     }
 
