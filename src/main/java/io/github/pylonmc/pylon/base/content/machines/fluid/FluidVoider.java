@@ -41,8 +41,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
         }
     }
 
-    private static final Material MAIN_MATERIAL = Material.BLACK_TERRACOTTA;
-
+    public final Material mainMaterial = getSettings().getMaterialOrThrow("main-material");
     public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", Double.class);
     public final double mainDisplaySize = getSettings().getOrThrow("main-display-size", Double.class);
 
@@ -51,7 +50,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
         super(block);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, (float) (mainDisplaySize / 2.0)));
         addEntity("main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(MAIN_MATERIAL)
+                .material(mainMaterial)
                 .transformation(new TransformBuilder()
                         .scale(mainDisplaySize)
                 )

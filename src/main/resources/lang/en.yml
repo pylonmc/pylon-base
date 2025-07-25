@@ -185,6 +185,14 @@ item:
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
       <arrow> <attr>Temperatures:</attr> %fluids%
 
+  fluid_pipe_creative:
+    name: "<#ff00ff>Creative Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %fluids%
+
   ice_arrow:
     name: "Ice Arrow"
     lore: |-
@@ -259,6 +267,18 @@ item:
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
+
+  creative_fluid_voider:
+    name: "<#ff00ff>Creative Fluid Voider"
+    lore: |-
+      <arrow> Destroys all fluids piped into it
+      <arrow> <attr>Void rate:</attr> %void_rate%
+
+  creative_fluid_source:
+    name: "<#ff00ff>Creative Fluid Source"
+    lore: |-
+      <arrow> Produces a practically infinite amount of any fluid
+      <arrow> <insn>Right click</insn> to select a fluid
 
   iron_dust:
     name: "Iron Dust"
@@ -761,6 +781,63 @@ item:
       <star> Multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  manual_core_drill_lever:
+    name: "Manual Core Drill Lever"
+    lore: |-
+      <arrow> Used to power manual core drills
+      <arrow> <insn>Right click</insn> to cycle the attached core drill
+
+  manual_core_drill:
+    name: "Manual Core Drill"
+    lore: |-
+      <star> Multiblock
+      <arrow> Mines shallow core chunks
+      <arrow> <attr>Cycle time:</attr> %cycle-time%
+      <arrow> <attr>Cycle output:</attr> %cycle-output%
+
+  improved_manual_core_drill:
+    name: "Improved Manual Core Drill"
+    lore: |-
+      <star> Multiblock
+      <arrow> Mines subsurface core chunks
+      <arrow> <attr>Cycle time:</attr> %cycle-time%
+      <arrow> <attr>Cycle Output:</attr> %cycle-output%
+
+  hydraulic_core_drill:
+    name: "Hydraulic Core Drill"
+    lore: |-
+      <star> Multiblock
+      <arrow> Mines intermediate core chunks
+      <arrow> <attr>Cycle time:</attr> %cycle-time%
+      <arrow> <attr>Cycle output:</attr> %cycle-output%
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+
+  hydraulic_core_drill_input_hatch:
+    name: "Hydraulic Core Drill Input Hatch"
+    lore: |-
+      <star> Multiblock component
+
+  hydraulic_core_drill_output_hatch:
+    name: "Hydraulic Core Drill Output Hatch"
+    lore: |-
+      <star> Multiblock component
+
+  shallow_core_chunk:
+    name: "Shallow Core Chunk"
+    lore: |-
+      <arrow> A chunk of minerals from just below the surface
+
+  subsurface_core_chunk:
+    name: "Subsurface Core Chunk"
+    lore: |-
+      <arrow> A chunk of minerals from below the surface
+
+  intermediate_core_chunk:
+    name: "Intermediate Core Chunk"
+    lore: |-
+      <arrow> A chunk of minerals from many layers below the surface
 
 fluid:
   castable:

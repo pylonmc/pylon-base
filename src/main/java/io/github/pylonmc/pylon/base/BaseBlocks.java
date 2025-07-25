@@ -3,10 +3,8 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
-import io.github.pylonmc.pylon.base.content.machines.simple.GrindstoneHandle;
-import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryBurner;
 import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryCaster;
 import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryComponent;
@@ -18,13 +16,6 @@ import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 
@@ -65,6 +56,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.FLUID_VOIDER_1, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(BaseKeys.FLUID_VOIDER_2, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(BaseKeys.FLUID_VOIDER_3, Material.STRUCTURE_VOID, FluidVoider.class);
+        PylonBlock.register(BaseKeys.CREATIVE_FLUID_VOIDER, Material.STRUCTURE_VOID, FluidVoider.class);
+        PylonBlock.register(BaseKeys.CREATIVE_FLUID_SOURCE, Material.PINK_CONCRETE, CreativeFluidSource.class);
         PylonBlock.register(BaseKeys.REFRACTORY_BRICK, Material.DEEPSLATE_TILES, SmelteryComponent.class);
         PylonBlock.register(BaseKeys.SMELTERY_CONTROLLER, Material.BLAST_FURNACE, SmelteryController.class);
         PylonBlock.register(BaseKeys.SMELTERY_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
@@ -95,6 +88,11 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_4, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_5, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.COAL_FIRED_PURIFICATION_TOWER, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
-
+        PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL_LEVER, Material.LEVER, ManualCoreDrillLever.class);
+        PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL, Material.CHISELED_STONE_BRICKS, ManualCoreDrill.class);
+        PylonBlock.register(BaseKeys.IMPROVED_MANUAL_CORE_DRILL, Material.COPPER_BLOCK, ImprovedManualCoreDrill.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.COPPER_BULB, HydraulicCoreDrill.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, HydraulicCoreDrillInputHatch.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
     }
 }

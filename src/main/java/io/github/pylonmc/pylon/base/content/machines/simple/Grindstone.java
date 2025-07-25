@@ -267,6 +267,4 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 })
         ));
     }
-
-
 }
