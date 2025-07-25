@@ -13,7 +13,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -63,6 +62,15 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {
         super(block);
+
+        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .translate(0, 0.5, 0)
+                        .scale(0.5)
+                        .buildForItemDisplay()
+                )
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
@@ -77,20 +85,6 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     public void write(@NotNull PersistentDataContainer pdc) {
         PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
         pdc.set(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE, remainingTimeSeconds);
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = PylonSimpleMultiblock.super.createEntities(context);
-        entities.put("item", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .transformation(new TransformBuilder()
-                        .translate(0, 0.5, 0)
-                        .scale(0.5)
-                        .buildForItemDisplay()
-                )
-                .build(getBlock().getLocation().toCenterLocation())
-        ));
-        return entities;
     }
 
     @Override

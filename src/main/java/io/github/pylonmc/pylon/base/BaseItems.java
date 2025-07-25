@@ -28,7 +28,7 @@ import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
 import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
 import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
 import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
@@ -1538,7 +1538,7 @@ public final class BaseItems {
 
     public static final ItemStack PORTABLE_FLUID_TANK_WOOD
             = ItemStackBuilder.pylonItem(Material.BROWN_STAINED_GLASS, BaseKeys.PORTABLE_FLUID_TANK_WOOD)
-            .editPdc(pdc -> pdc.set(PortableFluidTank.FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
+            .editPdc(pdc -> pdc.set(PortableFluidTank.Item.FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
             .build();
     static {
         PylonItem.register(
@@ -1558,7 +1558,7 @@ public final class BaseItems {
 
     public static final ItemStack PORTABLE_FLUID_TANK_COPPER
             = ItemStackBuilder.pylonItem(Material.ORANGE_STAINED_GLASS, BaseKeys.PORTABLE_FLUID_TANK_COPPER)
-            .editPdc(pdc -> pdc.set(PortableFluidTank.FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
+            .editPdc(pdc -> pdc.set(PortableFluidTank.Item.FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0))
             .build();
     static {
         PylonItem.register(
