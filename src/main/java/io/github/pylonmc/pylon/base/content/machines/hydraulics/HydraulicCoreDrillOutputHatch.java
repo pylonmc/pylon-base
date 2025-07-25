@@ -16,12 +16,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
 
+    private final double capacity = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", Double.class);
+
     @SuppressWarnings("unused")
     public HydraulicCoreDrillOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         createFluidBuffer(
                 BaseFluids.DIRTY_HYDRAULIC_FLUID,
-                Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", Double.class),
+                capacity,
                 false,
                 true
         );
@@ -44,6 +46,8 @@ public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
         if (!formed) {
             setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
             setFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
+        } else {
+            setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, capacity);
         }
         return formed;
     }

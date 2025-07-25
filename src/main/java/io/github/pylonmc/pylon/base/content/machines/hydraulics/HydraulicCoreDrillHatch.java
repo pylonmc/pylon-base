@@ -52,7 +52,10 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
     @Override
     public boolean setFluid(@NotNull PylonFluid fluid, double amount) {
         boolean result = PylonFluidBufferBlock.super.setFluid(fluid, amount);
-        float scale = Math.max(0.0F, (float) (fluidAmount(fluid) / fluidCapacity(fluid) - 0.1F));
+        float scale = (float) (0.9 * fluidAmount(fluid) / fluidCapacity(fluid));
+        if (scale < 1.0e-9) {
+            scale = 0.0F;
+        }
         getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)

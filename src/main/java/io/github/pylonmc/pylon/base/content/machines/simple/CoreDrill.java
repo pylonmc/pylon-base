@@ -46,11 +46,11 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         }
     }
 
-    @Getter private final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", Integer.class);
-    @Getter private final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", Integer.class);
-    private final ItemStack output = getSettings().getItemOrThrow("output");
-    private final Material drillMaterial = getSettings().getMaterialOrThrow("drill-material");
-    @Getter private boolean cycling;
+    @Getter protected final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", Integer.class);
+    @Getter protected final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", Integer.class);
+    protected final ItemStack output = getSettings().getItemOrThrow("output");
+    protected final Material drillMaterial = getSettings().getMaterialOrThrow("drill-material");
+    @Getter protected boolean cycling;
 
     @SuppressWarnings("unused")
     public CoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {

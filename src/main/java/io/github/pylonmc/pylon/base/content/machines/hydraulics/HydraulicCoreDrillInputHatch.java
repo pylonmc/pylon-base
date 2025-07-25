@@ -17,12 +17,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
 
+    private final double capacity = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", Double.class);
+
     @SuppressWarnings("unused")
     public HydraulicCoreDrillInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         createFluidBuffer(
                 BaseFluids.HYDRAULIC_FLUID,
-                Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", Double.class),
+                capacity,
                 true,
                 false
         );
@@ -43,9 +45,10 @@ public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
     public boolean checkFormed() {
         boolean formed = super.checkFormed();
         if (!formed) {
-            Bukkit.getLogger().severe("bruh");
             setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, 0);
             setFluid(BaseFluids.HYDRAULIC_FLUID, 0);
+        } else {
+            setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, capacity);
         }
         return formed;
     }

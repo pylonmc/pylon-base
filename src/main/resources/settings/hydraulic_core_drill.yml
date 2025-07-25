@@ -1,5 +1,5 @@
-rotation-duration-ticks: 20 # must be a multiple of 4
-rotations-per-cycle: 1
+rotation-duration-ticks: 16 # must be a multiple of 4
+rotations-per-cycle: 20
 output: "pylonbase:intermediate_core_chunk"
 drill-material: gray_concrete
 hydraulic-fluid-input-mb-per-second: 80

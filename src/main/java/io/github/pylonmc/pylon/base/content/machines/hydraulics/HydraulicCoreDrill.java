@@ -12,6 +12,8 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
@@ -90,17 +92,19 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH));
         components.put(new Vector3i(-1, -1, 3), new PylonMultiblockComponent(BaseKeys.FLUID_TANK_CASING_COPPER));
 
+        components.put(new Vector3i(0, -2, 4), new VanillaMultiblockComponent(Material.CHEST));
+
         return components;
     }
 
     @Override
     public int getCustomTickRate(int globalTickRate) {
-        return getRotationDuration() * getRotationsPerCycle();
+        return getRotationDuration() * getRotationsPerCycle() + 1;
     }
 
     @Override
     public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded()) {
+        if (!isFormedAndFullyLoaded() || isCycling()) {
             return;
         }
 
@@ -129,5 +133,23 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         inputHatch.removeFluid(BaseFluids.HYDRAULIC_FLUID, fluidConsumptionPerCycle);
         outputHatch.addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidConsumptionPerCycle);
         cycle();
+    }
+
+    @Override
+    protected void finishCycle() {
+        cycling = false;
+
+        if (!(getBlock().getRelative(0, -2, 4).getState() instanceof Chest chest)) {
+            return;
+        }
+
+        if (chest.getInventory().addItem(output).isEmpty()) {
+            return;
+        }
+
+        getBlock().getWorld().dropItemNaturally(
+                getBlock().getRelative(BlockFace.DOWN, 2).getLocation().toCenterLocation(),
+                output
+        );
     }
 }
