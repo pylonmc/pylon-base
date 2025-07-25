@@ -167,7 +167,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   fluid_pipe_copper:
     name: "Copper Fluid Pipe"
@@ -175,7 +175,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   fluid_pipe_obsidian:
     name: "Obsidian Fluid Pipe"
@@ -183,7 +183,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   fluid_pipe_creative:
     name: "<#ff00ff>Creative Fluid Pipe"
@@ -191,7 +191,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   ice_arrow:
     name: "Ice Arrow"
