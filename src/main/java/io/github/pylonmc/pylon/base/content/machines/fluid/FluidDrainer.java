@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -70,7 +72,10 @@ public class FluidDrainer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (fluidSpaceRemaining(fluid) >= 1000.0 && drainBlock.getType() == material) {
+        if (fluidSpaceRemaining(fluid) >= 1000.0
+                && drainBlock.getType() == material
+                && new BlockBreakBlockEvent(drainBlock, getBlock(), List.of()).callEvent()
+        ) {
             drainBlock.setType(Material.AIR);
             addFluid(fluid, 1000.0);
         }

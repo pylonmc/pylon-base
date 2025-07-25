@@ -14,6 +14,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.FluidLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -70,7 +72,10 @@ public class FluidPlacer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (fluidAmount(fluid) >= 1000.0 && placeBlock.getType().isAir()) {
+        if (fluidAmount(fluid) >= 1000.0
+                && placeBlock.getType().isAir()
+                && new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()
+        ) {
             placeBlock.setType(material);
             removeFluid(fluid, 1000.0);
         }
