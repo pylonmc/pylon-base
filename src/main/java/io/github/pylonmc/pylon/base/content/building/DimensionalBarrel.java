@@ -45,7 +45,7 @@ public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
     }
 
     public DimensionalBarrel(Block block, PersistentDataContainer pdc) {
-        super(block);
+        super(block, pdc);
     }
 
     @Override
