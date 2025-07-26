@@ -308,6 +308,16 @@ item:
     lore: |-
       <arrow> Makes you temporarily superhuman upon eating
       <arrow> An sign of ultimate wealth
+      <arrow> <attr>Nutrition:</attr> %nutrition% <attr>Saturation:</attr> %saturation%
+      <arrow> <attr>Absorption Strength:</attr> %absorption-strength% <attr>Duration:</attr> %absorption-duration%
+      <arrow> <attr>Regeneration Strength:</attr> %regeneration-strength% <attr>Duration:</attr> %regeneration-duration%
+      <arrow> <attr>Jump Boost Strength:</attr> %jumpboost-strength% <attr>Duration:</attr> %jumpboost-duration%
+      <arrow> <attr>Fire Resistance Duration:</attr> %fireres-duration%
+      <arrow> <attr>Water Breathing Duration:</attr> %waterbreathing-duration%
+      <arrow> <attr>Luck Strength:</attr> %luck-strength% <attr>Duration:</attr> %luck-duration%
+      <arrow> <attr>Resistance Strength:</attr> %resistance-strength% <attr>Duration:</attr> %resistance-duration%
+      <arrow> <attr>Speed Strength:</attr> %speed-strength% <attr>Duration:</attr> %speed-duration%
+      <arrow> <attr>Strength Strength:</attr> %strength-strength% <attr>Duration:</attr> %strength-duration%
 
   grindstone:
     name: "Grindstone"

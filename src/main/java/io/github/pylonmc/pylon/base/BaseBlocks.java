@@ -73,6 +73,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_5, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.COAL_FIRED_PURIFICATION_TOWER, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
         PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE, Material.DISPENSER, MysticalFoodEnhancer.class);
-        PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE, Material.LEVER, MysticalFoodEnhancer.MysticalFoodEnhancerHandle.class);
+        PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE, Material.LEVER, MysticalFoodEnhancerHandle.class);
     }
 }

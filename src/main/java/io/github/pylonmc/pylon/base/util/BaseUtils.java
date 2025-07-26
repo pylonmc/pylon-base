@@ -120,35 +120,34 @@ public class BaseUtils {
         return reflected;
     }
 
-    public static boolean matchRecipeChoiceMap(Map<RecipeChoice, Integer> recipe, List<ItemStack> stacks){
-        for(Map.Entry<RecipeChoice, Integer> component : recipe.entrySet()){
+    public static boolean matchRecipeChoiceMap(Map<RecipeChoice, Integer> recipe, List<ItemStack> stacks) {
+        for (Map.Entry<RecipeChoice, Integer> component : recipe.entrySet()) {
             int sumItems = 0;
-            for(ItemStack stack : stacks){
-                if(component.getKey().test(stack)){
+            for (ItemStack stack : stacks) {
+                if (component.getKey().test(stack)) {
                     sumItems += stack.getAmount();
                 }
             }
-            if(sumItems < component.getValue()){
+            if (sumItems < component.getValue()) {
                 return false;
             }
         }
         return true;
     }
 
-    public static void removeRecipeChoiceMapFromGui(Map<RecipeChoice, Integer> recipe, AbstractGui gui){
-        for(Map.Entry<RecipeChoice, Integer> component : recipe.entrySet()){
+    public static void removeRecipeChoiceMapFromGui(Map<RecipeChoice, Integer> recipe, AbstractGui gui) {
+        for (Map.Entry<RecipeChoice, Integer> component : recipe.entrySet()) {
             int required = component.getValue();
             rmitemloop:
-            for(Inventory inventory : gui.getAllInventories()){
-                for(int i = 0; i < inventory.getSize(); i++){
+            for (Inventory inventory : gui.getAllInventories()) {
+                for (int i = 0; i < inventory.getSize(); i++) {
                     ItemStack curItem = inventory.getItem(i);
-                    if(curItem != null && component.getKey().test(curItem)){
-                        if(required <= curItem.getAmount()){
+                    if (curItem != null && component.getKey().test(curItem)) {
+                        if (required <= curItem.getAmount()) {
                             curItem.subtract(required);
                             inventory.setItemSilently(i, curItem);
                             break rmitemloop;
-                        }
-                        else {
+                        } else {
                             required -= curItem.getAmount();
                             curItem.subtract(curItem.getAmount());
                             inventory.setItemSilently(i, curItem);

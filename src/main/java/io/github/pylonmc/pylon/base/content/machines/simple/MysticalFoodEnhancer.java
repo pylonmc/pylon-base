@@ -1,10 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -16,8 +14,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -148,25 +144,6 @@ public class MysticalFoodEnhancer extends PylonBlock implements PylonSimpleMulti
                 recipeGui.setItem(i, 2, GuiItems.background());
             }
             return recipeGui;
-        }
-    }
-
-    public static class MysticalFoodEnhancerHandle extends PylonBlock implements PylonInteractableBlock {
-
-        public MysticalFoodEnhancerHandle(Block block, BlockCreateContext context) {
-            super(block, context);
-        }
-
-        public MysticalFoodEnhancerHandle(Block block, PersistentDataContainer pdc) {
-            super(block, pdc);
-        }
-
-        @Override
-        public void onInteract(@NotNull PlayerInteractEvent event) {
-            //noinspection ConstantConditions no npe on getClickedBlock since event.getClickedBlock != null is checked by the function that calls onInteract
-            MysticalFoodEnhancer processor = BlockStorage.getAs(MysticalFoodEnhancer.class, event.getClickedBlock().getRelative(BlockFace.DOWN));
-            if (processor == null) return;
-            processor.cook();
         }
     }
 }
