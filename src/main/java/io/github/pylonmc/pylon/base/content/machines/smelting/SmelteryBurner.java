@@ -97,6 +97,11 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 .build();
     }
 
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return SmelteryController.TICK_INTERVAL;
+    }
+
     private class BurnerProgressItem extends ProgressItem {
         public BurnerProgressItem() {
             super(Material.BLAZE_POWDER, true);

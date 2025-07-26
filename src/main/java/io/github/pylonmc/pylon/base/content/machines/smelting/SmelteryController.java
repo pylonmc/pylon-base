@@ -71,6 +71,9 @@ public final class SmelteryController extends SmelteryComponent
     private static final NamespacedKey COMPONENTS_KEY = baseKey("components");
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.SMELTERY_CONTROLLER)
+            .getOrThrow("tick-interval", Integer.class);
+
     @Getter
     @Setter
     private double temperature;
@@ -172,6 +175,11 @@ public final class SmelteryController extends SmelteryComponent
                 .addIngredient('c', contentsItem)
                 .addIngredient('#', GuiItems.background())
                 .build();
+    }
+
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return TICK_INTERVAL;
     }
 
     private class InfoItem extends AbstractItem {

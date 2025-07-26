@@ -39,6 +39,8 @@ public class FluidStrainer extends PylonBlock
     private static final NamespacedKey BUFFER_KEY = baseKey("buffer");
     private static final NamespacedKey PASSED_FLUID_KEY = baseKey("passed_fluid");
 
+    private int tickInterval = getSettings().get("tick-interval", Integer.class);
+
     private @Nullable StrainingRecipe currentRecipe;
     private double buffer;
     private double passedFluid;
@@ -153,4 +155,8 @@ public class FluidStrainer extends PylonBlock
     }
 
 
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return tickInterval;
+    }
 }

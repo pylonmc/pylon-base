@@ -61,6 +61,11 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                 .build();
     }
 
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return SmelteryController.TICK_INTERVAL;
+    }
+
     private class CastItem extends AbstractItem {
 
         @Override
