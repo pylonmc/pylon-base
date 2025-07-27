@@ -21,10 +21,7 @@ import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
 import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
-import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
-import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
-import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
-import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
+import io.github.pylonmc.pylon.base.recipes.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -1480,13 +1477,25 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_WOOD);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_WOOD);
 
-        ItemStack output = new ItemStack(FLUID_PIPE_WOOD);
-        output.setAmount(4);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_WOOD, output)
+        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_WOOD);
+        shapedOutput.setAmount(4);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_WOOD, shapedOutput)
                 .shape("www", "   ", "www")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+
+        ItemStack benderOutput = new ItemStack(FLUID_PIPE_WOOD);
+        benderOutput.setAmount(4);
+        for (Material material : Tag.LOGS.getValues()) {
+            PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
+                    BaseKeys.FLUID_PIPE_WOOD,
+                    new ItemStack(material),
+                    benderOutput,
+                    Material.OAK_LOG.createBlockData(),
+                    160
+            ));
+        }
     }
 
     public static final ItemStack FLUID_PIPE_COPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_COPPER)
@@ -1500,13 +1509,23 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_COPPER);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_COPPER);
 
-        ItemStack output = new ItemStack(FLUID_PIPE_COPPER);
-        output.setAmount(4);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_COPPER, output)
+        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_COPPER);
+        shapedOutput.setAmount(4);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_COPPER, shapedOutput)
                 .shape("ccc", "   ", "ccc")
                 .setIngredient('c', COPPER_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+
+        ItemStack benderOutput = new ItemStack(FLUID_PIPE_COPPER);
+        benderOutput.setAmount(9);
+        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
+                BaseKeys.FLUID_PIPE_COPPER,
+                new ItemStack(Material.COPPER_BLOCK),
+                benderOutput,
+                Material.COPPER_BLOCK.createBlockData(),
+                360
+        ));
     }
 
     public static final ItemStack FLUID_PIPE_OBSIDIAN = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_OBSIDIAN)
@@ -1527,6 +1546,14 @@ public final class BaseItems {
                 .setIngredient('o', new ItemStack(Material.OBSIDIAN));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+
+        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
+                BaseKeys.FLUID_PIPE_OBSIDIAN,
+                new ItemStack(Material.OBSIDIAN),
+                FLUID_PIPE_OBSIDIAN,
+                Material.OBSIDIAN.createBlockData(),
+                40
+        ));
     }
 
     public static final ItemStack FLUID_PIPE_CREATIVE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_CREATIVE)
@@ -2051,6 +2078,20 @@ public final class BaseItems {
     static {
         PylonItem.register(HydraulicHammerHead.Item.class, HYDRAULIC_HAMMER_HEAD, BaseKeys.HYDRAULIC_HAMMER_HEAD);
         BasePages.HYDRAULICS.addItem(BaseKeys.HYDRAULIC_HAMMER_HEAD);
+    }
+
+    public static final ItemStack HYDRAULIC_PIPE_BENDER = ItemStackBuilder.pylonItem(Material.BROWN_TERRACOTTA, BaseKeys.HYDRAULIC_PIPE_BENDER)
+            .build();
+    static {
+        PylonItem.register(HydraulicPipeBender.Item.class, HYDRAULIC_PIPE_BENDER, BaseKeys.HYDRAULIC_PIPE_BENDER);
+        BasePages.HYDRAULICS.addItem(BaseKeys.HYDRAULIC_PIPE_BENDER);
+    }
+
+    public static final ItemStack HYDRAULIC_TABLE_SAW = ItemStackBuilder.pylonItem(Material.COPPER_BLOCK, BaseKeys.HYDRAULIC_TABLE_SAW)
+            .build();
+    static {
+        PylonItem.register(HydraulicTableSaw.Item.class, HYDRAULIC_TABLE_SAW, BaseKeys.HYDRAULIC_TABLE_SAW);
+        BasePages.HYDRAULICS.addItem(BaseKeys.HYDRAULIC_TABLE_SAW);
     }
 
     public static final ItemStack SOLAR_LENS = ItemStackBuilder.pylonItem(Material.GLASS_PANE, BaseKeys.SOLAR_LENS)

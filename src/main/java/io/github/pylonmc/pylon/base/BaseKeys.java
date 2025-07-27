@@ -194,6 +194,8 @@ public class BaseKeys {
     public static final NamespacedKey HYDRAULIC_MIXING_ATTACHMENT = baseKey("hydraulic_mixing_attachment");
     public static final NamespacedKey HYDRAULIC_PRESS_PISTON = baseKey("hydraulic_press_piston");
     public static final NamespacedKey HYDRAULIC_HAMMER_HEAD = baseKey("hydraulic_hammer_head");
+    public static final NamespacedKey HYDRAULIC_PIPE_BENDER = baseKey("hydraulic_pipe_bender");
+    public static final NamespacedKey HYDRAULIC_TABLE_SAW = baseKey("hydraulic_table_saw");
 
     public static final NamespacedKey SOLAR_LENS = baseKey("solar_lens");
     public static final NamespacedKey PURIFICATION_TOWER_GLASS = baseKey("purification_tower_glass");
@@ -224,5 +226,6 @@ public class BaseKeys {
     public static final NamespacedKey INTERMEDIATE_CORE_CHUNK = baseKey("intermediate_core_chunk");
 
     public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
+    public static final NamespacedKey SIMPLE_BLOCK_DISPLAY = baseKey("simple_block_display");
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
 }

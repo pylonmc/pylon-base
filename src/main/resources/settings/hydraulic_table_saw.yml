@@ -1,0 +1,5 @@
+tick-interval: 10
+hydraulic-fluid-input-mb-per-second: 20
+dirty-hydraulic-fluid-output-mb-per-second: 19
+hydraulic-fluid-buffer: 400
+dirty-hydraulic-fluid-buffer: 380

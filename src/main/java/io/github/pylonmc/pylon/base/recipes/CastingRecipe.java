@@ -43,10 +43,6 @@ public record CastingRecipe(
             baseKey("cast_recipe")
     );
 
-    static {
-        RECIPE_TYPE.register();
-    }
-
     public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
         for (CastingRecipe recipe : RECIPE_TYPE) {
             if (recipe.input.equals(fluid)) {

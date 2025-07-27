@@ -1,13 +1,9 @@
 package io.github.pylonmc.pylon.base.recipes;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.core.config.ConfigSection;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -15,7 +11,6 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
@@ -38,17 +33,6 @@ public record PressRecipe(
     public static final RecipeType<PressRecipe> RECIPE_TYPE = new RecipeType<>(
             new NamespacedKey(PylonBase.getInstance(), "press")
     );
-
-    static {
-        PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-        ConfigSection config = Settings.get(BaseKeys.PRESS).getSectionOrThrow("oil-amount");
-        for (String key : config.getKeys()) {
-            Material material = Material.getMaterial(key.toUpperCase());
-            Preconditions.checkState(material != null, "No such material " + key);
-            int amount = config.get(key, Integer.class);
-            RECIPE_TYPE.addRecipe(new PressRecipe(material.getKey(), new ItemStack(material), amount));
-        }
-    }
 
     @Override
     public @NotNull NamespacedKey getKey() {

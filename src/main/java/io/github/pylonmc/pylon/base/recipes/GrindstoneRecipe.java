@@ -9,13 +9,11 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +22,6 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 /**
  * @param input the input item (respects amount)
@@ -60,10 +56,6 @@ public record GrindstoneRecipe(
     public static final RecipeType<GrindstoneRecipe> RECIPE_TYPE = new RecipeType<>(
             new NamespacedKey(PylonBase.getInstance(), "grindstone")
     );
-
-    static {
-        PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-    }
 
     public int timeTicks() {
         return cycles * Grindstone.CYCLE_DURATION_TICKS;
@@ -123,18 +115,5 @@ public record GrindstoneRecipe(
         }
 
         return gui.build();
-    }
-
-    static {
-        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
-                baseKey("string_from_bamboo"),
-                new ItemStack(Material.BAMBOO, 4),
-                new ItemStack(Material.STRING),
-                3,
-                Material.BAMBOO.createBlockData(data -> {
-                    Ageable ageable = (Ageable) data;
-                    ageable.setAge(ageable.getMaximumAge());
-                })
-        ));
     }
 }

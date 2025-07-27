@@ -9,9 +9,7 @@ import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -46,10 +44,6 @@ public record MixingPotRecipe(
     public static final RecipeType<MixingPotRecipe> RECIPE_TYPE = new RecipeType<>(
             new NamespacedKey(PylonBase.getInstance(), "mixing_pot")
     );
-
-    static {
-        PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-    }
 
     public boolean matches(
             List<ItemStack> input,
