@@ -1,34 +1,33 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.item.impl.AutoCycleItem;
 
 import java.util.List;
 
 /**
- * @param input the input item (setting the itemstack to have an amount that's not 1 will have no effect)
+ * @param input the input item (respects amount)
  * @param result the output item (respects amount)
- * @param level the minimum hammer mining level
- * @param chance the chance to succeed per attempt
+ * @param particleData the block data to use for particles
+ * @param time the recipe time (ticks)
  */
-public record HammerRecipe(
+public record TableSawRecipe(
         NamespacedKey key,
         ItemStack input,
         ItemStack result,
-        MiningLevel level,
-        float chance
+        BlockData particleData,
+        int time
 ) implements PylonRecipe {
 
     @Override
@@ -36,8 +35,8 @@ public record HammerRecipe(
         return key;
     }
 
-    public static final RecipeType<HammerRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "hammer")
+    public static final RecipeType<TableSawRecipe> RECIPE_TYPE = new RecipeType<>(
+            new NamespacedKey(PylonBase.getInstance(), "table_saw")
     );
 
     @Override
@@ -56,19 +55,13 @@ public record HammerRecipe(
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # # # # # #",
-                        "# # # i h o # # #",
+                        "# # # i s o # # #",
                         "# # # # # # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('i', ItemButton.fromStack(input))
-                .addIngredient('h', new AutoCycleItem(20,
-                        Hammer.hammersWithMiningLevelAtLeast(level)
-                                .stream()
-                                .map(ItemStackBuilder::of)
-                                .toList()
-                                .toArray(new ItemStackBuilder[]{})
-                ))
+                .addIngredient('s', GuiItems.progressCyclingItem(time, ItemStackBuilder.of(BaseItems.HYDRAULIC_TABLE_SAW)))
                 .addIngredient('o', ItemButton.fromStack(result))
                 .build();
     }
