@@ -1,2 +1,2 @@
 capacity: 4000.0
-allow-fluids: [normal] # can be cold (cryogenic), normal, or hot (molten)
+allowed-temperatures: [normal] # can be cold (cryogenic), normal, or hot (molten)
