@@ -37,6 +37,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.window.Window;
 
 import java.util.Map;
@@ -123,7 +124,7 @@ public class FluidFilter extends PylonBlock
         Window.single()
                 .setGui(FluidSelector.make(() -> fluid, this::setFluid))
                 .setViewer(event.getPlayer())
-                .setTitle("Select fluid")
+                .setTitle(new AdventureComponentWrapper(Component.translatable("pylon.pylonbase.gui.fluid-selector-title")))
                 .build()
                 .open();
     }

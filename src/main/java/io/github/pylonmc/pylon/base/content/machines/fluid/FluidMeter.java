@@ -58,8 +58,17 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     @Override
     public void tick(double deltaSeconds) {
         Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / deltaSeconds)).asComponent();
-        getHeldEntityOrThrow(SimpleTextDisplay.class, "flow_rate_north").getEntity().text(component);
-        getHeldEntityOrThrow(SimpleTextDisplay.class, "flow_rate_south").getEntity().text(component);
+
+        SimpleTextDisplay northDisplay = getHeldEntity(SimpleTextDisplay.class, "flow_rate_north");
+        if (northDisplay != null) {
+            northDisplay.getEntity().text(component);
+        }
+
+        SimpleTextDisplay southDisplay = getHeldEntity(SimpleTextDisplay.class, "flow_rate_south");
+        if (southDisplay != null) {
+            southDisplay.getEntity().text(component);
+        }
+
         removedSinceLastUpdate = 0.0;
     }
 

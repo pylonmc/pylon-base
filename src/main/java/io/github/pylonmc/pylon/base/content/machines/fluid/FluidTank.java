@@ -154,7 +154,7 @@ public class FluidTank extends PylonBlock
     @Override
     public boolean setFluid(double amount) {
         boolean result = PylonFluidTank.super.setFluid(amount);
-        float scale = (float) (height * fluidAmount() / fluidCapacity() - 0.1F);
+        float scale = (float) ((height - 0.1) * fluidAmount() / fluidCapacity());
         getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
