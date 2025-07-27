@@ -70,6 +70,7 @@ public class HydraulicTableSaw extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicTableSaw(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
@@ -105,6 +106,8 @@ public class HydraulicTableSaw extends PylonBlock
 
         event.setCancelled(true);
 
+        recipe = null;
+
         ItemDisplay itemDisplay = getItemDisplay().getEntity();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
@@ -129,25 +132,24 @@ public class HydraulicTableSaw extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (recipeTicksRemaining > 0) {
-            new ParticleBuilder(Particle.BLOCK)
-                    .count(5)
-                    .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                    .data(recipe.particleData());
-            recipeTicksRemaining -= TICK_INTERVAL;
-            return;
-        }
+        ItemStack stack = getItemDisplay().getEntity().getItemStack();
 
         if (recipe != null) {
+            spawnParticles();
+
+            if (recipeTicksRemaining > 0) {
+                recipeTicksRemaining -= TICK_INTERVAL;
+                return;
+            }
+
+            getItemDisplay().getEntity().setItemStack(stack.subtract(recipe.input().getAmount()));
             getBlock().getWorld().dropItemNaturally(
-                    getBlock().getLocation().add(0, 0.75, 0),
+                    getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
                     recipe.result()
             );
             recipe = null;
             return;
         }
-
-        ItemStack stack = getItemDisplay().getEntity().getItemStack();
 
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
             double hydraulicFluidInput = recipe.time() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND;
@@ -160,9 +162,9 @@ public class HydraulicTableSaw extends PylonBlock
                 continue;
             }
 
-            stack.subtract(recipe.input().getAmount());
             this.recipe = recipe;
             recipeTicksRemaining = recipe.time();
+            spawnParticles();
 
             break;
         }
@@ -170,5 +172,13 @@ public class HydraulicTableSaw extends PylonBlock
 
     public SimpleItemDisplay getItemDisplay() {
         return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    }
+
+    public void spawnParticles() {
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                .data(recipe.particleData())
+                .spawn();
     }
 }

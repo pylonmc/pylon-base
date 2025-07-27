@@ -99,6 +99,8 @@ public class HydraulicPipeBender extends PylonBlock
 
         event.setCancelled(true);
 
+        recipe = null;
+
         ItemDisplay itemDisplay = getItemDisplay().getEntity();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
@@ -123,25 +125,24 @@ public class HydraulicPipeBender extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (recipeTicksRemaining > 0) {
-            new ParticleBuilder(Particle.BLOCK)
-                    .count(5)
-                    .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                    .data(recipe.particleData());
-            recipeTicksRemaining -= TICK_INTERVAL;
-            return;
-        }
+        ItemStack stack = getItemDisplay().getEntity().getItemStack();
 
         if (recipe != null) {
+            spawnParticles();
+
+            if (recipeTicksRemaining > 0) {
+                recipeTicksRemaining -= TICK_INTERVAL;
+                return;
+            }
+
+            getItemDisplay().getEntity().setItemStack(stack.subtract(recipe.input().getAmount()));
             getBlock().getWorld().dropItemNaturally(
-                    getBlock().getLocation().add(0, 0.75, 0),
+                    getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
                     recipe.result()
             );
             recipe = null;
             return;
         }
-
-        ItemStack stack = getItemDisplay().getEntity().getItemStack();
 
         for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
             double hydraulicFluidInput = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * recipe.time() / 20.0;
@@ -154,9 +155,9 @@ public class HydraulicPipeBender extends PylonBlock
                 continue;
             }
 
-            stack.subtract(recipe.input().getAmount());
             this.recipe = recipe;
             recipeTicksRemaining = recipe.time();
+            spawnParticles();
 
             break;
         }
@@ -164,5 +165,13 @@ public class HydraulicPipeBender extends PylonBlock
 
     public SimpleItemDisplay getItemDisplay() {
         return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    }
+
+    public void spawnParticles() {
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                .data(recipe.particleData())
+                .spawn();
     }
 }
