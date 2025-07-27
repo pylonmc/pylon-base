@@ -57,7 +57,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicGrindstoneTurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        setTickInterval(Grindstone.TICK_RATE);
+        setTickInterval(Grindstone.CYCLE_DURATION_TICKS + 1);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
@@ -93,7 +93,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
         Grindstone grindstone = BlockStorage.getAs(Grindstone.class, getBlock().getRelative(BlockFace.UP));
         Preconditions.checkState(grindstone != null);
 
-        if (grindstone.getRecipe() != null) {
+        if (grindstone.isRecipeInProgress()) {
             return;
         }
 

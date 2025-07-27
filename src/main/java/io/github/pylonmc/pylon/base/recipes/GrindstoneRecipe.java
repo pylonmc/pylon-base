@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,8 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 /**
  * @param input the input item (respects amount)
@@ -63,8 +66,7 @@ public record GrindstoneRecipe(
     }
 
     public int timeTicks() {
-        // add 2*tick rate to account for stone going up and down
-        return cycles * Grindstone.CYCLE_TIME_TICKS + 2 * Grindstone.TICK_RATE;
+        return cycles * Grindstone.CYCLE_DURATION_TICKS;
     }
 
     @Override
@@ -93,11 +95,11 @@ public record GrindstoneRecipe(
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('g', ItemButton.fromStack(BaseItems.GRINDSTONE))
                 .addIngredient('i', ItemButton.fromStack(input))
-                .addIngredient('c', GuiItems.progressCyclingItem(cycles * Grindstone.CYCLE_TIME_TICKS,
+                .addIngredient('c', GuiItems.progressCyclingItem(cycles * Grindstone.CYCLE_DURATION_TICKS,
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
                                         "pylon.pylonbase.guide.recipe.grindstone.time",
-                                        PylonArgument.of("time", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_TIME_TICKS / 20))
+                                        PylonArgument.of("time", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_DURATION_TICKS / 20))
                                 ))
                 ));
 
@@ -121,5 +123,18 @@ public record GrindstoneRecipe(
         }
 
         return gui.build();
+    }
+
+    static {
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                baseKey("string_from_bamboo"),
+                new ItemStack(Material.BAMBOO, 4),
+                new ItemStack(Material.STRING),
+                3,
+                Material.BAMBOO.createBlockData(data -> {
+                    Ageable ageable = (Ageable) data;
+                    ageable.setAge(ageable.getMaximumAge());
+                })
+        ));
     }
 }
