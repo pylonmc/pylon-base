@@ -16,16 +16,12 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(SmelteryController.TICK_INTERVAL);
     }
 
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-    }
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return 2;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -51,6 +52,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     @SuppressWarnings("unused")
     public HydraulicCoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(getCycleDuration());
     }
 
     @SuppressWarnings("unused")
@@ -97,12 +99,6 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         return components;
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return getRotationDuration() * getRotationsPerCycle() + 1;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded() || isCycling()) {
             return;

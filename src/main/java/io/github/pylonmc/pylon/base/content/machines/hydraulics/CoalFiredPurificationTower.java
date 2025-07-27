@@ -104,6 +104,7 @@ public class CoalFiredPurificationTower extends PylonBlock
         super(block, context);
         fuel = null;
         fuelSecondsElapsed = 0.0;
+        setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
@@ -151,12 +152,6 @@ public class CoalFiredPurificationTower extends PylonBlock
         return components;
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return TICK_INTERVAL;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
             return;

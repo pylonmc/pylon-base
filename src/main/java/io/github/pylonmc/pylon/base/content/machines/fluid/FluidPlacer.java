@@ -53,6 +53,7 @@ public class FluidPlacer extends PylonBlock
     @SuppressWarnings("unused")
     public FluidPlacer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        setTickInterval(tickInterval);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.SOUTH));
         createFluidBuffer(fluid, buffer, true, false);
         Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
@@ -76,12 +77,6 @@ public class FluidPlacer extends PylonBlock
         }
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return tickInterval;
-    }
-
-    // Prevent opening dispenser
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (event.getAction().isRightClick()) {

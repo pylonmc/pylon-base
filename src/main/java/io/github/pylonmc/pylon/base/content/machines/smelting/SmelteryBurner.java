@@ -60,6 +60,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     public SmelteryBurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        setTickInterval(SmelteryController.TICK_INTERVAL);
+
         fuel = null;
         secondsElapsed = 0;
     }

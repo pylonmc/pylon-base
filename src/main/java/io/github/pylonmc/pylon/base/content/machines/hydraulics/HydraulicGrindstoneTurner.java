@@ -57,6 +57,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicGrindstoneTurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(Grindstone.TICK_RATE);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
@@ -81,11 +82,6 @@ public class HydraulicGrindstoneTurner extends PylonBlock
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         return otherBlock.getLocation().equals(getBlock().getLocation());
-    }
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return Grindstone.TICK_RATE;
     }
 
     @Override
