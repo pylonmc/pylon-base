@@ -60,6 +60,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     public SmelteryBurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        setTickInterval(SmelteryController.TICK_INTERVAL);
+
         fuel = null;
         secondsElapsed = 0;
     }
@@ -95,11 +97,6 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 .addIngredient('x', inventory)
                 .addIngredient('#', GuiItems.background())
                 .build();
-    }
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return SmelteryController.TICK_INTERVAL;
     }
 
     private class BurnerProgressItem extends ProgressItem {

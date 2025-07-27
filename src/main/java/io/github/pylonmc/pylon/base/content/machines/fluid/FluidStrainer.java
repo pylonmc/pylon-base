@@ -49,6 +49,8 @@ public class FluidStrainer extends PylonBlock
     public FluidStrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        setTickInterval(tickInterval);
+
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
 
@@ -152,11 +154,5 @@ public class FluidStrainer extends PylonBlock
             currentRecipe = null;
             passedFluid = 0;
         }
-    }
-
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return tickInterval;
     }
 }

@@ -98,6 +98,8 @@ public final class SmelteryController extends SmelteryComponent
     public SmelteryController(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        setTickInterval(TICK_INTERVAL);
+
         Location location = center.getLocation().add(-1, 0, -1);
         int counter = 0;
         for (int x = 0; x < PIXELS_PER_SIDE; x++) {
@@ -175,11 +177,6 @@ public final class SmelteryController extends SmelteryComponent
                 .addIngredient('c', contentsItem)
                 .addIngredient('#', GuiItems.background())
                 .build();
-    }
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return TICK_INTERVAL;
     }
 
     private class InfoItem extends AbstractItem {

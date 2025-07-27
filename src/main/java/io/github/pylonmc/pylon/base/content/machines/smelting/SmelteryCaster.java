@@ -36,6 +36,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     @SuppressWarnings("unused")
     public SmelteryCaster(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(SmelteryController.TICK_INTERVAL);
     }
 
     @SuppressWarnings("unused")
@@ -59,11 +60,6 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                 .addIngredient('x', inventory)
                 .addIngredient('#', GuiItems.background())
                 .build();
-    }
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return SmelteryController.TICK_INTERVAL;
     }
 
     private class CastItem extends AbstractItem {
