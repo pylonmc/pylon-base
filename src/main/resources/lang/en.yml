@@ -977,6 +977,7 @@ message:
     no_sunlight: "<red>No sunlight"
 
 gui:
+  fluid-selector-title: "Select Fluid"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"
