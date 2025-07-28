@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.tools;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonSplashPotion;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.ZombieVillager;
 import org.bukkit.event.entity.PotionSplashEvent;
@@ -21,10 +20,10 @@ public class CleansingPotion extends PylonItem implements PylonSplashPotion {
     @Override
     public void onSplash(@NotNull PotionSplashEvent event) {
         for (LivingEntity entity : event.getAffectedEntities()) {
-            if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+            if (entity instanceof ZombieVillager villager) {
                 // Convert to regular villager
-                ((ZombieVillager) entity).setConversionTime(0, true);
-                entity.heal(requireNonNull(entity.getAttribute(Attribute.MAX_HEALTH)).getValue());
+                villager.setConversionTime(0, true);
+                villager.heal(requireNonNull(villager.getAttribute(Attribute.MAX_HEALTH)).getValue());
             }
         }
     }
