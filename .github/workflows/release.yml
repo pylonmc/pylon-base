@@ -50,7 +50,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4.2.2
 
       - name: Publish snapshot
-        run: ./gradlew :pylon-base:publishToCentralPortal -Pversion=${{ github.ref_name }}
+        run: ./gradlew :publishToCentralPortal -Pversion=${{ github.ref_name }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
