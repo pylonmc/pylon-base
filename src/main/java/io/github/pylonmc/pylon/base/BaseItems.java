@@ -4,34 +4,15 @@ import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
-import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.fluid.*;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
-import io.github.pylonmc.pylon.base.content.tools.Hammer;
-import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
-import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
-import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
-import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
-import io.github.pylonmc.pylon.base.content.tools.WateringCan;
-import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
-import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -529,9 +510,10 @@ public final class BaseItems {
     //</editor-fold>
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
-    public static final ItemStack HAMMER_STONE= Hammer.createItemStack(
+    public static final ItemStack HAMMER_STONE = Hammer.createItemStack(
             BaseKeys.HAMMER_STONE, Material.STONE_PICKAXE, (1.0 / 3) - 4, 1, 1
     );
+
     static {
         PylonItem.register(Hammer.class, HAMMER_STONE);
         BasePages.TOOLS.addItem(BaseKeys.HAMMER_STONE);
@@ -543,9 +525,10 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack HAMMER_IRON= Hammer.createItemStack(
+    public static final ItemStack HAMMER_IRON = Hammer.createItemStack(
             BaseKeys.HAMMER_IRON, Material.IRON_PICKAXE, (1.0 / 2) - 4, 1.5, 3
     );
+
     static {
         PylonItem.register(Hammer.class, HAMMER_IRON);
         BasePages.TOOLS.addItem(BaseKeys.HAMMER_IRON);
@@ -558,8 +541,9 @@ public final class BaseItems {
     }
 
     public static final ItemStack HAMMER_DIAMOND = Hammer.createItemStack(
-            BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_PICKAXE, (1.0/ 1) - 4, 2, 5
+            BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_PICKAXE, (1.0 / 1) - 4, 2, 5
     );
+
     static {
         PylonItem.register(Hammer.class, HAMMER_DIAMOND);
         BasePages.TOOLS.addItem(BaseKeys.HAMMER_DIAMOND);
@@ -865,7 +849,6 @@ public final class BaseItems {
                     .build())
             .set(DataComponentTypes.MAX_DAMAGE, 259)
             .build();
-
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_LEGGINGS);
         BasePages.ARMOUR.addItem(BaseKeys.FERRODURALUM_LEGGINGS);
@@ -1119,6 +1102,22 @@ public final class BaseItems {
                 .setIngredient('F', FERRODURALUM_INGOT)
                 .setIngredient('R', new ItemStack(Material.REPEATER));
         recipe.setCategory(CraftingBookCategory.BUILDING);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack RECOIL_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.RECOIL_ARROW)
+            .build();
+    static {
+        PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
+        BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
+
+        ItemStack output = RECOIL_ARROW.clone();
+        output.setAmount(8);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
+                .shape("SSS", "SAS", "SSS")
+                .setIngredient('S', Material.SLIME_BALL)
+                .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
@@ -1377,7 +1376,6 @@ public final class BaseItems {
     public static final ItemStack SHIMMER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.SHIMMER_SKULL)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
-
     static {
         PylonItem.register(PylonItem.class, SHIMMER_SKULL);
         BasePages.COMPONENTS.addItem(BaseKeys.SHIMMER_SKULL);
@@ -2063,22 +2061,68 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack RECOIL_ARROW = ItemStackBuilder.pylonItem(Material.ARROW, BaseKeys.RECOIL_ARROW)
-            .build();
+    public static final ItemStack MYSTICAL_FOOD_ENHANCER_SIMPLE = ItemStackBuilder.pylonItem(Material.DISPENSER, BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE).build();
     static {
-        PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
-        BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
-
-        ItemStack output = RECOIL_ARROW.clone();
-        output.setAmount(8);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
-                .shape("SSS", "SAS", "SSS")
-                .setIngredient('S', Material.SLIME_BALL)
-                .setIngredient('A', Material.ARROW);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        PylonItem.register(PylonItem.class, MYSTICAL_FOOD_ENHANCER_SIMPLE, BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE, MYSTICAL_FOOD_ENHANCER_SIMPLE)
+                .shape("GPG", "GBG", "GGG")
+                .setIngredient('G', Material.GLASS)
+                .setIngredient('P', Material.PISTON)
+                .setIngredient('B', Material.BOWL);
+        recipe.setCategory(CraftingBookCategory.MISC);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
+    public static final ItemStack MYSTICAL_FOOD_ENHANCER_HANDLE = ItemStackBuilder.pylonItem(Material.LEVER, BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE).build();
+    static {
+        PylonItem.register(PylonItem.class, MYSTICAL_FOOD_ENHANCER_HANDLE, BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE, MYSTICAL_FOOD_ENHANCER_HANDLE)
+                .shape("CCC", "CLC", "CCC")
+                .setIngredient('C', Material.COBBLESTONE)
+                .setIngredient('L', Material.LEVER);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack GOLDEN_PIE = ItemStackBuilder.pylonItem(Material.PUMPKIN_PIE, BaseKeys.GOLDEN_PIE)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .set(DataComponentTypes.FOOD, FoodProperties.food()
+                    .canAlwaysEat(Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("canAlwaysEat", Boolean.class))
+                    .nutrition(Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("nutrition", Integer.class))
+                    .saturation(Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("saturation", Double.class).floatValue())
+                    .build())
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                    .addEffect(ConsumeEffect.applyStatusEffects(List.of(
+                            new PotionEffect(PotionEffectType.ABSORPTION, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("absorption-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("absorption-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.REGENERATION, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("regeneration-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("regeneration-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.JUMP_BOOST, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("jumpboost-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("jumpboost-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("fireres-duration-ticks", Integer.class), 1),
+                            new PotionEffect(PotionEffectType.WATER_BREATHING, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("waterbreathing-duration-ticks", Integer.class), 1),
+                            new PotionEffect(PotionEffectType.LUCK, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("luck-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("luck-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.RESISTANCE, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("resistance-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("resistance-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.SPEED, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("speed-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("speed-strength", Integer.class)),
+                            new PotionEffect(PotionEffectType.STRENGTH, Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("strength-duration-ticks", Integer.class),
+                                    Settings.get(BaseKeys.GOLDEN_PIE).getOrThrow("strength-strength", Integer.class))
+                    ), 1))
+                    .build())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, GOLDEN_PIE);
+        BasePages.FOOD.addItem(BaseKeys.GOLDEN_PIE);
+        MysticalFoodEnhancer.SimpleRecipe goldenPie = new MysticalFoodEnhancer.SimpleRecipe(
+                BaseKeys.GOLDEN_PIE,
+                Map.of(new RecipeChoice.MaterialChoice(Material.ENCHANTED_GOLDEN_APPLE), 1,
+                        new RecipeChoice.MaterialChoice(Material.PUMPKIN_PIE), 1),
+                GOLDEN_PIE
+        );
+        MysticalFoodEnhancer.SimpleRecipe.RECIPE_TYPE.addRecipe(goldenPie);
+    }
 
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {

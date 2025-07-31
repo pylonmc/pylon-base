@@ -1,38 +1,11 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.content.building.Pedestal;
+import io.github.pylonmc.pylon.base.content.building.*;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidFilter;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidMeter;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidValve;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
-import io.github.pylonmc.pylon.base.content.machines.simple.GrindstoneHandle;
-import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryBurner;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryCaster;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryComponent;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryController;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryHopper;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryInputHatch;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryOutputHatch;
-import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
-import io.github.pylonmc.pylon.base.content.building.Elevator;
-import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
-import io.github.pylonmc.pylon.base.content.building.Immobilizer;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.fluid.*;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.base.content.machines.simple.*;
+import io.github.pylonmc.pylon.base.content.machines.smelting.*;
 import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
@@ -99,6 +72,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_4, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_5, Material.BLACK_CONCRETE, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.COAL_FIRED_PURIFICATION_TOWER, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
-
+        PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE, Material.DISPENSER, MysticalFoodEnhancer.class);
+        PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE, Material.LEVER, MysticalFoodEnhancerHandle.class);
     }
 }
