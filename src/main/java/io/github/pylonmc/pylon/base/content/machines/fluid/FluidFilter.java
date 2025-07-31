@@ -125,7 +125,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidBlock, PylonEnt
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(getName(), List.of(PylonArgument.of(
                 "fluid",
-                Component.translatable("pylon.pylonbase.fluid." + (fluid == null ? "none" : fluid.getKey().getKey()))
+                fluid == null ? Component.translatable("pylon.pylonbase.fluid.none") : fluid.getName()
         )));
     }
 

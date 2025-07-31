@@ -96,7 +96,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("fluid", Component.translatable("pylon.pylonbase.fluid." + (getFluid() == null ? "none" : getFluid().getKey().getKey()))),
+                    PylonArgument.of("fluid", getFluid() == null ? Component.translatable("pylon.pylonbase.fluid.none") : getFluid().getName()),
                     PylonArgument.of("amount", Math.round(getAmount())),
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
                     PylonArgument.of("fluids", Component.join(
