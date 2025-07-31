@@ -14,9 +14,10 @@ import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -32,6 +33,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -120,9 +122,10 @@ public class FluidValve extends PylonBlock implements PylonFluidBlock, PylonEnti
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), Map.of(
-                "status", Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
-        ));
+        return new WailaConfig(getName(), List.of(PylonArgument.of(
+                "status",
+                Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
+        )));
     }
 
     private @NotNull VirtualFluidPoint getEastPoint() {
