@@ -4,34 +4,19 @@ import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.fluid.*;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
-import io.github.pylonmc.pylon.base.content.tools.Hammer;
-import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
-import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
-import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
-import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
-import io.github.pylonmc.pylon.base.content.tools.WateringCan;
-import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
-import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -1823,6 +1808,19 @@ public final class BaseItems {
                 .shape("BBB", "BFB", "BBB")
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('F', Material.FURNACE);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack PIT_KILN = ItemStackBuilder.pylonItem(Material.DECORATED_POT, BaseKeys.PIT_KILN)
+            .build();
+    static {
+        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
+        BasePages.SMELTING.addItem(BaseKeys.PIT_KILN);
+
+        ShapedRecipe recipe = new ShapedRecipe(baseKey("pit_kiln"), PIT_KILN)
+                .shape("B B", "B B", "BBB")
+                .setIngredient('B', Material.NETHER_BRICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
