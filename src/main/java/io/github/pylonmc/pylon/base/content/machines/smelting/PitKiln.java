@@ -1,16 +1,22 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.UnclickableInventory;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -19,22 +25,28 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3i;
+import xyz.xenondevs.invui.gui.Gui;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class PitKiln extends PylonBlock implements PylonSimpleMultiblock, PylonInteractableBlock, PylonBreakHandler {
+public final class PitKiln extends PylonBlock implements
+        PylonSimpleMultiblock, PylonInteractableBlock, PylonBreakHandler, PylonTickingBlock {
 
     private static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
+    private static final double PROCESSING_TIME_SECONDS =
+            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Double.class);
 
     public static final class Item extends PylonItem {
+
+        private static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
+
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
@@ -48,24 +60,34 @@ public final class PitKiln extends PylonBlock implements PylonSimpleMultiblock, 
     private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
     private static final PersistentDataType<?, Map<ItemStack, Integer>> CONTENTS_TYPE =
             PylonSerializers.MAP.mapTypeFrom(PylonSerializers.ITEM_STACK, PylonSerializers.INTEGER);
+    private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
+    private static final NamespacedKey PROCESSING_TIME_KEY = baseKey("processing_time");
 
     private final Map<ItemStack, Integer> contents;
+    private final Set<ItemStack> processing;
+    private double processingTime;
 
     @SuppressWarnings("unused")
     public PitKiln(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         contents = new HashMap<>();
+        processing = new HashSet<>();
+        processingTime = Double.NaN;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public PitKiln(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         contents = pdc.get(CONTENTS_KEY, CONTENTS_TYPE);
+        processing = pdc.get(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK));
+        processingTime = pdc.get(PROCESSING_TIME_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
+        pdc.set(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK), processing);
+        pdc.set(PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
     }
 
     @Override
@@ -97,6 +119,136 @@ public final class PitKiln extends PylonBlock implements PylonSimpleMultiblock, 
 
         contents.merge(item.asOne(), taken, Integer::sum);
         item.subtract(taken);
+    }
+
+    @Override
+    public void tick(double deltaSeconds) {
+        if (isFormedAndFullyLoaded()) {
+            if (!isProcessing()) {
+                tryStartProcessing();
+            }
+            if (isProcessing()) {
+                processingTime -= deltaSeconds;
+                if (processingTime <= 0) {
+                    processingTime = Double.NaN;
+                    for (ItemStack outputItem : processing) {
+                        contents.merge(outputItem.asOne(), outputItem.getAmount(), Integer::sum);
+                    }
+                    processing.clear();
+                }
+            }
+        } else {
+            if (isProcessing()) {
+                processingTime = Double.NaN;
+                processing.clear();
+            }
+        }
+    }
+
+    private void tryStartProcessing() {
+        if (!Double.isNaN(processingTime) || contents.isEmpty()) return;
+        recipeLoop:
+        for (Recipe recipe : Recipe.RECIPE_TYPE) {
+            int ratio = Integer.MAX_VALUE;
+            for (ItemStack inputItem : recipe.input()) {
+                if (!contents.containsKey(inputItem)) {
+                    continue recipeLoop;
+                }
+                int existing = contents.get(inputItem.asOne());
+                int required = inputItem.getAmount();
+                if (existing < required) {
+                    continue recipeLoop;
+                }
+                ratio = Math.min(ratio, existing / required);
+            }
+            if (ratio <= 0) continue;
+
+            for (ItemStack inputItem : recipe.input()) {
+                contents.merge(inputItem.asOne(), -inputItem.getAmount() * ratio, Integer::sum);
+            }
+            Set<ItemStack> outputItems = new HashSet<>(recipe.output().size());
+            for (ItemStack outputItem : recipe.output()) {
+                ItemStack outputCopy = outputItem.asOne();
+                outputCopy.setAmount(outputItem.getAmount() * ratio);
+                outputItems.add(outputCopy);
+            }
+            processing.addAll(outputItems);
+            processingTime = PROCESSING_TIME_SECONDS;
+            break;
+        }
+    }
+
+    static {
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("copper_smelting"),
+                List.of(new ItemStack(Material.RAW_COPPER, 1)),
+                List.of(new ItemStack(Material.COPPER_INGOT, 1))
+        ));
+    }
+
+    public record Recipe(
+            @NotNull NamespacedKey key,
+            @NotNull List<ItemStack> input,
+            @NotNull List<ItemStack> output
+    ) implements PylonRecipe {
+
+        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
+                baseKey("pit_kiln_recipe")
+        );
+
+        static {
+            RECIPE_TYPE.register();
+        }
+
+        @Override
+        public @NotNull NamespacedKey getKey() {
+            return key;
+        }
+
+        @Override
+        public @NotNull List<RecipeChoice> getInputItems() {
+            List<RecipeChoice> choices = new ArrayList<>();
+            for (ItemStack item : input) {
+                choices.add(new RecipeChoice.ExactChoice(item));
+            }
+            return choices;
+        }
+
+        @Override
+        public @NotNull List<ItemStack> getOutputItems() {
+            return output;
+        }
+
+        @Override
+        public @NotNull Gui display() {
+            UnclickableInventory inputs = new UnclickableInventory(9);
+            for (ItemStack item : input) {
+                inputs.addItem(item);
+            }
+
+            UnclickableInventory outputs = new UnclickableInventory(9);
+            for (ItemStack item : output) {
+                outputs.addItem(item);
+            }
+
+            return Gui.normal()
+                    .setStructure(
+                            "# # # # # # # # #",
+                            "# , , # # # . . #",
+                            "# , , # p # . . #",
+                            "# , , # # # . . #",
+                            "# # # # # # # # #"
+                    )
+                    .addIngredient('#', GuiItems.backgroundBlack())
+                    .addIngredient(',', inputs)
+                    .addIngredient('.', outputs)
+                    .addIngredient('p', BaseItems.PIT_KILN)
+                    .build();
+        }
+    }
+
+    public boolean isProcessing() {
+        return !Double.isNaN(processingTime);
     }
 
     private static final List<Vector3i> COAL_POSITIONS = List.of(
