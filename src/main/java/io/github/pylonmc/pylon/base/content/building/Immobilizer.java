@@ -74,11 +74,11 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
             }
             frozenPlayers.add(player);
             for (int i = 0; i < duration / particlePeriod; i++) {
-                Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), new PlayerVFX(player, this), (long) i * particlePeriod);
+                Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), new PlayerVFX(player, this), (long) i * particlePeriod);
             }
             player.getPersistentDataContainer().set(cooldownKey, PersistentDataType.INTEGER, Bukkit.getCurrentTick());
         }
-        Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), () -> frozenPlayers.clear(), duration);
+        Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> frozenPlayers.clear(), duration);
     }
 
     public static class PlayerVFX implements Runnable {
