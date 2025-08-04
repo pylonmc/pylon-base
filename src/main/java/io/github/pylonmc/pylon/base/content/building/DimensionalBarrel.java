@@ -5,10 +5,9 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -18,7 +17,7 @@ import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.util.Map;
+import java.util.List;
 
 
 // Totally not a test item for inventory saving
@@ -31,10 +30,8 @@ public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "size", Component.text(SIZE)
-            );
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of("size", SIZE));
         }
     }
 

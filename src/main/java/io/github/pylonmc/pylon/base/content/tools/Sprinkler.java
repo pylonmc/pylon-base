@@ -21,7 +21,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -32,6 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -46,10 +46,10 @@ public class Sprinkler extends PylonBlock implements PylonFluidBlock, PylonTicki
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange()),
-                    "water_consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND)
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())),
+                    PylonArgument.of("water_consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND))
             );
         }
     }

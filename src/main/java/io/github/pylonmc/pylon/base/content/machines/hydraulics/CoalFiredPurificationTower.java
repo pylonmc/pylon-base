@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
-import io.github.pylonmc.pylon.base.BaseBlocks;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimplePurificationMachine;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -11,6 +10,7 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.ItemUtils;
@@ -20,7 +20,6 @@ import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -34,6 +33,7 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -73,10 +73,10 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of(
                     "fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(FLUID_MB_PER_SECOND)
-            );
+            ));
         }
     }
 
