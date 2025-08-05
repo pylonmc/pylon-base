@@ -26,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -48,7 +47,7 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
         }
     }
 
-    public static Set<Player> frozenPlayers = ConcurrentHashMap.newKeySet();
+    public static Set<Player> frozenPlayers = new HashSet<>();
     private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown");
     private final double radius = getSettings().getOrThrow("radius", Double.class);
     private final int duration = getSettings().getOrThrow("duration", Integer.class);
@@ -79,7 +78,7 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
             }
             player.getPersistentDataContainer().set(cooldownKey, PersistentDataType.INTEGER, Bukkit.getCurrentTick());
         }
-        Bukkit.getScheduler().runTaskLaterAsynchronously(PylonBase.getInstance(), () -> frozenPlayers.clear(), duration);
+        Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> frozenPlayers.clear(), duration);
     }
 
     public static class PlayerVFX implements Runnable {
