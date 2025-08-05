@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -17,6 +18,8 @@ import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.UnclickableInventory;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -29,9 +32,11 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
 
+import java.time.Duration;
 import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -251,6 +256,7 @@ public final class PitKiln extends PylonBlock implements
         return !Double.isNaN(processingTime);
     }
 
+    // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private static final List<Vector3i> COAL_POSITIONS = List.of(
             new Vector3i(-1, 0, -1),
             new Vector3i(0, 0, -1),
@@ -307,5 +313,36 @@ public final class PitKiln extends PylonBlock implements
 
         components.put(new Vector3i(0, -1, 0), new VanillaMultiblockComponent(Material.FIRE));
         return components;
+    }
+    // </editor-fold>
+
+    public static class DisplayBlock extends PylonBlock {
+
+        private @Nullable PitKiln kiln = null;
+
+        @SuppressWarnings("unused")
+        public DisplayBlock(@NotNull Block block, @NotNull BlockCreateContext context) {
+            super(block, context);
+        }
+
+        @SuppressWarnings("unused")
+        public DisplayBlock(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+            super(block, pdc);
+        }
+
+        @Override
+        public @NotNull WailaConfig getWaila(@NotNull Player player) {
+            if (kiln == null) {
+                return super.getWaila(player); // TODO when config can be null
+            } else {
+                return new WailaConfig(
+                        Component.translatable("pylon.pylonbase.waila.pit_kiln"),
+                        List.of(PylonArgument.of(
+                                "time",
+                                UnitFormat.formatDuration(Duration.ofSeconds((long) kiln.processingTime))
+                        ))
+                );
+            }
+        }
     }
 }

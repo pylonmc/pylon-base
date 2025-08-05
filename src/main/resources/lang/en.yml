@@ -774,6 +774,7 @@ waila:
     filled: "| %amount%/%capacity% of %fluid%"
   fluid_strainer:
     straining: " | Straining %item%: %progress%"
+  pit_kiln: "Pit Kiln | %time% left"
 
 research:
   baking: "<gold>Baking"
