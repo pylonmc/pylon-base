@@ -254,7 +254,10 @@ item:
     name: "Ice Pick"
     lore: |-
       <arrow><insn>Right click</insn> on a block to hold onto it
-      <arrow><insn>Jump</insn> afterwards to release
+      <arrow><insn>Double-Jump</insn> afterwards to push off the pick
+      <arrow><insn>Sneak</insn> to release the pick
+      <arrow> <attr>Jump speed:</attr> %jump-speed%
+      <arrow> <attr>Hook range:</attr> %hook-range%
 
   iron_dust:
     name: "Iron Dust"
