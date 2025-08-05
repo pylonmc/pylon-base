@@ -250,6 +250,15 @@ item:
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
+  ice_pick:
+    name: "Ice Pick"
+    lore: |-
+      <arrow><insn>Right click</insn> on a block to hold onto it
+      <arrow><insn>Double-Jump</insn> afterwards to push off the pick
+      <arrow><insn>Sneak</insn> to release the pick
+      <arrow> <attr>Jump speed:</attr> %jump-speed%
+      <arrow> <attr>Hook range:</attr> %hook-range%
+
   iron_dust:
     name: "Iron Dust"
 

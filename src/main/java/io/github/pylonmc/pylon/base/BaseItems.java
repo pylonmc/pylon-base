@@ -13,7 +13,7 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
@@ -23,13 +23,6 @@ import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurific
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
-import io.github.pylonmc.pylon.base.content.tools.Hammer;
-import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
-import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
-import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
-import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
-import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
@@ -44,6 +37,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.UseCooldown;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import org.bukkit.Material;
@@ -2079,6 +2073,20 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
+    public static final ItemStack ICE_PICK = ItemStackBuilder.pylonItem(Material.DIAMOND_HOE, BaseKeys.ICE_PICK)
+            .build();
+    static {
+        PylonItem.register(IcePick.class, ICE_PICK);
+        BasePages.TOOLS.addItem(BaseKeys.ICE_PICK);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_PICK, ICE_PICK)
+                .shape("H H", "S S", "STS")
+                .setIngredient('H', Material.IRON_HOE)
+                .setIngredient('S', Material.STICK)
+                .setIngredient('T', Material.STRING);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
 
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
