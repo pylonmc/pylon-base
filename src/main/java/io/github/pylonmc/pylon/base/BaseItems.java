@@ -1820,7 +1820,7 @@ public final class BaseItems {
 
         ShapedRecipe recipe = new ShapedRecipe(baseKey("pit_kiln"), PIT_KILN)
                 .shape("B B", "B B", "BBB")
-                .setIngredient('B', Material.NETHER_BRICK);
+                .setIngredient('B', Material.BRICKS);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }

@@ -2,13 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.block.waila.Waila;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -33,7 +33,6 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
 
@@ -109,15 +108,7 @@ public final class PitKiln extends PylonBlock implements
     @Override
     public void postBreak() {
         PylonSimpleMultiblock.super.postBreak();
-        for (Vector3i relative : getComponents().keySet()) {
-            Block block = getBlock().getRelative(relative.x(), relative.y(), relative.z());
-            if (BlockStorage.get(block) instanceof DisplayBlock) {
-                BlockStorage.breakBlock(
-                        block,
-                        new BlockBreakContext.PluginBreak(false, false)
-                );
-            }
-        }
+        removeWailas();
     }
 
     @Override
@@ -145,17 +136,8 @@ public final class PitKiln extends PylonBlock implements
     public void tick(double deltaSeconds) {
         if (isFormedAndFullyLoaded()) {
             for (Vector3i relative : getComponents().keySet()) {
-                Block block = getBlock().getRelative(relative.x(), relative.y(), relative.z());
-                if (!BlockStorage.isPylonBlock(block)) {
-                    DisplayBlock display = (DisplayBlock) BlockStorage.placeBlock(
-                            block,
-                            BaseKeys.PIT_KILN_DISPLAY,
-                            new BlockCreateContext.Default(block, false)
-                    );
-                    if (display != null) {
-                        display.kiln = this;
-                    }
-                }
+                BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
+                Waila.addWailaOverride(block, this::getComponentWaila);
             }
             if (!isProcessing()) {
                 tryStartProcessing();
@@ -183,15 +165,7 @@ public final class PitKiln extends PylonBlock implements
                 processingTime = Double.NaN;
                 processing.clear();
             }
-            for (Vector3i relative : getComponents().keySet()) {
-                Block block = getBlock().getRelative(relative.x(), relative.y(), relative.z());
-                if (BlockStorage.get(block) instanceof DisplayBlock) {
-                    BlockStorage.breakBlock(
-                            block,
-                            new BlockBreakContext.PluginBreak(false, false)
-                    );
-                }
-            }
+            removeWailas();
         }
     }
 
@@ -225,6 +199,27 @@ public final class PitKiln extends PylonBlock implements
             processing.addAll(outputItems);
             processingTime = PROCESSING_TIME_SECONDS;
             break;
+        }
+    }
+
+    private WailaConfig getComponentWaila(@NotNull Player player) {
+        if (isProcessing()) {
+            return new WailaConfig(Component.translatable(
+                    "pylon.pylonbase.waila.pit_kiln",
+                    PylonArgument.of(
+                            "time",
+                            UnitFormat.formatDuration(Duration.ofSeconds((long) processingTime))
+                    )
+            ));
+        } else {
+            return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+        }
+    }
+
+    private void removeWailas() {
+        for (Vector3i relative : getComponents().keySet()) {
+            BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
+            Waila.removeWailaOverride(block);
         }
     }
 
@@ -329,101 +324,35 @@ public final class PitKiln extends PylonBlock implements
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
         for (Vector3i coalPosition : COAL_POSITIONS) {
-            components.put(coalPosition, new PitKilnComponent(Material.COAL_BLOCK));
+            components.put(coalPosition, new VanillaMultiblockComponent(Material.COAL_BLOCK));
         }
         for (Vector3i podzolPosition : PODZOL_POSITIONS) {
-            components.put(podzolPosition, new PitKilnComponent(Material.PODZOL));
+            components.put(podzolPosition, new VanillaMultiblockComponent(Material.PODZOL));
         }
-        components.put(new Vector3i(-1, 0, -2), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, 0, -2), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, 0, -2), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-1, 0, 2), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, 0, 2), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, 0, 2), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-2, 0, -1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-2, 0, 0), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-2, 0, 1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(2, 0, -1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(2, 0, 0), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(2, 0, 1), new PitKilnComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(0, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(1, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, 0, 2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(0, 0, 2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(1, 0, 2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-2, 0, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-2, 0, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-2, 0, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(2, 0, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(2, 0, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(2, 0, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
 
-        components.put(new Vector3i(-1, -1, -1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, -1, -1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, -1, -1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-1, -1, 0), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, -1, 0), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-1, -1, 1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, -1, 1), new PitKilnComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, -1, 1), new PitKilnComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, -1, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(0, -1, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(1, -1, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, -1, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(1, -1, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
 
-        components.put(new Vector3i(0, -1, 0), new PitKilnComponent(Material.FIRE));
+        components.put(new Vector3i(0, -1, 0), new VanillaMultiblockComponent(Material.FIRE));
         return components;
     }
     // </editor-fold>
-
-    public static class DisplayBlock extends PylonBlock {
-
-        private @Nullable PitKiln kiln = null;
-        private static final NamespacedKey KILN_KEY = baseKey("kiln");
-
-        @SuppressWarnings("unused")
-        public DisplayBlock(@NotNull Block block, @NotNull BlockCreateContext context) {
-            super(block, context);
-        }
-
-        @SuppressWarnings("unused")
-        public DisplayBlock(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
-            super(block, pdc);
-            BlockPosition position = pdc.get(KILN_KEY, PylonSerializers.BLOCK_POSITION);
-            if (position != null) {
-                kiln = (PitKiln) BlockStorage.get(position);
-            }
-        }
-
-        @Override
-        public void write(@NotNull PersistentDataContainer pdc) {
-            if (kiln != null) {
-                pdc.set(KILN_KEY, PylonSerializers.BLOCK_POSITION, new BlockPosition(kiln.getBlock()));
-            } else {
-                pdc.remove(KILN_KEY);
-            }
-        }
-
-        @Override
-        public @NotNull WailaConfig getWaila(@NotNull Player player) {
-            if (kiln == null || !kiln.isProcessing()) {
-                return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
-            } else {
-                return new WailaConfig(
-                        Component.translatable("pylon.pylonbase.waila.pit_kiln"),
-                        List.of(PylonArgument.of(
-                                "time",
-                                UnitFormat.formatDuration(Duration.ofSeconds((long) kiln.processingTime))
-                        ))
-                );
-            }
-        }
-    }
-
-    private static class PitKilnComponent implements MultiblockComponent {
-
-        private final Material material;
-        private final VanillaMultiblockComponent component;
-
-        public PitKilnComponent(@NotNull Material material) {
-            this.material = material;
-            this.component = new VanillaMultiblockComponent(material);
-        }
-
-        @Override
-        public boolean matches(@NotNull Block block) {
-            PylonBlock pylonBlock = BlockStorage.get(block);
-            return block.getType() == material && (pylonBlock == null || pylonBlock instanceof DisplayBlock);
-        }
-
-        @Override
-        public @NotNull UUID spawnGhostBlock(@NotNull Block block) {
-            return component.spawnGhostBlock(block);
-        }
-    }
 }
