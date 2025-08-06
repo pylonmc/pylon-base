@@ -232,6 +232,13 @@ item:
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
     waila: "Fluid Meter (%fluid%)"
 
+  fluid_strainer:
+    name: "Fluid Strainer"
+    lore: |-
+      <arrow> Filters out items from fluids
+      <arrow> <insn>Right click</insn> to open the inventory
+    waila: "Slurry Strainer%info%"
+
   fluid_voider_1:
     name: "Fluid Voider <light_purple>I"
     lore: |-
@@ -423,9 +430,10 @@ item:
       <arrow> A primitive version of the smeltery
       <arrow> Can perform any smeltery recipe under <unit:celsius>1100</unit>
       <arrow> <insn>Right click</insn> to insert items
-      <arrow> Surround with 8 coal blocks, put coarse dirt on the outside and under the coal blocks, top it off with podzol, and light a fire underneath the kiln to smelt items
+      <arrow> Using fire and soul campfire smelts items at normal speed, using normal campfire smelts items at half speed, and using soul fire smelts items at double speed
+      <arrow> Using podzol instead of dirt doubles yield
       <arrow> <insn>Break</insn> to retrieve the items
-      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Capacity:</attr> %capacity% items
 
   plaster:
     name: "Plaster"
@@ -488,13 +496,6 @@ item:
 
   silver_ingot:
     name: "Silver Ingot"
-
-  fluid_strainer:
-    name: "Fluid Strainer"
-    lore: |-
-      <arrow> Filters out items from fluids
-      <arrow> <insn>Right click</insn> to open the inventory
-    waila: "Slurry Strainer%info%"
 
   smeltery_burner:
     name: "Smeltery Burner"

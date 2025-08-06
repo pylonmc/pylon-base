@@ -146,17 +146,21 @@ public final class PitKiln extends PylonBlock implements
                 processingTime -= deltaSeconds;
                 if (processingTime <= 0) {
                     processingTime = Double.NaN;
+                    int multiplier = 2;
+                    for (Vector3i top : TOP_POSITIONS) {
+                        Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
+                        if (topBlock.getType() != Material.PODZOL) {
+                            multiplier = 1;
+                        }
+                        topBlock.setType(Material.COARSE_DIRT);
+                    }
                     for (ItemStack outputItem : processing) {
-                        contents.merge(outputItem.asOne(), outputItem.getAmount(), Integer::sum);
+                        contents.merge(outputItem.asOne(), outputItem.getAmount() * multiplier, Integer::sum);
                     }
                     processing.clear();
                     for (Vector3i coal : COAL_POSITIONS) {
                         Block coalBlock = getBlock().getRelative(coal.x(), coal.y(), coal.z());
                         coalBlock.setType(Material.AIR);
-                    }
-                    for (Vector3i podzol : PODZOL_POSITIONS) {
-                        Block podzolBlock = getBlock().getRelative(podzol.x(), podzol.y(), podzol.z());
-                        podzolBlock.setType(Material.COARSE_DIRT);
                     }
                 }
             }
@@ -169,6 +173,28 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
+    private WailaConfig getComponentWaila(@NotNull Player player) {
+        if (isProcessing()) {
+            return new WailaConfig(Component.translatable(
+                    "pylon.pylonbase.waila.pit_kiln",
+                    PylonArgument.of(
+                            "time",
+                            UnitFormat.formatDuration(Duration.ofSeconds((long) processingTime))
+                    )
+            ));
+        } else {
+            return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+        }
+    }
+
+    private void removeWailas() {
+        for (Vector3i relative : getComponents().keySet()) {
+            BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
+            Waila.removeWailaOverride(block);
+        }
+    }
+
+    // <editor-fold desc="Recipe" defaultstate="collapsed">
     private void tryStartProcessing() {
         if (!Double.isNaN(processingTime) || contents.isEmpty()) return;
         recipeLoop:
@@ -197,29 +223,13 @@ public final class PitKiln extends PylonBlock implements
                 outputItems.add(outputCopy);
             }
             processing.addAll(outputItems);
-            processingTime = PROCESSING_TIME_SECONDS;
+            double multiplier = switch (getBlock().getRelative(FIRE_POSITION.x(), FIRE_POSITION.y(), FIRE_POSITION.z()).getType()) {
+                case CAMPFIRE -> 0.5;
+                case SOUL_FIRE -> 2;
+                default -> 1;
+            };
+            processingTime = PROCESSING_TIME_SECONDS * multiplier;
             break;
-        }
-    }
-
-    private WailaConfig getComponentWaila(@NotNull Player player) {
-        if (isProcessing()) {
-            return new WailaConfig(Component.translatable(
-                    "pylon.pylonbase.waila.pit_kiln",
-                    PylonArgument.of(
-                            "time",
-                            UnitFormat.formatDuration(Duration.ofSeconds((long) processingTime))
-                    )
-            ));
-        } else {
-            return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
-        }
-    }
-
-    private void removeWailas() {
-        for (Vector3i relative : getComponents().keySet()) {
-            BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
-            Waila.removeWailaOverride(block);
         }
     }
 
@@ -295,6 +305,7 @@ public final class PitKiln extends PylonBlock implements
     public boolean isProcessing() {
         return !Double.isNaN(processingTime);
     }
+    // </editor-fold>
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private static final List<Vector3i> COAL_POSITIONS = List.of(
@@ -308,7 +319,7 @@ public final class PitKiln extends PylonBlock implements
             new Vector3i(1, 0, 1)
     );
 
-    private static final List<Vector3i> PODZOL_POSITIONS = List.of(
+    private static final List<Vector3i> TOP_POSITIONS = List.of(
             new Vector3i(-1, 1, -1),
             new Vector3i(0, 1, -1),
             new Vector3i(1, 1, -1),
@@ -320,14 +331,16 @@ public final class PitKiln extends PylonBlock implements
             new Vector3i(1, 1, 1)
     );
 
+    private static final Vector3i FIRE_POSITION = new Vector3i(0, -1, 0);
+
     @Override
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
         for (Vector3i coalPosition : COAL_POSITIONS) {
             components.put(coalPosition, new VanillaMultiblockComponent(Material.COAL_BLOCK));
         }
-        for (Vector3i podzolPosition : PODZOL_POSITIONS) {
-            components.put(podzolPosition, new VanillaMultiblockComponent(Material.PODZOL));
+        for (Vector3i podzolPosition : TOP_POSITIONS) {
+            components.put(podzolPosition, new VanillaMultiblockComponent(Material.COARSE_DIRT, Material.PODZOL));
         }
         components.put(new Vector3i(-1, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
         components.put(new Vector3i(0, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
@@ -351,7 +364,9 @@ public final class PitKiln extends PylonBlock implements
         components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
         components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
 
-        components.put(new Vector3i(0, -1, 0), new VanillaMultiblockComponent(Material.FIRE));
+        components.put(FIRE_POSITION, new VanillaMultiblockComponent(
+                Material.CAMPFIRE, Material.SOUL_CAMPFIRE, Material.FIRE, Material.SOUL_FIRE
+        ));
         return components;
     }
     // </editor-fold>
