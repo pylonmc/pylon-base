@@ -45,8 +45,8 @@ public final class PitKiln extends PylonBlock implements
         PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
     private static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
-    private static final double PROCESSING_TIME_SECONDS =
-            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Double.class);
+    private static final int PROCESSING_TIME_SECONDS =
+            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Integer.class);
 
     public static final class Item extends PylonItem {
 
@@ -60,7 +60,7 @@ public final class PitKiln extends PylonBlock implements
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("capacity", CAPACITY),
-                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds((long) PROCESSING_TIME_SECONDS)))
+                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS)))
             );
         }
     }
