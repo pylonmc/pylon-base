@@ -39,7 +39,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.window.Window;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -123,7 +122,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidBlock, PylonEnt
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), List.of(PylonArgument.of(
+        return new WailaConfig(getName(PylonArgument.of(
                 "fluid",
                 fluid == null ? Component.translatable("pylon.pylonbase.fluid.none") : fluid.getName()
         )));

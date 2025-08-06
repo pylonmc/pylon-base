@@ -22,7 +22,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -107,9 +106,6 @@ public abstract class SimpleHydraulicMachine extends PylonBlock implements Pylon
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                List.of(PylonArgument.of("status", getStatus()))
-        );
+        return new WailaConfig(getName(PylonArgument.of("status", getStatus())));
     }
 }

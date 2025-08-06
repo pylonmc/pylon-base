@@ -124,17 +124,16 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                List.of(PylonArgument.of("info", currentRecipe == null ?
+        return new WailaConfig(getName(
+                PylonArgument.of("info", currentRecipe == null ?
                         Component.empty() :
                         Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",
                                 PylonArgument.of("item", currentRecipe.outputItem().effectiveName()),
                                 PylonArgument.of("progress", UnitFormat.PERCENT.format(passedFluid / 10)
                                         .decimalPlaces(0))
                         )
-                ))
-        );
+                )
+        ));
     }
 
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);

@@ -234,7 +234,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
                     PylonArgument.of("fluid", fluidType.getName())
             );
         }
-        return new WailaConfig(getName(), List.of(PylonArgument.of("info", info)));
+        return new WailaConfig(getName(PylonArgument.of("info", info)));
     }
 
     @Override
