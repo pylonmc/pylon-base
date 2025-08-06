@@ -83,9 +83,11 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     }
 
     // Not worth the effort to persist across unloads
-    @Getter private @Nullable Recipe currentRecipe;
+    @Getter
+    private @Nullable Recipe currentRecipe;
 
-    @Getter private double oilAmount;
+    @Getter
+    private double oilAmount;
 
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -93,7 +95,7 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
         oilAmount = 0.0;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         oilAmount = pdc.get(OIL_AMOUNT_KEY, PylonSerializers.DOUBLE);
@@ -127,15 +129,12 @@ public class Press extends PylonBlock implements PylonInteractableBlock, PylonFl
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                List.of(
-                        PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(oilAmount))),
-                        PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
-                        PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
-                )
-        );
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(getName(
+                PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(oilAmount))),
+                PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
+                PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
+        ));
     }
 
     @Override

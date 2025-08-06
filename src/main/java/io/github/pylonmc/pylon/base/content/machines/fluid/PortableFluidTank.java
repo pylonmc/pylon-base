@@ -96,7 +96,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("fluid", Component.translatable("pylon.pylonbase.fluid." + (getFluid() == null ? "none" : getFluid().getKey().getKey()))),
+                    PylonArgument.of("fluid", getFluid() == null ? Component.translatable("pylon.pylonbase.fluid.none") : getFluid().getName()),
                     PylonArgument.of("amount", Math.round(getAmount())),
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
                     PylonArgument.of("fluids", Component.join(
@@ -219,7 +219,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
         Component info;
         if (fluidType == null) {
             info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
@@ -234,7 +234,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
                     PylonArgument.of("fluid", fluidType.getName())
             );
         }
-        return new WailaConfig(getName(), List.of(PylonArgument.of("info", info)));
+        return new WailaConfig(getName(PylonArgument.of("info", info)));
     }
 
     @Override

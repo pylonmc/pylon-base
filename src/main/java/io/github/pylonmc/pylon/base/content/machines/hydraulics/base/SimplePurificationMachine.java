@@ -20,8 +20,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -46,7 +46,7 @@ public abstract class SimplePurificationMachine extends PylonBlock implements Py
         hydraulicFluidAmount = 0.0;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     protected SimplePurificationMachine(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         dirtyHydraulicFluidAmount = pdc.get(DIRTY_HYDRAULIC_FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
@@ -98,10 +98,7 @@ public abstract class SimplePurificationMachine extends PylonBlock implements Py
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                List.of(PylonArgument.of("status", getStatus()))
-        );
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(getName(PylonArgument.of("status", getStatus())));
     }
 }
