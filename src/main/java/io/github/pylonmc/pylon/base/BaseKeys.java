@@ -173,6 +173,7 @@ public class BaseKeys {
     public static final NamespacedKey SMELTERY_BURNER = baseKey("smeltery_burner");
 
     public static final NamespacedKey PIT_KILN = baseKey("pit_kiln");
+    public static final NamespacedKey PIT_KILN_DISPLAY = baseKey("pit_kiln_display");
 
     public static final NamespacedKey EXPLOSIVE_TARGET = baseKey("explosive_target");
     public static final NamespacedKey EXPLOSIVE_TARGET_FIERY = baseKey("explosive_target_fiery");

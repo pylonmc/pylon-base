@@ -50,6 +50,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.SMELTERY_CASTER, Material.BRICKS, SmelteryCaster.class);
         PylonBlock.register(BaseKeys.SMELTERY_BURNER, Material.FURNACE, SmelteryBurner.class);
         PylonBlock.register(BaseKeys.PIT_KILN, Material.DECORATED_POT, PitKiln.class);
+        PylonBlock.register(BaseKeys.PIT_KILN_DISPLAY, Material.STRUCTURE_VOID, PitKiln.DisplayBlock.class);
         PylonBlock.register(BaseKeys.FLUID_STRAINER, Material.COPPER_GRATE, FluidStrainer.class);
         PylonBlock.register(BaseKeys.EXPLOSIVE_TARGET, Material.TARGET, ExplosiveTarget.class);
         PylonBlock.register(BaseKeys.EXPLOSIVE_TARGET_FIERY, Material.TARGET, ExplosiveTarget.class);
