@@ -58,7 +58,10 @@ public final class PitKiln extends PylonBlock implements
 
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("capacity", CAPACITY));
+            return List.of(
+                    PylonArgument.of("capacity", CAPACITY),
+                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds((long) PROCESSING_TIME_SECONDS)))
+            );
         }
     }
 
@@ -236,8 +239,48 @@ public final class PitKiln extends PylonBlock implements
     static {
         Recipe.RECIPE_TYPE.addRecipe(new Recipe(
                 baseKey("copper_smelting"),
-                List.of(new ItemStack(Material.RAW_COPPER, 1)),
-                List.of(new ItemStack(Material.COPPER_INGOT, 1))
+                List.of(BaseItems.CRUSHED_RAW_COPPER),
+                List.of(new ItemStack(Material.COPPER_INGOT))
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("redstone_smelting"),
+                List.of(new ItemStack(Material.REDSTONE)),
+                List.of(BaseItems.SULFUR)
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("gold_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_GOLD),
+                List.of(new ItemStack(Material.GOLD_INGOT))
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("tin_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_TIN),
+                List.of(BaseItems.TIN_INGOT)
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("zinc_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_ZINC),
+                List.of(BaseItems.ZINC_INGOT)
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("lead_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_LEAD),
+                List.of(BaseItems.LEAD_INGOT)
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("coal_to_carbon"),
+                List.of(BaseItems.COAL_DUST.asQuantity(2)),
+                List.of(BaseItems.CARBON_DUST)
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("bronze"),
+                List.of(new ItemStack(Material.COPPER_INGOT, 2), BaseItems.TIN_INGOT),
+                List.of(BaseItems.BRONZE_INGOT)
+        ));
+        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
+                baseKey("brass"),
+                List.of(new ItemStack(Material.COPPER_INGOT, 2), BaseItems.ZINC_INGOT),
+                List.of(BaseItems.BRASS_INGOT)
         ));
     }
 

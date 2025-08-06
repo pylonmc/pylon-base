@@ -434,6 +434,7 @@ item:
       <arrow> Using podzol instead of dirt doubles yield
       <arrow> <insn>Break</insn> to retrieve the items
       <arrow> <attr>Capacity:</attr> %capacity% items
+      <arrow> <attr>Smelting time:</attr> %smelting_time%
 
   plaster:
     name: "Plaster"
