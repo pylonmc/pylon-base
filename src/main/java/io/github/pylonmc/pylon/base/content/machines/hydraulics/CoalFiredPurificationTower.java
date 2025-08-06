@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
@@ -35,6 +36,7 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -195,5 +197,10 @@ public class CoalFiredPurificationTower extends PylonBlock
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
                 // enough space in output buffer for another tick worth of purification
                 && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
+    }
+
+    @Override
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        drops.add(inventory.getItem(0));
     }
 }

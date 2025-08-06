@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
@@ -173,5 +175,10 @@ public class HydraulicPipeBender extends PylonBlock
                 .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
                 .data(recipe.particleData())
                 .spawn();
+    }
+
+    @Override
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        drops.add(getItemDisplay().getEntity().getItemStack());
     }
 }
