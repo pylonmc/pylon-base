@@ -2,9 +2,9 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.util.Either;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -168,7 +168,7 @@ public final class MixingPot extends PylonBlock
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
         Component text = Component.text("").append(getName());
         if (fluidType != null) {
             text = text.append(Component.text(" | "))
