@@ -4,13 +4,13 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -30,15 +30,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
-import xyz.xenondevs.invui.window.Window;
+import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.Map;
 
@@ -46,7 +42,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidFilter extends PylonBlock
-        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractableBlock {
+        implements PylonFluidTank, PylonEntityHolderBlock, PylonGuiBlock {
 
     public static class Item extends PylonItem {
 
@@ -116,20 +112,6 @@ public class FluidFilter extends PylonBlock
     }
 
     @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
-        Window.single()
-                .setGui(FluidSelector.make(() -> fluid, this::setFluid))
-                .setViewer(event.getPlayer())
-                .setTitle(new AdventureComponentWrapper(Component.translatable("pylon.pylonbase.gui.fluid-selector-title")))
-                .build()
-                .open();
-    }
-
-    @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(getName(), Map.of(
                 "fluid", Component.translatable("pylon.pylonbase.fluid." + (fluid == null ? "none" : fluid.getKey().getKey()))
@@ -167,5 +149,10 @@ public class FluidFilter extends PylonBlock
     public void setFluid(PylonFluid fluid) {
         this.fluid = fluid;
         getFluidDisplay().setItemStack(new ItemStack(fluid == null ? NO_FLUID_MATERIAL : fluid.getMaterial()));
+    }
+
+    @Override
+    public @NotNull Gui createGui() {
+        return (FluidSelector.make(() -> fluid, this::setFluid));
     }
 }

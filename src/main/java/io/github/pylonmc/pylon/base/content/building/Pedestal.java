@@ -88,8 +88,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         // insert new item
         if (newStack != null) {
-            ItemStack stackToInsert = newStack.clone();
-            stackToInsert.setAmount(1);
+            ItemStack stackToInsert = newStack.asQuantity(1);
             display.setItemStack(stackToInsert);
             newStack.subtract();
         }

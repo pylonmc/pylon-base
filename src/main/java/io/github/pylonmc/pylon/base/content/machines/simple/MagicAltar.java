@@ -132,9 +132,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
                         continue;
                     }
 
-                    ItemStack stackToInsert = catalyst.clone();
-                    stackToInsert.setAmount(1);
-                    itemDisplay.setItemStack(stackToInsert);
+                    itemDisplay.setItemStack(catalyst.asQuantity(1));
                     catalyst.subtract();
                     startRecipe(recipe);
                     break;
