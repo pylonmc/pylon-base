@@ -20,6 +20,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public abstract class SimpleHydraulicMachine extends PylonBlock implements Pylon
         dirtyHydraulicFluidAmount = 0.0;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     protected SimpleHydraulicMachine(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         hydraulicFluidAmount = pdc.get(HYDRAULIC_FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
@@ -105,7 +106,7 @@ public abstract class SimpleHydraulicMachine extends PylonBlock implements Pylon
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
                 List.of(PylonArgument.of("status", getStatus()))

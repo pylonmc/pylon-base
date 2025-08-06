@@ -123,7 +123,7 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
                 List.of(PylonArgument.of("info", currentRecipe == null ?
