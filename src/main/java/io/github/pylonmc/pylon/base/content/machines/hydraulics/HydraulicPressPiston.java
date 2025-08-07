@@ -60,6 +60,7 @@ public class HydraulicPressPiston extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(TICK_INTERVAL);
         addEntity("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
                 .material(Material.SPRUCE_LOG)
                 .transformation(getTransformation(0.0))
@@ -89,12 +90,6 @@ public class HydraulicPressPiston extends PylonBlock
         return otherBlock.getLocation().equals(getBlock().getRelative(BlockFace.DOWN, 2).getLocation());
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return TICK_INTERVAL;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
             return;

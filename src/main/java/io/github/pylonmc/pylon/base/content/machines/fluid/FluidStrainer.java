@@ -39,6 +39,8 @@ public class FluidStrainer extends PylonBlock
     private static final NamespacedKey BUFFER_KEY = baseKey("buffer");
     private static final NamespacedKey PASSED_FLUID_KEY = baseKey("passed_fluid");
 
+    private int tickInterval = getSettings().get("tick-interval", Integer.class);
+
     private @Nullable StrainingRecipe currentRecipe;
     private double buffer;
     private double passedFluid;
@@ -46,6 +48,8 @@ public class FluidStrainer extends PylonBlock
     @SuppressWarnings("unused")
     public FluidStrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+
+        setTickInterval(tickInterval);
 
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
@@ -151,6 +155,4 @@ public class FluidStrainer extends PylonBlock
             passedFluid = 0;
         }
     }
-
-
 }
