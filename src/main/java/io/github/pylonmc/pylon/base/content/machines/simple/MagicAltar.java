@@ -48,13 +48,9 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.MAGIC_PEDESTAL);
 
-    private final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
-
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {
         super(block);
-
-        setTickInterval(tickInterval);
 
         addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
@@ -145,6 +141,12 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
         }
     }
 
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return 5;
+    }
+
+    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
             if (getCurrentRecipe() != null) {

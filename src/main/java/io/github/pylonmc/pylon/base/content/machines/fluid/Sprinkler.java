@@ -57,7 +57,6 @@ public class Sprinkler extends PylonBlock
     @SuppressWarnings("unused")
     public Sprinkler(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, -0.15F));
         createFluidBuffer(BaseFluids.WATER, WATER_PER_SECOND * 5, true, false);
     }
@@ -65,6 +64,11 @@ public class Sprinkler extends PylonBlock
     @SuppressWarnings("unused")
     public Sprinkler(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+    }
+
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return TICK_INTERVAL;
     }
 
     @Override

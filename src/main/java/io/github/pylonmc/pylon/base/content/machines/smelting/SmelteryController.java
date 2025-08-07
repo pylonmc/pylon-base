@@ -71,9 +71,6 @@ public final class SmelteryController extends SmelteryComponent
     private static final NamespacedKey COMPONENTS_KEY = baseKey("components");
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
-    public static final int TICK_INTERVAL = Settings.get(BaseKeys.SMELTERY_CONTROLLER)
-            .getOrThrow("tick-interval", Integer.class);
-
     @Getter
     @Setter
     private double temperature;
@@ -97,8 +94,6 @@ public final class SmelteryController extends SmelteryComponent
     @SuppressWarnings("unused")
     public SmelteryController(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-
-        setTickInterval(TICK_INTERVAL);
 
         Location location = center.getLocation().add(-1, 0, -1);
         int counter = 0;

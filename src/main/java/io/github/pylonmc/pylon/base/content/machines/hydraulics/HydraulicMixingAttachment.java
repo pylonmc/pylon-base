@@ -78,8 +78,6 @@ public class HydraulicMixingAttachment extends PylonBlock
 
         cooldownTimeRemaining = 0.0;
 
-        setTickInterval(TICK_INTERVAL);
-
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         addEntity("mixing_attachment_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
@@ -117,6 +115,11 @@ public class HydraulicMixingAttachment extends PylonBlock
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         return otherBlock.getLocation().equals(getBlock().getLocation());
+    }
+
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return TICK_INTERVAL;
     }
 
     @Override

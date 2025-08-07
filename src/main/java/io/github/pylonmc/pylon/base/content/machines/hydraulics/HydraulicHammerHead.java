@@ -76,8 +76,6 @@ public class HydraulicHammerHead extends PylonBlock
 
         hammer = null;
 
-        setTickInterval(TICK_INTERVAL);
-
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         addEntity("hammer_head", new SimpleItemDisplay(new ItemDisplayBuilder()
@@ -107,6 +105,12 @@ public class HydraulicHammerHead extends PylonBlock
         PdcUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
     }
 
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return TICK_INTERVAL;
+    }
+
+    @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (!event.getAction().isRightClick() || event.getHand() != EquipmentSlot.HAND || event.getPlayer().isSneaking()) {
             return;

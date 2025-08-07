@@ -50,7 +50,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     private static final Random random = new Random();
 
-    public static final int TICK_RATE = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("tick-interval", Integer.class);
+    public static final int TICK_RATE = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("tick-rate", Integer.class);
     public static final int CYCLE_TIME_TICKS = Settings.get(BaseKeys.GRINDSTONE).getOrThrow("cycle-time-ticks", Integer.class);
 
     @Getter private @Nullable NamespacedKey recipe;
@@ -60,8 +60,6 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
-        setTickInterval(TICK_RATE);
 
         addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
@@ -142,6 +140,11 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonSimpleMultiblock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getEntity().getItemStack());
+    }
+
+    @Override
+    public int getCustomTickRate(int globalTickRate) {
+        return TICK_RATE;
     }
 
     @Override

@@ -140,7 +140,7 @@ public class FluidFilter extends PylonBlock
         double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
         double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
         return Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond)
-                * PylonConfig.getFluidTickInterval()
+                * PylonConfig.getFluidIntervalTicks()
                 * deltaSeconds
                 - fluidAmount()
         );
