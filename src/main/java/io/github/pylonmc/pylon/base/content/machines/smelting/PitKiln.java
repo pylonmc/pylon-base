@@ -27,7 +27,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -119,7 +118,7 @@ public final class PitKiln extends PylonBlock implements
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         event.setCancelled(true);
         Player player = event.getPlayer();
-        player.swingHand(EquipmentSlot.HAND);
+        player.swingHand(event.getHand());
 
         ItemStack item = event.getItem();
         if (item == null || item.getType().isAir()) return;
