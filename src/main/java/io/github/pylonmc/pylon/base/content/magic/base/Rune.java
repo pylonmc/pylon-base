@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.content.magic.base;
 
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonArrow;
 import io.github.pylonmc.pylon.core.item.base.PylonBow;
@@ -28,8 +30,7 @@ public abstract class Rune extends PylonItem {
         super(stack);
     }
 
-    // TODO: This value may need to be discussed.
-    public static final double CHECK_RANGE = 1.75;
+    public static final double CHECK_RANGE = Settings.get(BaseKeys.RUNE).getOrThrow("check-range", Double.class);
 
     // These can be applied with runes
     public static final List<Class<?>> DEFAULT_APPLICABLES = List.of(

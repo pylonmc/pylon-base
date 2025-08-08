@@ -2096,9 +2096,7 @@ public final class BaseItems {
         PylonItem.register(FireproofRune.class, FIREPROOF_RUNE);
         BasePages.MAGIC.addItem(BaseKeys.FIREPROOF_RUNE);
 
-        ItemStack output = FIREPROOF_RUNE.clone();
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FIREPROOF_RUNE, output)
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FIREPROOF_RUNE, FIREPROOF_RUNE)
                 .shape(
                         "RGR",
                         "GNG",
