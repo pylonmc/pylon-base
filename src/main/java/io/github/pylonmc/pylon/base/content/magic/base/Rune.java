@@ -50,6 +50,11 @@ public abstract class Rune extends PylonItem {
      */
     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
         PylonItem instance = PylonItem.fromStack(target);
+        if (instance == null) {
+            // Non-Pylon items are always applicable
+            return true;
+        }
+
         if (instance instanceof RuneApplicable checker) {
             if (checker.applicableToTarget(event, rune, target)) {
                 return true;
