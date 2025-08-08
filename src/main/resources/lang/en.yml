@@ -723,6 +723,16 @@ item:
       running: "<green>Running"
       idle: "<yellow>Idle"
 
+  fireproof_rune:
+    name: "Fireproof Rune"
+    lore: |-
+      <arrow> Drop your weapon and rune, and pray for 800 hours
+      <arrow> to earn the blessing of the Fire God
+      <arrow> so that your weapon become fireproof.
+      
+      <arrow> <attr>Fireproof: 100%</attr>
+      <dark_gray> -- Is Fire God coats my weapon with invisible netherite ingot?
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -804,6 +814,7 @@ guide:
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
+    magic: "Magic"
   recipe:
     grindstone: "<attr>Grinding time:</attr> %time%"
     press: "<attr>Pressing time:</attr> %time%"
@@ -855,6 +866,9 @@ message:
     incomplete: "<red>Incomplete"
     working_with_reduced_efficiency: "<green>Working with reduced efficiency"
     no_sunlight: "<red>No sunlight"
+  fireproof_result:
+    success: "Your item have been fire-proofed"
+    success_tricky: "Your item have been fire-proofed >_<"
 
 gui:
   status:

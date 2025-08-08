@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
@@ -46,16 +47,20 @@ import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.tag.DamageTypeTags;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2075,6 +2080,33 @@ public final class BaseItems {
                 .shape("SSS", "SAS", "SSS")
                 .setIngredient('S', Material.SLIME_BALL)
                 .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack FIREPROOF_RUNE = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.FIREPROOF_RUNE)
+            .editMeta(meta -> {
+                if (meta instanceof FireworkMeta fm) {
+                    fm.addEffect(FireworkEffect.builder().withColor(Color.RED).build());
+                }
+                meta.setDamageResistant(DamageTypeTags.IS_FIRE);
+            })
+            .build();
+    static {
+        PylonItem.register(FireproofRune.class, FIREPROOF_RUNE);
+        BasePages.MAGIC.addItem(BaseKeys.FIREPROOF_RUNE);
+
+        ItemStack output = FIREPROOF_RUNE.clone();
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FIREPROOF_RUNE, output)
+                .shape(
+                        "RGR",
+                        "GNG",
+                        "RGR")
+                .setIngredient('R', Material.LAVA_BUCKET)
+                .setIngredient('G', Material.GLOWSTONE_DUST)
+                .setIngredient('N', Material.NETHER_STAR);
+
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }

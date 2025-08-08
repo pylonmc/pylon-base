@@ -203,4 +203,6 @@ public class BaseKeys {
 
     public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
+
+    public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 }
