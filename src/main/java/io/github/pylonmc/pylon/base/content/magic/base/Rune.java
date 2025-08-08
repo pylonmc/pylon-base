@@ -58,7 +58,7 @@ public abstract class Rune extends PylonItem {
             return true;
         }
 
-        if (instance instanceof RuneApplicable checker && checker.applicableToTarget(event, rune, target)) {
+        if (instance instanceof RuneApplicable checker && checker.applicableToTarget(event, rune)) {
             return true;
         }
 

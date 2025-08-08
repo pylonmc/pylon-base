@@ -30,8 +30,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *     @Override
  *     public boolean isApplicableToTarget(
  *         @NotNull PlayerDropItemEvent event,
- *         @NotNull ItemStack rune,
- *         @NotNull ItemStack target
+ *         @NotNull ItemStack rune
  *     ) {
  *         // Only allow diamond swords to be applied with runes
  *         return target.getType() == Material.DIAMOND_SWORD;
@@ -47,9 +46,8 @@ public interface RuneApplicable {
      *
      * @param event  The event
      * @param rune   The rune
-     * @param target The target item
      * @return true if the rune is applicable to the target item, false otherwise
      */
     @ParametersAreNonnullByDefault
-    boolean applicableToTarget(PlayerDropItemEvent event, ItemStack rune, ItemStack target);
+    boolean applicableToTarget(PlayerDropItemEvent event, ItemStack rune);
 }
