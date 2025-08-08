@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,10 +27,6 @@ import java.util.List;
  * @author balugaq
  */
 public abstract class Rune extends PylonItem {
-    public Rune(@NotNull ItemStack stack) {
-        super(stack);
-    }
-
     public static final double CHECK_RANGE = Settings.get(BaseKeys.RUNE).getOrThrow("check-range", Double.class);
 
     // These can be applied with runes
@@ -41,14 +38,20 @@ public abstract class Rune extends PylonItem {
             PylonWeapon.class
     );
 
+    public Rune(@NotNull ItemStack stack) {
+        super(stack);
+    }
+
     /**
      * Checks if the rune is applicable to the target item.
-     * @param event The event
-     * @param rune The rune item, amount may be > 1
+     *
+     * @param event  The event
+     * @param rune   The rune item, amount may be > 1
      * @param target The item to handle, amount may be > 1
      * @return true if applicable, false otherwise
      */
-    public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
+    @ParametersAreNonnullByDefault
+    public boolean isApplicableToTarget(PlayerDropItemEvent event, ItemStack rune, ItemStack target) {
         PylonItem instance = PylonItem.fromStack(target);
         if (instance == null) {
             // Non-Pylon items are always applicable
@@ -56,8 +59,7 @@ public abstract class Rune extends PylonItem {
         }
 
         if (instance instanceof RuneApplicable checker && checker.applicableToTarget(event, rune, target)) {
-                return true;
-            }
+            return true;
         }
 
         return DEFAULT_APPLICABLES.stream().anyMatch(clazz -> clazz.isInstance(instance));
@@ -65,11 +67,13 @@ public abstract class Rune extends PylonItem {
 
     /**
      * Handles contacting between an item and a rune.
-     * @param event The event
-     * @param rune The rune item, amount may be > 1
+     *
+     * @param event  The event
+     * @param rune   The rune item, amount may be > 1
      * @param target The item to handle, amount may be > 1
      */
-    public abstract void onContactItem(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target);
+    @ParametersAreNonnullByDefault
+    public abstract void onContactItem(PlayerDropItemEvent event, ItemStack rune, ItemStack target);
 
     public static class RuneListener implements Listener {
         @EventHandler

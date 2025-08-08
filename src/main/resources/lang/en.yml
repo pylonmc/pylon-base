@@ -729,9 +729,6 @@ item:
       <arrow> Drop your weapon and rune, and pray for 800 hours
       <arrow> to earn the blessing of the Fire God
       <arrow> so that your weapon become fireproof.
-      
-      <arrow> <attr>Fireproof: 100%</attr>
-      <dark_gray> -- Is Fire God coats my weapon with invisible netherite ingot?
 
 fluid:
   castable:
@@ -867,8 +864,7 @@ message:
     working_with_reduced_efficiency: "<green>Working with reduced efficiency"
     no_sunlight: "<red>No sunlight"
   fireproof_result:
-    success: "Your item have been fire-proofed"
-    success_tricky: "Your item have been fire-proofed >_<"
+    success: "Your item has been fire-proofed"
 
 gui:
   status:

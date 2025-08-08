@@ -1,23 +1,42 @@
 package io.github.pylonmc.pylon.base.content.magic.base;
 
+import io.github.pylonmc.pylon.core.item.base.PylonArrow;
+import io.github.pylonmc.pylon.core.item.base.PylonBow;
+import io.github.pylonmc.pylon.core.item.base.PylonBucket;
+import io.github.pylonmc.pylon.core.item.base.PylonTool;
+import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
- * This interface defines what item can be applied with runes.
- * Machines are not applicable by default.
+ * Defines items that can be applied with runes.
  *
- * <p>Example usage:</p>
+ * <p>Default rune-applicable items are defined in {@link Rune#DEFAULT_APPLICABLES},
+ * including but not limited to:
+ * <ul>
+ *   <li>{@link PylonArrow}</li>
+ *   <li>{@link PylonBow}</li>
+ *   <li>{@link PylonBucket}</li>
+ *   <li>{@link PylonTool}</li>
+ *   <li>{@link PylonWeapon}</li>
+ * </ul>
+ *
+ * <p><b>Implementation Example:</b></p>
  * <pre>{@code
- *
  * public class MyCustomWeapon extends PylonItem implements RuneApplicable {
  *     @Override
- *     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
+ *     public boolean isApplicableToTarget(
+ *         @NotNull PlayerDropItemEvent event,
+ *         @NotNull ItemStack rune,
+ *         @NotNull ItemStack target
+ *     ) {
+ *         // Only allow diamond swords to be applied with runes
  *         return target.getType() == Material.DIAMOND_SWORD;
  *     }
  * }
- *
  * }</pre>
  *
  * @author balugaq
@@ -25,10 +44,12 @@ import org.jetbrains.annotations.NotNull;
 public interface RuneApplicable {
     /**
      * Called when a rune is dropped on a target item.
-     * @param event The event
-     * @param rune The rune
+     *
+     * @param event  The event
+     * @param rune   The rune
      * @param target The target item
      * @return true if the rune is applicable to the target item, false otherwise
      */
-    boolean applicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target);
+    @ParametersAreNonnullByDefault
+    boolean applicableToTarget(PlayerDropItemEvent event, ItemStack rune, ItemStack target);
 }

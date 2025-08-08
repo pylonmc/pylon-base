@@ -43,10 +43,12 @@ import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -54,6 +56,7 @@ import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.damage.DamageType;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.recipe.CookingBookCategory;
@@ -2085,12 +2088,14 @@ public final class BaseItems {
     }
 
     public static final ItemStack FIREPROOF_RUNE = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.FIREPROOF_RUNE)
-            .editMeta(meta -> {
-                if (meta instanceof FireworkMeta fm) {
-                    fm.addEffect(FireworkEffect.builder().withColor(Color.RED).build());
-                }
-                meta.setDamageResistant(DamageTypeTags.IS_FIRE);
-            })
+            .editData(
+                    DataComponentTypes.DAMAGE_RESISTANT,
+                    resistant -> DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE)
+            )
+            .editData(
+                    DataComponentTypes.FIREWORK_EXPLOSION,
+                    effect -> FireworkEffect.builder().withColor(Color.RED).build()
+            )
             .build();
     static {
         PylonItem.register(FireproofRune.class, FIREPROOF_RUNE);
