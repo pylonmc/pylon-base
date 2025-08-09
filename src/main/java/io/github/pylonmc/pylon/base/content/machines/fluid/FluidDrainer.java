@@ -67,6 +67,7 @@ public class FluidDrainer extends PylonBlock
     @SuppressWarnings("unused")
     public FluidDrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        setTickInterval(tickInterval);
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(fluid, buffer, false, true);
         Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
@@ -91,11 +92,6 @@ public class FluidDrainer extends PylonBlock
             drainBlock.setType(Material.AIR);
             addFluid(fluid, 1000.0);
         }
-    }
-
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return tickInterval;
     }
 
     // Prevent opening dispenser

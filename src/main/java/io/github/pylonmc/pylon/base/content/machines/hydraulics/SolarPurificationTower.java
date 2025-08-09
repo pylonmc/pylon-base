@@ -57,6 +57,7 @@ public class SolarPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public SolarPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(tickInterval);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidBuffer, true, false);
@@ -89,12 +90,6 @@ public class SolarPurificationTower extends PylonBlock
         return components;
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return tickInterval;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded() || !getBlock().getWorld().isDayTime()) {
             return;

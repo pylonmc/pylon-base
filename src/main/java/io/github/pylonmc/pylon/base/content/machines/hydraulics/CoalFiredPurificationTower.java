@@ -16,6 +16,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.ItemUtils;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -52,7 +53,7 @@ public class CoalFiredPurificationTower extends PylonBlock
     static {
         ConfigSection config = settings.getSectionOrThrow("fuels");
         for (String key : config.getKeys()) {
-            FUELS.put(config.getItemOrThrow(key), config.getOrThrow(key, Integer.class));
+            FUELS.put(PylonUtils.itemFromName(key), config.getOrThrow(key, Integer.class));
         }
     }
 
@@ -104,6 +105,7 @@ public class CoalFiredPurificationTower extends PylonBlock
         super(block, context);
         fuel = null;
         fuelSecondsElapsed = 0.0;
+        setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
@@ -151,12 +153,6 @@ public class CoalFiredPurificationTower extends PylonBlock
         return components;
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return TICK_INTERVAL;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
             return;

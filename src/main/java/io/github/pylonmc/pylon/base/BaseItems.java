@@ -6,14 +6,11 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
+import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicMixingAttachment;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
@@ -31,6 +28,7 @@ import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
+import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -57,6 +55,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -1291,10 +1290,8 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COVALENT_BINDER);
         BasePages.RESOURCES.addItem(BaseKeys.COVALENT_BINDER);
-        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER);
-        gunpowderInput.setAmount(4);
-        ItemStack output = COVALENT_BINDER.clone();
-        output.setAmount(6);
+        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER, 4);
+        ItemStack output = COVALENT_BINDER.asQuantity(6);
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.COVALENT_BINDER,
                 List.of(gunpowderInput, new ItemStack(Material.EMERALD), SHIMMER_DUST_1),
@@ -1481,8 +1478,7 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_WOOD);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_WOOD);
 
-        ItemStack output = new ItemStack(FLUID_PIPE_WOOD);
-        output.setAmount(4);
+        ItemStack output = new ItemStack(FLUID_PIPE_WOOD).asQuantity(4);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_WOOD, output)
                 .shape("www", "   ", "www")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
@@ -1501,8 +1497,7 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_COPPER);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_COPPER);
 
-        ItemStack output = new ItemStack(FLUID_PIPE_COPPER);
-        output.setAmount(4);
+        ItemStack output = new ItemStack(FLUID_PIPE_COPPER).asQuantity(4);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_COPPER, output)
                 .shape("ccc", "   ", "ccc")
                 .setIngredient('c', COPPER_SHEET);
@@ -1521,13 +1516,24 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_OBSIDIAN);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_OBSIDIAN);
 
-        ItemStack output = new ItemStack(FLUID_PIPE_OBSIDIAN);
-        output.setAmount(4);
+        ItemStack output = new ItemStack(FLUID_PIPE_OBSIDIAN).asQuantity(4);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_OBSIDIAN, output)
                 .shape("ooo", "   ", "ooo")
                 .setIngredient('o', new ItemStack(Material.OBSIDIAN));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack FLUID_PIPE_CREATIVE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_CREATIVE)
+            .set(DataComponentTypes.ITEM_MODEL,
+                    Material.getMaterial(
+                            Settings.get(BaseKeys.FLUID_PIPE_CREATIVE).getOrThrow("material", String.class).toUpperCase()
+                    ).getKey()
+            )
+            .build();
+    static {
+        PylonItem.register(FluidPipe.class, FLUID_PIPE_CREATIVE, BaseKeys.FLUID_PIPE_CREATIVE);
+        PylonGuide.hideItem(BaseKeys.FLUID_PIPE_CREATIVE);
     }
 
     public static final ItemStack PORTABLE_FLUID_TANK_WOOD
@@ -1711,6 +1717,21 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, BaseKeys.FLUID_VOIDER_3);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_VOIDER_3);
+    }
+
+    public static final ItemStack CREATIVE_FLUID_VOIDER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_FLUID_VOIDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidVoider.Item.class, CREATIVE_FLUID_VOIDER, BaseKeys.CREATIVE_FLUID_VOIDER);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_VOIDER);
+    }
+
+    public static final ItemStack CREATIVE_FLUID_SOURCE = ItemStackBuilder.pylonItem(Material.PINK_CONCRETE, BaseKeys.CREATIVE_FLUID_SOURCE)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_FLUID_SOURCE, BaseKeys.CREATIVE_FLUID_SOURCE);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_SOURCE);
     }
 
     public static final ItemStack LOUPE = ItemStackBuilder.pylonItem(Material.GLASS_PANE, BaseKeys.LOUPE)
@@ -2095,8 +2116,7 @@ public final class BaseItems {
         PylonItem.register(IceArrow.class, ICE_ARROW, BaseKeys.ICE_ARROW);
         BasePages.COMBAT.addItem(BaseKeys.ICE_ARROW);
 
-        ItemStack arrowResult = ICE_ARROW.clone();
-        arrowResult.setAmount(8);
+        ItemStack arrowResult = ICE_ARROW.asQuantity(8);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_ARROW, arrowResult);
         recipe.shape(
                 "III",
@@ -2115,8 +2135,7 @@ public final class BaseItems {
         PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
         BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
 
-        ItemStack output = RECOIL_ARROW.clone();
-        output.setAmount(8);
+        ItemStack output = RECOIL_ARROW.asQuantity(8);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
                 .shape("SSS", "SAS", "SSS")
                 .setIngredient('S', Material.SLIME_BALL)
@@ -2125,6 +2144,112 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
+    public static final ItemStack MANUAL_CORE_DRILL_LEVER = ItemStackBuilder.pylonItem(Material.LEVER, BaseKeys.MANUAL_CORE_DRILL_LEVER)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, MANUAL_CORE_DRILL_LEVER, BaseKeys.MANUAL_CORE_DRILL_LEVER);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.MANUAL_CORE_DRILL_LEVER);
+    }
+
+    public static final ItemStack MANUAL_CORE_DRILL = ItemStackBuilder.pylonItem(Material.CHISELED_STONE_BRICKS, BaseKeys.MANUAL_CORE_DRILL)
+            .build();
+    static {
+        PylonItem.register(CoreDrill.Item.class, MANUAL_CORE_DRILL, BaseKeys.MANUAL_CORE_DRILL);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.MANUAL_CORE_DRILL);
+    }
+
+    public static final ItemStack IMPROVED_MANUAL_CORE_DRILL = ItemStackBuilder.pylonItem(Material.COPPER_BLOCK, BaseKeys.IMPROVED_MANUAL_CORE_DRILL)
+            .build();
+    static {
+        PylonItem.register(ImprovedManualCoreDrill.Item.class, IMPROVED_MANUAL_CORE_DRILL, BaseKeys.IMPROVED_MANUAL_CORE_DRILL);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.IMPROVED_MANUAL_CORE_DRILL);
+    }
+
+    public static final ItemStack HYDRAULIC_CORE_DRILL = ItemStackBuilder.pylonItem(Material.COPPER_BULB, BaseKeys.HYDRAULIC_CORE_DRILL)
+            .build();
+    static {
+        PylonItem.register(HydraulicCoreDrill.Item.class, HYDRAULIC_CORE_DRILL, BaseKeys.HYDRAULIC_CORE_DRILL);
+        BasePages.HYDRAULICS.addItem(BaseKeys.HYDRAULIC_CORE_DRILL);
+    }
+
+    public static final ItemStack HYDRAULIC_CORE_DRILL_INPUT_HATCH = ItemStackBuilder.pylonItem(Material.LIGHT_BLUE_TERRACOTTA, BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, HYDRAULIC_CORE_DRILL_INPUT_HATCH, BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH);
+        BasePages.HYDRAULICS.addItem(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH);
+    }
+
+    public static final ItemStack HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = ItemStackBuilder.pylonItem(Material.ORANGE_TERRACOTTA, BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
+        BasePages.HYDRAULICS.addItem(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
+    }
+
+    public static final ItemStack SHALLOW_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SHALLOW_CORE_CHUNK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SHALLOW_CORE_CHUNK, BaseKeys.SHALLOW_CORE_CHUNK);
+        BasePages.RESOURCES.addItem(BaseKeys.SHALLOW_CORE_CHUNK);
+
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                BaseKeys.SHALLOW_CORE_CHUNK,
+                SHALLOW_CORE_CHUNK,
+                Map.of(
+                        new ItemStack(Material.COAL), 0.5,
+                        new ItemStack(Material.RAW_COPPER), 0.4,
+                        CRUSHED_RAW_TIN, 0.3
+                ),
+                6,
+                Material.STONE.createBlockData()
+        ));
+    }
+
+    public static final ItemStack SUBSURFACE_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SUBSURFACE_CORE_CHUNK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
+        BasePages.RESOURCES.addItem(BaseKeys.SUBSURFACE_CORE_CHUNK);
+
+        ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
+
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                BaseKeys.SUBSURFACE_CORE_CHUNK,
+                SUBSURFACE_CORE_CHUNK,
+                Map.of(
+                        new ItemStack(Material.COAL, 2), 0.3,
+                        new ItemStack(Material.RAW_COPPER, 2), 0.25,
+                        tinOutput, 0.2,
+                        new ItemStack(Material.RAW_IRON), 0.4
+                ),
+                8,
+                Material.STONE.createBlockData()
+        ));
+    }
+
+    public static final ItemStack INTERMEDIATE_CORE_CHUNK
+            = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.INTERMEDIATE_CORE_CHUNK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
+        BasePages.RESOURCES.addItem(BaseKeys.INTERMEDIATE_CORE_CHUNK);
+
+        ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
+
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
+                BaseKeys.INTERMEDIATE_CORE_CHUNK,
+                INTERMEDIATE_CORE_CHUNK,
+                Map.of(
+                        new ItemStack(Material.COAL, 3), 0.4,
+                        new ItemStack(Material.RAW_COPPER, 2), 0.6,
+                        tinOutput, 0.5,
+                        new ItemStack(Material.RAW_IRON, 2), 0.3,
+                        new ItemStack(Material.RAW_GOLD), 0.25
+                ),
+                10,
+                Material.STONE.createBlockData()
+        ));
+    }
 
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
