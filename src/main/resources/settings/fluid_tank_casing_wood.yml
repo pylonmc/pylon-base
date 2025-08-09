@@ -1,3 +1,2 @@
-material: brown_terracotta
-fluid-per-second: 250.0
+capacity: 4000.0
 allowed-temperatures: [normal] # can be cold (cryogenic), normal, or hot (molten)

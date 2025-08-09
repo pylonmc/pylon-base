@@ -64,7 +64,8 @@ public class PortableFluidTank extends PylonBlock
 
         @Getter
         @SuppressWarnings("unchecked")
-        private final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
+        private final List<FluidTemperature> allowedTemperatures
+                = ((List<String>) getSettings().getOrThrow("allowed-temperatures", List.class)).stream()
                 .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
                 .toList();
 
@@ -104,9 +105,9 @@ public class PortableFluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluid() == null ? Component.translatable("pylon.pylonbase.fluid.none") : getFluid().getName()),
                     PylonArgument.of("amount", Math.round(getAmount())),
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
-                    PylonArgument.of("fluids", Component.join(
+                    PylonArgument.of("allowed-temperature", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
-                            allowedFluids.stream()
+                            allowedTemperatures.stream()
                                     .map(FluidTemperature::getValueText)
                                     .collect(Collectors.toList())
                     ))
@@ -117,7 +118,8 @@ public class PortableFluidTank extends PylonBlock
     public final double capacity = getSettings().getOrThrow("capacity", Double.class);
 
     @SuppressWarnings("unchecked")
-    public final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
+    public final List<FluidTemperature> allowedTemperatures
+            = ((List<String>) getSettings().getOrThrow("allowed-temperatures", List.class)).stream()
             .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
             .collect(Collectors.toList());
 
@@ -139,7 +141,8 @@ public class PortableFluidTank extends PylonBlock
 
     @Override
     public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
-        return true;
+        return fluid.hasTag(FluidTemperature.class)
+                && allowedTemperatures.contains(fluid.getTag(FluidTemperature.class));
     }
 
     @Override

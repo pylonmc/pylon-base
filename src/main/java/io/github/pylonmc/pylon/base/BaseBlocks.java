@@ -2,15 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidFilter;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidMeter;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidStrainer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidValve;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.machines.simple.GrindstoneHandle;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
@@ -33,7 +25,6 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicPressPiston;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 
@@ -43,7 +34,6 @@ public final class BaseBlocks {
     private BaseBlocks() {
         throw new AssertionError("Utility class");
     }
-
 
     public static void initialize() {
         PylonBlock.register(BaseKeys.SPRINKLER, Material.FLOWER_POT, Sprinkler.class);
@@ -58,6 +48,11 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.WITHER_PROOF_OBSIDIAN, Material.OBSIDIAN, PylonBlock.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_WOOD, Material.BROWN_STAINED_GLASS, PortableFluidTank.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_COPPER, Material.ORANGE_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_OBSIDIAN, Material.BLACK_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK, Material.GRAY_TERRACOTTA, FluidTank.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_WOOD, Material.BROWN_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_COPPER, Material.ORANGE_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_OBSIDIAN, Material.BLACK_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_VALVE, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(BaseKeys.WATER_PUMP, Material.BLUE_TERRACOTTA, WaterPump.class);
         PylonBlock.register(BaseKeys.FLUID_FILTER, Material.STRUCTURE_VOID, FluidFilter.class);
