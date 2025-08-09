@@ -36,14 +36,20 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.BlockTypeKeys;
+import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
+import io.papermc.paper.registry.set.RegistrySet;
+import net.kyori.adventure.util.TriState;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.components.ToolComponent;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
@@ -673,14 +679,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack FERRODURALUM_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, BaseKeys.FERRODURALUM_SWORD)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                            baseKey("ferroduralum_sword_damage"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_SWORD);
@@ -695,14 +694,15 @@ public final class BaseItems {
     }
 
     public static final ItemStack FERRODURALUM_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, BaseKeys.FERRODURALUM_AXE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("ferroduralum_axe_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
+            .set(DataComponentTypes.TOOL, Tool.tool()
+                    .defaultMiningSpeed(6.5F)
+                    .addRule(Tool.rule(
+                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_AXE.registryKey()),
+                            6.5F,
+                            TriState.TRUE
                     ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            )
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_AXE);
@@ -718,14 +718,15 @@ public final class BaseItems {
     }
 
     public static final ItemStack FERRODURALUM_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, BaseKeys.FERRODURALUM_PICKAXE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("ferroduralum_pickaxe_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
+            .set(DataComponentTypes.TOOL, Tool.tool()
+                    .defaultMiningSpeed(6.5F)
+                    .addRule(Tool.rule(
+                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_PICKAXE.registryKey()),
+                            6.5F,
+                            TriState.TRUE
                     ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            )
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_PICKAXE);
@@ -740,14 +741,15 @@ public final class BaseItems {
     }
 
     public static final ItemStack FERRODURALUM_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, BaseKeys.FERRODURALUM_SHOVEL)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("ferroduralum_shovel_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
+            .set(DataComponentTypes.TOOL, Tool.tool()
+                    .defaultMiningSpeed(6.5F)
+                    .addRule(Tool.rule(
+                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_SHOVEL.registryKey()),
+                            6.5F,
+                            TriState.TRUE
                     ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            )
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_SHOVEL);
@@ -762,14 +764,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack FERRODURALUM_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, BaseKeys.FERRODURALUM_HOE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("ferroduralum_hoe_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, FERRODURALUM_HOE);
@@ -782,119 +777,6 @@ public final class BaseItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
         RecipeType.VANILLA_SHAPED.addRecipe(BaseUtils.reflectRecipe(recipe));
-    }
-
-    public static final ItemStack FERRODURALUM_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, BaseKeys.FERRODURALUM_HELMET)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("ferroduralum_helmet_armor"),
-                            2.5,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.HEAD
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("ferroduralum_helmet_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.HEAD
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 190)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, FERRODURALUM_HELMET);
-        BasePages.ARMOUR.addItem(BaseKeys.FERRODURALUM_HELMET);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FERRODURALUM_HELMET, FERRODURALUM_HELMET)
-                .shape("FFF", "F F", "   ")
-                .setIngredient('F', FERRODURALUM_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
-    public static final ItemStack FERRODURALUM_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, BaseKeys.FERRODURALUM_CHESTPLATE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("ferroduralum_chestplate_armor"),
-                            7,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.CHEST
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("ferroduralum_chestplate_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.CHEST
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 276)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, FERRODURALUM_CHESTPLATE);
-        BasePages.ARMOUR.addItem(BaseKeys.FERRODURALUM_CHESTPLATE);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FERRODURALUM_CHESTPLATE, FERRODURALUM_CHESTPLATE)
-                .shape("F F", "FFF", "FFF")
-                .setIngredient('F', FERRODURALUM_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
-    public static final ItemStack FERRODURALUM_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, BaseKeys.FERRODURALUM_LEGGINGS)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("ferroduralum_leggings_armor"),
-                            5.5,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.LEGS
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("ferroduralum_leggings_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.LEGS
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 259)
-            .build();
-
-    static {
-        PylonItem.register(PylonItem.class, FERRODURALUM_LEGGINGS);
-        BasePages.ARMOUR.addItem(BaseKeys.FERRODURALUM_LEGGINGS);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FERRODURALUM_LEGGINGS, FERRODURALUM_LEGGINGS)
-                .shape("FFF", "F F", "F F")
-                .setIngredient('F', FERRODURALUM_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
-    public static final ItemStack FERRODURALUM_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, BaseKeys.FERRODURALUM_BOOTS)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("ferroduralum_boots_armor"),
-                            2.5,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.FEET
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("ferroduralum_boots_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.FEET
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 225)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, FERRODURALUM_BOOTS);
-        BasePages.ARMOUR.addItem(BaseKeys.FERRODURALUM_BOOTS);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FERRODURALUM_BOOTS, FERRODURALUM_BOOTS)
-                .shape("F F", "F F", "   ")
-                .setIngredient('F', FERRODURALUM_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     //</editor-fold>
 
