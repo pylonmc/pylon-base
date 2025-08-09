@@ -10,9 +10,6 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
 import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
 import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
-import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicGrindstoneTurner;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.HydraulicHammerHead;
@@ -32,12 +29,17 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
+import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
+import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
+import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -60,7 +62,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -79,7 +80,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, COPPER_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.COPPER_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.COPPER_DUST,
                 new ItemStack(Material.COPPER_INGOT),
                 COPPER_DUST,
@@ -94,7 +95,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_COPPER);
         BasePages.RESOURCES.addItem(BaseKeys.CRUSHED_RAW_COPPER);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.CRUSHED_RAW_COPPER,
                 new ItemStack(Material.RAW_COPPER),
                 CRUSHED_RAW_COPPER,
@@ -109,7 +110,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, GOLD_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.GOLD_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.GOLD_DUST,
                 new ItemStack(Material.GOLD_INGOT),
                 GOLD_DUST,
@@ -124,7 +125,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_GOLD);
         BasePages.RESOURCES.addItem(BaseKeys.CRUSHED_RAW_GOLD);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.CRUSHED_RAW_GOLD,
                 new ItemStack(Material.RAW_GOLD),
                 CRUSHED_RAW_COPPER,
@@ -139,7 +140,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, IRON_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.IRON_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.IRON_DUST,
                 new ItemStack(Material.IRON_INGOT),
                 IRON_DUST,
@@ -154,7 +155,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, QUARTZ_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.QUARTZ_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.QUARTZ_DUST,
                 new ItemStack(Material.QUARTZ),
                 QUARTZ_DUST,
@@ -169,7 +170,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, DIAMOND_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.DIAMOND_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.DIAMOND_DUST,
                 new ItemStack(Material.DIAMOND),
                 DIAMOND_DUST,
@@ -184,7 +185,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, EMERALD_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.EMERALD_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.EMERALD_DUST,
                 new ItemStack(Material.EMERALD),
                 EMERALD_DUST,
@@ -199,7 +200,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_IRON);
         BasePages.RESOURCES.addItem(BaseKeys.CRUSHED_RAW_IRON);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.CRUSHED_RAW_IRON,
                 new ItemStack(Material.RAW_IRON),
                 CRUSHED_RAW_IRON,
@@ -221,7 +222,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SILVER_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.SILVER_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.SILVER_DUST,
                 SILVER_INGOT,
                 SILVER_DUST,
@@ -250,7 +251,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, ZINC_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.ZINC_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.ZINC_DUST,
                 ZINC_INGOT,
                 ZINC_DUST,
@@ -265,7 +266,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, ROCK_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.ROCK_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.ROCK_DUST,
                 new ItemStack(Material.COBBLESTONE),
                 ROCK_DUST.asQuantity(2),
@@ -294,7 +295,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, LEAD_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.LEAD_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.LEAD_DUST,
                 LEAD_INGOT,
                 LEAD_DUST,
@@ -323,7 +324,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, TIN_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.TIN_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.TIN_DUST,
                 TIN_INGOT,
                 TIN_DUST,
@@ -345,7 +346,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, COBALT_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.COBALT_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.COBALT_DUST,
                 COBALT_INGOT,
                 COBALT_DUST,
@@ -367,7 +368,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, NICKEL_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.NICKEL_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.NICKEL_DUST,
                 NICKEL_INGOT,
                 NICKEL_DUST,
@@ -382,7 +383,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, COAL_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.COAL_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 baseKey("coal_dust_from_coal"),
                 new ItemStack(Material.COAL),
                 COAL_DUST,
@@ -390,7 +391,7 @@ public final class BaseItems {
                 Material.COAL_BLOCK.createBlockData()
         ));
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 baseKey("coal_dust_from_charcoal"),
                 new ItemStack(Material.CHARCOAL),
                 COAL_DUST,
@@ -427,7 +428,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, BRONZE_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.BRONZE_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.BRONZE_DUST,
                 BRONZE_INGOT,
                 BRONZE_DUST,
@@ -449,7 +450,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, BRASS_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.BRASS_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.BRASS_DUST,
                 BRASS_INGOT,
                 BRASS_DUST,
@@ -471,7 +472,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, STEEL_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.STEEL_DUST);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.STEEL_DUST,
                 STEEL_INGOT,
                 STEEL_DUST,
@@ -488,7 +489,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, COPPER_SHEET);
         BasePages.RESOURCES.addItem(BaseKeys.COPPER_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.COPPER_SHEET,
                 new ItemStack(Material.COPPER_INGOT),
                 COPPER_SHEET,
@@ -503,7 +504,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, GOLD_SHEET);
         BasePages.COMPONENTS.addItem(BaseKeys.GOLD_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.GOLD_SHEET,
                 new ItemStack(Material.GOLD_INGOT),
                 GOLD_SHEET,
@@ -518,7 +519,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, IRON_SHEET);
         BasePages.COMPONENTS.addItem(BaseKeys.IRON_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.IRON_SHEET,
                 new ItemStack(Material.IRON_INGOT),
                 IRON_SHEET,
@@ -671,7 +672,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, FERRODURALUM_SHEET);
         BasePages.COMPONENTS.addItem(BaseKeys.FERRODURALUM_SHEET);
 
-        Hammer.Recipe.RECIPE_TYPE.addRecipe(new Hammer.Recipe(
+        HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.FERRODURALUM_SHEET,
                 FERRODURALUM_INGOT,
                 FERRODURALUM_SHEET,
@@ -1171,7 +1172,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, FLOUR);
         BasePages.RESOURCES.addItem(BaseKeys.FLOUR);
 
-        Grindstone.Recipe.RECIPE_TYPE.addRecipe(new Grindstone.Recipe(
+        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.FLOUR,
                 new ItemStack(Material.WHEAT, 2),
                 FLOUR,
@@ -1189,13 +1190,13 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, DOUGH);
         BasePages.RESOURCES.addItem(BaseKeys.DOUGH);
 
-        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.DOUGH,
-                Map.of(new RecipeChoice.ExactChoice(FLOUR), 1),
-                DOUGH,
-                false,
+                List.of(FLOUR),
                 BaseFluids.WATER,
-                333
+                333,
+                FluidOrItem.of(DOUGH),
+                false
         ));
 
         FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
@@ -1295,19 +1296,17 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COVALENT_BINDER);
         BasePages.RESOURCES.addItem(BaseKeys.COVALENT_BINDER);
+        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER);
+        gunpowderInput.setAmount(4);
         ItemStack output = COVALENT_BINDER.clone();
         output.setAmount(6);
-        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.COVALENT_BINDER,
-                Map.of(
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.GUNPOWDER)), 4,
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.EMERALD)), 1,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_1), 1
-                ),
-                output,
-                true,
+                List.of(gunpowderInput, new ItemStack(Material.EMERALD), SHIMMER_DUST_1),
                 BaseFluids.WATER,
-                1000
+                1000,
+                FluidOrItem.of(output),
+                true
         ));
     }
 
@@ -1319,17 +1318,17 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SHIMMER_DUST_2);
         BasePages.RESOURCES.addItem(BaseKeys.SHIMMER_DUST_2);
 
-        MixingPot.Recipe.RECIPE_TYPE.addRecipe(new MixingPot.Recipe(
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.SHIMMER_DUST_2,
-                Map.of(
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_1), 1,
-                        new RecipeChoice.ExactChoice(GOLD_DUST), 1,
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE)), 1
+                List.of(
+                        SHIMMER_DUST_1,
+                        GOLD_DUST,
+                        new ItemStack(Material.REDSTONE)
                 ),
-                SHIMMER_DUST_2,
-                false,
                 BaseFluids.WATER,
-                333
+                333,
+                FluidOrItem.of(SHIMMER_DUST_2),
+                false
         ));
     }
 
@@ -1340,19 +1339,19 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SHIMMER_DUST_3);
         BasePages.RESOURCES.addItem(BaseKeys.SHIMMER_DUST_3);
 
-        MagicAltar.Recipe.RECIPE_TYPE.addRecipe(new MagicAltar.Recipe(
+        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
                 BaseKeys.SHIMMER_DUST_3,
                 new ArrayList<>(Arrays.asList(
-                        new RecipeChoice.ExactChoice(new ItemStack(Material.REDSTONE_BLOCK)),
+                        new ItemStack(Material.REDSTONE_BLOCK),
                         null,
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
+                        COVALENT_BINDER,
+                        COVALENT_BINDER,
                         null,
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
-                        new RecipeChoice.ExactChoice(COVALENT_BINDER),
+                        COVALENT_BINDER,
+                        COVALENT_BINDER,
                         null
                 )),
-                new RecipeChoice.ExactChoice(SHIMMER_DUST_2),
+                SHIMMER_DUST_2,
                 SHIMMER_DUST_3,
                 5
         ));
@@ -1382,19 +1381,19 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SHIMMER_SKULL);
         BasePages.COMPONENTS.addItem(BaseKeys.SHIMMER_SKULL);
 
-        MagicAltar.Recipe.RECIPE_TYPE.addRecipe(new MagicAltar.Recipe(
+        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
                 BaseKeys.SHIMMER_SKULL,
                 new ArrayList<>(Arrays.asList(
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null,
-                        new RecipeChoice.ExactChoice(SHIMMER_DUST_3),
+                        SHIMMER_DUST_3,
                         null
                 )),
-                new RecipeChoice.ExactChoice(new ItemStack(Material.WITHER_SKELETON_SKULL)),
+                new ItemStack(Material.WITHER_SKELETON_SKULL),
                 SHIMMER_SKULL,
                 30
         ));
@@ -1709,13 +1708,13 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack SLURRY_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
+    public static final ItemStack FLUID_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
             .build();
     static {
-        PylonItem.register(PylonItem.class, SLURRY_STRAINER, BaseKeys.FLUID_STRAINER);
+        PylonItem.register(PylonItem.class, FLUID_STRAINER, BaseKeys.FLUID_STRAINER);
         BasePages.SIMPLE_MACHINES.addItem(BaseKeys.FLUID_STRAINER);
 
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_STRAINER, SLURRY_STRAINER)
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_STRAINER, FLUID_STRAINER)
                 .shape("c c", " C ", "c c")
                 .setIngredient('c', COPPER_SHEET)
                 .setIngredient('C', Material.COPPER_GRATE);
