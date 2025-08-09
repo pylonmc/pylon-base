@@ -11,12 +11,12 @@ import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.EntityStorage;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -32,12 +32,14 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidValve extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+public class FluidValve extends PylonBlock
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
@@ -50,6 +52,20 @@ public class FluidValve extends PylonBlock implements PylonFluidBlock, PylonEnti
     @SuppressWarnings("unused")
     public FluidValve(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+
+        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
+        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
+        addEntity("east", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.EAST, 0.25F));
+        addEntity("west", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.WEST, 0.25F));
+        addEntity("main", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(MAIN_MATERIAL)
+                .brightness(BRIGHTNESS_OFF)
+                .transformation(new TransformBuilder()
+                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                        .scale(0.25, 0.25, 0.5)
+                )
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
 
         enabled = false;
     }
@@ -79,25 +95,6 @@ public class FluidValve extends PylonBlock implements PylonFluidBlock, PylonEnti
     }
 
     @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
-        return Map.of(
-                "east", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.EAST, 0.25F),
-                "west", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.WEST, 0.25F),
-                "main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .material(MAIN_MATERIAL)
-                        .brightness(BRIGHTNESS_OFF)
-                        .transformation(new TransformBuilder()
-                                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                                .scale(0.25, 0.25, 0.5)
-                        )
-                        .build(getBlock().getLocation().toCenterLocation()))
-        );
-    }
-
-    @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) {
             return;
@@ -120,9 +117,10 @@ public class FluidValve extends PylonBlock implements PylonFluidBlock, PylonEnti
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), Map.of(
-                "status", Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
-        ));
+        return new WailaConfig(getName(), List.of(PylonArgument.of(
+                "status",
+                Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
+        )));
     }
 
     private @NotNull VirtualFluidPoint getEastPoint() {

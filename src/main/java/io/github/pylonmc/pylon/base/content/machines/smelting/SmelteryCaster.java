@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -13,7 +14,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.text.TranslationArgument;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -35,6 +35,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     @SuppressWarnings("unused")
     public SmelteryCaster(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(SmelteryController.TICK_INTERVAL);
     }
 
     @SuppressWarnings("unused")
@@ -125,7 +126,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
         }
 
-        private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull TranslationArgument @NotNull ... args) {
+        private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
             return Component.translatable("pylon.pylonbase.gui.smeltery_caster." + subkey, args);
         }
     }

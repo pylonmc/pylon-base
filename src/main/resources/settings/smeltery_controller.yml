@@ -1,3 +1,4 @@
+tick-interval: 20
 fluid-reaction-per-second: 100.0
 display:
   resolution: 8 # pixels per block; defines the resolution of the fluid display
