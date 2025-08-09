@@ -1,17 +1,13 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import com.destroystokyo.paper.event.player.PlayerConnectionCloseEvent;
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Bukkit;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
@@ -23,23 +19,22 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.core.util.PylonUtils.vectorToBlockFace;
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
 
 public class IcePick extends PylonItem implements PylonInteractor {
     public final double jumpSpeed = getSettings().getOrThrow("jump-speed", Double.class);
     public final double hookRange = getSettings().getOrThrow("hook-range", Double.class);
-    public final double hookRangeSquared = pow(hookRange, 2);
+    private final double hookRangeSquared = pow(hookRange, 2);
 
     public IcePick(@NotNull ItemStack stack) {
         super(stack);
     }
 
     @Override
-    public void onUsedToRightClick(@NotNull PlayerInteractEvent event){
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+    public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         double distSquared = event.getClickedBlock().getLocation().clone().subtract(event.getPlayer().getLocation()).toVector().toVector3f().lengthSquared();
-        if(distSquared < hookRangeSquared) {
+        if (distSquared < hookRangeSquared) {
             event.getPlayer().setGravity(false);
             event.getPlayer().setAllowFlight(true);
             PlayerJumpListener listener = new PlayerJumpListener(event.getPlayer(), (float) jumpSpeed);
@@ -58,50 +53,51 @@ public class IcePick extends PylonItem implements PylonInteractor {
     public static class PlayerJumpListener implements Listener {
         private final Player player;
         private final float jumpSpeed;
-        public PlayerJumpListener(Player player, float jumpSpeed){
+
+        public PlayerJumpListener(Player player, float jumpSpeed) {
             this.player = player;
             this.jumpSpeed = jumpSpeed;
         }
 
         @EventHandler
-        public void onMove(PlayerMoveEvent event){
-            if(event.getPlayer() == player && event.hasExplicitlyChangedPosition() && !event.getPlayer().isJumping()){
+        public void onMove(PlayerMoveEvent event) {
+            if (event.getPlayer() == player && event.hasExplicitlyChangedPosition() && !event.getPlayer().isJumping()) {
                 event.setCancelled(true);
             }
         }
 
         @EventHandler
-        public void onStartFly(PlayerToggleFlightEvent event){
-            if(event.getPlayer() == player){
+        public void onStartFly(PlayerToggleFlightEvent event) {
+            if (event.getPlayer() == player) {
                 event.setCancelled(true);
                 // Trigger a "jump"
                 player.setVelocity(Vector.fromJOML(new Vector3f(0.0f, jumpSpeed, 0.0f)));
-                Dispose();
+                dispose();
             }
         }
 
         @EventHandler
-        public void onSneak(PlayerToggleSneakEvent event){
-            if(event.getPlayer() == player && event.isSneaking()){
-                Dispose();
+        public void onSneak(PlayerToggleSneakEvent event) {
+            if (event.getPlayer() == player && event.isSneaking()) {
+                dispose();
             }
         }
 
         @EventHandler
         public void onPlayerLeave(PlayerQuitEvent event) {
             if (event.getPlayer() == player) {
-                Dispose();
+                dispose();
             }
         }
 
         @EventHandler
-        public void OnPluginDisable(PluginDisableEvent event){
-            if(event.getPlugin() == PylonBase.getInstance()){
-                Dispose();
+        public void onPluginDisable(PluginDisableEvent event) {
+            if (event.getPlugin() == PylonBase.getInstance()) {
+                dispose();
             }
         }
 
-        private void Dispose(){
+        private void dispose() {
             player.setGravity(true);
             player.setAllowFlight(false);
             PlayerMoveEvent.getHandlerList().unregister(this);
