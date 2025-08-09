@@ -119,14 +119,14 @@ public class FluidStrainer extends PylonBlock
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
-                Map.of("info", currentRecipe == null ?
+                List.of(PylonArgument.of("info", currentRecipe == null ?
                         Component.empty() :
                         Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",
                                 PylonArgument.of("item", currentRecipe.outputItem().effectiveName()),
                                 PylonArgument.of("progress", UnitFormat.PERCENT.format(passedFluid / 10)
                                         .decimalPlaces(0))
                         )
-                )
+                ))
         );
     }
 

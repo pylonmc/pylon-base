@@ -83,14 +83,16 @@ public record MagicAltarRecipe(
 
     @Override
     public @NotNull List<FluidOrItem> getInputs() {
-        List<FluidOrItem> inputs = new ArrayList<>(this.inputs.stream()
-                .filter(Objects::nonNull)
-                .map(input -> (FluidOrItem) FluidOrItem.of(input))
-                .toList()
-        );
-        inputs.add(FluidOrItem.of(catalyst));
-        inputs.removeIf(Objects::isNull);
-        return inputs;
+        List<FluidOrItem> inputResult = new ArrayList<>();
+        for (ItemStack input : inputs) {
+            if (input != null) {
+                inputResult.add(FluidOrItem.of(input));
+            }
+        }
+
+        inputResult.add(FluidOrItem.of(catalyst));
+
+        return inputResult;
     }
 
     @Override

@@ -26,7 +26,6 @@ public final class BaseBlocks {
         throw new AssertionError("Utility class");
     }
 
-
     public static void initialize() {
         PylonBlock.register(BaseKeys.SPRINKLER, Material.FLOWER_POT, Sprinkler.class);
         PylonBlock.register(BaseKeys.MAGIC_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
