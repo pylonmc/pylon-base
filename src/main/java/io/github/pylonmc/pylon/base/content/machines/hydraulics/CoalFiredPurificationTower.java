@@ -1,28 +1,31 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimplePurificationMachine;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.ItemUtils;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -39,8 +42,8 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CoalFiredPurificationTower extends SimplePurificationMachine
-        implements PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
+public class CoalFiredPurificationTower extends PylonBlock
+        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
 
     private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
     public static final double FLUID_MB_PER_SECOND = settings.getOrThrow("fluid-mb-per-second", Integer.class);
@@ -51,14 +54,12 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
     static {
         ConfigSection config = settings.getSectionOrThrow("fuels");
         for (String key : config.getKeys()) {
-            FUELS.put(config.getItemOrThrow(key), config.getOrThrow(key, Integer.class));
+            FUELS.put(PylonUtils.itemFromName(key), config.getOrThrow(key, Integer.class));
         }
     }
 
     private static final NamespacedKey FUEL_KEY = baseKey("fuel");
     private static final NamespacedKey FUEL_SECONDS_ELAPSED_KEY = baseKey("fuel_seconds_elapsed");
-
-    public static final Component NO_FUEL = Component.translatable("pylon.pylonbase.message.hydraulic_status.no_fuel");
 
     private @Nullable ItemStack fuel;
     private double fuelSecondsElapsed;
@@ -79,8 +80,6 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
             ));
         }
     }
-
-    @Getter private Component status = IDLE;
 
     private class FuelProgressItem extends ProgressItem {
         public FuelProgressItem() {
@@ -107,6 +106,11 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
         super(block, context);
         fuel = null;
         fuelSecondsElapsed = 0.0;
+        setTickInterval(TICK_INTERVAL);
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -139,16 +143,6 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
     }
 
     @Override
-    public double getDirtyHydraulicFluidBuffer() {
-        return FLUID_BUFFER;
-    }
-
-    @Override
-    public double getHydraulicFluidBuffer() {
-        return FLUID_BUFFER;
-    }
-
-    @Override
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
@@ -160,15 +154,8 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
         return components;
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return TICK_INTERVAL;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
-            status = INCOMPLETE;
             return;
         }
 
@@ -184,30 +171,36 @@ public class CoalFiredPurificationTower extends SimplePurificationMachine
                 fuelSecondsElapsed = 0.0;
                 break;
             }
-            if (fuel == null) {
-                status = NO_FUEL;
-            }
         }
 
         if (!isRunning()) {
-            status = IDLE;
             return;
         }
 
-        purify(deltaSeconds * FLUID_MB_PER_SECOND);
+        double toPurify = Math.min(
+                deltaSeconds * FLUID_MB_PER_SECOND,
+                Math.min(fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID), fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID))
+        );
+        removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
+        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify);
+
         fuelSecondsElapsed += deltaSeconds;
         progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
         if (fuelSecondsElapsed >= FUELS.get(fuel)) {
             fuel = null;
             progressItem.notifyWindows();
         }
-        status = WORKING;
     }
 
     public boolean isRunning() {
         return fuel != null
-                && dirtyHydraulicFluidAmount > 1.0e-3
+                && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
                 // enough space in output buffer for another tick worth of purification
-                && FLUID_BUFFER - hydraulicFluidAmount >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
+                && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
+    }
+
+    @Override
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        drops.add(inventory.getItem(0));
     }
 }

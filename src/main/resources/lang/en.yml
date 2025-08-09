@@ -167,7 +167,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   fluid_pipe_copper:
     name: "Copper Fluid Pipe"
@@ -175,7 +175,7 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   fluid_pipe_obsidian:
     name: "Obsidian Fluid Pipe"
@@ -183,7 +183,15 @@ item:
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_creative:
+    name: "<#ff00ff>Creative Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
 
   ice_arrow:
     name: "Ice Arrow"
@@ -199,7 +207,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
     waila: "Wooden Portable Fluid Tank %info%"
 
   portable_fluid_tank_copper:
@@ -209,8 +217,18 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Temperatures:</attr> %fluids%
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
     waila: "Copper Portable Fluid Tank %info%"
+
+  portable_fluid_tank_obsidian:
+      name: "Obsidian Portable Fluid Tank"
+      lore: |-
+        <arrow> Can be placed down and connected with pipes
+        <arrow> Retains contents when broken
+        <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+        <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+        <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      waila: "Obsidian Portable Fluid Tank %info%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
@@ -250,6 +268,18 @@ item:
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
+  creative_fluid_voider:
+    name: "<#ff00ff>Creative Fluid Voider"
+    lore: |-
+      <arrow> Destroys all fluids piped into it
+      <arrow> <attr>Void rate:</attr> %void_rate%
+
+  creative_fluid_source:
+    name: "<#ff00ff>Creative Fluid Source"
+    lore: |-
+      <arrow> Produces a practically infinite amount of any fluid
+      <arrow> <insn>Right click</insn> to select a fluid
+
   iron_dust:
     name: "Iron Dust"
 
@@ -272,12 +302,14 @@ item:
     lore: |-
       <arrow> Drains water from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+      <arrow> <attr>Buffer:</attr> %buffer%
 
   lava_drainer:
     name: "Lava Drainer"
     lore: |-
       <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+      <arrow> <attr>Buffer:</attr> %buffer%
 
   elevator_1:
     name: "Elevator I"
@@ -483,7 +515,8 @@ item:
     lore: |-
       <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
-    waila: "Slurry Strainer%info%"
+      <arrow> <attr>Buffer:</attr> %buffer%
+    waila: "Fluid Strainer%info%"
 
   smeltery_burner:
     name: "Smeltery Burner"
@@ -614,7 +647,6 @@ item:
       <arrow> Place below a constructed grindstone
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
-    waila: "Hydraulic Grindstone Turner (%status%)"
 
   hydraulic_mixing_attachment:
     name: "Hydraulic Mixing Attachment"
@@ -623,7 +655,6 @@ item:
       <arrow> <attr>Cooldown time:</attr> %cooldown%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Mixing Attachment (%status%)"
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
@@ -631,7 +662,6 @@ item:
       <arrow> Place above the press, leaving a one block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Press Piston (%status%)"
 
   hydraulic_hammer_head:
     name: "Hydraulic Hammer Head"
@@ -641,7 +671,22 @@ item:
       <arrow> Place above the hammer's base block, leaving a two block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Hammer Head (%status%)"
+
+  hydraulic_pipe_bender:
+    name: "Hydraulic Pipe Bender"
+    lore: |-
+      <arrow> Efficiently bends materials into pipes
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+
+  hydraulic_table_saw:
+    name: "Hydraulic Table Saw"
+    lore: |-
+      <arrow> Efficiently cuts logs into planks and planks into sticks
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
 
   quartz_dust:
     name: "Quartz Dust"
@@ -730,6 +775,93 @@ item:
       <arrow> to earn the blessing of the Fire God
       <arrow> so that your weapon become fireproof.
 
+  fluid_tank:
+    name: "Fluid Tank"
+    lore: |-
+      <star> Multiblock
+      <arrow> Place fluid casings on top to increase the capacity
+      <arrow> All the casings must be the same material
+      <arrow> <attr>Max height:</attr> %max-height%
+    waila: "Fluid Tank %info%"
+
+  fluid_tank_casing_wood:
+    name: "Wooden Fluid Tank Casing"
+    lore: |-
+      <star> Multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_copper:
+    name: "Copper Fluid Tank Casing"
+    lore: |-
+      <star> Multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_obsidian:
+    name: "Obsidian Fluid Tank Casing"
+    lore: |-
+      <star> Multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  manual_core_drill_lever:
+    name: "Manual Core Drill Lever"
+    lore: |-
+      <arrow> Used to power manual core drills
+      <arrow> <insn>Right click</insn> to cycle the attached core drill
+
+  manual_core_drill:
+    name: "Manual Core Drill"
+    lore: |-
+      <star> Multiblock
+      <arrow> Mines shallow core chunks
+      <arrow> <attr>Cycle time:</attr> %cycle-time%
+      <arrow> <attr>Cycle output:</attr> %cycle-output%
+
+  improved_manual_core_drill:
+    name: "Improved Manual Core Drill"
+    lore: |-
+      <star> Multiblock
+      <arrow> Mines subsurface core chunks
+      <arrow> <attr>Cycle time:</attr> %cycle-time%
+      <arrow> <attr>Cycle Output:</attr> %cycle-output%
+
+  hydraulic_core_drill:
+    name: "Hydraulic Core Drill"
+    lore: |-
+      <star> Multiblock
+      <arrow> Mines intermediate core chunks
+      <arrow> <attr>Cycle time:</attr> %cycle-time%
+      <arrow> <attr>Cycle output:</attr> %cycle-output%
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+
+  hydraulic_core_drill_input_hatch:
+    name: "Hydraulic Core Drill Input Hatch"
+    lore: |-
+      <star> Multiblock component
+
+  hydraulic_core_drill_output_hatch:
+    name: "Hydraulic Core Drill Output Hatch"
+    lore: |-
+      <star> Multiblock component
+
+  shallow_core_chunk:
+    name: "Shallow Core Chunk"
+    lore: |-
+      <arrow> A chunk of minerals from just below the surface
+
+  subsurface_core_chunk:
+    name: "Subsurface Core Chunk"
+    lore: |-
+      <arrow> A chunk of minerals from below the surface
+
+  intermediate_core_chunk:
+    name: "Intermediate Core Chunk"
+    lore: |-
+      <arrow> A chunk of minerals from many layers below the surface
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -813,9 +945,13 @@ guide:
     building: "Building"
     magic: "Magic"
   recipe:
-    grindstone: "<attr>Grinding time:</attr> %time%"
+    grindstone:
+      time: "<attr>Grinding time:</attr> %time%"
+      chance: "<attr>Chance:</attr> %chance%"
     press: "<attr>Pressing time:</attr> %time%"
     magic-altar: "<attr>Ritual time:</attr> %time%"
+    melting: "<attr>Temperature:</attr> %temperature%"
+    casting: "<attr>Temperature:</attr> %temperature%"
 
 message:
   fluid_none: "None"
@@ -867,6 +1003,7 @@ message:
     success: "Your item has been fire-proofed"
 
 gui:
+  fluid-selector-title: "Select Fluid"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"

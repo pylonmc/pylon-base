@@ -1,27 +1,32 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -39,7 +44,8 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
+public class HydraulicMixingAttachment extends PylonBlock
+        implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = baseKey("cooldown_time_remaining");
 
@@ -50,8 +56,6 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
     public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
-
-    public static final Component MISSING_MIXING_POT = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_mixing_pot");
 
     public static class Item extends PylonItem {
 
@@ -70,12 +74,25 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     }
 
     @Getter private double cooldownTimeRemaining;
-    @Getter private Component status = IDLE;
 
     @SuppressWarnings("unused")
     public HydraulicMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+
         cooldownTimeRemaining = 0.0;
+
+        setTickInterval(TICK_INTERVAL);
+
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        addEntity("mixing_attachment_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .material(Material.LIGHT_GRAY_CONCRETE)
+                .transformation(getShaftTransformation(0.7))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        ));
+
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -85,30 +102,9 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     }
 
     @Override
-    public double getHydraulicFluidBuffer() {
-        return HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-    }
-
-    @Override
-    public double getDirtyHydraulicFluidBuffer() {
-        return DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2;
-    }
-
-    @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
         pdc.set(COOLDOWN_TIME_REMAINING_KEY, PylonSerializers.DOUBLE, cooldownTimeRemaining);
-    }
-
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Map<String, PylonEntity<?>> entities = super.createEntities(context);
-        entities.put("mixing_attachment_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.LIGHT_GRAY_CONCRETE)
-                .transformation(getShaftTransformation(0.7))
-                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
-        ));
-        return entities;
     }
 
     @Override
@@ -127,50 +123,37 @@ public class HydraulicMixingAttachment extends SimpleHydraulicMachine implements
     }
 
     @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return TICK_INTERVAL;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
-            status = MISSING_MIXING_POT;
             return;
         }
 
         cooldownTimeRemaining = Math.max(0, cooldownTimeRemaining - deltaSeconds);
 
         if (cooldownTimeRemaining > 1.0e-5) {
-            status = WORKING;
             return;
         }
 
         MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN, 2));
         Preconditions.checkState(mixingPot != null);
 
-        if (hydraulicFluidAmount < HYDRAULIC_FLUID_MB_PER_CRAFT) {
-            status = NOT_ENOUGH_HYDRAULIC_FLUID;
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
+                || fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+                || !mixingPot.tryDoRecipe(null)
+        ) {
             return;
         }
 
-        if (getRemainingDirtyCapacity() < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT) {
-            status = DIRTY_HYDRAULIC_FLUID_BUFFER_FULL;
-            return;
-        }
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
 
-        if (!mixingPot.tryDoRecipe(null)) {
-            status = IDLE;
-            return;
-        }
-
-        startCraft(HYDRAULIC_FLUID_MB_PER_CRAFT, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
         cooldownTimeRemaining = COOLDOWN_TICKS / 20.0;
+
         getMotorShaft().setTransform(DOWN_ANIMATION_TIME_TICKS, getShaftTransformation(0.2));
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(),
                 () -> getMotorShaft().setTransform(UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7)),
                 DOWN_ANIMATION_TIME_TICKS
         );
-        status = WORKING;
     }
 
     private static @NotNull Matrix4f getShaftTransformation(double yTranslation) {

@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
-import io.github.pylonmc.pylon.base.content.tools.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.building.WitherProofObsidianListener;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -42,6 +42,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         BaseEntities.initialize();
         BaseFluids.initialize();
         BaseResearches.initialize();
+        BaseRecipes.initialize();
 
         PluginManager pm = Bukkit.getPluginManager();
 
