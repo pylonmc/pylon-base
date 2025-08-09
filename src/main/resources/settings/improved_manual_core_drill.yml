@@ -1,0 +1,4 @@
+rotation-duration-ticks: 16 # must be a multiple of 4
+rotations-per-cycle: 25
+output: "pylonbase:subsurface_core_chunk"
+drill-material: cyan_terracotta
