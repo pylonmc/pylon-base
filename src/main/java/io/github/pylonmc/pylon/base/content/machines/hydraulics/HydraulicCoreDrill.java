@@ -8,6 +8,8 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
@@ -28,9 +30,6 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
 
     public static class Item extends CoreDrill.Item {
 
-        public final int hydraulicFluidInputMbPerSecond = getSettings().getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
-        public final int dirtyHydraulicFluidOutputMbPerSecond = getSettings().getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
-
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
@@ -38,16 +37,17 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         @Override
         public @NotNull Map<String, ComponentLike> getPlaceholders() {
             Map<String, ComponentLike> placeholders = new HashMap<>(super.getPlaceholders());
-            placeholders.put("hydraulic-fluid-consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidInputMbPerSecond));
-            placeholders.put("dirty-hydraulic-fluid-output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dirtyHydraulicFluidOutputMbPerSecond));
+            placeholders.put("hydraulic-fluid-consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND));
+            placeholders.put("dirty-hydraulic-fluid-output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND));
             return placeholders;
         }
     }
 
-    public final int hydraulicFluidInputMbPerSecond = getSettings().getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
-    public final int dirtyHydraulicFluidOutputMbPerSecond = getSettings().getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
-    public final double fluidConsumptionPerCycle = hydraulicFluidInputMbPerSecond * getCycleDuration() / 20.0;
-    public final double fluidOutputPerCycle = dirtyHydraulicFluidOutputMbPerSecond * getCycleDuration() / 20.0;
+    public static final Config settings = Settings.get(BaseKeys.HYDRAULIC_CORE_DRILL);
+    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
+    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
+    public final double fluidConsumptionPerCycle = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * getCycleDuration() / 20.0;
+    public final double fluidOutputPerCycle = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * getCycleDuration() / 20.0;
 
     @SuppressWarnings("unused")
     public HydraulicCoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {

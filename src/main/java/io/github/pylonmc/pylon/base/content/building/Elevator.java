@@ -6,10 +6,10 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonJumpableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSneakableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpableBlock {
@@ -33,8 +32,11 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of("elevator_range",  UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class)));
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of(
+                    "elevator_range",
+                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class))
+            ));
         }
     }
 

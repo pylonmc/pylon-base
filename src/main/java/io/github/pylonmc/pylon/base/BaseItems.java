@@ -1287,10 +1287,8 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COVALENT_BINDER);
         BasePages.RESOURCES.addItem(BaseKeys.COVALENT_BINDER);
-        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER);
-        gunpowderInput.setAmount(4);
-        ItemStack output = COVALENT_BINDER.clone();
-        output.setAmount(6);
+        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER, 4);
+        ItemStack output = COVALENT_BINDER.asQuantity(6);
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 BaseKeys.COVALENT_BINDER,
                 List.of(gunpowderInput, new ItemStack(Material.EMERALD), SHIMMER_DUST_1),
@@ -1477,8 +1475,7 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_WOOD);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_WOOD);
 
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_WOOD);
-        shapedOutput.setAmount(4);
+        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_WOOD).asQuantity(4);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_WOOD, shapedOutput)
                 .shape("www", "   ", "www")
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
@@ -1509,8 +1506,7 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_COPPER);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_COPPER);
 
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_COPPER);
-        shapedOutput.setAmount(4);
+        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_COPPER).asQuantity(4);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_COPPER, shapedOutput)
                 .shape("ccc", "   ", "ccc")
                 .setIngredient('c', COPPER_SHEET);
@@ -1539,8 +1535,7 @@ public final class BaseItems {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_OBSIDIAN);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_PIPE_OBSIDIAN);
 
-        ItemStack output = new ItemStack(FLUID_PIPE_OBSIDIAN);
-        output.setAmount(4);
+        ItemStack output = new ItemStack(FLUID_PIPE_OBSIDIAN).asQuantity(4);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_PIPE_OBSIDIAN, output)
                 .shape("ooo", "   ", "ooo")
                 .setIngredient('o', new ItemStack(Material.OBSIDIAN));
@@ -2162,8 +2157,7 @@ public final class BaseItems {
         PylonItem.register(IceArrow.class, ICE_ARROW, BaseKeys.ICE_ARROW);
         BasePages.COMBAT.addItem(BaseKeys.ICE_ARROW);
 
-        ItemStack arrowResult = ICE_ARROW.clone();
-        arrowResult.setAmount(8);
+        ItemStack arrowResult = ICE_ARROW.asQuantity(8);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_ARROW, arrowResult);
         recipe.shape(
                 "III",
@@ -2182,8 +2176,7 @@ public final class BaseItems {
         PylonItem.register(RecoilArrow.class, RECOIL_ARROW);
         BasePages.COMBAT.addItem(BaseKeys.RECOIL_ARROW);
 
-        ItemStack output = RECOIL_ARROW.clone();
-        output.setAmount(8);
+        ItemStack output = RECOIL_ARROW.asQuantity(8);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.RECOIL_ARROW, RECOIL_ARROW)
                 .shape("SSS", "SAS", "SSS")
                 .setIngredient('S', Material.SLIME_BALL)
@@ -2259,8 +2252,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SUBSURFACE_CORE_CHUNK);
 
-        ItemStack tinOutput = CRUSHED_RAW_TIN.clone();
-        tinOutput.setAmount(2);
+        ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.SUBSURFACE_CORE_CHUNK,
@@ -2283,8 +2275,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.INTERMEDIATE_CORE_CHUNK);
 
-        ItemStack tinOutput = CRUSHED_RAW_TIN.clone();
-        tinOutput.setAmount(2);
+        ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.INTERMEDIATE_CORE_CHUNK,

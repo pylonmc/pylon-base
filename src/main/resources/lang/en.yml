@@ -979,6 +979,7 @@ message:
       below: "<red>No elevators within range below you"
 
 gui:
+  fluid-selector-title: "Select Fluid"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"
