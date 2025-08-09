@@ -4,23 +4,17 @@ import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
+import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
-import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
-import io.github.pylonmc.pylon.base.content.tools.Hammer;
-import io.github.pylonmc.pylon.base.content.tools.LumberAxe;
-import io.github.pylonmc.pylon.base.content.tools.PortableCraftingTable;
-import io.github.pylonmc.pylon.base.content.tools.PortableDustbin;
-import io.github.pylonmc.pylon.base.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.base.content.tools.WateringCan;
-import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
-import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -36,8 +30,10 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.PotionContents;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
@@ -48,6 +44,7 @@ import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2290,6 +2287,26 @@ public final class BaseItems {
                 10,
                 Material.STONE.createBlockData()
         ));
+    }
+
+    public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
+            .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                    .customColor(Color.FUCHSIA)
+                    .build())
+            .build();
+    static {
+        PylonItem.register(CleansingPotion.class, CLEANSING_POTION);
+        BasePages.TOOLS.addItem(BaseKeys.CLEANSING_POTION);
+        ItemStack healingPotion = ItemStackBuilder.of(Material.SPLASH_POTION)
+                .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                        .potion(PotionType.HEALING)
+                        .build())
+                .build();
+        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.CLEANSING_POTION, CLEANSING_POTION)
+                .addIngredient(healingPotion)
+                .addIngredient(DISINFECTANT);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
