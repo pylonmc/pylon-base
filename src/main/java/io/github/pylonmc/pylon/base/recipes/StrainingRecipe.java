@@ -34,10 +34,6 @@ public record StrainingRecipe(
             baseKey("fluid_strainer")
     );
 
-    static {
-        RECIPE_TYPE.register();
-    }
-
     public static final PersistentDataType<?, StrainingRecipe> DATA_TYPE =
             PylonSerializers.KEYED.keyedTypeFrom(StrainingRecipe.class, RECIPE_TYPE::getRecipeOrThrow);
 

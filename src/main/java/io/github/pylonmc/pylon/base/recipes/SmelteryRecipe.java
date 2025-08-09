@@ -47,10 +47,6 @@ public class SmelteryRecipe implements PylonRecipe {
         }
     };
 
-    static {
-        RECIPE_TYPE.register();
-    }
-
     @Getter(onMethod_ = @Override) private final NamespacedKey key;
     @Getter private final Map<PylonFluid, Double> fluidInputs;
     @Getter private final Map<PylonFluid, Double> fluidOutputs;

@@ -149,9 +149,8 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         for (int i = 0; i < nextRecipe.cycles(); i++) {
             for (int j = 0; j < 4; j++) {
-                boolean isFirst = i == 0 && j == 0;
                 boolean isLast = i == nextRecipe.cycles() - 1 && j == 3;
-                double translation = isFirst || isLast ? 0.8 : 0.5;
+                double translation = isLast ? 0.8 : 0.5;
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                     getStoneDisplay().setTransform(

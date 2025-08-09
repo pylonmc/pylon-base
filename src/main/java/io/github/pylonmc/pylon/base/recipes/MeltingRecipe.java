@@ -42,10 +42,6 @@ public record MeltingRecipe(
             baseKey("melt_recipe")
     );
 
-    static {
-        RECIPE_TYPE.register();
-    }
-
     @Override
     public @NotNull NamespacedKey getKey() {
         return key;

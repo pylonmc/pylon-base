@@ -672,6 +672,22 @@ item:
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
 
+  hydraulic_pipe_bender:
+    name: "Hydraulic Pipe Bender"
+    lore: |-
+      <arrow> Efficiently bends materials into pipes
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+
+  hydraulic_table_saw:
+    name: "Hydraulic Table Saw"
+    lore: |-
+      <arrow> Efficiently cuts logs into planks and planks into sticks
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+
   quartz_dust:
     name: "Quartz Dust"
 
@@ -961,20 +977,6 @@ message:
     none_within_range:
       above: "<red>No elevators within range above you"
       below: "<red>No elevators within range below you"
-  hydraulic_status:
-    not_enough_hydraulic_fluid: "<red>Not enough hydraulic fluid"
-    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic fluid buffer full"
-    working: "<green>Working"
-    idle: "<yellow>Idle"
-    missing_grindstone: "<red>Missing grindstone"
-    missing_mixing_pot: "<red>Missing mixing pot"
-    missing_press: "<red>Missing press"
-    missing_hammer: "<red>Missing hammer"
-    missing_base: "<red>Missing base"
-    no_fuel: "<red>No fuel"
-    incomplete: "<red>Incomplete"
-    working_with_reduced_efficiency: "<green>Working with reduced efficiency"
-    no_sunlight: "<red>No sunlight"
 
 gui:
   fluid-selector-title: "Select Fluid"

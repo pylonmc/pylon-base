@@ -78,6 +78,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT, Material.GRAY_CONCRETE, HydraulicMixingAttachment.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_PRESS_PISTON, Material.BROWN_CONCRETE, HydraulicPressPiston.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_HAMMER_HEAD, Material.STONE_BRICKS, HydraulicHammerHead.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_PIPE_BENDER, Material.BROWN_TERRACOTTA, HydraulicPipeBender.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_TABLE_SAW, Material.COPPER_BLOCK, HydraulicTableSaw.class);
         PylonBlock.register(BaseKeys.SOLAR_LENS, Material.GLASS_PANE, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_GLASS, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);

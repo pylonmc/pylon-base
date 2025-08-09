@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
@@ -47,10 +46,6 @@ public record MagicAltarRecipe(
     public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new RecipeType<>(
             new NamespacedKey(PylonBase.getInstance(), "magic_altar")
     );
-
-    static {
-        PylonRegistry.RECIPE_TYPES.register(RECIPE_TYPE);
-    }
 
     public boolean ingredientsMatch(List<ItemStack> ingredients) {
         assert this.inputs.size() == MagicAltar.PEDESTAL_COUNT;
