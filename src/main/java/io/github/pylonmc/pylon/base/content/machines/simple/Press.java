@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -33,7 +33,6 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -72,10 +71,10 @@ public class Press extends PylonBlock
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of(
                     "time_per_item", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0)
-            );
+            ));
         }
     }
 
@@ -105,10 +104,10 @@ public class Press extends PylonBlock
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         return new WailaConfig(
                 getName(),
-                Map.of(
-                        "plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL))),
-                        "plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB),
-                        "plant_oil", BaseFluids.PLANT_OIL.getName()
+                List.of(
+                        PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL)))),
+                        PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
+                        PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
                 )
         );
     }

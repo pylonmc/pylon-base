@@ -9,9 +9,12 @@ import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.ComponentLike;
+import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -42,10 +46,10 @@ public class SolarPurificationTower extends PylonBlock
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100),
-                    "fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidMbPerSecond)
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100)),
+                    PylonArgument.of("fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidMbPerSecond))
             );
         }
     }
