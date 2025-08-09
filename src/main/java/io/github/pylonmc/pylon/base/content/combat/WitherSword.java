@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 public class WitherSword extends PylonItem implements PylonInteractor {
@@ -36,8 +38,10 @@ public class WitherSword extends PylonItem implements PylonInteractor {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-        return Map.of("chargedskulls", chargedSkulls ? trueCharged : falseCharged,
-                "skullspeed", UnitFormat.BLOCKS_PER_SECOND.format(skullSpeed));
+    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        return List.of(
+                PylonArgument.of("chargedskulls", chargedSkulls ? trueCharged : falseCharged),
+                PylonArgument.of("skullspeed", UnitFormat.BLOCKS_PER_SECOND.format(skullSpeed))
+        );
     }
 }
