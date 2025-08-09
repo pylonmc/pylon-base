@@ -9,10 +9,10 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -23,6 +23,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
+import java.util.List;
 import java.util.Map;
 
 public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultiblock {
@@ -38,10 +39,10 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "cycle-time", UnitFormat.SECONDS.format(rotationsPerCycle * rotationDuration / 20),
-                    "cycle-output", output.effectiveName()
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("cycle-time", UnitFormat.SECONDS.format(rotationsPerCycle * rotationDuration / 20)),
+                    PylonArgument.of("cycle-output", output.effectiveName())
             );
         }
     }

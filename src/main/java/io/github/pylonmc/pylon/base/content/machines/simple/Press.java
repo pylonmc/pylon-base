@@ -1,12 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -23,6 +19,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
@@ -41,7 +38,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 

@@ -4,15 +4,14 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,7 +22,9 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3i;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
@@ -35,10 +36,10 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            Map<String, ComponentLike> placeholders = new HashMap<>(super.getPlaceholders());
-            placeholders.put("hydraulic-fluid-consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND));
-            placeholders.put("dirty-hydraulic-fluid-output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND));
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            List<PylonArgument> placeholders = new ArrayList<>(super.getPlaceholders());
+            placeholders.add(PylonArgument.of("hydraulic-fluid-consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)));
+            placeholders.add(PylonArgument.of("dirty-hydraulic-fluid-output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND)));
             return placeholders;
         }
     }

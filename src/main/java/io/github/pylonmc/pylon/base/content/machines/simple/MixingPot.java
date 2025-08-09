@@ -89,7 +89,7 @@ public final class MixingPot extends PylonBlock
     }
 
     private void updateCauldron() {
-        int level = (int) fluidAmount() / 333;
+        int level = (int) getFluidAmount() / 333;
         if (level > 0 && getBlock().getType() == Material.CAULDRON) {
             getBlock().setType(Material.WATER_CAULDRON);
         } else if (level == 0) {
@@ -104,11 +104,11 @@ public final class MixingPot extends PylonBlock
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         Component text = Component.text("").append(getName());
-        if (fluidType() != null) {
+        if (getFluidType() != null) {
             text = text.append(Component.text(" | "))
-                    .append(fluidType().getName())
+                    .append(getFluidType().getName())
                     .append(Component.text(": "))
-                    .append(UnitFormat.MILLIBUCKETS.format(fluidAmount()).decimalPlaces(1));
+                    .append(UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1));
         }
         return new WailaConfig(text);
     }
@@ -126,7 +126,7 @@ public final class MixingPot extends PylonBlock
 
         event.setCancelled(true);
 
-        if (!isFormedAndFullyLoaded() || fluidType() == null) {
+        if (!isFormedAndFullyLoaded() || getFluidType() == null) {
             return;
         }
 
@@ -152,7 +152,7 @@ public final class MixingPot extends PylonBlock
                 && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
 
         for (MixingPotRecipe recipe : MixingPotRecipe.RECIPE_TYPE.getRecipes()) {
-            if (recipe.matches(stacks, isEnrichedFire, fluidType(), fluidAmount())) {
+            if (recipe.matches(stacks, isEnrichedFire, getFluidType(), getFluidAmount())) {
                 if (!new PrePylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
                     continue;
                 }

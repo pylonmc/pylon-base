@@ -11,30 +11,19 @@ import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
-import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
-import io.github.pylonmc.pylon.core.fluid.FluidPointType;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -47,9 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -66,9 +53,9 @@ public class FluidFilter extends PylonBlock
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "buffer", UnitFormat.MILLIBUCKETS.format(buffer)
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -156,7 +143,7 @@ public class FluidFilter extends PylonBlock
         return Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond)
                 * PylonConfig.getFluidTickInterval()
                 * deltaSeconds
-                - fluidAmount()
+                - getFluidAmount()
         );
     }
 

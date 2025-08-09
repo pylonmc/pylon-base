@@ -21,7 +21,6 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.format.Style;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -35,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -52,9 +50,9 @@ public class FluidTank extends PylonBlock
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "max-height", UnitFormat.BLOCKS.format(maxHeight)
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("max-height", UnitFormat.BLOCKS.format(maxHeight))
             );
         }
     }
@@ -124,7 +122,7 @@ public class FluidTank extends PylonBlock
             allowedTemperatures = List.of();
             setCapacity(0);
         }
-        setFluid(Math.min(fluidCapacity(), fluidAmount()));
+        setFluid(Math.min(getFluidCapacity(), getFluidAmount()));
 
         return casingType != null;
     }
@@ -154,7 +152,7 @@ public class FluidTank extends PylonBlock
     @Override
     public boolean setFluid(double amount) {
         boolean result = PylonFluidTank.super.setFluid(amount);
-        float scale = (float) ((height - 0.1) * fluidAmount() / fluidCapacity());
+        float scale = (float) ((height - 0.1) * getFluidAmount() / getFluidCapacity());
         getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
@@ -170,19 +168,19 @@ public class FluidTank extends PylonBlock
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         Component info;
-        if (fluidType() == null) {
+        if (getFluidType() == null) {
             info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
         } else {
             info = Component.translatable(
                     "pylon.pylonbase.waila.fluid_tank.filled",
-                    PylonArgument.of("amount", Math.round(fluidAmount())),
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(fluidCapacity())
+                    PylonArgument.of("amount", Math.round(getFluidAmount())),
+                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(getFluidCapacity())
                             .decimalPlaces(0)
                             .unitStyle(Style.empty())
                     ),
-                    PylonArgument.of("fluid", fluidType().getName())
+                    PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getName(), Map.of("info", info));
+        return new WailaConfig(getName(), List.of(PylonArgument.of("info", info)));
     }
 }
