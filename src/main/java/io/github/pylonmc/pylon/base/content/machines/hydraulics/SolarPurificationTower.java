@@ -1,16 +1,22 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimplePurificationMachine;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import net.kyori.adventure.text.ComponentLike;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -21,16 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SolarPurificationTower extends SimplePurificationMachine implements PylonSimpleMultiblock, PylonTickingBlock {
+public class SolarPurificationTower extends PylonBlock
+        implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
     public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", Integer.class);
     public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", Integer.class);
     public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", Double.class);
     public final int lensLayers = getSettings().getOrThrow("lens-layers", Integer.class);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
-
-    public static final Component NO_SUNLIGHT = Component.translatable("pylon.pylonbase.message.hydraulic_status.no_fuel");
-    public static final Component WORKING_WITH_REDUCED_EFFICIENCY = Component.translatable("pylon.pylonbase.message.hydraulic_status.working_with_reduced_efficiency");
 
     public static class Item extends PylonItem {
 
@@ -50,26 +54,18 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
         }
     }
 
-    @Getter private Component status = IDLE;
-
     @SuppressWarnings("unused")
     public SolarPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidBuffer, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, fluidBuffer, false, true);
     }
 
     @SuppressWarnings("unused")
     public SolarPurificationTower(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-    }
-
-    @Override
-    public double getDirtyHydraulicFluidBuffer() {
-        return fluidBuffer;
-    }
-
-    @Override
-    public double getHydraulicFluidBuffer() {
-        return fluidBuffer;
     }
 
     @Override
@@ -100,23 +96,16 @@ public class SolarPurificationTower extends SimplePurificationMachine implements
 
     @Override
     public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded()) {
-            status = INCOMPLETE;
+        if (!isFormedAndFullyLoaded() || !getBlock().getWorld().isDayTime()) {
             return;
         }
 
-        if (!getBlock().getWorld().isDayTime()) {
-            status = NO_SUNLIGHT;
-            return;
-        }
-
-        if (!getBlock().getWorld().isClearWeather()) {
-            purify(deltaSeconds * fluidMbPerSecond * rainSpeedFraction);
-            status = WORKING_WITH_REDUCED_EFFICIENCY;
-            return;
-        }
-
-        purify(deltaSeconds * fluidMbPerSecond);
-        status = WORKING;
+        double multiplier = getBlock().getWorld().isClearWeather() ? 1.0 : rainSpeedFraction;
+        double toPurify = Math.min(
+                deltaSeconds * fluidMbPerSecond * multiplier,
+                Math.min(fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID), fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID))
+        );
+        removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
+        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify);
     }
 }

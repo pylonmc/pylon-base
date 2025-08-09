@@ -6,13 +6,16 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -44,15 +47,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+public class PortableFluidTank extends PylonBlock
+        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractableBlock {
 
     public static class Item extends PylonItem {
+        public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
+        public static final NamespacedKey FLUID_TYPE_KEY = baseKey("fluid_type");
 
         @Getter
         private final double capacity = getSettings().getOrThrow("capacity", Double.class);
@@ -87,8 +92,8 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         public @Nullable PylonBlock place(@NotNull BlockCreateContext context) {
             PortableFluidTank tank = (PortableFluidTank) getSchema().place(context);
             if (tank != null) {
-                tank.setFluid(getFluid());
-                tank.setAmount(getAmount());
+                tank.setFluidType(getFluid());
+                tank.setFluid(getAmount());
             }
             return tank;
         }
@@ -109,109 +114,50 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         }
     }
 
-    public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
-    private static final NamespacedKey FLUID_TYPE_KEY = baseKey("fluid_type");
-
     public final double capacity = getSettings().getOrThrow("capacity", Double.class);
+
     @SuppressWarnings("unchecked")
     public final List<FluidTemperature> allowedFluids = ((List<String>) getSettings().getOrThrow("allow-fluids", List.class)).stream()
             .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
             .collect(Collectors.toList());
 
-    private double fluidAmount;
-    private @Nullable PylonFluid fluidType;
-
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
+        setCapacity(capacity);
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-
-        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
-        fluidType = pdc.get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
-        PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluidType);
+    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+        return true;
     }
 
     @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                        .build(getBlock().getLocation().toCenterLocation())),
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN)
-        );
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
-        return fluidType == null
-                ? Map.of()
-                : Map.of(fluidType, fluidAmount);
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
-        // If no fluid contained, allow any fluid to be added
-        if (fluidType == null) {
-            return PylonRegistry.FLUIDS.getValues()
-                    .stream()
-                    .filter(fluid -> allowedFluids.contains(fluid.getTag(FluidTemperature.class)))
-                    .collect(Collectors.toMap(Function.identity(), key -> capacity));
-        }
-
-        // If tank full, don't request anything
-        if (fluidAmount >= capacity) {
-            return Map.of();
-        }
-
-        // Otherwise, only allow more of the stored fluid to be added
-        return Map.of(fluidType, capacity - fluidAmount);
-    }
-
-    @Override
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
-        if (!fluid.equals(fluidType)) {
-            setFluid(fluid);
-        }
-        setAmount(fluidAmount + amount);
-    }
-
-    @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        setAmount(fluidAmount - amount);
-    }
-
-    public void setFluid(@Nullable PylonFluid fluid) {
-        this.fluidType = fluid;
+    public void setFluidType(@Nullable PylonFluid fluid) {
+        PylonFluidTank.super.setFluidType(fluid);
         getFluidDisplay().getEntity().setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
     }
 
-    public void setAmount(double amount) {
-        this.fluidAmount = amount;
-
-        if (fluidAmount < 1.0e-6) {
-            setFluid(null);
-            fluidAmount = 0.0;
-        }
-        
-        updateFluidDisplayHeight();
-    }
-
-    public void updateFluidDisplayHeight() {
-        float scale = (float) (0.9F * fluidAmount / capacity);
+    @Override
+    public boolean setFluid(double amount) {
+        boolean result = PylonFluidTank.super.setFluid(amount);
+        float scale = (float) (0.9F * fluidAmount() / capacity);
         getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
-                    .translate(0.0, -0.45 + scale / 2, 0.0)
-                    .scale(0.9, scale, 0.9)
-                    .buildForItemDisplay()
+                .translate(0.0, -0.45 + scale / 2, 0.0)
+                .scale(0.9, scale, 0.9)
+                .buildForItemDisplay()
         );
+        return result;
     }
 
     public @NotNull SimpleItemDisplay getFluidDisplay() {
@@ -221,17 +167,17 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
         Component info;
-        if (fluidType == null) {
+        if (fluidType() == null) {
             info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
         } else {
             info = Component.translatable(
                     "pylon.pylonbase.waila.fluid_tank.filled",
-                    PylonArgument.of("amount", Math.round(fluidAmount)),
+                    PylonArgument.of("amount", Math.round(fluidAmount())),
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)
                             .decimalPlaces(0)
                             .unitStyle(Style.empty())
                     ),
-                    PylonArgument.of("fluid", fluidType.getName())
+                    PylonArgument.of("fluid", fluidType().getName())
             );
         }
         return new WailaConfig(getName(), List.of(PylonArgument.of("info", info)));
@@ -243,8 +189,8 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         ItemStack stack = PylonRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
 
         Item item = new Item(stack);
-        item.setFluid(fluidType);
-        item.setAmount(fluidAmount);
+        item.setFluid(fluidType());
+        item.setAmount(fluidAmount());
 
         return stack;
     }
@@ -267,14 +213,14 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         if (item.getType() == Material.WATER_BUCKET) {
             event.setUseItemInHand(Event.Result.DENY);
 
-            if (BaseFluids.WATER.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
-                setAmount(fluidAmount + 1000.0);
+            if (BaseFluids.WATER.equals(fluidType()) && capacity - fluidAmount() >= 1000.0) {
+                setFluid(fluidAmount() + 1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
 
-            if (fluidType == null) {
-                setFluid(BaseFluids.WATER);
-                setAmount(1000.0);
+            if (fluidType() == null) {
+                setFluidType(BaseFluids.WATER);
+                setFluid(1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
         }
@@ -283,14 +229,14 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
         if (item.getType() == Material.LAVA_BUCKET) {
             event.setUseItemInHand(Event.Result.DENY);
 
-            if (BaseFluids.LAVA.equals(fluidType) && capacity - fluidAmount >= 1000.0) {
-                setAmount(fluidAmount + 1000.0);
+            if (BaseFluids.LAVA.equals(fluidType()) && capacity - fluidAmount() >= 1000.0) {
+                setFluid(fluidAmount() + 1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
 
-            if (fluidType == null) {
-                setFluid(BaseFluids.LAVA);
-                setAmount(1000.0);
+            if (fluidType() == null) {
+                setFluidType(BaseFluids.LAVA);
+                setFluid(1000.0);
                 newItemStack = new ItemStack(Material.BUCKET);
             }
         }
@@ -299,14 +245,14 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidBlock, Py
             event.setUseItemInHand(Event.Result.DENY);
 
             // Taking water
-            if (BaseFluids.WATER.equals(fluidType) && fluidAmount >= 1000.0) {
-                setAmount(fluidAmount - 1000.0);
+            if (BaseFluids.WATER.equals(fluidType()) && fluidAmount() >= 1000.0) {
+                setFluid(fluidAmount() - 1000.0);
                 newItemStack = new ItemStack(Material.WATER_BUCKET);
             }
 
             // Taking lava
-            if (BaseFluids.LAVA.equals(fluidType) && fluidAmount >= 1000.0) {
-                setAmount(fluidAmount - 1000.0);
+            if (BaseFluids.LAVA.equals(fluidType()) && fluidAmount() >= 1000.0) {
+                setFluid(fluidAmount() - 1000.0);
                 newItemStack = new ItemStack(Material.LAVA_BUCKET);
             }
         }

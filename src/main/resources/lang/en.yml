@@ -272,12 +272,14 @@ item:
     lore: |-
       <arrow> Drains water from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+      <arrow> <attr>Buffer:</attr> %buffer%
 
   lava_drainer:
     name: "Lava Drainer"
     lore: |-
       <arrow> Drains lava from the block in front of it and makes it available to any connected pipes
       <arrow> <attr>Drain interval:</attr> %drain_interval%
+      <arrow> <attr>Buffer:</attr> %buffer%
 
   elevator_1:
     name: "Elevator I"
@@ -483,6 +485,7 @@ item:
     lore: |-
       <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Slurry Strainer%info%"
 
   smeltery_burner:
@@ -614,7 +617,6 @@ item:
       <arrow> Place below a constructed grindstone
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
-    waila: "Hydraulic Grindstone Turner (%status%)"
 
   hydraulic_mixing_attachment:
     name: "Hydraulic Mixing Attachment"
@@ -623,7 +625,6 @@ item:
       <arrow> <attr>Cooldown time:</attr> %cooldown%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Mixing Attachment (%status%)"
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
@@ -631,7 +632,6 @@ item:
       <arrow> Place above the press, leaving a one block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Press Piston (%status%)"
 
   hydraulic_hammer_head:
     name: "Hydraulic Hammer Head"
@@ -641,7 +641,6 @@ item:
       <arrow> Place above the hammer's base block, leaving a two block gap
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
-    waila: "Hydraulic Hammer Head (%status%)"
 
   quartz_dust:
     name: "Quartz Dust"

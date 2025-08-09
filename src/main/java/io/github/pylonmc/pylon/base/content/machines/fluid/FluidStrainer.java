@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -33,13 +32,11 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class FluidStrainer extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonGuiBlock {
+        implements PylonFluidBlock, PylonTickingBlock, PylonGuiBlock, PylonEntityHolderBlock {
 
     public final double bufferSize = getSettings().getOrThrow("buffer-size", Double.class);
 
@@ -54,6 +51,9 @@ public class FluidStrainer extends PylonBlock
     @SuppressWarnings("unused")
     public FluidStrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
 
         currentRecipe = null;
         buffer = 0;
@@ -77,29 +77,23 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH),
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH)
-        );
-    }
-
-    @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
         return currentRecipe == null ?
                 Map.of() :
                 Map.of(currentRecipe.outputFluid(), buffer);
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getRequestedFluids(double deltaSeconds) {
-        return Recipe.RECIPE_TYPE.getRecipes().stream()
-                .map(Recipe::inputFluid)
-                .collect(Collectors.toMap(Function.identity(), f -> bufferSize - buffer));
+    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+        if (Recipe.RECIPE_TYPE.getRecipes().stream().anyMatch(recipe -> fluid.equals(recipe.inputFluid))) {
+            return bufferSize - buffer;
+        } else {
+            return 0.0;
+        }
     }
 
     @Override
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
         if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
             passedFluid = 0;
             currentRecipe = null;
@@ -118,7 +112,7 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
         buffer -= amount;
     }
 
@@ -157,7 +151,7 @@ public class FluidStrainer extends PylonBlock
             inventory.addItem(null, currentRecipe.outputItem().clone());
             passedFluid -= currentRecipe.inputAmount();
         }
-        if (passedFluid < 1.0e-9) {
+        if (passedFluid < 1e-9) {
             currentRecipe = null;
             passedFluid = 0;
         }

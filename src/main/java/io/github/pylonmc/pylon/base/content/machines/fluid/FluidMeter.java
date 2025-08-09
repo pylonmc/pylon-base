@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -19,8 +18,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
-import java.util.Map;
-
 
 public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
@@ -32,31 +29,24 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     public FluidMeter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
+        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
+
+        addEntity("flow_rate_north", createTextDisplay(player, BlockFace.NORTH));
+        addEntity("flow_rate_south", createTextDisplay(player, BlockFace.SOUTH));
+
         removedSinceLastUpdate = 0.0;
     }
 
     @SuppressWarnings("unused")
     public FluidMeter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-
         removedSinceLastUpdate = 0.0;
     }
 
     @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
-        Map<String, PylonEntity<?>> entities = super.createEntities(context);
-        entities.put("flow_rate_north", createTextDisplay(player, BlockFace.NORTH));
-        entities.put("flow_rate_south", createTextDisplay(player, BlockFace.SOUTH));
-        return entities;
-    }
-
-    @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        super.removeFluid(fluid, amount);
-
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
+        super.onFluidRemoved(fluid, amount);
         removedSinceLastUpdate += amount;
     }
 
