@@ -58,7 +58,6 @@ public record StrainingRecipe(
 
     @Override
     public @NotNull Gui display() {
-        // 'n' can never be an item, it's just set to air to try and make the gui clearer
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",

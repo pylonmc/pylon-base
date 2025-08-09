@@ -1,9 +1,11 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -12,9 +14,11 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -24,7 +28,6 @@ import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.Style;
 import org.bukkit.Bukkit;
@@ -97,17 +100,17 @@ public class PortableFluidTank extends PylonBlock
         }
 
         @Override
-        public @NotNull Map<String, ComponentLike> getPlaceholders() {
-            return Map.of(
-                    "fluid", Component.translatable("pylon.pylonbase.fluid." + (getFluid() == null ? "none" : getFluid().getKey().getKey())),
-                    "amount", Component.text(Math.round(getAmount())),
-                    "capacity", UnitFormat.MILLIBUCKETS.format(capacity),
-                    "allowed-temperatures", Component.join(
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("fluid", getFluid() == null ? Component.translatable("pylon.pylonbase.fluid.none") : getFluid().getName()),
+                    PylonArgument.of("amount", Math.round(getAmount())),
+                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
+                    PylonArgument.of("allowed-temperature", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
                             allowedTemperatures.stream()
                                     .map(FluidTemperature::getValueText)
                                     .collect(Collectors.toList())
-                    )
+                    ))
             );
         }
     }
@@ -180,7 +183,7 @@ public class PortableFluidTank extends PylonBlock
                     PylonArgument.of("fluid", fluidType().getName())
             );
         }
-        return new WailaConfig(getName(), Map.of("info", info));
+        return new WailaConfig(getName(), List.of(PylonArgument.of("info", info)));
     }
 
     @Override
