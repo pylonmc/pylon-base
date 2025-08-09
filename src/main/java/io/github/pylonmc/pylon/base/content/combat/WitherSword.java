@@ -28,9 +28,9 @@ public class WitherSword extends PylonItem implements PylonInteractor {
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Location playerPos = event.getPlayer().getLocation();
-        WitherSkull witherSkull = (WitherSkull)playerPos.getWorld().spawnEntity(playerPos, EntityType.WITHER_SKULL);
+        WitherSkull witherSkull = (WitherSkull) playerPos.getWorld().spawnEntity(playerPos, EntityType.WITHER_SKULL);
         witherSkull.setCharged(chargedSkulls);
         witherSkull.setVelocity(event.getPlayer().getEyeLocation().getDirection().multiply(skullSpeed));
     }
