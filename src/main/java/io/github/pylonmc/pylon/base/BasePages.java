@@ -23,6 +23,7 @@ public class BasePages {
     private static final SimpleStaticGuidePage MACHINES = new SimpleStaticGuidePage(baseKey("machines"), Material.BLAST_FURNACE);
 
     public static final SimpleStaticGuidePage BUILDING = new SimpleStaticGuidePage(baseKey("building"), Material.STONE_BRICK_WALL);
+    public static final SimpleStaticGuidePage MAGIC = new SimpleStaticGuidePage(baseKey("magic"), Material.ENCHANTING_TABLE);
 
     static {
         PylonGuide.getRootPage().addPage(SCIENCE);
@@ -40,5 +41,6 @@ public class BasePages {
         PylonGuide.getRootPage().addPage(MACHINES);
 
         PylonGuide.getRootPage().addPage(BUILDING);
+        PylonGuide.getRootPage().addPage(MAGIC);
     }
 }
