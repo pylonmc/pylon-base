@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -46,6 +45,7 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
     @SuppressWarnings("unused")
     public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.UP));
     }
 
     @SuppressWarnings("unused")
@@ -54,22 +54,12 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of(
-                "output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.UP)
-        );
-    }
-
-    @Override
     public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
-        if (getBlock().getRelative(BlockFace.DOWN).getType() != Material.WATER) {
-            return Map.of();
-        }
-        return Map.of(BaseFluids.WATER, waterPerSecond * deltaSeconds);
+        return getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER
+                ? Map.of(BaseFluids.WATER, waterPerSecond * deltaSeconds)
+                : Map.of() ;
     }
 
     @Override
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
-        // nothing, water block is treated as infinite lol
-    }
+    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {}
 }

@@ -1,21 +1,25 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.base.SimpleHydraulicMachine;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -26,8 +30,8 @@ import java.util.List;
 import java.util.Set;
 
 
-public class HydraulicGrindstoneTurner extends SimpleHydraulicMachine implements PylonMultiblock, PylonTickingBlock {
-    public static final Component MISSING_GRINDSTONE = Component.translatable("pylon.pylonbase.message.hydraulic_status.missing_grindstone");
+public class HydraulicGrindstoneTurner extends PylonBlock
+        implements PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock, PylonFluidBufferBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER);
     public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
@@ -50,26 +54,19 @@ public class HydraulicGrindstoneTurner extends SimpleHydraulicMachine implements
         }
     }
 
-    @Getter private Component status = IDLE;
-
     @SuppressWarnings("unused")
     public HydraulicGrindstoneTurner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(Grindstone.CYCLE_DURATION_TICKS + 1);
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings("unused")
     public HydraulicGrindstoneTurner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-    }
-
-    @Override
-    public double getHydraulicFluidBuffer() {
-        return HYDRAULIC_FLUID_BUFFER;
-    }
-
-    @Override
-    public double getDirtyHydraulicFluidBuffer() {
-        return DIRTY_HYDRAULIC_FLUID_BUFFER;
     }
 
     @Override
@@ -88,50 +85,34 @@ public class HydraulicGrindstoneTurner extends SimpleHydraulicMachine implements
     }
 
     @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return Grindstone.TICK_RATE;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
-            status = MISSING_GRINDSTONE;
             return;
         }
 
         Grindstone grindstone = BlockStorage.getAs(Grindstone.class, getBlock().getRelative(BlockFace.UP));
         Preconditions.checkState(grindstone != null);
 
-        if (grindstone.getRecipe() != null) {
-            status = WORKING;
+        if (grindstone.isRecipeInProgress()) {
             return;
         }
 
-        Grindstone.Recipe nextRecipe = grindstone.getNextRecipe();
+        GrindstoneRecipe nextRecipe = grindstone.getNextRecipe();
         if (nextRecipe == null) {
-            status = IDLE;
             return;
         }
 
         double inputFluidAmount = nextRecipe.timeTicks() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND / 20.0;
         double outputFluidAmount = nextRecipe.timeTicks() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND / 20.0;
 
-        if (hydraulicFluidAmount < inputFluidAmount) {
-            status = NOT_ENOUGH_HYDRAULIC_FLUID;
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < inputFluidAmount
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < outputFluidAmount
+                || !grindstone.tryStartRecipe(nextRecipe, null)
+        ) {
             return;
         }
 
-        if (getRemainingDirtyCapacity() < outputFluidAmount) {
-            status = DIRTY_HYDRAULIC_FLUID_BUFFER_FULL;
-            return;
-        }
-
-        if (!grindstone.tryStartRecipe(nextRecipe, null)) {
-            status = IDLE;
-            return;
-        }
-
-        startCraft(inputFluidAmount, outputFluidAmount);
-        status = WORKING;
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, inputFluidAmount);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, outputFluidAmount);
     }
 }
