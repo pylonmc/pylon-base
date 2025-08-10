@@ -14,6 +14,7 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.time.Duration;
@@ -64,7 +66,7 @@ public final class PitKiln extends PylonBlock implements
 
     private final Map<ItemStack, Integer> contents;
     private final Set<ItemStack> processing;
-    private double processingTime;
+    private @Nullable Double processingTime;
 
     @SuppressWarnings("unused")
     public PitKiln(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -74,7 +76,7 @@ public final class PitKiln extends PylonBlock implements
         processingTime = Double.NaN;
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public PitKiln(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         contents = pdc.get(CONTENTS_KEY, CONTENTS_TYPE);
@@ -86,7 +88,7 @@ public final class PitKiln extends PylonBlock implements
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
         pdc.set(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK), processing);
-        pdc.set(PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
+        PdcUtils.setNullable(pdc, PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
     }
 
     @Override
@@ -113,6 +115,7 @@ public final class PitKiln extends PylonBlock implements
 
         ItemStack item = event.getItem();
         if (item == null || item.getType().isAir()) return;
+        //noinspection DataFlowIssue
         player.swingHand(event.getHand());
 
         int currentAmount = 0;
@@ -133,10 +136,10 @@ public final class PitKiln extends PylonBlock implements
                 BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
                 Waila.addWailaOverride(block, this::getComponentWaila);
             }
-            if (!isProcessing()) {
+            if (processingTime == null) {
                 tryStartProcessing();
             }
-            if (isProcessing()) {
+            if (processingTime != null) {
                 processingTime -= deltaSeconds;
                 if (processingTime <= 0) {
                     processingTime = Double.NaN;
@@ -159,7 +162,7 @@ public final class PitKiln extends PylonBlock implements
                 }
             }
         } else {
-            if (isProcessing()) {
+            if (processingTime != null) {
                 processingTime = Double.NaN;
                 processing.clear();
             }
@@ -168,12 +171,12 @@ public final class PitKiln extends PylonBlock implements
     }
 
     private WailaConfig getComponentWaila(@NotNull Player player) {
-        if (isProcessing()) {
+        if (processingTime != null) {
             return new WailaConfig(Component.translatable(
                     "pylon.pylonbase.waila.pit_kiln",
                     PylonArgument.of(
                             "time",
-                            UnitFormat.formatDuration(Duration.ofSeconds((long) processingTime))
+                            UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
                     )
             ));
         } else {
@@ -189,7 +192,7 @@ public final class PitKiln extends PylonBlock implements
     }
 
     private void tryStartProcessing() {
-        if (!Double.isNaN(processingTime) || contents.isEmpty()) return;
+        if (processingTime != null || contents.isEmpty()) return;
         recipeLoop:
         for (PitKilnRecipe recipe : PitKilnRecipe.RECIPE_TYPE) {
             int ratio = Integer.MAX_VALUE;
@@ -224,10 +227,6 @@ public final class PitKiln extends PylonBlock implements
             processingTime = PROCESSING_TIME_SECONDS * multiplier;
             break;
         }
-    }
-
-    public boolean isProcessing() {
-        return !Double.isNaN(processingTime);
     }
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
