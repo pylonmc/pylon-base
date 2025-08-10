@@ -24,9 +24,6 @@ import java.util.*;
 @SuppressWarnings("UnstableApiUsage")
 public class LumberAxe extends PylonItem implements PylonTool {
 
-    // Mostly here to prevent crashes from stack overflows if something goes wrong
-    private static final int MAX_DEPTH = 40;
-
     public LumberAxe( @NotNull ItemStack stack) {
         super(stack);
     }
@@ -39,15 +36,11 @@ public class LumberAxe extends PylonItem implements PylonTool {
             eventsToIgnore.remove(event);
             return;
         }
-        breakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand(), 0);
+        breakAttachedWood(event.getBlock(), event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
         event.setCancelled(true); // Stop vanilla logic
     }
 
-    private void breakAttachedWood(Block block, Player player, ItemStack tool, int depth) {
-        if (depth >= MAX_DEPTH) {
-            return;
-        }
-
+    private void breakAttachedWood(Block block, Player player, ItemStack tool) {
         // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
         if (!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block)) {
             return;
@@ -75,7 +68,7 @@ public class LumberAxe extends PylonItem implements PylonTool {
         }
         player.damageItemStack(tool, 1);
         for (BlockFace face : BlockUtils.IMMEDIATE_FACES) {
-            breakAttachedWood(block.getRelative(face), player, tool, depth + 1);
+            breakAttachedWood(block.getRelative(face), player, tool);
         }
     }
 }
