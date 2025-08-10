@@ -131,42 +131,37 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void tick(double deltaSeconds) {
-        if (isFormedAndFullyLoaded()) {
-            for (Vector3i relative : getComponents().keySet()) {
-                BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
-                Waila.addWailaOverride(block, this::getComponentWaila);
-            }
-            if (processingTime == null) {
-                tryStartProcessing();
-            }
-            if (processingTime != null) {
-                processingTime -= deltaSeconds;
-                if (processingTime <= 0) {
-                    processingTime = Double.NaN;
-                    int multiplier = 2;
-                    for (Vector3i top : TOP_POSITIONS) {
-                        Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
-                        if (topBlock.getType() != Material.PODZOL) {
-                            multiplier = 1;
-                        }
-                        topBlock.setType(Material.COARSE_DIRT);
-                    }
-                    for (ItemStack outputItem : processing) {
-                        contents.merge(outputItem.asOne(), outputItem.getAmount() * multiplier, Integer::sum);
-                    }
-                    processing.clear();
-                    for (Vector3i coal : COAL_POSITIONS) {
-                        Block coalBlock = getBlock().getRelative(coal.x(), coal.y(), coal.z());
-                        coalBlock.setType(Material.AIR);
-                    }
-                }
-            }
-        } else {
+        if (!isFormedAndFullyLoaded()) {
             if (processingTime != null) {
                 processingTime = Double.NaN;
                 processing.clear();
             }
-            removeWailas();
+            return;
+        }
+        if (processingTime == null) {
+            tryStartProcessing();
+        }
+        if (processingTime != null) {
+            processingTime -= deltaSeconds;
+            if (processingTime <= 0) {
+                processingTime = Double.NaN;
+                int multiplier = 2;
+                for (Vector3i top : TOP_POSITIONS) {
+                    Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
+                    if (topBlock.getType() != Material.PODZOL) {
+                        multiplier = 1;
+                    }
+                    topBlock.setType(Material.COARSE_DIRT);
+                }
+                for (ItemStack outputItem : processing) {
+                    contents.merge(outputItem.asOne(), outputItem.getAmount() * multiplier, Integer::sum);
+                }
+                processing.clear();
+                for (Vector3i coal : COAL_POSITIONS) {
+                    Block coalBlock = getBlock().getRelative(coal.x(), coal.y(), coal.z());
+                    coalBlock.setType(Material.AIR);
+                }
+            }
         }
     }
 
@@ -179,9 +174,21 @@ public final class PitKiln extends PylonBlock implements
                             UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
                     )
             ));
-        } else {
-            return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
         }
+        return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+    }
+
+    @Override
+    public boolean checkFormed() {
+        if (!PylonSimpleMultiblock.super.checkFormed()) {
+            removeWailas();
+            return false;
+        }
+        for (Vector3i relative : getComponents().keySet()) {
+            BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
+            Waila.addWailaOverride(block, this::getComponentWaila);
+        }
+        return true;
     }
 
     private void removeWailas() {
