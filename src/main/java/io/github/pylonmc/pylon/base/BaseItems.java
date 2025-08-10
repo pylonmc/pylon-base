@@ -2202,13 +2202,13 @@ public final class BaseItems {
     }
 
     public static final ItemStack FIREPROOF_RUNE = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.FIREPROOF_RUNE)
-            .editData(
+            .set(
                     DataComponentTypes.DAMAGE_RESISTANT,
-                    resistant -> DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE)
+                    DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE)
             )
-            .editData(
+            .set(
                     DataComponentTypes.FIREWORK_EXPLOSION,
-                    effect -> FireworkEffect.builder().withColor(Color.RED).build()
+                    FireworkEffect.builder().withColor(Color.RED).build()
             )
             .build();
     static {

@@ -1,8 +1,7 @@
 package io.github.pylonmc.pylon.base.content.magic.base;
 
-import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonArrow;
 import io.github.pylonmc.pylon.core.item.base.PylonBow;
@@ -26,8 +25,6 @@ import java.util.List;
  * @author balugaq
  */
 public abstract class Rune extends PylonItem {
-    public static final double CHECK_RANGE = Settings.get(BaseKeys.RUNE).getOrThrow("check-range", Double.class);
-
     // These can be applied with runes
     public static final List<Class<?>> DEFAULT_APPLICABLES = List.of(
             PylonArrow.class,
@@ -85,13 +82,13 @@ public abstract class Rune extends PylonItem {
 
             // Force run synchronously for entity handling
             PylonBase.runSync(() -> {
-                Block lookingAt = player.getTargetBlockExact((int) Math.ceil(CHECK_RANGE), FluidCollisionMode.NEVER);
+                Block lookingAt = player.getTargetBlockExact((int) Math.ceil(BaseConfig.RUNE_CHECK_RANGE), FluidCollisionMode.NEVER);
                 if (lookingAt == null) {
                     // The player may drop runes in the sky, skip it.
                     return;
                 }
 
-                Collection<Item> nearbyEntities = player.getWorld().getNearbyEntitiesByType(Item.class, lookingAt.getLocation(), CHECK_RANGE, item -> rune.isApplicableToTarget(event, runeStack, item.getItemStack()));
+                Collection<Item> nearbyEntities = player.getWorld().getNearbyEntitiesByType(Item.class, lookingAt.getLocation(), BaseConfig.RUNE_CHECK_RANGE, item -> rune.isApplicableToTarget(event, runeStack, item.getItemStack()));
                 Item targetEntity = nearbyEntities
                         .stream()
                         .findFirst()

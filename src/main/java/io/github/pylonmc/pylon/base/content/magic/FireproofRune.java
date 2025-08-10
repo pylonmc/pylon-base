@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.magic;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
@@ -47,7 +48,7 @@ public class FireproofRune extends Rune {
         int leftTargets = target.getAmount() - consume;
 
         Player player = event.getPlayer();
-        Location explodeLoc = player.getTargetBlockExact((int) Math.ceil(CHECK_RANGE), FluidCollisionMode.NEVER).getLocation();
+        Location explodeLoc = player.getTargetBlockExact((int) Math.ceil(BaseConfig.RUNE_CHECK_RANGE), FluidCollisionMode.NEVER).getLocation();
         World world = explodeLoc.getWorld();
         if (leftRunes > 0) {
             world.dropItemNaturally(explodeLoc, rune.asQuantity(leftRunes));
