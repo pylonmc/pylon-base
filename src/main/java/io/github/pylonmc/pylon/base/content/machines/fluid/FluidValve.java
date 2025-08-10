@@ -115,7 +115,7 @@ public class FluidValve extends PylonBlock
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(PylonArgument.of(
+        return new WailaConfig(getDefaultTranslationKey().arguments(PylonArgument.of(
                 "status",
                 Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
         )));
