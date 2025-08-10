@@ -434,6 +434,7 @@ item:
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
       <arrow> Can also be used like a normal cauldron
+    waila: "Mixing Pot %info%"
 
   wither_proof_obsidian:
     name: "Wither Proof Obsidian"
@@ -536,7 +537,6 @@ item:
     lore: |-
       <star> Smeltery component
       <arrow> Burns fuel to heat the smeltery
-    waila: "Smeltery Burner"
 
   smeltery_caster:
     name: "Smeltery Caster"
@@ -544,7 +544,6 @@ item:
       <star> Smeltery component
       <arrow> <insn>Right click</insn> to open the smeltery casting GUI
       <arrow> Casts items from the smeltery
-    waila: "Smeltery Caster"
 
   smeltery_controller:
     name: "Smeltery Controller"
@@ -553,28 +552,24 @@ item:
       <star> Smeltery component
       <arrow> The main component of the smeltery. Place it in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
       <arrow> <insn>Right click</insn> to open the smeltery GUI
-    waila: "Smeltery Controller"
 
   smeltery_hopper:
     name: "Smeltery Hopper"
     lore: |-
       <star> Smeltery component
       <arrow> Serves as item input for the smeltery
-    waila: "Smeltery Hopper"
 
   smeltery_input_hatch:
     name: "Smeltery Input Hatch"
     lore: |-
       <star> Smeltery component
       <arrow> Serves as fluid input for the smeltery
-    waila: "Smeltery Input Hatch"
 
   smeltery_output_hatch:
     name: "Smeltery Output Hatch"
     lore: |-
       <star> Smeltery component
       <arrow> Serves as fluid output for the smeltery
-    waila: "Smeltery Output Hatch"
 
   splint:
     name: "Splint"
@@ -903,6 +898,9 @@ fluid:
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
 
 waila:
+  mixing_pot:
+    empty: "(empty)"
+    filled: "| %amount% of %fluid%"
   fluid_tank:
     empty: "(empty)"
     filled: "| %amount%/%capacity% of %fluid%"
