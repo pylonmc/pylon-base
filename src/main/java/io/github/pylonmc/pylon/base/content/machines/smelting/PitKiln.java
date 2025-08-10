@@ -43,6 +43,14 @@ public final class PitKiln extends PylonBlock implements
     public static final int PROCESSING_TIME_SECONDS =
             Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Integer.class);
 
+    private static final double MULTIPLIER_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.campfire", Double.class);
+    private static final double MULTIPLIER_SOUL_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-campfire", Double.class);
+    private static final double MULTIPLIER_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.fire", Double.class);
+    private static final double MULTIPLIER_SOUL_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-fire", Double.class);
+
+    private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", Double.class);
+    private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", Double.class);
+
     public static final class Item extends PylonItem {
 
         public Item(@NotNull ItemStack stack) {
@@ -145,16 +153,18 @@ public final class PitKiln extends PylonBlock implements
             processingTime -= deltaSeconds;
             if (processingTime <= 0) {
                 processingTime = Double.NaN;
-                int multiplier = 2;
+                double multiplier = 0;
                 for (Vector3i top : TOP_POSITIONS) {
                     Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
-                    if (topBlock.getType() != Material.PODZOL) {
-                        multiplier = 1;
-                    }
+                    multiplier = switch (topBlock.getType()) {
+                        case PODZOL -> MULTIPLIER_PODZOL;
+                        case COARSE_DIRT -> MULTIPLIER_DIRT;
+                        default -> throw new AssertionError();
+                    };
                     topBlock.setType(Material.COARSE_DIRT);
                 }
                 for (ItemStack outputItem : processing) {
-                    contents.merge(outputItem.asOne(), outputItem.getAmount() * multiplier, Integer::sum);
+                    contents.merge(outputItem.asOne(), (int) Math.floor(outputItem.getAmount() * multiplier), Integer::sum);
                 }
                 processing.clear();
                 for (Vector3i coal : COAL_POSITIONS) {
@@ -227,9 +237,11 @@ public final class PitKiln extends PylonBlock implements
             }
             processing.addAll(outputItems);
             double multiplier = switch (getBlock().getRelative(FIRE_POSITION.x(), FIRE_POSITION.y(), FIRE_POSITION.z()).getType()) {
-                case CAMPFIRE -> 0.5;
-                case SOUL_FIRE -> 2;
-                default -> 1;
+                case CAMPFIRE -> MULTIPLIER_CAMPFIRE;
+                case SOUL_CAMPFIRE -> MULTIPLIER_SOUL_CAMPFIRE;
+                case FIRE -> MULTIPLIER_FIRE;
+                case SOUL_FIRE -> MULTIPLIER_SOUL_FIRE;
+                default -> throw new AssertionError();
             };
             processingTime = PROCESSING_TIME_SECONDS * multiplier;
             break;
