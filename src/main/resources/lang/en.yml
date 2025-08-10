@@ -463,12 +463,16 @@ item:
       <star> Multiblock
       <arrow> A primitive version of the smeltery
       <arrow> <insn>Right click</insn> to insert items
-      <arrow> Using fire and soul campfire smelts items at normal speed, using normal campfire smelts items at half speed, and using soul fire smelts items at double speed
-      <arrow> Using podzol instead of dirt doubles yield
       <arrow> <insn>Break</insn> to retrieve the items
       <arrow> Completing the multiblock with a valid recipe inside will start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
+      <arrow> <attr>Campfire speed</attr>: x%campfire%
+      <arrow> <attr>Soul campfire speed</attr>: x%soul_campfire%
+      <arrow> <attr>Fire speed</attr>: x%fire%
+      <arrow> <attr>Soul fire speed</attr>: x%soul_fire%
+      <arrow> <attr>Coarse dirt yield:</attr> x%coarse_dirt%
+      <arrow> <attr>Podzol yield:</attr> x%podzol%
 
   plaster:
     name: "Plaster"
