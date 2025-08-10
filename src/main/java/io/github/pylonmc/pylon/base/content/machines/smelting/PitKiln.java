@@ -39,8 +39,8 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class PitKiln extends PylonBlock implements
         PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-    private static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
-    private static final int PROCESSING_TIME_SECONDS =
+    public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
+    public static final int PROCESSING_TIME_SECONDS =
             Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Integer.class);
 
     public static final class Item extends PylonItem {

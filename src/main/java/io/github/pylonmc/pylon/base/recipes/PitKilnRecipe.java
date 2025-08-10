@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -25,9 +27,11 @@ public record PitKilnRecipe(
             baseKey("pit_kiln_recipe")
     );
 
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return key;
+    public PitKilnRecipe {
+        Preconditions.checkArgument(!input.isEmpty(), "Input cannot be empty");
+        Preconditions.checkArgument(input.size() <= PitKiln.CAPACITY, "Input cannot exceed the pit kiln's capacity of %s".formatted(PitKiln.CAPACITY));
+        Preconditions.checkArgument(!output.isEmpty(), "Output cannot be empty");
+        Preconditions.checkArgument(output.size() <= input.size(), "Output cannot exceed input size");
     }
 
     @Override
@@ -42,12 +46,12 @@ public record PitKilnRecipe(
 
     @Override
     public @NotNull Gui display() {
-        UnclickableInventory inputs = new UnclickableInventory(9);
+        UnclickableInventory inputs = new UnclickableInventory(6);
         for (ItemStack item : input) {
             inputs.addItem(item);
         }
 
-        UnclickableInventory outputs = new UnclickableInventory(9);
+        UnclickableInventory outputs = new UnclickableInventory(6);
         for (ItemStack item : output) {
             outputs.addItem(item);
         }
@@ -65,5 +69,10 @@ public record PitKilnRecipe(
                 .addIngredient('.', outputs)
                 .addIngredient('p', BaseItems.PIT_KILN)
                 .build();
+    }
+
+    @Override
+    public @NotNull NamespacedKey getKey() {
+        return key;
     }
 }

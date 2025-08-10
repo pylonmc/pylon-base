@@ -461,11 +461,11 @@ item:
     lore: |-
       <star> Multiblock
       <arrow> A primitive version of the smeltery
-      <arrow> Can perform any smeltery recipe under <unit:celsius>1100</unit>
       <arrow> <insn>Right click</insn> to insert items
       <arrow> Using fire and soul campfire smelts items at normal speed, using normal campfire smelts items at half speed, and using soul fire smelts items at double speed
       <arrow> Using podzol instead of dirt doubles yield
       <arrow> <insn>Break</insn> to retrieve the items
+      <arrow> Completing the multiblock with a valid recipe inside will start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
 
