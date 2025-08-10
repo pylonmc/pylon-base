@@ -771,7 +771,7 @@ item:
   fireproof_rune:
     name: "Fireproof Rune"
     lore: |-
-      <arrow> Drop your weapon and rune, and pray for 800 hours to earn the blessing of the Fire God so that your weapon become fireproof.
+      <arrow> Drop your weapon and rune, and pray for 800 hours to earn the blessing of the Fire God so that your weapon becomes fireproof.
 
   fluid_tank:
     name: "Fluid Tank"
