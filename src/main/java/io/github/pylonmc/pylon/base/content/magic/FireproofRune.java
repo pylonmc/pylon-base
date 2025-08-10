@@ -16,8 +16,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * @author balugaq
  */
@@ -37,8 +35,7 @@ public class FireproofRune extends Rune {
      * @param target The item to handle, amount may be > 1
      */
     @Override
-    @ParametersAreNonnullByDefault
-    public void onContactItem(PlayerDropItemEvent event, ItemStack rune, ItemStack target) {
+    public void onContactItem(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
         // As many runes as possible to consume
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
@@ -71,8 +68,7 @@ public class FireproofRune extends Rune {
         player.sendMessage(SUCCESS);
     }
 
-    @ParametersAreNonnullByDefault
-    public void spawnParticle(Particle particle, Location location, int count) {
+    public void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count) {
         new ParticleBuilder(particle)
                 .location(location)
                 .offset(0, 0, 0)

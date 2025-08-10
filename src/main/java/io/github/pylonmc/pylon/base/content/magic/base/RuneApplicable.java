@@ -9,8 +9,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * Defines items that can be applied with runes.
  *
@@ -44,10 +42,9 @@ public interface RuneApplicable {
     /**
      * Called when a rune is dropped on a target item.
      *
-     * @param event  The event
-     * @param rune   The rune
+     * @param event The event
+     * @param rune  The rune
      * @return true if the rune is applicable to the target item, false otherwise
      */
-    @ParametersAreNonnullByDefault
-    boolean applicableToTarget(PlayerDropItemEvent event, ItemStack rune);
+    boolean applicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune);
 }

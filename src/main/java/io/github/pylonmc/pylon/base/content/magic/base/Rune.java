@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.List;
 
@@ -50,8 +49,7 @@ public abstract class Rune extends PylonItem {
      * @param target The item to handle, amount may be > 1
      * @return true if applicable, false otherwise
      */
-    @ParametersAreNonnullByDefault
-    public boolean isApplicableToTarget(PlayerDropItemEvent event, ItemStack rune, ItemStack target) {
+    public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
         PylonItem instance = PylonItem.fromStack(target);
         if (instance == null) {
             // Non-Pylon items are always applicable
@@ -72,8 +70,7 @@ public abstract class Rune extends PylonItem {
      * @param rune   The rune item, amount may be > 1
      * @param target The item to handle, amount may be > 1
      */
-    @ParametersAreNonnullByDefault
-    public abstract void onContactItem(PlayerDropItemEvent event, ItemStack rune, ItemStack target);
+    public abstract void onContactItem(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target);
 
     public static class RuneListener implements Listener {
         @EventHandler
