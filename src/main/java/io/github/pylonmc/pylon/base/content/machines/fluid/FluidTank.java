@@ -181,6 +181,6 @@ public class FluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getName(), List.of(PylonArgument.of("info", info)));
+        return new WailaConfig(getName(PylonArgument.of("info", info)));
     }
 }

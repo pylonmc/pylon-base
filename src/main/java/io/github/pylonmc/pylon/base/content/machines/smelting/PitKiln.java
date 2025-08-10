@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
@@ -14,10 +14,6 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import io.github.pylonmc.pylon.core.util.gui.UnclickableInventory;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -28,12 +24,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3i;
-import xyz.xenondevs.invui.gui.Gui;
 
 import java.time.Duration;
 import java.util.*;
@@ -48,8 +42,6 @@ public final class PitKiln extends PylonBlock implements
             Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Integer.class);
 
     public static final class Item extends PylonItem {
-
-        private static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -118,10 +110,10 @@ public final class PitKiln extends PylonBlock implements
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         event.setCancelled(true);
         Player player = event.getPlayer();
-        player.swingHand(event.getHand());
 
         ItemStack item = event.getItem();
         if (item == null || item.getType().isAir()) return;
+        player.swingHand(event.getHand());
 
         int currentAmount = 0;
         for (int amount : contents.values()) {
@@ -196,11 +188,10 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
-    // <editor-fold desc="Recipe" defaultstate="collapsed">
     private void tryStartProcessing() {
         if (!Double.isNaN(processingTime) || contents.isEmpty()) return;
         recipeLoop:
-        for (Recipe recipe : Recipe.RECIPE_TYPE) {
+        for (PitKilnRecipe recipe : PitKilnRecipe.RECIPE_TYPE) {
             int ratio = Integer.MAX_VALUE;
             for (ItemStack inputItem : recipe.input()) {
                 if (!contents.containsKey(inputItem)) {
@@ -235,119 +226,9 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
-    static {
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("copper_smelting"),
-                List.of(BaseItems.CRUSHED_RAW_COPPER),
-                List.of(new ItemStack(Material.COPPER_INGOT))
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("redstone_smelting"),
-                List.of(new ItemStack(Material.REDSTONE)),
-                List.of(BaseItems.SULFUR)
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("gold_smelting"),
-                List.of(BaseItems.CRUSHED_RAW_GOLD),
-                List.of(new ItemStack(Material.GOLD_INGOT))
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("tin_smelting"),
-                List.of(BaseItems.CRUSHED_RAW_TIN),
-                List.of(BaseItems.TIN_INGOT)
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("zinc_smelting"),
-                List.of(BaseItems.CRUSHED_RAW_ZINC),
-                List.of(BaseItems.ZINC_INGOT)
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("lead_smelting"),
-                List.of(BaseItems.CRUSHED_RAW_LEAD),
-                List.of(BaseItems.LEAD_INGOT)
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("coal_to_carbon"),
-                List.of(BaseItems.COAL_DUST.asQuantity(2)),
-                List.of(BaseItems.CARBON_DUST)
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("bronze"),
-                List.of(new ItemStack(Material.COPPER_INGOT, 2), BaseItems.TIN_INGOT),
-                List.of(BaseItems.BRONZE_INGOT)
-        ));
-        Recipe.RECIPE_TYPE.addRecipe(new Recipe(
-                baseKey("brass"),
-                List.of(new ItemStack(Material.COPPER_INGOT, 2), BaseItems.ZINC_INGOT),
-                List.of(BaseItems.BRASS_INGOT)
-        ));
-    }
-
-    public record Recipe(
-            @NotNull NamespacedKey key,
-            @NotNull List<ItemStack> input,
-            @NotNull List<ItemStack> output
-    ) implements PylonRecipe {
-
-        public static final RecipeType<Recipe> RECIPE_TYPE = new RecipeType<>(
-                baseKey("pit_kiln_recipe")
-        );
-
-        static {
-            RECIPE_TYPE.register();
-        }
-
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return key;
-        }
-
-        @Override
-        public @NotNull List<RecipeChoice> getInputItems() {
-            List<RecipeChoice> choices = new ArrayList<>();
-            for (ItemStack item : input) {
-                choices.add(new RecipeChoice.ExactChoice(item));
-            }
-            return choices;
-        }
-
-        @Override
-        public @NotNull List<ItemStack> getOutputItems() {
-            return output;
-        }
-
-        @Override
-        public @NotNull Gui display() {
-            UnclickableInventory inputs = new UnclickableInventory(9);
-            for (ItemStack item : input) {
-                inputs.addItem(item);
-            }
-
-            UnclickableInventory outputs = new UnclickableInventory(9);
-            for (ItemStack item : output) {
-                outputs.addItem(item);
-            }
-
-            return Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# , , # # # . . #",
-                            "# , , # p # . . #",
-                            "# , , # # # . . #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient(',', inputs)
-                    .addIngredient('.', outputs)
-                    .addIngredient('p', BaseItems.PIT_KILN)
-                    .build();
-        }
-    }
-
     public boolean isProcessing() {
         return !Double.isNaN(processingTime);
     }
-    // </editor-fold>
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private static final List<Vector3i> COAL_POSITIONS = List.of(
