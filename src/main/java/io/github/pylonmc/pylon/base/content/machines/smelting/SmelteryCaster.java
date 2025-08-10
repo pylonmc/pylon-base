@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -34,6 +35,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     @SuppressWarnings("unused")
     public SmelteryCaster(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(SmelteryController.TICK_INTERVAL);
     }
 
     @SuppressWarnings("unused")

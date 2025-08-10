@@ -1,3 +1,3 @@
 material: black_terracotta
 fluid-per-second: 200.0
-allow-fluids: [normal, hot] # can be cold (cryogenic), normal, or hot (molten)
+allowed-temperatures: [normal, hot] # can be cold (cryogenic), normal, or hot (molten)
