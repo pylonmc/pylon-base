@@ -115,12 +115,18 @@ public final class MixingPot extends PylonBlock
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        // Only allow inserting water - events trying to insert lava will be cancelled
-        if (event.getItem() != null && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())) {
+        // Don't allow fluid to be manually inserted/removed
+        if (event.getItem() != null
+                && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())
+        ) {
+            event.setCancelled(true);
             return;
         }
 
-        if (event.getPlayer().isSneaking() || event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+        if (event.getPlayer().isSneaking()
+                || event.getHand() != EquipmentSlot.HAND
+                || event.getAction() != Action.RIGHT_CLICK_BLOCK
+        ) {
             return;
         }
 
@@ -209,6 +215,4 @@ public final class MixingPot extends PylonBlock
     public @NotNull Block getIgnitedBlock() {
         return getFire().getRelative(BlockFace.DOWN);
     }
-
-
 }
