@@ -866,7 +866,7 @@ fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
   brass: "<gold>Brass"
-  bronze: "<brown>Bronze"
+  bronze: "<#8d6f64>Bronze"
   cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
