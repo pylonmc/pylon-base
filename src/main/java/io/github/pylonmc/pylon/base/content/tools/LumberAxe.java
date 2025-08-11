@@ -28,7 +28,7 @@ public class LumberAxe extends PylonItem implements PylonTool {
         super(stack);
     }
 
-    private static final Set<Event> eventsToIgnore = HashSet.newHashSet(0);
+    private static final Set<Event> eventsToIgnore = Collections.newSetFromMap(new WeakHashMap<>());
 
     @Override
     public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
