@@ -14,11 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 public final class EnrichedNetherrack extends PylonBlock implements PylonTickingBlock {
 
-    public final int tickRate = getSettings().getOrThrow("tick-rate", Integer.class);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
 
     @SuppressWarnings("unused")
     public EnrichedNetherrack(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setTickInterval(tickInterval);
     }
 
     @SuppressWarnings("unused")
@@ -26,12 +27,6 @@ public final class EnrichedNetherrack extends PylonBlock implements PylonTicking
         super(block, pdc);
     }
 
-    @Override
-    public int getCustomTickRate(int globalTickRate) {
-        return tickRate;
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
         if (getBlock().getRelative(BlockFace.UP).getType() == Material.FIRE) {
             new ParticleBuilder(Particle.LAVA)
