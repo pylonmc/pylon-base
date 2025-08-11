@@ -2285,14 +2285,14 @@ public final class BaseItems {
                 Material.STONE.createBlockData()
         ));
     }
-    
-    public static final ItemStack ICE_PICK = ItemStackBuilder.pylonItem(Material.DIAMOND_HOE, BaseKeys.ICE_PICK)
+
+    public static final ItemStack CLIMBING_PICK = ItemStackBuilder.pylonItem(Material.DIAMOND_HOE, BaseKeys.CLIMBING_PICK)
             .build();
     static {
-        PylonItem.register(IcePick.class, ICE_PICK);
-        BasePages.TOOLS.addItem(BaseKeys.ICE_PICK);
+        PylonItem.register(ClimbingPick.class, CLIMBING_PICK);
+        BasePages.TOOLS.addItem(BaseKeys.CLIMBING_PICK);
 
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.ICE_PICK, ICE_PICK)
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.CLIMBING_PICK, CLIMBING_PICK)
                 .shape("H H", "S S", "STS")
                 .setIngredient('H', Material.IRON_HOE)
                 .setIngredient('S', Material.STICK)

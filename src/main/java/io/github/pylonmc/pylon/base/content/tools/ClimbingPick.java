@@ -21,12 +21,12 @@ import java.util.List;
 
 import static java.lang.Math.pow;
 
-public class IcePick extends PylonItem implements PylonInteractor {
+public class ClimbingPick extends PylonItem implements PylonInteractor {
     public final double jumpSpeed = getSettings().getOrThrow("jump-speed", Double.class);
     public final double hookRange = getSettings().getOrThrow("hook-range", Double.class);
     private final double hookRangeSquared = pow(hookRange, 2);
 
-    public IcePick(@NotNull ItemStack stack) {
+    public ClimbingPick(@NotNull ItemStack stack) {
         super(stack);
     }
 
