@@ -5,6 +5,15 @@ import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidDrainer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidPlacer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidVoider;
+import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
+import io.github.pylonmc.pylon.base.content.machines.fluid.WaterPump;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
@@ -34,20 +43,27 @@ import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.damage.DamageType;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.tag.DamageTypeTags;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2181,6 +2197,33 @@ public final class BaseItems {
                 .shape("SSS", "SAS", "SSS")
                 .setIngredient('S', Material.SLIME_BALL)
                 .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack FIREPROOF_RUNE = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.FIREPROOF_RUNE)
+            .set(
+                    DataComponentTypes.DAMAGE_RESISTANT,
+                    DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE)
+            )
+            .set(
+                    DataComponentTypes.FIREWORK_EXPLOSION,
+                    FireworkEffect.builder().withColor(Color.RED).build()
+            )
+            .build();
+    static {
+        PylonItem.register(FireproofRune.class, FIREPROOF_RUNE);
+        BasePages.MAGIC.addItem(BaseKeys.FIREPROOF_RUNE);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FIREPROOF_RUNE, FIREPROOF_RUNE)
+                .shape(
+                        "RGR",
+                        "GNG",
+                        "RGR")
+                .setIngredient('R', Material.LAVA_BUCKET)
+                .setIngredient('G', Material.GLOWSTONE_DUST)
+                .setIngredient('N', Material.NETHER_STAR);
+
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
