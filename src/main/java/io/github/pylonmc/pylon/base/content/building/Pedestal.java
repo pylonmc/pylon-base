@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import lombok.Setter;
@@ -22,7 +21,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
@@ -39,6 +37,11 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     public Pedestal(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
+        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+                .transformation(transformBuilder().buildForItemDisplay())
+                .build(getBlock().getLocation().toCenterLocation())
+        ));
+
         rotation = 0;
         locked = false;
 }
@@ -51,14 +54,6 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
         locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
     }
     
-    @Override
-    public @NotNull Map<String, PylonEntity<?>> createEntities(@NotNull BlockCreateContext context) {
-        return Map.of("item", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .transformation(transformBuilder().buildForItemDisplay())
-                .build(getBlock().getLocation().toCenterLocation())
-        ));
-    }
-
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
@@ -93,8 +88,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         // insert new item
         if (newStack != null) {
-            ItemStack stackToInsert = newStack.clone();
-            stackToInsert.setAmount(1);
+            ItemStack stackToInsert = newStack.asQuantity(1);
             display.setItemStack(stackToInsert);
             newStack.subtract();
         }

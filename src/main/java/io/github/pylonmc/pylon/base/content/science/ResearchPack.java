@@ -6,13 +6,12 @@ import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -47,7 +46,7 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull ComponentLike> getPlaceholders() {
-        return Map.of("points", UnitFormat.RESEARCH_POINTS.format(points));
+    public @NotNull List<PylonArgument> getPlaceholders() {
+        return List.of(PylonArgument.of("points", UnitFormat.RESEARCH_POINTS.format(points)));
     }
 }

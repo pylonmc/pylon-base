@@ -139,9 +139,11 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_PIPE_WOOD = baseKey("fluid_pipe_wood");
     public static final NamespacedKey FLUID_PIPE_COPPER = baseKey("fluid_pipe_copper");
     public static final NamespacedKey FLUID_PIPE_OBSIDIAN = baseKey("fluid_pipe_obsidian");
+    public static final NamespacedKey FLUID_PIPE_CREATIVE = baseKey("fluid_pipe_creative");
 
     public static final NamespacedKey PORTABLE_FLUID_TANK_WOOD =  baseKey("portable_fluid_tank_wood");
     public static final NamespacedKey PORTABLE_FLUID_TANK_COPPER =  baseKey("portable_fluid_tank_copper");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_OBSIDIAN =  baseKey("portable_fluid_tank_obsidian");
 
     public static final NamespacedKey WATER_PUMP = baseKey("water_pump");
 
@@ -160,6 +162,9 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_VOIDER_1 = baseKey("fluid_voider_1");
     public static final NamespacedKey FLUID_VOIDER_2 = baseKey("fluid_voider_2");
     public static final NamespacedKey FLUID_VOIDER_3 = baseKey("fluid_voider_3");
+
+    public static final NamespacedKey CREATIVE_FLUID_VOIDER = baseKey("creative_fluid_voider");
+    public static final NamespacedKey CREATIVE_FLUID_SOURCE = baseKey("creative_fluid_source");
 
     public static final NamespacedKey LOUPE = baseKey("loupe");
     public static final NamespacedKey RESEARCH_PACK_1 = baseKey("research_pack_1");
@@ -189,6 +194,8 @@ public class BaseKeys {
     public static final NamespacedKey HYDRAULIC_MIXING_ATTACHMENT = baseKey("hydraulic_mixing_attachment");
     public static final NamespacedKey HYDRAULIC_PRESS_PISTON = baseKey("hydraulic_press_piston");
     public static final NamespacedKey HYDRAULIC_HAMMER_HEAD = baseKey("hydraulic_hammer_head");
+    public static final NamespacedKey HYDRAULIC_PIPE_BENDER = baseKey("hydraulic_pipe_bender");
+    public static final NamespacedKey HYDRAULIC_TABLE_SAW = baseKey("hydraulic_table_saw");
 
     public static final NamespacedKey SOLAR_LENS = baseKey("solar_lens");
     public static final NamespacedKey PURIFICATION_TOWER_GLASS = baseKey("purification_tower_glass");
@@ -201,8 +208,28 @@ public class BaseKeys {
     public static final NamespacedKey SOLAR_PURIFICATION_TOWER_5 = baseKey("solar_purification_tower_5");
     public static final NamespacedKey COAL_FIRED_PURIFICATION_TOWER = baseKey("coal_fired_purification_tower");
 
+    public static final NamespacedKey FLUID_TANK = baseKey("fluid_tank");
+    public static final NamespacedKey FLUID_TANK_CASING_WOOD = baseKey("fluid_tank_casing_wood");
+    public static final NamespacedKey FLUID_TANK_CASING_COPPER = baseKey("fluid_tank_casing_copper");
+    public static final NamespacedKey FLUID_TANK_CASING_OBSIDIAN = baseKey("fluid_tank_casing_obsidian");
+
+    public static final NamespacedKey MANUAL_CORE_DRILL_LEVER = baseKey("manual_core_drill_lever");
+    public static final NamespacedKey MANUAL_CORE_DRILL = baseKey("manual_core_drill");
+    public static final NamespacedKey IMPROVED_MANUAL_CORE_DRILL = baseKey("improved_manual_core_drill");
+
+    public static final NamespacedKey HYDRAULIC_CORE_DRILL = baseKey("hydraulic_core_drill");
+    public static final NamespacedKey HYDRAULIC_CORE_DRILL_INPUT_HATCH = baseKey("hydraulic_core_drill_input_hatch");
+    public static final NamespacedKey HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = baseKey("hydraulic_core_drill_output_hatch");
+
+    public static final NamespacedKey SHALLOW_CORE_CHUNK = baseKey("shallow_core_chunk");
+    public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");
+    public static final NamespacedKey INTERMEDIATE_CORE_CHUNK = baseKey("intermediate_core_chunk");
+
     public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
+    public static final NamespacedKey SIMPLE_BLOCK_DISPLAY = baseKey("simple_block_display");
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
+
+    public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey MYSTICAL_FOOD_ENHANCER_SIMPLE = baseKey("mystical_food_enhancer_simple");
     public static final NamespacedKey MYSTICAL_FOOD_ENHANCER_HANDLE = baseKey("mystical_food_enhancer_handle");
