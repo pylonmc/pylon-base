@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseRecipes {
@@ -51,6 +53,18 @@ public class BaseRecipes {
         }
 
         SmelteryRecipe.RECIPE_TYPE.register();
+
+        PitKilnRecipe.RECIPE_TYPE.register();
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("copper_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_COPPER),
+                List.of(new ItemStack(Material.COPPER_INGOT))
+        ));
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("gold_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_GOLD),
+                List.of(new ItemStack(Material.GOLD_INGOT))
+        ));
 
         StrainingRecipe.RECIPE_TYPE.register();
 
