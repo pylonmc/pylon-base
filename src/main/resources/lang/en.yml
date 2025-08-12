@@ -785,6 +785,11 @@ item:
       running: "<green>Running"
       idle: "<yellow>Idle"
 
+  fireproof_rune:
+    name: "Fireproof Rune"
+    lore: |-
+      <arrow> Drop your weapon and rune, and pray for 800 hours to earn the blessing of the Fire God so that your weapon becomes fireproof.
+
   fluid_tank:
     name: "Fluid Tank"
     lore: |-
@@ -876,7 +881,7 @@ fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
   brass: "<gold>Brass"
-  bronze: "<brown>Bronze"
+  bronze: "<#8d6f64>Bronze"
   cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
@@ -953,6 +958,7 @@ guide:
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
+    magic: "Magic"
   recipe:
     grindstone:
       time: "<attr>Grinding time:</attr> %time%"
@@ -994,6 +1000,22 @@ message:
     none_within_range:
       above: "<red>No elevators within range above you"
       below: "<red>No elevators within range below you"
+  hydraulic_status:
+    not_enough_hydraulic_fluid: "<red>Not enough hydraulic fluid"
+    dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic fluid buffer full"
+    working: "<green>Working"
+    idle: "<yellow>Idle"
+    missing_grindstone: "<red>Missing grindstone"
+    missing_mixing_pot: "<red>Missing mixing pot"
+    missing_press: "<red>Missing press"
+    missing_hammer: "<red>Missing hammer"
+    missing_base: "<red>Missing base"
+    no_fuel: "<red>No fuel"
+    incomplete: "<red>Incomplete"
+    working_with_reduced_efficiency: "<green>Working with reduced efficiency"
+    no_sunlight: "<red>No sunlight"
+  fireproof_result:
+    success: "Your item has been fire-proofed"
 
 gui:
   fluid-selector-title: "Select Fluid"
