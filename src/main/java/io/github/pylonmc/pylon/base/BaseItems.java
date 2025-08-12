@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
+import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -29,10 +30,14 @@ import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
@@ -2231,6 +2236,33 @@ public final class BaseItems {
                 .shape("SSS", "SAS", "SSS")
                 .setIngredient('S', Material.SLIME_BALL)
                 .setIngredient('A', Material.ARROW);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack FIREPROOF_RUNE = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.FIREPROOF_RUNE)
+            .set(
+                    DataComponentTypes.DAMAGE_RESISTANT,
+                    DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE)
+            )
+            .set(
+                    DataComponentTypes.FIREWORK_EXPLOSION,
+                    FireworkEffect.builder().withColor(Color.RED).build()
+            )
+            .build();
+    static {
+        PylonItem.register(FireproofRune.class, FIREPROOF_RUNE);
+        BasePages.MAGIC.addItem(BaseKeys.FIREPROOF_RUNE);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FIREPROOF_RUNE, FIREPROOF_RUNE)
+                .shape(
+                        "RGR",
+                        "GNG",
+                        "RGR")
+                .setIngredient('R', Material.LAVA_BUCKET)
+                .setIngredient('G', Material.GLOWSTONE_DUST)
+                .setIngredient('N', Material.NETHER_STAR);
+
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
