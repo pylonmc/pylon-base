@@ -87,7 +87,7 @@ public final class PitKiln extends PylonBlock implements
         super(block, context);
         contents = new HashMap<>();
         processing = new HashSet<>();
-        processingTime = Double.NaN;
+        processingTime = null;
     }
 
     @SuppressWarnings("unused")
@@ -147,7 +147,7 @@ public final class PitKiln extends PylonBlock implements
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
             if (processingTime != null) {
-                processingTime = Double.NaN;
+                processingTime = null;
                 processing.clear();
             }
             return;
@@ -155,29 +155,33 @@ public final class PitKiln extends PylonBlock implements
         if (processingTime == null) {
             tryStartProcessing();
         }
-        if (processingTime != null) {
-            processingTime -= deltaSeconds;
-            if (processingTime <= 0) {
-                processingTime = Double.NaN;
-                double multiplier = 0;
-                for (Vector3i top : TOP_POSITIONS) {
-                    Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
-                    multiplier = switch (topBlock.getType()) {
-                        case PODZOL -> MULTIPLIER_PODZOL;
-                        case COARSE_DIRT -> MULTIPLIER_DIRT;
-                        default -> throw new AssertionError();
-                    };
-                    topBlock.setType(Material.COARSE_DIRT);
-                }
-                for (ItemStack outputItem : processing) {
-                    contents.merge(outputItem.asOne(), (int) Math.floor(outputItem.getAmount() * multiplier), Integer::sum);
-                }
-                processing.clear();
-                for (Vector3i coal : COAL_POSITIONS) {
-                    Block coalBlock = getBlock().getRelative(coal.x(), coal.y(), coal.z());
-                    coalBlock.setType(Material.AIR);
-                }
-            }
+
+        if (processingTime == null) return;
+        processingTime -= deltaSeconds;
+        if (processingTime > 0) return;
+
+        processingTime = null;
+        double multiplier = 0;
+        for (Vector3i top : TOP_POSITIONS) {
+            Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
+            multiplier = switch (topBlock.getType()) {
+                case PODZOL -> MULTIPLIER_PODZOL;
+                case COARSE_DIRT -> MULTIPLIER_DIRT;
+                default -> throw new AssertionError();
+            };
+            topBlock.setType(Material.COARSE_DIRT);
+        }
+        for (ItemStack outputItem : processing) {
+            contents.merge(
+                    outputItem.asOne(),
+                    (int) Math.floor(outputItem.getAmount() * multiplier),
+                    Integer::sum
+            );
+        }
+        processing.clear();
+        for (Vector3i coal : COAL_POSITIONS) {
+            Block coalBlock = getBlock().getRelative(coal.x(), coal.y(), coal.z());
+            coalBlock.setType(Material.AIR);
         }
     }
 
