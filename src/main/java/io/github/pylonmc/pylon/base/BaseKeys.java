@@ -230,4 +230,9 @@ public class BaseKeys {
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
 
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
+
+    public static final NamespacedKey MYSTICAL_FOOD_ENHANCER_SIMPLE = baseKey("mystical_food_enhancer_simple");
+    public static final NamespacedKey MYSTICAL_FOOD_ENHANCER_HANDLE = baseKey("mystical_food_enhancer_handle");
+
+    public static final NamespacedKey GOLDEN_PIE = baseKey("golden_pie");
 }

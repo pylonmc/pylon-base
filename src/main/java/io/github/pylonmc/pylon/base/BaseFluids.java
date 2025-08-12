@@ -1,8 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
-import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
-import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;

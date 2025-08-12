@@ -1,21 +1,11 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.content.building.Pedestal;
+import io.github.pylonmc.pylon.base.content.building.*;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryBurner;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryCaster;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryComponent;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryController;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryHopper;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryInputHatch;
-import io.github.pylonmc.pylon.base.content.machines.smelting.SmelteryOutputHatch;
-import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
-import io.github.pylonmc.pylon.base.content.building.Elevator;
-import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
-import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.machines.smelting.*;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 
@@ -95,5 +85,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.COPPER_BULB, HydraulicCoreDrill.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, HydraulicCoreDrillInputHatch.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
+        PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_SIMPLE, Material.DISPENSER, MysticalFoodEnhancer.class);
+        PylonBlock.register(BaseKeys.MYSTICAL_FOOD_ENHANCER_HANDLE, Material.LEVER, MysticalFoodEnhancerHandle.class);
     }
 }
