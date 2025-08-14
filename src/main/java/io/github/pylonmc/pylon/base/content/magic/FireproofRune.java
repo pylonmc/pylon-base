@@ -29,7 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -38,98 +37,17 @@ import java.util.Objects;
 @SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
     public static final FireproofRuneRecipeType RECIPE_TYPE = new FireproofRuneRecipeType();
-
-    /**
-     * @author balugaq
-     */
-    public static class FireproofRuneRecipeType extends RecipeType<FireproofRuneRecipe> {
-        private FireproofRuneRecipeType() {
-            super(BaseKeys.FIREPROOF_RUNE);
-        }
-    }
-
-    /**
-     * @author balugaq
-     */
-    @Getter
-    public static class FireproofRuneRecipe implements PylonRecipe {
-        private final NamespacedKey key;
-        private final ItemStack input;
-        private final ItemStack result;
-        private FireproofRuneRecipe(
-                @NotNull NamespacedKey key,
-                @NotNull ItemStack input,
-                @NotNull ItemStack result
-        ) {
-            this.key = key;
-            this.input = input;
-            this.result = result;
-        }
-
-        public static FireproofRuneRecipe of(
-                @NotNull NamespacedKey key,
-                @NotNull ItemStack input,
-                @NotNull ItemStack result
-        ) {
-            if (!input.getType().isItem()) {
-                throw new IllegalArgumentException("Input must be an item");
-            }
-            if (!result.getType().isItem()) {
-                throw new IllegalArgumentException("Result must be an item");
-            }
-            return new FireproofRuneRecipe(key, input, result);
-        }
-
-
-        @Override
-        public @NotNull Gui display() {
-            return Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# # # # b # # # #",
-                            "# # # # # # # # #",
-                            "# i # # # # # r #",
-                            "# # # # # # # # #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('b', ItemButton.fromStack(BaseItems.FIREPROOF_RUNE))
-                    .addIngredient('i', ItemButton.fromStack(getInput()))
-                    .addIngredient('r', ItemButton.fromStack(getResult()))
-                    .build();
-        }
-
-        /**
-         * Return the namespaced identifier for this object.
-         *
-         * @return this object's key
-         */
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return key;
-        }
-
-        @Override
-        public @NotNull List<FluidOrItem> getInputs() {
-            return List.of(FluidOrItem.of(input));
-        }
-
-        @Override
-        public @NotNull List<FluidOrItem> getResults() {
-            return List.of(FluidOrItem.of(result));
-        }
-    }
-
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
-
+    
     public FireproofRune(@NotNull ItemStack stack) {
         super(stack);
     }
 
     /**
      * Handles contacting between an item and a rune.
+     * When a Fireproof Rune contacts another item, it makes that item fireproof.
      *
-     * @param event  The event
+     * @param event  The player drop item event
      * @param rune   The rune item, amount may be > 1
      * @param target The item to handle, amount may be > 1
      */
@@ -179,5 +97,100 @@ public class FireproofRune extends Rune {
         target.setAmount(0);
         rune.setAmount(0);
         player.sendMessage(SUCCESS);
+    }
+
+    /**
+     * @author balugaq
+     */
+    public static class FireproofRuneRecipeType extends RecipeType<FireproofRuneRecipe> {
+        /**
+         * Constructs a new FireproofRuneRecipeType with the base key.
+         */
+        private FireproofRuneRecipeType() {
+            super(BaseKeys.FIREPROOF_RUNE);
+        }
+    }
+
+    /**
+     * @author balugaq
+     */
+    @Getter
+    public static class FireproofRuneRecipe implements PylonRecipe {
+        private final NamespacedKey key;
+        private final ItemStack input;
+        private final ItemStack result;
+
+        private FireproofRuneRecipe(
+                @NotNull NamespacedKey key,
+                @NotNull ItemStack input,
+                @NotNull ItemStack result
+        ) {
+            this.key = key;
+            this.input = input;
+            this.result = result;
+        }
+
+        /**
+         * Creates a new FireproofRuneRecipe with the given parameters.
+         *
+         * @param key    The namespaced key for this recipe
+         * @param input  The input item stack
+         * @param result The result item stack
+         * @return A new FireproofRuneRecipe instance
+         * @throws IllegalArgumentException if input or result is not an item
+         */
+        public static FireproofRuneRecipe of(
+                @NotNull NamespacedKey key,
+                @NotNull ItemStack input,
+                @NotNull ItemStack result
+        ) {
+            if (!input.getType().isItem()) {
+                throw new IllegalArgumentException("Input must be an item");
+            }
+            if (!result.getType().isItem()) {
+                throw new IllegalArgumentException("Result must be an item");
+            }
+            return new FireproofRuneRecipe(key, input, result);
+        }
+
+
+        @Override
+        public @NotNull Gui display() {
+            return Gui.normal()
+                    .setStructure(
+                            "# # # # # # # # #",
+                            "# # # # b # # # #",
+                            "# # # # # g # # #",
+                            "# i g g g g g r #",
+                            "# # # # # g # # #",
+                            "# # # # # # # # #"
+                    )
+                    .addIngredient('#', GuiItems.backgroundBlack())
+                    .addIngredient('b', ItemButton.fromStack(BaseItems.FIREPROOF_RUNE))
+                    .addIngredient('g', ItemButton.fromStack(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)))
+                    .addIngredient('i', ItemButton.fromStack(getInput()))
+                    .addIngredient('r', ItemButton.fromStack(getResult()))
+                    .build();
+        }
+
+        /**
+         * Return the namespaced identifier for this object.
+         *
+         * @return this object's key
+         */
+        @Override
+        public @NotNull NamespacedKey getKey() {
+            return key;
+        }
+
+        @Override
+        public @NotNull List<FluidOrItem> getInputs() {
+            return List.of(FluidOrItem.of(input));
+        }
+
+        @Override
+        public @NotNull List<FluidOrItem> getResults() {
+            return List.of(FluidOrItem.of(result));
+        }
     }
 }

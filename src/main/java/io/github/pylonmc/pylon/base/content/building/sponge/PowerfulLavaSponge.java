@@ -27,11 +27,31 @@ public class PowerfulLavaSponge extends PowerfulSponge {
     }
 
     @Override
+    /**
+     * Checks if a block is absorbable by this lava sponge.
+     * Lava sponges can absorb:
+     * <ul>
+     *   <li>Lava blocks</li>
+     *   <li>Lava cauldrons</li>
+     * </ul>
+     *
+     * @param block The block to check
+     * @return true if the block can be absorbed, false otherwise
+     */
     public boolean isAbsorbable(@NotNull Block block) {
         return block.getType() == Material.LAVA || block.getType() == Material.LAVA_CAULDRON;
     }
 
     @Override
+    /**
+     * Absorbs a block by removing the lava from it.
+     * <ul>
+     *   <li>Lava blocks become air</li>
+     *   <li>Lava cauldrons become empty cauldrons</li>
+     * </ul>
+     *
+     * @param block The block to absorb
+     */
     public void absorb(@NotNull Block block) {
         if (block.getType() == Material.LAVA) {
             block.setType(Material.AIR);
@@ -41,11 +61,22 @@ public class PowerfulLavaSponge extends PowerfulSponge {
     }
 
     @Override
+    /**
+     * Gets the range of this sponge's absorption ability.
+     *
+     * @return The Manhattan distance this sponge can absorb lava within
+     */
     public int getRange() {
         return CHECK_RANGE;
     }
 
     @Override
+    /**
+     * Transforms this sponge into a hot lava sponge.
+     * This method breaks the current block and places a HotLavaSponge in its place.
+     *
+     * @param sponge The sponge block to transform
+     */
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge);
         BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
@@ -58,11 +89,21 @@ public class PowerfulLavaSponge extends PowerfulSponge {
 
         public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
 
+        /**
+         * Constructs a new PowerfulLavaSponge item with the given item stack.
+         *
+         * @param stack The item stack
+         */
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
+        /**
+         * Gets the placeholders for this item, including the check range.
+         *
+         * @return A list of placeholders for this item
+         */
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("check_range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))

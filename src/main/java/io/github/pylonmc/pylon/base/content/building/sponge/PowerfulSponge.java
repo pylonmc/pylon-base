@@ -18,14 +18,19 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * {@link PowerfulWaterSponge} is able to absorb water.
- * {@link PowerfulLavaSponge} is able to absorb lava.
- * {@link HotLavaSponge} is able to absorb lava, but 90% chance turn into obsidian,
- * 10% chance turn back into {@link PowerfulLavaSponge}.
+ * PowerfulSponge is an abstract base class for powerful sponge blocks that can absorb liquids in a large area.
  * <p>
- *
+ * This class provides the core functionality for different types of powerful sponges including:
+ * <ul>
+ *   <li>{@link PowerfulWaterSponge} - able to absorb water</li>
+ *   <li>{@link PowerfulLavaSponge} - able to absorb lava</li>
+ *   <li>{@link HotLavaSponge} - able to absorb lava, but with special behavior (90% chance turn into obsidian,
+ *   10% chance turn back into {@link PowerfulLavaSponge})</li>
+ * </ul>
+ * </p>
+ * <p>
  * Powerful Sponges evolutions:
- * <p>
+ * <pre>
  *                          Fireproof rune powered
  *   [PowerfulWaterSponge] -----------------------→  [PowerfulLavaSponge]
  *     Dry out  ↑ |                            10% chance     ↑ |
@@ -36,8 +41,14 @@ import java.util.UUID;
  *                                            Inside water    |
  *                                                            ↓
  *                                                   [Obsidian]
+ * </pre>
+ * </p>
  *
  * @author balugaq
+ * @see PylonSponge
+ * @see PowerfulWaterSponge
+ * @see PowerfulLavaSponge
+ * @see HotLavaSponge
  */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
     public static final String KEY_PLAYER = "player";
@@ -50,10 +61,23 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
         }
     }
 
+    /**
+     * Gets the player who placed the sponge block.
+     *
+     * @param block The sponge block
+     * @return The player who placed the block, or null if not found
+     */
     public static @NotNull Player getPlacer(@NotNull Block block) {
         return Bukkit.getPlayer(UUID.fromString(BlockStorage.get(block).getSettings().get(KEY_PLAYER, String.class)));
     }
 
+    /**
+     * Handles the sponge absorption event.
+     * This method is called when the sponge would normally absorb water.
+     * It cancels the default event and instead handles absorption in a custom way.
+     *
+     * @param event The sponge absorption event
+     */
     @Override
     public void onAbsorb(@NotNull SpongeAbsorbEvent event) {
         event.setCancelled(true);
@@ -74,6 +98,13 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
         toDriedSponge(sponge);
     }
 
+    /**
+     * Gets all blocks within a Manhattan distance in a diamond-like pattern.
+     *
+     * @param event    The sponge absorption event
+     * @param distance The maximum Manhattan distance to check
+     * @return A list of blocks within the specified distance that are absorbable
+     */
     public @NotNull List<Block> getBlocksInManhattanDistance(@NotNull SpongeAbsorbEvent event, int distance) {
         List<Block> result = new ArrayList<>();
 
@@ -114,11 +145,32 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
         return result;
     }
 
+    /**
+     * Checks if a block can be absorbed by this sponge.
+     *
+     * @param block The block to check
+     * @return true if the block can be absorbed, false otherwise
+     */
     public abstract boolean isAbsorbable(@NotNull Block block);
 
+    /**
+     * Absorbs a specific block (changes it to air or appropriate state).
+     *
+     * @param block The block to absorb
+     */
     public abstract void absorb(@NotNull Block block);
 
+    /**
+     * Transforms the sponge block into its "dried" or used state.
+     *
+     * @param sponge The sponge block to transform
+     */
     public abstract void toDriedSponge(@NotNull Block sponge);
 
+    /**
+     * Gets the range of this sponge's absorption ability.
+     *
+     * @return The Manhattan distance this sponge can absorb liquids within
+     */
     public abstract int getRange();
 }
