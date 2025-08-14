@@ -32,6 +32,9 @@ public class LumberAxe extends PylonItem implements PylonTool {
 
     @Override
     public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
+        if (!Tag.LOGS.isTagged(event.getBlock().getType()) || BlockStorage.isPylonBlock(event.getBlock())) {
+            return;
+        }
         if (eventsToIgnore.contains(event)) {
             eventsToIgnore.remove(event);
             return;
