@@ -2334,7 +2334,7 @@ public final class BaseItems {
 
     public static final ItemStack WITHER_SWORD_SUPER = ItemStackBuilder.pylonItem(Material.NETHERITE_SWORD, BaseKeys.WITHER_SWORD_SUPER)
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                            Settings.get(BaseKeys.WITHER_SWORD).getOrThrow("cooldown-secs", Double.class).floatValue())
+                            Settings.get(BaseKeys.WITHER_SWORD_SUPER).getOrThrow("cooldown-secs", Double.class).floatValue())
                     .build())
             .build();
     static {

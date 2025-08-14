@@ -1,3 +1,4 @@
 charged-skulls: false
 skull-speed: 2.5
-cooldown-secs: 1.5
+cooldown-secs: 2.0
+player-height: 1.25
