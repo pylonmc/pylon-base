@@ -28,10 +28,13 @@ public class LumberAxe extends PylonItem implements PylonTool {
         super(stack);
     }
 
-    private final Set<Event> eventsToIgnore = HashSet.newHashSet(0);
+    private static final Set<Event> eventsToIgnore = Collections.newSetFromMap(new WeakHashMap<>());
 
     @Override
     public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
+        if (!Tag.LOGS.isTagged(event.getBlock().getType()) || BlockStorage.isPylonBlock(event.getBlock())) {
+            return;
+        }
         if (eventsToIgnore.contains(event)) {
             eventsToIgnore.remove(event);
             return;
