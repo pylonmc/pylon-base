@@ -231,6 +231,6 @@ public class BaseKeys {
 
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
-    public static final NamespacedKey WITHER_SWORD = baseKey("wither_sword");
-    public static final NamespacedKey WITHER_SWORD_SUPER = baseKey("wither_sword_super");
+    public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
+    public static final NamespacedKey REACTIVATED_WITHER_SKULL_SUPER = baseKey("reactivated_wither_skull_super");
 }

@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
-import io.github.pylonmc.pylon.base.content.combat.WitherSword;
+import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
@@ -2315,41 +2315,44 @@ public final class BaseItems {
                 Material.STONE.createBlockData()
         ));
     }
-    public static final ItemStack WITHER_SWORD = ItemStackBuilder.pylonItem(Material.NETHERITE_SWORD, BaseKeys.WITHER_SWORD)
+    public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                            Settings.get(BaseKeys.WITHER_SWORD).getOrThrow("cooldown-secs", Double.class).floatValue())
+                            Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("cooldown-secs", Double.class).floatValue())
                     .build())
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", Integer.class))
             .build();
     static {
-        PylonItem.register(WitherSword.class, WITHER_SWORD);
-        BasePages.COMBAT.addItem(BaseKeys.WITHER_SWORD);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.WITHER_SWORD, WITHER_SWORD)
+        PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
+        BasePages.COMBAT.addItem(BaseKeys.REACTIVATED_WITHER_SKULL);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REACTIVATED_WITHER_SKULL, REACTIVATED_WITHER_SKULL)
                 .shape(" N ", " S ", "RRR")
-                .setIngredient('N', Material.NETHERITE_SWORD)
+                .setIngredient('N', Material.WITHER_SKELETON_SKULL)
                 .setIngredient('S', Material.STICK)
                 .setIngredient('R', Material.NETHER_STAR);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack WITHER_SWORD_SUPER = ItemStackBuilder.pylonItem(Material.NETHERITE_SWORD, BaseKeys.WITHER_SWORD_SUPER)
+    public static final ItemStack REACTIVATED_WITHER_SKULL_SUPER = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL_SUPER)
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                            Settings.get(BaseKeys.WITHER_SWORD_SUPER).getOrThrow("cooldown-secs", Double.class).floatValue())
+                            Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER).getOrThrow("cooldown-secs", Double.class).floatValue())
                     .build())
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(WitherSword.class, WITHER_SWORD_SUPER);
-        BasePages.COMBAT.addItem(BaseKeys.WITHER_SWORD_SUPER);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.WITHER_SWORD_SUPER, WITHER_SWORD_SUPER)
+        PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL_SUPER);
+        BasePages.COMBAT.addItem(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER, REACTIVATED_WITHER_SKULL_SUPER)
                 .shape("MNM", "MSM", "RRR")
-                .setIngredient('N', Material.NETHERITE_SWORD)
+                .setIngredient('N', Material.WITHER_SKELETON_SKULL)
                 .setIngredient('S', Material.STICK)
                 .setIngredient('M', SHIMMER_SKULL)
                 .setIngredient('R', Material.NETHER_STAR);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-        ShapelessRecipe upgrade = new ShapelessRecipe(baseKey("wither_sword_super_upgrade"), WITHER_SWORD_SUPER)
-                .addIngredient(WITHER_SWORD)
+        ShapelessRecipe upgrade = new ShapelessRecipe(baseKey("wither_sword_super_upgrade"), REACTIVATED_WITHER_SKULL_SUPER)
+                .addIngredient(REACTIVATED_WITHER_SKULL)
                 .addIngredient(4, SHIMMER_SKULL);
         upgrade.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPELESS.addRecipe(upgrade);
