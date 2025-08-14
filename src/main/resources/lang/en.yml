@@ -979,8 +979,8 @@ message:
     disabled: "disabled"
   elevator:
     none_within_range:
-      above: "<red>No elevators within range above you"
-      below: "<red>No elevators within range below you"
+      above: "<red>No elevators within getRange above you"
+      below: "<red>No elevators within getRange below you"
   hydraulic_status:
     not_enough_hydraulic_fluid: "<red>Not enough hydraulic fluid"
     dirty_hydraulic_fluid_buffer_full: "<red>Dirty hydraulic fluid buffer full"

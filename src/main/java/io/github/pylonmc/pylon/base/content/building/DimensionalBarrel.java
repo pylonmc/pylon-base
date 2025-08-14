@@ -23,18 +23,6 @@ import java.util.List;
 // Totally not a test item for inventory saving
 public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
 
-    public static class Item extends PylonItem {
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("size", SIZE));
-        }
-    }
-
     public static final int SIZE = Settings.get(BaseKeys.DIMENSIONAL_BARREL).getOrThrow("size", Integer.class);
 
     public DimensionalBarrel(Block block, BlockCreateContext context) {
@@ -62,5 +50,17 @@ public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
                 .addIngredient('#', GuiItems.background())
                 .addContent(new VirtualInventory(SIZE))
                 .build();
+    }
+
+    public static class Item extends PylonItem {
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of("size", SIZE));
+        }
     }
 }

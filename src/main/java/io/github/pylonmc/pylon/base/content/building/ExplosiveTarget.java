@@ -18,22 +18,8 @@ import java.util.Objects;
 
 public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
 
-    public static class Item extends PylonItem {
-        private final Double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("explosive-power", explosivePower));
-        }
-    }
-
     public final double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
     public final boolean createsFire = getSettings().getOrThrow("creates-fire", Boolean.class);
-
     @SuppressWarnings("unused")
     public ExplosiveTarget(Block block, BlockCreateContext context) {
         super(block);
@@ -53,5 +39,18 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
             return;
         }
         BlockStorage.breakBlock(getBlock());
+    }
+
+    public static class Item extends PylonItem {
+        private final Double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of("explosive-power", explosivePower));
+        }
     }
 }

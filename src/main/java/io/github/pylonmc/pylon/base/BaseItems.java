@@ -4,6 +4,10 @@ import io.github.pylonmc.pylon.base.content.building.DimensionalBarrel;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulWaterSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.WetPowerfulLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.WetPowerfulWaterSponge;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
@@ -32,6 +36,7 @@ import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.FoodProperties;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
@@ -42,6 +47,7 @@ import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -2315,6 +2321,71 @@ public final class BaseItems {
                 ),
                 10,
                 Material.STONE.createBlockData()
+        ));
+    }
+
+    public static final ItemStack WET_POWERFUL_WATER_SPONGE
+            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.WET_POWERFUL_WATER_SPONGE)
+            .build();
+    static {
+        PylonItem.register(WetPowerfulWaterSponge.Item.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_POWERFUL_WATER_SPONGE);
+        BasePages.COMPONENTS.addItem(BaseKeys.WET_POWERFUL_WATER_SPONGE);
+    }
+
+    public static final ItemStack WET_POWERFUL_LAVA_SPONGE
+            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.WET_POWERFUL_LAVA_SPONGE)
+            .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(Map.of(
+                    Enchantment.LUCK_OF_THE_SEA, 1
+            ), false))
+            .build();
+    static {
+        PylonItem.register(WetPowerfulLavaSponge.Item.class, WET_POWERFUL_LAVA_SPONGE, BaseKeys.WET_POWERFUL_LAVA_SPONGE);
+        BasePages.BUILDING.addItem(BaseKeys.WET_POWERFUL_LAVA_SPONGE);
+    }
+
+    public static final ItemStack POWERFUL_WATER_SPONGE
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.POWERFUL_WATER_SPONGE)
+            .build();
+    static {
+        PylonItem.register(PowerfulWaterSponge.Item.class, POWERFUL_WATER_SPONGE, BaseKeys.POWERFUL_WATER_SPONGE);
+        BasePages.BUILDING.addItem(BaseKeys.POWERFUL_WATER_SPONGE);
+
+        ShapedRecipe shapedRecipe = new ShapedRecipe(BaseKeys.POWERFUL_WATER_SPONGE, POWERFUL_WATER_SPONGE.clone())
+                .shape(
+                        "SBS",
+                        "BBB",
+                        "SBS"
+                )
+                .setIngredient('S', Material.SPONGE)
+                .setIngredient('B', Material.BUCKET);
+        RecipeType.VANILLA_SHAPED.addRecipe(shapedRecipe);
+
+        BlastingRecipe blastingRecipe = new BlastingRecipe(
+                BaseKeys.POWERFUL_WATER_SPONGE,
+                POWERFUL_WATER_SPONGE,
+                new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
+                1.5f,
+                100
+        );
+
+        RecipeType.VANILLA_BLASTING.addRecipe(blastingRecipe);
+    }
+
+    public static final ItemStack POWERFUL_LAVA_SPONGE
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE)
+            .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(Map.of(
+                    Enchantment.LUCK_OF_THE_SEA, 1
+            ), false))
+            .build();
+    static {
+        PylonItem.register(PowerfulLavaSponge.Item.class, POWERFUL_LAVA_SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE);
+        BasePages.BUILDING.addItem(BaseKeys.POWERFUL_LAVA_SPONGE);
+
+        // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
+        FireproofRune.RECIPE_TYPE.addRecipe(FireproofRune.FireproofRuneRecipe.of(
+                BaseKeys.POWERFUL_LAVA_SPONGE,
+                POWERFUL_WATER_SPONGE,
+                POWERFUL_LAVA_SPONGE
         ));
     }
 

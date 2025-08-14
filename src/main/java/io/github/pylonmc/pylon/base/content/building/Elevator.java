@@ -25,21 +25,6 @@ import java.util.List;
 
 public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpableBlock {
 
-    public static class Item extends PylonItem {
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
-                    "elevator_range",
-                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class))
-            ));
-        }
-    }
-
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -51,7 +36,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
-        int range = getSettings().getOrThrow("range", Integer.class);
+        int range = getSettings().getOrThrow("getRange", Integer.class);
         int checkingLevel = 1;
         List<PylonBlock> blocks = new ArrayList<>();
 
@@ -94,5 +79,20 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     @Override
     public void onJump(@NotNull PlayerJumpEvent event) {
         teleportPlayer(event.getPlayer(), getBlock().getLocation(), false);
+    }
+
+    public static class Item extends PylonItem {
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(PylonArgument.of(
+                    "elevator_range",
+                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("getRange", Integer.class))
+            ));
+        }
     }
 }

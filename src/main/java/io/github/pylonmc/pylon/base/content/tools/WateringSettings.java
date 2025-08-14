@@ -18,8 +18,8 @@ public record WateringSettings(
 ) {
     public static WateringSettings fromConfig(ConfigSection config) {
         return new WateringSettings(
-                config.getOrThrow("range.horizontal", Integer.class),
-                config.getOrThrow("range.vertical", Integer.class),
+                config.getOrThrow("getRange.horizontal", Integer.class),
+                config.getOrThrow("getRange.vertical", Integer.class),
                 config.getOrThrow("chances.crops", Double.class),
                 config.getOrThrow("chances.sugar-cane", Double.class),
                 config.getOrThrow("chances.cactus", Double.class),

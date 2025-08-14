@@ -1,17 +1,30 @@
 package io.github.pylonmc.pylon.base.util;
 
 import com.destroystokyo.paper.MaterialSetTag;
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.events.FakeBlockBreakEvent;
+import io.github.pylonmc.pylon.base.events.FakeBlockPlaceEvent;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.Arrays;
@@ -114,5 +127,120 @@ public class BaseUtils {
             reflected.setIngredient(entry.getKey(), entry.getValue());
         }
         return reflected;
+    }
+
+    public static boolean canPlaceBlock(
+            @NotNull Player player,
+            @NotNull Block placeBlock
+    ) {
+        return canPlaceBlock(
+                player,
+                placeBlock,
+                placeBlock
+        );
+    }
+
+    public static boolean canPlaceBlock(
+            @NotNull Player player,
+            @NotNull Block placeBlock,
+            @NotNull Block blockAgainst
+    ) {
+        return canPlaceBlock(
+                placeBlock,
+                placeBlock.getState(),
+                blockAgainst,
+                player.getInventory().getItemInMainHand(),
+                player,
+                true, // Why needs a `canBuild` param before check permission
+                EquipmentSlot.HAND
+        );
+    }
+
+    public static boolean canPlaceBlock(
+            @NotNull Block placeBlock,
+            @NotNull BlockState replacedBlockState,
+            @NotNull Block blockAgainst,
+            @NotNull ItemStack itemInMainHand,
+            @NotNull Player player,
+            boolean canBuild,
+            @NotNull EquipmentSlot hand
+    ) {
+        FakeBlockPlaceEvent event = simulateBlockPlace(placeBlock, replacedBlockState, blockAgainst, itemInMainHand, player, canBuild, hand);
+        return !event.isCancelled();
+    }
+
+    public static @NotNull FakeBlockPlaceEvent simulateBlockPlace(
+            @NotNull Block placeBlock,
+            @NotNull BlockState replacedBlockState,
+            @NotNull Block blockAgainst,
+            @NotNull ItemStack itemInMainHand,
+            @NotNull Player player,
+            boolean canBuild,
+            @NotNull EquipmentSlot hand
+    ) {
+        FakeBlockPlaceEvent event = new FakeBlockPlaceEvent(
+                placeBlock,
+                replacedBlockState,
+                blockAgainst,
+                itemInMainHand,
+                player,
+                canBuild,
+                hand
+        );
+        event.callEvent();
+        return event;
+    }
+
+    public static boolean canBreakBlock(
+            @NotNull Player player,
+            @NotNull Block theBlock
+    ) {
+        FakeBlockBreakEvent event = simulateBlockBreak(player, theBlock);
+        return !event.isCancelled();
+    }
+
+    public static @NotNull FakeBlockBreakEvent simulateBlockBreak(
+            @NotNull Player player,
+            @NotNull Block theBlock
+    ) {
+        FakeBlockBreakEvent event = new FakeBlockBreakEvent(theBlock, player);
+        event.callEvent();
+        return event;
+    }
+
+    // str: world_name;x;y;z
+    @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+    @Contract("null -> null; !null -> !null")
+    public static Location resolveStr2Loc(@Nullable String str) {
+        if (str == null) return null;
+
+        String[] parts = str.split(";");
+        if (parts.length != 4) {
+            return new Location(Bukkit.getWorlds().get(0), 0, 0, 0);
+        }
+
+        try {
+            World world = Bukkit.getWorld(parts[0]);
+            int x = Integer.parseInt(parts[1]);
+            int y = Integer.parseInt(parts[2]);
+            int z = Integer.parseInt(parts[3]);
+            return new Location(world, x, y, z);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid location string", e);
+        }
+    }
+
+    // str: world_name;x;y;z
+    @NotNull
+    public static String resolveLoc2str(@NotNull Location location) {
+        return location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ();
+    }
+
+    public static void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count) {
+        new ParticleBuilder(particle)
+                .location(location)
+                .offset(0, 0, 0)
+                .count(count)
+                .spawn();
     }
 }

@@ -27,25 +27,6 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class Immobilizer extends PylonBlock implements PylonPiston {
-    public static class Item extends PylonItem {
-        private final double radius = getSettings().getOrThrow("radius", Double.class);
-        private final int duration = getSettings().getOrThrow("duration", Integer.class);
-        private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(
-                    PylonArgument.of("duration", duration),
-                    PylonArgument.of("radius", radius),
-                    PylonArgument.of("cooldown", cooldown)
-            );
-        }
-    }
-
     public static Set<Player> frozenPlayers = new HashSet<>();
     private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown");
     private final double radius = getSettings().getOrThrow("radius", Double.class);
@@ -54,7 +35,6 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
     private final int particleCount = getSettings().getOrThrow("particle.count", Integer.class);
     private final double particleRadius = getSettings().getOrThrow("particle.radius", Double.class);
     private final int particlePeriod = getSettings().getOrThrow("particle.period", Integer.class);
-
     public Immobilizer(Block block, BlockCreateContext context) {
         super(block);
     }
@@ -78,6 +58,25 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
             player.getPersistentDataContainer().set(cooldownKey, PersistentDataType.INTEGER, Bukkit.getCurrentTick());
         }
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> frozenPlayers.clear(), duration);
+    }
+
+    public static class Item extends PylonItem {
+        private final double radius = getSettings().getOrThrow("radius", Double.class);
+        private final int duration = getSettings().getOrThrow("duration", Integer.class);
+        private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("duration", duration),
+                    PylonArgument.of("radius", radius),
+                    PylonArgument.of("cooldown", cooldown)
+            );
+        }
     }
 
     public static class PlayerVFX implements Runnable {
