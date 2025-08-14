@@ -2324,8 +2324,9 @@ public final class BaseItems {
         ));
     }
 
+    // For trigger SpongeAbsorbEvent, sponges' material must be SPONGE
     public static final ItemStack WET_POWERFUL_WATER_SPONGE
-            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.WET_WATER_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE) // A used sponge shouldn't trigger event
             .build();
     static {
         PylonItem.register(WetWaterSponge.Item.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
@@ -2333,7 +2334,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack WET_POWERFUL_LAVA_SPONGE
-            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.HOT_LAVA_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_LAVA_SPONGE)
             .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(Map.of(
                     Enchantment.LUCK_OF_THE_SEA, 1
             ), false))

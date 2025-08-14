@@ -38,7 +38,7 @@ import java.util.Objects;
 public class FireproofRune extends Rune {
     public static final FireproofRuneRecipeType RECIPE_TYPE = new FireproofRuneRecipeType();
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
-    
+
     public FireproofRune(@NotNull ItemStack stack) {
         super(stack);
     }
