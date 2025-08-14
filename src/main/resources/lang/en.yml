@@ -871,8 +871,7 @@ item:
   wet_water_sponge:
     name: "<blue>Wet Water Sponge"
     lore: |-
-      <arrow> <red> No longer can clear water.
-      <dark_gray> Too much water inside ... You must dry it out in Blast Furnace!
+      <arrow> Too much water inside... You must dry it out in a Blast Furnace
 
   hot_lava_sponge:
     name: "<red>Hot Lava Sponge"
