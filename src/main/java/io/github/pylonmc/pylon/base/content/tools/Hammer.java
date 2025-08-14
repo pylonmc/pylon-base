@@ -46,6 +46,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
+@SuppressWarnings("UnstableApiUsage")
 public class Hammer extends PylonItem implements PylonBlockInteractor {
 
 
