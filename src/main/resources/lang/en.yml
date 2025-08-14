@@ -27,6 +27,12 @@ item:
   bronze_ingot:
     name: "Bronze Ingot"
 
+  cleansing_potion:
+    name: "Cleansing Potion"
+    lore: |-
+      <arrow> Instantly turns a zombie villager back into a normal villager
+      <arrow> Also heals it to full health
+
   coal_dust:
     name: "Coal Dust"
 

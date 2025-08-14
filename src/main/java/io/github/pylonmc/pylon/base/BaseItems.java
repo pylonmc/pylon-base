@@ -28,10 +28,7 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.DamageResistant;
-import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
@@ -47,6 +44,7 @@ import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2316,6 +2314,26 @@ public final class BaseItems {
                 10,
                 Material.STONE.createBlockData()
         ));
+    }
+
+    public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
+            .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                    .customColor(Color.FUCHSIA)
+                    .build())
+            .build();
+    static {
+        PylonItem.register(CleansingPotion.class, CLEANSING_POTION);
+        BasePages.TOOLS.addItem(BaseKeys.CLEANSING_POTION);
+        ItemStack healingPotion = ItemStackBuilder.of(Material.SPLASH_POTION)
+                .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                        .potion(PotionType.HEALING)
+                        .build())
+                .build();
+        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.CLEANSING_POTION, CLEANSING_POTION)
+                .addIngredient(healingPotion)
+                .addIngredient(DISINFECTANT);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
