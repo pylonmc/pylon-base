@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -22,6 +24,7 @@ import java.util.List;
 import static java.lang.Math.pow;
 
 public class ClimbingPick extends PylonItem implements PylonInteractor {
+    private static final NamespacedKey HOOKED_KEY = new NamespacedKey(PylonBase.getInstance(), "climbing_pick_hooked");
     public final double jumpSpeed = getSettings().getOrThrow("jump-speed", Double.class);
     public final double hookRange = getSettings().getOrThrow("hook-range", Double.class);
     private final double hookRangeSquared = pow(hookRange, 2);
@@ -32,7 +35,7 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getPlayer().getPersistentDataContainer().has(HOOKED_KEY)) return;
         double distSquared = event.getClickedBlock().getLocation().clone().subtract(event.getPlayer().getLocation()).toVector().toVector3f().lengthSquared();
         if (distSquared < hookRangeSquared) {
             event.getPlayer().setGravity(false);
@@ -57,6 +60,7 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
         public PlayerJumpListener(Player player, float jumpSpeed) {
             this.player = player;
             this.jumpSpeed = jumpSpeed;
+            player.getPersistentDataContainer().set(HOOKED_KEY, PersistentDataType.BOOLEAN, true);
         }
 
         @EventHandler
@@ -100,6 +104,7 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
         private void dispose() {
             player.setGravity(true);
             player.setAllowFlight(false);
+            player.getPersistentDataContainer().remove(HOOKED_KEY);
             PlayerMoveEvent.getHandlerList().unregister(this);
             PlayerToggleSneakEvent.getHandlerList().unregister(this);
             PlayerQuitEvent.getHandlerList().unregister(this);
