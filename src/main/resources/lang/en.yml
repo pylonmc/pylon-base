@@ -207,7 +207,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Wooden Portable Fluid Tank %info%"
 
   portable_fluid_tank_copper:
@@ -217,7 +217,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Copper Portable Fluid Tank %info%"
 
   portable_fluid_tank_obsidian:
@@ -227,7 +227,7 @@ item:
         <arrow> Retains contents when broken
         <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
         <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-        <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+        <arrow> <attr>Allowed temperatures:</attr> %temperatures%
       waila: "Obsidian Portable Fluid Tank %info%"
 
   fluid_valve:
@@ -1024,6 +1024,6 @@ gui:
   smeltery_caster:
     cast: "Cast"
     cannot_cast: "<red>Cannot cast"
-    too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
-    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least %needed% (you have %amount%)"
-    click_to_cast: "<insn>Click</insn> to cast %item% using %amount% of %fluid%"
+    too_cold: "<red>Temperature too low to cast, needs at least %temperature%"
+    not_enough: "<red>Not enough %fluid% to cast (%amount%/%needed%)"
+    click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"

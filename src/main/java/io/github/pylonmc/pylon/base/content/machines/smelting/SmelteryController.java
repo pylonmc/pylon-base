@@ -305,6 +305,17 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public boolean checkFormed() {
+        boolean formed = isFormed();
+
+        // set pixels invisible if multiblock not formed, and visible if multiblock formed
+        for (SimpleTextDisplay display : getPixels()) {
+            display.getEntity().text(Component.text(formed ? " " : ""));
+        }
+
+        return formed;
+    }
+
+    private boolean isFormed() {
         double previousCapacity = capacity;
         height = 0;
         capacity = 0;
