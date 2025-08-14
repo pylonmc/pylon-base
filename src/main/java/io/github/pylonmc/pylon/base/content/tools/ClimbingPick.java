@@ -36,7 +36,7 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getPlayer().getPersistentDataContainer().has(HOOKED_KEY)) return;
-        double distSquared = event.getClickedBlock().getLocation().clone().subtract(event.getPlayer().getLocation()).toVector().toVector3f().lengthSquared();
+        double distSquared = event.getClickedBlock().getLocation().clone().subtract(event.getPlayer().getEyeLocation()).toVector().toVector3f().lengthSquared();
         if (distSquared < hookRangeSquared) {
             event.getPlayer().setGravity(false);
             event.getPlayer().setAllowFlight(true);
