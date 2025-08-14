@@ -5,7 +5,10 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
@@ -13,6 +16,7 @@ import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -102,15 +106,15 @@ public final class MixingPot extends PylonBlock
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        Component text = Component.text("").append(getName());
-        if (getFluidType() != null) {
-            text = text.append(Component.text(" | "))
-                    .append(getFluidType().getName())
-                    .append(Component.text(": "))
-                    .append(UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1));
-        }
-        return new WailaConfig(text);
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(getDefaultTranslationKey().arguments(
+                PylonArgument.of("info", getFluidType() == null ?
+                        Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
+                        Component.translatable("pylon.pylonbase.waila.mixing_pot.filled",
+                                PylonArgument.of("fluid", getFluidType().getName()),
+                                PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1))
+                        ))
+        ));
     }
 
     @Override
@@ -184,7 +188,8 @@ public final class MixingPot extends PylonBlock
                 setFluidType(fluid.fluid());
                 setFluid(fluid.amountMillibuckets());
             }
-            default -> {}
+            default -> {
+            }
         }
 
         new PylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this).callEvent();

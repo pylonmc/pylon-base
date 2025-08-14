@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultiblock {
 
