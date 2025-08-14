@@ -27,7 +27,7 @@ item:
   bronze_ingot:
     name: "Bronze Ingot"
 
-  climbing`_pick:
+  climbing_pick:
     name: "Climbing Pick"
     lore: |-
       <arrow> <insn>Right click</insn> on a block to hold onto it
