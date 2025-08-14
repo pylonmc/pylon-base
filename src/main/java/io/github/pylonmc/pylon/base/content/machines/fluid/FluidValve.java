@@ -31,9 +31,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.Nullable;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -116,8 +114,8 @@ public class FluidValve extends PylonBlock
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getName(), List.of(PylonArgument.of(
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(getDefaultTranslationKey().arguments(PylonArgument.of(
                 "status",
                 Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
         )));

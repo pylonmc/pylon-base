@@ -26,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -117,18 +116,17 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                List.of(PylonArgument.of("info", currentRecipe == null ?
+    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+        return new WailaConfig(getDefaultTranslationKey().arguments(
+                PylonArgument.of("info", currentRecipe == null ?
                         Component.empty() :
                         Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",
                                 PylonArgument.of("item", currentRecipe.outputItem().effectiveName()),
                                 PylonArgument.of("progress", UnitFormat.PERCENT.format(passedFluid / 10)
                                         .decimalPlaces(0))
                         )
-                ))
-        );
+                )
+        ));
     }
 
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);

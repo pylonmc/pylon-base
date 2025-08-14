@@ -19,7 +19,6 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 

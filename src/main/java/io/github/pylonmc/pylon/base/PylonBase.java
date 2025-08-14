@@ -1,10 +1,12 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
+import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
-import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.building.WitherProofObsidianListener;
+import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
@@ -47,6 +50,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         pm.registerEvents(new WitherProofObsidianListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
+        pm.registerEvents(new Rune.RuneListener(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 
@@ -63,5 +67,10 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     @Override
     public @NotNull Material getMaterial() {
         return Material.COPPER_INGOT;
+    }
+
+    @NotNull
+    public static BukkitTask runSync(@NotNull Runnable runnable) {
+        return Bukkit.getScheduler().runTask(instance, runnable);
     }
 }

@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -81,21 +81,18 @@ public class Press extends PylonBlock
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
     }
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(
-                getName(),
-                List.of(
-                        PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL)))),
-                        PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
-                        PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
-                )
-        );
+        return new WailaConfig(getDefaultTranslationKey().arguments(
+                PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL)))),
+                PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
+                PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
+        ));
     }
 
     @Override
