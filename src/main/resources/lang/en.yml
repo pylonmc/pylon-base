@@ -876,8 +876,8 @@ item:
   hot_lava_sponge:
     name: "<red>Hot Lava Sponge"
     lore: |-
-      <arrow> <red> No longer can clear lava <blue>but water
-      <attr>Range: </attr> %check_range%
+      <arrow> <red> No longer can clear lava <blue>but can clear water
+      <attr>Range:</attr> %check_range%
 
 fluid:
   castable:
