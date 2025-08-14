@@ -38,8 +38,8 @@ public class BaseResearches {
                 baseKey("primitive_alloying"),
                 Material.IRON_INGOT,
                 8L,
-                BaseKeys.RAW_FERRODURALUM,
-                BaseKeys.FERRODURALUM_INGOT
+                BaseKeys.BRONZE_INGOT,
+                BaseKeys.BRONZE_DUST
         ).register();
 
         new Research(
@@ -49,28 +49,30 @@ public class BaseResearches {
                 BaseKeys.COPPER_SHEET,
                 BaseKeys.GOLD_SHEET,
                 BaseKeys.IRON_SHEET,
-                BaseKeys.FERRODURALUM_SHEET
+                BaseKeys.TIN_SHEET,
+                BaseKeys.BRONZE_SHEET,
+                BaseKeys.STEEL_SHEET
         ).register();
 
         new Research(
                 baseKey("primitive_alloy_tools"),
                 Material.GOLDEN_AXE,
                 10L,
-                BaseKeys.FERRODURALUM_SWORD,
-                BaseKeys.FERRODURALUM_AXE,
-                BaseKeys.FERRODURALUM_PICKAXE,
-                BaseKeys.FERRODURALUM_SHOVEL,
-                BaseKeys.FERRODURALUM_HOE
+                BaseKeys.BRONZE_SWORD,
+                BaseKeys.BRONZE_AXE,
+                BaseKeys.BRONZE_PICKAXE,
+                BaseKeys.BRONZE_SHOVEL,
+                BaseKeys.BRONZE_HOE
         ).register();
 
         new Research(
                 baseKey("primitive_alloy_armor"),
                 Material.GOLDEN_HELMET,
                 10L,
-                BaseKeys.FERRODURALUM_HELMET,
-                BaseKeys.FERRODURALUM_CHESTPLATE,
-                BaseKeys.FERRODURALUM_LEGGINGS,
-                BaseKeys.FERRODURALUM_BOOTS
+                BaseKeys.BRONZE_HELMET,
+                BaseKeys.BRONZE_CHESTPLATE,
+                BaseKeys.BRONZE_LEGGINGS,
+                BaseKeys.BRONZE_BOOTS
         ).register();
 
         new Research(

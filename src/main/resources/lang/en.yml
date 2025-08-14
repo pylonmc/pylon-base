@@ -27,6 +27,9 @@ item:
   bronze_ingot:
     name: "Bronze Ingot"
 
+  bronze_sheet:
+    name: "Bronze Sheet"
+
   coal_dust:
     name: "Coal Dust"
 
@@ -121,39 +124,32 @@ item:
       <arrow> Explosion power: %explosive-power%
       <arrow> Creates fire
 
-  ferroduralum_axe:
-    name: "Ferroduralum Axe"
+  bronze_axe:
+    name: "Bronze Axe"
 
-  ferroduralum_boots:
-    name: "Ferroduralum Boots"
+  bronze_boots:
+    name: "Bronze Boots"
 
-  ferroduralum_chestplate:
-    name: "Ferroduralum Chestplate"
+  bronze_chestplate:
+    name: "Bronze Chestplate"
 
-  ferroduralum_helmet:
-    name: "Ferroduralum Helmet"
+  bronze_helmet:
+    name: "Bronze Helmet"
 
-  ferroduralum_hoe:
-    name: "Ferroduralum Hoe"
+  bronze_hoe:
+    name: "Bronze Hoe"
 
-  ferroduralum_ingot:
-    name: "Ferroduralum Ingot"
-    lore: "A primitive alloy"
+  bronze_leggings:
+    name: "Bronze Leggings"
 
-  ferroduralum_leggings:
-    name: "Ferroduralum Leggings"
+  bronze_pickaxe:
+    name: "Bronze Pickaxe"
 
-  ferroduralum_pickaxe:
-    name: "Ferroduralum Pickaxe"
+  bronze_shovel:
+    name: "Bronze Shovel"
 
-  ferroduralum_sheet:
-    name: "Ferroduralum Sheet"
-
-  ferroduralum_shovel:
-    name: "Ferroduralum Shovel"
-
-  ferroduralum_sword:
-    name: "Ferroduralum Sword"
+  bronze_sword:
+    name: "Bronze Sword"
 
   fiber:
     name: "Fiber"
@@ -355,6 +351,12 @@ item:
     name: "Grindstone Handle"
     lore: "<arrow> Component of the Grindstone multiblock"
 
+  hammer_bronze:
+    name: "Bronze Hammer"
+    lore: |-
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>bronze block</white> to use the hammer on it
+      <arrow> Higher tier hammers are more likely to succeed
+
   hammer_diamond:
     name: "Diamond Hammer"
     lore: |-
@@ -451,6 +453,9 @@ item:
   nickel_ingot:
     name: "Nickel Ingot"
 
+  obsidian_chip:
+    name: "Obsidian Chip"
+
   pedestal:
     name: "Pedestal"
     lore: |-
@@ -492,9 +497,8 @@ item:
     name: "Portable Ender Chest"
     lore: "<insn>Right click</insn> to open an ender chest"
 
-  raw_ferroduralum:
-    name: "Raw Ferroduralum"
-    lore: "A primitive alloy"
+  raw_tin:
+    name: "Raw Tin"
 
   recoil_arrow:
     name: "Recoil Arrow"
@@ -596,6 +600,9 @@ item:
   steel_ingot:
     name: "Steel Ingot"
 
+  steel_sheet:
+    name: "Steel Sheet"
+
   sulfur:
     name: "Sulfur"
 
@@ -604,6 +611,9 @@ item:
 
   tin_ingot:
     name: "Tin Ingot"
+
+  tin_sheet:
+    name: "Tin Sheet"
 
   watering_can:
     name: "Watering Can"
@@ -905,6 +915,7 @@ fluid:
   plant_oil: "<#c4b352>Plant Oil"
   hydraulic_fluid: "<#212d99>Hydraulic Fluid"
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
+  obscyra: "<#5c4a66>Obscyra"
 
 waila:
   mixing_pot:
