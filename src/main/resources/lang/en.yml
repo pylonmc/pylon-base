@@ -866,7 +866,7 @@ item:
     lore: |-
       <star> <red>Fireproof Powered <star>
       <arrow> <red>Clears nearby lava
-      <arrow> <attr>Range: </attr> %check_range%
+      <arrow> <attr>Range:</attr> %check_range%
 
   wet_water_sponge:
     name: "<blue>Wet Water Sponge"
