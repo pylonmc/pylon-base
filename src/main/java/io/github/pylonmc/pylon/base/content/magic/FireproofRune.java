@@ -116,9 +116,9 @@ public class FireproofRune extends Rune {
      */
     @Getter
     public static class FireproofRuneRecipe implements PylonRecipe {
-        private final NamespacedKey key;
-        private final ItemStack input;
-        private final ItemStack result;
+        private final @NotNull NamespacedKey key;
+        private final @NotNull ItemStack input;
+        private final @NotNull ItemStack result;
 
         private FireproofRuneRecipe(
                 @NotNull NamespacedKey key,
@@ -139,7 +139,7 @@ public class FireproofRune extends Rune {
          * @return A new FireproofRuneRecipe instance
          * @throws IllegalArgumentException if input or result is not an item
          */
-        public static FireproofRuneRecipe of(
+        public static @NotNull FireproofRuneRecipe of(
                 @NotNull NamespacedKey key,
                 @NotNull ItemStack input,
                 @NotNull ItemStack result
