@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.WitherProofObsidianListener;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
@@ -72,5 +71,10 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     @NotNull
     public static BukkitTask runSync(@NotNull Runnable runnable) {
         return Bukkit.getScheduler().runTask(instance, runnable);
+    }
+
+    @NotNull
+    public static BukkitTask runAsyncLater(@NotNull Runnable runnable, long delay) {
+        return Bukkit.getScheduler().runTaskLaterAsynchronously(instance, runnable, delay);
     }
 }

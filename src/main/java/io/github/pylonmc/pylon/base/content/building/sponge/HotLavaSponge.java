@@ -36,8 +36,8 @@ public class HotLavaSponge extends PowerfulSponge {
     public static final Random RANDOM = new Random();
     public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
 
-    public HotLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
-        super(block, context);
+    public HotLavaSponge(@NotNull Block block) {
+        super(block);
     }
 
     /**

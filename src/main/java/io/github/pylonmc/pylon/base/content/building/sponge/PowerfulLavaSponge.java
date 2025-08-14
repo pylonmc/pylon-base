@@ -22,11 +22,10 @@ public class PowerfulLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_LAVA_SPONGE);
     public static final int CHECK_RANGE = settings.getOrThrow("check_range", Integer.class);
 
-    public PowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
-        super(block, context);
+    public PowerfulLavaSponge(@NotNull Block block) {
+        super(block);
     }
 
-    @Override
     /**
      * Checks if a block is absorbable by this lava sponge.
      * Lava sponges can absorb:
@@ -38,11 +37,11 @@ public class PowerfulLavaSponge extends PowerfulSponge {
      * @param block The block to check
      * @return true if the block can be absorbed, false otherwise
      */
+    @Override
     public boolean isAbsorbable(@NotNull Block block) {
         return block.getType() == Material.LAVA || block.getType() == Material.LAVA_CAULDRON;
     }
 
-    @Override
     /**
      * Absorbs a block by removing the lava from it.
      * <ul>
@@ -52,6 +51,7 @@ public class PowerfulLavaSponge extends PowerfulSponge {
      *
      * @param block The block to absorb
      */
+    @Override
     public void absorb(@NotNull Block block) {
         if (block.getType() == Material.LAVA) {
             block.setType(Material.AIR);
@@ -60,23 +60,23 @@ public class PowerfulLavaSponge extends PowerfulSponge {
         }
     }
 
-    @Override
     /**
      * Gets the range of this sponge's absorption ability.
      *
      * @return The Manhattan distance this sponge can absorb lava within
      */
+    @Override
     public int getRange() {
         return CHECK_RANGE;
     }
 
-    @Override
     /**
      * Transforms this sponge into a hot lava sponge.
      * This method breaks the current block and places a HotLavaSponge in its place.
      *
      * @param sponge The sponge block to transform
      */
+    @Override
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge);
         BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
@@ -98,12 +98,12 @@ public class PowerfulLavaSponge extends PowerfulSponge {
             super(stack);
         }
 
-        @Override
         /**
          * Gets the placeholders for this item, including the check range.
          *
          * @return A list of placeholders for this item
          */
+        @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("check_range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))

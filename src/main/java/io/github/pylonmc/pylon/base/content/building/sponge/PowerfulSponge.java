@@ -37,10 +37,10 @@ import java.util.UUID;
  *     in Blast | | Inside water              Inside water    | | Inside lava
  *     Furnace  | ↓                                           | ↓
  *   [WetWaterSponge]                                [HotLavaSponge]
- *                                             90% chance     |
- *                                            Inside water    |
- *                                                            ↓
- *                                                   [Obsidian]
+ *     Inside     |                            90% chance     |
+ *     Nether     |                           Inside water    |
+ *                ↓                                           ↓
+ *   [PowerfulWaterSponge]                           [Obsidian]
  * </pre>
  * </p>
  *
@@ -51,24 +51,9 @@ import java.util.UUID;
  * @see HotLavaSponge
  */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
-    public static final String KEY_PLAYER = "player";
 
-    public PowerfulSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public PowerfulSponge(@NotNull Block block) {
         super(block);
-        if (context instanceof BlockCreateContext.PlayerPlace p) {
-            // Will it work...?
-            BlockStorage.get(block).getSettings().set(KEY_PLAYER, p.getPlayer().getUniqueId());
-        }
-    }
-
-    /**
-     * Gets the player who placed the sponge block.
-     *
-     * @param block The sponge block
-     * @return The player who placed the block, or null if not found
-     */
-    public static @NotNull Player getPlacer(@NotNull Block block) {
-        return Bukkit.getPlayer(UUID.fromString(BlockStorage.get(block).getSettings().get(KEY_PLAYER, String.class)));
     }
 
     /**
@@ -84,14 +69,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
 
         List<Block> blocks = getBlocksInManhattanDistance(event, getRange());
         Block sponge = event.getBlock();
-        Player player = getPlacer(sponge);
         for (Block block : blocks) {
-            // before absorbs, we need to check permission
-            if (!BaseUtils.canBreakBlock(player, block)) {
-                continue;
-            }
-
-            // now we ensured that the player can break the block
             absorb(block);
         }
 
