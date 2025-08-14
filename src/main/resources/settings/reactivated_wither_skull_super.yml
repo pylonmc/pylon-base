@@ -1,5 +1,5 @@
 charged-skulls: true
 skull-speed: 4.0
-cooldown-secs: 1.5
+cooldown-ticks: 20
 player-height: 1.25
 durability: 350

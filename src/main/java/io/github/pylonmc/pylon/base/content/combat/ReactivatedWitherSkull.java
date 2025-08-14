@@ -22,6 +22,7 @@ public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor
     private final boolean chargedSkulls = getSettings().getOrThrow("charged-skulls", Boolean.class);
     private final double skullSpeed = getSettings().getOrThrow("skull-speed", Double.class);
     private final double playerHeight = getSettings().getOrThrow("player-height", Double.class);
+    private final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", Integer.class);
     private static final TranslatableComponent trueCharged = Component.translatable("pylon.pylonbase.item.reactivated_wither_skull.charged.true");
     private static final TranslatableComponent falseCharged = Component.translatable("pylon.pylonbase.item.reactivated_wither_skull.charged.false");
 
@@ -33,6 +34,7 @@ public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         getStack().damage(1, event.getPlayer());
+        event.getPlayer().setCooldown(getStack(), cooldownTicks);
         Location skullPos = event.getPlayer().getLocation().clone().add(0, playerHeight, 0);
         WitherSkull witherSkull = (WitherSkull) skullPos.getWorld().spawnEntity(skullPos, EntityType.WITHER_SKULL);
         witherSkull.setCharged(chargedSkulls);

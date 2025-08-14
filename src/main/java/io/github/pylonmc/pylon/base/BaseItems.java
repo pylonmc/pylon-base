@@ -2316,10 +2316,8 @@ public final class BaseItems {
         ));
     }
     public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                            Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("cooldown-secs", Double.class).floatValue())
-                    .build())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.DAMAGE, 0)
             .build();
     static {
         PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
@@ -2334,10 +2332,8 @@ public final class BaseItems {
     }
 
     public static final ItemStack REACTIVATED_WITHER_SKULL_SUPER = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL_SUPER)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                            Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER).getOrThrow("cooldown-secs", Double.class).floatValue())
-                    .build())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.DAMAGE, 0)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
