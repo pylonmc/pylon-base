@@ -45,11 +45,14 @@ public class PowerfulWaterSponge extends PowerfulSponge {
         return CHECK_RANGE;
     }
 
-    public void toWetSponge(@NotNull Block sponge) {
+    public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge);
-        BlockStorage.placeBlock(sponge, BaseKeys.WET_POWERFUL_WATER_SPONGE);
+        BlockStorage.placeBlock(sponge, BaseKeys.WET_WATER_SPONGE);
     }
 
+    /**
+     * @author balugaq
+     */
     public static class Item extends PylonItem {
 
         public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);

@@ -6,9 +6,11 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-
-public class WetPowerfulWaterSponge extends PylonBlock {
-    protected WetPowerfulWaterSponge(@NotNull Block block) {
+/**
+ * @author balugaq
+ */
+public class WetWaterSponge extends PylonBlock {
+    protected WetWaterSponge(@NotNull Block block) {
         super(block);
     }
 

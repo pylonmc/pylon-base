@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * @author balugaq
+ */
 public class PowerfulLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_LAVA_SPONGE);
     public static final int CHECK_RANGE = settings.getOrThrow("check_range", Integer.class);
@@ -42,11 +45,15 @@ public class PowerfulLavaSponge extends PowerfulSponge {
         return CHECK_RANGE;
     }
 
-    public void toWetSponge(@NotNull Block sponge) {
+    @Override
+    public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge);
-        BlockStorage.placeBlock(sponge, BaseKeys.WET_POWERFUL_LAVA_SPONGE);
+        BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
     }
 
+    /**
+     * @author balugaq
+     */
     public static class Item extends PylonItem {
 
         public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);

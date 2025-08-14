@@ -12,12 +12,33 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SpongeAbsorbEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * {@link PowerfulWaterSponge} is able to absorb water.
+ * {@link PowerfulLavaSponge} is able to absorb lava.
+ * {@link HotLavaSponge} is able to absorb lava, but 90% chance turn into obsidian,
+ * 10% chance turn back into {@link PowerfulLavaSponge}.
+ * <p>
+ *
+ * Powerful Sponges evolutions:
+ * <p>
+ *                          Fireproof rune powered
+ *   [PowerfulWaterSponge] -----------------------→  [PowerfulLavaSponge]
+ *     Dry out  ↑ |                            10% chance     ↑ |
+ *     in Blast | | Inside water              Inside water    | | Inside lava
+ *     Furnace  | ↓                                           | ↓
+ *   [WetWaterSponge]                                [HotLavaSponge]
+ *                                             90% chance     |
+ *                                            Inside water    |
+ *                                                            ↓
+ *                                                   [Obsidian]
+ *
+ * @author balugaq
+ */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
     public static final String KEY_PLAYER = "player";
 
@@ -29,7 +50,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
         }
     }
 
-    public static @Nullable Player getPlacer(@NotNull Block block) {
+    public static @NotNull Player getPlacer(@NotNull Block block) {
         return Bukkit.getPlayer(UUID.fromString(BlockStorage.get(block).getSettings().get(KEY_PLAYER, String.class)));
     }
 
@@ -50,7 +71,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
             absorb(block);
         }
 
-        toWetSponge(sponge);
+        toDriedSponge(sponge);
     }
 
     public @NotNull List<Block> getBlocksInManhattanDistance(@NotNull SpongeAbsorbEvent event, int distance) {
@@ -97,7 +118,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
 
     public abstract void absorb(@NotNull Block block);
 
-    public abstract void toWetSponge(@NotNull Block sponge);
+    public abstract void toDriedSponge(@NotNull Block sponge);
 
     public abstract int getRange();
 }

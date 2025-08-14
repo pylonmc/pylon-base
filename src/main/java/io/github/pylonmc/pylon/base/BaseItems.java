@@ -6,8 +6,8 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulLavaSponge;
 import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulWaterSponge;
-import io.github.pylonmc.pylon.base.content.building.sponge.WetPowerfulLavaSponge;
-import io.github.pylonmc.pylon.base.content.building.sponge.WetPowerfulWaterSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.HotLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.WetWaterSponge;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
@@ -2325,22 +2325,22 @@ public final class BaseItems {
     }
 
     public static final ItemStack WET_POWERFUL_WATER_SPONGE
-            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.WET_POWERFUL_WATER_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.WET_WATER_SPONGE)
             .build();
     static {
-        PylonItem.register(WetPowerfulWaterSponge.Item.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_POWERFUL_WATER_SPONGE);
-        BasePages.COMPONENTS.addItem(BaseKeys.WET_POWERFUL_WATER_SPONGE);
+        PylonItem.register(WetWaterSponge.Item.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
+        BasePages.COMPONENTS.addItem(BaseKeys.WET_WATER_SPONGE);
     }
 
     public static final ItemStack WET_POWERFUL_LAVA_SPONGE
-            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.WET_POWERFUL_LAVA_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.DRIED_KELP_BLOCK, BaseKeys.HOT_LAVA_SPONGE)
             .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(Map.of(
                     Enchantment.LUCK_OF_THE_SEA, 1
             ), false))
             .build();
     static {
-        PylonItem.register(WetPowerfulLavaSponge.Item.class, WET_POWERFUL_LAVA_SPONGE, BaseKeys.WET_POWERFUL_LAVA_SPONGE);
-        BasePages.BUILDING.addItem(BaseKeys.WET_POWERFUL_LAVA_SPONGE);
+        PylonItem.register(HotLavaSponge.Item.class, WET_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
+        BasePages.BUILDING.addItem(BaseKeys.HOT_LAVA_SPONGE);
     }
 
     public static final ItemStack POWERFUL_WATER_SPONGE

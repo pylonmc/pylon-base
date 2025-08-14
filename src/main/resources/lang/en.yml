@@ -855,6 +855,31 @@ item:
     lore: |-
       <arrow> A chunk of minerals from many layers below the surface
 
+  powerful_water_sponge:
+    name: "<blue>Powerful Water Sponge"
+    lore: |-
+      <arrow> <blue>Clear nearby water.
+      <arrow> <attr>Range: </attr> %check_range%
+
+  powerful_lava_sponge:
+    name: "<red>Powerful Lava Sponge"
+    lore: |-
+      <star> <red>Fireproof Powered <star>
+      <arrow> <red>Clear nearby lava.
+      <arrow> <attr>Range: </attr> %check_range%
+
+  wet_water_sponge:
+    name: "<blue>Wet Water Sponge"
+    lore: |-
+      <arrow> <red> No longer can clear water.
+      <dark_gray> Too much water inside ... You must dry it out in Blast Furnace!
+
+  hot_lava_sponge:
+    name: "<red>Hot Lava Sponge"
+    lore: |-
+      <arrow> <red> No longer can clear lava <blue>but water
+      <attr>Range: </attr> %check_range%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"

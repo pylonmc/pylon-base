@@ -39,13 +39,18 @@ import java.util.Objects;
 public class FireproofRune extends Rune {
     public static final FireproofRuneRecipeType RECIPE_TYPE = new FireproofRuneRecipeType();
 
+    /**
+     * @author balugaq
+     */
     public static class FireproofRuneRecipeType extends RecipeType<FireproofRuneRecipe> {
-
         private FireproofRuneRecipeType() {
             super(BaseKeys.FIREPROOF_RUNE);
         }
     }
 
+    /**
+     * @author balugaq
+     */
     @Getter
     public static class FireproofRuneRecipe implements PylonRecipe {
         private final NamespacedKey key;
