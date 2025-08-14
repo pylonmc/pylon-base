@@ -32,7 +32,7 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor {
 
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("getRange", UnitFormat.BLOCKS.format(settings.horizontalRange())));
+            return List.of(PylonArgument.of("range", UnitFormat.BLOCKS.format(settings.horizontalRange())));
         }
 
     @Override

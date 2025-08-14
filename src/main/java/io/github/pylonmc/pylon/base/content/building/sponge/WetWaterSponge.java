@@ -28,7 +28,7 @@ public class WetWaterSponge extends PylonBlock {
     protected WetWaterSponge(@NotNull Block block) {
         super(block);
 
-        PylonBase.runAsyncLater(() -> {
+        PylonBase.runSyncLater(() -> {
             // Dry out the sponge in the nether
             Location location = block.getLocation();
             if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
@@ -40,16 +40,9 @@ public class WetWaterSponge extends PylonBlock {
     }
 
     /**
-     * Item representation of a WetWaterSponge.
-     *
      * @author balugaq
      */
     public static class Item extends PylonItem {
-        /**
-         * Constructs a new WetWaterSponge item with the given item stack.
-         *
-         * @param stack The item stack
-         */
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }

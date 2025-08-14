@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -16,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * HotLavaSponge is a powerful sponge that can absorb lava but has special behavior.
@@ -33,7 +32,6 @@ import java.util.Random;
  * @see PowerfulLavaSponge
  */
 public class HotLavaSponge extends PowerfulSponge {
-    public static final Random RANDOM = new Random();
     public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
 
     public HotLavaSponge(@NotNull Block block) {
@@ -103,7 +101,7 @@ public class HotLavaSponge extends PowerfulSponge {
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge);
-        if (RANDOM.nextDouble() > 0.1) {
+        if (ThreadLocalRandom.current().nextDouble() > 0.1) {
             // 90% chance of becoming unusable obsidian
             sponge.setType(Material.OBSIDIAN);
             Location explodeLoc = sponge.getLocation().add(0.5, 0.5, 0.5);
@@ -122,11 +120,6 @@ public class HotLavaSponge extends PowerfulSponge {
 
         public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
 
-        /**
-         * Constructs a new HotLavaSponge item with the given item stack.
-         *
-         * @param stack The item stack
-         */
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }

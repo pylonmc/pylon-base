@@ -36,7 +36,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
-        int range = getSettings().getOrThrow("getRange", Integer.class);
+        int range = getSettings().getOrThrow("range", Integer.class);
         int checkingLevel = 1;
         List<PylonBlock> blocks = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(PylonArgument.of(
                     "elevator_range",
-                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("getRange", Integer.class))
+                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class))
             ));
         }
     }

@@ -1,21 +1,15 @@
 package io.github.pylonmc.pylon.base.content.building.sponge;
 
-import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSponge;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.SpongeAbsorbEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * PowerfulSponge is an abstract base class for powerful sponge blocks that can absorb liquids in a large area.

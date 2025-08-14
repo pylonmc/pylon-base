@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
+import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -2383,7 +2384,7 @@ public final class BaseItems {
         BasePages.BUILDING.addItem(BaseKeys.POWERFUL_LAVA_SPONGE);
 
         // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
-        FireproofRune.RECIPE_TYPE.addRecipe(FireproofRune.FireproofRuneRecipe.of(
+        FireproofRune.RECIPE_TYPE.addRecipe(FireproofRuneRecipe.of(
                 BaseKeys.POWERFUL_LAVA_SPONGE,
                 POWERFUL_WATER_SPONGE,
                 POWERFUL_LAVA_SPONGE

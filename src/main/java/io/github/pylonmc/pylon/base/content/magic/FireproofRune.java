@@ -1,24 +1,17 @@
 package io.github.pylonmc.pylon.base.content.magic;
 
 import io.github.pylonmc.pylon.base.BaseConfig;
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
+import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.guide.button.ItemButton;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -26,9 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import xyz.xenondevs.invui.gui.Gui;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -57,8 +48,8 @@ public class FireproofRune extends Rune {
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
         ItemStack mappedResult = RECIPE_TYPE.getRecipes().stream().map(recipe -> {
-            if (recipe.input.isSimilar(target)) {
-                return recipe.result;
+            if (recipe.input().isSimilar(target)) {
+                return recipe.result();
             }
 
             return null;
@@ -103,94 +94,9 @@ public class FireproofRune extends Rune {
      * @author balugaq
      */
     public static class FireproofRuneRecipeType extends RecipeType<FireproofRuneRecipe> {
-        /**
-         * Constructs a new FireproofRuneRecipeType with the base key.
-         */
         private FireproofRuneRecipeType() {
             super(BaseKeys.FIREPROOF_RUNE);
         }
     }
 
-    /**
-     * @author balugaq
-     */
-    @Getter
-    public static class FireproofRuneRecipe implements PylonRecipe {
-        private final @NotNull NamespacedKey key;
-        private final @NotNull ItemStack input;
-        private final @NotNull ItemStack result;
-
-        private FireproofRuneRecipe(
-                @NotNull NamespacedKey key,
-                @NotNull ItemStack input,
-                @NotNull ItemStack result
-        ) {
-            this.key = key;
-            this.input = input;
-            this.result = result;
-        }
-
-        /**
-         * Creates a new FireproofRuneRecipe with the given parameters.
-         *
-         * @param key    The namespaced key for this recipe
-         * @param input  The input item stack
-         * @param result The result item stack
-         * @return A new FireproofRuneRecipe instance
-         * @throws IllegalArgumentException if input or result is not an item
-         */
-        public static @NotNull FireproofRuneRecipe of(
-                @NotNull NamespacedKey key,
-                @NotNull ItemStack input,
-                @NotNull ItemStack result
-        ) {
-            if (!input.getType().isItem()) {
-                throw new IllegalArgumentException("Input must be an item");
-            }
-            if (!result.getType().isItem()) {
-                throw new IllegalArgumentException("Result must be an item");
-            }
-            return new FireproofRuneRecipe(key, input, result);
-        }
-
-
-        @Override
-        public @NotNull Gui display() {
-            return Gui.normal()
-                    .setStructure(
-                            "# # # # # # # # #",
-                            "# # # # b # # # #",
-                            "# # # # # g # # #",
-                            "# i g g g g g r #",
-                            "# # # # # g # # #",
-                            "# # # # # # # # #"
-                    )
-                    .addIngredient('#', GuiItems.backgroundBlack())
-                    .addIngredient('b', ItemButton.fromStack(BaseItems.FIREPROOF_RUNE))
-                    .addIngredient('g', ItemButton.fromStack(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)))
-                    .addIngredient('i', ItemButton.fromStack(getInput()))
-                    .addIngredient('r', ItemButton.fromStack(getResult()))
-                    .build();
-        }
-
-        /**
-         * Return the namespaced identifier for this object.
-         *
-         * @return this object's key
-         */
-        @Override
-        public @NotNull NamespacedKey getKey() {
-            return key;
-        }
-
-        @Override
-        public @NotNull List<FluidOrItem> getInputs() {
-            return List.of(FluidOrItem.of(input));
-        }
-
-        @Override
-        public @NotNull List<FluidOrItem> getResults() {
-            return List.of(FluidOrItem.of(result));
-        }
-    }
 }

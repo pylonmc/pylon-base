@@ -42,7 +42,7 @@ public class Sprinkler extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("getRange", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())),
+                    PylonArgument.of("range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())),
                     PylonArgument.of("water_consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND))
             );
         }

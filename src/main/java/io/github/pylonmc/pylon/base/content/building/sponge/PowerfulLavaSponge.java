@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -86,23 +85,10 @@ public class PowerfulLavaSponge extends PowerfulSponge {
      * @author balugaq
      */
     public static class Item extends PylonItem {
-
-        public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
-
-        /**
-         * Constructs a new PowerfulLavaSponge item with the given item stack.
-         *
-         * @param stack The item stack
-         */
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
-        /**
-         * Gets the placeholders for this item, including the check range.
-         *
-         * @return A list of placeholders for this item
-         */
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(

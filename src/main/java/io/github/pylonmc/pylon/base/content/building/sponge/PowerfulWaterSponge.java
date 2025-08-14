@@ -2,6 +2,8 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.config.Config;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -24,7 +26,8 @@ import java.util.List;
  * @see WetWaterSponge
  */
 public class PowerfulWaterSponge extends PowerfulSponge {
-    public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.POWERFUL_WATER_SPONGE);
+    public static final int CHECK_RANGE = settings.getOrThrow("check_range", Integer.class);
 
     public PowerfulWaterSponge(@NotNull Block block) {
         super(block);
@@ -99,20 +102,10 @@ public class PowerfulWaterSponge extends PowerfulSponge {
 
         public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
 
-        /**
-         * Constructs a new PowerfulWaterSponge item with the given item stack.
-         *
-         * @param stack The item stack
-         */
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
-        /**
-         * Gets the placeholders for this item, including the check range.
-         *
-         * @return A list of placeholders for this item
-         */
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
