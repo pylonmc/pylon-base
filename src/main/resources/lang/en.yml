@@ -1004,6 +1004,6 @@ gui:
   smeltery_caster:
     cast: "Cast"
     cannot_cast: "<red>Cannot cast"
-    too_cold: "<red>Temperature too low to cast %item%, needs at least %temperature%"
-    not_enough: "<red>Not enough %fluid% to cast %item%, needs at least %needed% (you have %amount%)"
-    click_to_cast: "<insn>Click</insn> to cast %item% using %amount% of %fluid%"
+    too_cold: "<red>Temperature too low to cast, needs at least %temperature%"
+    not_enough: "<red>Not enough %fluid% to cast (%amount%/%needed%)"
+    click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
