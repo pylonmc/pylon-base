@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
@@ -2327,10 +2328,10 @@ public final class BaseItems {
 
     // For trigger SpongeAbsorbEvent, sponges' material must be SPONGE
     public static final ItemStack WET_POWERFUL_WATER_SPONGE
-            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE) // A used sponge shouldn't trigger event
+            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE)
             .build();
     static {
-        PylonItem.register(WetWaterSponge.Item.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
+        PylonBlock.register(BaseKeys.WET_WATER_SPONGE, WET_POWERFUL_WATER_SPONGE.getType(), WetWaterSponge.class); // A used sponge shouldn't trigger event
         BasePages.COMPONENTS.addItem(BaseKeys.WET_WATER_SPONGE);
     }
 
@@ -2384,7 +2385,7 @@ public final class BaseItems {
         BasePages.BUILDING.addItem(BaseKeys.POWERFUL_LAVA_SPONGE);
 
         // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
-        FireproofRune.RECIPE_TYPE.addRecipe(FireproofRuneRecipe.of(
+        FireproofRuneRecipe.RECIPE_TYPE.addRecipe(FireproofRuneRecipe.of(
                 BaseKeys.POWERFUL_LAVA_SPONGE,
                 POWERFUL_WATER_SPONGE,
                 POWERFUL_LAVA_SPONGE

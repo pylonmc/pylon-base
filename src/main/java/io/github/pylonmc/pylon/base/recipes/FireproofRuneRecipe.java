@@ -1,9 +1,12 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,6 +24,10 @@ public record FireproofRuneRecipe(
         @NotNull ItemStack input,
         @NotNull ItemStack result
 ) implements PylonRecipe {
+    public static final RecipeType<FireproofRuneRecipe> RECIPE_TYPE = new RecipeType<>(
+            BaseKeys.FIREPROOF_RUNE
+    );
+
     /**
      * Creates a new FireproofRuneRecipe with the given parameters.
      *

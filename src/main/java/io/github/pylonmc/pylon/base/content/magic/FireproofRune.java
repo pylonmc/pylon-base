@@ -27,7 +27,6 @@ import java.util.Objects;
  */
 @SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
-    public static final FireproofRuneRecipeType RECIPE_TYPE = new FireproofRuneRecipeType();
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
 
     public FireproofRune(@NotNull ItemStack stack) {
@@ -47,7 +46,7 @@ public class FireproofRune extends Rune {
         // As many runes as possible to consume
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
-        ItemStack mappedResult = RECIPE_TYPE.getRecipes().stream().map(recipe -> {
+        ItemStack mappedResult = FireproofRuneRecipe.RECIPE_TYPE.getRecipes().stream().map(recipe -> {
             if (recipe.input().isSimilar(target)) {
                 return recipe.result();
             }
@@ -89,14 +88,4 @@ public class FireproofRune extends Rune {
         rune.setAmount(0);
         player.sendMessage(SUCCESS);
     }
-
-    /**
-     * @author balugaq
-     */
-    public static class FireproofRuneRecipeType extends RecipeType<FireproofRuneRecipe> {
-        private FireproofRuneRecipeType() {
-            super(BaseKeys.FIREPROOF_RUNE);
-        }
-    }
-
 }
