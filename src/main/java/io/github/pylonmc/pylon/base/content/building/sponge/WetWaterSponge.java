@@ -38,13 +38,4 @@ public class WetWaterSponge extends PylonBlock {
             }
         }, 1);
     }
-
-    /**
-     * @author balugaq
-     */
-    public static class Item extends PylonItem {
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-    }
 }
