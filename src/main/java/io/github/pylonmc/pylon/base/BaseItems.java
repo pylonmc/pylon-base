@@ -2328,18 +2328,16 @@ public final class BaseItems {
 
     // For trigger SpongeAbsorbEvent, sponges' material must be SPONGE
     public static final ItemStack WET_POWERFUL_WATER_SPONGE
-            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE) // A used sponge shouldn't trigger event
             .build();
     static {
-        PylonBlock.register(BaseKeys.WET_WATER_SPONGE, WET_POWERFUL_WATER_SPONGE.getType(), WetWaterSponge.class); // A used sponge shouldn't trigger event
+        PylonItem.register(PylonItem.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
         BasePages.COMPONENTS.addItem(BaseKeys.WET_WATER_SPONGE);
     }
 
     public static final ItemStack WET_POWERFUL_LAVA_SPONGE
             = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_LAVA_SPONGE)
-            .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(Map.of(
-                    Enchantment.LUCK_OF_THE_SEA, 1
-            ), false))
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
         PylonItem.register(HotLavaSponge.Item.class, WET_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
@@ -2376,20 +2374,19 @@ public final class BaseItems {
 
     public static final ItemStack POWERFUL_LAVA_SPONGE
             = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE)
-            .set(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments(Map.of(
-                    Enchantment.LUCK_OF_THE_SEA, 1
-            ), false))
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
         PylonItem.register(PowerfulLavaSponge.Item.class, POWERFUL_LAVA_SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE);
         BasePages.BUILDING.addItem(BaseKeys.POWERFUL_LAVA_SPONGE);
 
         // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
-        FireproofRuneRecipe.RECIPE_TYPE.addRecipe(FireproofRuneRecipe.of(
+        FireproofRuneRecipe recipe = FireproofRuneRecipe.of(
                 BaseKeys.POWERFUL_LAVA_SPONGE,
                 POWERFUL_WATER_SPONGE,
                 POWERFUL_LAVA_SPONGE
-        ));
+        );
+        FireproofRuneRecipe.RECIPE_TYPE.addRecipe(recipe);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
