@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.util;
 
 import com.destroystokyo.paper.MaterialSetTag;
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
@@ -8,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
@@ -114,5 +116,14 @@ public class BaseUtils {
             reflected.setIngredient(entry.getKey(), entry.getValue());
         }
         return reflected;
+    }
+
+
+    public static void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count) {
+        new ParticleBuilder(particle)
+                .location(location)
+                .offset(0, 0, 0)
+                .count(count)
+                .spawn();
     }
 }
