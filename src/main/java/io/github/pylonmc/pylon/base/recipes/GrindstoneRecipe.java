@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -31,11 +32,11 @@ import java.util.Map;
  * @param particleBlockData the block data to use for the particles shown while grinding
  */
 public record GrindstoneRecipe(
-        NamespacedKey key,
-        ItemStack input,
-        Map<ItemStack, Double> results,
+        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull ItemStack input,
+        @NotNull Map<ItemStack, Double> results,
         int cycles,
-        BlockData particleBlockData
+        @NotNull BlockData particleBlockData
 ) implements PylonRecipe {
 
     public GrindstoneRecipe(
@@ -54,7 +55,8 @@ public record GrindstoneRecipe(
     }
 
     public static final RecipeType<GrindstoneRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "grindstone")
+            new NamespacedKey(PylonBase.getInstance(), "grindstone"),
+            GrindstoneRecipe.class
     );
 
     public int timeTicks() {

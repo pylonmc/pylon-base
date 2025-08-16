@@ -26,7 +26,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class SmelteryRecipe implements PylonRecipe {
 
-    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery")) {
+    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery"), SmelteryRecipe.class) {
         @Override
         public void addRecipe(@NotNull SmelteryRecipe recipe) {
             super.addRecipe(recipe);

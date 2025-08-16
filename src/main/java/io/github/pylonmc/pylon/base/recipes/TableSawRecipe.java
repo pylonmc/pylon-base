@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -23,10 +24,10 @@ import java.util.List;
  * @param time the recipe time (ticks)
  */
 public record TableSawRecipe(
-        NamespacedKey key,
-        ItemStack input,
-        ItemStack result,
-        BlockData particleData,
+        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull ItemStack input,
+        @NotNull ItemStack result,
+        @NotNull BlockData particleData,
         int time
 ) implements PylonRecipe {
 
@@ -36,7 +37,8 @@ public record TableSawRecipe(
     }
 
     public static final RecipeType<TableSawRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "table_saw")
+            new NamespacedKey(PylonBase.getInstance(), "table_saw"),
+            TableSawRecipe.class
     );
 
     @Override

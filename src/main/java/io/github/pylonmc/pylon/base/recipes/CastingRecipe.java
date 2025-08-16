@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -30,7 +31,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * @param temperature the minimum temperature the smeltery must be
  */
 public record CastingRecipe(
-        @NotNull NamespacedKey key,
+        @NotNull @RecipeKey NamespacedKey key,
         @NotNull PylonFluid input,
         @NotNull ItemStack result,
         double temperature
@@ -40,7 +41,8 @@ public record CastingRecipe(
             = Settings.get(BaseKeys.SMELTERY_CASTER).getOrThrow("cast-amount-mb", Double.class);
 
     public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("cast_recipe")
+            baseKey("cast_recipe"),
+            CastingRecipe.class
     );
 
     public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {

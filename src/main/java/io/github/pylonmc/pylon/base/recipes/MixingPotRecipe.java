@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -28,7 +29,7 @@ import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
  * @param requiresEnrichedFire whether enriched fire must be placed below to do this recipe
  */
 public record MixingPotRecipe(
-        @NotNull NamespacedKey key,
+        @NotNull @RecipeKey NamespacedKey key,
         @NotNull List<ItemStack> inputItems,
         @NotNull PylonFluid inputFluid,
         double inputFluidAmount,
@@ -42,7 +43,8 @@ public record MixingPotRecipe(
     }
 
     public static final RecipeType<MixingPotRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "mixing_pot")
+            new NamespacedKey(PylonBase.getInstance(), "mixing_pot"),
+            MixingPotRecipe.class
     );
 
     public boolean matches(

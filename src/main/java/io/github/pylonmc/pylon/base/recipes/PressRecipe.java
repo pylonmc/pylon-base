@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -25,13 +26,14 @@ import java.util.List;
  * @param input input item (assumed to be of item amount 1)
  */
 public record PressRecipe(
-        NamespacedKey key,
-        ItemStack input,
+        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull ItemStack input,
         double oilAmount
 ) implements PylonRecipe {
 
     public static final RecipeType<PressRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "press")
+            new NamespacedKey(PylonBase.getInstance(), "press"),
+            PressRecipe.class
     );
 
     @Override

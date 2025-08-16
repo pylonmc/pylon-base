@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -24,10 +25,10 @@ import java.util.List;
  * @param chance the chance to succeed per attempt
  */
 public record HammerRecipe(
-        NamespacedKey key,
-        ItemStack input,
-        ItemStack result,
-        MiningLevel level,
+        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull ItemStack input,
+        @NotNull ItemStack result,
+        @NotNull MiningLevel level,
         float chance
 ) implements PylonRecipe {
 
@@ -37,7 +38,8 @@ public record HammerRecipe(
     }
 
     public static final RecipeType<HammerRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "hammer")
+            new NamespacedKey(PylonBase.getInstance(), "hammer"),
+            HammerRecipe.class
     );
 
     @Override

@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -23,7 +24,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * @param fluidAmount the amount of fluid per recipe, both input and output
  */
 public record StrainingRecipe(
-        @NotNull NamespacedKey key,
+        @NotNull @RecipeKey NamespacedKey key,
         @NotNull PylonFluid inputFluid,
         double fluidAmount,
         @NotNull PylonFluid outputFluid,
@@ -31,7 +32,8 @@ public record StrainingRecipe(
 ) implements PylonRecipe {
 
     public static final RecipeType<StrainingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("fluid_strainer")
+            baseKey("fluid_strainer"),
+            StrainingRecipe.class
     );
 
     public static final PersistentDataType<?, StrainingRecipe> DATA_TYPE =

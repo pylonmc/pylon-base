@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -29,7 +30,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * @param temperature the minimum temperature the smeltery must be at
  */
 public record MeltingRecipe(
-        @NotNull NamespacedKey key,
+        @NotNull @RecipeKey NamespacedKey key,
         @NotNull ItemStack input,
         @NotNull PylonFluid result,
         double temperature
@@ -39,7 +40,8 @@ public record MeltingRecipe(
             = Settings.get(BaseKeys.SMELTERY_HOPPER).getOrThrow("melt-amount-mb", Double.class);
 
     public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("melt_recipe")
+            baseKey("melt_recipe"),
+            MeltingRecipe.class
     );
 
     @Override
