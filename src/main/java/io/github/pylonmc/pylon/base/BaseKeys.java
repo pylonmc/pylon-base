@@ -232,6 +232,8 @@ public class BaseKeys {
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey POWERFUL_WATER_SPONGE = baseKey("powerful_water_sponge");
+    // Avoid key conflict
+    public static final NamespacedKey POWERFUL_WATER_SPONGE_BLASTING = baseKey("powerful_water_sponge_blasting");
     public static final NamespacedKey POWERFUL_LAVA_SPONGE = baseKey("powerful_lava_sponge");
     public static final NamespacedKey WET_WATER_SPONGE = baseKey("wet_water_sponge");
     public static final NamespacedKey HOT_LAVA_SPONGE = baseKey("hot_lava_sponge");

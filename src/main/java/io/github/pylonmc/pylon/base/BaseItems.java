@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -48,6 +49,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.*;
@@ -2362,7 +2364,7 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(shapedRecipe);
 
         BlastingRecipe blastingRecipe = new BlastingRecipe(
-                BaseKeys.POWERFUL_WATER_SPONGE,
+                BaseKeys.POWERFUL_WATER_SPONGE_BLASTING,
                 POWERFUL_WATER_SPONGE,
                 new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
                 1.5f,
