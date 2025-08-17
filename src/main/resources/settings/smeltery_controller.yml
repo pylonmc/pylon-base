@@ -15,5 +15,4 @@ density: # kg/m^3; these define how much mass is in the smeltery
   air: 1.2
   fluid: 698.0
 heat-loss-coefficient: 10.0 # W/°C; defines the rate of conductive cooling; i.e., cooling rate at low temperatures
-emissivity: 0.9 # unitless; defines the rate of radiative cooling; i.e., cooling rate at high temperatures
 room-temperature: 20.0 # °C; defines the temperature of the environment around the smeltery

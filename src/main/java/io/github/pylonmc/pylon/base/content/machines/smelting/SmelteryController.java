@@ -440,13 +440,11 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
-    private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
     private static final double SPECIFIC_HEAT = settings.getOrThrow("specific-heat.fluid", Double.class);
     private static final double DENSITY = settings.getOrThrow("density.fluid", Double.class);
     private static final double SPECIFIC_HEAT_AIR = settings.getOrThrow("specific-heat.air", Double.class);
     private static final double DENSITY_AIR = settings.getOrThrow("density.air", Double.class);
     private static final double HEAT_LOSS_COEFFICIENT = settings.getOrThrow("heat-loss-coefficient", Double.class);
-    private static final double EMISSIVITY = settings.getOrThrow("emissivity", Double.class);
     private static final double CELSIUS_TO_KELVIN = 273.15;
     private static final double ROOM_TEMPERATURE_CELSIUS = settings.getOrThrow("room-temperature", Double.class);
     private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
