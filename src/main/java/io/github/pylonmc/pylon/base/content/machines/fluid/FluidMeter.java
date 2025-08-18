@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -21,7 +22,7 @@ import org.joml.Vector3d;
 
 public class FluidMeter extends FluidFilter implements PylonTickingBlock {
 
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     private double removedSinceLastUpdate;
 

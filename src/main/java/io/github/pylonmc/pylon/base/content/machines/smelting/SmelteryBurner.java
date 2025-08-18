@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -39,8 +40,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     public static final NamespacedKey KEY = baseKey("smeltery_burner");
 
-    public static final double BURN_EFFICIENCY = Settings.get(KEY).getOrThrow("burn-efficiency", Double.class);
-    public static final double DIMINISHING_RETURN = Settings.get(KEY).getOrThrow("diminishing-returns", Double.class);
+    public static final double BURN_EFFICIENCY = Settings.get(KEY).getOrThrow("burn-efficiency", ConfigAdapter.DOUBLE);
+    public static final double DIMINISHING_RETURN = Settings.get(KEY).getOrThrow("diminishing-returns", ConfigAdapter.DOUBLE);
 
     public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(baseKey("smeltery_burner_fuels"));
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);

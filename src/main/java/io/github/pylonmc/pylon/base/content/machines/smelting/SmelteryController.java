@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
 import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
@@ -62,7 +63,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock, PylonEntityHolderBlock {
 
-    public static final double FLUID_REACTION_PER_SECOND = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("fluid-reaction-per-second", Double.class);
+    public static final double FLUID_REACTION_PER_SECOND = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("fluid-reaction-per-second", ConfigAdapter.DOUBLE);
 
     private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
     private static final NamespacedKey RUNNING_KEY = baseKey("running");
@@ -72,7 +73,7 @@ public final class SmelteryController extends SmelteryComponent
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.SMELTERY_CONTROLLER)
-            .getOrThrow("tick-interval", Integer.class);
+            .getOrThrow("tick-interval", ConfigAdapter.INT);
 
     @Getter
     @Setter
@@ -446,14 +447,14 @@ public final class SmelteryController extends SmelteryComponent
 
     private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
-    private static final double SPECIFIC_HEAT = settings.getOrThrow("specific-heat.fluid", Double.class);
-    private static final double DENSITY = settings.getOrThrow("density.fluid", Double.class);
-    private static final double SPECIFIC_HEAT_AIR = settings.getOrThrow("specific-heat.air", Double.class);
-    private static final double DENSITY_AIR = settings.getOrThrow("density.air", Double.class);
-    private static final double HEAT_LOSS_COEFFICIENT = settings.getOrThrow("heat-loss-coefficient", Double.class);
-    private static final double EMISSIVITY = settings.getOrThrow("emissivity", Double.class);
+    private static final double SPECIFIC_HEAT = settings.getOrThrow("specific-heat.fluid", ConfigAdapter.DOUBLE);
+    private static final double DENSITY = settings.getOrThrow("density.fluid", ConfigAdapter.DOUBLE);
+    private static final double SPECIFIC_HEAT_AIR = settings.getOrThrow("specific-heat.air", ConfigAdapter.DOUBLE);
+    private static final double DENSITY_AIR = settings.getOrThrow("density.air", ConfigAdapter.DOUBLE);
+    private static final double HEAT_LOSS_COEFFICIENT = settings.getOrThrow("heat-loss-coefficient", ConfigAdapter.DOUBLE);
+    private static final double EMISSIVITY = settings.getOrThrow("emissivity", ConfigAdapter.DOUBLE);
     private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_CELSIUS = settings.getOrThrow("room-temperature", Double.class);
+    private static final double ROOM_TEMPERATURE_CELSIUS = settings.getOrThrow("room-temperature", ConfigAdapter.DOUBLE);
     private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
 
     private double getHeatCapacity() {
@@ -504,7 +505,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<SimpleTextDisplay> pixels = new ArrayList<>();
-    private static final int RESOLUTION = settings.getOrThrow("display.resolution", Integer.class);
+    private static final int RESOLUTION = settings.getOrThrow("display.resolution", ConfigAdapter.INT);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
@@ -525,7 +526,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private double lastHeight = 0;
-    private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", Double.class);
+    private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", ConfigAdapter.DOUBLE);
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(BaseUtils.colorFromTemperature(temperature));

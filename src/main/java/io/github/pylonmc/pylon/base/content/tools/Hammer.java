@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.tools;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -16,7 +17,6 @@ import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -52,12 +52,8 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
-    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", Integer.class);
-    public final Sound sound = Registry.SOUNDS.get(
-            NamespacedKey.fromString(
-                    getSettings().getOrThrow("sound", String.class)
-            )
-    );
+    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+    public final Sound sound = getSettings().getOrThrow("sound", ConfigAdapter.SOUND);
 
     public Hammer(@NotNull ItemStack stack) {
         super(stack);

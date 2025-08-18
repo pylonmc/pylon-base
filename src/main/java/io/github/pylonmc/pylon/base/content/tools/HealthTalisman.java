@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -24,7 +25,7 @@ public class HealthTalisman extends PylonItem {
 
     private static final NamespacedKey HEALTH_BOOSTED_KEY = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
 
-    private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", Integer.class);
+    private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", ConfigAdapter.INT);
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);

@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class EnrichedNetherrack extends PylonBlock implements PylonTickingBlock {
 
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public EnrichedNetherrack(@NotNull Block block, @NotNull BlockCreateContext context) {

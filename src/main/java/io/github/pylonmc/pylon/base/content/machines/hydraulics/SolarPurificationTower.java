@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -27,16 +28,16 @@ import java.util.Map;
 public class SolarPurificationTower extends PylonBlock
         implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
-    public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", Integer.class);
-    public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", Integer.class);
-    public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", Double.class);
-    public final int lensLayers = getSettings().getOrThrow("lens-layers", Integer.class);
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.INT);
+    public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", ConfigAdapter.INT);
+    public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
+    public final int lensLayers = getSettings().getOrThrow("lens-layers", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
-        public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", Integer.class);
-        public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", Double.class);
+        public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.INT);
+        public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);

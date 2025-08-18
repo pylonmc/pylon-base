@@ -19,6 +19,7 @@ import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -581,8 +582,8 @@ public final class BaseItems {
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable().build())
             .set(DataComponentTypes.FOOD, FoodProperties.food()
                     .canAlwaysEat(false)
-                    .nutrition(Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("nutrition", Integer.class))
-                    .saturation(Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("saturation", Double.class).floatValue())
+                    .nutrition(Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("nutrition", ConfigAdapter.INT))
+                    .saturation(Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("saturation", ConfigAdapter.DOUBLE).floatValue())
                     .build()
             )
             .build();
@@ -590,7 +591,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, MONSTER_JERKY);
         BasePages.FOOD.addItem(BaseKeys.MONSTER_JERKY);
 
-        float cookingXp = Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("cooking.xp", Double.class).floatValue();
+        float cookingXp = Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("cooking.xp", ConfigAdapter.DOUBLE).floatValue();
 
         FurnaceRecipe furnaceRecipe = new FurnaceRecipe(
                 baseKey("monster_jerky_furnace"),
@@ -642,7 +643,7 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(BaseKeys.FERRODURALUM_INGOT);
 
         float cookingXp = Settings.get(BaseKeys.FERRODURALUM_INGOT)
-                .getOrThrow("cooking.xp", Double.class)
+                .getOrThrow("cooking.xp", ConfigAdapter.DOUBLE)
                 .floatValue();
 
         FurnaceRecipe recipe = new FurnaceRecipe(
@@ -1114,7 +1115,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack LUMBER_AXE = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, BaseKeys.LUMBER_AXE)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.LUMBER_AXE).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.LUMBER_AXE).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(LumberAxe.class, LUMBER_AXE);
@@ -1389,7 +1390,7 @@ public final class BaseItems {
 
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BEHEADING_SWORD).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BEHEADING_SWORD).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(BeheadingSword.class, BEHEADING_SWORD);
@@ -1464,10 +1465,9 @@ public final class BaseItems {
 
     // <editor-fold desc="Fluids" defaultstate=collapsed>
     public static final ItemStack FLUID_PIPE_WOOD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_WOOD)
-            .set(DataComponentTypes.ITEM_MODEL,
-                    Material.getMaterial(
-                            Settings.get(BaseKeys.FLUID_PIPE_WOOD).getOrThrow("material", String.class).toUpperCase()
-                    ).getKey()
+            .set(
+                    DataComponentTypes.ITEM_MODEL,
+                    Settings.get(BaseKeys.FLUID_PIPE_WOOD).getOrThrow("material", ConfigAdapter.MATERIAL).key()
             )
             .build();
     static {
@@ -1495,10 +1495,9 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_PIPE_COPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_COPPER)
-            .set(DataComponentTypes.ITEM_MODEL,
-                    Material.getMaterial(
-                            Settings.get(BaseKeys.FLUID_PIPE_COPPER).getOrThrow("material", String.class).toUpperCase()
-                    ).getKey()
+            .set(
+                    DataComponentTypes.ITEM_MODEL,
+                    Settings.get(BaseKeys.FLUID_PIPE_COPPER).getOrThrow("material", ConfigAdapter.MATERIAL).key()
             )
             .build();
     static {
@@ -1524,10 +1523,9 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_PIPE_OBSIDIAN = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_OBSIDIAN)
-            .set(DataComponentTypes.ITEM_MODEL,
-                    Material.getMaterial(
-                            Settings.get(BaseKeys.FLUID_PIPE_OBSIDIAN).getOrThrow("material", String.class).toUpperCase()
-                    ).getKey()
+            .set(
+                    DataComponentTypes.ITEM_MODEL,
+                    Settings.get(BaseKeys.FLUID_PIPE_OBSIDIAN).getOrThrow("material", ConfigAdapter.MATERIAL).key()
             )
             .build();
     static {
@@ -1551,10 +1549,9 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_PIPE_CREATIVE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_CREATIVE)
-            .set(DataComponentTypes.ITEM_MODEL,
-                    Material.getMaterial(
-                            Settings.get(BaseKeys.FLUID_PIPE_CREATIVE).getOrThrow("material", String.class).toUpperCase()
-                    ).getKey()
+            .set(
+                    DataComponentTypes.ITEM_MODEL,
+                    Settings.get(BaseKeys.FLUID_PIPE_CREATIVE).getOrThrow("material", ConfigAdapter.MATERIAL).key()
             )
             .build();
     static {

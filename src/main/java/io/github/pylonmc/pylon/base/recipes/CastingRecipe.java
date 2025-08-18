@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -38,7 +39,7 @@ public record CastingRecipe(
 ) implements PylonRecipe {
 
     public static final double CAST_AMOUNT
-            = Settings.get(BaseKeys.SMELTERY_CASTER).getOrThrow("cast-amount-mb", Double.class);
+            = Settings.get(BaseKeys.SMELTERY_CASTER).getOrThrow("cast-amount-mb", ConfigAdapter.DOUBLE);
 
     public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
             baseKey("cast_recipe"),

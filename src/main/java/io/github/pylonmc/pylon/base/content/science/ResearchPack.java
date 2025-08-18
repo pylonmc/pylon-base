@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.science;
 
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
@@ -17,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ResearchPack extends PylonItem implements PylonInteractor {
 
-    public final int points = getSettings().getOrThrow("points", Integer.class);
+    public final int points = getSettings().getOrThrow("points", ConfigAdapter.INT);
 
     public ResearchPack(@NotNull ItemStack stack) {
         super(stack);

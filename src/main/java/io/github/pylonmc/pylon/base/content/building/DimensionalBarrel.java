@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -35,7 +36,7 @@ public class DimensionalBarrel extends PylonBlock implements PylonGuiBlock {
         }
     }
 
-    public static final int SIZE = Settings.get(BaseKeys.DIMENSIONAL_BARREL).getOrThrow("size", Integer.class);
+    public static final int SIZE = Settings.get(BaseKeys.DIMENSIONAL_BARREL).getOrThrow("size", ConfigAdapter.INT);
 
     public DimensionalBarrel(Block block, BlockCreateContext context) {
         super(block);

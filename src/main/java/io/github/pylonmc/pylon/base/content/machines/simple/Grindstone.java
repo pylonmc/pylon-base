@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -44,7 +45,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     private static final Random random = new Random();
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
-            .getOrThrow("cycle-duration-ticks",Integer.class);
+            .getOrThrow("cycle-duration-ticks", ConfigAdapter.INT);
 
     @Getter private boolean recipeInProgress;
 
