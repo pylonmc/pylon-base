@@ -149,12 +149,25 @@ public final class BaseFluids {
             Material.BROWN_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid REFLECTOR_FLUID = new PylonFluid(
+            baseKey("reflector_fluid"),
+            Material.WHITE_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
     public static void initialize() {
         WATER.register();
 
         LAVA.register();
 
         OBSCYRA.register();
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
+                OBSCYRA.getKey(),
+                List.of(BaseItems.OBSIDIAN_CHIP.asQuantity(5), new ItemStack(Material.BLAZE_POWDER, 2)),
+                WATER,
+                1000,
+                FluidOrItem.of(OBSCYRA, 1000),
+                true
+        ));
 
         SULFUR.register();
         addSolidForms(SULFUR, 112.8, BaseItems.SULFUR);
@@ -331,6 +344,16 @@ public final class BaseFluids {
         ));
 
         DIRTY_HYDRAULIC_FLUID.register();
+
+        REFLECTOR_FLUID.register();
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
+                REFLECTOR_FLUID.getKey(),
+                List.of(BaseItems.QUARTZ_DUST.asQuantity(4)),
+                PLANT_OIL,
+                1000,
+                FluidOrItem.of(HYDRAULIC_FLUID, 1000),
+                false
+        ));
     }
 
     private static void addSolidForms(PylonFluid fluid, double temperature, ItemStack main, ItemStack... additional) {

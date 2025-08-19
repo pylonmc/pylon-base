@@ -76,14 +76,6 @@ public class BaseResearches {
         ).register();
 
         new Research(
-                baseKey("compression"),
-                Material.OBSIDIAN,
-                5L,
-                BaseKeys.COMPRESSED_WOOD,
-                BaseKeys.COMPRESSED_OBSIDIAN
-        ).register();
-
-        new Research(
                 baseKey("portability"),
                 Material.CRAFTING_TABLE,
                 7L,

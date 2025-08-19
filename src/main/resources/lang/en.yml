@@ -4,6 +4,7 @@ item:
   bandage:
     name: "Bandage"
     lore: |-
+      <arrow> Patches up bruises and wounds
       <arrow> <insn>Right click</insn> to use
       <arrow> <attr>Heals:</attr> <unit:hearts>2</unit>
       <arrow> <attr>Apply time:</attr> <unit:seconds>2</unit>
@@ -11,7 +12,7 @@ item:
   beheading_sword:
     name: "Beheading Sword"
     lore: |-
-      <arrow> Gives you the heads of what you kill
+      <arrow> Beheads the creatures that you slay with unsettling precision
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
 
@@ -27,6 +28,12 @@ item:
   bronze_ingot:
     name: "Bronze Ingot"
 
+  bronze_nugget:
+    name: "Bronze Nugget"
+
+  bronze_block:
+    name: "Bronze Block"
+
   bronze_sheet:
     name: "Bronze Sheet"
 
@@ -38,6 +45,12 @@ item:
 
   cobalt_ingot:
     name: "Cobalt Ingot"
+
+  cobalt_nugget:
+    name: "Cobalt Nugget"
+
+  cobalt_block:
+    name: "Cobalt Block"
 
   carbon_dust:
     name: "Carbon Dust"
@@ -56,6 +69,8 @@ item:
 
   covalent_binder:
     name: "Covalent Binder"
+    lore: |-
+      <arrow> A gelatinous substance that deforms and reounds in your hands
 
   crushed_raw_copper:
     name: "Crushed Raw Copper"
@@ -83,10 +98,10 @@ item:
     waila: "Dimensional Barrel"
 
   disinfectant:
-    name: "Disinfectant"
+    name: "<white>Disinfectant"
     lore: |-
+      <arrow> A cocktail of chemicals that, when applied, removes all effects
       <arrow> <insn>Right click</insn> to use
-      <arrow> Clears all effects
       <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   dough:
@@ -94,35 +109,32 @@ item:
 
   enriched_netherrack:
     name: "Enriched Netherrack"
-    lore: "<arrow> Burns hotter than netherrack"
+    lore: |-
+      <arrow> Burns hotter and brighter than netherrack
 
   explosive_target:
     name: "Explosive Target"
     lore: |-
       <arrow> Explodes when shot
       <arrow> Explosion power: %explosive-power%
-      <arrow> Doesn't create fire
 
   explosive_target_fiery:
     name: "Fiery Explosive Target"
     lore: |-
-      <arrow> Explodes when shot
+      <arrow> Explodes and sets the surroundings on fire when shot
       <arrow> Explosion power: %explosive-power%
-      <arrow> Creates fire
 
   explosive_target_super:
     name: "Super Explosive Target"
     lore: |-
-      <arrow> Explodes when shot
+      <arrow> Explodes aggressively when shot
       <arrow> Explosion power: %explosive-power%
-      <arrow> Doesn't create fire
 
   explosive_target_super_fiery:
     name: "Super Fiery Explosive Target"
     lore: |-
-      <arrow> Explodes when shot
+      <arrow> Explodes aggressively and sets the surroundings on fire when shot
       <arrow> Explosion power: %explosive-power%
-      <arrow> Creates fire
 
   bronze_axe:
     name: "Bronze Axe"
@@ -173,8 +185,40 @@ item:
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
       <arrow> <attr>Temperatures:</attr> %temperatures%
 
-  fluid_pipe_obsidian:
-    name: "Obsidian Fluid Pipe"
+  fluid_pipe_tin:
+    name: "Tin Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_iron:
+    name: "Iron Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_bronze:
+    name: "Bronze Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_igneous_composite:
+    name: "Igneous Composite Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_steel:
+    name: "Steel Fluid Pipe"
     lore: |-
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
@@ -192,9 +236,8 @@ item:
   ice_arrow:
     name: "Ice Arrow"
     lore: |-
-      <arrow> Slows and freezes enemies hit with this arrow's icy punch
+      <arrow> Slow and freeze enemies with this arrow's icy punch
       <arrow> <attr>Freeze duration:</attr> %freeze-duration%
-      
 
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
@@ -216,8 +259,39 @@ item:
       <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
     waila: "Copper Portable Fluid Tank %info%"
 
-  portable_fluid_tank_obsidian:
-      name: "Obsidian Portable Fluid Tank"
+
+  portable_fluid_tank_tin:
+    name: "Tin Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+    waila: "Tin Portable Fluid Tank %info%"
+
+  portable_fluid_tank_iron:
+    name: "Iron Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+    waila: "Iron Portable Fluid Tank %info%"
+
+  portable_fluid_tank_bronze:
+    name: "Bronze Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+    waila: "Bronze Portable Fluid Tank %info%"
+
+  portable_fluid_tank_igneous_composite:
+      name: "Igneous Composite Portable Fluid Tank"
       lore: |-
         <arrow> Can be placed down and connected with pipes
         <arrow> Retains contents when broken
@@ -225,6 +299,16 @@ item:
         <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
         <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
       waila: "Obsidian Portable Fluid Tank %info%"
+
+  portable_fluid_tank_steel:
+    name: "Steel Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+    waila: "Steel Portable Fluid Tank %info%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
@@ -378,7 +462,7 @@ item:
   immobilizer:
     name: "Immobilizer"
     lore: |-
-      <arrow> Immobilizes players in a range
+      <arrow> Channels background shimmer energy to temporarily immobilize players within range
       <arrow> Triggered by a redstone signal
       <arrow> <attr>Duration:</attr> %duration%
       <arrow> <attr>Radius:</attr> %radius%
@@ -397,22 +481,22 @@ item:
   loupe:
     name: "Loupe"
     lore: |-
-      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
-      <arrow> Examining items will give research points based on the vanilla rarity of the item
-      <arrow> The rarer the item, the more times you can examine it
+      <arrow> Examining items with the loupe yields research points
+      <arrow> The rarer the item, the more times it can be examined
       <arrow> <red>The examined item will be consumed</red>
+      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
 
   lumber_axe:
     name: "Lumber Axe"
     lore: |-
-      <arrow> Breaks an entire tree at once
-
-  magic_dust:
-    name: "Magic Dust"
+      <arrow> Cuts down entire trees at once
 
   magic_altar:
     name: "Magic Altar"
-    lore: "<star> Multiblock"
+    lore: |- 
+      <star> Multiblock
+      <arrow> A self-contained structure for performing shimmer rituals
+      <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
 
   magic_pedestal:
     name: "Magic Pedestal"
@@ -424,8 +508,8 @@ item:
   medkit:
     name: "Medkit"
     lore: |-
+      <arrow> Removes all effects and heals the user when applied
       <arrow> <insn>Right click</insn> to use
-      <arrow> Clears all effects
       <arrow> <attr>Heals:</attr> <unit:hearts>10</unit>
       <arrow> <attr>Apply time:</attr> <unit:seconds>7</unit>
 
@@ -438,13 +522,10 @@ item:
       <arrow> Can also be used like a normal cauldron
     waila: "Mixing Pot %info%"
 
-  wither_proof_obsidian:
-    name: "Wither Proof Obsidian"
-
   monster_jerky:
     name: "Monster Jerky"
     lore: |-
-      <arrow> Slightly tastier and tougher than rotten flesh
+      <arrow> Slightly tastier than rotten flesh - but only slightly...
       <arrow> Can be crafted into leather
 
   nickel_dust:
@@ -453,12 +534,19 @@ item:
   nickel_ingot:
     name: "Nickel Ingot"
 
+  nickel_nugget:
+    name: "Nickel Nugget"
+
+  nickel_block:
+    name: "Nickel Block"
+
   obsidian_chip:
     name: "Obsidian Chip"
 
   pedestal:
     name: "Pedestal"
     lore: |-
+      <arrow> Displays items
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
 
@@ -466,10 +554,10 @@ item:
     name: "Pit Kiln"
     lore: |-
       <star> Multiblock
-      <arrow> A primitive version of the smeltery
+      <arrow> A primitive and inefficient high-temperature smelting method
       <arrow> <insn>Right click</insn> to insert items
       <arrow> <insn>Break</insn> to retrieve the items
-      <arrow> Completing the multiblock with a valid recipe inside will start the smelting process
+      <arrow> Complete the multiblock with a valid recipe inside to start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
       <arrow> <attr>Campfire speed</attr>: x%campfire%
@@ -478,9 +566,6 @@ item:
       <arrow> <attr>Soul fire speed</attr>: x%soul_fire%
       <arrow> <attr>Coarse dirt yield:</attr> x%coarse_dirt%
       <arrow> <attr>Podzol yield:</attr> x%podzol%
-
-  plaster:
-    name: "Plaster"
 
   portability_catalyst:
     name: "Portability Catalyst"
@@ -503,15 +588,28 @@ item:
   recoil_arrow:
     name: "Recoil Arrow"
     lore: |-
-      <arrow> Sends you backwards at the velocity of your arrow
+      <arrow> Pushes you back when shot
       <arrow> <attr>Efficiency:</attr> <unit:percent>75</unit>
+
+  refractory_mix:
+    name: "Refractory Mix"
+    lore: |-
+      <arrow> Can be molded into Refractory Brick using the Brick Molder
+    waila: "Refractory Mix (<yellow>%percent%</yellow>)"
+
+  unfired_refractory_brick:
+    name: "Unfired Refractory Brick"
+    lore: |-
+      <arrow> Can be molded from Refractory Mix using the Brick Molder
 
   refractory_brick:
     name: "Refractory Brick"
+
+  refractory_bricks:
+    name: "Refractory Bricks"
     lore: |-
-      <star> Smeltery component
-      <arrow> The most basic and cheapest smeltery component
-    waila: "Refractory Brick"
+      <star> Smeltery multiblock component
+      <arrow> The cheapest and most basic smeltery component
 
   research_pack_1:
     name: "Research Pack I"
@@ -524,15 +622,23 @@ item:
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
+    lore: |-
+      <arrow> Glitters unnaturally when exposed to moonlight
 
   shimmer_dust_2:
     name: "Shimmer Dust II"
+    lore: |-
+      <arrow> A flowery yet gritty red-and-gold mix 
 
   shimmer_dust_3:
     name: "Shimmer Dust III"
+    lore: |-
+      <arrow> Some kind of force keeps the grains of dust together; the further they are pulled from the rest, the more strongly they resist...
 
   shimmer_skull:
     name: "<white>Shimmer Skull"
+    lore: |-
+      <arrow> An infusion of shimmer dust does to a wither skeleton skull more than meets the eye...
 
   silver_dust:
     name: "Silver Dust"
@@ -543,45 +649,47 @@ item:
   smeltery_burner:
     name: "Smeltery Burner"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Burns fuel to heat the smeltery
 
   smeltery_caster:
     name: "Smeltery Caster"
     lore: |-
-      <star> Smeltery component
-      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
+      <star> Smeltery multiblock component
       <arrow> Casts items from the smeltery
+      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
 
   smeltery_controller:
     name: "Smeltery Controller"
     lore: |-
       <star> Multiblock
-      <star> Smeltery component
-      <arrow> The main component of the smeltery. Place it in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
+      <arrow> The brain of the smeltery
+      <arrow> Place in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
+      <arrow> (TODO: Create a guide entry for how to build this)
       <arrow> <insn>Right click</insn> to open the smeltery GUI
 
   smeltery_hopper:
     name: "Smeltery Hopper"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Serves as item input for the smeltery
 
   smeltery_input_hatch:
     name: "Smeltery Input Hatch"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Serves as fluid input for the smeltery
 
   smeltery_output_hatch:
     name: "Smeltery Output Hatch"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
 
   splint:
     name: "Splint"
     lore: |-
+      <arrow> Brings relief to more serious wounds
       <arrow> <insn>Right click</insn> to use
       <arrow> <attr>Heals:</attr> <unit:hearts>7</unit>
       <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
@@ -600,6 +708,12 @@ item:
   steel_ingot:
     name: "Steel Ingot"
 
+  steel_nugget:
+    name: "Steel Nugget"
+
+  steel_block:
+    name: "Steel Block"
+
   steel_sheet:
     name: "Steel Sheet"
 
@@ -612,41 +726,47 @@ item:
   tin_ingot:
     name: "Tin Ingot"
 
+  tin_nugget:
+    name: "Tin Nugget"
+
+  tin_block:
+    name: "Tin Block"
+
   tin_sheet:
     name: "Tin Sheet"
 
   watering_can:
     name: "Watering Can"
     lore: |-
-      <arrow> <insn>Right click</insn> to water crops
       <arrow> Speeds up growth of crops, saplings, sugar cane, and cactus
-      <arrow> Slow, but can water lots of crops at once
+      <arrow> <insn>Right click</insn> to water crops
       <arrow> <attr>Range:</attr> %range%
   
   health_talisman_simple:
     name: "Simple Health Talisman"
     lore: |-
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
-      <arrow> Passive effect while in inventory
+      <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   health_talisman_advanced:
     name: "Advanced Health Talisman"
     lore: |-
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
-      <arrow> Passive effect while in inventory
+      <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   health_talisman_ultimate:
     name: "Ultimate Healing Talisman"
     lore: |-
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
-      <arrow> Passive effect while in inventory
+      <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   water_pump:
     name: "Water Pump"
     lore: |- 
+      <arrow> An infinite source of water
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
   zinc_dust:
@@ -705,7 +825,7 @@ item:
   hydraulic_table_saw:
     name: "Hydraulic Table Saw"
     lore: |-
-      <arrow> Efficiently cuts logs into planks and planks into sticks
+      <arrow> Efficiently cuts logs into planks, and planks into sticks
       <arrow> <insn>Right click</insn> to insert an item
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
@@ -722,17 +842,17 @@ item:
   solar_lens:
     name: "Solar Lens"
     lore: |-
-      <star> Solar purification tower component
+      <star> Solar Purification Tower multiblock component
 
   purification_tower_glass:
     name: "Purification Tower Glass"
     lore: |-
-      <star> Solar purification tower component
+      <star> Purification Tower multiblock component
 
   purification_tower_cap:
     name: "Purification Tower Cap"
     lore: |-
-      <star> Solar purification tower component
+      <star> Purification Tower multiblock component
 
   solar_purification_tower_1:
     name: "Solar Purification Tower I"
@@ -793,7 +913,8 @@ item:
   fireproof_rune:
     name: "Fireproof Rune"
     lore: |-
-      <arrow> Drop your weapon and rune, and pray for 800 hours to earn the blessing of the Fire God so that your weapon becomes fireproof.
+      <arrow> As it turns out, the same fields that make enriched netherrack burn brighter can be inverted to protect items from burning
+      <arrow> <attr>Drop your rune and tool/weapon together</attr> to apply the rune
 
   fluid_tank:
     name: "Fluid Tank"
@@ -818,10 +939,38 @@ item:
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
 
-  fluid_tank_casing_obsidian:
-    name: "Obsidian Fluid Tank Casing"
+  fluid_tank_casing_tin:
+    name: "Tin Fluid Tank Casing"
     lore: |-
-      <star> Multiblock component
+      <star> Fluid Tank multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_iron:
+    name: "Iron Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_bronze:
+    name: "Bronze Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_igneous_composite:
+    name: "Igneous Composite Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_steel:
+    name: "Steel Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
 
@@ -837,7 +986,7 @@ item:
       <star> Multiblock
       <arrow> Mines shallow core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
-      <arrow> <attr>Cycle output:</attr> %cycle-output%
+      <arrow> <attr>Output:</attr> %cycle-output%
 
   improved_manual_core_drill:
     name: "Improved Manual Core Drill"
@@ -845,27 +994,27 @@ item:
       <star> Multiblock
       <arrow> Mines subsurface core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
-      <arrow> <attr>Cycle Output:</attr> %cycle-output%
+      <arrow> <attr>Output:</attr> %cycle-output%
 
   hydraulic_core_drill:
     name: "Hydraulic Core Drill"
     lore: |-
       <star> Multiblock
-      <arrow> Mines intermediate core chunks
+      <arrow> Consumes hydraulic fluid to mine intermediate core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
-      <arrow> <attr>Cycle output:</attr> %cycle-output%
+      <arrow> <attr>Output:</attr> %cycle-output%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
 
   hydraulic_core_drill_input_hatch:
     name: "Hydraulic Core Drill Input Hatch"
     lore: |-
-      <star> Multiblock component
+      <star> Hydraulic Core Drill multiblock component
 
   hydraulic_core_drill_output_hatch:
     name: "Hydraulic Core Drill Output Hatch"
     lore: |-
-      <star> Multiblock component
+      <star> Hydraulic Core Drill multiblock component
 
   shallow_core_chunk:
     name: "Shallow Core Chunk"
@@ -881,6 +1030,61 @@ item:
     name: "Intermediate Core Chunk"
     lore: |-
       <arrow> A chunk of minerals from many layers below the surface
+
+  igneous_composite:
+    name: "Igneous Composite"
+    lore: |-
+      <arrow> A hard and durable material, held together by forces currently beyond our comprehension
+      <arrow> Can withstand very high temperatures
+      <arrow> Wither proof
+  
+  rotor:
+    name: "Rotor"
+
+  hydraulic_motor:
+    name: "Hydraulic Motor"
+
+  backflow_valve:
+    name: "Backflow Valve"
+
+  analogue_display:
+    name: "Analogue Display"
+
+  filter_mesh:
+    name: "Filter Mesh"
+
+  nozzle:
+    name: "Nozzle"
+
+  abyssal_catalyst:
+    name: "Abyssal Catalyst"
+
+  axle:
+    name: "Axle"
+
+  sawblade:
+    name: "Sawblade"
+
+  weighted_shaft:
+    name: "Weighted Shaft"
+
+  copper_drill_bit:
+    name: "Copper Drill Bit"
+
+  bronze_drill_bit:
+    name: "Bronze Drill Bit"
+
+  gypsum:
+    name: "Gypsum"
+
+  gypsum_dust:
+    name: "Gypsum Dust"
+
+  brick_molder:
+    name: "Brick Molder"
+    lore: |- 
+      <arrow> <insn>Right click</insn> a block to mold it
+      <arrow> <attr>Cooldown:</attr> %cooldown%
 
 fluid:
   castable:
@@ -916,6 +1120,7 @@ fluid:
   hydraulic_fluid: "<#212d99>Hydraulic Fluid"
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
   obscyra: "<#5c4a66>Obscyra"
+  reflector_fluid: "<#d1c9ab>Reflector Fluid"
 
 waila:
   mixing_pot:
@@ -963,6 +1168,7 @@ guide:
     combat: "Combat"
     armour: "Armour"
     simple_machines: "Simple machines"
+    fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulics"
     smelting: "Smelting"

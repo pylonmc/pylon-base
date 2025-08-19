@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.*;
+import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import org.bukkit.Material;
 
@@ -17,6 +18,11 @@ public final class BaseBlocks {
     }
 
     public static void initialize() {
+        PylonBlock.register(BaseKeys.TIN_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
+        PylonBlock.register(BaseKeys.BRONZE_BLOCK, Material.COPPER_BLOCK, PylonBlock.class);
+        PylonBlock.register(BaseKeys.NICKEL_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
+        PylonBlock.register(BaseKeys.COBALT_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
+        PylonBlock.register(BaseKeys.STEEL_BLOCK, Material.NETHERITE_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.SPRINKLER, Material.FLOWER_POT, Sprinkler.class);
         PylonBlock.register(BaseKeys.MAGIC_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(BaseKeys.PEDESTAL, Material.STONE_BRICK_WALL, Pedestal.class);
@@ -25,15 +31,22 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.GRINDSTONE_HANDLE, Material.OAK_FENCE, GrindstoneHandle.class);
         PylonBlock.register(BaseKeys.ENRICHED_NETHERRACK, Material.NETHERRACK, EnrichedNetherrack.class);
         PylonBlock.register(BaseKeys.MIXING_POT, Material.CAULDRON, MixingPot.class);
-        PylonBlock.register(BaseKeys.DIMENSIONAL_BARREL, Material.BARREL, DimensionalBarrel.class);
-        PylonBlock.register(BaseKeys.WITHER_PROOF_OBSIDIAN, Material.OBSIDIAN, PylonBlock.class);
+        PylonBlock.register(BaseKeys.IGNEOUS_COMPOSITE, Material.OBSIDIAN, PylonBlock.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_WOOD, Material.BROWN_STAINED_GLASS, PortableFluidTank.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_COPPER, Material.ORANGE_STAINED_GLASS, PortableFluidTank.class);
-        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_OBSIDIAN, Material.BLACK_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_TIN, Material.GREEN_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_IRON, Material.LIGHT_GRAY_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_BRONZE, Material.ORANGE_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_IGNEOUS_COMPOSITE, Material.BLACK_STAINED_GLASS, PortableFluidTank.class);
+        PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_STEEL, Material.GRAY_STAINED_GLASS, PortableFluidTank.class);
         PylonBlock.register(BaseKeys.FLUID_TANK, Material.GRAY_TERRACOTTA, FluidTank.class);
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_WOOD, Material.BROWN_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_COPPER, Material.ORANGE_STAINED_GLASS, FluidTankCasing.class);
-        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_OBSIDIAN, Material.BLACK_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_TIN, Material.GREEN_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_IRON, Material.LIGHT_GRAY_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_BRONZE, Material.ORANGE_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_IGNEOUS_COMPOSITE, Material.BLACK_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_TANK_CASING_STEEL, Material.GRAY_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_VALVE, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(BaseKeys.WATER_PUMP, Material.BLUE_TERRACOTTA, WaterPump.class);
         PylonBlock.register(BaseKeys.FLUID_FILTER, Material.STRUCTURE_VOID, FluidFilter.class);
@@ -47,7 +60,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.FLUID_VOIDER_3, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(BaseKeys.CREATIVE_FLUID_VOIDER, Material.STRUCTURE_VOID, FluidVoider.class);
         PylonBlock.register(BaseKeys.CREATIVE_FLUID_SOURCE, Material.PINK_CONCRETE, CreativeFluidSource.class);
-        PylonBlock.register(BaseKeys.REFRACTORY_BRICK, Material.DEEPSLATE_TILES, SmelteryComponent.class);
+        PylonBlock.register(BaseKeys.REFRACTORY_MIX, Material.SMOOTH_RED_SANDSTONE, RefractoryMix.class);
+        PylonBlock.register(BaseKeys.REFRACTORY_BRICKS, Material.DEEPSLATE_TILES, SmelteryComponent.class);
         PylonBlock.register(BaseKeys.SMELTERY_CONTROLLER, Material.BLAST_FURNACE, SmelteryController.class);
         PylonBlock.register(BaseKeys.SMELTERY_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
         PylonBlock.register(BaseKeys.SMELTERY_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, SmelteryOutputHatch.class);
