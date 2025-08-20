@@ -1,12 +1,12 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -17,18 +17,20 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
 /**
  * @param input the input item (respects amount)
  * @param result the output item (respects amount)
  * @param particleData the block data to use for particles
- * @param time the recipe time (ticks)
+ * @param timeTicks the recipe time in ticks
  */
 public record TableSawRecipe(
-        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull NamespacedKey key,
         @NotNull ItemStack input,
         @NotNull ItemStack result,
         @NotNull BlockData particleData,
-        int time
+        int timeTicks
 ) implements PylonRecipe {
 
     @Override
@@ -36,10 +38,18 @@ public record TableSawRecipe(
         return key;
     }
 
-    public static final RecipeType<TableSawRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "table_saw"),
-            TableSawRecipe.class
-    );
+    public static final RecipeType<TableSawRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("table_saw")) {
+        @Override
+        protected @NotNull TableSawRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new TableSawRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("particle-data", ConfigAdapter.BLOCK_DATA),
+                    section.getOrThrow("time-ticks", ConfigAdapter.INT)
+            );
+        }
+    };
 
     @Override
     public @NotNull List<FluidOrItem> getInputs() {
@@ -63,7 +73,7 @@ public record TableSawRecipe(
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('i', ItemButton.fromStack(input))
-                .addIngredient('s', GuiItems.progressCyclingItem(time, ItemStackBuilder.of(BaseItems.HYDRAULIC_TABLE_SAW)))
+                .addIngredient('s', GuiItems.progressCyclingItem(timeTicks, ItemStackBuilder.of(BaseItems.HYDRAULIC_TABLE_SAW)))
                 .addIngredient('o', ItemButton.fromStack(result))
                 .build();
     }

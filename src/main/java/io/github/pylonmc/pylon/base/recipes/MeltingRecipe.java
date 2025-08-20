@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -11,7 +12,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -31,7 +31,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * @param temperature the minimum temperature the smeltery must be at
  */
 public record MeltingRecipe(
-        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull NamespacedKey key,
         @NotNull ItemStack input,
         @NotNull PylonFluid result,
         double temperature
@@ -40,10 +40,17 @@ public record MeltingRecipe(
     public static final double MELT_AMOUNT
             = Settings.get(BaseKeys.SMELTERY_HOPPER).getOrThrow("melt-amount-mb", ConfigAdapter.DOUBLE);
 
-    public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("melt_recipe"),
-            MeltingRecipe.class
-    );
+    public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("melting")) {
+        @Override
+        protected @NotNull MeltingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new MeltingRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
+            );
+        }
+    };
 
     @Override
     public @NotNull NamespacedKey getKey() {

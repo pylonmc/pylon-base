@@ -2,13 +2,13 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -19,6 +19,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 /**
@@ -29,7 +30,7 @@ import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
  * @param requiresEnrichedFire whether enriched fire must be placed below to do this recipe
  */
 public record MixingPotRecipe(
-        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull NamespacedKey key,
         @NotNull List<ItemStack> inputItems,
         @NotNull PylonFluid inputFluid,
         double inputFluidAmount,
@@ -42,10 +43,19 @@ public record MixingPotRecipe(
         return key;
     }
 
-    public static final RecipeType<MixingPotRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "mixing_pot"),
-            MixingPotRecipe.class
-    );
+    public static final RecipeType<MixingPotRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("mixing_pot")) {
+        @Override
+        protected @NotNull MixingPotRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new MixingPotRecipe(
+                    key,
+                    section.getOrThrow("input-items", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK)),
+                    section.getOrThrow("input-fluid", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("input-fluid-amount", ConfigAdapter.DOUBLE),
+                    section.getOrThrow("output", ConfigAdapter.FLUID_OR_ITEM),
+                    section.get("requires-enriched-fire", ConfigAdapter.BOOLEAN, false)
+            );
+        }
+    };
 
     public boolean matches(
             List<ItemStack> input,

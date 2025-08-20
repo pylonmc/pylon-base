@@ -154,8 +154,8 @@ public class HydraulicTableSaw extends PylonBlock
         }
 
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
-            double hydraulicFluidInput = recipe.time() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND;
-            double dirtyHydraulicFluidOutput = recipe.time() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND;
+            double hydraulicFluidInput = recipe.timeTicks() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND;
+            double dirtyHydraulicFluidOutput = recipe.timeTicks() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
                     || !isPylonSimilar(stack, recipe.input())
@@ -165,7 +165,7 @@ public class HydraulicTableSaw extends PylonBlock
             }
 
             this.recipe = recipe;
-            recipeTicksRemaining = recipe.time();
+            recipeTicksRemaining = recipe.timeTicks();
             spawnParticles();
 
             break;

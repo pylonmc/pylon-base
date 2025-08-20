@@ -171,13 +171,10 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
                 () -> {
-                    for (Map.Entry<ItemStack, Double> pair : nextRecipe.results().entrySet()) {
-                        if (random.nextDouble() < pair.getValue()) {
-                            getBlock().getWorld().dropItemNaturally(
-                                    getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), pair.getKey()
-                            );
-                        }
-                    }
+                    getBlock().getWorld().dropItemNaturally(
+                            getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
+                            nextRecipe.results().getRandom()
+                    );
 
                     new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this).callEvent();
 

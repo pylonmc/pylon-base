@@ -49,8 +49,8 @@ public class HydraulicMixingAttachment extends PylonBlock
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT);
     public static final int COOLDOWN_TICKS = settings.getOrThrow("cooldown-ticks", ConfigAdapter.INT);
-    public static final int DOWN_ANIMATION_TIME_TICKS = settings.getOrThrow("down-animation-time-ticks", ConfigAdapter.INT);
-    public static final int UP_ANIMATION_TIME_TICKS = settings.getOrThrow("up-animation-time-ticks", ConfigAdapter.INT);
+    public static final int DOWN_ANIMATION_TIME_TICKS = settings.getOrThrow("down-animation-timeTicks-ticks", ConfigAdapter.INT);
+    public static final int UP_ANIMATION_TIME_TICKS = settings.getOrThrow("up-animation-timeTicks-ticks", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
     public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);

@@ -41,7 +41,7 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("cycle-time", UnitFormat.SECONDS.format(rotationsPerCycle * rotationDuration / 20)),
+                    PylonArgument.of("cycle-timeTicks", UnitFormat.SECONDS.format(rotationsPerCycle * rotationDuration / 20)),
                     PylonArgument.of("cycle-output", output.effectiveName())
             );
         }

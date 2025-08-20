@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -11,7 +12,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -32,7 +32,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * @param temperature the minimum temperature the smeltery must be
  */
 public record CastingRecipe(
-        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull NamespacedKey key,
         @NotNull PylonFluid input,
         @NotNull ItemStack result,
         double temperature
@@ -41,10 +41,17 @@ public record CastingRecipe(
     public static final double CAST_AMOUNT
             = Settings.get(BaseKeys.SMELTERY_CASTER).getOrThrow("cast-amount-mb", ConfigAdapter.DOUBLE);
 
-    public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("cast_recipe"),
-            CastingRecipe.class
-    );
+    public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("casting")) {
+        @Override
+        protected @NotNull CastingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new CastingRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
+            );
+        }
+    };
 
     public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
         for (CastingRecipe recipe : RECIPE_TYPE) {

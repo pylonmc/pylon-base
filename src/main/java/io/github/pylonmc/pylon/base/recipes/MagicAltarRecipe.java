@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeKey;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -21,6 +21,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 /**
@@ -31,7 +32,7 @@ import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
  * @param result the output (respects amount)
  */
 public record MagicAltarRecipe(
-        @NotNull @RecipeKey NamespacedKey key,
+        @NotNull NamespacedKey key,
         @NotNull List<ItemStack> inputs,
         @NotNull ItemStack catalyst,
         @NotNull ItemStack result,
@@ -43,10 +44,18 @@ public record MagicAltarRecipe(
         return key;
     }
 
-    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "magic_altar"),
-            MagicAltarRecipe.class
-    );
+    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("magic_altar")) {
+        @Override
+        protected @NotNull MagicAltarRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new MagicAltarRecipe(
+                    key,
+                    section.getOrThrow("inputs", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK)),
+                    section.getOrThrow("catalyst", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("timeTicks-seconds", ConfigAdapter.DOUBLE)
+            );
+        }
+    };
 
     public boolean ingredientsMatch(List<ItemStack> ingredients) {
         assert this.inputs.size() == MagicAltar.PEDESTAL_COUNT;
@@ -121,7 +130,7 @@ public record MagicAltarRecipe(
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
                                         "pylon.pylonbase.guide.recipe.magic-altar",
-                                        PylonArgument.of("time", UnitFormat.SECONDS.format(timeSeconds))
+                                        PylonArgument.of("timeTicks", UnitFormat.SECONDS.format(timeSeconds))
                                 ))
                 ))
                 .addIngredient('r', ItemButton.fromStack(result))

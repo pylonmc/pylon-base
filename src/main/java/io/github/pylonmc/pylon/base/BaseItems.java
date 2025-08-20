@@ -28,6 +28,7 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
+import io.github.pylonmc.pylon.core.util.WeightedSet;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.DamageResistant;
@@ -36,6 +37,7 @@ import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
+import kotlin.Pair;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -52,7 +54,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -2259,10 +2260,10 @@ public final class BaseItems {
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.SHALLOW_CORE_CHUNK,
                 SHALLOW_CORE_CHUNK,
-                Map.of(
-                        new ItemStack(Material.COAL), 0.5,
-                        new ItemStack(Material.RAW_COPPER), 0.4,
-                        CRUSHED_RAW_TIN, 0.3
+                new WeightedSet<>(
+                        new Pair<>(new ItemStack(Material.COAL), 0.5f),
+                        new Pair<>(new ItemStack(Material.RAW_COPPER), 0.4f),
+                        new Pair<>(CRUSHED_RAW_TIN, 0.3f)
                 ),
                 6,
                 Material.STONE.createBlockData()
@@ -2280,11 +2281,11 @@ public final class BaseItems {
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.SUBSURFACE_CORE_CHUNK,
                 SUBSURFACE_CORE_CHUNK,
-                Map.of(
-                        new ItemStack(Material.COAL, 2), 0.3,
-                        new ItemStack(Material.RAW_COPPER, 2), 0.25,
-                        tinOutput, 0.2,
-                        new ItemStack(Material.RAW_IRON), 0.4
+                new WeightedSet<>(
+                        new Pair<>(new ItemStack(Material.COAL, 2), 0.3f),
+                        new Pair<>(new ItemStack(Material.RAW_COPPER, 2), 0.25f),
+                        new Pair<>(tinOutput, 0.2f),
+                        new Pair<>(new ItemStack(Material.RAW_IRON), 0.4f)
                 ),
                 8,
                 Material.STONE.createBlockData()
@@ -2303,12 +2304,12 @@ public final class BaseItems {
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.INTERMEDIATE_CORE_CHUNK,
                 INTERMEDIATE_CORE_CHUNK,
-                Map.of(
-                        new ItemStack(Material.COAL, 3), 0.4,
-                        new ItemStack(Material.RAW_COPPER, 2), 0.6,
-                        tinOutput, 0.5,
-                        new ItemStack(Material.RAW_IRON, 2), 0.3,
-                        new ItemStack(Material.RAW_GOLD), 0.25
+                new WeightedSet<>(
+                        new Pair<>(new ItemStack(Material.COAL, 3), 0.4f),
+                        new Pair<>(new ItemStack(Material.RAW_COPPER, 2), 0.6f),
+                        new Pair<>(tinOutput, 0.5f),
+                        new Pair<>(new ItemStack(Material.RAW_IRON, 2), 0.3f),
+                        new Pair<>(new ItemStack(Material.RAW_GOLD), 0.25f)
                 ),
                 10,
                 Material.STONE.createBlockData()

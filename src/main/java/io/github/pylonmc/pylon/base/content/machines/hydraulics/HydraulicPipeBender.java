@@ -147,8 +147,8 @@ public class HydraulicPipeBender extends PylonBlock
         }
 
         for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
-            double hydraulicFluidInput = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * recipe.time() / 20.0;
-            double dirtyHydraulicFluidOutput = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * recipe.time() / 20.0;
+            double hydraulicFluidInput = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * recipe.timeTicks() / 20.0;
+            double dirtyHydraulicFluidOutput = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * recipe.timeTicks() / 20.0;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
                     || !isPylonSimilar(stack, recipe.input())
@@ -158,7 +158,7 @@ public class HydraulicPipeBender extends PylonBlock
             }
 
             this.recipe = recipe;
-            recipeTicksRemaining = recipe.time();
+            recipeTicksRemaining = recipe.timeTicks();
             spawnParticles();
 
             break;

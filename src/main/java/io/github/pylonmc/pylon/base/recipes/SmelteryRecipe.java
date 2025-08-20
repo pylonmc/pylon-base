@@ -2,6 +2,8 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -26,7 +28,13 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class SmelteryRecipe implements PylonRecipe {
 
-    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery"), SmelteryRecipe.class) {
+    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery")) {
+
+        private static final ConfigAdapter<Map<PylonFluid, Double>> FLUID_MAP_ADAPTER = ConfigAdapter.MAP.from(
+                ConfigAdapter.PYLON_FLUID,
+                ConfigAdapter.DOUBLE
+        );
+
         @Override
         public void addRecipe(@NotNull SmelteryRecipe recipe) {
             super.addRecipe(recipe);
@@ -44,6 +52,16 @@ public class SmelteryRecipe implements PylonRecipe {
                     ));
             recipes.clear();
             recipes.putAll(newMap);
+        }
+
+        @Override
+        protected @NotNull SmelteryRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new SmelteryRecipe(
+                    key,
+                    section.getOrThrow("input-fluids", FLUID_MAP_ADAPTER),
+                    section.getOrThrow("output-fluids", FLUID_MAP_ADAPTER),
+                    section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
+            );
         }
     };
 

@@ -942,10 +942,10 @@ guide:
     magic: "Magic"
   recipe:
     grindstone:
-      time: "<attr>Grinding time:</attr> %time%"
+      time: "<attr>Grinding timeTicks:</attr> %timeTicks%"
       chance: "<attr>Chance:</attr> %chance%"
-    press: "<attr>Pressing time:</attr> %time%"
-    magic-altar: "<attr>Ritual time:</attr> %time%"
+    press: "<attr>Pressing timeTicks:</attr> %timeTicks%"
+    magic-altar: "<attr>Ritual timeTicks:</attr> %timeTicks%"
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
 
