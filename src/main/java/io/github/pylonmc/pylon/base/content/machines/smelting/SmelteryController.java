@@ -439,6 +439,11 @@ public final class SmelteryController extends SmelteryComponent
         return heatLossCoeff * (t - t0) * dt;
     }
 
+    @SuppressWarnings("SameParameterValue")
+    private static double stefanBoltzmannLaw(double emissivity, double t, double t0, double dt) {
+        return emissivity * STEFAN_BOLTZMANN_CONSTANT * (Math.pow(t, 4) - Math.pow(t0, 4)) * dt;
+    }
+
     private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
     private static final double SPECIFIC_HEAT = settings.getOrThrow("specific-heat.fluid", Double.class);
@@ -469,7 +474,13 @@ public final class SmelteryController extends SmelteryComponent
                 ROOM_TEMPERATURE_KELVIN,
                 dt
         );
-        temperature -= (conductiveHeatLoss * surfaceArea) / (getHeatCapacity() + getAirHeatCapacity());
+        double radiativeHeatLoss = stefanBoltzmannLaw(
+                EMISSIVITY,
+                kelvin,
+                ROOM_TEMPERATURE_KELVIN,
+                dt
+        );
+        temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / (getHeatCapacity() + getAirHeatCapacity());
     }
 
     private double heatAccumulation = 0;
