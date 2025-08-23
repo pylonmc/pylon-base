@@ -471,6 +471,23 @@ item:
     name: "Raw Ferroduralum"
     lore: "A primitive alloy"
 
+  reactivated_wither_skull:
+    name: "Reactivated Wither Skull"
+    lore: |-
+      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+    charged:
+      true: "charged"
+      false: "not charged"
+
+  reactivated_wither_skull_super:
+    name: "Hyperactive Wither Skull"
+    lore: |-
+      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+
   recoil_arrow:
     name: "Recoil Arrow"
     lore: |-
