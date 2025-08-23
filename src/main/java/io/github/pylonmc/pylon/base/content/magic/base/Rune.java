@@ -83,7 +83,7 @@ public abstract class Rune extends PylonItem {
             // Fix #155 - Fireproof rune only checks proximity at the moment it's dropped
             // Force run synchronously for entity handling
             PylonBase.runSyncTimer(task -> {
-                if (!runeEntity.isValid()) {
+                if (runeEntity.isDead() || !runeEntity.isValid()) {
                     task.cancel();
                     return;
                 }
