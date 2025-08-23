@@ -28,10 +28,8 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
-import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -58,7 +56,6 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-@Slf4j
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock, PylonEntityHolderBlock {
 
@@ -226,8 +223,6 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private class ContentsItem extends AbstractItem {
-
-        private static final Map<PylonFluid, TextColor> fluidColors = new HashMap<>();
 
         @Override
         public ItemProvider getItemProvider() {
