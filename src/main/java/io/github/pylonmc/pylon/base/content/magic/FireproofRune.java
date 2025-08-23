@@ -3,8 +3,10 @@ package io.github.pylonmc.pylon.base.content.magic;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
+import io.papermc.paper.datacomponent.item.ItemLore;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.text.Component;
 import org.bukkit.FluidCollisionMode;
@@ -17,15 +19,35 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * @author balugaq
  */
 @SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
+    public static final Component TOOLTIP = Component.translatable("pylon.pylonbase.message.fireproof_result.tooltip");
+
 
     public FireproofRune(@NotNull ItemStack stack) {
         super(stack);
+    }
+
+    /**
+     * Fixes #156 - Fireproof rune can be applied multiple times
+     * <p>
+     * Checks if the rune is applicable to the target item.
+     *
+     * @param event  The event
+     * @param rune   The rune item, amount may be > 1
+     * @param target The item to handle, amount may be > 1
+     * @return true if applicable, false otherwise
+     */
+    public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
+        DamageResistant data = target.getData(DataComponentTypes.DAMAGE_RESISTANT);
+        if (data == null) return true;
+        return data.types().equals(DamageTypeTagKeys.IS_FIRE);
     }
 
     /**
@@ -40,8 +62,14 @@ public class FireproofRune extends Rune {
         // As many runes as possible to consume
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
-        ItemStack handle = target.asQuantity(consume);
-        handle.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE));
+        ItemStack handle = ItemStackBuilder.of(target.asQuantity(consume)) // Already cloned in `asQuantity`
+                .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
+                .editData(DataComponentTypes.LORE, lore -> {
+                    List<Component> lines = lore.lines();
+                    lines.add(TOOLTIP);
+                    return ItemLore.lore(lines);
+                })
+                .build();
 
         // (N)Either left runes or targets
         int leftRunes = rune.getAmount() - consume;
