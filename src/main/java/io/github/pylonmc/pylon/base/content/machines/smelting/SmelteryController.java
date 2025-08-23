@@ -464,7 +464,7 @@ public final class SmelteryController extends SmelteryComponent
         return (capacity - getTotalFluid()) / 1000.0 * DENSITY_AIR * SPECIFIC_HEAT_AIR; // Remaining capacity is air
     }
 
-    private void coolNaturally(double dt) {
+    private void coolNaturally(double deltaSeconds) {
         // Surface area of the outside
         int surfaceArea = (height * 5) * 4 /* four sides */ + (5 * 5) * 2 /* top and bottom */;
         double kelvin = temperature + CELSIUS_TO_KELVIN;
@@ -472,19 +472,19 @@ public final class SmelteryController extends SmelteryComponent
                 HEAT_LOSS_COEFFICIENT,
                 kelvin,
                 ROOM_TEMPERATURE_KELVIN,
-                dt
+                deltaSeconds
         );
         double radiativeHeatLoss = stefanBoltzmannLaw(
                 EMISSIVITY,
                 kelvin,
                 ROOM_TEMPERATURE_KELVIN,
-                dt
+                deltaSeconds
         );
         if (radiativeHeatLoss < 0.0D) {
             radiativeHeatLoss = 1e-9;
         }
-        double diff = 2 * ((conductiveHeatLoss * (0.1 * Math.log10(radiativeHeatLoss + 1) / Math.log10(1.3D)) * surfaceArea)) / (getHeatCapacity() + getAirHeatCapacity());
-        temperature = Math.max(temperature - diff, -CELSIUS_TO_KELVIN);
+        double deltaTemperature = 2 * ((conductiveHeatLoss * (0.1 * Math.log10(radiativeHeatLoss + 1) / Math.log10(1.3D)) * surfaceArea)) / (getHeatCapacity() + getAirHeatCapacity());
+        temperature = Math.max(temperature - deltaTemperature, -CELSIUS_TO_KELVIN);
     }
 
     private double heatAccumulation = 0;
