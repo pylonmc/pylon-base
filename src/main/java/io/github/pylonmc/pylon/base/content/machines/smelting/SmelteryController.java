@@ -480,7 +480,11 @@ public final class SmelteryController extends SmelteryComponent
                 ROOM_TEMPERATURE_KELVIN,
                 dt
         );
-        temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / (getHeatCapacity() + getAirHeatCapacity());
+        if (radiativeHeatLoss < 0.0D) {
+            radiativeHeatLoss = 1e-9;
+        }
+        double diff = 2 * ((conductiveHeatLoss * (0.1 * Math.log10(radiativeHeatLoss + 1) / Math.log10(1.3D)) * surfaceArea)) / (getHeatCapacity() + getAirHeatCapacity());
+        temperature = Math.max(temperature - diff, -CELSIUS_TO_KELVIN);
     }
 
     private double heatAccumulation = 0;
