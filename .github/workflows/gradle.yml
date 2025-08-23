@@ -84,7 +84,7 @@ jobs:
   dependency-submission:
     needs: [build]
     
-    continue-on-error: true
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
