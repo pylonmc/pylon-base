@@ -83,7 +83,8 @@ jobs:
 
   dependency-submission:
     needs: [build]
-
+    
+    continue-on-error: true
     runs-on: ubuntu-latest
     permissions:
       contents: write
