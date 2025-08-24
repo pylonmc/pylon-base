@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
+import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
@@ -222,18 +223,24 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack ZINC_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.ZINC_INGOT)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, ZINC_INGOT);
-        BasePages.RESOURCES.addItem(BaseKeys.ZINC_INGOT);
-    }
-
     public static final ItemStack CRUSHED_RAW_ZINC = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.CRUSHED_RAW_ZINC)
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_ZINC);
         BasePages.RESOURCES.addItem(BaseKeys.CRUSHED_RAW_ZINC);
+    }
+
+    public static final ItemStack ZINC_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.ZINC_INGOT)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ZINC_INGOT);
+        BasePages.RESOURCES.addItem(BaseKeys.ZINC_INGOT);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("zinc_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_ZINC),
+                List.of(BaseItems.ZINC_INGOT)
+        ));
     }
 
     public static final ItemStack ZINC_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.ZINC_DUST)
@@ -266,18 +273,24 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack LEAD_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.LEAD_INGOT)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, LEAD_INGOT);
-        BasePages.RESOURCES.addItem(BaseKeys.LEAD_INGOT);
-    }
-
     public static final ItemStack CRUSHED_RAW_LEAD = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.CRUSHED_RAW_LEAD)
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_LEAD);
         BasePages.RESOURCES.addItem(BaseKeys.CRUSHED_RAW_LEAD);
+    }
+
+    public static final ItemStack LEAD_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.LEAD_INGOT)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, LEAD_INGOT);
+        BasePages.RESOURCES.addItem(BaseKeys.LEAD_INGOT);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("lead_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_LEAD),
+                List.of(BaseItems.LEAD_INGOT)
+        ));
     }
 
     public static final ItemStack LEAD_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.LEAD_DUST)
@@ -295,18 +308,24 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.TIN_INGOT)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, TIN_INGOT);
-        BasePages.RESOURCES.addItem(BaseKeys.TIN_INGOT);
-    }
-
     public static final ItemStack CRUSHED_RAW_TIN = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.CRUSHED_RAW_TIN)
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_TIN);
         BasePages.RESOURCES.addItem(BaseKeys.CRUSHED_RAW_TIN);
+    }
+
+    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.TIN_INGOT)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, TIN_INGOT);
+        BasePages.RESOURCES.addItem(BaseKeys.TIN_INGOT);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("tin_smelting"),
+                List.of(BaseItems.CRUSHED_RAW_TIN),
+                List.of(BaseItems.TIN_INGOT)
+        ));
     }
 
     public static final ItemStack TIN_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.TIN_DUST)
@@ -396,6 +415,12 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, CARBON_DUST);
         BasePages.RESOURCES.addItem(BaseKeys.CARBON_DUST);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("coal_to_carbon"),
+                List.of(BaseItems.COAL_DUST.asQuantity(2)),
+                List.of(BaseItems.CARBON_DUST)
+        ));
     }
 
     // Not technically a dust but whatever
@@ -404,6 +429,12 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SULFUR);
         BasePages.RESOURCES.addItem(BaseKeys.SULFUR);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("redstone_smelting"),
+                List.of(new ItemStack(Material.REDSTONE)),
+                List.of(BaseItems.SULFUR)
+        ));
     }
 
     public static final ItemStack BRONZE_INGOT = ItemStackBuilder.pylonItem(Material.GOLD_INGOT, BaseKeys.BRONZE_INGOT)
@@ -411,6 +442,12 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRONZE_INGOT);
         BasePages.RESOURCES.addItem(BaseKeys.BRONZE_INGOT);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("bronze"),
+                List.of(new ItemStack(Material.COPPER_INGOT, 2), BaseItems.TIN_INGOT),
+                List.of(BaseItems.BRONZE_INGOT)
+        ));
     }
 
     public static final ItemStack BRONZE_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.BRONZE_DUST)
@@ -433,6 +470,12 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRASS_INGOT);
         BasePages.RESOURCES.addItem(BaseKeys.BRASS_INGOT);
+
+        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
+                baseKey("brass"),
+                List.of(new ItemStack(Material.COPPER_INGOT, 2), BaseItems.ZINC_INGOT),
+                List.of(BaseItems.BRASS_INGOT)
+        ));
     }
 
     public static final ItemStack BRASS_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.BRASS_DUST)
@@ -1793,6 +1836,19 @@ public final class BaseItems {
                 .shape("BBB", "BFB", "BBB")
                 .setIngredient('B', REFRACTORY_BRICK)
                 .setIngredient('F', Material.FURNACE);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack PIT_KILN = ItemStackBuilder.pylonItem(Material.DECORATED_POT, BaseKeys.PIT_KILN)
+            .build();
+    static {
+        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
+        BasePages.SMELTING.addItem(BaseKeys.PIT_KILN);
+
+        ShapedRecipe recipe = new ShapedRecipe(baseKey("pit_kiln"), PIT_KILN)
+                .shape("B B", "B B", "BBB")
+                .setIngredient('B', Material.BRICKS);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
