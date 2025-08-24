@@ -6,14 +6,15 @@ import io.github.pylonmc.pylon.core.event.PrePylonBlockBreakEvent;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
-// TODO I think this can be implemented as a normal Pylon block
-public class WitherProofObsidianListener implements Listener {
+
+public class IgneousCompositeListener implements Listener {
 
     @EventHandler
-    private static void onExplode(PrePylonBlockBreakEvent event) {
+    private static void onExplode(@NotNull PrePylonBlockBreakEvent event) {
         var key = event.getPylonBlock().getSchema().getKey();
-        if (!key.equals(BaseKeys.WITHER_PROOF_OBSIDIAN)) {
+        if (!key.equals(BaseKeys.IGNEOUS_COMPOSITE)) {
             return;
         }
 

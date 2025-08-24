@@ -41,7 +41,7 @@ public class FluidValve extends PylonBlock
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
-    private static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
+    private static final Material MAIN_MATERIAL = Material.WHITE_CONCRETE;
     private static final int BRIGHTNESS_OFF = 6;
     private static final int BRIGHTNESS_ON = 13;
 

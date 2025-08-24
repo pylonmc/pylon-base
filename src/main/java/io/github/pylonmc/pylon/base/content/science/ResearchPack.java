@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ResearchPack extends PylonItem implements PylonInteractor {
 
     public final int points = getSettings().getOrThrow("points", Integer.class);
+    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", Integer.class);
 
     public ResearchPack(@NotNull ItemStack stack) {
         super(stack);
@@ -42,11 +43,15 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
                 PylonArgument.of("points", points)
         ));
 
+        event.getPlayer().setCooldown(getStack(), cooldownTicks);
         event.getItem().subtract();
     }
 
     @Override
     public @NotNull List<PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("points", UnitFormat.RESEARCH_POINTS.format(points)));
+        return List.of(
+                PylonArgument.of("points", UnitFormat.RESEARCH_POINTS.format(points)),
+                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0))
+        );
     }
 }

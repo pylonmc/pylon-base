@@ -53,7 +53,6 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         }
     }
 
-
     public Loupe(@NotNull ItemStack stack) {
         super(stack);
     }

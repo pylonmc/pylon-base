@@ -1,4 +1,4 @@
-fluid-mb-per-second: 8
+fluid-mb-per-second: 16
 fluid-buffer-mb: 64
 rain-speed-fraction: 0.6
 lens-layers: 1

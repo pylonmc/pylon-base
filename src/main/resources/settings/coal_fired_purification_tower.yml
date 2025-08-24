@@ -1,4 +1,4 @@
-fluid-mb-per-second: 20
+fluid-mb-per-second: 50
 fluid-buffer-mb: 80
 tick-interval: 20
 

@@ -293,27 +293,27 @@ public final class PitKiln extends PylonBlock implements
         for (Vector3i podzolPosition : TOP_POSITIONS) {
             components.put(podzolPosition, new VanillaMultiblockComponent(Material.COARSE_DIRT, Material.PODZOL));
         }
-        components.put(new Vector3i(-1, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, 0, -2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-1, 0, 2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, 0, 2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, 0, 2), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-2, 0, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-2, 0, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-2, 0, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(2, 0, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(2, 0, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(2, 0, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, 0, -2), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(0, 0, -2), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(1, 0, -2), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(-1, 0, 2), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(0, 0, 2), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(1, 0, 2), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(-2, 0, -1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(-2, 0, 0), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(-2, 0, 1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(2, 0, -1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(2, 0, 0), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(2, 0, 1), new VanillaMultiblockComponent(Material.DIRT));
 
-        components.put(new Vector3i(-1, -1, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, -1, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, -1, -1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-1, -1, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, -1, 0), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(-1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
-        components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
+        components.put(new Vector3i(-1, -1, -1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(0, -1, -1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(1, -1, -1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(-1, -1, 0), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(1, -1, 0), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(-1, -1, 1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.DIRT));
+        components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.DIRT));
 
         components.put(FIRE_POSITION, new VanillaMultiblockComponent(
                 Material.CAMPFIRE, Material.SOUL_CAMPFIRE, Material.FIRE, Material.SOUL_FIRE
