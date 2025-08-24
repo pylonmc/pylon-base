@@ -203,9 +203,4 @@ public class CoalFiredPurificationTower extends PylonBlock
                 // enough space in output buffer for another tick worth of purification
                 && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
     }
-
-    @Override
-    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.add(inventory.getItem(0));
-    }
 }

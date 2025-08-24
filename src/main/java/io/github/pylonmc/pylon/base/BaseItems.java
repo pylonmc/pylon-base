@@ -31,22 +31,25 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.Tool;
+import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
+import io.papermc.paper.registry.set.RegistrySet;
+import net.kyori.adventure.util.TriState;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -877,14 +880,7 @@ public final class BaseItems {
 
     //<editor-fold desc="Bronze tools/armour" defaultstate=collapsed>
     public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, BaseKeys.BRONZE_SWORD)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                            baseKey("bronze_sword_damage"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SWORD);
@@ -899,14 +895,15 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("bronze_axe_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
+            .set(DataComponentTypes.TOOL, Tool.tool()
+                    .defaultMiningSpeed(6.5F)
+                    .addRule(Tool.rule(
+                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_AXE.registryKey()),
+                            6.5F,
+                            TriState.TRUE
                     ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            )
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_AXE);
@@ -922,14 +919,15 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("bronze_pickaxe_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
+            .set(DataComponentTypes.TOOL, Tool.tool()
+                    .defaultMiningSpeed(6.5F)
+                    .addRule(Tool.rule(
+                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_PICKAXE.registryKey()),
+                            6.5F,
+                            TriState.TRUE
                     ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            )
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_PICKAXE);
@@ -944,14 +942,15 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("bronze_shovel_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
+            .set(DataComponentTypes.TOOL, Tool.tool()
+                    .defaultMiningSpeed(6.5F)
+                    .addRule(Tool.rule(
+                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_SHOVEL.registryKey()),
+                            6.5F,
+                            TriState.TRUE
                     ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            )
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SHOVEL);
@@ -966,14 +965,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.BLOCK_BREAK_SPEED, new AttributeModifier(
-                            baseKey("bronze_hoe_speed"),
-                            0.15,
-                            AttributeModifier.Operation.MULTIPLY_SCALAR_1
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 300)
+            .set(DataComponentTypes.MAX_DAMAGE, 500)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_HOE);
@@ -986,119 +978,6 @@ public final class BaseItems {
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
         RecipeType.VANILLA_SHAPED.addRecipe(BaseUtils.reflectRecipe(recipe));
-    }
-
-    public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, BaseKeys.BRONZE_HELMET)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("bronze_helmet_armor"),
-                            2.5,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.HEAD
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("bronze_helmet_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.HEAD
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 190)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, BRONZE_HELMET);
-        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_HELMET);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_HELMET, BRONZE_HELMET)
-                .shape("FFF", "F F", "   ")
-                .setIngredient('F', BRONZE_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
-    public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("bronze_chestplate_armor"),
-                            7,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.CHEST
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("bronze_chestplate_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.CHEST
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 276)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, BRONZE_CHESTPLATE);
-        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_CHESTPLATE);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_CHESTPLATE, BRONZE_CHESTPLATE)
-                .shape("F F", "FFF", "FFF")
-                .setIngredient('F', BRONZE_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
-    public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("bronze_leggings_armor"),
-                            5.5,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.LEGS
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("bronze_leggings_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.LEGS
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 259)
-            .build();
-
-    static {
-        PylonItem.register(PylonItem.class, BRONZE_LEGGINGS);
-        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_LEGGINGS);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_LEGGINGS, BRONZE_LEGGINGS)
-                .shape("FFF", "F F", "F F")
-                .setIngredient('F', BRONZE_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-    }
-
-    public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, BaseKeys.BRONZE_BOOTS)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            baseKey("bronze_boots_armor"),
-                            2.5,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.FEET
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            baseKey("bronze_boots_toughness"),
-                            1,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.FEET
-                    ))
-                    .build())
-            .set(DataComponentTypes.MAX_DAMAGE, 225)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, BRONZE_BOOTS);
-        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_BOOTS);
-
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_BOOTS, BRONZE_BOOTS)
-                .shape("F F", "F F", "   ")
-                .setIngredient('F', BRONZE_INGOT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
     //</editor-fold>
 
@@ -3437,6 +3316,26 @@ public final class BaseItems {
                 10,
                 Material.STONE.createBlockData()
         ));
+    }
+
+    public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
+            .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                    .customColor(Color.FUCHSIA)
+                    .build())
+            .build();
+    static {
+        PylonItem.register(CleansingPotion.class, CLEANSING_POTION);
+        BasePages.TOOLS.addItem(BaseKeys.CLEANSING_POTION);
+        ItemStack healingPotion = ItemStackBuilder.of(Material.SPLASH_POTION)
+                .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
+                        .potion(PotionType.HEALING)
+                        .build())
+                .build();
+        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.CLEANSING_POTION, CLEANSING_POTION)
+                .addIngredient(healingPotion)
+                .addIngredient(DISINFECTANT);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
