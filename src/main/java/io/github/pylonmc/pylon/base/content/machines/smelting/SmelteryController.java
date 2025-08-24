@@ -2,19 +2,20 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
-import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -57,9 +58,8 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryController extends SmelteryComponent
-        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonUnloadBlock, PylonEntityHolderBlock {
+        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock {
 
-    public static final double FLUID_REACTION_PER_SECOND = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("fluid-reaction-per-second", Double.class);
 
     private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
     private static final NamespacedKey RUNNING_KEY = baseKey("running");
@@ -68,8 +68,12 @@ public final class SmelteryController extends SmelteryComponent
     private static final NamespacedKey COMPONENTS_KEY = baseKey("components");
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
-    public static final int TICK_INTERVAL = Settings.get(BaseKeys.SMELTERY_CONTROLLER)
-            .getOrThrow("tick-interval", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
+    public static final double FLUID_REACTION_PER_SECOND = settings.getOrThrow("fluid-reaction-per-second", Double.class);
+    public static final double HEATING_FACTOR = settings.getOrThrow("heating-factor", Double.class);
+    public static final double COOLING_FACTOR = settings.getOrThrow("cooling-factor", Double.class);
+    public static final double ROOM_TEMPERATURE = settings.getOrThrow("room-temperature", Double.class);
 
     @Getter
     @Setter
@@ -114,7 +118,7 @@ public final class SmelteryController extends SmelteryComponent
             }
         }
 
-        temperature = ROOM_TEMPERATURE_CELSIUS;
+        temperature = ROOM_TEMPERATURE;
         running = false;
         height = 0;
         capacity = 0;
@@ -131,11 +135,6 @@ public final class SmelteryController extends SmelteryComponent
         capacity = pdc.get(CAPACITY_KEY, PylonSerializers.DOUBLE);
         components.addAll(pdc.get(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION)));
         fluids.putAll(pdc.get(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE)));
-    }
-
-    @Override
-    public void onUnload(@NotNull PylonBlockUnloadEvent event) {
-        applyHeat();
     }
 
     @Override
@@ -389,10 +388,6 @@ public final class SmelteryController extends SmelteryComponent
 
         double amountToAdd = Math.min(amount, capacity - getTotalFluid());
         fluids.mergeDouble(fluid, amountToAdd, Double::sum);
-
-        double originalHeatCapacity = getHeatCapacity();
-        double addedHeatCapacity = amountToAdd / 1000.0 * DENSITY * SPECIFIC_HEAT;
-        temperature = (originalHeatCapacity * temperature + addedHeatCapacity * ROOM_TEMPERATURE_CELSIUS) / (originalHeatCapacity + addedHeatCapacity);
     }
 
     public void removeFluid(@NotNull PylonFluid fluid, double amount) {
@@ -429,85 +424,25 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Heating" defaultstate="collapsed">
-    @SuppressWarnings("SameParameterValue")
-    private static double newtonsLawOfCooling(double heatLossCoeff, double t, double t0, double dt) {
-        return heatLossCoeff * (t - t0) * dt;
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private static double stefanBoltzmannLaw(double emissivity, double t, double t0, double dt) {
-        return emissivity * STEFAN_BOLTZMANN_CONSTANT * (Math.pow(t, 4) - Math.pow(t0, 4)) * dt;
-    }
-
-    private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
-    private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67e-8; // W/m^2*K^4
-    private static final double SPECIFIC_HEAT = settings.getOrThrow("specific-heat.fluid", Double.class);
-    private static final double DENSITY = settings.getOrThrow("density.fluid", Double.class);
-    private static final double SPECIFIC_HEAT_AIR = settings.getOrThrow("specific-heat.air", Double.class);
-    private static final double DENSITY_AIR = settings.getOrThrow("density.air", Double.class);
-    private static final double HEAT_LOSS_COEFFICIENT = settings.getOrThrow("heat-loss-coefficient", Double.class);
-    private static final double EMISSIVITY = settings.getOrThrow("emissivity", Double.class);
-    private static final double CELSIUS_TO_KELVIN = 273.15;
-    private static final double ROOM_TEMPERATURE_CELSIUS = settings.getOrThrow("room-temperature", Double.class);
-    private static final double ROOM_TEMPERATURE_KELVIN = ROOM_TEMPERATURE_CELSIUS + CELSIUS_TO_KELVIN;
-
-    private double getHeatCapacity() {
-        return getTotalFluid() / 1000.0 * DENSITY * SPECIFIC_HEAT;
-    }
-
-    private double getAirHeatCapacity() {
-        return (capacity - getTotalFluid()) / 1000.0 * DENSITY_AIR * SPECIFIC_HEAT_AIR; // Remaining capacity is air
-    }
-
-    private void coolNaturally(double dt) {
-        // Surface area of the outside
-        int surfaceArea = (height * 5) * 4 /* four sides */ + (5 * 5) * 2 /* top and bottom */;
-        double kelvin = temperature + CELSIUS_TO_KELVIN;
-        double conductiveHeatLoss = newtonsLawOfCooling(
-                HEAT_LOSS_COEFFICIENT,
-                kelvin,
-                ROOM_TEMPERATURE_KELVIN,
-                dt
-        );
-        double radiativeHeatLoss = stefanBoltzmannLaw(
-                EMISSIVITY,
-                kelvin,
-                ROOM_TEMPERATURE_KELVIN,
-                dt
-        );
-        temperature -= ((conductiveHeatLoss + radiativeHeatLoss) * surfaceArea) / (getHeatCapacity() + getAirHeatCapacity());
-    }
-
-    private double heatAccumulation = 0;
-    private double heaterIndex = 0;
-
-    public void heat(double joules, double diminishingReturnFactor) {
-        Preconditions.checkArgument(!Double.isNaN(joules) && !Double.isInfinite(joules), "Joules cannot be NaN or infinite");
-        Preconditions.checkArgument(diminishingReturnFactor > 0, "Multiple factor must be positive");
-        Preconditions.checkArgument(diminishingReturnFactor <= 1, "Multiple factor must be less than or equal to 1");
-
-        heatAccumulation += joules * Math.pow(diminishingReturnFactor, heaterIndex);
-        heaterIndex++;
-    }
-
-    private void applyHeat() {
-        temperature += heatAccumulation / (getHeatCapacity() + getAirHeatCapacity());
-        heatAccumulation = 0;
-        heaterIndex = 0;
+    private int heaters = 0;
+    public void heatAsymptotically(double dt, double target) {
+        temperature += (target - temperature) * HEATING_FACTOR * dt * ++heaters;
     }
     // </editor-fold>
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<SimpleTextDisplay> pixels = new ArrayList<>();
-    private static final int RESOLUTION = settings.getOrThrow("display.resolution", Integer.class);
+    private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", Integer.class);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
-           getBlock().getWorld().getSeed(), 4
+            getBlock().getWorld().getSeed(), 4
     );
+
     {
         noise.setScale(1 / 16.0);
     }
+
     private double cumulativeSeconds = 0;
 
     public @NotNull List<SimpleTextDisplay> getPixels() {
@@ -595,13 +530,10 @@ public final class SmelteryController extends SmelteryComponent
         cumulativeSeconds += deltaSeconds;
         if (isFormedAndFullyLoaded()) {
             if (running) {
-                applyHeat();
                 performRecipes(deltaSeconds);
             }
-            coolNaturally(deltaSeconds);
-            if (temperature < 0) {
-                PylonBase.getInstance().getLogger().warning("Smeltery temperature dropped below 0, something is probably wrong with the heat transfer calculations");
-            }
+            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * deltaSeconds;
+            heaters = 0;
         } else if (height <= 0) { // check height instead because of the brief moment when the multiblock is loaded but not checked yet
             running = false;
         }
