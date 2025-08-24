@@ -2323,7 +2323,7 @@ public final class BaseItems {
         PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
         BasePages.COMBAT.addItem(BaseKeys.REACTIVATED_WITHER_SKULL);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REACTIVATED_WITHER_SKULL, REACTIVATED_WITHER_SKULL)
-                .shape(" N ", " S ", "RRR")
+                .shape(" N ", " S ", " R ")
                 .setIngredient('N', Material.WITHER_SKELETON_SKULL)
                 .setIngredient('S', Material.STICK)
                 .setIngredient('R', Material.NETHER_STAR);
@@ -2340,7 +2340,7 @@ public final class BaseItems {
         PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL_SUPER);
         BasePages.COMBAT.addItem(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER);
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER, REACTIVATED_WITHER_SKULL_SUPER)
-                .shape("MNM", "MSM", "RRR")
+                .shape("MNM", "MSM", " R ")
                 .setIngredient('N', Material.WITHER_SKELETON_SKULL)
                 .setIngredient('S', Material.STICK)
                 .setIngredient('M', SHIMMER_SKULL)
