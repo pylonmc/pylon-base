@@ -67,7 +67,7 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor, Pylo
 
                 // Search down (for a maximum of RANGE blocks) to find the first solid block
                 int remainingYSteps = settings.verticalRange();
-                while (block.getType().isEmpty() && remainingYSteps > 0) {
+                while (block.getType().isAir() && remainingYSteps > 0) {
                     block = block.getRelative(BlockFace.DOWN);
                     remainingYSteps--;
                 }
