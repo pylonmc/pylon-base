@@ -1037,8 +1037,6 @@ gui:
   smeltery_burner:
     burning: "<green>Burning"
     not_burning: "<yellow>Not burning"
-    energy_left: "<attr>Energy left:</attr> %energy%"
-    power_output: "<attr>Power output:</attr> %power%"
   smeltery_caster:
     cast: "Cast"
     cannot_cast: "<red>Cannot cast"
