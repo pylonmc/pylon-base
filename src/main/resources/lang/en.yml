@@ -328,6 +328,7 @@ item:
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
     waila: "Fluid Filter (%fluid%)"
+    gui: "Fluid Filter"
 
   fluid_meter:
     name: "<white>Fluid Meter"
@@ -335,6 +336,7 @@ item:
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
     waila: "Fluid Meter (%fluid%)"
+    gui: "Fluid Meter"
 
   fluid_strainer:
     name: "Fluid Strainer"
@@ -988,7 +990,7 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow>Fluid Tank</yellow>
-      <diamond> 1-%max-height%x <yellow>Fluid Tank Casing</yellow>
+      <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
     waila: "Fluid Tank %info%"
 
   fluid_tank_casing_wood:

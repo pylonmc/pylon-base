@@ -1467,7 +1467,7 @@ public final class BaseItems {
     public static final ItemStack IGNEOUS_COMPOSITE = ItemStackBuilder.pylonItem(Material.OBSIDIAN, BaseKeys.IGNEOUS_COMPOSITE)
             .build();
     static {
-        PylonItem.register(PylonItem.class, IGNEOUS_COMPOSITE);
+        PylonItem.register(PylonItem.class, IGNEOUS_COMPOSITE, BaseKeys.IGNEOUS_COMPOSITE);
         BasePages.BUILDING.addItem(BaseKeys.IGNEOUS_COMPOSITE);
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(

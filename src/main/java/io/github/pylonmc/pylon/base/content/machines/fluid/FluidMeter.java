@@ -80,4 +80,10 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
                 .build(getBlock().getLocation().toCenterLocation())
         );
     }
+
+
+    @Override
+    public @NotNull Component getGuiTitle() {
+        return Component.translatable("pylon.pylonbase.item.fluid_meter.gui");
+    }
 }

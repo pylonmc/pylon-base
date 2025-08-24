@@ -158,4 +158,9 @@ public class FluidFilter extends PylonBlock
     public @NotNull Gui createGui() {
         return (FluidSelector.make(() -> fluid, this::setFluid));
     }
+
+    @Override
+    public @NotNull Component getGuiTitle() {
+        return Component.translatable("pylon.pylonbase.item.fluid_filter.gui");
+    }
 }

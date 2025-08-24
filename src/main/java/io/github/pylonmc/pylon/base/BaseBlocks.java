@@ -80,14 +80,14 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.ELEVATOR_3, Material.SMOOTH_QUARTZ_SLAB, Elevator.class);
         PylonBlock.register(BaseKeys.PRESS, Material.COMPOSTER, Press.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER, Material.SMOOTH_STONE, HydraulicGrindstoneTurner.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT, Material.GRAY_CONCRETE, HydraulicMixingAttachment.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_PRESS_PISTON, Material.BROWN_CONCRETE, HydraulicPressPiston.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT, Material.CHISELED_STONE_BRICKS, HydraulicMixingAttachment.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_PRESS_PISTON, Material.BROWN_TERRACOTTA, HydraulicPressPiston.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_HAMMER_HEAD, Material.STONE_BRICKS, HydraulicHammerHead.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_PIPE_BENDER, Material.BROWN_TERRACOTTA, HydraulicPipeBender.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_TABLE_SAW, Material.COPPER_BLOCK, HydraulicTableSaw.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_PIPE_BENDER, Material.WAXED_CHISELED_COPPER, HydraulicPipeBender.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_TABLE_SAW, Material.WAXED_CUT_COPPER, HydraulicTableSaw.class);
         PylonBlock.register(BaseKeys.SOLAR_LENS, Material.GLASS_PANE, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_GLASS, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
-        PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);
+        PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.WAXED_CUT_COPPER_SLAB, PylonBlock.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_1, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_2, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_3, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
@@ -96,8 +96,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.COAL_FIRED_PURIFICATION_TOWER, Material.BLAST_FURNACE, CoalFiredPurificationTower.class);
         PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL_LEVER, Material.LEVER, ManualCoreDrillLever.class);
         PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL, Material.CHISELED_STONE_BRICKS, ManualCoreDrill.class);
-        PylonBlock.register(BaseKeys.IMPROVED_MANUAL_CORE_DRILL, Material.COPPER_BLOCK, ImprovedManualCoreDrill.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.COPPER_BULB, HydraulicCoreDrill.class);
+        PylonBlock.register(BaseKeys.IMPROVED_MANUAL_CORE_DRILL, Material.WAXED_OXIDIZED_COPPER, ImprovedManualCoreDrill.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.WAXED_COPPER_BULB, HydraulicCoreDrill.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, HydraulicCoreDrillInputHatch.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
     }

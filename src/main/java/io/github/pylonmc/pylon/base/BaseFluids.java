@@ -40,12 +40,12 @@ public final class BaseFluids {
 
     public static final PylonFluid SULFUR = new PylonFluid(
             baseKey("sulfur"),
-            Material.YELLOW_CONCRETE
+            Material.YELLOW_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid MERCURY = new PylonFluid(
             baseKey("mercury"),
-            Material.GRAY_CONCRETE
+            Material.CYAN_TERRACOTTA
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid COPPER = new PylonFluid(
@@ -55,12 +55,12 @@ public final class BaseFluids {
 
     public static final PylonFluid GOLD = new PylonFluid(
             baseKey("gold"),
-            Material.GOLD_BLOCK
+            Material.YELLOW_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid IRON = new PylonFluid(
             baseKey("iron"),
-            Material.ORANGE_CONCRETE
+            Material.RED_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SILVER = new PylonFluid(
@@ -70,17 +70,17 @@ public final class BaseFluids {
 
     public static final PylonFluid TIN = new PylonFluid(
             baseKey("tin"),
-            Material.LIGHT_GRAY_CONCRETE
+            Material.GREEN_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid COBALT = new PylonFluid(
             baseKey("cobalt"),
-            Material.ORANGE_CONCRETE
+            Material.BLUE_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid NICKEL = new PylonFluid(
             baseKey("nickel"),
-            Material.ORANGE_CONCRETE
+            Material.WHITE_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid BRONZE = new PylonFluid(
@@ -90,7 +90,7 @@ public final class BaseFluids {
 
     public static final PylonFluid STEEL = new PylonFluid(
             baseKey("steel"),
-            Material.ORANGE_CONCRETE
+            Material.GRAY_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SLURRY = new PylonFluid(
@@ -351,7 +351,7 @@ public final class BaseFluids {
                 List.of(BaseItems.QUARTZ_DUST.asQuantity(4)),
                 PLANT_OIL,
                 1000,
-                FluidOrItem.of(HYDRAULIC_FLUID, 1000),
+                FluidOrItem.of(REFLECTOR_FLUID, 1000),
                 false
         ));
     }
