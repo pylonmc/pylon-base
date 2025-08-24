@@ -81,7 +81,6 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
         );
     }
 
-
     @Override
     public @NotNull Component getGuiTitle() {
         return Component.translatable("pylon.pylonbase.item.fluid_meter.gui");

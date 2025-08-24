@@ -11,7 +11,7 @@ public class BaseKeys {
     public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
 
     public static final NamespacedKey COAL_DUST = baseKey("coal_dust");
-    public static final NamespacedKey CARBON_DUST = baseKey("carbon_dust");
+    public static final NamespacedKey CARBON = baseKey("carbon");
 
     public static final NamespacedKey SULFUR = baseKey("sulfur");
 
@@ -95,10 +95,6 @@ public class BaseKeys {
     public static final NamespacedKey BRONZE_PICKAXE = baseKey("bronze_pickaxe");
     public static final NamespacedKey BRONZE_SHOVEL = baseKey("bronze_shovel");
     public static final NamespacedKey BRONZE_HOE = baseKey("bronze_hoe");
-    public static final NamespacedKey BRONZE_HELMET = baseKey("bronze_helmet");
-    public static final NamespacedKey BRONZE_CHESTPLATE = baseKey("bronze_chestplate");
-    public static final NamespacedKey BRONZE_LEGGINGS = baseKey("bronze_leggings");
-    public static final NamespacedKey BRONZE_BOOTS = baseKey("bronze_boots");
 
     public static final NamespacedKey BANDAGE = baseKey("bandage");
     public static final NamespacedKey SPLINT = baseKey("splint");
@@ -198,6 +194,7 @@ public class BaseKeys {
 
     public static final NamespacedKey LOUPE = baseKey("loupe");
     public static final NamespacedKey RESEARCH_PACK_1 = baseKey("research_pack_1");
+    public static final NamespacedKey RESEARCH_PACK_2 = baseKey("research_pack_2");
 
     public static final NamespacedKey REFRACTORY_MIX = baseKey("refractory_mix");
     public static final NamespacedKey UNFIRED_REFRACTORY_BRICK = baseKey("unfired_refractory_brick");

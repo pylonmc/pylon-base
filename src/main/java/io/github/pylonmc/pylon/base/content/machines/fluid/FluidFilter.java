@@ -64,8 +64,8 @@ public class FluidFilter extends PylonBlock
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
-    public static final Material MAIN_MATERIAL = Material.WHITE_TERRACOTTA;
-    public static final Material NO_FLUID_MATERIAL = Material.RED_TERRACOTTA;
+    public static final Material MAIN_MATERIAL = Material.WHITE_CONCRETE;
+    public static final Material NO_FLUID_MATERIAL = Material.RED_CONCRETE;
 
     protected @Nullable PylonFluid fluid;
 

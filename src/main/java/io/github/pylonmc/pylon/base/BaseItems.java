@@ -146,11 +146,11 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack CARBON = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.CARBON_DUST)
+    public static final ItemStack CARBON = ItemStackBuilder.pylonItem(Material.CHARCOAL, BaseKeys.CARBON)
             .build();
     static {
         PylonItem.register(PylonItem.class, CARBON);
-        BasePages.RESOURCES.addItem(BaseKeys.CARBON_DUST);
+        BasePages.RESOURCES.addItem(BaseKeys.CARBON);
 
         PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
                 baseKey("coal_to_carbon"),
@@ -2323,7 +2323,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_VALVE = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, BaseKeys.FLUID_VALVE)
-            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_VALVE, BaseKeys.FLUID_VALVE);
@@ -2339,7 +2339,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_FILTER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, BaseKeys.FLUID_FILTER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_FILTER, BaseKeys.FLUID_FILTER);
@@ -2356,7 +2356,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, BaseKeys.FLUID_METER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_TERRACOTTA.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_METER, BaseKeys.FLUID_METER);
@@ -2524,19 +2524,44 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack RESEARCH_PACK_1 = ItemStackBuilder.pylonItem(Material.BOOK, BaseKeys.RESEARCH_PACK_1)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+    public static final ItemStack RESEARCH_PACK_1 = ItemStackBuilder.pylonItem(Material.RED_BANNER, BaseKeys.RESEARCH_PACK_1)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 3)
             .build();
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_1);
         BasePages.SCIENCE.addItem(BaseKeys.RESEARCH_PACK_1);
+
+        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.RESEARCH_PACK_1, RESEARCH_PACK_1)
+                .addIngredient(BRONZE_INGOT)
+                .addIngredient(SHIMMER_DUST_2)
+                .addIngredient(MONSTER_JERKY)
+                .addIngredient(SULFUR);
+        recipe.setCategory(CraftingBookCategory.MISC);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
+    }
+
+    public static final ItemStack RESEARCH_PACK_2 = ItemStackBuilder.pylonItem(Material.LIME_BANNER, BaseKeys.RESEARCH_PACK_2)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 3)
+            .build();
+    static {
+        PylonItem.register(ResearchPack.class, RESEARCH_PACK_2);
+        BasePages.SCIENCE.addItem(BaseKeys.RESEARCH_PACK_2);
+
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
+                BaseKeys.RESEARCH_PACK_2,
+                List.of(HYDRAULIC_MOTOR, CARBON, LOUPE),
+                BaseFluids.OBSCYRA,
+                500,
+                FluidOrItem.of(RESEARCH_PACK_2),
+                true
+        ));
     }
 
     public static final ItemStack FLUID_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
             .build();
     static {
         PylonItem.register(PylonItem.class, FLUID_STRAINER, BaseKeys.FLUID_STRAINER);
-        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.FLUID_STRAINER);
+        BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_STRAINER);
 
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.FLUID_STRAINER, FLUID_STRAINER)
                 .shape("cbc", " f ", "c c")
@@ -2613,7 +2638,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, REFRACTORY_BRICKS, BaseKeys.REFRACTORY_BRICKS);
         BasePages.SMELTING.addItem(BaseKeys.REFRACTORY_BRICKS);
 
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REFRACTORY_BRICKS, REFRACTORY_BRICKS.asQuantity(4))
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REFRACTORY_BRICKS, REFRACTORY_BRICKS)
                 .shape("bb ", "bb ", "   ")
                 .setIngredient('b', REFRACTORY_BRICK);
         recipe.setCategory(CraftingBookCategory.BUILDING);
