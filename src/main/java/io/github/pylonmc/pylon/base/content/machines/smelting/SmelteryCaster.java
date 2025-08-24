@@ -75,7 +75,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             Component name = result.effectiveName();
             double temperature = recipe.temperature();
             if (controller.getTemperature() < temperature) {
-                return ItemStackBuilder.of(Material.BARRIER)
+                return ItemStackBuilder.of(result.getType())
                         .name(casterKey("cannot_cast"))
                         .lore(casterKey(
                                 "too_cold",
@@ -85,12 +85,11 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             }
             double bottomAmount = controller.getFluidAmount(bottomFluid);
             if (bottomAmount < CastingRecipe.CAST_AMOUNT) {
-                return ItemStackBuilder.of(Material.BARRIER)
+                return ItemStackBuilder.of(result.getType())
                         .name(casterKey("cannot_cast"))
                         .lore(casterKey(
                                 "not_enough",
                                 PylonArgument.of("fluid", bottomFluid.getName()),
-                                PylonArgument.of("item", name),
                                 PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
                                 PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)
                                         .decimalPlaces(1))
@@ -100,8 +99,8 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                     .name(casterKey("cast"))
                     .lore(casterKey(
                             "click_to_cast",
-                            PylonArgument.of("item", name),
-                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
+                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)),
+                            PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(CastingRecipe.CAST_AMOUNT)),
                             PylonArgument.of("fluid", bottomFluid.getName())
                     ));
         }
