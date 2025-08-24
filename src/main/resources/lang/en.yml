@@ -472,7 +472,7 @@ item:
     lore: "A primitive alloy"
 
   reactivated_wither_skull:
-    name: "Reactivated Wither Skull"
+    name: "<white>Reactivated Wither Skull"
     lore: |-
       <insn>Right click</insn> to shoot a wither skull in the direction you are looking
       <arrow> Skulls are %chargedskulls%
@@ -482,7 +482,7 @@ item:
       false: "not charged"
 
   reactivated_wither_skull_super:
-    name: "Hyperactive Wither Skull"
+    name: "<white>Hyperactive Wither Skull"
     lore: |-
       <insn>Right click</insn> to shoot a wither skull in the direction you are looking
       <arrow> Skulls are %chargedskulls%
