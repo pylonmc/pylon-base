@@ -1301,7 +1301,7 @@ public final class BaseItems {
                 new ArrayList<>(Arrays.asList(
                         SHIMMER_DUST_2,
                         null,
-                        DIAMOND_DUST,
+                        null,
                         GOLD_DUST,
                         null,
                         null,

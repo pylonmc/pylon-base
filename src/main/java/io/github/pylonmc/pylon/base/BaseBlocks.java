@@ -88,12 +88,12 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.SOLAR_LENS, Material.GLASS_PANE, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_GLASS, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);
-        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_1, Material.BLACK_CONCRETE, SolarPurificationTower.class);
-        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_2, Material.BLACK_CONCRETE, SolarPurificationTower.class);
-        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_3, Material.BLACK_CONCRETE, SolarPurificationTower.class);
-        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_4, Material.BLACK_CONCRETE, SolarPurificationTower.class);
-        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_5, Material.BLACK_CONCRETE, SolarPurificationTower.class);
-        PylonBlock.register(BaseKeys.COAL_FIRED_PURIFICATION_TOWER, Material.BLACK_CONCRETE, CoalFiredPurificationTower.class);
+        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_1, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
+        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_2, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
+        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_3, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
+        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_4, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
+        PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_5, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
+        PylonBlock.register(BaseKeys.COAL_FIRED_PURIFICATION_TOWER, Material.BLAST_FURNACE, CoalFiredPurificationTower.class);
         PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL_LEVER, Material.LEVER, ManualCoreDrillLever.class);
         PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL, Material.CHISELED_STONE_BRICKS, ManualCoreDrill.class);
         PylonBlock.register(BaseKeys.IMPROVED_MANUAL_CORE_DRILL, Material.COPPER_BLOCK, ImprovedManualCoreDrill.class);

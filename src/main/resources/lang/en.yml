@@ -341,7 +341,6 @@ item:
     lore: |-
       <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
-      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Strainer%info%"
 
   fluid_voider_1:
@@ -436,10 +435,14 @@ item:
       <arrow> Requires a Grindstone Handle on top
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Grindstone</yellow>
+      <diamond> 1x <yellow>Grindstone Handle</yellow>
 
   grindstone_handle:
     name: "Grindstone Handle"
-    lore: "<arrow> Component of the Grindstone multiblock"
+    lore: "<star> Grindstone multiblock component"
 
   hammer_bronze:
     name: "Bronze Hammer"
@@ -503,11 +506,15 @@ item:
       <star> Multiblock
       <arrow> A self-contained structure for performing shimmer rituals
       <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Magic Altar</yellow>
+      <diamond> 8x <yellow>Magic Pedestal</yellow>
 
   magic_pedestal:
     name: "Magic Pedestal"
     lore: |-
-      <arrow> Used to build the Magic Altar
+      <star> Magic Altar multiblock component
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
 
@@ -566,27 +573,32 @@ item:
       <arrow> Complete the multiblock with a valid recipe inside to start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
-      <arrow> <attr>Campfire speed</attr>: x%campfire%
-      <arrow> <attr>Soul campfire speed</attr>: x%soul_campfire%
-      <arrow> <attr>Fire speed</attr>: x%fire%
-      <arrow> <attr>Soul fire speed</attr>: x%soul_fire%
-      <arrow> <attr>Coarse dirt yield:</attr> x%coarse_dirt%
-      <arrow> <attr>Podzol yield:</attr> x%podzol%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Pit Kiln</yellow>
+      <diamond> 8x <yellow>Coal Block</yellow>
+      <diamond> 20x <yellow>Dirt</yellow>
+      <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
+      ...or 1x <yellow>Fire</yellow> (%fire%x <attr>speed</attr>) 
+      ...or 1x <yellow>Soul Campfire</yellow> (%soul_campfire%x <attr>speed</attr>) 
+      ...or 1x <yellow>Soul Fire</yellow> (%soul_fire%x <attr>speed</attr>) 
+      <diamond> 9x <yellow>Podzol</yellow> (%podzol%x <attr>yield</attr>) 
+      ...or 9x <yellow>Coarse Dirt</yellow> (%coarse_dirt%x <attr>yield</attr>) 
 
   portability_catalyst:
     name: "Portability Catalyst"
 
   portable_crafting_table:
     name: "Portable Crafting Table"
-    lore: "<insn>Right click</insn> to open a crafting grid"
+    lore: "<arrow> <insn>Right click</insn> to open a crafting grid"
 
   portable_dustbin:
     name: "Portable Dustbin"
-    lore: "<insn>Right click</insn> to open a trash bin"
+    lore: "<arrow> <insn>Right click</insn> to open a trash bin"
 
   portable_ender_chest:
     name: "Portable Ender Chest"
-    lore: "<insn>Right click</insn> to open an ender chest"
+    lore: "<arrow> <insn>Right click</insn> to open an ender chest"
 
   raw_tin:
     name: "Raw Tin"
@@ -673,6 +685,15 @@ item:
       <arrow> Place in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
       <arrow> (TODO: Create a guide entry for how to build this)
       <arrow> <insn>Right click</insn> to open the smeltery GUI
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Smeltery Controller</yellow>
+      <diamond> 1 or more <yellow>Smeltery Input Hatch</yellow>
+      <diamond> 1 or more <yellow>Smeltery Output Hatch</yellow>
+      <diamond> 1 or more <yellow>Smeltery Hopper</yellow>
+      <diamond> 1 or more <yellow>Smeltery Caster</yellow>
+      <diamond> 1 or more <yellow>Smeltery Burner</yellow>
+      <diamond> 25 or more <yellow>Refractory Bricks</yellow> (depending on size and components)
 
   smeltery_hopper:
     name: "Smeltery Hopper"
@@ -868,6 +889,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
+      <diamond> 1x <yellow>Purification Tower Cap</yellow>
+      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
+      <diamond> 16x <yellow>Solar Lens</yellow>
 
   solar_purification_tower_2:
     name: "Solar Purification Tower II"
@@ -877,6 +904,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
+      <diamond> 1x <yellow>Purification Tower Cap</yellow>
+      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
+      <diamond> 48x <yellow>Solar Lens</yellow>
 
   solar_purification_tower_3:
     name: "Solar Purification Tower III"
@@ -886,6 +919,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
+      <diamond> 1x <yellow>Purification Tower Cap</yellow>
+      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
+      <diamond> 96x <yellow>Solar Lens</yellow>
 
   solar_purification_tower_4:
     name: "Solar Purification Tower IV"
@@ -895,6 +934,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
+      <diamond> 1x <yellow>Purification Tower Cap</yellow>
+      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
+      <diamond> 112x <yellow>Solar Lens</yellow>
 
   solar_purification_tower_5:
     name: "Solar Purification Tower V"
@@ -904,6 +949,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
+      <diamond> 1x <yellow>Purification Tower Cap</yellow>
+      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
+      <diamond> 192x <yellow>Solar Lens</yellow>
 
   coal_fired_purification_tower:
     name: "Coal-fired Purification Tower"
@@ -912,6 +963,11 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Burns coal or charcoal
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Coal-fired Purification Tower</yellow>
+      <diamond> 1x <yellow>Purification Tower Cap</yellow>
+      <diamond> 5x <yellow>Purfication Tower Glass</yellow>
     progress_item:
       running: "<green>Running"
       idle: "<yellow>Idle"
@@ -929,6 +985,10 @@ item:
       <arrow> Place fluid casings on top to increase the capacity
       <arrow> All the casings must be the same material
       <arrow> <attr>Max height:</attr> %max-height%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Fluid Tank</yellow>
+      <diamond> 1-%max-height%x <yellow>Fluid Tank Casing</yellow>
     waila: "Fluid Tank %info%"
 
   fluid_tank_casing_wood:
@@ -983,7 +1043,7 @@ item:
   manual_core_drill_lever:
     name: "Manual Core Drill Lever"
     lore: |-
-      <arrow> Used to power manual core drills
+      <star> Manual Core Drill multiblock component
       <arrow> <insn>Right click</insn> to cycle the attached core drill
 
   manual_core_drill:
@@ -993,6 +1053,11 @@ item:
       <arrow> Mines shallow core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Manual Core Drill</yellow>
+      <diamond> 1x <yellow>Manual Core Drill Lever</yellow>
+      <diamond> 9x <yellow>Cobblestone Wall</yellow>
 
   improved_manual_core_drill:
     name: "Improved Manual Core Drill"
@@ -1001,6 +1066,11 @@ item:
       <arrow> Mines subsurface core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Manual Core Drill</yellow>
+      <diamond> 1x <yellow>Manual Core Drill Lever</yellow>
+      <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
 
   hydraulic_core_drill:
     name: "Hydraulic Core Drill"
@@ -1011,6 +1081,16 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow>Hydraulic Core Drill</yellow>
+      <diamond> 1x <yellow>Cauldron</yellow>
+      <diamond> 1x <yellow>Chest</yellow>
+      <diamond> 1x <yellow>Hydraulic Core Drill Input Hatch</yellow>
+      <diamond> 1x <yellow>Hydraulic Core Drill Output Hatch</yellow>
+      <diamond> 2x <yellow>Copper Fluid Tank Casing</yellow>
+      <diamond> 6x <yellow>Iron Bars</yellow>
+      <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
 
   hydraulic_core_drill_input_hatch:
     name: "Hydraulic Core Drill Input Hatch"
