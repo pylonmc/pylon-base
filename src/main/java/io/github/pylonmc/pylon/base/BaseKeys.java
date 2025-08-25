@@ -177,6 +177,8 @@ public class BaseKeys {
     public static final NamespacedKey SMELTERY_CASTER = baseKey("smeltery_caster");
     public static final NamespacedKey SMELTERY_BURNER = baseKey("smeltery_burner");
 
+    public static final NamespacedKey PIT_KILN = baseKey("pit_kiln");
+
     public static final NamespacedKey EXPLOSIVE_TARGET = baseKey("explosive_target");
     public static final NamespacedKey EXPLOSIVE_TARGET_FIERY = baseKey("explosive_target_fiery");
     public static final NamespacedKey EXPLOSIVE_TARGET_SUPER = baseKey("explosive_target_super");
@@ -230,4 +232,6 @@ public class BaseKeys {
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
 
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
+
+    public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
 }
