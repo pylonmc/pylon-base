@@ -1,6 +1,10 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.building.*;
+import io.github.pylonmc.pylon.base.content.building.sponge.HotLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulWaterSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.WetWaterSponge;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
@@ -86,5 +90,9 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.COPPER_BULB, HydraulicCoreDrill.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, HydraulicCoreDrillInputHatch.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
+        PylonBlock.register(BaseKeys.POWERFUL_WATER_SPONGE, Material.SPONGE, PowerfulWaterSponge.class);
+        PylonBlock.register(BaseKeys.POWERFUL_LAVA_SPONGE, Material.SPONGE, PowerfulLavaSponge.class);
+        PylonBlock.register(BaseKeys.WET_WATER_SPONGE, Material.WET_SPONGE, WetWaterSponge.class);
+        PylonBlock.register(BaseKeys.HOT_LAVA_SPONGE, Material.SPONGE, HotLavaSponge.class);
     }
 }
