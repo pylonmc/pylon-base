@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -154,6 +155,7 @@ public final class BaseFluids {
             Material.WHITE_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+    // TODO refactor into static blocks as in BaseItems
     public static void initialize() {
         WATER.register();
 
@@ -170,30 +172,86 @@ public final class BaseFluids {
         ));
 
         SULFUR.register();
-        addSolidForms(SULFUR, 112.8, BaseItems.SULFUR);
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
+                SULFUR.getKey(),
+                BaseItems.SULFUR,
+                SULFUR,
+                144.0,
+                112.8
+        ));
 
         MERCURY.register();
 
         COPPER.register();
-        addSolidForms(COPPER, 1083, new ItemStack(Material.COPPER_INGOT), BaseItems.COPPER_DUST);
+        addMetalRecipes(
+                COPPER,
+                1083,
+                new ItemStack(Material.COPPER_INGOT),
+                BaseItems.COPPER_DUST,
+                null,
+                new ItemStack(Material.COPPER_BLOCK)
+        );
 
         GOLD.register();
-        addSolidForms(GOLD, 1064, new ItemStack(Material.GOLD_INGOT), BaseItems.GOLD_DUST);
+        addMetalRecipes(
+                GOLD,
+                1064,
+                new ItemStack(Material.GOLD_INGOT),
+                BaseItems.GOLD_DUST,
+                null,
+                new ItemStack(Material.GOLD_BLOCK)
+        );
 
         IRON.register();
-        addSolidForms(IRON, 1538, new ItemStack(Material.IRON_INGOT), BaseItems.IRON_DUST);
+        addMetalRecipes(
+                IRON,
+                1064,
+                new ItemStack(Material.IRON_INGOT),
+                BaseItems.IRON_DUST,
+                new ItemStack(Material.IRON_NUGGET),
+                new ItemStack(Material.IRON_BLOCK)
+        );
 
         TIN.register();
-        addSolidForms(TIN, 231.9, BaseItems.TIN_INGOT, BaseItems.TIN_DUST);
+        addMetalRecipes(
+                TIN,
+                231.9,
+                BaseItems.TIN_INGOT,
+                BaseItems.TIN_DUST,
+                BaseItems.TIN_NUGGET,
+                BaseItems.TIN_BLOCK
+        );
 
         COBALT.register();
-        addSolidForms(COBALT, 1495, BaseItems.COBALT_INGOT, BaseItems.COBALT_DUST);
+        addMetalRecipes(
+                COBALT,
+                1495,
+                BaseItems.COBALT_INGOT,
+                BaseItems.COBALT_DUST,
+                BaseItems.COBALT_NUGGET,
+                BaseItems.COBALT_BLOCK
+        );
 
         NICKEL.register();
-        addSolidForms(NICKEL, 1455, BaseItems.NICKEL_INGOT, BaseItems.NICKEL_DUST);
+        addMetalRecipes(
+                NICKEL,
+                1455,
+                BaseItems.NICKEL_INGOT,
+                BaseItems.NICKEL_DUST,
+                BaseItems.NICKEL_NUGGET,
+                BaseItems.NICKEL_BLOCK
+        );
 
         BRONZE.register();
-        addSolidForms(BRONZE, 950, BaseItems.BRONZE_INGOT, BaseItems.BRONZE_DUST);
+        addMetalRecipes(
+                BRONZE,
+                950,
+                BaseItems.BRONZE_INGOT,
+                BaseItems.BRONZE_DUST,
+                BaseItems.BRONZE_NUGGET,
+                BaseItems.BRONZE_BLOCK
+        );
+
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("bronze"),
                 Map.of(
@@ -205,7 +263,15 @@ public final class BaseFluids {
         ));
 
         STEEL.register();
-        addSolidForms(STEEL, 1540, BaseItems.STEEL_INGOT, BaseItems.STEEL_DUST);
+        addMetalRecipes(
+                STEEL,
+                950,
+                BaseItems.STEEL_INGOT,
+                BaseItems.STEEL_DUST,
+                BaseItems.STEEL_NUGGET,
+                BaseItems.STEEL_BLOCK
+        );
+
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("steel"),
                 Map.of(
@@ -215,6 +281,7 @@ public final class BaseFluids {
                 Map.of(STEEL, 1.0),
                 1540
         ));
+
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("decarburization"), // yes this is a real word
                 Map.of(
@@ -356,28 +423,54 @@ public final class BaseFluids {
         ));
     }
 
-    private static void addSolidForms(PylonFluid fluid, double temperature, ItemStack main, ItemStack... additional) {
-        NamespacedKey fluidKey = fluid.getKey();
+    private static void addMetalRecipes(
+            PylonFluid fluid,
+            double temperature,
+            ItemStack ingot,
+            ItemStack dust,
+            @Nullable ItemStack nugget,
+            ItemStack block
+    ) {
         CastingRecipe.RECIPE_TYPE.addRecipe(new CastingRecipe(
-                fluidKey,
+                fluid.getKey(),
                 fluid,
-                main,
+                144.0,
+                ingot,
                 temperature
         ));
+
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                fluidKey,
-                main,
+                fluid.getKey(),
+                ingot,
                 fluid,
+                144.0,
                 temperature
         ));
-        for (int i = 0; i < additional.length; i++) {
-            ItemStack item = additional[i];
+
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
+                fluid.getKey(),
+                dust,
+                fluid,
+                144.0,
+                temperature
+        ));
+
+        if (nugget != null) {
             MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                    new NamespacedKey(fluidKey.namespace(), fluidKey.value() + "_" + i),
-                    item,
+                    fluid.getKey(),
+                    nugget,
                     fluid,
+                    16.0,
                     temperature
             ));
         }
+
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
+                fluid.getKey(),
+                block,
+                fluid,
+                1296.0,
+                temperature
+        ));
     }
 }

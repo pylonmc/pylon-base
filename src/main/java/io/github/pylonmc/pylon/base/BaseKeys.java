@@ -101,7 +101,7 @@ public class BaseKeys {
     public static final NamespacedKey DISINFECTANT = baseKey("disinfectant");
     public static final NamespacedKey MEDKIT = baseKey("medkit");
 
-    public static final NamespacedKey BRICK_MOLDER = baseKey("brick_molder");
+    public static final NamespacedKey BRICK_MOLD = baseKey("brick_mold");
 
     public static final NamespacedKey MONSTER_JERKY = baseKey("monster_jerky");
 

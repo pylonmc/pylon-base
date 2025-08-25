@@ -17,12 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class BrickMolder extends PylonItem implements PylonBlockInteractor {
+public class BrickMold extends PylonItem implements PylonBlockInteractor {
 
-    public static final int COOLDOWN_TICKS = Settings.get(BaseKeys.BRICK_MOLDER).getOrThrow("cooldown-ticks",Integer.class);
+    public static final int COOLDOWN_TICKS = Settings.get(BaseKeys.BRICK_MOLD).getOrThrow("cooldown-ticks",Integer.class);
 
     @SuppressWarnings("unused")
-    public BrickMolder(@NotNull ItemStack stack) {
+    public BrickMold(@NotNull ItemStack stack) {
         super(stack);
     }
 

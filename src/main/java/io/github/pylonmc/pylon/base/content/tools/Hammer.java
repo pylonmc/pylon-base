@@ -211,12 +211,12 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
     public static @NotNull ShapedRecipe getRecipe(NamespacedKey key, ItemStack stack, ItemStack toolMaterial) {
         ShapedRecipe recipe = new ShapedRecipe(key, stack)
                 .shape(
-                        " I ",
-                        " SI",
-                        "S  "
+                        " i ",
+                        " si",
+                        "s  "
                 )
-                .setIngredient('I', new RecipeChoice.ExactChoice(toolMaterial))
-                .setIngredient('S', Material.STICK);
+                .setIngredient('i', new RecipeChoice.ExactChoice(toolMaterial))
+                .setIngredient('s', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         return recipe;
     }

@@ -10,9 +10,11 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
+import io.github.pylonmc.pylon.base.content.machines.simple.ManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
+import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -1314,14 +1316,14 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack BRICK_MOLDER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRICK_MOLDER)
+    public static final ItemStack BRICK_MOLD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRICK_MOLD)
             .set(DataComponentTypes.ITEM_MODEL, Material.OAK_FENCE_GATE.getKey())
             .build();
     static {
-        PylonItem.register(BrickMolder.class, BRICK_MOLDER);
-        BasePages.TOOLS.addItem(BaseKeys.BRICK_MOLDER);
+        PylonItem.register(BrickMold.class, BRICK_MOLD);
+        BasePages.TOOLS.addItem(BaseKeys.BRICK_MOLD);
 
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRICK_MOLDER, BRICK_MOLDER)
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRICK_MOLD, BRICK_MOLD)
                 .shape("sss", "sgs", "sss")
                 .setIngredient('s', Material.STICK)
                 .setIngredient('g', new RecipeChoice.MaterialChoice(Tag.FENCE_GATES));
@@ -2617,6 +2619,13 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, UNFIRED_REFRACTORY_BRICK, BaseKeys.UNFIRED_REFRACTORY_BRICK);
         BasePages.RESOURCES.addItem(BaseKeys.UNFIRED_REFRACTORY_BRICK);
+
+        MoldingDisplayRecipe.RECIPE_TYPE.addRecipe(new MoldingDisplayRecipe(
+                BaseKeys.UNFIRED_REFRACTORY_BRICK,
+                REFRACTORY_MIX,
+                UNFIRED_REFRACTORY_BRICK,
+                RefractoryMix.TOTAL_MOLDING_CLICKS
+        ));
     }
 
     public static final ItemStack REFRACTORY_BRICK = ItemStackBuilder.pylonItem(Material.NETHERITE_INGOT, BaseKeys.REFRACTORY_BRICK)
@@ -3284,6 +3293,12 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SHALLOW_CORE_CHUNK, BaseKeys.SHALLOW_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SHALLOW_CORE_CHUNK);
 
+        DrillingDisplayRecipe.RECIPE_TYPE.addRecipe(new DrillingDisplayRecipe(
+                BaseKeys.SHALLOW_CORE_CHUNK,
+                MANUAL_CORE_DRILL,
+                SHALLOW_CORE_CHUNK
+        ));
+
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.SHALLOW_CORE_CHUNK,
                 SHALLOW_CORE_CHUNK,
@@ -3302,6 +3317,12 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SUBSURFACE_CORE_CHUNK);
+
+        DrillingDisplayRecipe.RECIPE_TYPE.addRecipe(new DrillingDisplayRecipe(
+                BaseKeys.SUBSURFACE_CORE_CHUNK,
+                IMPROVED_MANUAL_CORE_DRILL,
+                SUBSURFACE_CORE_CHUNK
+        ));
 
         ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
 
@@ -3324,6 +3345,12 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.INTERMEDIATE_CORE_CHUNK);
+
+        DrillingDisplayRecipe.RECIPE_TYPE.addRecipe(new DrillingDisplayRecipe(
+                BaseKeys.INTERMEDIATE_CORE_CHUNK,
+                HYDRAULIC_CORE_DRILL,
+                INTERMEDIATE_CORE_CHUNK
+        ));
 
         ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
 

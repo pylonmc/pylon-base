@@ -76,7 +76,7 @@ item:
   covalent_binder:
     name: "Covalent Binder"
     lore: |-
-      <arrow> A gelatinous substance that deforms and reounds in your hands
+      <arrow> A gelatinous substance that deforms and rebounds in your hands
 
   crushed_raw_copper:
     name: "Crushed Raw Copper"
@@ -439,8 +439,8 @@ item:
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Grindstone</yellow>
-      <diamond> 1x <yellow>Grindstone Handle</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name></yellow>
 
   grindstone_handle:
     name: "Grindstone Handle"
@@ -510,8 +510,8 @@ item:
       <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Magic Altar</yellow>
-      <diamond> 8x <yellow>Magic Pedestal</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.magic_altar.name></yellow>
+      <diamond> 8x <yellow><lang:pylon.pylonbase.item.magic_pedestal.name></yellow>
 
   magic_pedestal:
     name: "Magic Pedestal"
@@ -577,9 +577,9 @@ item:
       <arrow> <attr>Smelting time:</attr> %smelting_time%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Pit Kiln</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name></yellow>
       <diamond> 8x <yellow>Coal Block</yellow>
-      <diamond> 20x <yellow>Dirt</yellow>
+      <diamond> 20x <yellow>Coarse Dirt</yellow>
       <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
       ...or 1x <yellow>Fire</yellow> (%fire%x <attr>speed</attr>) 
       ...or 1x <yellow>Soul Campfire</yellow> (%soul_campfire%x <attr>speed</attr>) 
@@ -613,14 +613,10 @@ item:
 
   refractory_mix:
     name: "Refractory Mix"
-    lore: |-
-      <arrow> Can be molded into Refractory Brick using the Brick Molder
     waila: "Refractory Mix (<yellow>%percent%</yellow>)"
 
   unfired_refractory_brick:
     name: "Unfired Refractory Brick"
-    lore: |-
-      <arrow> Can be molded from Refractory Mix using the Brick Molder
 
   refractory_brick:
     name: "Refractory Brick"
@@ -693,17 +689,16 @@ item:
       <star> Multiblock
       <arrow> The brain of the smeltery
       <arrow> Place in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
-      <arrow> (TODO: Create a guide entry for how to build this)
       <arrow> <insn>Right click</insn> to open the smeltery GUI
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Smeltery Controller</yellow>
-      <diamond> 1 or more <yellow>Smeltery Input Hatch</yellow>
-      <diamond> 1 or more <yellow>Smeltery Output Hatch</yellow>
-      <diamond> 1 or more <yellow>Smeltery Hopper</yellow>
-      <diamond> 1 or more <yellow>Smeltery Caster</yellow>
-      <diamond> 1 or more <yellow>Smeltery Burner</yellow>
-      <diamond> 25 or more <yellow>Refractory Bricks</yellow> (depending on size and components)
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_output_hatch.name> Hatch</yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_hopper.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_caster.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_burner.name></yellow>
+      <diamond> 25 or more <yellow><lang:pylon.pylonbase.item.refractory_bricks.name></yellow> (depending on size and components)
 
   smeltery_hopper:
     name: "Smeltery Hopper"
@@ -901,10 +896,10 @@ item:
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
-      <diamond> 1x <yellow>Purification Tower Cap</yellow>
-      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
-      <diamond> 16x <yellow>Solar Lens</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 16x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_2:
     name: "Solar Purification Tower II"
@@ -916,10 +911,10 @@ item:
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
-      <diamond> 1x <yellow>Purification Tower Cap</yellow>
-      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
-      <diamond> 48x <yellow>Solar Lens</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 48x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_3:
     name: "Solar Purification Tower III"
@@ -931,10 +926,10 @@ item:
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
-      <diamond> 1x <yellow>Purification Tower Cap</yellow>
-      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
-      <diamond> 96x <yellow>Solar Lens</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 96x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_4:
     name: "Solar Purification Tower IV"
@@ -946,10 +941,10 @@ item:
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
-      <diamond> 1x <yellow>Purification Tower Cap</yellow>
-      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
-      <diamond> 112x <yellow>Solar Lens</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 160x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_5:
     name: "Solar Purification Tower V"
@@ -961,10 +956,10 @@ item:
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Solar Purification Tower 1</yellow>
-      <diamond> 1x <yellow>Purification Tower Cap</yellow>
-      <diamond> 3x <yellow>Purfication Tower Glass</yellow>
-      <diamond> 192x <yellow>Solar Lens</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 240x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   coal_fired_purification_tower:
     name: "Coal-fired Purification Tower"
@@ -975,9 +970,9 @@ item:
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Coal-fired Purification Tower</yellow>
-      <diamond> 1x <yellow>Purification Tower Cap</yellow>
-      <diamond> 5x <yellow>Purfication Tower Glass</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
+      <diamond> 5x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
     progress_item:
       running: "<green>Running"
       idle: "<yellow>Idle"
@@ -997,7 +992,7 @@ item:
       <arrow> <attr>Max height:</attr> %max-height%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Fluid Tank</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name></yellow>
       <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
     waila: "Fluid Tank %info%"
 
@@ -1065,8 +1060,8 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Manual Core Drill</yellow>
-      <diamond> 1x <yellow>Manual Core Drill Lever</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
       <diamond> 9x <yellow>Cobblestone Wall</yellow>
 
   improved_manual_core_drill:
@@ -1078,8 +1073,8 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Manual Core Drill</yellow>
-      <diamond> 1x <yellow>Manual Core Drill Lever</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
       <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
 
   hydraulic_core_drill:
@@ -1093,12 +1088,12 @@ item:
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
       <br>
       <u>Components</u>
-      <diamond> 1x <yellow>Hydraulic Core Drill</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name></yellow>
       <diamond> 1x <yellow>Cauldron</yellow>
       <diamond> 1x <yellow>Chest</yellow>
-      <diamond> 1x <yellow>Hydraulic Core Drill Input Hatch</yellow>
-      <diamond> 1x <yellow>Hydraulic Core Drill Output Hatch</yellow>
-      <diamond> 2x <yellow>Copper Fluid Tank Casing</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_input_hatch.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_output_hatch.name></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.copper_fluid_tank_casing.name></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
 
@@ -1176,8 +1171,8 @@ item:
   gypsum_dust:
     name: "Gypsum Dust"
 
-  brick_molder:
-    name: "Brick Molder"
+  brick_mold:
+    name: "Brick Mold"
     lore: |- 
       <arrow> <insn>Right click</insn> a block to mold it
       <arrow> <attr>Cooldown:</attr> %cooldown%
@@ -1263,9 +1258,10 @@ research:
   large_scale_hydraulic_purification: "<#77a9f4>Large scale hydraulic purification"
   hydraulic_drilling: "<#96d4e0>Hydraulic drilling"
   steel: "<#444444>Steel"
-  rare_earth_metals: "<#144cbc>Rare earth metals"
+  magnetism: "<#144cbc>Magnetism"
   immobilization: "<#b75984>Immobilization"
-  fluid_voiding: "<#2a3360>Fluid voiding"
+  fluid_voiding_1: "<#2a3360>Fluid voiding I"
+  fluid_voiding_2: "<#2a3360>Fluid voiding II"
   flow_control: "<#2a47d6>Flow control"
   pumps: "<#54abbc>Pumps"
   fluid_handling_1: "<#58e2d2>Fluid handling I"
@@ -1300,6 +1296,7 @@ guide:
     magic-altar: "<attr>Ritual time:</attr> %time%"
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
+    drilling: "<attr>Cycle time:</attr> %time%"
 
 message:
   fluid_none: "None"

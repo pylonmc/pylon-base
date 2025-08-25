@@ -53,7 +53,7 @@ public class BaseResearches {
                 baseKey("molding"),
                 Material.OAK_FENCE_GATE,
                 5L,
-                BaseKeys.BRICK_MOLDER
+                BaseKeys.BRICK_MOLD
         ).register();
 
         new Research(
@@ -260,6 +260,13 @@ public class BaseResearches {
         ).register();
 
         new Research(
+                baseKey("fluid_voiding_1"),
+                Material.BLACK_TERRACOTTA,
+                20L,
+                BaseKeys.FLUID_VOIDER_1
+        ).register();
+
+        new Research(
                 baseKey("rituals"),
                 Material.WITHER_SKELETON_SKULL,
                 20L,
@@ -318,10 +325,9 @@ public class BaseResearches {
         ).register();
 
         new Research(
-                baseKey("fluid_voiding"),
+                baseKey("fluid_voiding_2"),
                 Material.BLACK_TERRACOTTA,
                 30L,
-                BaseKeys.FLUID_VOIDER_1,
                 BaseKeys.FLUID_VOIDER_2,
                 BaseKeys.FLUID_VOIDER_3
         ).register();
@@ -409,7 +415,7 @@ public class BaseResearches {
         ).register();
 
         new Research(
-                baseKey("rare_earth_metals"),
+                baseKey("magnetism"),
                 Material.IRON_INGOT,
                 50L,
                 BaseKeys.NICKEL_DUST,
