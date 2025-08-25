@@ -2,6 +2,8 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -10,6 +12,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -23,6 +26,14 @@ public class PowerfulLavaSponge extends PowerfulSponge {
 
     public PowerfulLavaSponge(@NotNull Block block) {
         super(block);
+    }
+
+    public PowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block, context);
+    }
+
+    public PowerfulLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block, pdc);
     }
 
     /**
@@ -77,8 +88,14 @@ public class PowerfulLavaSponge extends PowerfulSponge {
      */
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge);
+        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
         BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
+    }
+
+    public void tick(double deltaSeconds) {
+        if (canAbsorb()) {
+            onAbsorb(makeUpEvent());
+        }
     }
 
     /**

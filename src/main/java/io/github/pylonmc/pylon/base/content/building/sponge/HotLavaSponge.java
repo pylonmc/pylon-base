@@ -3,6 +3,8 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -12,6 +14,7 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -36,6 +39,14 @@ public class HotLavaSponge extends PowerfulSponge {
 
     public HotLavaSponge(@NotNull Block block) {
         super(block);
+    }
+
+    public HotLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block, context);
+    }
+
+    public HotLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block, pdc);
     }
 
     /**
@@ -79,6 +90,15 @@ public class HotLavaSponge extends PowerfulSponge {
         }
     }
 
+    public void tick(double deltaSeconds) {
+        Location displayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
+        BaseUtils.spawnParticle(Particle.FLAME, displayLoc, 3);
+
+        if (canAbsorb()) {
+            onAbsorb(makeUpEvent());
+        }
+    }
+
     /**
      * Gets the range of this sponge's absorption ability.
      *
@@ -100,11 +120,11 @@ public class HotLavaSponge extends PowerfulSponge {
      */
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge);
+        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
         if (ThreadLocalRandom.current().nextDouble() > 0.1) {
             // 90% chance of becoming unusable obsidian
             sponge.setType(Material.OBSIDIAN);
-            Location explodeLoc = sponge.getLocation().add(0.5, 0.5, 0.5);
+            Location explodeLoc = sponge.getLocation().clone().add(0.5, 0.5, 0.5);
             BaseUtils.spawnParticle(Particle.FLAME, explodeLoc, 20);
             BaseUtils.spawnParticle(Particle.SMOKE, explodeLoc, 50);
         } else {

@@ -1,11 +1,17 @@
 package io.github.pylonmc.pylon.base.content.building.sponge;
 
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSponge;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.SpongeAbsorbEvent;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -44,10 +50,21 @@ import java.util.List;
  * @see PowerfulLavaSponge
  * @see HotLavaSponge
  */
-public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
+public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, PylonTickingBlock {
+    public static final BlockFace[] NEARBY_FACES = {
+            BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN
+    };
 
     public PowerfulSponge(@NotNull Block block) {
         super(block);
+    }
+
+    public PowerfulSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block, context);
+    }
+
+    public PowerfulSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block, pdc);
     }
 
     /**
@@ -67,7 +84,9 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
             absorb(block);
         }
 
-        toDriedSponge(sponge);
+        PylonBase.runSyncLater(() -> {
+            toDriedSponge(sponge);
+        }, 1);
     }
 
     /**
@@ -101,7 +120,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
 
                 for (int z = centerZ - remainingY; z <= centerZ + remainingY; z++) {
                     Block block = world.getBlockAt(x, y, z);
-                    if (border.isInside(block.getLocation())) {
+                    if (!border.isInside(block.getLocation())) {
                         continue;
                     }
 
@@ -145,4 +164,29 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge {
      * @return The Manhattan distance this sponge can absorb liquids within
      */
     public abstract int getRange();
+
+    /**
+     * Fix cannot absorb lava
+     *
+     * @see PowerfulLavaSponge
+     * @see HotLavaSponge
+     */
+    public void tick(double deltaSeconds) {
+    }
+
+    @NotNull
+    public SpongeAbsorbEvent makeUpEvent() {
+        return new SpongeAbsorbEvent(getBlock(), new ArrayList<>());
+    }
+
+    public boolean canAbsorb() {
+        Location location = getBlock().getLocation();
+        for (BlockFace blockFace : NEARBY_FACES) {
+            if (isAbsorbable(location.clone().add(blockFace.getDirection()).getBlock())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

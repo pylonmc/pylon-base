@@ -2,6 +2,8 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -11,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,6 +34,14 @@ public class PowerfulWaterSponge extends PowerfulSponge {
 
     public PowerfulWaterSponge(@NotNull Block block) {
         super(block);
+    }
+
+    public PowerfulWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block, context);
+    }
+
+    public PowerfulWaterSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block, pdc);
     }
 
     /**
@@ -91,7 +102,7 @@ public class PowerfulWaterSponge extends PowerfulSponge {
      * @param sponge The sponge block to transform
      */
     public void toDriedSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge);
+        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
         BlockStorage.placeBlock(sponge, BaseKeys.WET_WATER_SPONGE);
     }
 

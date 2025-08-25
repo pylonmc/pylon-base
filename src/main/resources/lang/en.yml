@@ -882,7 +882,7 @@ item:
     name: "<blue>Powerful Water Sponge"
     lore: |-
       <arrow> <blue>Clear nearby water.
-      <arrow> <attr>Range: </attr> %check_range%
+      <arrow> <attr>Range:</attr> %check_range%
 
   powerful_lava_sponge:
     name: "<red>Powerful Lava Sponge"
