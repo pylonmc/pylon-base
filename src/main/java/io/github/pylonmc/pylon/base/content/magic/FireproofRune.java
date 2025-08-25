@@ -1,14 +1,13 @@
 package io.github.pylonmc.pylon.base.content.magic;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.text.Component;
-import org.bukkit.FluidCollisionMode;
+import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -43,7 +42,7 @@ public class FireproofRune extends Rune {
     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
         DamageResistant data = target.getData(DataComponentTypes.DAMAGE_RESISTANT);
         if (data == null) return true;
-        return data.types().equals(DamageTypeTagKeys.IS_FIRE);
+        return !data.types().equals(DamageTypeTagKeys.IS_FIRE);
     }
 
     /**
@@ -58,30 +57,30 @@ public class FireproofRune extends Rune {
         // As many runes as possible to consume
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
+        Player player = event.getPlayer();
         ItemStack handle = ItemStackBuilder.of(target.asQuantity(consume)) // Already cloned in `asQuantity`
                 .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
-                .lore(TOOLTIP)
+                .lore(GlobalTranslator.render(TOOLTIP, player.locale()))
                 .build();
 
         // (N)Either left runes or targets
         int leftRunes = rune.getAmount() - consume;
         int leftTargets = target.getAmount() - consume;
 
-        Player player = event.getPlayer();
-        Location explodeLoc = player.getTargetBlockExact((int) Math.ceil(BaseConfig.RUNE_CHECK_RANGE), FluidCollisionMode.NEVER).getLocation();
+        Location explodeLoc = event.getItemDrop().getLocation();
         World world = explodeLoc.getWorld();
         if (leftRunes > 0) {
-            world.dropItemNaturally(explodeLoc, rune.asQuantity(leftRunes));
+            world.dropItemNaturally(explodeLoc, rune.asQuantity(leftRunes)).setGlowing(true);
         }
         if (leftTargets > 0) {
-            world.dropItemNaturally(explodeLoc, target.asQuantity(leftTargets));
+            world.dropItemNaturally(explodeLoc, target.asQuantity(leftTargets)).setGlowing(true);
         }
-        world.dropItemNaturally(explodeLoc, handle);
+        world.dropItemNaturally(explodeLoc, handle).setGlowing(true);
 
         // simple particles
         spawnParticle(Particle.EXPLOSION, explodeLoc, 1);
-        spawnParticle(Particle.FLAME, explodeLoc, 20);
-        spawnParticle(Particle.SMOKE, explodeLoc, 1);
+        spawnParticle(Particle.FLAME, explodeLoc, 50);
+        spawnParticle(Particle.SMOKE, explodeLoc, 40);
         world.playSound(explodeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 
         target.setAmount(0);
