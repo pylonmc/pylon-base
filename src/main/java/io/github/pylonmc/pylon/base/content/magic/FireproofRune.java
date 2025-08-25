@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
-import io.papermc.paper.datacomponent.item.ItemLore;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.text.Component;
 import org.bukkit.FluidCollisionMode;
@@ -19,12 +18,9 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 /**
  * @author balugaq
  */
-@SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
     public static final Component TOOLTIP = Component.translatable("pylon.pylonbase.message.fireproof_result.tooltip");
@@ -64,11 +60,7 @@ public class FireproofRune extends Rune {
 
         ItemStack handle = ItemStackBuilder.of(target.asQuantity(consume)) // Already cloned in `asQuantity`
                 .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
-                .editData(DataComponentTypes.LORE, lore -> {
-                    List<Component> lines = lore.lines();
-                    lines.add(TOOLTIP);
-                    return ItemLore.lore(lines);
-                })
+                .lore(TOOLTIP)
                 .build();
 
         // (N)Either left runes or targets
