@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulLavaSponge;
 import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulWaterSponge;
 import io.github.pylonmc.pylon.base.content.building.sponge.HotLavaSponge;
-import io.github.pylonmc.pylon.base.content.building.sponge.WetWaterSponge;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
@@ -24,8 +23,6 @@ import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.*;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
@@ -39,8 +36,6 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
-import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
@@ -52,11 +47,7 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -2265,20 +2256,20 @@ public final class BaseItems {
     }
 
     // For trigger SpongeAbsorbEvent, sponges' material must be SPONGE
-    public static final ItemStack WET_POWERFUL_WATER_SPONGE
+    public static final ItemStack WET_WATER_SPONGE
             = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE) // A used sponge shouldn't trigger event
             .build();
     static {
-        PylonItem.register(PylonItem.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
+        PylonItem.register(PylonItem.class, WET_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
         BasePages.COMPONENTS.addItem(BaseKeys.WET_WATER_SPONGE);
     }
 
-    public static final ItemStack WET_POWERFUL_LAVA_SPONGE
+    public static final ItemStack HOT_LAVA_SPONGE
             = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_LAVA_SPONGE)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(HotLavaSponge.Item.class, WET_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
+        PylonItem.register(HotLavaSponge.Item.class, HOT_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
         BasePages.BUILDING.addItem(BaseKeys.HOT_LAVA_SPONGE);
     }
 
@@ -2302,7 +2293,7 @@ public final class BaseItems {
         BlastingRecipe blastingRecipe = new BlastingRecipe(
                 BaseKeys.POWERFUL_WATER_SPONGE_BLASTING,
                 POWERFUL_WATER_SPONGE,
-                new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
+                new RecipeChoice.ExactChoice(WET_WATER_SPONGE),
                 1.5f,
                 100
         );
