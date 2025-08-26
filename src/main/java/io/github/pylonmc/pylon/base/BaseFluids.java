@@ -64,11 +64,6 @@ public final class BaseFluids {
             Material.RED_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
-    public static final PylonFluid SILVER = new PylonFluid(
-            baseKey("silver"),
-            Material.WHITE_CONCRETE
-    ).addTag(FluidTemperature.HOT);
-
     public static final PylonFluid TIN = new PylonFluid(
             baseKey("tin"),
             Material.GREEN_TERRACOTTA
@@ -335,9 +330,8 @@ public final class BaseFluids {
                 ),
                 Map.of(
                         GOLD, 0.5,
-                        SLURRY, 0.3,
-                        SILVER, 0.15,
-                        RAW_TIN_SLURRY, 0.15,
+                        SLURRY, 0.4,
+                        RAW_TIN_SLURRY, 0.2,
                         MERCURY, 0.9
                 ),
                 1064

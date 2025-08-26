@@ -16,12 +16,6 @@ item:
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
 
-  brass_dust:
-    name: "Brass Dust"
-
-  brass_ingot:
-    name: "Brass Ingot"
-
   bronze_dust:
     name: "Bronze Dust"
 
@@ -87,14 +81,8 @@ item:
   crushed_raw_iron:
     name: "Crushed Raw Iron"
 
-  crushed_raw_lead:
-    name: "Crushed Raw Lead"
-
   crushed_raw_tin:
     name: "Crushed Raw Tin"
-
-  crushed_raw_zinc:
-    name: "Crushed Raw Zinc"
 
   dimensional_barrel:
     name: "Dimensional Barrel"
@@ -273,7 +261,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Tin Portable Fluid Tank %info%"
 
   portable_fluid_tank_iron:
@@ -283,7 +271,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Iron Portable Fluid Tank %info%"
 
   portable_fluid_tank_bronze:
@@ -293,7 +281,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Bronze Portable Fluid Tank %info%"
 
   portable_fluid_tank_igneous_composite:
@@ -313,7 +301,7 @@ item:
       <arrow> Retains contents when broken
       <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
       <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
-      <arrow> <attr>Allowed temperatures:</attr> %allowed-temperatures%
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Steel Portable Fluid Tank %info%"
 
   fluid_valve:
@@ -482,12 +470,6 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
-
-  lead_dust:
-    name: "Lead Dust"
-
-  lead_ingot:
-    name: "Lead Ingot"
 
   loupe:
     name: "Loupe"
@@ -664,12 +646,6 @@ item:
     lore: |-
       <arrow> An infusion of shimmer dust does to a wither skeleton skull more than meets the eye...
 
-  silver_dust:
-    name: "Silver Dust"
-
-  silver_ingot:
-    name: "Silver Ingot"
-
   smeltery_burner:
     name: "Smeltery Burner"
     lore: |-
@@ -801,12 +777,6 @@ item:
       <arrow> An infinite source of water
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
-  zinc_dust:
-    name: "Zinc Dust"
-
-  zinc_ingot:
-    name: "Zinc Ingot"
-
   press:
     name: "Press"
     lore: |-
@@ -897,8 +867,8 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
       <diamond> 16x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_2:
@@ -912,8 +882,8 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
       <diamond> 48x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_3:
@@ -927,8 +897,8 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
       <diamond> 96x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_4:
@@ -942,8 +912,8 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
       <diamond> 160x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_5:
@@ -957,8 +927,8 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
       <diamond> 240x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   coal_fired_purification_tower:
@@ -971,8 +941,8 @@ item:
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_cap.name></yellow>
-      <diamond> 5x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_glass.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
     progress_item:
       running: "<green>Running"
       idle: "<yellow>Idle"
@@ -1093,7 +1063,7 @@ item:
       <diamond> 1x <yellow>Chest</yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_input_hatch.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_output_hatch.name></yellow>
-      <diamond> 2x <yellow><lang:pylon.pylonbase.item.copper_fluid_tank_casing.name></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_tank_casing_copper.name></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
 
@@ -1180,14 +1150,12 @@ item:
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
-  brass: "<gold>Brass"
   bronze: "<#8d6f64>Bronze"
   cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
   iron: "<gray>Iron"
   lava: "<#fc4e03>Lava"
-  lead: "<gray>Lead"
   mercury: "<#dedede>Mercury"
   nickel: "<gray>Nickel"
   none: "None"
@@ -1198,15 +1166,11 @@ fluid:
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"
   slurry_raw_iron: "<gray>Raw Iron Slurry"
-  slurry_raw_lead: "<gray>Raw Lead Slurry"
   slurry_raw_tin: "<gray>Raw Tin Slurry"
-  slurry_raw_zinc: "<gray>Raw Zinc Slurry"
-  silver: "<#b0b0b0>Silver"
   steel: "<gray>Steel"
   sulfur: "<yellow>Sulfur"
   tin: "<gray>Tin"
   water: "<blue>Water"
-  zinc: "<gray>Zinc"
   plant_oil: "<#c4b352>Plant Oil"
   hydraulic_fluid: "<#212d99>Hydraulic Fluid"
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"

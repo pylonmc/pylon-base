@@ -10,7 +10,6 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
-import io.github.pylonmc.pylon.base.content.machines.simple.ManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
@@ -78,7 +77,7 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(BaseKeys.ROCK_DUST);
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
-                BaseKeys.ROCK_DUST,
+                baseKey("rock_dust_from_cobblestone"),
                 new ItemStack(Material.COBBLESTONE),
                 ROCK_DUST.asQuantity(1),
                 2,
@@ -86,7 +85,7 @@ public final class BaseItems {
         ));
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
-                BaseKeys.ROCK_DUST,
+                baseKey("rock_dust_from_andesite"),
                 new ItemStack(Material.ANDESITE),
                 ROCK_DUST.asQuantity(1),
                 2,
@@ -94,7 +93,7 @@ public final class BaseItems {
         ));
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
-                BaseKeys.ROCK_DUST,
+                baseKey("rock_dust_from_granite"),
                 new ItemStack(Material.GRANITE),
                 ROCK_DUST.asQuantity(1),
                 2,
@@ -102,7 +101,7 @@ public final class BaseItems {
         ));
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
-                BaseKeys.ROCK_DUST,
+                baseKey("rock_dust_from_diorite"),
                 new ItemStack(Material.DIORITE),
                 ROCK_DUST.asQuantity(1),
                 2,
@@ -368,7 +367,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, TIN_INGOT);
         BasePages.RESOURCES.addItem(BaseKeys.TIN_INGOT);
 
-        float cookingXp = Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("cooking.xp", Double.class).floatValue();
+        float cookingXp = Settings.get(BaseKeys.TIN_INGOT).getOrThrow("cooking.xp", Double.class).floatValue();
 
         FurnaceRecipe furnaceRecipe = new FurnaceRecipe(
                 baseKey("tin_ingot_furnace"),
@@ -2466,7 +2465,7 @@ public final class BaseItems {
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_VOIDER_2);
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.MIXING_POT,
+                BaseKeys.FLUID_VOIDER_2,
                 List.of(FLUID_VOIDER_1),
                 BaseFluids.OBSCYRA,
                 500,
