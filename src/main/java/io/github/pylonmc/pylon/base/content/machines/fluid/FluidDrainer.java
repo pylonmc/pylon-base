@@ -19,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -77,6 +78,8 @@ public class FluidDrainer extends PylonBlock
     public void tick(double deltaSeconds) {
         if (fluidSpaceRemaining(fluid) >= 1000.0
                 && drainBlock.getType() == material
+                && drainBlock.getBlockData() instanceof Levelled levelled
+                && levelled.getLevel() == 0 // 0 = source block (for some reason)
                 && new BlockBreakBlockEvent(drainBlock, getBlock(), List.of()).callEvent()
         ) {
             drainBlock.setType(Material.AIR);

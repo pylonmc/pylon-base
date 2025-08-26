@@ -21,7 +21,7 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     @SuppressWarnings("unused")
     public SmelteryInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.SOUTH, 0.5F, true));
+        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH, 0.5F, true));
     }
 
     @SuppressWarnings("unused")

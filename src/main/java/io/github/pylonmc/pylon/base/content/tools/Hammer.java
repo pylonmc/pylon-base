@@ -178,7 +178,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         return containsAtLeast(items, recipe.input());
     }
 
-    public static @NotNull ItemStack createItemStack(
+    public static @NotNull ItemStackBuilder createItemStack(
             NamespacedKey key,
             Material material,
             double attackSpeed,
@@ -201,19 +201,18 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                             baseKey("hammer_attack_damage"),
                             attackDamage,
                             AttributeModifier.Operation.ADD_NUMBER
-                    )))
-            .build();
+                    )));
     }
 
-    public static @NotNull ShapedRecipe getRecipe(NamespacedKey key, ItemStack stack, Material toolMaterial) {
+    public static @NotNull ShapedRecipe getRecipe(NamespacedKey key, ItemStack stack, ItemStack toolMaterial) {
         ShapedRecipe recipe = new ShapedRecipe(key, stack)
                 .shape(
-                        " I ",
-                        " SI",
-                        "S  "
+                        " i ",
+                        " si",
+                        "s  "
                 )
-                .setIngredient('I', new RecipeChoice.ExactChoice(new ItemStack(toolMaterial)))
-                .setIngredient('S', Material.STICK);
+                .setIngredient('i', new RecipeChoice.ExactChoice(toolMaterial))
+                .setIngredient('s', Material.STICK);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         return recipe;
     }

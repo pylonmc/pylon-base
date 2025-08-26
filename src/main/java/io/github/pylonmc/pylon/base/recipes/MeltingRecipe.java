@@ -34,6 +34,7 @@ public record MeltingRecipe(
         @NotNull NamespacedKey key,
         @NotNull ItemStack input,
         @NotNull PylonFluid result,
+        double resultAmount,
         double temperature
 ) implements PylonRecipe {
 
@@ -47,6 +48,7 @@ public record MeltingRecipe(
                     key,
                     section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
                     section.getOrThrow("result", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("amount", ConfigAdapter.DOUBLE),
                     section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
             );
         }
@@ -64,7 +66,7 @@ public record MeltingRecipe(
 
     @Override
     public @NotNull List<FluidOrItem> getResults() {
-        return List.of(FluidOrItem.of(result, MELT_AMOUNT));
+        return List.of(FluidOrItem.of(result, resultAmount));
     }
 
     @Override
@@ -86,7 +88,7 @@ public record MeltingRecipe(
                                 PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         ))
                 )
-                .addIngredient('o', new FluidButton(result.getKey(), MELT_AMOUNT))
+                .addIngredient('o', new FluidButton(result.getKey(), resultAmount))
                 .build();
     }
 }

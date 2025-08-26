@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
+import io.github.pylonmc.pylon.core.item.base.PylonBucket;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -11,6 +12,7 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class WateringCan extends PylonItem implements PylonBlockInteractor {
-
+public class WateringCan extends PylonItem implements PylonBlockInteractor, PylonBucket {
 
     public final WateringSettings settings = WateringSettings.fromConfig(getSettings());
 
@@ -49,6 +50,11 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor {
         }
 
         water(center.getRelative(BlockFace.UP), settings);
+    }
+
+    @Override
+    public void onBucketFilled(@NotNull PlayerBucketFillEvent event) {
+        event.setCancelled(true);
     }
 
     // TODO this will likely need to be profiled and optimised, will not perform well with a lot of sprinklers I think

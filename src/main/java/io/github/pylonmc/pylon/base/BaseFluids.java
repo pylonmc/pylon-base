@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -33,14 +34,19 @@ public final class BaseFluids {
             Material.ORANGE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
+    public static final PylonFluid OBSCYRA = new PylonFluid(
+            baseKey("obscyra"),
+            Material.BLACK_CONCRETE
+    ).addTag(FluidTemperature.NORMAL);
+
     public static final PylonFluid SULFUR = new PylonFluid(
             baseKey("sulfur"),
-            Material.YELLOW_CONCRETE
+            Material.YELLOW_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid MERCURY = new PylonFluid(
             baseKey("mercury"),
-            Material.GRAY_CONCRETE
+            Material.CYAN_TERRACOTTA
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid COPPER = new PylonFluid(
@@ -50,12 +56,12 @@ public final class BaseFluids {
 
     public static final PylonFluid GOLD = new PylonFluid(
             baseKey("gold"),
-            Material.GOLD_BLOCK
+            Material.YELLOW_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid IRON = new PylonFluid(
             baseKey("iron"),
-            Material.ORANGE_CONCRETE
+            Material.RED_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SILVER = new PylonFluid(
@@ -63,29 +69,19 @@ public final class BaseFluids {
             Material.WHITE_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
-    public static final PylonFluid LEAD = new PylonFluid(
-            baseKey("lead"),
-            Material.LIGHT_GRAY_CONCRETE
-    ).addTag(FluidTemperature.HOT);
-
     public static final PylonFluid TIN = new PylonFluid(
             baseKey("tin"),
-            Material.LIGHT_GRAY_CONCRETE
-    ).addTag(FluidTemperature.HOT);
-
-    public static final PylonFluid ZINC = new PylonFluid(
-            baseKey("zinc"),
-            Material.LIGHT_GRAY_CONCRETE
+            Material.GREEN_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid COBALT = new PylonFluid(
             baseKey("cobalt"),
-            Material.ORANGE_CONCRETE
+            Material.BLUE_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid NICKEL = new PylonFluid(
             baseKey("nickel"),
-            Material.ORANGE_CONCRETE
+            Material.WHITE_TERRACOTTA
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid BRONZE = new PylonFluid(
@@ -93,14 +89,9 @@ public final class BaseFluids {
             Material.BROWN_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
-    public static final PylonFluid BRASS = new PylonFluid(
-            baseKey("brass"),
-            Material.GOLD_BLOCK
-    ).addTag(FluidTemperature.HOT);
-
     public static final PylonFluid STEEL = new PylonFluid(
             baseKey("steel"),
-            Material.ORANGE_CONCRETE
+            Material.GRAY_CONCRETE
     ).addTag(FluidTemperature.HOT);
 
     public static final PylonFluid SLURRY = new PylonFluid(
@@ -115,7 +106,7 @@ public final class BaseFluids {
 
     public static final PylonFluid CARBON_SLURRY = new Slurry(
             baseKey("slurry_carbon"),
-            BaseItems.CARBON_DUST
+            BaseItems.CARBON
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
@@ -133,19 +124,9 @@ public final class BaseFluids {
             BaseItems.CRUSHED_RAW_IRON
     ).addTag(FluidTemperature.NORMAL);
 
-    public static final PylonFluid RAW_LEAD_SLURRY = new Slurry(
-            baseKey("slurry_raw_lead"),
-            BaseItems.CRUSHED_RAW_LEAD
-    ).addTag(FluidTemperature.NORMAL);
-
     public static final PylonFluid RAW_TIN_SLURRY = new Slurry(
             baseKey("slurry_raw_tin"),
             BaseItems.CRUSHED_RAW_TIN
-    ).addTag(FluidTemperature.NORMAL);
-
-    public static final PylonFluid RAW_ZINC_SLURRY = new Slurry(
-            baseKey("slurry_raw_zinc"),
-            BaseItems.CRUSHED_RAW_ZINC
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid REDSTONE_SLURRY = new Slurry(
@@ -169,85 +150,145 @@ public final class BaseFluids {
             Material.BROWN_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid REFLECTOR_FLUID = new PylonFluid(
+            baseKey("reflector_fluid"),
+            Material.WHITE_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
+    // TODO refactor into static blocks as in BaseItems
     public static void initialize() {
         WATER.register();
 
         LAVA.register();
 
+        OBSCYRA.register();
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
+                OBSCYRA.getKey(),
+                List.of(BaseItems.OBSIDIAN_CHIP.asQuantity(5), new ItemStack(Material.BLAZE_POWDER, 2)),
+                WATER,
+                1000,
+                FluidOrItem.of(OBSCYRA, 1000),
+                true
+        ));
+
         SULFUR.register();
-        addSolidForms(SULFUR, 112.8, BaseItems.SULFUR);
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
+                SULFUR.getKey(),
+                BaseItems.SULFUR,
+                SULFUR,
+                144.0,
+                112.8
+        ));
 
         MERCURY.register();
 
         COPPER.register();
-        addSolidForms(COPPER, 1083, new ItemStack(Material.COPPER_INGOT), BaseItems.COPPER_DUST);
+        addMetalRecipes(
+                COPPER,
+                1083,
+                new ItemStack(Material.COPPER_INGOT),
+                BaseItems.COPPER_DUST,
+                null,
+                new ItemStack(Material.COPPER_BLOCK)
+        );
 
         GOLD.register();
-        addSolidForms(GOLD, 1064, new ItemStack(Material.GOLD_INGOT), BaseItems.GOLD_DUST);
+        addMetalRecipes(
+                GOLD,
+                1064,
+                new ItemStack(Material.GOLD_INGOT),
+                BaseItems.GOLD_DUST,
+                null,
+                new ItemStack(Material.GOLD_BLOCK)
+        );
 
         IRON.register();
-        addSolidForms(IRON, 1538, new ItemStack(Material.IRON_INGOT), BaseItems.IRON_DUST);
-
-        SILVER.register();
-        addSolidForms(SILVER, 961.8, BaseItems.SILVER_INGOT, BaseItems.SILVER_DUST);
-
-        LEAD.register();
-        addSolidForms(LEAD, 327.5, BaseItems.LEAD_INGOT, BaseItems.LEAD_DUST);
+        addMetalRecipes(
+                IRON,
+                1064,
+                new ItemStack(Material.IRON_INGOT),
+                BaseItems.IRON_DUST,
+                new ItemStack(Material.IRON_NUGGET),
+                new ItemStack(Material.IRON_BLOCK)
+        );
 
         TIN.register();
-        addSolidForms(TIN, 231.9, BaseItems.TIN_INGOT, BaseItems.TIN_DUST);
-
-        ZINC.register();
-        addSolidForms(ZINC, 419.5, BaseItems.ZINC_INGOT, BaseItems.ZINC_DUST);
+        addMetalRecipes(
+                TIN,
+                231.9,
+                BaseItems.TIN_INGOT,
+                BaseItems.TIN_DUST,
+                BaseItems.TIN_NUGGET,
+                BaseItems.TIN_BLOCK
+        );
 
         COBALT.register();
-        addSolidForms(COBALT, 1495, BaseItems.COBALT_INGOT, BaseItems.COBALT_DUST);
+        addMetalRecipes(
+                COBALT,
+                1495,
+                BaseItems.COBALT_INGOT,
+                BaseItems.COBALT_DUST,
+                BaseItems.COBALT_NUGGET,
+                BaseItems.COBALT_BLOCK
+        );
 
         NICKEL.register();
-        addSolidForms(NICKEL, 1455, BaseItems.NICKEL_INGOT, BaseItems.NICKEL_DUST);
+        addMetalRecipes(
+                NICKEL,
+                1455,
+                BaseItems.NICKEL_INGOT,
+                BaseItems.NICKEL_DUST,
+                BaseItems.NICKEL_NUGGET,
+                BaseItems.NICKEL_BLOCK
+        );
 
         BRONZE.register();
-        addSolidForms(BRONZE, 950, BaseItems.BRONZE_INGOT, BaseItems.BRONZE_DUST);
+        addMetalRecipes(
+                BRONZE,
+                950,
+                BaseItems.BRONZE_INGOT,
+                BaseItems.BRONZE_DUST,
+                BaseItems.BRONZE_NUGGET,
+                BaseItems.BRONZE_BLOCK
+        );
+
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("bronze"),
                 Map.of(
-                        BaseFluids.COPPER, 1.0 - 0.12,
-                        BaseFluids.TIN, 0.12
+                        COPPER, 1.0 - 0.12,
+                        TIN, 0.12
                 ),
-                Map.of(BaseFluids.BRONZE, 1.0),
+                Map.of(BRONZE, 1.0),
                 950
         ));
 
-        BRASS.register();
-        addSolidForms(BRASS, 900, BaseItems.BRASS_INGOT, BaseItems.BRASS_DUST);
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("brass"),
-                Map.of(
-                        BaseFluids.COPPER, 1.0 - 0.3,
-                        BaseFluids.ZINC, 0.3
-                ),
-                Map.of(BaseFluids.BRASS, 1.0),
-                900
-        ));
-
         STEEL.register();
-        addSolidForms(STEEL, 1540, BaseItems.STEEL_INGOT, BaseItems.STEEL_DUST);
+        addMetalRecipes(
+                STEEL,
+                950,
+                BaseItems.STEEL_INGOT,
+                BaseItems.STEEL_DUST,
+                BaseItems.STEEL_NUGGET,
+                BaseItems.STEEL_BLOCK
+        );
+
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("steel"),
                 Map.of(
-                        BaseFluids.IRON, 1.0 - 0.04,
-                        BaseFluids.CARBON_SLURRY, 0.04
+                        IRON, 1.0 - 0.04,
+                        CARBON_SLURRY, 0.04
                 ),
-                Map.of(BaseFluids.STEEL, 1.0),
+                Map.of(STEEL, 1.0),
                 1540
         ));
+
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("decarburization"), // yes this is a real word
                 Map.of(
-                        BaseFluids.STEEL, 1.0,
-                        BaseFluids.WATER, 0.1
+                        STEEL, 1.0,
+                        WATER, 0.1
                 ),
-                Map.of(BaseFluids.IRON, 1.0),
+                Map.of(IRON, 1.0),
                 1540
         ));
 
@@ -264,10 +305,10 @@ public final class BaseFluids {
         COAL_SLURRY.register();
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("coal_to_carbon"),
-                Map.of(BaseFluids.COAL_SLURRY, 1.0),
+                Map.of(COAL_SLURRY, 1.0),
                 Map.of(
-                        BaseFluids.CARBON_SLURRY, 0.9,
-                        BaseFluids.SLURRY, 0.1
+                        CARBON_SLURRY, 0.9,
+                        SLURRY, 0.1
                 ),
                 1000
         ));
@@ -277,24 +318,10 @@ public final class BaseFluids {
         RAW_COPPER_SLURRY.register();
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("copper_smelting"),
-                Map.of(BaseFluids.RAW_COPPER_SLURRY, 1.0),
+                Map.of(RAW_COPPER_SLURRY, 1.0),
                 Map.of(
-                        BaseFluids.COPPER, 0.5,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                1085
-        ));
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("copper_smelting_with_sulfur"),
-                Map.of(
-                        BaseFluids.RAW_COPPER_SLURRY, 1.0,
-                        BaseFluids.SULFUR, 0.1
-                ),
-                Map.of(
-                        BaseFluids.COPPER, 0.5,
-                        BaseFluids.SLURRY, 0.3,
-                        BaseFluids.RAW_LEAD_SLURRY, 0.1,
-                        BaseFluids.RAW_ZINC_SLURRY, 0.1
+                        COPPER, 0.5,
+                        SLURRY, 0.5
                 ),
                 1085
         ));
@@ -303,15 +330,15 @@ public final class BaseFluids {
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("gold_smelting"),
                 Map.of(
-                        BaseFluids.RAW_GOLD_SLURRY, 1.0,
-                        BaseFluids.MERCURY, 1.0
+                        RAW_GOLD_SLURRY, 1.0,
+                        MERCURY, 1.0
                 ),
                 Map.of(
-                        BaseFluids.GOLD, 0.5,
-                        BaseFluids.SLURRY, 0.3,
-                        BaseFluids.SILVER, 0.15,
-                        BaseFluids.RAW_TIN_SLURRY, 0.15,
-                        BaseFluids.MERCURY, 0.9
+                        GOLD, 0.5,
+                        SLURRY, 0.3,
+                        SILVER, 0.15,
+                        RAW_TIN_SLURRY, 0.15,
+                        MERCURY, 0.9
                 ),
                 1064
         ));
@@ -320,83 +347,53 @@ public final class BaseFluids {
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("iron_smelting"),
                 Map.of(
-                        BaseFluids.RAW_IRON_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5
+                        RAW_IRON_SLURRY, 1.0,
+                        CARBON_SLURRY, 0.5
                 ),
                 Map.of(
-                        BaseFluids.IRON, 1.0,
-                        BaseFluids.SLURRY, 0.5
+                        IRON, 1.0,
+                        SLURRY, 0.5
                 ),
                 1540
         ));
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("iron_smelting_with_sulfur"),
                 Map.of(
-                        BaseFluids.RAW_IRON_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5,
-                        BaseFluids.SULFUR, 0.1
+                        RAW_IRON_SLURRY, 1.0,
+                        CARBON_SLURRY, 0.5,
+                        SULFUR, 0.1
                 ),
                 Map.of(
-                        BaseFluids.IRON, 1.0,
-                        BaseFluids.SLURRY, 0.4,
-                        BaseFluids.COBALT, 0.1,
-                        BaseFluids.NICKEL, 0.1
+                        IRON, 1.0,
+                        SLURRY, 0.4,
+                        COBALT, 0.1,
+                        NICKEL, 0.1
                 ),
                 1540
-        ));
-
-        RAW_LEAD_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("lead_smelting"),
-                Map.of(
-                        BaseFluids.RAW_LEAD_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5,
-                        BaseFluids.SULFUR, 0.1
-                ),
-                Map.of(
-                        BaseFluids.LEAD, 1.0,
-                        BaseFluids.SLURRY, 0.5,
-                        BaseFluids.SILVER, 0.1
-                ),
-                350
         ));
 
         RAW_TIN_SLURRY.register();
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("tin_smelting"),
                 Map.of(
-                        BaseFluids.RAW_TIN_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5
+                        RAW_TIN_SLURRY, 1.0,
+                        CARBON_SLURRY, 0.5
                 ),
                 Map.of(
-                        BaseFluids.TIN, 1.0,
-                        BaseFluids.SLURRY, 0.5
+                        TIN, 1.0,
+                        SLURRY, 0.5
                 ),
                 250
-        ));
-
-        RAW_ZINC_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("zinc_smelting"),
-                Map.of(
-                        BaseFluids.RAW_ZINC_SLURRY, 1.0,
-                        BaseFluids.CARBON_SLURRY, 0.5
-                ),
-                Map.of(
-                        BaseFluids.ZINC, 1.0,
-                        BaseFluids.SLURRY, 0.5
-                ),
-                700
         ));
 
         REDSTONE_SLURRY.register();
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
                 baseKey("redstone_decomposition"),
-                Map.of(BaseFluids.REDSTONE_SLURRY, 1.0),
+                Map.of(REDSTONE_SLURRY, 1.0),
                 Map.of(
-                        BaseFluids.SULFUR, 0.25,
-                        BaseFluids.MERCURY, 0.25,
-                        BaseFluids.SLURRY, 0.5
+                        SULFUR, 0.25,
+                        MERCURY, 0.25,
+                        SLURRY, 0.5
                 ),
                 345
         ));
@@ -414,30 +411,66 @@ public final class BaseFluids {
         ));
 
         DIRTY_HYDRAULIC_FLUID.register();
+
+        REFLECTOR_FLUID.register();
+        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
+                REFLECTOR_FLUID.getKey(),
+                List.of(BaseItems.QUARTZ_DUST.asQuantity(4)),
+                PLANT_OIL,
+                1000,
+                FluidOrItem.of(REFLECTOR_FLUID, 1000),
+                false
+        ));
     }
 
-    private static void addSolidForms(PylonFluid fluid, double temperature, ItemStack main, ItemStack... additional) {
-        NamespacedKey fluidKey = fluid.getKey();
+    private static void addMetalRecipes(
+            PylonFluid fluid,
+            double temperature,
+            ItemStack ingot,
+            ItemStack dust,
+            @Nullable ItemStack nugget,
+            ItemStack block
+    ) {
         CastingRecipe.RECIPE_TYPE.addRecipe(new CastingRecipe(
-                fluidKey,
+                fluid.getKey(),
                 fluid,
-                main,
+                144.0,
+                ingot,
                 temperature
         ));
+
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                fluidKey,
-                main,
+                fluid.getKey(),
+                ingot,
                 fluid,
+                144.0,
                 temperature
         ));
-        for (int i = 0; i < additional.length; i++) {
-            ItemStack item = additional[i];
+
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
+                fluid.getKey(),
+                dust,
+                fluid,
+                144.0,
+                temperature
+        ));
+
+        if (nugget != null) {
             MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                    new NamespacedKey(fluidKey.namespace(), fluidKey.value() + "_" + i),
-                    item,
+                    fluid.getKey(),
+                    nugget,
                     fluid,
+                    16.0,
                     temperature
             ));
         }
+
+        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
+                fluid.getKey(),
+                block,
+                fluid,
+                1296.0,
+                temperature
+        ));
     }
 }

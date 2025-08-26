@@ -99,7 +99,7 @@ public class PortableFluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluid() == null ? Component.translatable("pylon.pylonbase.fluid.none") : getFluid().getName()),
                     PylonArgument.of("amount", Math.round(getAmount())),
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
-                    PylonArgument.of("allowed-temperature", Component.join(
+                    PylonArgument.of("temperatures", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
                             allowedTemperatures.stream()
                                     .map(FluidTemperature::getValueText)
