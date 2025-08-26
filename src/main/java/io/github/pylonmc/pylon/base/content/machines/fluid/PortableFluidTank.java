@@ -60,7 +60,7 @@ public class PortableFluidTank extends PylonBlock
         @Getter
         private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
                 "allowed-temperatures",
-                ConfigAdapter.LIST.from(ConfigAdapter.ENUM.from(FluidTemperature.class))
+                ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
         );
 
         public Item(@NotNull ItemStack stack) {
@@ -113,7 +113,7 @@ public class PortableFluidTank extends PylonBlock
 
     public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
             "allowed-temperatures",
-            ConfigAdapter.LIST.from(ConfigAdapter.ENUM.from(FluidTemperature.class))
+            ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
     );
 
     @SuppressWarnings("unused")

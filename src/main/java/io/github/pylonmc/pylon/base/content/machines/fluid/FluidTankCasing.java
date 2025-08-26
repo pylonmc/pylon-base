@@ -28,7 +28,7 @@ public class FluidTankCasing extends PylonBlock {
         @Getter
         private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
                 "allowed-temperatures",
-                ConfigAdapter.LIST.from(ConfigAdapter.ENUM.from(FluidTemperature.class))
+                ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
         );
 
 
@@ -56,7 +56,7 @@ public class FluidTankCasing extends PylonBlock {
     @Getter
     private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
             "allowed-temperatures",
-            ConfigAdapter.LIST.from(ConfigAdapter.ENUM.from(FluidTemperature.class))
+            ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
     );
 
     public FluidTankCasing(@NotNull Block block, @NotNull BlockCreateContext context) {
