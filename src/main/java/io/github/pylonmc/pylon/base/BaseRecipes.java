@@ -21,6 +21,8 @@ public class BaseRecipes {
     public static void initialize() {
         CastingRecipe.RECIPE_TYPE.register();
 
+        DrillingDisplayRecipe.RECIPE_TYPE.register();
+
         GrindstoneRecipe.RECIPE_TYPE.register();
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 baseKey("string_from_bamboo"),
@@ -40,6 +42,8 @@ public class BaseRecipes {
         MeltingRecipe.RECIPE_TYPE.register();
 
         MixingPotRecipe.RECIPE_TYPE.register();
+
+        MoldingDisplayRecipe.RECIPE_TYPE.register();
 
         PipeBendingRecipe.RECIPE_TYPE.register();
 

@@ -1,8 +1,6 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -32,12 +30,10 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public record CastingRecipe(
         @NotNull NamespacedKey key,
         @NotNull PylonFluid input,
+        double inputAmount,
         @NotNull ItemStack result,
         double temperature
 ) implements PylonRecipe {
-
-    public static final double CAST_AMOUNT
-            = Settings.get(BaseKeys.SMELTERY_CASTER).getOrThrow("cast-amount-mb", Double.class);
 
     public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
             baseKey("cast_recipe")
@@ -59,7 +55,7 @@ public record CastingRecipe(
 
     @Override
     public @NotNull List<FluidOrItem> getInputs() {
-        return List.of(FluidOrItem.of(input, CAST_AMOUNT));
+        return List.of(FluidOrItem.of(input, inputAmount));
     }
 
     @Override
@@ -79,7 +75,7 @@ public record CastingRecipe(
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('c', ItemButton.fromStack(BaseItems.SMELTERY_CASTER))
-                .addIngredient('i', new FluidButton(input.getKey(), CAST_AMOUNT))
+                .addIngredient('i', new FluidButton(input.getKey(), inputAmount))
                 .addIngredient('t', ItemStackBuilder.of(Material.BLAZE_POWDER)
                         .name(net.kyori.adventure.text.Component.translatable(
                                 "pylon.pylonbase.guide.recipe.melting",
