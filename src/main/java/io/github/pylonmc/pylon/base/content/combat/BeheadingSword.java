@@ -54,7 +54,7 @@ public class BeheadingSword extends PylonItem implements PylonWeapon {
             // This cast is safe because PylonItemListener only calls this listener when the killer is a player
             head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) head.getItemMeta();
-            meta.setOwningPlayer((Player)event.getEntity());
+            meta.setOwningPlayer((Player) event.getEntity());
             head.setItemMeta(meta);
         } else {
             if (!ENTITY_HEADS.containsKey(event.getEntityType())) {
