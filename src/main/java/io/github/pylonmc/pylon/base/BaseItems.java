@@ -29,21 +29,19 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.DamageResistant;
-import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
+import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
-import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Tag;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
@@ -57,9 +55,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.DEFAULT_FURNACE_TIME_TICKS;
-import static io.github.pylonmc.pylon.base.util.BaseUtils.DEFAULT_SMOKER_TIME_TICKS;
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.*;
 
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
@@ -984,6 +980,122 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(BaseUtils.reflectRecipe(recipe));
     }
     //</editor-fold>
+
+    public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, BaseKeys.BRONZE_HELMET)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                    .addModifier(Attribute.ARMOR, new AttributeModifier(
+                            BaseKeys.BRONZE_HELMET,
+                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.HEAD
+                    ))
+                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                            BaseKeys.BRONZE_HELMET,
+                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor-toughness", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.HEAD
+                    ))
+                    .build()
+            )
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_HELMET);
+        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_HELMET);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_HELMET, BRONZE_HELMET)
+                .shape("bbb", "b b", "   ")
+                .setIngredient('b', BRONZE_INGOT);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                    .addModifier(Attribute.ARMOR, new AttributeModifier(
+                            BaseKeys.BRONZE_CHESTPLATE,
+                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.CHEST
+                    ))
+                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                            BaseKeys.BRONZE_CHESTPLATE,
+                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor-toughness", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.CHEST
+                    ))
+                    .build()
+            )
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_CHESTPLATE);
+        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_CHESTPLATE);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_CHESTPLATE, BRONZE_CHESTPLATE)
+                .shape("b b", "bbb", "bbb")
+                .setIngredient('b', BRONZE_INGOT);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                    .addModifier(Attribute.ARMOR, new AttributeModifier(
+                            BaseKeys.BRONZE_LEGGINGS,
+                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.LEGS
+                    ))
+                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                            BaseKeys.BRONZE_LEGGINGS,
+                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor-toughness", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.LEGS
+                    ))
+                    .build()
+            )
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_LEGGINGS);
+        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_LEGGINGS);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_LEGGINGS, BRONZE_LEGGINGS)
+                .shape("bbb", "b b", "b b")
+                .setIngredient('b', BRONZE_INGOT);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, BaseKeys.BRONZE_BOOTS)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
+                    .addModifier(Attribute.ARMOR, new AttributeModifier(
+                            BaseKeys.BRONZE_BOOTS,
+                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.FEET
+                    ))
+                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
+                            BaseKeys.BRONZE_BOOTS,
+                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor-toughness", Double.class),
+                            AttributeModifier.Operation.ADD_NUMBER,
+                            EquipmentSlotGroup.FEET
+                    ))
+                    .build()
+            )
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_BOOTS);
+        BasePages.ARMOUR.addItem(BaseKeys.BRONZE_BOOTS);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_BOOTS, BRONZE_BOOTS)
+                .shape("bbb", "b b", "b b")
+                .setIngredient('b', BRONZE_INGOT);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
 
     public static final ItemStack WATERING_CAN = ItemStackBuilder.pylonItem(Material.BUCKET, BaseKeys.WATERING_CAN)
             .build();
