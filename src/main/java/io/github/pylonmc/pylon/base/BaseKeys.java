@@ -7,8 +7,16 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseKeys {
     public static final NamespacedKey ROCK_DUST = baseKey("rock_dust");
+
+    public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
+
     public static final NamespacedKey COAL_DUST = baseKey("coal_dust");
-    public static final NamespacedKey CARBON_DUST = baseKey("carbon_dust");
+    public static final NamespacedKey CARBON = baseKey("carbon");
+
+    public static final NamespacedKey SULFUR = baseKey("sulfur");
+
+    public static final NamespacedKey GYPSUM = baseKey("gypsum");
+    public static final NamespacedKey GYPSUM_DUST = baseKey("gypsum_dust");
 
     public static final NamespacedKey COPPER_DUST = baseKey("copper_dust");
     public static final NamespacedKey CRUSHED_RAW_COPPER = baseKey("crushed_raw_copper");
@@ -25,40 +33,52 @@ public class BaseKeys {
 
     public static final NamespacedKey EMERALD_DUST = baseKey("emerald_dust");
 
-    public static final NamespacedKey SILVER_DUST = baseKey("silver_dust");
-    public static final NamespacedKey SILVER_INGOT = baseKey("silver_ingot");
-
-    public static final NamespacedKey ZINC_DUST = baseKey("zinc_dust");
-    public static final NamespacedKey CRUSHED_RAW_ZINC = baseKey("crushed_raw_zinc");
-    public static final NamespacedKey ZINC_INGOT = baseKey("zinc_ingot");
-
-    public static final NamespacedKey LEAD_DUST = baseKey("lead_dust");
-    public static final NamespacedKey CRUSHED_RAW_LEAD = baseKey("crushed_raw_lead");
-    public static final NamespacedKey LEAD_INGOT = baseKey("lead_ingot");
-
+    public static final NamespacedKey RAW_TIN = baseKey("raw_tin");
     public static final NamespacedKey TIN_DUST = baseKey("tin_dust");
     public static final NamespacedKey CRUSHED_RAW_TIN = baseKey("crushed_raw_tin");
     public static final NamespacedKey TIN_INGOT = baseKey("tin_ingot");
+    public static final NamespacedKey TIN_NUGGET = baseKey("tin_nugget");
+    public static final NamespacedKey TIN_BLOCK = baseKey("tin_block");
 
     public static final NamespacedKey COBALT_DUST = baseKey("cobalt_dust");
     public static final NamespacedKey COBALT_INGOT = baseKey("cobalt_ingot");
+    public static final NamespacedKey COBALT_NUGGET = baseKey("cobalt_nugget");
+    public static final NamespacedKey COBALT_BLOCK = baseKey("cobalt_block");
 
     public static final NamespacedKey NICKEL_DUST = baseKey("nickel_dust");
     public static final NamespacedKey NICKEL_INGOT = baseKey("nickel_ingot");
+    public static final NamespacedKey NICKEL_NUGGET = baseKey("nickel_nugget");
+    public static final NamespacedKey NICKEL_BLOCK = baseKey("nickel_block");
 
     public static final NamespacedKey BRONZE_DUST = baseKey("bronze_dust");
     public static final NamespacedKey BRONZE_INGOT = baseKey("bronze_ingot");
-
-    public static final NamespacedKey BRASS_DUST = baseKey("brass_dust");
-    public static final NamespacedKey BRASS_INGOT = baseKey("brass_ingot");
+    public static final NamespacedKey BRONZE_NUGGET = baseKey("bronze_nugget");
+    public static final NamespacedKey BRONZE_BLOCK = baseKey("bronze_block");
 
     public static final NamespacedKey STEEL_DUST = baseKey("steel_dust");
     public static final NamespacedKey STEEL_INGOT = baseKey("steel_ingot");
+    public static final NamespacedKey STEEL_NUGGET = baseKey("steel_nugget");
+    public static final NamespacedKey STEEL_BLOCK = baseKey("steel_block");
 
-    public static final NamespacedKey SULFUR = baseKey("sulfur");
+    public static final NamespacedKey COPPER_SHEET = baseKey("copper_sheet");
+    public static final NamespacedKey IRON_SHEET = baseKey("iron_sheet");
+    public static final NamespacedKey GOLD_SHEET = baseKey("gold_sheet");
+    public static final NamespacedKey TIN_SHEET = baseKey("tin_sheet");
+    public static final NamespacedKey BRONZE_SHEET = baseKey("bronze_sheet");
+    public static final NamespacedKey STEEL_SHEET = baseKey("steel_sheet");
 
-    public static final NamespacedKey RAW_FERRODURALUM = baseKey("raw_ferroduralum");
-    public static final NamespacedKey FERRODURALUM_INGOT = baseKey("ferroduralum_ingot");
+    public static final NamespacedKey ROTOR = baseKey("rotor");
+    public static final NamespacedKey BACKFLOW_VALVE = baseKey("backflow_valve");
+    public static final NamespacedKey ANALOGUE_DISPLAY = baseKey("analogue_display");
+    public static final NamespacedKey FILTER_MESH = baseKey("filter_mesh");
+    public static final NamespacedKey NOZZLE = baseKey("nozzle");
+    public static final NamespacedKey ABYSSAL_CATALYST = baseKey("abyssal_catalyst");
+    public static final NamespacedKey HYDRAULIC_MOTOR = baseKey("hydraulic_motor");
+    public static final NamespacedKey AXLE = baseKey("axle");
+    public static final NamespacedKey WEIGHTED_SHAFT = baseKey("weighted_shaft");
+    public static final NamespacedKey SAWBLADE = baseKey("sawblade");
+    public static final NamespacedKey COPPER_DRILL_BIT = baseKey("copper_drill_bit");
+    public static final NamespacedKey BRONZE_DRILL_BIT = baseKey("bronze_drill_bit");
 
     public static final NamespacedKey COVALENT_BINDER = baseKey("covalent_binder");
     public static final NamespacedKey SHIMMER_DUST_1 = baseKey("shimmer_dust_1");
@@ -66,38 +86,27 @@ public class BaseKeys {
     public static final NamespacedKey SHIMMER_DUST_3 = baseKey("shimmer_dust_3");
     public static final NamespacedKey SHIMMER_SKULL = baseKey("shimmer_skull");
 
-    public static final NamespacedKey COPPER_SHEET = baseKey("copper_sheet");
-    public static final NamespacedKey GOLD_SHEET = baseKey("gold_sheet");
-    public static final NamespacedKey IRON_SHEET = baseKey("iron_sheet");
-    public static final NamespacedKey FERRODURALUM_SHEET = baseKey("ferroduralum_sheet");
-
-    public static final NamespacedKey COMPRESSED_WOOD = baseKey("compressed_wood");
-    public static final NamespacedKey COMPRESSED_OBSIDIAN = baseKey("compressed_obsidian");
+    public static final NamespacedKey IGNEOUS_COMPOSITE = baseKey("igneous_composite");
 
     public static final NamespacedKey FIBER = baseKey("fiber");
-    public static final NamespacedKey PLASTER = baseKey("plaster");
 
-    public static final NamespacedKey FERRODURALUM_SWORD = baseKey("ferroduralum_sword");
-    public static final NamespacedKey FERRODURALUM_AXE = baseKey("ferroduralum_axe");
-    public static final NamespacedKey FERRODURALUM_PICKAXE = baseKey("ferroduralum_pickaxe");
-    public static final NamespacedKey FERRODURALUM_SHOVEL = baseKey("ferroduralum_shovel");
-    public static final NamespacedKey FERRODURALUM_HOE = baseKey("ferroduralum_hoe");
-    public static final NamespacedKey FERRODURALUM_HELMET = baseKey("ferroduralum_helmet");
-    public static final NamespacedKey FERRODURALUM_CHESTPLATE = baseKey("ferroduralum_chestplate");
-    public static final NamespacedKey FERRODURALUM_LEGGINGS = baseKey("ferroduralum_leggings");
-    public static final NamespacedKey FERRODURALUM_BOOTS = baseKey("ferroduralum_boots");
+    public static final NamespacedKey BRONZE_SWORD = baseKey("bronze_sword");
+    public static final NamespacedKey BRONZE_AXE = baseKey("bronze_axe");
+    public static final NamespacedKey BRONZE_PICKAXE = baseKey("bronze_pickaxe");
+    public static final NamespacedKey BRONZE_SHOVEL = baseKey("bronze_shovel");
+    public static final NamespacedKey BRONZE_HOE = baseKey("bronze_hoe");
 
     public static final NamespacedKey BANDAGE = baseKey("bandage");
     public static final NamespacedKey SPLINT = baseKey("splint");
     public static final NamespacedKey DISINFECTANT = baseKey("disinfectant");
     public static final NamespacedKey MEDKIT = baseKey("medkit");
 
+    public static final NamespacedKey BRICK_MOLD = baseKey("brick_mold");
+
     public static final NamespacedKey MONSTER_JERKY = baseKey("monster_jerky");
 
     public static final NamespacedKey FLOUR = baseKey("flour");
     public static final NamespacedKey DOUGH = baseKey("dough");
-
-    public static final NamespacedKey WITHER_PROOF_OBSIDIAN = baseKey("wither_proof_obsidian");
 
     public static final NamespacedKey HAMMER_STONE = baseKey("hammer_stone");
     public static final NamespacedKey HAMMER_IRON = baseKey("hammer_iron");
@@ -138,12 +147,29 @@ public class BaseKeys {
 
     public static final NamespacedKey FLUID_PIPE_WOOD = baseKey("fluid_pipe_wood");
     public static final NamespacedKey FLUID_PIPE_COPPER = baseKey("fluid_pipe_copper");
-    public static final NamespacedKey FLUID_PIPE_OBSIDIAN = baseKey("fluid_pipe_obsidian");
+    public static final NamespacedKey FLUID_PIPE_TIN = baseKey("fluid_pipe_tin");
+    public static final NamespacedKey FLUID_PIPE_BRONZE = baseKey("fluid_pipe_bronze");
+    public static final NamespacedKey FLUID_PIPE_IRON = baseKey("fluid_pipe_iron");
+    public static final NamespacedKey FLUID_PIPE_IGNEOUS_COMPOSITE = baseKey("fluid_pipe_igneous_composite");
+    public static final NamespacedKey FLUID_PIPE_STEEL = baseKey("fluid_pipe_steel");
     public static final NamespacedKey FLUID_PIPE_CREATIVE = baseKey("fluid_pipe_creative");
 
     public static final NamespacedKey PORTABLE_FLUID_TANK_WOOD =  baseKey("portable_fluid_tank_wood");
     public static final NamespacedKey PORTABLE_FLUID_TANK_COPPER =  baseKey("portable_fluid_tank_copper");
-    public static final NamespacedKey PORTABLE_FLUID_TANK_OBSIDIAN =  baseKey("portable_fluid_tank_obsidian");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_TIN =  baseKey("portable_fluid_tank_tin");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_IRON =  baseKey("portable_fluid_tank_iron");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_BRONZE =  baseKey("portable_fluid_tank_bronze");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_IGNEOUS_COMPOSITE =  baseKey("portable_fluid_tank_igneous_composite");
+    public static final NamespacedKey PORTABLE_FLUID_TANK_STEEL =  baseKey("portable_fluid_tank_steel");
+
+    public static final NamespacedKey FLUID_TANK = baseKey("fluid_tank");
+    public static final NamespacedKey FLUID_TANK_CASING_WOOD = baseKey("fluid_tank_casing_wood");
+    public static final NamespacedKey FLUID_TANK_CASING_COPPER = baseKey("fluid_tank_casing_copper");
+    public static final NamespacedKey FLUID_TANK_CASING_TIN = baseKey("fluid_tank_casing_tin");
+    public static final NamespacedKey FLUID_TANK_CASING_IRON = baseKey("fluid_tank_casing_iron");
+    public static final NamespacedKey FLUID_TANK_CASING_BRONZE = baseKey("fluid_tank_casing_bronze");
+    public static final NamespacedKey FLUID_TANK_CASING_IGNEOUS_COMPOSITE = baseKey("fluid_tank_casing_igneous_composite");
+    public static final NamespacedKey FLUID_TANK_CASING_STEEL = baseKey("fluid_tank_casing_steel");
 
     public static final NamespacedKey WATER_PUMP = baseKey("water_pump");
 
@@ -168,8 +194,12 @@ public class BaseKeys {
 
     public static final NamespacedKey LOUPE = baseKey("loupe");
     public static final NamespacedKey RESEARCH_PACK_1 = baseKey("research_pack_1");
+    public static final NamespacedKey RESEARCH_PACK_2 = baseKey("research_pack_2");
 
+    public static final NamespacedKey REFRACTORY_MIX = baseKey("refractory_mix");
+    public static final NamespacedKey UNFIRED_REFRACTORY_BRICK = baseKey("unfired_refractory_brick");
     public static final NamespacedKey REFRACTORY_BRICK = baseKey("refractory_brick");
+    public static final NamespacedKey REFRACTORY_BRICKS = baseKey("refractory_bricks");
     public static final NamespacedKey SMELTERY_CONTROLLER = baseKey("smeltery_controller");
     public static final NamespacedKey SMELTERY_INPUT_HATCH = baseKey("smeltery_input_hatch");
     public static final NamespacedKey SMELTERY_OUTPUT_HATCH = baseKey("smeltery_output_hatch");
@@ -177,12 +207,12 @@ public class BaseKeys {
     public static final NamespacedKey SMELTERY_CASTER = baseKey("smeltery_caster");
     public static final NamespacedKey SMELTERY_BURNER = baseKey("smeltery_burner");
 
+    public static final NamespacedKey PIT_KILN = baseKey("pit_kiln");
+
     public static final NamespacedKey EXPLOSIVE_TARGET = baseKey("explosive_target");
     public static final NamespacedKey EXPLOSIVE_TARGET_FIERY = baseKey("explosive_target_fiery");
     public static final NamespacedKey EXPLOSIVE_TARGET_SUPER = baseKey("explosive_target_super");
     public static final NamespacedKey EXPLOSIVE_TARGET_SUPER_FIERY = baseKey("explosive_target_super_fiery");
-
-    public static final NamespacedKey DIMENSIONAL_BARREL = baseKey("dimensional_barrel");
 
     public static final NamespacedKey IMMOBILIZER = baseKey("immobilizer");
 
@@ -208,11 +238,6 @@ public class BaseKeys {
     public static final NamespacedKey SOLAR_PURIFICATION_TOWER_5 = baseKey("solar_purification_tower_5");
     public static final NamespacedKey COAL_FIRED_PURIFICATION_TOWER = baseKey("coal_fired_purification_tower");
 
-    public static final NamespacedKey FLUID_TANK = baseKey("fluid_tank");
-    public static final NamespacedKey FLUID_TANK_CASING_WOOD = baseKey("fluid_tank_casing_wood");
-    public static final NamespacedKey FLUID_TANK_CASING_COPPER = baseKey("fluid_tank_casing_copper");
-    public static final NamespacedKey FLUID_TANK_CASING_OBSIDIAN = baseKey("fluid_tank_casing_obsidian");
-
     public static final NamespacedKey MANUAL_CORE_DRILL_LEVER = baseKey("manual_core_drill_lever");
     public static final NamespacedKey MANUAL_CORE_DRILL = baseKey("manual_core_drill");
     public static final NamespacedKey IMPROVED_MANUAL_CORE_DRILL = baseKey("improved_manual_core_drill");
@@ -230,6 +255,8 @@ public class BaseKeys {
     public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
 
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
+
+    public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
 
     public static final NamespacedKey CLIMBING_PICK = baseKey("climbing_pick");
 }

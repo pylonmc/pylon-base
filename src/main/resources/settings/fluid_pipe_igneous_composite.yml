@@ -1,2 +1,3 @@
-capacity: 2000.0
+material: black_terracotta
+fluid-per-second: 100.0
 allowed-temperatures: [normal, hot] # can be cold (cryogenic), normal, or hot (molten)

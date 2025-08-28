@@ -20,6 +20,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 /**
@@ -42,9 +43,8 @@ public record MagicAltarRecipe(
         return key;
     }
 
-    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "magic_altar")
-    );
+
+    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("magic_altar"));
 
     public boolean ingredientsMatch(List<ItemStack> ingredients) {
         assert this.inputs.size() == MagicAltar.PEDESTAL_COUNT;
