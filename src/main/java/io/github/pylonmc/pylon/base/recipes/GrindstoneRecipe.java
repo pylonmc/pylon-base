@@ -64,7 +64,7 @@ public record GrindstoneRecipe(
                     section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
                     section.getOrThrow("results", ConfigAdapter.WEIGHTED_SET.from(ConfigAdapter.ITEM_STACK)),
                     section.getOrThrow("cycles", ConfigAdapter.INT),
-                    section.getOrThrow("particle-block-data", ConfigAdapter.BLOCK_DATA)
+                    section.getOrThrow("particle-data", ConfigAdapter.BLOCK_DATA)
             );
         }
     };

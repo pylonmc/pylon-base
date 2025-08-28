@@ -25,16 +25,6 @@ public class BaseRecipes {
         DrillingDisplayRecipe.RECIPE_TYPE.register();
 
         GrindstoneRecipe.RECIPE_TYPE.register();
-        GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
-                baseKey("string_from_bamboo"),
-                new ItemStack(Material.BAMBOO, 4),
-                new ItemStack(Material.STRING),
-                3,
-                Material.BAMBOO.createBlockData(data -> {
-                    Ageable ageable = (Ageable) data;
-                    ageable.setAge(ageable.getMaximumAge());
-                })
-        ));
 
         HammerRecipe.RECIPE_TYPE.register();
 

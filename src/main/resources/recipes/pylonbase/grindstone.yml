@@ -1,0 +1,203 @@
+pylonbase:shallow_core_chunk:
+  input: pylonbase:shallow_core_chunk
+  results:
+    - value: minecraft:coal
+      weight: 0.5
+    - value: minecraft:raw_copper
+      weight: 0.4
+    - value: pylonbase:raw_tin
+      weight: 0.3
+  cycles: 6
+  particle-data: minecraft:stone
+
+pylonbase:subsurface_core_chunk:
+  input: pylonbase:subsurface_core_chunk
+  results:
+    - value:
+        minecraft:coal: 2
+      weight: 0.3
+    - value:
+        minecraft:raw_copper: 2
+      weight: 0.25
+    - value:
+        pylonbase:raw_tin: 2
+      weight: 0.2
+    - value:
+        minecraft:raw_iron: 2
+      weight: 0.4
+  cycles: 8
+  particle-data: minecraft:stone
+
+pylonbase:intermediate_core_chunk:
+  input: pylonbase:intermediate_core_chunk
+  results:
+    - value:
+        minecraft:coal: 3
+      weight: 0.4
+    - value:
+        minecraft:raw_copper: 2
+      weight: 0.6
+    - value:
+        pylonbase:raw_tin: 2
+      weight: 0.5
+    - value:
+        minecraft:raw_iron: 2
+      weight: 0.3
+    - value: minecraft:raw_gold
+      weight: 0.25
+    - value: pylonbase:gypsum
+      weight: 0.1
+  cycles: 10
+  particle-data: minecraft:stone
+
+pylonbase:rock_dust_from_cobblestone:
+  input: minecraft:cobblestone
+  results: pylonbase:rock_dust
+  cycles: 2
+  particle-data: minecraft:cobblestone
+
+pylonbase:rock_dust_from_andesite:
+  input: minecraft:andesite
+  results: pylonbase:rock_dust
+  cycles: 2
+  particle-data: minecraft:andesite
+
+pylonbase:rock_dust_from_granite:
+  input: minecraft:granite
+  results: pylonbase:rock_dust
+  cycles: 2
+  particle-data: minecraft:granite
+
+pylonbase:rock_dust_from_diorite:
+  input: minecraft:diorite
+  results: pylonbase:rock_dust
+  cycles: 2
+  particle-data: minecraft:diorite
+
+pylonbase:coal_dust_from_coal:
+  input: minecraft:coal
+  results: pylonbase:coal_dust
+  cycles: 2
+  particle-data: minecraft:coal_block
+
+pylonbase:coal_dust_from_charcoal:
+  input: minecraft:charcoal
+  results: pylonbase:coal_dust
+  cycles: 2
+  particle-data: minecraft:coal_block
+
+pylonbase:gypsum_dust_from_gypsum:
+  input: pylonbase:gypsum
+  results: pylonbase:gypsum_dust
+  cycles: 8
+  particle-data: minecraft:quartz_block
+
+pylonbase:quartz_dust_from_quartz:
+  input: minecraft:quartz
+  results: pylonbase:quartz_dust
+  cycles: 4
+  particle-data: minecraft:quartz_block
+
+pylonbase:diamond_dust_from_diamond:
+  input: minecraft:diamond
+  results: pylonbase:diamond_dust
+  cycles: 6
+  particle-data: minecraft:diamond_block
+
+pylonbase:emerald_dust_from_emerald:
+  input: minecraft:emerald
+  results: pylonbase:emerald_dust
+  cycles: 6
+  particle-data: minecraft:emerald_block
+
+pylonbase:copper_dust_from_copper_ingot:
+  input: minecraft:copper_ingot
+  results: pylonbase:copper_dust
+  cycles: 2
+  particle-data: minecraft:copper_block
+
+pylonbase:copper_dust_from_raw_copper:
+  input: minecraft:raw_copper
+  results: pylonbase:copper_dust
+  cycles: 4
+  particle-data: minecraft:copper_block
+
+pylonbase:iron_dust_from_iron_ingot:
+  input: minecraft:iron_ingot
+  results: pylonbase:iron_dust
+  cycles: 2
+  particle-data: minecraft:iron_block
+
+pylonbase:iron_dust_from_raw_iron:
+  input: minecraft:raw_iron
+  results: pylonbase:iron_dust
+  cycles: 4
+  particle-data: minecraft:iron_block
+
+pylonbase:gold_dust_from_gold_ingot:
+  input: minecraft:gold_ingot
+  results: pylonbase:gold_dust
+  cycles: 2
+  particle-data: minecraft:gold_block
+
+pylonbase:gold_dust_from_raw_gold:
+  input: minecraft:raw_gold
+  results: pylonbase:gold_dust
+  cycles: 4
+  particle-data: minecraft:gold_block
+
+pylonbase:tin_dust_from_tin_ingot:
+  input: pylonbase:tin_ingot
+  results: pylonbase:tin_dust
+  cycles: 2
+  particle-data: minecraft:iron_block
+
+pylonbase:tin_dust_from_raw_tin:
+  input: pylonbase:raw_tin
+  results: pylonbase:tin_dust
+  cycles: 4
+  particle-data: minecraft:iron_block
+
+pylonbase:bronze_dust_from_bronze_ingot:
+  input: pylonbase:bronze_ingot
+  results: pylonbase:bronze_dust
+  cycles: 2
+  particle-data: minecraft:gold_block
+
+pylonbase:steel_dust_from_steel_ingot:
+  input: pylonbase:steel_ingot
+  results: pylonbase:steel_dust
+  cycles: 2
+  particle-data: minecraft:netherite_block
+
+pylonbase:nickel_dust_from_nickel_ingot:
+  input: pylonbase:nickel_ingot
+  results: pylonbase:nickel_dust
+  cycles: 2
+  particle-data: minecraft:iron_block
+
+pylonbase:cobalt_dust_from_cobalt_ingot:
+  input: pylonbase:cobalt_ingot
+  results: pylonbase:cobalt_dust
+  cycles: 2
+  particle-data: minecraft:iron_block
+
+pylonbase:fiber:
+  input: minecraft:string
+  results:
+    pylonbase:fiber: 2
+  cycles: 2
+  particle-data: minecraft:white_wool
+
+pylonbase:flour:
+  input: minecraft:wheat
+  results: pylonbase:flour
+  cycles: 1
+  particle-data: minecraft:wheat[age=7]
+
+pylonbase:string_from_bamboo:
+  input:
+    minecraft:bamboo: 4
+  results: minecraft:string
+  cycles: 3
+  particle-data: minecraft:bamboo[age=1]

@@ -38,9 +38,6 @@ public record MeltingRecipe(
         double temperature
 ) implements PylonRecipe {
 
-    public static final double MELT_AMOUNT
-            = Settings.get(BaseKeys.SMELTERY_HOPPER).getOrThrow("melt-amount-mb", ConfigAdapter.DOUBLE);
-
     public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("melting")) {
         @Override
         protected @NotNull MeltingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {

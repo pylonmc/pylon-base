@@ -49,7 +49,7 @@ public record HammerRecipe(
                     key,
                     section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
                     section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
-                    section.getOrThrow("level", MINING_LEVEL_ADAPTER),
+                    section.getOrThrow("mining-level", MINING_LEVEL_ADAPTER),
                     section.getOrThrow("chance", ConfigAdapter.FLOAT)
             );
         }
