@@ -597,8 +597,8 @@ item:
       true: "charged"
       false: "not charged"
 
-  reactivated_wither_skull_super:
-    name: "<white>Hyperactive Wither Skull"
+  hyper_activated_wither_skull:
+    name: "<white>Hyper Activated Wither Skull"
     lore: |-
       <insn>Right click</insn> to shoot a wither skull in the direction you are looking
       <arrow> Skulls are %chargedskulls%

@@ -3379,15 +3379,15 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
     }
 
-    public static final ItemStack REACTIVATED_WITHER_SKULL_SUPER = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL_SUPER)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER).getOrThrow("durability", Integer.class))
+    public static final ItemStack HYPER_ACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.HYPER_ACTIVATED_WITHER_SKULL)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL).getOrThrow("durability", Integer.class))
             .set(DataComponentTypes.DAMAGE, 0)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL_SUPER);
-        BasePages.COMBAT.addItem(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER);
-        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REACTIVATED_WITHER_SKULL_SUPER, REACTIVATED_WITHER_SKULL_SUPER)
+        PylonItem.register(ReactivatedWitherSkull.class, HYPER_ACTIVATED_WITHER_SKULL);
+        BasePages.COMBAT.addItem(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL, HYPER_ACTIVATED_WITHER_SKULL)
                 .shape("MNM", "MSM", " R ")
                 .setIngredient('N', Material.WITHER_SKELETON_SKULL)
                 .setIngredient('S', Material.STICK)
@@ -3395,7 +3395,7 @@ public final class BaseItems {
                 .setIngredient('R', Material.NETHER_STAR);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-        ShapelessRecipe upgrade = new ShapelessRecipe(baseKey("wither_sword_super_upgrade"), REACTIVATED_WITHER_SKULL_SUPER)
+        ShapelessRecipe upgrade = new ShapelessRecipe(baseKey("hyper_activated_wither_skull_upgrade"), HYPER_ACTIVATED_WITHER_SKULL)
                 .addIngredient(REACTIVATED_WITHER_SKULL)
                 .addIngredient(4, SHIMMER_SKULL);
         upgrade.setCategory(CraftingBookCategory.EQUIPMENT);
