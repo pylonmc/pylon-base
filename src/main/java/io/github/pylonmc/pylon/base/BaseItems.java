@@ -1091,7 +1091,7 @@ public final class BaseItems {
         BasePages.ARMOUR.addItem(BaseKeys.BRONZE_BOOTS);
 
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BRONZE_BOOTS, BRONZE_BOOTS)
-                .shape("bbb", "b b", "b b")
+                .shape("   ", "b b", "b b")
                 .setIngredient('b', BRONZE_INGOT);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
