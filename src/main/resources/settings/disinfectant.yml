@@ -1,0 +1,2 @@
+consume-seconds: 3.0
+heal-amount: 0.0 # to reuse class, changes to this won't be shown in lore but will have an effect
