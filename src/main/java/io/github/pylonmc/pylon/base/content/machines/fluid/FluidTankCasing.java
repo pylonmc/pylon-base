@@ -38,7 +38,7 @@ public class FluidTankCasing extends PylonBlock {
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
-                    PylonArgument.of("allowed-temperatures", Component.join(
+                    PylonArgument.of("temperatures", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
                             allowedTemperatures.stream()
                                     .map(FluidTemperature::getValueText)

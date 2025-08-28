@@ -152,7 +152,9 @@ public class CoalFiredPurificationTower extends PylonBlock
         components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
         components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
         components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 5, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 6, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
 
         return components;
     }
@@ -200,10 +202,5 @@ public class CoalFiredPurificationTower extends PylonBlock
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
                 // enough space in output buffer for another tick worth of purification
                 && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
-    }
-
-    @Override
-    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.add(inventory.getItem(0));
     }
 }

@@ -4,16 +4,6 @@ display:
   resolution: 8 # pixels per block; defines the resolution of the fluid display
   lightness-variation: 0.3 # defines the lightness variation of the fluid display; 0.0 is no variation, 1.0 is full variation
 
-# Warning: physical constants. Don't mess with these unless you know what you're doing,
-# lest you destabilize the heat simulation.
-# If you *think* you know what you're doing, I would only adjust the heat loss coefficient
-# and the emissivity.
-specific-heat: # J/(kg*K); these define how fast the smeltery heats up/cools down
-  air: 717.0
-  fluid: 215.0
-density: # kg/m^3; these define how much mass is in the smeltery
-  air: 1.2
-  fluid: 698.0
-heat-loss-coefficient: 10.0 # W/°C; defines the rate of conductive cooling; i.e., cooling rate at low temperatures
-emissivity: 0.9 # unitless; defines the rate of radiative cooling; i.e., cooling rate at high temperatures
 room-temperature: 20.0 # °C; defines the temperature of the environment around the smeltery
+heating-factor: 0.05 # unitless; defines how much the smeltery heats up per second when heated
+cooling-factor: 0.02 # unitless; defines how much the smeltery cools down per second when not heated
