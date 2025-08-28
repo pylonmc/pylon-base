@@ -39,15 +39,13 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getPlayer().getPersistentDataContainer().has(HOOKED_KEY)) return;
         double distSquared = event.getClickedBlock().getLocation().clone().subtract(event.getPlayer().getEyeLocation()).toVector().toVector3f().lengthSquared();
         if (distSquared < hookRangeSquared) {
-            event.getPlayer().setGravity(false);
-            event.getPlayer().setAllowFlight(true);
             PlayerJumpListener listener = new PlayerJumpListener(event.getPlayer(), (float) jumpSpeed);
             Bukkit.getPluginManager().registerEvents(listener, PylonBase.getInstance());
         }
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+    public @NotNull List<PylonArgument> getPlaceholders() {
         return List.of(
                 PylonArgument.of("jump-speed", UnitFormat.BLOCKS_PER_SECOND.format(jumpSpeed)),
                 PylonArgument.of("hook-range", UnitFormat.BLOCKS.format(hookRange))
@@ -57,10 +55,16 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
     public static class PlayerJumpListener implements Listener {
         private final Player player;
         private final float jumpSpeed;
+        private final boolean isAllowedFlight;
+        private final boolean hasGravity;
 
         public PlayerJumpListener(Player player, float jumpSpeed) {
             this.player = player;
             this.jumpSpeed = jumpSpeed;
+            this.isAllowedFlight = player.getAllowFlight();
+            this.hasGravity = player.hasGravity();
+            player.setGravity(false);
+            player.setAllowFlight(true);
             player.getPersistentDataContainer().set(HOOKED_KEY, PersistentDataType.BOOLEAN, true);
         }
 
@@ -103,8 +107,8 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
         }
 
         private void dispose() {
-            player.setGravity(true);
-            player.setAllowFlight(false);
+            player.setGravity(hasGravity);
+            player.setAllowFlight(isAllowedFlight);
             player.getPersistentDataContainer().remove(HOOKED_KEY);
             PlayerMoveEvent.getHandlerList().unregister(this);
             PlayerToggleSneakEvent.getHandlerList().unregister(this);
