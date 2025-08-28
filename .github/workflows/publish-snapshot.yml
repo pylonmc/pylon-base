@@ -26,8 +26,11 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4.2.2
+
       - name: Publish snapshot to Maven Central
-        run: ./gradlew publishAggregationToCentralPortalSnapshots
+        run: ./gradlew publishAggregationToCentralPortalSnapshots -Ppylon-core.version=1.0.0-SNAPSHOT
 
       - name: Breakpoint if publish failed
         if: failure()
