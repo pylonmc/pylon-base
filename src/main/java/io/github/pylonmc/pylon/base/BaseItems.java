@@ -881,7 +881,10 @@ public final class BaseItems {
 
     //<editor-fold desc="Bronze tools/armour" defaultstate=collapsed>
     public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, BaseKeys.BRONZE_SWORD)
-            .set(DataComponentTypes.MAX_DAMAGE, 500)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.WEAPON, Weapon.weapon()
+                    .itemDamagePerAttack(Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("damage", Integer.class))
+                    )
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SWORD);
@@ -897,14 +900,14 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE)
             .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(6.5F)
+                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", Double.class).floatValue())
                     .addRule(Tool.rule(
                             RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_AXE.registryKey()),
-                            6.5F,
+                            Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", Double.class).floatValue(),
                             TriState.TRUE
                     ))
             )
-            .set(DataComponentTypes.MAX_DAMAGE, 500)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("durability", Integer.class))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_AXE);
@@ -921,14 +924,14 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE)
             .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(6.5F)
+                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", Double.class).floatValue())
                     .addRule(Tool.rule(
                             RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_PICKAXE.registryKey()),
-                            6.5F,
+                            Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", Double.class).floatValue(),
                             TriState.TRUE
                     ))
             )
-            .set(DataComponentTypes.MAX_DAMAGE, 500)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("durability", Integer.class))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_PICKAXE);
@@ -944,14 +947,14 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL)
             .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(6.5F)
+                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", Double.class).floatValue())
                     .addRule(Tool.rule(
                             RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_SHOVEL.registryKey()),
-                            6.5F,
+                            Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", Double.class).floatValue(),
                             TriState.TRUE
                     ))
             )
-            .set(DataComponentTypes.MAX_DAMAGE, 500)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("durability", Integer.class))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SHOVEL);
@@ -966,7 +969,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE)
-            .set(DataComponentTypes.MAX_DAMAGE, 500)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HOE).getOrThrow("durability", Integer.class))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_HOE);
