@@ -110,25 +110,25 @@ item:
     name: "Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_fiery:
     name: "Fiery Explosive Target"
     lore: |-
       <arrow> Explodes and sets the surroundings on fire when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_super:
     name: "Super Explosive Target"
     lore: |-
       <arrow> Explodes aggressively when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_super_fiery:
     name: "Super Fiery Explosive Target"
     lore: |-
       <arrow> Explodes aggressively and sets the surroundings on fire when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   bronze_axe:
     name: "Bronze Axe"
