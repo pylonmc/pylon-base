@@ -80,10 +80,10 @@ public class FluidPlacer extends PylonBlock
                 && placeBlock.getType().isAir()
         ) {
             removeFluid(fluid, 1000.0);
-            if(placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER){
+            if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {
                 placeBlock.getWorld().playSound(placeBlock.getLocation().toCenterLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
             } else {
-                if(new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()){
+                if (new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()) {
                     placeBlock.setType(material);
                 }
             }
