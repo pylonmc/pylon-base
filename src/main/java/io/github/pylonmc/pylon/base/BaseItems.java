@@ -1195,16 +1195,13 @@ public final class BaseItems {
 
     public static final ItemStack BANDAGE = ItemStackBuilder.pylonItem(Material.COBWEB, BaseKeys.BANDAGE)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .addEffect(ConsumeEffect.applyStatusEffects(List.of(
-                            new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 1, true)
-                    ), 1))
-                    .consumeSeconds(1.25f)
+                    .consumeSeconds(Settings.get(BaseKeys.BANDAGE).getOrThrow("consume-seconds", Double.class).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .hasConsumeParticles(false)
                     .build())
             .build();
     static {
-        PylonItem.register(PylonItem.class, BANDAGE);
+        PylonItem.register(HealingConsumable.class, BANDAGE);
         BasePages.TOOLS.addItem(BaseKeys.BANDAGE);
 
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.BANDAGE, BANDAGE)
@@ -1216,16 +1213,13 @@ public final class BaseItems {
 
     public static final ItemStack SPLINT = ItemStackBuilder.pylonItem(Material.STICK, BaseKeys.SPLINT)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .addEffect(ConsumeEffect.applyStatusEffects(List.of(
-                            new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 2, true)
-                    ), 1))
-                    .consumeSeconds(3.0f)
+                    .consumeSeconds(Settings.get(BaseKeys.SPLINT).getOrThrow("consume-seconds", Double.class).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .hasConsumeParticles(false)
                     .build())
             .build();
     static {
-        PylonItem.register(PylonItem.class, SPLINT);
+        PylonItem.register(HealingConsumable.class, SPLINT);
         BasePages.TOOLS.addItem(BaseKeys.SPLINT);
 
         ShapedRecipe recipe = new ShapedRecipe(BaseKeys.SPLINT, SPLINT)
@@ -1243,13 +1237,13 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .hasConsumeParticles(false)
-                    .consumeSeconds(3.0f)
+                    .consumeSeconds(Settings.get(BaseKeys.DISINFECTANT).getOrThrow("consume-seconds", Double.class).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .addEffect(ConsumeEffect.clearAllStatusEffects())
                     .build())
             .build();
     static {
-        PylonItem.register(PylonItem.class, DISINFECTANT);
+        PylonItem.register(HealingConsumable.class, DISINFECTANT);
         BasePages.TOOLS.addItem(BaseKeys.DISINFECTANT);
 
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
@@ -1268,17 +1262,14 @@ public final class BaseItems {
 
     public static final ItemStack MEDKIT = ItemStackBuilder.pylonItem(Material.SHULKER_SHELL, BaseKeys.MEDKIT)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .consumeSeconds(7.0f)
+                    .consumeSeconds(Settings.get(BaseKeys.MEDKIT).getOrThrow("consume-seconds", Double.class).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .hasConsumeParticles(false)
                     .addEffect(ConsumeEffect.clearAllStatusEffects())
-                    .addEffect(ConsumeEffect.applyStatusEffects(List.of(
-                            new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 3, true)
-                    ), 1))
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, MEDKIT);
+        PylonItem.register(HealingConsumable.class, MEDKIT);
         BasePages.TOOLS.addItem(BaseKeys.MEDKIT);
 
         ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.MEDKIT, MEDKIT)
