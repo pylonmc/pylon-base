@@ -29,17 +29,13 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.DamageResistant;
-import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
+import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
-import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -48,8 +44,6 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
@@ -57,9 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.DEFAULT_FURNACE_TIME_TICKS;
-import static io.github.pylonmc.pylon.base.util.BaseUtils.DEFAULT_SMOKER_TIME_TICKS;
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.*;
 
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
@@ -109,16 +101,16 @@ public final class BaseItems {
         ));
     }
 
-    public static final ItemStack OBSIDIAN_CHIP = ItemStackBuilder.pylonItem(Material.POLISHED_BLACKSTONE_BUTTON, BaseKeys.OBSIDIAN_CHIP )
+    public static final ItemStack OBSIDIAN_CHIP = ItemStackBuilder.pylonItem(Material.POLISHED_BLACKSTONE_BUTTON, BaseKeys.OBSIDIAN_CHIP)
             .build();
     static {
-        PylonItem.register(PylonItem.class, OBSIDIAN_CHIP );
-        BasePages.RESOURCES.addItem(BaseKeys.OBSIDIAN_CHIP );
+        PylonItem.register(PylonItem.class, OBSIDIAN_CHIP);
+        BasePages.RESOURCES.addItem(BaseKeys.OBSIDIAN_CHIP);
 
         HammerRecipe.RECIPE_TYPE.addRecipe(new HammerRecipe(
                 BaseKeys.OBSIDIAN_CHIP,
                 new ItemStack(Material.OBSIDIAN),
-                OBSIDIAN_CHIP .asQuantity(3),
+                OBSIDIAN_CHIP.asQuantity(3),
                 MiningLevel.DIAMOND,
                 0.2F
         ));
@@ -865,7 +857,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack HAMMER_DIAMOND = Hammer.createItemStack(
-            BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_PICKAXE, (1.0/ 1) - 4, 2, 5
+            BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_PICKAXE, (1.0 / 1) - 4, 2, 5
     ).set(DataComponentTypes.MAX_DAMAGE, 781).build();
     static {
         PylonItem.register(Hammer.class, HAMMER_DIAMOND);
@@ -2651,7 +2643,7 @@ public final class BaseItems {
         BasePages.SMELTING.addItem(BaseKeys.SMELTERY_CONTROLLER);
 
         ShapedRecipe recipe = new ShapedRecipe(baseKey("smeltery_controller"), SMELTERY_CONTROLLER)
-                .shape("rbr", "bfb", "sbr")
+                .shape("rbr", "bfb", "rbr")
                 .setIngredient('b', REFRACTORY_BRICKS)
                 .setIngredient('f', Material.BLAST_FURNACE)
                 .setIngredient('r', BRONZE_BLOCK);
