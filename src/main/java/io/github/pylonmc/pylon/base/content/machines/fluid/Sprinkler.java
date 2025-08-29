@@ -69,7 +69,7 @@ public class Sprinkler extends PylonBlock
     }
 
     @Override
-    public void onFlowerpotManipulated(PlayerFlowerPotManipulateEvent event) {
+    public void onFlowerPotManipulated(PlayerFlowerPotManipulateEvent event) {
         event.setCancelled(true);
     }
 
