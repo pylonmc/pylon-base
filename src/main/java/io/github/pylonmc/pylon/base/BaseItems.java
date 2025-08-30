@@ -39,6 +39,7 @@ import io.papermc.paper.datacomponent.item.PotionContents;
 import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.DamageTypeKeys;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
@@ -3411,6 +3412,7 @@ public final class BaseItems {
 
     public static final ItemStack POWERFUL_LAVA_SPONGE
             = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE)
+            .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {

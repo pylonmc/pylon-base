@@ -75,15 +75,13 @@ public class FireproofRune extends Rune {
 
         ItemStack handle;
         if (mappedResult != null) {
-            handle = mappedResult.asQuantity(consume);
+            handle = mappedResult.asQuantity(consume); // Just clone it, don't modify the item
         } else {
-            handle = target.asQuantity(consume);
+            handle = ItemStackBuilder.of(target.asQuantity(consume)) // Already cloned in `asQuantity`
+                    .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
+                    .lore(GlobalTranslator.render(TOOLTIP, player.locale()))
+                    .build();
         }
-
-        handle = ItemStackBuilder.of(handle) // Already cloned in `asQuantity`
-                .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
-                .lore(GlobalTranslator.render(TOOLTIP, player.locale()))
-                .build();
 
         // (N)Either left runes or targets
         int leftRunes = rune.getAmount() - consume;
