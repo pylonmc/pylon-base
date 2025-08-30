@@ -140,6 +140,8 @@ public class HydraulicTableSaw extends PylonBlock
 
             if (recipeTicksRemaining > 0) {
                 recipeTicksRemaining -= TICK_INTERVAL;
+                removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_INPUT_MB_PER_SECOND);
+                addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND);
                 return;
             }
 
