@@ -1,0 +1,3 @@
+material: light_gray_concrete
+fluid-per-second: 400.0
+allowed-temperatures: [normal] # can be cold (cryogenic), normal, or hot (molten)

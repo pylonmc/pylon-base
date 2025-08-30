@@ -177,8 +177,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         ));
         FUELS.register(new Fuel(
                 baseKey("carbon"),
-                BaseItems.CARBON_DUST,
-                1600,
+                BaseItems.CARBON,
+                1600.0,
                 60
         ));
     }

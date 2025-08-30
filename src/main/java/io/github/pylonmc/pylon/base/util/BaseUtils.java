@@ -25,9 +25,9 @@ public class BaseUtils {
 
     public final Color METAL_GRAY = Color.fromRGB(0xaaaaaa);
 
-    public final int DEFAULT_FURNACE_TIME_TICKS = 20 * 10;
-    public final int DEFAULT_SMOKER_TIME_TICKS = 20 * 5;
-    public final int DEFAULT_BLAST_FURNACE_TIME_TICKS = 20 * 5;
+    public static final int DEFAULT_FURNACE_TIME_TICKS = 20 * 10;
+    public static final int DEFAULT_SMOKER_TIME_TICKS = 20 * 5;
+    public static final int DEFAULT_BLAST_FURNACE_TIME_TICKS = 20 * 5;
 
     public final MaterialSetTag SEEDS = new MaterialSetTag(
             baseKey("seeds"),

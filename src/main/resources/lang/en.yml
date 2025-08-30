@@ -4,28 +4,32 @@ item:
   bandage:
     name: "Bandage"
     lore: |-
+      <arrow> Patches up bruises and wounds
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <unit:hearts>2</unit>
-      <arrow> <attr>Apply time:</attr> <unit:seconds>2</unit>
+      <arrow> <attr>Heals:</attr> %heal-amount%
+      <arrow> <attr>Apply time:</attr> %consume-seconds%
 
   beheading_sword:
     name: "Beheading Sword"
     lore: |-
-      <arrow> Gives you the heads of what you kill
+      <arrow> Beheads the creatures that you slay with unsettling precision
       <arrow> Causes players, creepers, piglins, ender dragons, skeletons and zombies to drop their head with a %default-chance%% chance
       <arrow> +%wither-skeleton-chance%% chance for wither skeletons to drop their head
-
-  brass_dust:
-    name: "Brass Dust"
-
-  brass_ingot:
-    name: "Brass Ingot"
 
   bronze_dust:
     name: "Bronze Dust"
 
   bronze_ingot:
     name: "Bronze Ingot"
+
+  bronze_nugget:
+    name: "Bronze Nugget"
+
+  bronze_block:
+    name: "Bronze Block"
+
+  bronze_sheet:
+    name: "Bronze Sheet"
 
   cleansing_potion:
     name: "Cleansing Potion"
@@ -42,8 +46,14 @@ item:
   cobalt_ingot:
     name: "Cobalt Ingot"
 
-  carbon_dust:
-    name: "Carbon Dust"
+  cobalt_nugget:
+    name: "Cobalt Nugget"
+
+  cobalt_block:
+    name: "Cobalt Block"
+
+  carbon:
+    name: "Carbon"
 
   compressed_obsidian:
     name: "Compressed Obsidian"
@@ -59,6 +69,8 @@ item:
 
   covalent_binder:
     name: "Covalent Binder"
+    lore: |-
+      <arrow> A gelatinous substance that deforms and rebounds in your hands
 
   crushed_raw_copper:
     name: "Crushed Raw Copper"
@@ -69,14 +81,8 @@ item:
   crushed_raw_iron:
     name: "Crushed Raw Iron"
 
-  crushed_raw_lead:
-    name: "Crushed Raw Lead"
-
   crushed_raw_tin:
     name: "Crushed Raw Tin"
-
-  crushed_raw_zinc:
-    name: "Crushed Raw Zinc"
 
   dimensional_barrel:
     name: "Dimensional Barrel"
@@ -86,10 +92,10 @@ item:
     waila: "Dimensional Barrel"
 
   disinfectant:
-    name: "Disinfectant"
+    name: "<white>Disinfectant"
     lore: |-
+      <arrow> A cocktail of chemicals that, when applied, removes all effects
       <arrow> <insn>Right click</insn> to use
-      <arrow> Clears all effects
       <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
 
   dough:
@@ -97,69 +103,59 @@ item:
 
   enriched_netherrack:
     name: "Enriched Netherrack"
-    lore: "<arrow> Burns hotter than netherrack"
+    lore: |-
+      <arrow> Burns hotter and brighter than netherrack
 
   explosive_target:
     name: "Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosive-power%
-      <arrow> Doesn't create fire
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_fiery:
     name: "Fiery Explosive Target"
     lore: |-
-      <arrow> Explodes when shot
-      <arrow> Explosion power: %explosive-power%
-      <arrow> Creates fire
+      <arrow> Explodes and sets the surroundings on fire when shot
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_super:
     name: "Super Explosive Target"
     lore: |-
-      <arrow> Explodes when shot
-      <arrow> Explosion power: %explosive-power%
-      <arrow> Doesn't create fire
+      <arrow> Explodes aggressively when shot
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_super_fiery:
     name: "Super Fiery Explosive Target"
     lore: |-
-      <arrow> Explodes when shot
-      <arrow> Explosion power: %explosive-power%
-      <arrow> Creates fire
+      <arrow> Explodes aggressively and sets the surroundings on fire when shot
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
-  ferroduralum_axe:
-    name: "Ferroduralum Axe"
+  bronze_axe:
+    name: "Bronze Axe"
 
-  ferroduralum_boots:
-    name: "Ferroduralum Boots"
+  bronze_boots:
+    name: "Bronze Boots"
 
-  ferroduralum_chestplate:
-    name: "Ferroduralum Chestplate"
+  bronze_chestplate:
+    name: "Bronze Chestplate"
 
-  ferroduralum_helmet:
-    name: "Ferroduralum Helmet"
+  bronze_helmet:
+    name: "Bronze Helmet"
 
-  ferroduralum_hoe:
-    name: "Ferroduralum Hoe"
+  bronze_hoe:
+    name: "Bronze Hoe"
 
-  ferroduralum_ingot:
-    name: "Ferroduralum Ingot"
-    lore: "A primitive alloy"
+  bronze_leggings:
+    name: "Bronze Leggings"
 
-  ferroduralum_leggings:
-    name: "Ferroduralum Leggings"
+  bronze_pickaxe:
+    name: "Bronze Pickaxe"
 
-  ferroduralum_pickaxe:
-    name: "Ferroduralum Pickaxe"
+  bronze_shovel:
+    name: "Bronze Shovel"
 
-  ferroduralum_sheet:
-    name: "Ferroduralum Sheet"
-
-  ferroduralum_shovel:
-    name: "Ferroduralum Shovel"
-
-  ferroduralum_sword:
-    name: "Ferroduralum Sword"
+  bronze_sword:
+    name: "Bronze Sword"
 
   fiber:
     name: "Fiber"
@@ -183,8 +179,40 @@ item:
       <arrow> <attr>Fluid:</attr> %fluid_per_second%
       <arrow> <attr>Temperatures:</attr> %temperatures%
 
-  fluid_pipe_obsidian:
-    name: "Obsidian Fluid Pipe"
+  fluid_pipe_tin:
+    name: "Tin Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_iron:
+    name: "Iron Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_bronze:
+    name: "Bronze Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_igneous_composite:
+    name: "Igneous Composite Fluid Pipe"
+    lore: |-
+      <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
+      <arrow> You can only connect pipes of the same type
+      <arrow> <attr>Fluid:</attr> %fluid_per_second%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_pipe_steel:
+    name: "Steel Fluid Pipe"
     lore: |-
       <arrow> <insn>Right click</insn> a connection point, another pipe, or a block to start placing
       <arrow> You can only connect pipes of the same type
@@ -202,9 +230,8 @@ item:
   ice_arrow:
     name: "Ice Arrow"
     lore: |-
-      <arrow> Slows and freezes enemies hit with this arrow's icy punch
+      <arrow> Slow and freeze enemies with this arrow's icy punch
       <arrow> <attr>Freeze duration:</attr> %freeze-duration%
-      
 
   portable_fluid_tank_wood:
     name: "Wooden Portable Fluid Tank"
@@ -226,8 +253,39 @@ item:
       <arrow> <attr>Allowed temperatures:</attr> %temperatures%
     waila: "Copper Portable Fluid Tank %info%"
 
-  portable_fluid_tank_obsidian:
-      name: "Obsidian Portable Fluid Tank"
+
+  portable_fluid_tank_tin:
+    name: "Tin Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
+    waila: "Tin Portable Fluid Tank %info%"
+
+  portable_fluid_tank_iron:
+    name: "Iron Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
+    waila: "Iron Portable Fluid Tank %info%"
+
+  portable_fluid_tank_bronze:
+    name: "Bronze Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
+    waila: "Bronze Portable Fluid Tank %info%"
+
+  portable_fluid_tank_igneous_composite:
+      name: "Igneous Composite Portable Fluid Tank"
       lore: |-
         <arrow> Can be placed down and connected with pipes
         <arrow> Retains contents when broken
@@ -235,6 +293,16 @@ item:
         <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
         <arrow> <attr>Allowed temperatures:</attr> %temperatures%
       waila: "Obsidian Portable Fluid Tank %info%"
+
+  portable_fluid_tank_steel:
+    name: "Steel Portable Fluid Tank"
+    lore: |-
+      <arrow> Can be placed down and connected with pipes
+      <arrow> Retains contents when broken
+      <arrow> <insn>Right click</insn> with a bucket to add/remove fluids (only works with water or lava)
+      <arrow> <attr>Fluid:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>Allowed temperatures:</attr> %temperatures%
+    waila: "Steel Portable Fluid Tank %info%"
 
   fluid_valve:
     name: "<white>Fluid Valve"
@@ -248,6 +316,7 @@ item:
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
     waila: "Fluid Filter (%fluid%)"
+    gui: "Fluid Filter"
 
   fluid_meter:
     name: "<white>Fluid Meter"
@@ -255,13 +324,13 @@ item:
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
     waila: "Fluid Meter (%fluid%)"
+    gui: "Fluid Meter"
 
   fluid_strainer:
     name: "Fluid Strainer"
     lore: |-
       <arrow> Filters out items from fluids
       <arrow> <insn>Right click</insn> to open the inventory
-      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Strainer%info%"
 
   fluid_voider_1:
@@ -356,10 +425,20 @@ item:
       <arrow> Requires a Grindstone Handle on top
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name></yellow>
 
   grindstone_handle:
     name: "Grindstone Handle"
-    lore: "<arrow> Component of the Grindstone multiblock"
+    lore: "<star> Grindstone multiblock component"
+
+  hammer_bronze:
+    name: "Bronze Hammer"
+    lore: |-
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>bronze block</white> to use the hammer on it
+      <arrow> Higher tier hammers are more likely to succeed
 
   hammer_diamond:
     name: "Diamond Hammer"
@@ -382,7 +461,7 @@ item:
   immobilizer:
     name: "Immobilizer"
     lore: |-
-      <arrow> Immobilizes players in a range
+      <arrow> Channels background shimmer energy to temporarily immobilize players within range
       <arrow> Triggered by a redstone signal
       <arrow> <attr>Duration:</attr> %duration%
       <arrow> <attr>Radius:</attr> %radius%
@@ -392,46 +471,44 @@ item:
   iron_sheet:
     name: "Iron Sheet"
 
-  lead_dust:
-    name: "Lead Dust"
-
-  lead_ingot:
-    name: "Lead Ingot"
-
   loupe:
     name: "Loupe"
     lore: |-
-      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
-      <arrow> Examining items will give research points based on the vanilla rarity of the item
-      <arrow> The rarer the item, the more times you can examine it
+      <arrow> Examining items with the loupe yields research points
+      <arrow> The rarer the item, the more times it can be examined
       <arrow> <red>The examined item will be consumed</red>
+      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
 
   lumber_axe:
     name: "Lumber Axe"
     lore: |-
-      <arrow> Breaks an entire tree at once
-
-  magic_dust:
-    name: "Magic Dust"
+      <arrow> Cuts down entire trees at once
 
   magic_altar:
     name: "Magic Altar"
-    lore: "<star> Multiblock"
+    lore: |- 
+      <star> Multiblock
+      <arrow> A self-contained structure for performing shimmer rituals
+      <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.magic_altar.name></yellow>
+      <diamond> 8x <yellow><lang:pylon.pylonbase.item.magic_pedestal.name></yellow>
 
   magic_pedestal:
     name: "Magic Pedestal"
     lore: |-
-      <arrow> Used to build the Magic Altar
+      <star> Magic Altar multiblock component
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
 
   medkit:
     name: "Medkit"
     lore: |-
+      <arrow> Removes all effects and heals the user when applied
       <arrow> <insn>Right click</insn> to use
-      <arrow> Clears all effects
-      <arrow> <attr>Heals:</attr> <unit:hearts>10</unit>
-      <arrow> <attr>Apply time:</attr> <unit:seconds>7</unit>
+      <arrow> <attr>Heals:</attr> %heal-amount%
+      <arrow> <attr>Apply time:</attr> %consume-seconds%
 
   mixing_pot:
     name: "Mixing Pot"
@@ -442,13 +519,10 @@ item:
       <arrow> Can also be used like a normal cauldron
     waila: "Mixing Pot %info%"
 
-  wither_proof_obsidian:
-    name: "Wither Proof Obsidian"
-
   monster_jerky:
     name: "Monster Jerky"
     lore: |-
-      <arrow> Slightly tastier and tougher than rotten flesh
+      <arrow> Slightly tastier than rotten flesh - but only slightly...
       <arrow> Can be crafted into leather
 
   nickel_dust:
@@ -457,9 +531,19 @@ item:
   nickel_ingot:
     name: "Nickel Ingot"
 
+  nickel_nugget:
+    name: "Nickel Nugget"
+
+  nickel_block:
+    name: "Nickel Block"
+
+  obsidian_chip:
+    name: "Obsidian Chip"
+
   pedestal:
     name: "Pedestal"
     lore: |-
+      <arrow> Displays items
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
 
@@ -467,126 +551,156 @@ item:
     name: "Pit Kiln"
     lore: |-
       <star> Multiblock
-      <arrow> A primitive version of the smeltery
+      <arrow> A primitive and inefficient high-temperature smelting method
       <arrow> <insn>Right click</insn> to insert items
       <arrow> <insn>Break</insn> to retrieve the items
-      <arrow> Completing the multiblock with a valid recipe inside will start the smelting process
+      <arrow> Complete the multiblock with a valid recipe inside to start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
-      <arrow> <attr>Campfire speed</attr>: x%campfire%
-      <arrow> <attr>Soul campfire speed</attr>: x%soul_campfire%
-      <arrow> <attr>Fire speed</attr>: x%fire%
-      <arrow> <attr>Soul fire speed</attr>: x%soul_fire%
-      <arrow> <attr>Coarse dirt yield:</attr> x%coarse_dirt%
-      <arrow> <attr>Podzol yield:</attr> x%podzol%
-
-  plaster:
-    name: "Plaster"
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name></yellow>
+      <diamond> 8x <yellow>Coal Block</yellow>
+      <diamond> 20x <yellow>Coarse Dirt</yellow>
+      <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
+      ...or 1x <yellow>Fire</yellow> (%fire%x <attr>speed</attr>) 
+      ...or 1x <yellow>Soul Campfire</yellow> (%soul_campfire%x <attr>speed</attr>) 
+      ...or 1x <yellow>Soul Fire</yellow> (%soul_fire%x <attr>speed</attr>) 
+      <diamond> 9x <yellow>Podzol</yellow> (%podzol%x <attr>yield</attr>) 
+      ...or 9x <yellow>Coarse Dirt</yellow> (%coarse_dirt%x <attr>yield</attr>) 
 
   portability_catalyst:
     name: "Portability Catalyst"
 
   portable_crafting_table:
     name: "Portable Crafting Table"
-    lore: "<insn>Right click</insn> to open a crafting grid"
+    lore: "<arrow> <insn>Right click</insn> to open a crafting grid"
 
   portable_dustbin:
     name: "Portable Dustbin"
-    lore: "<insn>Right click</insn> to open a trash bin"
+    lore: "<arrow> <insn>Right click</insn> to open a trash bin"
 
   portable_ender_chest:
     name: "Portable Ender Chest"
-    lore: "<insn>Right click</insn> to open an ender chest"
+    lore: "<arrow> <insn>Right click</insn> to open an ender chest"
 
-  raw_ferroduralum:
-    name: "Raw Ferroduralum"
-    lore: "A primitive alloy"
+  raw_tin:
+    name: "Raw Tin"
 
   recoil_arrow:
     name: "Recoil Arrow"
     lore: |-
-      <arrow> Sends you backwards at the velocity of your arrow
+      <arrow> Pushes you back when shot
       <arrow> <attr>Efficiency:</attr> <unit:percent>75</unit>
+
+  refractory_mix:
+    name: "Refractory Mix"
+    waila: "Refractory Mix (<yellow>%percent%</yellow>)"
+
+  unfired_refractory_brick:
+    name: "Unfired Refractory Brick"
 
   refractory_brick:
     name: "Refractory Brick"
+
+  refractory_bricks:
+    name: "Refractory Bricks"
     lore: |-
-      <star> Smeltery component
-      <arrow> The most basic and cheapest smeltery component
-    waila: "Refractory Brick"
+      <star> Smeltery multiblock component
+      <arrow> The cheapest and most basic smeltery component
 
   research_pack_1:
     name: "Research Pack I"
     lore: |-
       <arrow> <insn>Right click</insn> to open
       <arrow> <attr>Research points:</attr> %points%
+      <arrow> <attr>Cooldown:</attr> %cooldown%
+
+  research_pack_2:
+    name: "Research Pack II"
+    lore: |-
+      <arrow> <insn>Right click</insn> to open
+      <arrow> <attr>Research points:</attr> %points%
+      <arrow> <attr>Cooldown:</attr> %cooldown%
 
   rock_dust:
     name: "Rock Dust"
 
   shimmer_dust_1:
     name: "Shimmer Dust I"
+    lore: |-
+      <arrow> Glitters unnaturally when exposed to moonlight
 
   shimmer_dust_2:
     name: "Shimmer Dust II"
+    lore: |-
+      <arrow> A flowery yet gritty red-and-gold mix 
 
   shimmer_dust_3:
     name: "Shimmer Dust III"
+    lore: |-
+      <arrow> Some kind of force keeps the grains of dust together; the further they are pulled from the rest, the more strongly they resist...
 
   shimmer_skull:
     name: "<white>Shimmer Skull"
-
-  silver_dust:
-    name: "Silver Dust"
-
-  silver_ingot:
-    name: "Silver Ingot"
+    lore: |-
+      <arrow> An infusion of shimmer dust does to a wither skeleton skull more than meets the eye...
 
   smeltery_burner:
     name: "Smeltery Burner"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Burns fuel to heat the smeltery
 
   smeltery_caster:
     name: "Smeltery Caster"
     lore: |-
-      <star> Smeltery component
-      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
+      <star> Smeltery multiblock component
       <arrow> Casts items from the smeltery
+      <arrow> <insn>Right click</insn> to open the smeltery casting GUI
 
   smeltery_controller:
     name: "Smeltery Controller"
     lore: |-
       <star> Multiblock
-      <star> Smeltery component
-      <arrow> The main component of the smeltery. Place it in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
+      <arrow> The brain of the smeltery
+      <arrow> Place in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
       <arrow> <insn>Right click</insn> to open the smeltery GUI
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_output_hatch.name> Hatch</yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_hopper.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_caster.name></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_burner.name></yellow>
+      <diamond> 25 or more <yellow><lang:pylon.pylonbase.item.refractory_bricks.name></yellow> (depending on size and components)
 
   smeltery_hopper:
     name: "Smeltery Hopper"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Serves as item input for the smeltery
 
   smeltery_input_hatch:
     name: "Smeltery Input Hatch"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Serves as fluid input for the smeltery
 
   smeltery_output_hatch:
     name: "Smeltery Output Hatch"
     lore: |-
-      <star> Smeltery component
+      <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
 
   splint:
     name: "Splint"
     lore: |-
+      <arrow> Brings relief to more serious wounds
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <unit:hearts>7</unit>
-      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
+      <arrow> <attr>Heals:</attr> %heal-amount%
+      <arrow> <attr>Apply time:</attr> %consume-seconds%
 
   sprinkler:
     name: "Sprinkler"
@@ -602,6 +716,15 @@ item:
   steel_ingot:
     name: "Steel Ingot"
 
+  steel_nugget:
+    name: "Steel Nugget"
+
+  steel_block:
+    name: "Steel Block"
+
+  steel_sheet:
+    name: "Steel Sheet"
+
   sulfur:
     name: "Sulfur"
 
@@ -611,45 +734,48 @@ item:
   tin_ingot:
     name: "Tin Ingot"
 
+  tin_nugget:
+    name: "Tin Nugget"
+
+  tin_block:
+    name: "Tin Block"
+
+  tin_sheet:
+    name: "Tin Sheet"
+
   watering_can:
     name: "Watering Can"
     lore: |-
-      <arrow> <insn>Right click</insn> to water crops
       <arrow> Speeds up growth of crops, saplings, sugar cane, and cactus
-      <arrow> Slow, but can water lots of crops at once
+      <arrow> <insn>Right click</insn> to water crops
       <arrow> <attr>Range:</attr> %range%
   
   health_talisman_simple:
     name: "Simple Health Talisman"
     lore: |-
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
-      <arrow> Passive effect while in inventory
+      <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   health_talisman_advanced:
     name: "Advanced Health Talisman"
     lore: |-
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
-      <arrow> Passive effect while in inventory
+      <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   health_talisman_ultimate:
     name: "Ultimate Healing Talisman"
     lore: |-
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
-      <arrow> Passive effect while in inventory
+      <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
+      <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   water_pump:
     name: "Water Pump"
     lore: |- 
+      <arrow> An infinite source of water
       <arrow> <attr>Pump rate:</attr> %water_per_second%
-
-  zinc_dust:
-    name: "Zinc Dust"
-
-  zinc_ingot:
-    name: "Zinc Ingot"
 
   press:
     name: "Press"
@@ -701,7 +827,7 @@ item:
   hydraulic_table_saw:
     name: "Hydraulic Table Saw"
     lore: |-
-      <arrow> Efficiently cuts logs into planks and planks into sticks
+      <arrow> Efficiently cuts logs into planks, and planks into sticks
       <arrow> <insn>Right click</insn> to insert an item
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
@@ -718,17 +844,17 @@ item:
   solar_lens:
     name: "Solar Lens"
     lore: |-
-      <star> Solar purification tower component
+      <star> Solar Purification Tower multiblock component
 
   purification_tower_glass:
     name: "Purification Tower Glass"
     lore: |-
-      <star> Solar purification tower component
+      <star> Purification Tower multiblock component
 
   purification_tower_cap:
     name: "Purification Tower Cap"
     lore: |-
-      <star> Solar purification tower component
+      <star> Purification Tower multiblock component
 
   solar_purification_tower_1:
     name: "Solar Purification Tower I"
@@ -738,6 +864,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <diamond> 16x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_2:
     name: "Solar Purification Tower II"
@@ -747,6 +879,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <diamond> 48x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_3:
     name: "Solar Purification Tower III"
@@ -756,6 +894,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <diamond> 96x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_4:
     name: "Solar Purification Tower IV"
@@ -765,6 +909,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <diamond> 160x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   solar_purification_tower_5:
     name: "Solar Purification Tower V"
@@ -774,6 +924,12 @@ item:
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <diamond> 240x <yellow><lang:pylon.pylonbase.item.solar_lens.name></yellow>
 
   coal_fired_purification_tower:
     name: "Coal-fired Purification Tower"
@@ -782,6 +938,11 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Burns coal or charcoal
       <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
     progress_item:
       running: "<green>Running"
       idle: "<yellow>Idle"
@@ -789,7 +950,8 @@ item:
   fireproof_rune:
     name: "Fireproof Rune"
     lore: |-
-      <arrow> Drop your weapon and rune, and pray for 800 hours to earn the blessing of the Fire God so that your weapon becomes fireproof.
+      <arrow> The same fields that make enriched netherrack burn so hot can be inverted to protect items from burning
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
 
   fluid_tank:
     name: "Fluid Tank"
@@ -798,6 +960,10 @@ item:
       <arrow> Place fluid casings on top to increase the capacity
       <arrow> All the casings must be the same material
       <arrow> <attr>Max height:</attr> %max-height%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name></yellow>
+      <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
     waila: "Fluid Tank %info%"
 
   fluid_tank_casing_wood:
@@ -814,17 +980,45 @@ item:
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
 
-  fluid_tank_casing_obsidian:
-    name: "Obsidian Fluid Tank Casing"
+  fluid_tank_casing_tin:
+    name: "Tin Fluid Tank Casing"
     lore: |-
-      <star> Multiblock component
+      <star> Fluid Tank multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_iron:
+    name: "Iron Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_bronze:
+    name: "Bronze Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_igneous_composite:
+    name: "Igneous Composite Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank multiblock component
+      <arrow> <attr>Capacity:</attr> %capacity%
+      <arrow> <attr>Temperatures:</attr> %temperatures%
+
+  fluid_tank_casing_steel:
+    name: "Steel Fluid Tank Casing"
+    lore: |-
+      <star> Fluid Tank multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
 
   manual_core_drill_lever:
     name: "Manual Core Drill Lever"
     lore: |-
-      <arrow> Used to power manual core drills
+      <star> Manual Core Drill multiblock component
       <arrow> <insn>Right click</insn> to cycle the attached core drill
 
   manual_core_drill:
@@ -833,7 +1027,12 @@ item:
       <star> Multiblock
       <arrow> Mines shallow core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
-      <arrow> <attr>Cycle output:</attr> %cycle-output%
+      <arrow> <attr>Output:</attr> %cycle-output%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
+      <diamond> 9x <yellow>Cobblestone Wall</yellow>
 
   improved_manual_core_drill:
     name: "Improved Manual Core Drill"
@@ -841,27 +1040,42 @@ item:
       <star> Multiblock
       <arrow> Mines subsurface core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
-      <arrow> <attr>Cycle Output:</attr> %cycle-output%
+      <arrow> <attr>Output:</attr> %cycle-output%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
+      <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
 
   hydraulic_core_drill:
     name: "Hydraulic Core Drill"
     lore: |-
       <star> Multiblock
-      <arrow> Mines intermediate core chunks
+      <arrow> Consumes hydraulic fluid to mine intermediate core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
-      <arrow> <attr>Cycle output:</attr> %cycle-output%
+      <arrow> <attr>Output:</attr> %cycle-output%
       <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
       <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+      <br>
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name></yellow>
+      <diamond> 1x <yellow>Cauldron</yellow>
+      <diamond> 1x <yellow>Chest</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_input_hatch.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_output_hatch.name></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_tank_casing_copper.name></yellow>
+      <diamond> 6x <yellow>Iron Bars</yellow>
+      <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
 
   hydraulic_core_drill_input_hatch:
     name: "Hydraulic Core Drill Input Hatch"
     lore: |-
-      <star> Multiblock component
+      <star> Hydraulic Core Drill multiblock component
 
   hydraulic_core_drill_output_hatch:
     name: "Hydraulic Core Drill Output Hatch"
     lore: |-
-      <star> Multiblock component
+      <star> Hydraulic Core Drill multiblock component
 
   shallow_core_chunk:
     name: "Shallow Core Chunk"
@@ -902,17 +1116,70 @@ item:
       <arrow> <red> No longer can clear lava <blue>but can clear water
       <attr>Range:</attr> %check_range%
 
+  igneous_composite:
+    name: "Igneous Composite"
+    lore: |-
+      <arrow> A hard and durable material, held together by forces currently beyond our comprehension
+      <arrow> Can withstand very high temperatures
+      <arrow> Wither proof
+
+  rotor:
+    name: "Rotor"
+
+  hydraulic_motor:
+    name: "Hydraulic Motor"
+
+  backflow_valve:
+    name: "Backflow Valve"
+
+  analogue_display:
+    name: "Analogue Display"
+
+  filter_mesh:
+    name: "Filter Mesh"
+
+  nozzle:
+    name: "Nozzle"
+
+  abyssal_catalyst:
+    name: "Abyssal Catalyst"
+
+  axle:
+    name: "Axle"
+
+  sawblade:
+    name: "Sawblade"
+
+  weighted_shaft:
+    name: "Weighted Shaft"
+
+  copper_drill_bit:
+    name: "Copper Drill Bit"
+
+  bronze_drill_bit:
+    name: "Bronze Drill Bit"
+
+  gypsum:
+    name: "Gypsum"
+
+  gypsum_dust:
+    name: "Gypsum Dust"
+
+  brick_mold:
+    name: "Brick Mold"
+    lore: |- 
+      <arrow> <insn>Right click</insn> a block to mold it
+      <arrow> <attr>Cooldown:</attr> %cooldown%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
-  brass: "<gold>Brass"
   bronze: "<#8d6f64>Bronze"
   cobalt: "<gray>Cobalt"
   copper: "<#b5591b>Copper"
   gold: "<gold>Gold"
   iron: "<gray>Iron"
   lava: "<#fc4e03>Lava"
-  lead: "<gray>Lead"
   mercury: "<#dedede>Mercury"
   nickel: "<gray>Nickel"
   none: "None"
@@ -923,18 +1190,16 @@ fluid:
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"
   slurry_raw_iron: "<gray>Raw Iron Slurry"
-  slurry_raw_lead: "<gray>Raw Lead Slurry"
   slurry_raw_tin: "<gray>Raw Tin Slurry"
-  slurry_raw_zinc: "<gray>Raw Zinc Slurry"
-  silver: "<#b0b0b0>Silver"
   steel: "<gray>Steel"
   sulfur: "<yellow>Sulfur"
   tin: "<gray>Tin"
   water: "<blue>Water"
-  zinc: "<gray>Zinc"
   plant_oil: "<#c4b352>Plant Oil"
   hydraulic_fluid: "<#212d99>Hydraulic Fluid"
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
+  obscyra: "<#5c4a66>Obscyra"
+  reflector_fluid: "<#d1c9ab>Reflector Fluid"
 
 waila:
   mixing_pot:
@@ -948,29 +1213,51 @@ waila:
   pit_kiln: "Pit Kiln | %time% left"
 
 research:
-  baking: "<gold>Baking"
-  better_health: "<green>Better health"
-  compression: "<gray>Compression"
-  fairies: "<dark_purple>Fairies"
-  first_aid: "<dark_red>First aid"
+  baking: "<#e2b42b>Baking"
+  vitality_1: "<#87dd87>Vitality I"
+  vitality_2: "<#6ae26a>Vitality II"
+  first_aid: "<#ef524a>First aid"
   food_preservation: "<#483b29>Food preservation"
   french_revolution: "<gradient:#0055a4:white:#ef4135>The French Revolution"
-  glitter: "<gold>Glitter"
-  gravity: "<blue>Gravity"
-  grinding: "<dark_gray>Grinding"
-  homogeneity: "<blue>Homogeneity"
-  magic: "<dark_purple>Magic"
-  medicine: "<dark_red>Medicine"
-  metal_ductility: "<dark_gray>Metal ductility"
-  newtons_second_law: "<green>Newton's second law"
-  newtons_third_law: "<green>Newton's third law"
-  plant_growth: "<green>Plant growth"
-  plant_growth_automated: "<green>Automated plant growth"
-  portability: "<blue>Portability"
-  primitive_alloy_tools: "<#f6d348>Primitive alloy tools"
-  primitive_alloy_armor: "<#f6d348>Primitive alloy armor"
+  shimmer_manipulation: "<#efd44a>Shimmer manipulation"
+  deforestation: "<#d67d2a>Deforestation"
+  rituals: "<#5b0baa>Rituals"
+  elevation: "<#db79e0>Elevation"
+  medicine: "<#cc2e2e>Medicine"
+  better_hammers: "<#77d17e>Better hammers"
+  fletching: "<#d66db8>Fletching"
+  irrigation: "<#77a7d1>Irrigation"
+  portable_workstations: "<#9b816c>Portable workstations"
   primitive_alloying: "<#d93802>Primitive alloying"
   showing_off: "<rainbow>Showing off"
+  explosive_targets: "<#ef8c4a>Explosive archery"
+  igneous_magic: "<#45336d>Igneous magic"
+  scientific_revolution_1: "<#fc0505>The Scientific Revolution I"
+  scientific_revolution_2: "<#5bfc05>The Scientific Revolution II"
+  high_temperature_materials: "<#ce6625>High temperature materials"
+  high_temperature_smelting: "<#ff6b0f>High temperature smelting"
+  molding: "<#7a5742>Molding"
+  improved_drilling_techniques: "<#4f4641>Improved drilling techniques"
+  pressing: "<#dbe047>Pressing"
+  bronze_equipment: "<#bc7f4d>Bronze equipment"
+  fireproofing: "<#ad2e2e>Fireproofing"
+  hydraulic_automation: "<#446be2>Hydraulic purification"
+  hydraulic_purification: "<#2e7df4>Hydraulic purification"
+  large_scale_hydraulic_purification: "<#77a9f4>Large scale hydraulic purification"
+  hydraulic_drilling: "<#96d4e0>Hydraulic drilling"
+  steel: "<#444444>Steel"
+  magnetism: "<#144cbc>Magnetism"
+  immobilization: "<#b75984>Immobilization"
+  fluid_voiding_1: "<#2a3360>Fluid voiding I"
+  fluid_voiding_2: "<#2a3360>Fluid voiding II"
+  flow_control: "<#2a47d6>Flow control"
+  pumps: "<#54abbc>Pumps"
+  fluid_handling_1: "<#58e2d2>Fluid handling I"
+  fluid_handling_2: "<#58e2d2>Fluid handling II"
+  fluid_handling_3: "<#58e2d2>Fluid handling III"
+  fluid_storage: "<#88ccbb>Fluid storage"
+  simple_components: "<#c1c1c1>Simple components"
+  straining: "<#c99fa1>Straining"
 
 guide:
   page:
@@ -982,8 +1269,9 @@ guide:
     combat: "Combat"
     armour: "Armour"
     simple_machines: "Simple machines"
+    fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
-    hydraulics: "Hydraulics"
+    hydraulics: "Hydraulic Machines"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
@@ -996,6 +1284,7 @@ guide:
     magic-altar: "<attr>Ritual time:</attr> %time%"
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
+    drilling: "<attr>Cycle time:</attr> %time%"
 
 message:
   fluid_none: "None"
@@ -1044,7 +1333,8 @@ message:
     working_with_reduced_efficiency: "<green>Working with reduced efficiency"
     no_sunlight: "<red>No sunlight"
   fireproof_result:
-    success: "Your item has been fire-proofed"
+    tooltip: "<red><bold>Fire-proofed"
+    success: "<red>Your item has been fire-proofed"
 
 gui:
   fluid-selector-title: "Select Fluid"

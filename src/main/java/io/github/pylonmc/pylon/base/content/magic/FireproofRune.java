@@ -1,15 +1,16 @@
 package io.github.pylonmc.pylon.base.content.magic;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseConfig;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -25,12 +26,29 @@ import java.util.Objects;
 /**
  * @author balugaq
  */
-@SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
+    public static final Component TOOLTIP = Component.translatable("pylon.pylonbase.message.fireproof_result.tooltip");
+
 
     public FireproofRune(@NotNull ItemStack stack) {
         super(stack);
+    }
+
+    /**
+     * Fixes #156 - Fireproof rune can be applied multiple times
+     * <p>
+     * Checks if the rune is applicable to the target item.
+     *
+     * @param event  The event
+     * @param rune   The rune item, amount may be > 1
+     * @param target The item to handle, amount may be > 1
+     * @return true if applicable, false otherwise
+     */
+    public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
+        DamageResistant data = target.getData(DataComponentTypes.DAMAGE_RESISTANT);
+        if (data == null) return true;
+        return !data.types().equals(DamageTypeTagKeys.IS_FIRE);
     }
 
     /**
@@ -46,6 +64,7 @@ public class FireproofRune extends Rune {
         // As many runes as possible to consume
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
+        Player player = event.getPlayer();
         ItemStack mappedResult = FireproofRuneRecipe.RECIPE_TYPE.getRecipes().stream().map(recipe -> {
             if (recipe.input().isSimilar(target)) {
                 return recipe.result();
@@ -61,27 +80,29 @@ public class FireproofRune extends Rune {
             handle = target.asQuantity(consume);
         }
 
-        handle.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE));
+        handle = ItemStackBuilder.of(handle) // Already cloned in `asQuantity`
+                .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
+                .lore(GlobalTranslator.render(TOOLTIP, player.locale()))
+                .build();
 
         // (N)Either left runes or targets
         int leftRunes = rune.getAmount() - consume;
         int leftTargets = target.getAmount() - consume;
 
-        Player player = event.getPlayer();
-        Location explodeLoc = player.getTargetBlockExact((int) Math.ceil(BaseConfig.RUNE_CHECK_RANGE), FluidCollisionMode.NEVER).getLocation();
+        Location explodeLoc = event.getItemDrop().getLocation();
         World world = explodeLoc.getWorld();
         if (leftRunes > 0) {
-            world.dropItemNaturally(explodeLoc, rune.asQuantity(leftRunes));
+            world.dropItemNaturally(explodeLoc, rune.asQuantity(leftRunes)).setGlowing(true);
         }
         if (leftTargets > 0) {
-            world.dropItemNaturally(explodeLoc, target.asQuantity(leftTargets));
+            world.dropItemNaturally(explodeLoc, target.asQuantity(leftTargets)).setGlowing(true);
         }
-        world.dropItemNaturally(explodeLoc, handle);
+        world.dropItemNaturally(explodeLoc, handle).setGlowing(true);
 
         // simple particles
         BaseUtils.spawnParticle(Particle.EXPLOSION, explodeLoc, 1);
-        BaseUtils.spawnParticle(Particle.FLAME, explodeLoc, 20);
-        BaseUtils.spawnParticle(Particle.SMOKE, explodeLoc, 1);
+        BaseUtils.spawnParticle(Particle.FLAME, explodeLoc, 50);
+        BaseUtils.spawnParticle(Particle.SMOKE, explodeLoc, 40);
         world.playSound(explodeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 
         target.setAmount(0);

@@ -1,8 +1,6 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -32,11 +30,9 @@ public record MeltingRecipe(
         @NotNull NamespacedKey key,
         @NotNull ItemStack input,
         @NotNull PylonFluid result,
+        double resultAmount,
         double temperature
 ) implements PylonRecipe {
-
-    public static final double MELT_AMOUNT
-            = Settings.get(BaseKeys.SMELTERY_HOPPER).getOrThrow("melt-amount-mb", Double.class);
 
     public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new RecipeType<>(
             baseKey("melt_recipe")
@@ -54,7 +50,7 @@ public record MeltingRecipe(
 
     @Override
     public @NotNull List<FluidOrItem> getResults() {
-        return List.of(FluidOrItem.of(result, MELT_AMOUNT));
+        return List.of(FluidOrItem.of(result, resultAmount));
     }
 
     @Override
@@ -76,7 +72,7 @@ public record MeltingRecipe(
                                 PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         ))
                 )
-                .addIngredient('o', new FluidButton(result.getKey(), MELT_AMOUNT))
+                .addIngredient('o', new FluidButton(result.getKey(), resultAmount))
                 .build();
     }
 }
