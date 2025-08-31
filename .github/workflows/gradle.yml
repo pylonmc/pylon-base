@@ -28,7 +28,7 @@ jobs:
           prefixrm=$(echo "${{github.event.pull_request.title}}" | cut -c6-)
           BRANCHNAME=$(echo "$prefixrm" | cut -d']' -f1)
           git clone https://github.com/pylonmc/pylon-core.git
-          cd core
+          cd pylon-core
           echo "CORECOMMIT=$(git rev-parse origin/$(echo "$BRANCHNAME"))" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
@@ -44,7 +44,7 @@ jobs:
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
         run: |
           git clone https://github.com/pylonmc/pylon-core.git
-          cd core
+          cd pylon-core
           echo "CORECOMMIT=$(git rev-parse origin/master)" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
