@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
+import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
@@ -29,17 +30,13 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Consumable;
-import io.papermc.paper.datacomponent.item.DamageResistant;
-import io.papermc.paper.datacomponent.item.FoodProperties;
-import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
+import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
-import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -57,9 +54,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.DEFAULT_FURNACE_TIME_TICKS;
-import static io.github.pylonmc.pylon.base.util.BaseUtils.DEFAULT_SMOKER_TIME_TICKS;
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+import static io.github.pylonmc.pylon.base.util.BaseUtils.*;
 
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
@@ -3359,6 +3354,45 @@ public final class BaseItems {
                 Material.STONE.createBlockData()
         ));
     }
+    public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.DAMAGE, 0)
+            .build();
+    static {
+        PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
+        BasePages.COMBAT.addItem(BaseKeys.REACTIVATED_WITHER_SKULL);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.REACTIVATED_WITHER_SKULL, REACTIVATED_WITHER_SKULL)
+                .shape(" N ", " S ", " R ")
+                .setIngredient('N', Material.WITHER_SKELETON_SKULL)
+                .setIngredient('S', Material.STICK)
+                .setIngredient('R', Material.NETHER_STAR);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack HYPER_ACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.HYPER_ACTIVATED_WITHER_SKULL)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.DAMAGE, 0)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .build();
+    static {
+        PylonItem.register(ReactivatedWitherSkull.class, HYPER_ACTIVATED_WITHER_SKULL);
+        BasePages.COMBAT.addItem(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL);
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL, HYPER_ACTIVATED_WITHER_SKULL)
+                .shape("MNM", "MSM", " R ")
+                .setIngredient('N', Material.WITHER_SKELETON_SKULL)
+                .setIngredient('S', Material.STICK)
+                .setIngredient('M', SHIMMER_SKULL)
+                .setIngredient('R', Material.NETHER_STAR);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+        ShapelessRecipe upgrade = new ShapelessRecipe(baseKey("hyper_activated_wither_skull_upgrade"), HYPER_ACTIVATED_WITHER_SKULL)
+                .addIngredient(REACTIVATED_WITHER_SKULL)
+                .addIngredient(4, SHIMMER_SKULL);
+        upgrade.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPELESS.addRecipe(upgrade);
+    }
+
 
     public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
             .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()

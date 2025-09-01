@@ -587,6 +587,23 @@ item:
   raw_tin:
     name: "Raw Tin"
 
+  reactivated_wither_skull:
+    name: "<white>Reactivated Wither Skull"
+    lore: |-
+      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+    charged:
+      true: "charged"
+      false: "not charged"
+
+  hyper_activated_wither_skull:
+    name: "<white>Hyper Activated Wither Skull"
+    lore: |-
+      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+
   recoil_arrow:
     name: "Recoil Arrow"
     lore: |-
