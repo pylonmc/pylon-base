@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.content.tools.WateringSettings;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFlowerPot;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -18,6 +19,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,7 +33,7 @@ import java.util.List;
 
 
 public class Sprinkler extends PylonBlock
-        implements PylonFluidBufferBlock, PylonTickingBlock, PylonEntityHolderBlock {
+        implements PylonFluidBufferBlock, PylonTickingBlock, PylonEntityHolderBlock, PylonFlowerPot {
 
     public static class Item extends PylonItem {
 
@@ -64,6 +66,11 @@ public class Sprinkler extends PylonBlock
     @SuppressWarnings("unused")
     public Sprinkler(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+    }
+
+    @Override
+    public void onFlowerPotManipulated(PlayerFlowerPotManipulateEvent event) {
+        event.setCancelled(true);
     }
 
     @Override
