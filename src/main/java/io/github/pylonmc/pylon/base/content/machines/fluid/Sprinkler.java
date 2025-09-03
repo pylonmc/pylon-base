@@ -77,7 +77,7 @@ public class Sprinkler extends PylonBlock
     public static class SprinklerPlaceListener implements Listener {
         @EventHandler
         private static void handle(@NotNull PrePylonBlockPlaceEvent event) {
-            if (!(event.getPylonBlock() instanceof Sprinkler)) {
+            if (event.getBlockSchema().getKey() != BaseKeys.SPRINKLER) {
                 return;
             }
 
