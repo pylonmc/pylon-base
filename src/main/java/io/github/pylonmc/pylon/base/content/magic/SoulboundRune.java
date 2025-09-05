@@ -77,8 +77,6 @@ public class SoulboundRune extends Rune {
                     if(curStack == null || curStack.isEmpty()) continue;
                     UUID ownerUUID = curStack.getPersistentDataContainer().get(SOULBOUND_KEY, PylonSerializers.UUID);
                     if(ownerUUID != null && !ownerUUID.equals(player.getUniqueId())){
-                        System.out.println(ownerUUID);
-                        System.out.println(player.getUniqueId());
                         player.dropItem(curStack);
                         player.sendMessage(FAIL_PICKUP_MSG.arguments(
                                 PylonArgument.of("playername", Bukkit.getPlayer(ownerUUID).getName())
