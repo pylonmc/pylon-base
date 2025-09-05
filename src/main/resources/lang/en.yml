@@ -694,6 +694,16 @@ item:
       <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
 
+  soulbound_rune:
+    name: "Soulbound Rune"
+    lore: |-
+      <arrow> Connects your sense of self to your material possessions such that no other player may take control of them
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
+    tooltip: "<dark_purple>Soulbound to %playername%"
+    pickupfail-message: "<red>You cannot pick up this item as it has been linked to %playername%"
+
+
   splint:
     name: "Splint"
     lore: |-

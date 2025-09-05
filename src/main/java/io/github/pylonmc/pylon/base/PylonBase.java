@@ -1,17 +1,17 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
+import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
+import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.magic.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.building.Immobilizer;
-import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
-import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -52,7 +52,8 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         pm.registerEvents(new Rune.RuneListener(), this);
-        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
+        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, BaseConfig.HEALTH_TALISMAN_CHECK_INTERVAL);
+        new SoulboundRune.SoulboundRuneTicker().runTaskTimer(this, 0, BaseConfig.SOULBOUND_CHECK_INTERVAL);
     }
 
     @Override
