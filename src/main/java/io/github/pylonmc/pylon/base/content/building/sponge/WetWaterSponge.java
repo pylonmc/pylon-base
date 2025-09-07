@@ -31,14 +31,14 @@ public class WetWaterSponge extends PylonBlock {
     public WetWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        PylonBase.runSyncLater(() -> {
-            // Dry out the sponge in the nether
-            Location location = block.getLocation();
-            if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
+        Location location = block.getLocation();
+        if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
+            PylonBase.runSyncLater(() -> {
+                // Dry out the sponge in the nether
                 BlockStorage.breakBlock(location, new BlockBreakContext.PluginBreak(false));
                 BlockStorage.placeBlock(location, BaseKeys.POWERFUL_WATER_SPONGE);
-            }
-        }, 1);
+            }, 1);
+        }
     }
 
     public WetWaterSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {

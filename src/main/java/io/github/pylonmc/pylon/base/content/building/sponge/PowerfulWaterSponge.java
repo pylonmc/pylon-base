@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 public class PowerfulWaterSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_WATER_SPONGE);
-    public static final int CHECK_RANGE = settings.getOrThrow("check_range", Integer.class);
+    private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
 
     public PowerfulWaterSponge(@NotNull Block block) {
         super(block);
@@ -110,9 +111,6 @@ public class PowerfulWaterSponge extends PowerfulSponge {
      * @author balugaq
      */
     public static class Item extends PylonItem {
-
-        public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
-
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
@@ -120,7 +118,7 @@ public class PowerfulWaterSponge extends PowerfulSponge {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("check_range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
+                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
             );
         }
     }

@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class PowerfulLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_LAVA_SPONGE);
-    public static final int CHECK_RANGE = settings.getOrThrow("check_range", Integer.class);
+    private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
 
     public PowerfulLavaSponge(@NotNull Block block) {
         super(block);
@@ -93,9 +93,7 @@ public class PowerfulLavaSponge extends PowerfulSponge {
     }
 
     public void tick(double deltaSeconds) {
-        if (canAbsorb()) {
-            onAbsorb(makeUpEvent());
-        }
+        tryAbsorbNearbyBlocks();
     }
 
     /**
@@ -109,7 +107,7 @@ public class PowerfulLavaSponge extends PowerfulSponge {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("check_range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
+                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
             );
         }
     }

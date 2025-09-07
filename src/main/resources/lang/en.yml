@@ -1096,14 +1096,14 @@ item:
     name: "<blue>Powerful Water Sponge"
     lore: |-
       <arrow> <blue>Clear nearby water.
-      <arrow> <attr>Range:</attr> %check_range%
+      <arrow> <attr>Range:</attr> %check-range%
 
   powerful_lava_sponge:
     name: "<red>Powerful Lava Sponge"
     lore: |-
       <star> <red>Fireproof Powered <star>
       <arrow> <red>Clears nearby lava
-      <arrow> <attr>Range:</attr> %check_range%
+      <arrow> <attr>Range:</attr> %check-range%
 
   wet_water_sponge:
     name: "<blue>Wet Water Sponge"
@@ -1114,7 +1114,7 @@ item:
     name: "<red>Hot Lava Sponge"
     lore: |-
       <arrow> <red> No longer can clear lava <blue>but can clear water
-      <attr>Range:</attr> %check_range%
+      <attr>Range:</attr> %check-range%
 
   igneous_composite:
     name: "Igneous Composite"
@@ -1333,8 +1333,8 @@ message:
     working_with_reduced_efficiency: "<green>Working with reduced efficiency"
     no_sunlight: "<red>No sunlight"
   fireproof_result:
-    tooltip: "<red><bold>Fire-proofed"
-    success: "<red>Your item has been fire-proofed"
+    tooltip: "<reset><star> <red>Fireproof Powered <star>"
+    success: "<red>Your item has been powered by fireproof rune"
 
 gui:
   fluid-selector-title: "Select Fluid"

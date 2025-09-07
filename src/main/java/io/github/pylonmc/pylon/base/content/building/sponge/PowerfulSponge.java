@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSponge;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.util.BlockUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -51,10 +52,6 @@ import java.util.List;
  * @see HotLavaSponge
  */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, PylonTickingBlock {
-    public static final BlockFace[] NEARBY_FACES = {
-            BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN
-    };
-
     public PowerfulSponge(@NotNull Block block) {
         super(block);
     }
@@ -78,37 +75,39 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     public void onAbsorb(@NotNull SpongeAbsorbEvent event) {
         event.setCancelled(true);
 
-        List<Block> blocks = getBlocksInManhattanDistance(event, getRange());
-        Block sponge = event.getBlock();
+        onAbsorb(event.getBlock());
+    }
+
+    private void onAbsorb(@NotNull Block sponge) {
+        List<Block> blocks = getBlocksInManhattanDistance(sponge, getRange());
         for (Block block : blocks) {
             absorb(block);
         }
 
-        PylonBase.runSyncLater(() -> {
+        if (!blocks.isEmpty()) {
             toDriedSponge(sponge);
-        }, 1);
+        }
     }
 
     /**
      * Gets all blocks within a Manhattan distance in a diamond-like pattern.
      *
-     * @param event    The sponge absorption event
+     * @param sponge   The sponge block
      * @param distance The maximum Manhattan distance to check
      * @return A list of blocks within the specified distance that are absorbable
      */
-    public @NotNull List<Block> getBlocksInManhattanDistance(@NotNull SpongeAbsorbEvent event, int distance) {
+    private @NotNull List<Block> getBlocksInManhattanDistance(@NotNull Block sponge, int distance) {
         List<Block> result = new ArrayList<>();
 
         if (distance < 0) {
             return result;
         }
 
-        Block center = event.getBlock(); // sponge block
-        World world = center.getWorld();
+        World world = sponge.getWorld();
         WorldBorder border = world.getWorldBorder();
-        int centerX = center.getX();
-        int centerY = center.getY();
-        int centerZ = center.getZ();
+        int centerX = sponge.getX();
+        int centerY = sponge.getY();
+        int centerZ = sponge.getZ();
 
         for (int x = centerX - distance; x <= centerX + distance; x++) {
             int remainingX = distance - Math.abs(x - centerX);
@@ -166,7 +165,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     public abstract int getRange();
 
     /**
-     * Fix cannot absorb lava
+     * Used to absorb lava
      *
      * @see PowerfulLavaSponge
      * @see HotLavaSponge
@@ -174,19 +173,20 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     public void tick(double deltaSeconds) {
     }
 
-    @NotNull
-    public SpongeAbsorbEvent makeUpEvent() {
-        return new SpongeAbsorbEvent(getBlock(), new ArrayList<>());
-    }
-
-    public boolean canAbsorb() {
+    /**
+     * Try to absorb nearby blocks
+     *
+     * @see HotLavaSponge#tick(double)
+     * @see PowerfulLavaSponge#tick(double)
+     */
+    public void tryAbsorbNearbyBlocks() {
         Location location = getBlock().getLocation();
-        for (BlockFace blockFace : NEARBY_FACES) {
+        for (BlockFace blockFace : BlockUtils.IMMEDIATE_FACES) {
             if (isAbsorbable(location.clone().add(blockFace.getDirection()).getBlock())) {
-                return true;
+                // Find a nearby absorbable block
+                onAbsorb(getBlock());
+                return;
             }
         }
-
-        return false;
     }
 }

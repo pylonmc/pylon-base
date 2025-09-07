@@ -1,1 +1,2 @@
-check_range: 5
+check-range: 5
+reuse-rate: 0.1

@@ -1,10 +1,14 @@
 package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Config;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -25,8 +29,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>
  * When placed in water, it has a:
  * <ul>
- *   <li>90% chance of turning into obsidian</li>
- *   <li>10% chance of turning back into a {@link PowerfulLavaSponge}</li>
+ *   <li>90% chance of turning into obsidian by default</li>
+ *   <li>10% chance of turning back into a {@link PowerfulLavaSponge} by default</li>
  * </ul>
  * </p>
  *
@@ -35,7 +39,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see PowerfulLavaSponge
  */
 public class HotLavaSponge extends PowerfulSponge {
-    public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
+    private static final Config settings = Settings.get(BaseKeys.HOT_LAVA_SPONGE);
+    private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
+    private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", Double.class);
+    private final Location particleDisplayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
 
     public HotLavaSponge(@NotNull Block block) {
         super(block);
@@ -91,12 +98,9 @@ public class HotLavaSponge extends PowerfulSponge {
     }
 
     public void tick(double deltaSeconds) {
-        Location displayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
-        BaseUtils.spawnParticle(Particle.FLAME, displayLoc, 3);
+        BaseUtils.spawnParticle(Particle.FLAME, particleDisplayLoc, 3);
 
-        if (canAbsorb()) {
-            onAbsorb(makeUpEvent());
-        }
+        tryAbsorbNearbyBlocks();
     }
 
     /**
@@ -110,7 +114,7 @@ public class HotLavaSponge extends PowerfulSponge {
     }
 
     /**
-     * Transforms this sponge based on chance:
+     * Transforms this sponge based on chance by default:
      * <ul>
      *   <li>90% chance: turns into obsidian with particle effects</li>
      *   <li>10% chance: turns back into a {@link PowerfulLavaSponge}</li>
@@ -121,12 +125,11 @@ public class HotLavaSponge extends PowerfulSponge {
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
-        if (ThreadLocalRandom.current().nextDouble() > 0.1) {
+        if (ThreadLocalRandom.current().nextDouble() > REUSE_RATE) {
             // 90% chance of becoming unusable obsidian
             sponge.setType(Material.OBSIDIAN);
-            Location explodeLoc = sponge.getLocation().clone().add(0.5, 0.5, 0.5);
-            BaseUtils.spawnParticle(Particle.FLAME, explodeLoc, 20);
-            BaseUtils.spawnParticle(Particle.SMOKE, explodeLoc, 50);
+            BaseUtils.spawnParticle(Particle.FLAME, particleDisplayLoc, 20);
+            BaseUtils.spawnParticle(Particle.SMOKE, particleDisplayLoc, 50);
         } else {
             // 10% chance of reusing the sponge
             BlockStorage.placeBlock(sponge, BaseKeys.POWERFUL_LAVA_SPONGE);
@@ -137,9 +140,6 @@ public class HotLavaSponge extends PowerfulSponge {
      * @author balugaq
      */
     public static class Item extends PylonItem {
-
-        public final int CHECK_RANGE = getSettings().getOrThrow("check_range", Integer.class);
-
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
@@ -152,7 +152,7 @@ public class HotLavaSponge extends PowerfulSponge {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("check_range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
+                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
             );
         }
     }
