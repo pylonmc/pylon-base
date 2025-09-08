@@ -264,4 +264,6 @@ public class BaseKeys {
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
 
     public static final NamespacedKey CLIMBING_PICK = baseKey("climbing_pick");
+
+    public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 }
