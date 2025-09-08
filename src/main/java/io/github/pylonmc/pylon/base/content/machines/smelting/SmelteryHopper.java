@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
-import io.github.pylonmc.pylon.core.block.base.PylonContainerBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock, PylonContainerBlock {
+public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock, PylonVanillaContainerBlock {
 
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {
