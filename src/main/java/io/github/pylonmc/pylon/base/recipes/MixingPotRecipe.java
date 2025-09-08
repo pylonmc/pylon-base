@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -43,7 +44,7 @@ public record MixingPotRecipe(
         return key;
     }
 
-    public static final RecipeType<MixingPotRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("mixing_pot")) {
+    public static final RecipeType<MixingPotRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("mixing_pot")) {
         @Override
         protected @NotNull MixingPotRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new MixingPotRecipe(

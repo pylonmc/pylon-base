@@ -28,8 +28,6 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.MiningLevel;
-import io.github.pylonmc.pylon.core.util.WeightedSet;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
@@ -37,7 +35,6 @@ import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
-import kotlin.Pair;
 import net.kyori.adventure.util.TriState;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -45,7 +42,6 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -619,9 +615,9 @@ public final class BaseItems {
 
     //<editor-fold desc="Bronze tools/armour" defaultstate=collapsed>
     public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, BaseKeys.BRONZE_SWORD)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.WEAPON, Weapon.weapon()
-                    .itemDamagePerAttack(Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("damage", Integer.class))
+                    .itemDamagePerAttack(Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("damage", ConfigAdapter.INT))
                     )
             .build();
     static {
@@ -638,14 +634,14 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE)
             .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", Double.class).floatValue())
+                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
                             RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_AXE.registryKey()),
-                            Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", Double.class).floatValue(),
+                            Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
                             TriState.TRUE
                     ))
             )
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_AXE);
@@ -662,14 +658,14 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE)
             .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", Double.class).floatValue())
+                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
                             RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_PICKAXE.registryKey()),
-                            Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", Double.class).floatValue(),
+                            Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
                             TriState.TRUE
                     ))
             )
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_PICKAXE);
@@ -685,14 +681,14 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL)
             .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", Double.class).floatValue())
+                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
                             RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_SHOVEL.registryKey()),
-                            Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", Double.class).floatValue(),
+                            Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
                             TriState.TRUE
                     ))
             )
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SHOVEL);
@@ -707,7 +703,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HOE).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HOE).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_HOE);
@@ -724,17 +720,17 @@ public final class BaseItems {
     //</editor-fold>
 
     public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, BaseKeys.BRONZE_HELMET)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             BaseKeys.BRONZE_HELMET,
-                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor", Double.class),
+                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.HEAD
                     ))
                     .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                             BaseKeys.BRONZE_HELMET,
-                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor-toughness", Double.class),
+                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.HEAD
                     ))
@@ -753,17 +749,17 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             BaseKeys.BRONZE_CHESTPLATE,
-                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor", Double.class),
+                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.CHEST
                     ))
                     .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                             BaseKeys.BRONZE_CHESTPLATE,
-                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor-toughness", Double.class),
+                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.CHEST
                     ))
@@ -782,17 +778,17 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             BaseKeys.BRONZE_LEGGINGS,
-                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor", Double.class),
+                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.LEGS
                     ))
                     .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                             BaseKeys.BRONZE_LEGGINGS,
-                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor-toughness", Double.class),
+                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.LEGS
                     ))
@@ -811,17 +807,17 @@ public final class BaseItems {
     }
 
     public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, BaseKeys.BRONZE_BOOTS)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("durability", Integer.class))
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
                             BaseKeys.BRONZE_BOOTS,
-                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor", Double.class),
+                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.FEET
                     ))
                     .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
                             BaseKeys.BRONZE_BOOTS,
-                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor-toughness", Double.class),
+                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
                             AttributeModifier.Operation.ADD_NUMBER,
                             EquipmentSlotGroup.FEET
                     ))
@@ -1044,7 +1040,7 @@ public final class BaseItems {
 
     public static final ItemStack BANDAGE = ItemStackBuilder.pylonItem(Material.COBWEB, BaseKeys.BANDAGE)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .consumeSeconds(Settings.get(BaseKeys.BANDAGE).getOrThrow("consume-seconds", Double.class).floatValue())
+                    .consumeSeconds(Settings.get(BaseKeys.BANDAGE).getOrThrow("consume-seconds", ConfigAdapter.DOUBLE).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .hasConsumeParticles(false)
                     .build())
@@ -1062,7 +1058,7 @@ public final class BaseItems {
 
     public static final ItemStack SPLINT = ItemStackBuilder.pylonItem(Material.STICK, BaseKeys.SPLINT)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .consumeSeconds(Settings.get(BaseKeys.SPLINT).getOrThrow("consume-seconds", Double.class).floatValue())
+                    .consumeSeconds(Settings.get(BaseKeys.SPLINT).getOrThrow("consume-seconds", ConfigAdapter.DOUBLE).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .hasConsumeParticles(false)
                     .build())
@@ -1086,7 +1082,7 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .hasConsumeParticles(false)
-                    .consumeSeconds(Settings.get(BaseKeys.DISINFECTANT).getOrThrow("consume-seconds", Double.class).floatValue())
+                    .consumeSeconds(Settings.get(BaseKeys.DISINFECTANT).getOrThrow("consume-seconds", ConfigAdapter.DOUBLE).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .addEffect(ConsumeEffect.clearAllStatusEffects())
                     .build())
@@ -1111,7 +1107,7 @@ public final class BaseItems {
 
     public static final ItemStack MEDKIT = ItemStackBuilder.pylonItem(Material.SHULKER_SHELL, BaseKeys.MEDKIT)
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
-                    .consumeSeconds(Settings.get(BaseKeys.MEDKIT).getOrThrow("consume-seconds", Double.class).floatValue())
+                    .consumeSeconds(Settings.get(BaseKeys.MEDKIT).getOrThrow("consume-seconds", ConfigAdapter.DOUBLE).floatValue())
                     .animation(ItemUseAnimation.BOW)
                     .hasConsumeParticles(false)
                     .addEffect(ConsumeEffect.clearAllStatusEffects())

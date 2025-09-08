@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -28,7 +29,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class SmelteryRecipe implements PylonRecipe {
 
-    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery")) {
+    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("smeltery")) {
 
         private static final ConfigAdapter<Map<PylonFluid, Double>> FLUID_MAP_ADAPTER = ConfigAdapter.MAP.from(
                 ConfigAdapter.PYLON_FLUID,

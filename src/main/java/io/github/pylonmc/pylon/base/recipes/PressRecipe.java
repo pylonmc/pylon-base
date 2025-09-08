@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -33,7 +34,7 @@ public record PressRecipe(
         double oilAmount
 ) implements PylonRecipe {
 
-    public static final RecipeType<PressRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("press")) {
+    public static final RecipeType<PressRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("press")) {
         @Override
         protected @NotNull PressRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new PressRecipe(

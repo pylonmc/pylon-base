@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -56,7 +57,7 @@ public record GrindstoneRecipe(
         return key;
     }
 
-    public static final RecipeType<GrindstoneRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("grindstone")) {
+    public static final RecipeType<GrindstoneRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("grindstone")) {
         @Override
         protected @NotNull GrindstoneRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new GrindstoneRecipe(
