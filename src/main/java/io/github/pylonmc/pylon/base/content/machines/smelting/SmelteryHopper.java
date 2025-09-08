@@ -27,11 +27,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
     }
 
     @Override
-    public void onItemMoveTo(InventoryMoveItemEvent event) {
-        event.setCancelled(true);
-    }
-
-    @Override
     public void onItemMoveFrom(InventoryMoveItemEvent event) {
         event.setCancelled(true);
     }
