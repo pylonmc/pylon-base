@@ -37,6 +37,15 @@ item:
       <arrow> Instantly turns a zombie villager back into a normal villager
       <arrow> Also heals it to full health
 
+  climbing_pick:
+    name: "Climbing Pick"
+    lore: |-
+      <arrow> <insn>Right click</insn> on a block to hold onto it
+      <arrow> <insn>Double-jump</insn> afterwards to push off the pick
+      <arrow> <insn>Sneak</insn> to release the pick
+      <arrow> <attr>Jump speed:</attr> %jump-speed%
+      <arrow> <attr>Hook range:</attr> %hook-range%
+
   coal_dust:
     name: "Coal Dust"
 

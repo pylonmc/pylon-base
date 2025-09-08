@@ -3493,6 +3493,21 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
+    public static final ItemStack CLIMBING_PICK = ItemStackBuilder.pylonItem(Material.DIAMOND_HOE, BaseKeys.CLIMBING_PICK)
+            .build();
+    static {
+        PylonItem.register(ClimbingPick.class, CLIMBING_PICK);
+        BasePages.TOOLS.addItem(BaseKeys.CLIMBING_PICK);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.CLIMBING_PICK, CLIMBING_PICK)
+                .shape("H H", "S S", "STS")
+                .setIngredient('H', Material.IRON_HOE)
+                .setIngredient('S', Material.STICK)
+                .setIngredient('T', Material.STRING);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }

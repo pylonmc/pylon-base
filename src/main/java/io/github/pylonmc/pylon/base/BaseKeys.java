@@ -262,4 +262,6 @@ public class BaseKeys {
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
+
+    public static final NamespacedKey CLIMBING_PICK = baseKey("climbing_pick");
 }
