@@ -6,8 +6,8 @@ item:
     lore: |-
       <arrow> Patches up bruises and wounds
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <unit:hearts>2</unit>
-      <arrow> <attr>Apply time:</attr> <unit:seconds>2</unit>
+      <arrow> <attr>Heals:</attr> %heal-amount%
+      <arrow> <attr>Apply time:</attr> %consume-seconds%
 
   beheading_sword:
     name: "Beheading Sword"
@@ -110,25 +110,25 @@ item:
     name: "Explosive Target"
     lore: |-
       <arrow> Explodes when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_fiery:
     name: "Fiery Explosive Target"
     lore: |-
       <arrow> Explodes and sets the surroundings on fire when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_super:
     name: "Super Explosive Target"
     lore: |-
       <arrow> Explodes aggressively when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   explosive_target_super_fiery:
     name: "Super Fiery Explosive Target"
     lore: |-
       <arrow> Explodes aggressively and sets the surroundings on fire when shot
-      <arrow> Explosion power: %explosive-power%
+      <arrow> <attr>Explosion power:</attr> %explosive-power%
 
   bronze_axe:
     name: "Bronze Axe"
@@ -507,8 +507,8 @@ item:
     lore: |-
       <arrow> Removes all effects and heals the user when applied
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <unit:hearts>10</unit>
-      <arrow> <attr>Apply time:</attr> <unit:seconds>7</unit>
+      <arrow> <attr>Heals:</attr> %heal-amount%
+      <arrow> <attr>Apply time:</attr> %consume-seconds%
 
   mixing_pot:
     name: "Mixing Pot"
@@ -699,8 +699,8 @@ item:
     lore: |-
       <arrow> Brings relief to more serious wounds
       <arrow> <insn>Right click</insn> to use
-      <arrow> <attr>Heals:</attr> <unit:hearts>7</unit>
-      <arrow> <attr>Apply time:</attr> <unit:seconds>3</unit>
+      <arrow> <attr>Heals:</attr> %heal-amount%
+      <arrow> <attr>Apply time:</attr> %consume-seconds%
 
   sprinkler:
     name: "Sprinkler"
