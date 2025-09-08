@@ -15,6 +15,9 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -77,10 +80,16 @@ public class FluidPlacer extends PylonBlock
     public void tick(double deltaSeconds) {
         if (fluidAmount(fluid) >= 1000.0
                 && placeBlock.getType().isAir()
-                && new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()
         ) {
-            placeBlock.setType(material);
             removeFluid(fluid, 1000.0);
+            if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {
+                placeBlock.getWorld().playSound(placeBlock.getLocation().toCenterLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
+                placeBlock.getWorld().spawnParticle(Particle.SMOKE, placeBlock.getLocation().toCenterLocation(), 10, 0.35, 0.35, 0.35, 0.01);
+            } else {
+                if (new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()) {
+                    placeBlock.setType(material);
+                }
+            }
         }
     }
 

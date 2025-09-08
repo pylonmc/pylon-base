@@ -96,6 +96,11 @@ public class BaseKeys {
     public static final NamespacedKey BRONZE_SHOVEL = baseKey("bronze_shovel");
     public static final NamespacedKey BRONZE_HOE = baseKey("bronze_hoe");
 
+    public static final NamespacedKey BRONZE_HELMET = baseKey("bronze_helmet");
+    public static final NamespacedKey BRONZE_CHESTPLATE = baseKey("bronze_chestplate");
+    public static final NamespacedKey BRONZE_LEGGINGS = baseKey("bronze_leggings");
+    public static final NamespacedKey BRONZE_BOOTS = baseKey("bronze_boots");
+
     public static final NamespacedKey BANDAGE = baseKey("bandage");
     public static final NamespacedKey SPLINT = baseKey("splint");
     public static final NamespacedKey DISINFECTANT = baseKey("disinfectant");
@@ -257,4 +262,6 @@ public class BaseKeys {
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
+
+    public static final NamespacedKey CLIMBING_PICK = baseKey("climbing_pick");
 }
