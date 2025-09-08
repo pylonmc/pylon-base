@@ -40,9 +40,7 @@ public class SoulboundRune extends Rune {
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
         ItemStack soulboundItem = ItemStackBuilder.of(target.asQuantity(consume))
-                .lore(TOOLTIP.arguments(
-                        PylonArgument.of("playername", event.getPlayer().getName())
-                ))
+                .lore(TOOLTIP)
                 .build();
         soulboundItem.editMeta(meta -> {
             meta.getPersistentDataContainer().set(SOULBOUND_KEY, PylonSerializers.UUID, event.getPlayer().getUniqueId());
