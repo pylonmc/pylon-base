@@ -3521,16 +3521,16 @@ public final class BaseItems {
         MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
                 BaseKeys.SOULBOUND_RUNE,
                 List.of(
-                        new ItemStack(Material.CHAIN),
-                        SHIMMER_DUST_1,
-                        new ItemStack(Material.CHAIN),
-                        SHIMMER_DUST_1,
-                        new ItemStack(Material.CHAIN),
-                        SHIMMER_DUST_1,
-                        new ItemStack(Material.CHAIN),
-                        SHIMMER_DUST_1
+                        COVALENT_BINDER,
+                        SHIMMER_SKULL,
+                        COVALENT_BINDER,
+                        SHIMMER_DUST_3,
+                        COVALENT_BINDER,
+                        SHIMMER_DUST_3,
+                        COVALENT_BINDER,
+                        SHIMMER_SKULL
                 ),
-                new ItemStack(Material.LIGHTNING_ROD),
+                ABYSSAL_CATALYST,
                 SOULBOUND_RUNE,
                 30
         ));

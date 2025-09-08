@@ -52,8 +52,8 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         pm.registerEvents(new Rune.RuneListener(), this);
+        pm.registerEvents(new SoulboundRune.SoulboundRuneListener(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, BaseConfig.HEALTH_TALISMAN_CHECK_INTERVAL);
-        new SoulboundRune.SoulboundRuneTicker().runTaskTimer(this, 0, BaseConfig.SOULBOUND_CHECK_INTERVAL);
     }
 
     @Override
