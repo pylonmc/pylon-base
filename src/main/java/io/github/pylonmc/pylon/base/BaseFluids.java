@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -167,13 +166,6 @@ public final class BaseFluids {
         ));
 
         SULFUR.register();
-        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                SULFUR.getKey(),
-                BaseItems.SULFUR,
-                SULFUR,
-                144.0,
-                112.8
-        ));
 
         MERCURY.register();
 
