@@ -1156,6 +1156,34 @@ item:
       <arrow> <insn>Right click</insn> a block to mold it
       <arrow> <attr>Cooldown:</attr> %cooldown%
 
+  vacuum_hopper_1:
+    name: "Vacuum Hopper <yellow>I"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  vacuum_hopper_2:
+    name: "Vacuum Hopper <yellow>II"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  vacuum_hopper_3:
+    name: "Vacuum Hopper <yellow>III"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  vacuum_hopper_4:
+    name: "Vacuum Hopper <yellow>IV"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
