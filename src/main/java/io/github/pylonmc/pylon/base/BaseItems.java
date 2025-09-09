@@ -47,8 +47,6 @@ import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.*;
@@ -950,23 +948,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SHIMMER_DUST_3);
         BasePages.RESOURCES.addItem(BaseKeys.SHIMMER_DUST_3);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.SHIMMER_DUST_3,
-                new ArrayList<>(Arrays.asList(
-                        new ItemStack(Material.REDSTONE_BLOCK),
-                        null,
-                        COVALENT_BINDER,
-                        COVALENT_BINDER,
-                        null,
-                        COVALENT_BINDER,
-                        COVALENT_BINDER,
-                        null
-                )),
-                SHIMMER_DUST_2,
-                SHIMMER_DUST_3,
-                5
-        ));
     }
 
     //<editor-fold desc="Portable Items" defaultstate=collapsed>
@@ -1132,23 +1113,6 @@ public final class BaseItems {
     static {
         PylonItem.register(LumberAxe.class, LUMBER_AXE);
         BasePages.TOOLS.addItem(BaseKeys.LUMBER_AXE);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.LUMBER_AXE,
-                new ArrayList<>(Arrays.asList(
-                        SHIMMER_DUST_2,
-                        null,
-                        null,
-                        GOLD_DUST,
-                        null,
-                        null,
-                        DIAMOND_DUST,
-                        null
-                )),
-                new ItemStack(Material.WOODEN_AXE),
-                LUMBER_AXE,
-                45
-        ));
     }
 
     public static final ItemStack BRICK_MOLD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRICK_MOLD)
@@ -1271,23 +1235,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SHIMMER_SKULL);
         BasePages.COMPONENTS.addItem(BaseKeys.SHIMMER_SKULL);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.SHIMMER_SKULL,
-                new ArrayList<>(Arrays.asList(
-                        SHIMMER_DUST_3,
-                        null,
-                        SHIMMER_DUST_3,
-                        null,
-                        SHIMMER_DUST_3,
-                        null,
-                        SHIMMER_DUST_3,
-                        null
-                )),
-                new ItemStack(Material.WITHER_SKELETON_SKULL),
-                SHIMMER_SKULL,
-                30
-        ));
     }
 
     public static final ItemStack IGNEOUS_COMPOSITE = ItemStackBuilder.pylonItem(Material.OBSIDIAN, BaseKeys.IGNEOUS_COMPOSITE)
@@ -1327,23 +1274,6 @@ public final class BaseItems {
     static {
         PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ADVANCED);
         BasePages.TOOLS.addItem(BaseKeys.HEALTH_TALISMAN_ADVANCED);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.HEALTH_TALISMAN_ADVANCED,
-                new ArrayList<>(Arrays.asList(
-                        null,
-                        HEALTH_TALISMAN_SIMPLE,
-                        CARBON,
-                        HEALTH_TALISMAN_SIMPLE,
-                        BRONZE_DUST,
-                        HEALTH_TALISMAN_SIMPLE,
-                        null,
-                        HEALTH_TALISMAN_SIMPLE
-                )),
-                DIAMOND_DUST,
-                HEALTH_TALISMAN_ADVANCED,
-                35
-        ));
     }
 
     public static final ItemStack HEALTH_TALISMAN_ULTIMATE = ItemStackBuilder.pylonItem(Material.BUDDING_AMETHYST, BaseKeys.HEALTH_TALISMAN_ULTIMATE)
@@ -1352,23 +1282,6 @@ public final class BaseItems {
     static {
         PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ULTIMATE);
         BasePages.TOOLS.addItem(BaseKeys.HEALTH_TALISMAN_ULTIMATE);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.HEALTH_TALISMAN_ULTIMATE,
-                new ArrayList<>(Arrays.asList(
-                        HEALTH_TALISMAN_ADVANCED,
-                        HEALTH_TALISMAN_ADVANCED,
-                        HEALTH_TALISMAN_ADVANCED,
-                        HEALTH_TALISMAN_ADVANCED,
-                        HEALTH_TALISMAN_ADVANCED,
-                        null,
-                        EMERALD_DUST,
-                        null
-                )),
-                SHIMMER_SKULL,
-                HEALTH_TALISMAN_ULTIMATE,
-                90
-        ));
     }
 
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
@@ -1378,23 +1291,6 @@ public final class BaseItems {
     static {
         PylonItem.register(BeheadingSword.class, BEHEADING_SWORD);
         BasePages.COMBAT.addItem(BaseKeys.BEHEADING_SWORD);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.BEHEADING_SWORD,
-                new ArrayList<>(Arrays.asList(
-                        SHIMMER_SKULL,
-                        null,
-                        SHIMMER_SKULL,
-                        null,
-                        SHIMMER_SKULL,
-                        null,
-                        null,
-                        null
-                )),
-                new ItemStack(Material.DIAMOND_SWORD),
-                BEHEADING_SWORD,
-                85
-        ));
     }
 
     public static final ItemStack PEDESTAL = ItemStackBuilder.pylonItem(Material.STONE_BRICK_WALL, BaseKeys.PEDESTAL)
@@ -2994,23 +2890,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FireproofRune.class, FIREPROOF_RUNE);
         BasePages.TOOLS.addItem(BaseKeys.FIREPROOF_RUNE);
-
-        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
-                BaseKeys.FIREPROOF_RUNE,
-                new ArrayList<>(Arrays.asList(
-                        new ItemStack(Material.LAVA_BUCKET),
-                        new ItemStack(Material.MAGMA_BLOCK),
-                        SHIMMER_DUST_3,
-                        new ItemStack(Material.FIRE_CHARGE),
-                        SHIMMER_DUST_3,
-                        null,
-                        SHIMMER_DUST_3,
-                        SHIMMER_DUST_3
-                )),
-                new ItemStack(Material.MAGMA_CREAM),
-                FIREPROOF_RUNE,
-                70
-        ));
     }
 
     public static final ItemStack MANUAL_CORE_DRILL_LEVER = ItemStackBuilder.pylonItem(Material.LEVER, BaseKeys.MANUAL_CORE_DRILL_LEVER)

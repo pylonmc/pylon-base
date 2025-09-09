@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
@@ -21,6 +22,7 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
@@ -48,22 +50,66 @@ public record MagicAltarRecipe(
     public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("magic_altar")) {
         @Override
         protected @NotNull MagicAltarRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            List<String> shape = section.getOrThrow("shape", ConfigAdapter.LIST.from(ConfigAdapter.STRING));
+            if (shape.size() != 3) {
+                throw new IllegalArgumentException("Invalid shape size, must be 3");
+            }
+            for (String row : shape) {
+                if (row.length() != 3) {
+                    throw new IllegalArgumentException("Invalid shape row length, must be 3");
+                }
+            }
+            Map<Character, ItemStack> itemMap = section.getOrThrow("key", ConfigAdapter.MAP.from(
+                    ConfigAdapter.CHAR,
+                    ConfigAdapter.ITEM_STACK
+            ));
+
+            StringBuilder ingredientChars = new StringBuilder();
+            ingredientChars.append(shape.getFirst());
+            ingredientChars.append(shape.get(1).charAt(2));
+            ingredientChars.append(new StringBuilder(shape.get(2)).reverse());
+            ingredientChars.append(shape.get(1).charAt(0));
+            List<ItemStack> inputs = new ArrayList<>(8);
+            for (int i = 0; i < ingredientChars.length(); i++) {
+                char c = ingredientChars.charAt(i);
+                if (c == ' ') {
+                    inputs.add(null);
+                } else if (itemMap.containsKey(c)) {
+                    inputs.add(itemMap.get(c));
+                } else {
+                    throw new IllegalArgumentException("Unknown character in shape: " + c);
+                }
+            }
+
+            ItemStack catalyst = itemMap.get(shape.get(1).charAt(1));
+            if (catalyst == null) {
+                throw new IllegalArgumentException("Catalyst (center item) cannot be empty");
+            }
+
             return new MagicAltarRecipe(
                     key,
-                    section.getOrThrow("inputs", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK)),
-                    section.getOrThrow("catalyst", ConfigAdapter.ITEM_STACK),
+                    inputs,
+                    catalyst,
                     section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
-                    section.getOrThrow("timeTicks-seconds", ConfigAdapter.DOUBLE)
+                    section.getOrThrow("time-seconds", ConfigAdapter.DOUBLE)
             );
         }
     };
 
+    public MagicAltarRecipe {
+        if (inputs.size() != MagicAltar.PEDESTAL_COUNT) {
+            throw new IllegalArgumentException("Invalid number of inputs, must be " + MagicAltar.PEDESTAL_COUNT);
+        }
+    }
+
     public boolean ingredientsMatch(List<ItemStack> ingredients) {
-        assert this.inputs.size() == MagicAltar.PEDESTAL_COUNT;
-        assert ingredients.size() == MagicAltar.PEDESTAL_COUNT;
+        Preconditions.checkArgument(
+                ingredients.size() == MagicAltar.PEDESTAL_COUNT,
+                "Invalid number of ingredients, must be %d",
+                MagicAltar.PEDESTAL_COUNT
+        );
 
         for (int i = 0; i < MagicAltar.PEDESTAL_COUNT; i++) {
-
             boolean allIngredientsMatch = true;
             for (int j = 0; j < MagicAltar.PEDESTAL_COUNT; j++) {
                 ItemStack input = this.inputs.get(j);
