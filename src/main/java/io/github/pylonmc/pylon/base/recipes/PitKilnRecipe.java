@@ -3,6 +3,9 @@ package io.github.pylonmc.pylon.base.recipes;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -23,9 +26,16 @@ public record PitKilnRecipe(
         @NotNull List<ItemStack> output
 ) implements PylonRecipe {
 
-    public static final RecipeType<PitKilnRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("pit_kiln_recipe")
-    );
+    public static final RecipeType<PitKilnRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("pit_kiln")) {
+        @Override
+        protected @NotNull PitKilnRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new PitKilnRecipe(
+                    key,
+                    section.getOrThrow("inputs", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK)),
+                    section.getOrThrow("outputs", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK))
+            );
+        }
+    };
 
     public PitKilnRecipe {
         Preconditions.checkArgument(!input.isEmpty(), "Input cannot be empty");

@@ -19,7 +19,6 @@ import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.DrillingDisplayRecipe;
 import io.github.pylonmc.pylon.base.recipes.MoldingDisplayRecipe;
-import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -47,8 +46,6 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
-
-import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.*;
 
@@ -87,12 +84,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, CARBON);
         BasePages.RESOURCES.addItem(BaseKeys.CARBON);
-
-        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
-                baseKey("coal_to_carbon"),
-                List.of(COAL_DUST.asQuantity(2)),
-                List.of(CARBON)
-        ));
     }
 
     public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, BaseKeys.SULFUR)
@@ -100,12 +91,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SULFUR);
         BasePages.RESOURCES.addItem(BaseKeys.SULFUR);
-
-        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
-                baseKey("redstone_smelting"),
-                List.of(new ItemStack(Material.REDSTONE)),
-                List.of(SULFUR)
-        ));
     }
 
     public static final ItemStack GYPSUM = ItemStackBuilder.pylonItem(Material.QUARTZ, BaseKeys.GYPSUM)
@@ -286,12 +271,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRONZE_INGOT);
         BasePages.RESOURCES.addItem(BaseKeys.BRONZE_INGOT);
-
-        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
-                baseKey("bronze"),
-                List.of(new ItemStack(Material.COPPER_INGOT, 2), TIN_INGOT),
-                List.of(BRONZE_INGOT.asQuantity(2))
-        ));
     }
 
     public static final ItemStack BRONZE_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.BRONZE_DUST)
@@ -2170,12 +2149,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, REFRACTORY_BRICK, BaseKeys.REFRACTORY_BRICK);
         BasePages.RESOURCES.addItem(BaseKeys.REFRACTORY_BRICK);
-
-        PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
-                BaseKeys.REFRACTORY_BRICK,
-                List.of(UNFIRED_REFRACTORY_BRICK),
-                List.of(REFRACTORY_BRICK)
-        ));
     }
 
     public static final ItemStack REFRACTORY_BRICKS = ItemStackBuilder.pylonItem(Material.DEEPSLATE_TILES, BaseKeys.REFRACTORY_BRICKS)
