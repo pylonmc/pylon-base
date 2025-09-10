@@ -59,8 +59,8 @@ public class SmelteryRecipe implements PylonRecipe {
         protected @NotNull SmelteryRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new SmelteryRecipe(
                     key,
-                    section.getOrThrow("input-fluids", FLUID_MAP_ADAPTER),
-                    section.getOrThrow("output-fluids", FLUID_MAP_ADAPTER),
+                    section.getOrThrow("inputs", FLUID_MAP_ADAPTER),
+                    section.getOrThrow("outputs", FLUID_MAP_ADAPTER),
                     section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
             );
         }
@@ -78,12 +78,15 @@ public class SmelteryRecipe implements PylonRecipe {
             @NotNull Map<PylonFluid, Double> outputFluids,
             double temperature
     ) {
+        Preconditions.checkArgument(!inputFluids.isEmpty(), "Input fluids cannot be empty");
+        Preconditions.checkArgument(!outputFluids.isEmpty(), "Output fluids cannot be empty");
+
         this.key = key;
         this.temperature = temperature;
 
         var highestFluidEntry = inputFluids.entrySet().stream()
                 .max(Comparator.comparingDouble(Map.Entry::getValue))
-                .orElseThrow(() -> new IllegalArgumentException("Input fluids cannot be empty"));
+                .orElseThrow();
         this.highestFluid = highestFluidEntry.getKey();
         double highestFluidAmount = highestFluidEntry.getValue();
 

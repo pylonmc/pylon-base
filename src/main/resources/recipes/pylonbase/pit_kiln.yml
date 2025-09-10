@@ -1,9 +1,3 @@
-#PitKilnRecipe.RECIPE_TYPE.addRecipe(new PitKilnRecipe(
-#baseKey("coal_to_carbon"),
-#List.of(COAL_DUST.asQuantity(2)),
-#List.of(CARBON)
-#));
-
 pylonbase:coal_to_carbon:
   inputs:
     - pylonbase:coal_dust: 2
