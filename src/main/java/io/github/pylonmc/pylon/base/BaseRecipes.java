@@ -1,10 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.recipes.*;
-import io.github.pylonmc.pylon.core.config.ConfigSection;
-import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,13 +30,6 @@ public class BaseRecipes {
         PipeBendingRecipe.RECIPE_TYPE.register();
 
         PressRecipe.RECIPE_TYPE.register();
-        ConfigSection config = Settings.get(BaseKeys.PRESS).getSectionOrThrow("oil-amount");
-        for (String key : config.getKeys()) {
-            Material material = Material.getMaterial(key.toUpperCase());
-            Preconditions.checkState(material != null, "No such material " + key);
-            int amount = config.getOrThrow(key, ConfigAdapter.INT);
-            PressRecipe.RECIPE_TYPE.addRecipe(new PressRecipe(material.getKey(), new ItemStack(material), amount));
-        }
 
         SmelteryRecipe.RECIPE_TYPE.register();
 
