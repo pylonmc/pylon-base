@@ -53,21 +53,6 @@ pylonbase:shimmer_dust_2:
   output:
     pylonbase:shimmer_dust_2: 1
 
-#
-#
-#      MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-#      BaseKeys.DISINFECTANT,
-#      List.of(
-#      new ItemStack(Material.GLASS_BOTTLE),
-#      new ItemStack(Material.NETHER_WART, 3),
-#      new ItemStack(Material.DANDELION)
-#      ),
-#      BaseFluids.PLANT_OIL,
-#      100,
-#      FluidOrItem.of(DISINFECTANT),
-#      false
-#      ));
-
 pylonbase:disinfectant:
   input-items:
     - minecraft:glass_bottle
@@ -133,7 +118,7 @@ pylonbase:research_pack_2:
   output:
     pylonbase:research_pack_2: 1
   requires-enriched-fire: true
-    
+
 pylonbase:refractory_mix:
   input-items:
     - pylonbase:iron_dust
@@ -147,7 +132,7 @@ pylonbase:refractory_mix:
   output:
     pylonbase:refractory_mix: 4
   requires-enriched-fire: true
-    
+
 pylonbase:explosive_target_fiery:
   input-items:
     - pylonbase:explosive_target
@@ -156,7 +141,7 @@ pylonbase:explosive_target_fiery:
   input-fluid-amount: 500
   output:
     pylonbase:explosive_target_fiery: 1
-      
+
 pylonbase:explosive_target_super_fiery:
   input-items:
     - pylonbase:explosive_target
@@ -165,7 +150,7 @@ pylonbase:explosive_target_super_fiery:
   input-fluid-amount: 1000
   output:
     pylonbase:explosive_target_super_fiery: 1
-      
+
 pylonbase:solar_lens:
   input-items:
     - minecraft:glass_pane: 4
