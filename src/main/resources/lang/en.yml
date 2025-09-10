@@ -1263,10 +1263,10 @@ guide:
     magic: "Magic"
   recipe:
     grindstone:
-      time: "<attr>Grinding timeTicks:</attr> %timeTicks%"
+      time: "<attr>Grinding time:</attr> %time%"
       chance: "<attr>Chance:</attr> %chance%"
-    press: "<attr>Pressing timeTicks:</attr> %timeTicks%"
-    magic-altar: "<attr>Ritual timeTicks:</attr> %timeTicks%"
+    press: "<attr>Pressing time:</attr> %time%"
+    magic-altar: "<attr>Ritual time:</attr> %time%"
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"

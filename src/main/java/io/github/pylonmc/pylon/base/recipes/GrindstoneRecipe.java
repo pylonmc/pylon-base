@@ -102,8 +102,8 @@ public record GrindstoneRecipe(
                 .addIngredient('c', GuiItems.progressCyclingItem(cycles * Grindstone.CYCLE_DURATION_TICKS,
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
-                                        "pylon.pylonbase.guide.recipe.grindstone.timeTicks",
-                                        PylonArgument.of("timeTicks", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_DURATION_TICKS / 20))
+                                        "pylon.pylonbase.guide.recipe.grindstone.time",
+                                        PylonArgument.of("time", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_DURATION_TICKS / 20))
                                 ))
                 ));
 

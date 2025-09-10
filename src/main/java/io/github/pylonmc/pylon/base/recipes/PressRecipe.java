@@ -77,7 +77,7 @@ public record PressRecipe(
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
                                         "pylon.pylonbase.guide.recipe.press",
-                                        PylonArgument.of("timeTicks", UnitFormat.SECONDS.format(Press.TIME_PER_ITEM_TICKS / 20.0))
+                                        PylonArgument.of("time", UnitFormat.SECONDS.format(Press.TIME_PER_ITEM_TICKS / 20.0))
                                 ))
                 ))
                 .addIngredient('o', new FluidButton(BaseFluids.PLANT_OIL.getKey(), oilAmount))

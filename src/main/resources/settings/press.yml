@@ -1,6 +1,6 @@
 time-per-item-ticks: 30
 
-# Must be lower than timeTicks-per-item-ticks
+# Must be lower than time-per-item-ticks
 return-to-start-time-ticks: 5
 
 capacity-mb: 1000

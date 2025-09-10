@@ -47,8 +47,8 @@ public class Press extends PylonBlock
         implements PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
-    public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("timeTicks-per-item-ticks", ConfigAdapter.INT);
-    public static final int RETURN_TO_START_TIME_TICKS = settings.getOrThrow("return-to-start-timeTicks-ticks", ConfigAdapter.INT);
+    public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
+    public static final int RETURN_TO_START_TIME_TICKS = settings.getOrThrow("return-to-start-time-ticks", ConfigAdapter.INT);
     public static final int CAPACITY_MB = settings.getOrThrow("capacity-mb", ConfigAdapter.INT);
 
     public static class PressItem extends PylonItem {

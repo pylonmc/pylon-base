@@ -17,7 +17,10 @@ import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
-import io.github.pylonmc.pylon.base.recipes.*;
+import io.github.pylonmc.pylon.base.recipes.DrillingDisplayRecipe;
+import io.github.pylonmc.pylon.base.recipes.MoldingDisplayRecipe;
+import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
+import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -26,7 +29,6 @@ import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
@@ -909,16 +911,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COVALENT_BINDER);
         BasePages.RESOURCES.addItem(BaseKeys.COVALENT_BINDER);
-        ItemStack gunpowderInput = new ItemStack(Material.GUNPOWDER, 4);
-        ItemStack output = COVALENT_BINDER.asQuantity(6);
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.COVALENT_BINDER,
-                List.of(gunpowderInput, new ItemStack(Material.SHROOMLIGHT), SHIMMER_DUST_1),
-                BaseFluids.WATER,
-                1000,
-                FluidOrItem.of(output),
-                true
-        ));
     }
 
     public static final ItemStack SHIMMER_DUST_2 = ItemStackBuilder.pylonItem(Material.REDSTONE, BaseKeys.SHIMMER_DUST_2)
@@ -927,19 +919,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SHIMMER_DUST_2);
         BasePages.RESOURCES.addItem(BaseKeys.SHIMMER_DUST_2);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.SHIMMER_DUST_2,
-                List.of(
-                        SHIMMER_DUST_1,
-                        GOLD_DUST,
-                        new ItemStack(Material.REDSTONE)
-                ),
-                BaseFluids.WATER,
-                333,
-                FluidOrItem.of(SHIMMER_DUST_2),
-                false
-        ));
     }
 
     public static final ItemStack SHIMMER_DUST_3 = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.SHIMMER_DUST_3)
@@ -1071,19 +1050,6 @@ public final class BaseItems {
     static {
         PylonItem.register(HealingConsumable.class, DISINFECTANT);
         BasePages.TOOLS.addItem(BaseKeys.DISINFECTANT);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.DISINFECTANT,
-                List.of(
-                        new ItemStack(Material.GLASS_BOTTLE),
-                        new ItemStack(Material.NETHER_WART, 3),
-                        new ItemStack(Material.DANDELION)
-                ),
-                BaseFluids.PLANT_OIL,
-                100,
-                FluidOrItem.of(DISINFECTANT),
-                false
-        ));
     }
 
     public static final ItemStack MEDKIT = ItemStackBuilder.pylonItem(Material.SHULKER_SHELL, BaseKeys.MEDKIT)
@@ -1170,15 +1136,6 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, DOUGH);
         BasePages.RESOURCES.addItem(BaseKeys.DOUGH);
 
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.DOUGH,
-                List.of(FLOUR.asQuantity(2)),
-                BaseFluids.WATER,
-                250,
-                FluidOrItem.of(DOUGH),
-                false
-        ));
-
         FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
                 baseKey("bread_from_dough_furnace"),
                 new ItemStack(Material.BREAD),
@@ -1242,15 +1199,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, IGNEOUS_COMPOSITE, BaseKeys.IGNEOUS_COMPOSITE);
         BasePages.BUILDING.addItem(BaseKeys.IGNEOUS_COMPOSITE);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.IGNEOUS_COMPOSITE,
-                List.of(new ItemStack(Material.NETHER_BRICK, 4), COVALENT_BINDER),
-                BaseFluids.OBSCYRA,
-                1000.0,
-                FluidOrItem.of(IGNEOUS_COMPOSITE),
-                true
-        ));
     }
 
     public static final ItemStack HEALTH_TALISMAN_SIMPLE = ItemStackBuilder.pylonItem(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_SIMPLE)
@@ -1901,15 +1849,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, ABYSSAL_CATALYST);
         BasePages.COMPONENTS.addItem(BaseKeys.ABYSSAL_CATALYST);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.ABYSSAL_CATALYST,
-                List.of(new ItemStack(Material.SOUL_SOIL, 4)),
-                BaseFluids.OBSCYRA,
-                250,
-                FluidOrItem.of(ABYSSAL_CATALYST),
-                true
-        ));
     }
 
     public static final ItemStack HYDRAULIC_MOTOR = ItemStackBuilder.pylonItem(Material.PISTON, BaseKeys.HYDRAULIC_MOTOR)
@@ -2176,15 +2115,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_2, BaseKeys.FLUID_VOIDER_2);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_VOIDER_2);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.FLUID_VOIDER_2,
-                List.of(FLUID_VOIDER_1),
-                BaseFluids.OBSCYRA,
-                500,
-                FluidOrItem.of(FLUID_VOIDER_2),
-                true
-        ));
     }
 
     public static final ItemStack FLUID_VOIDER_3 = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, BaseKeys.FLUID_VOIDER_3)
@@ -2193,15 +2123,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidVoider.Item.class, FLUID_VOIDER_3, BaseKeys.FLUID_VOIDER_3);
         BasePages.FLUID_MACHINES.addItem(BaseKeys.FLUID_VOIDER_3);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.MIXING_POT,
-                List.of(FLUID_VOIDER_2),
-                BaseFluids.OBSCYRA,
-                500,
-                FluidOrItem.of(FLUID_VOIDER_3),
-                true
-        ));
     }
 
     public static final ItemStack CREATIVE_FLUID_VOIDER = ItemStackBuilder.pylonItem(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_FLUID_VOIDER)
@@ -2260,15 +2181,6 @@ public final class BaseItems {
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_2);
         BasePages.SCIENCE.addItem(BaseKeys.RESEARCH_PACK_2);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.RESEARCH_PACK_2,
-                List.of(HYDRAULIC_MOTOR, CARBON, LOUPE),
-                BaseFluids.OBSCYRA,
-                500,
-                FluidOrItem.of(RESEARCH_PACK_2),
-                true
-        ));
     }
 
     public static final ItemStack FLUID_STRAINER = ItemStackBuilder.pylonItem(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
@@ -2308,22 +2220,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, REFRACTORY_MIX, BaseKeys.REFRACTORY_MIX);
         BasePages.RESOURCES.addItem(BaseKeys.REFRACTORY_MIX);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.REFRACTORY_MIX,
-                List.of(
-                        IRON_DUST,
-                        new ItemStack(Material.RED_NETHER_BRICKS),
-                        new ItemStack(Material.SAND, 2),
-                        new ItemStack(Material.GRAVEL, 2),
-                        GYPSUM_DUST.asQuantity(3),
-                        new ItemStack(Material.CLAY_BALL, 6)
-                ),
-                BaseFluids.OBSCYRA,
-                1000.0,
-                FluidOrItem.of(REFRACTORY_MIX.asQuantity(4)),
-                true
-        ));
     }
 
     public static final ItemStack UNFIRED_REFRACTORY_BRICK = ItemStackBuilder.pylonItem(Material.BRICK, BaseKeys.UNFIRED_REFRACTORY_BRICK)
@@ -2496,15 +2392,6 @@ public final class BaseItems {
     static {
         PylonItem.register(ExplosiveTarget.Item.class, EXPLOSIVE_TARGET_FIERY, BaseKeys.EXPLOSIVE_TARGET_FIERY);
         BasePages.BUILDING.addItem(BaseKeys.EXPLOSIVE_TARGET_FIERY);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.EXPLOSIVE_TARGET_FIERY,
-                List.of(EXPLOSIVE_TARGET, new ItemStack(Material.FIRE_CHARGE, 2)),
-                BaseFluids.PLANT_OIL,
-                500,
-                FluidOrItem.of(EXPLOSIVE_TARGET_FIERY),
-                false
-        ));
     }
 
     public static final ItemStack EXPLOSIVE_TARGET_SUPER = ItemStackBuilder.pylonItem(Material.TARGET, BaseKeys.EXPLOSIVE_TARGET_SUPER)
@@ -2524,15 +2411,6 @@ public final class BaseItems {
     static {
         PylonItem.register(ExplosiveTarget.Item.class, EXPLOSIVE_TARGET_SUPER_FIERY, BaseKeys.EXPLOSIVE_TARGET_SUPER_FIERY);
         BasePages.BUILDING.addItem(BaseKeys.EXPLOSIVE_TARGET_SUPER_FIERY);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.EXPLOSIVE_TARGET_SUPER_FIERY,
-                List.of(EXPLOSIVE_TARGET, new ItemStack(Material.FIRE_CHARGE, 4)),
-                BaseFluids.PLANT_OIL,
-                1000,
-                FluidOrItem.of(EXPLOSIVE_TARGET_SUPER_FIERY),
-                false
-        ));
     }
 
     public static final ItemStack IMMOBILIZER = ItemStackBuilder.pylonItem(Material.PISTON, BaseKeys.IMMOBILIZER)
@@ -2715,15 +2593,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SOLAR_LENS, BaseKeys.SOLAR_LENS);
         BasePages.HYDRAULICS.addItem(BaseKeys.SOLAR_LENS);
-
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                BaseKeys.SOLAR_LENS,
-                List.of(new ItemStack(Material.GLASS_PANE, 4)),
-                BaseFluids.REFLECTOR_FLUID,
-                250,
-                FluidOrItem.of(SOLAR_LENS),
-                false
-        ));
     }
 
     public static final ItemStack PURIFICATION_TOWER_GLASS = ItemStackBuilder.pylonItem(Material.LIGHT_GRAY_STAINED_GLASS, BaseKeys.PURIFICATION_TOWER_GLASS)

@@ -3,16 +3,13 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
-import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -156,14 +153,6 @@ public final class BaseFluids {
         LAVA.register();
 
         OBSCYRA.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                OBSCYRA.getKey(),
-                List.of(BaseItems.OBSIDIAN_CHIP.asQuantity(5), new ItemStack(Material.BLAZE_POWDER, 2)),
-                WATER,
-                1000,
-                FluidOrItem.of(OBSCYRA, 1000),
-                true
-        ));
 
         SULFUR.register();
 
@@ -280,14 +269,6 @@ public final class BaseFluids {
         ));
 
         SLURRY.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                SLURRY.getKey(),
-                List.of(BaseItems.ROCK_DUST),
-                WATER,
-                1000,
-                FluidOrItem.of(SLURRY, 1000),
-                false
-        ));
 
         COAL_SLURRY.register();
         SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
@@ -387,26 +368,10 @@ public final class BaseFluids {
         PLANT_OIL.register();
 
         HYDRAULIC_FLUID.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                HYDRAULIC_FLUID.getKey(),
-                List.of(BaseItems.SHIMMER_DUST_1),
-                PLANT_OIL,
-                1000,
-                FluidOrItem.of(HYDRAULIC_FLUID, 1000),
-                false
-        ));
 
         DIRTY_HYDRAULIC_FLUID.register();
 
         REFLECTOR_FLUID.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                REFLECTOR_FLUID.getKey(),
-                List.of(BaseItems.QUARTZ_DUST.asQuantity(4)),
-                PLANT_OIL,
-                1000,
-                FluidOrItem.of(REFLECTOR_FLUID, 1000),
-                false
-        ));
     }
 
     private static void addMetalRecipes(

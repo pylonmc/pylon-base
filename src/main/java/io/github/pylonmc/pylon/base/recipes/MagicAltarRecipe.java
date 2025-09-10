@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
  */
 public record MagicAltarRecipe(
         @NotNull NamespacedKey key,
-        @NotNull List<ItemStack> inputs,
+        @NotNull List<@Nullable ItemStack> inputs,
         @NotNull ItemStack catalyst,
         @NotNull ItemStack result,
         double timeSeconds
@@ -177,7 +178,7 @@ public record MagicAltarRecipe(
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
                                         "pylon.pylonbase.guide.recipe.magic-altar",
-                                        PylonArgument.of("timeTicks", UnitFormat.SECONDS.format(timeSeconds))
+                                        PylonArgument.of("time", UnitFormat.SECONDS.format(timeSeconds))
                                 ))
                 ))
                 .addIngredient('r', ItemButton.fromStack(result))
