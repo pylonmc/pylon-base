@@ -1,0 +1,97 @@
+pylonbase:fluid_pipe_wood_oak:
+  input: minecraft:oak_log
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:oak_log
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_spruce:
+  input: minecraft:spruce_log
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:spruce_log
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_birch:
+  input: minecraft:birch_log
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:birch_log
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_jungle:
+  input: minecraft:jungle_log
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:jungle_log
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_acacia:
+  input: minecraft:acacia_log
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:acacia_log
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_dark_oak:
+  input: minecraft:dark_oak_log
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:dark_oak_log
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_crimson:
+  input: minecraft:crimson_stem
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:crimson_stem
+  time-ticks: 160
+
+pylonbase:fluid_pipe_wood_warped:
+  input: minecraft:warped_stem
+  result:
+    pylonbase:fluid_pipe_wood: 4
+  particle-data: minecraft:warped_stem
+  time-ticks: 160
+
+pylonbase:fluid_pipe_copper:
+  input: minecraft:copper_block
+  result:
+    pylonbase:fluid_pipe_copper: 9
+  particle-data: minecraft:copper_block
+  time-ticks: 360
+
+pylonbase:fluid_pipe_tin:
+  input: pylonbase:tin_block
+  result:
+    pylonbase:fluid_pipe_tin: 9
+  particle-data: minecraft:iron_block
+  time-ticks: 360
+
+pylonbase:fluid_pipe_bronze:
+  input: pylonbase:bronze_block
+  result:
+    pylonbase:fluid_pipe_bronze: 9
+  particle-data: minecraft:copper_block
+  time-ticks: 360
+
+pylonbase:fluid_pipe_iron:
+  input: minecraft:iron_block
+  result:
+    pylonbase:fluid_pipe_iron: 9
+  particle-data: minecraft:iron_block
+  time-ticks: 360
+
+pylonbase:fluid_pipe_steel:
+  input: pylonbase:steel_block
+  result:
+    pylonbase:fluid_pipe_steel: 9
+  particle-data: minecraft:netherite_block
+  time-ticks: 360
+
+pylonbase:fluid_pipe_igneous_composite:
+  input: pylonbase:igneous_composite
+  result:
+    pylonbase:fluid_pipe_igneous_composite: 1
+  particle-data: minecraft:obsidian
+  time-ticks: 40

@@ -19,7 +19,6 @@ import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.DrillingDisplayRecipe;
 import io.github.pylonmc.pylon.base.recipes.MoldingDisplayRecipe;
-import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -1300,18 +1299,6 @@ public final class BaseItems {
                 .setIngredient('w', new RecipeChoice.MaterialChoice(Tag.PLANKS));
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        ItemStack benderOutput = new ItemStack(FLUID_PIPE_WOOD);
-        benderOutput.setAmount(4);
-        for (Material material : Tag.LOGS.getValues()) {
-            PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                    BaseKeys.FLUID_PIPE_WOOD,
-                    new ItemStack(material),
-                    benderOutput,
-                    Material.OAK_LOG.createBlockData(),
-                    160
-            ));
-        }
     }
 
     public static final ItemStack FLUID_PIPE_COPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_COPPER)
@@ -1330,16 +1317,6 @@ public final class BaseItems {
                 .setIngredient('c', COPPER_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        ItemStack benderOutput = new ItemStack(FLUID_PIPE_COPPER);
-        benderOutput.setAmount(9);
-        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                BaseKeys.FLUID_PIPE_COPPER,
-                new ItemStack(Material.COPPER_BLOCK),
-                benderOutput,
-                Material.COPPER_BLOCK.createBlockData(),
-                360
-        ));
     }
 
     public static final ItemStack FLUID_PIPE_TIN = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_TIN)
@@ -1358,16 +1335,6 @@ public final class BaseItems {
                 .setIngredient('c', TIN_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        ItemStack benderOutput = new ItemStack(FLUID_PIPE_TIN);
-        benderOutput.setAmount(9);
-        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                BaseKeys.FLUID_PIPE_TIN,
-                TIN_BLOCK,
-                benderOutput,
-                Material.IRON_BLOCK.createBlockData(),
-                360
-        ));
     }
 
     public static final ItemStack FLUID_PIPE_IRON = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_IRON)
@@ -1386,16 +1353,6 @@ public final class BaseItems {
                 .setIngredient('c', IRON_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        ItemStack benderOutput = new ItemStack(FLUID_PIPE_IRON);
-        benderOutput.setAmount(9);
-        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                BaseKeys.FLUID_PIPE_IRON,
-                new ItemStack(Material.IRON_BLOCK),
-                benderOutput,
-                Material.IRON_BLOCK.createBlockData(),
-                360
-        ));
     }
 
     public static final ItemStack FLUID_PIPE_BRONZE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_BRONZE)
@@ -1414,16 +1371,6 @@ public final class BaseItems {
                 .setIngredient('c', BRONZE_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        ItemStack benderOutput = new ItemStack(FLUID_PIPE_BRONZE);
-        benderOutput.setAmount(9);
-        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                BaseKeys.FLUID_PIPE_BRONZE,
-                BRONZE_BLOCK,
-                benderOutput,
-                Material.COPPER_BLOCK.createBlockData(),
-                360
-        ));
     }
 
     public static final ItemStack FLUID_PIPE_IGNEOUS_COMPOSITE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_IGNEOUS_COMPOSITE)
@@ -1442,14 +1389,6 @@ public final class BaseItems {
                 .setIngredient('o', IGNEOUS_COMPOSITE);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                BaseKeys.FLUID_PIPE_IGNEOUS_COMPOSITE,
-                IGNEOUS_COMPOSITE,
-                FLUID_PIPE_IGNEOUS_COMPOSITE,
-                Material.OBSIDIAN.createBlockData(),
-                40
-        ));
     }
 
     public static final ItemStack FLUID_PIPE_STEEL = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_STEEL)
@@ -1468,16 +1407,6 @@ public final class BaseItems {
                 .setIngredient('c', STEEL_SHEET);
         recipe.setCategory(CraftingBookCategory.BUILDING);
         RecipeType.VANILLA_SHAPED.addRecipe(recipe);
-
-        ItemStack benderOutput = new ItemStack(FLUID_PIPE_STEEL);
-        benderOutput.setAmount(9);
-        PipeBendingRecipe.RECIPE_TYPE.addRecipe(new PipeBendingRecipe(
-                BaseKeys.FLUID_PIPE_STEEL,
-                STEEL_BLOCK,
-                benderOutput,
-                Material.NETHERITE_BLOCK.createBlockData(),
-                360
-        ));
     }
 
     public static final ItemStack FLUID_PIPE_CREATIVE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_CREATIVE)

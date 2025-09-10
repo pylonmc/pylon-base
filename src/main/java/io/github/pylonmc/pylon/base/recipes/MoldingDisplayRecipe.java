@@ -14,7 +14,7 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-
+// TODO use DisplayRecipeType
 public record MoldingDisplayRecipe(
         NamespacedKey key,
         ItemStack input,
