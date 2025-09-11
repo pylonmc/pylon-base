@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -26,7 +27,7 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
 
     public static class Item extends PylonItem {
 
-        public final double waterPerSecond = getSettings().getOrThrow("water-per-second", Double.class);
+        public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -40,7 +41,7 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
         }
     }
 
-    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", Double.class);
+    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {

@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.Waila;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -39,17 +40,17 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class PitKiln extends PylonBlock implements
         PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-    public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
+    public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
-            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Integer.class);
+            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", ConfigAdapter.INT);
 
-    private static final double MULTIPLIER_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.campfire", Double.class);
-    private static final double MULTIPLIER_SOUL_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-campfire", Double.class);
-    private static final double MULTIPLIER_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.fire", Double.class);
-    private static final double MULTIPLIER_SOUL_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-fire", Double.class);
+    private static final double MULTIPLIER_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.campfire", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_SOUL_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-campfire", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.fire", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_SOUL_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-fire", ConfigAdapter.DOUBLE);
 
-    private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", Double.class);
-    private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", Double.class);
+    private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", ConfigAdapter.DOUBLE);
 
     public static final class Item extends PylonItem {
 

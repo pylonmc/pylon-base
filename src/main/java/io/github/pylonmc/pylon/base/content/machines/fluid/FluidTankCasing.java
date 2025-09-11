@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -15,19 +16,20 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class FluidTankCasing extends PylonBlock {
 
     public static class Item extends PylonItem {
 
-        @Getter private final double capacity = getSettings().getOrThrow("capacity", Double.class);
-        @SuppressWarnings("unchecked")
-        @Getter private final List<FluidTemperature> allowedTemperatures
-                = ((List<String>) getSettings().getOrThrow("allowed-temperatures", List.class)).stream()
-                .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
-                .toList();
+        @Getter
+        private final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
+
+        @Getter
+        private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
+                "allowed-temperatures",
+                ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
+        );
 
 
         public Item(@NotNull ItemStack stack) {
@@ -48,12 +50,14 @@ public class FluidTankCasing extends PylonBlock {
         }
     }
 
-    @Getter private final double capacity = getSettings().getOrThrow("capacity", Double.class);
-    @SuppressWarnings("unchecked")
-    @Getter private final List<FluidTemperature> allowedTemperatures
-            = ((List<String>) getSettings().getOrThrow("allowed-temperatures", List.class)).stream()
-            .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
-            .toList();
+    @Getter
+    private final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
+
+    @Getter
+    private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
+            "allowed-temperatures",
+            ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
+    );
 
     public FluidTankCasing(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);

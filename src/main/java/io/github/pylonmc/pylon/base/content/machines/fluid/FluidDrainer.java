@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -32,8 +33,8 @@ public class FluidDrainer extends PylonBlock
 
     public static class Item extends PylonItem {
 
-        public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
-        public final double buffer = getSettings().getOrThrow("buffer", Double.class);
+        public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -48,10 +49,10 @@ public class FluidDrainer extends PylonBlock
         }
     }
 
-    public final Material material = getSettings().getMaterialOrThrow("material");
-    public final PylonFluid fluid = getSettings().getFluidOrThrow("fluid");
-    public final double buffer = getSettings().getOrThrow("buffer", Double.class);
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final Material material = getSettings().getOrThrow("material", ConfigAdapter.MATERIAL);
+    public final PylonFluid fluid = getSettings().getOrThrow("fluid", ConfigAdapter.PYLON_FLUID);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final Block drainBlock;
 
     @SuppressWarnings("unused")

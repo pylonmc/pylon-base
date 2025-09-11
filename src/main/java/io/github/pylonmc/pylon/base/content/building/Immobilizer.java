@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonPiston;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import org.bukkit.Bukkit;
@@ -28,9 +29,9 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class Immobilizer extends PylonBlock implements PylonPiston {
     public static class Item extends PylonItem {
-        private final double radius = getSettings().getOrThrow("radius", Double.class);
-        private final int duration = getSettings().getOrThrow("duration", Integer.class);
-        private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
+        private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
+        private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
+        private final int cooldown = getSettings().getOrThrow("cooldown", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -48,12 +49,12 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
 
     public static Set<Player> frozenPlayers = new HashSet<>();
     private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown");
-    private final double radius = getSettings().getOrThrow("radius", Double.class);
-    private final int duration = getSettings().getOrThrow("duration", Integer.class);
-    private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
-    private final int particleCount = getSettings().getOrThrow("particle.count", Integer.class);
-    private final double particleRadius = getSettings().getOrThrow("particle.radius", Double.class);
-    private final int particlePeriod = getSettings().getOrThrow("particle.period", Integer.class);
+    private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
+    private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
+    private final int cooldown = getSettings().getOrThrow("cooldown", ConfigAdapter.INT);
+    private final int particleCount = getSettings().getOrThrow("particle.count", ConfigAdapter.INT);
+    private final double particleRadius = getSettings().getOrThrow("particle.radius", ConfigAdapter.DOUBLE);
+    private final int particlePeriod = getSettings().getOrThrow("particle.period", ConfigAdapter.INT);
 
     public Immobilizer(Block block, BlockCreateContext context) {
         super(block);

@@ -1,11 +1,14 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -15,10 +18,12 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
@@ -31,10 +36,10 @@ import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
  * @param result the output (respects amount)
  */
 public record MagicAltarRecipe(
-        NamespacedKey key,
-        List<ItemStack> inputs,
-        ItemStack catalyst,
-        ItemStack result,
+        @NotNull NamespacedKey key,
+        @NotNull List<@Nullable ItemStack> inputs,
+        @NotNull ItemStack catalyst,
+        @NotNull ItemStack result,
         double timeSeconds
 ) implements PylonRecipe {
 
@@ -43,15 +48,69 @@ public record MagicAltarRecipe(
         return key;
     }
 
+    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("magic_altar")) {
+        @Override
+        protected @NotNull MagicAltarRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            List<String> shape = section.getOrThrow("shape", ConfigAdapter.LIST.from(ConfigAdapter.STRING));
+            if (shape.size() != 3) {
+                throw new IllegalArgumentException("Invalid shape size, must be 3");
+            }
+            for (String row : shape) {
+                if (row.length() != 3) {
+                    throw new IllegalArgumentException("Invalid shape row length, must be 3");
+                }
+            }
+            Map<Character, ItemStack> itemMap = section.getOrThrow("key", ConfigAdapter.MAP.from(
+                    ConfigAdapter.CHAR,
+                    ConfigAdapter.ITEM_STACK
+            ));
 
-    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("magic_altar"));
+            StringBuilder ingredientChars = new StringBuilder();
+            ingredientChars.append(shape.getFirst());
+            ingredientChars.append(shape.get(1).charAt(2));
+            ingredientChars.append(new StringBuilder(shape.get(2)).reverse());
+            ingredientChars.append(shape.get(1).charAt(0));
+            List<ItemStack> inputs = new ArrayList<>(8);
+            for (int i = 0; i < ingredientChars.length(); i++) {
+                char c = ingredientChars.charAt(i);
+                if (c == ' ') {
+                    inputs.add(null);
+                } else if (itemMap.containsKey(c)) {
+                    inputs.add(itemMap.get(c));
+                } else {
+                    throw new IllegalArgumentException("Unknown character in shape: " + c);
+                }
+            }
+
+            ItemStack catalyst = itemMap.get(shape.get(1).charAt(1));
+            if (catalyst == null) {
+                throw new IllegalArgumentException("Catalyst (center item) cannot be empty");
+            }
+
+            return new MagicAltarRecipe(
+                    key,
+                    inputs,
+                    catalyst,
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("time-seconds", ConfigAdapter.DOUBLE)
+            );
+        }
+    };
+
+    public MagicAltarRecipe {
+        if (inputs.size() != MagicAltar.PEDESTAL_COUNT) {
+            throw new IllegalArgumentException("Invalid number of inputs, must be " + MagicAltar.PEDESTAL_COUNT);
+        }
+    }
 
     public boolean ingredientsMatch(List<ItemStack> ingredients) {
-        assert this.inputs.size() == MagicAltar.PEDESTAL_COUNT;
-        assert ingredients.size() == MagicAltar.PEDESTAL_COUNT;
+        Preconditions.checkArgument(
+                ingredients.size() == MagicAltar.PEDESTAL_COUNT,
+                "Invalid number of ingredients, must be %d",
+                MagicAltar.PEDESTAL_COUNT
+        );
 
         for (int i = 0; i < MagicAltar.PEDESTAL_COUNT; i++) {
-
             boolean allIngredientsMatch = true;
             for (int j = 0; j < MagicAltar.PEDESTAL_COUNT; j++) {
                 ItemStack input = this.inputs.get(j);

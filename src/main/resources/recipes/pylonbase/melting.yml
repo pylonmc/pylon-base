@@ -1,0 +1,5 @@
+pylonbase:sulfur:
+  input: pylonbase:sulfur
+  result: pylonbase:sulfur
+  amount: 144
+  temperature: 112.8

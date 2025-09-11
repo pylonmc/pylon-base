@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -19,7 +20,7 @@ import java.util.Map;
 public final class SmelteryOutputHatch extends SmelteryComponent
         implements PylonEntityHolderBlock, PylonFluidBlock {
 
-    public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_OUTPUT_HATCH).getOrThrow("flow-rate", Double.class);
+    public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_OUTPUT_HATCH).getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public SmelteryOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {

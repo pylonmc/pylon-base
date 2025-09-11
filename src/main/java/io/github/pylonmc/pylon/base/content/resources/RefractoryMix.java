@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -25,7 +26,7 @@ public class RefractoryMix extends PylonBlock implements Moldable {
 
     private static final NamespacedKey MOLDING_CLICKS_KEY = baseKey("molding-clicks");
 
-    public static final int TOTAL_MOLDING_CLICKS = Settings.get(BaseKeys.REFRACTORY_MIX).getOrThrow("total-molding-clicks", Integer.class);
+    public static final int TOTAL_MOLDING_CLICKS = Settings.get(BaseKeys.REFRACTORY_MIX).getOrThrow("total-molding-clicks", ConfigAdapter.INT);
 
     private int moldingClicksRemaining;
 

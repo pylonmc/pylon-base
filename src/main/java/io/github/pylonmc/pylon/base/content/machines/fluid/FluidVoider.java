@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -27,7 +28,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
 
     public static class Item extends PylonItem {
 
-        public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", Double.class);
+        public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -41,9 +42,9 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
         }
     }
 
-    public final Material mainMaterial = getSettings().getMaterialOrThrow("main-material");
-    public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", Double.class);
-    public final double mainDisplaySize = getSettings().getOrThrow("main-display-size", Double.class);
+    public final Material mainMaterial = getSettings().getOrThrow("main-material", ConfigAdapter.MATERIAL);
+    public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", ConfigAdapter.DOUBLE);
+    public final double mainDisplaySize = getSettings().getOrThrow("main-display-size", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull BlockCreateContext context) {

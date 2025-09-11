@@ -1,9 +1,7 @@
-package io.github.pylonmc.pylon.base.recipes;
+package io.github.pylonmc.pylon.base.recipes.display;
 
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -12,17 +10,12 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
-
-public record MoldingDisplayRecipe(
+// TODO use DisplayRecipeType
+public record DrillingDisplayRecipe(
         NamespacedKey key,
-        ItemStack input,
-        ItemStack result,
-        int moldClicks
+        ItemStack drill,
+        ItemStack result
 ) implements PylonRecipe {
-
-    public static final RecipeType<MoldingDisplayRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("molding"));
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -45,14 +38,13 @@ public record MoldingDisplayRecipe(
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # # # # # #",
-                        "# # i # m # o # #",
+                        "# # # d # r # # #",
                         "# # # # # # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', input)
-                .addIngredient('m', BaseItems.BRICK_MOLD)
-                .addIngredient('o', result)
+                .addIngredient('d', drill)
+                .addIngredient('r', result)
                 .build();
     }
 }

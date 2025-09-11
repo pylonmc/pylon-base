@@ -1,0 +1,36 @@
+pylonbase:coal_to_carbon:
+  inputs:
+    - pylonbase:coal_dust: 2
+  outputs:
+    - pylonbase:carbon
+
+pylonbase:redstone_smelting:
+  inputs:
+    - minecraft:redstone
+  outputs:
+    - pylonbase:sulfur
+
+pylonbase:bronze:
+  inputs:
+    - minecraft:copper_ingot: 2
+    - pylonbase:tin_ingot
+  outputs:
+    - pylonbase:bronze_ingot: 2
+
+pylonbase:copper_smelting:
+  inputs:
+    - pylonbase:crushed_raw_copper
+  outputs:
+    - minecraft:copper_ingot
+
+pylonbase:gold_smelting:
+  inputs:
+    - pylonbase:crushed_raw_gold
+  outputs:
+    - minecraft:gold_ingot
+
+pylonbase:refractory_brick:
+  inputs:
+    - pylonbase:unfired_refractory_brick
+  outputs:
+    - pylonbase:refractory_brick

@@ -1,0 +1,5 @@
+pylonbase:tin_ingot_blasting:
+  ingredient: pylonbase:raw_tin
+  result: pylonbase:tin_ingot
+  experience: 0.5
+  category: misc

@@ -1,10 +1,13 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -30,9 +33,18 @@ public record StrainingRecipe(
         @NotNull ItemStack outputItem
 ) implements PylonRecipe {
 
-    public static final RecipeType<StrainingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("fluid_strainer")
-    );
+    public static final RecipeType<StrainingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("fluid_strainer")) {
+        @Override
+        protected @NotNull StrainingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new StrainingRecipe(
+                    key,
+                    section.getOrThrow("input-fluid", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("fluid-amount", ConfigAdapter.DOUBLE),
+                    section.getOrThrow("output-fluid", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("output-item", ConfigAdapter.ITEM_STACK)
+            );
+        }
+    };
 
     public static final PersistentDataType<?, StrainingRecipe> DATA_TYPE =
             PylonSerializers.KEYED.keyedTypeFrom(StrainingRecipe.class, RECIPE_TYPE::getRecipeOrThrow);

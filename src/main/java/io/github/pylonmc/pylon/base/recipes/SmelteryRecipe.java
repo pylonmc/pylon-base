@@ -2,11 +2,14 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -26,7 +29,13 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class SmelteryRecipe implements PylonRecipe {
 
-    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("smeltery")) {
+    public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("smeltery")) {
+
+        private static final ConfigAdapter<Map<PylonFluid, Double>> FLUID_MAP_ADAPTER = ConfigAdapter.MAP.from(
+                ConfigAdapter.PYLON_FLUID,
+                ConfigAdapter.DOUBLE
+        );
+
         @Override
         public void addRecipe(@NotNull SmelteryRecipe recipe) {
             super.addRecipe(recipe);
@@ -45,6 +54,16 @@ public class SmelteryRecipe implements PylonRecipe {
             recipes.clear();
             recipes.putAll(newMap);
         }
+
+        @Override
+        protected @NotNull SmelteryRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new SmelteryRecipe(
+                    key,
+                    section.getOrThrow("inputs", FLUID_MAP_ADAPTER),
+                    section.getOrThrow("outputs", FLUID_MAP_ADAPTER),
+                    section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
+            );
+        }
     };
 
     @Getter(onMethod_ = @Override) private final NamespacedKey key;
@@ -59,12 +78,15 @@ public class SmelteryRecipe implements PylonRecipe {
             @NotNull Map<PylonFluid, Double> outputFluids,
             double temperature
     ) {
+        Preconditions.checkArgument(!inputFluids.isEmpty(), "Input fluids cannot be empty");
+        Preconditions.checkArgument(!outputFluids.isEmpty(), "Output fluids cannot be empty");
+
         this.key = key;
         this.temperature = temperature;
 
         var highestFluidEntry = inputFluids.entrySet().stream()
                 .max(Comparator.comparingDouble(Map.Entry::getValue))
-                .orElseThrow(() -> new IllegalArgumentException("Input fluids cannot be empty"));
+                .orElseThrow();
         this.highestFluid = highestFluidEntry.getKey();
         double highestFluidAmount = highestFluidEntry.getValue();
 

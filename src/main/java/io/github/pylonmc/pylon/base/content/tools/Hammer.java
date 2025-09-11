@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.tools;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -16,7 +17,6 @@ import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -28,9 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -52,12 +49,8 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
-    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", Integer.class);
-    public final Sound sound = Registry.SOUNDS.get(
-            NamespacedKey.fromString(
-                    getSettings().getOrThrow("sound", String.class)
-            )
-    );
+    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+    public final Sound sound = getSettings().getOrThrow("sound", ConfigAdapter.SOUND);
 
     public Hammer(@NotNull ItemStack stack) {
         super(stack);
@@ -207,19 +200,4 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                             AttributeModifier.Operation.ADD_NUMBER
                     )));
     }
-
-    public static @NotNull ShapedRecipe getRecipe(NamespacedKey key, ItemStack stack, ItemStack toolMaterial) {
-        ShapedRecipe recipe = new ShapedRecipe(key, stack)
-                .shape(
-                        " i ",
-                        " si",
-                        "s  "
-                )
-                .setIngredient('i', new RecipeChoice.ExactChoice(toolMaterial))
-                .setIngredient('s', Material.STICK);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        return recipe;
-    }
-
-
 }

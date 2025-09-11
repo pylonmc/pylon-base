@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonArrow;
@@ -15,8 +16,8 @@ import java.util.List;
 
 
 public class IceArrow extends PylonItem implements PylonArrow {
-    private final int freezeDuration = getSettings().getOrThrow("freeze-duration", Integer.class);
-    private final double freezeSpeed = getSettings().getOrThrow("freeze-speed", Double.class);
+    private final int freezeDuration = getSettings().getOrThrow("freeze-duration", ConfigAdapter.INT);
+    private final double freezeSpeed = getSettings().getOrThrow("freeze-speed", ConfigAdapter.DOUBLE);
 
     public IceArrow(@NotNull ItemStack stack) {
         super(stack);

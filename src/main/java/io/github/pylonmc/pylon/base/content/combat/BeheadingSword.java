@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
@@ -17,11 +18,10 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings("UnstableApiUsage")
 public class BeheadingSword extends PylonItem implements PylonWeapon {
 
-    private final double normalEntityHeadChance = getSettings().getOrThrow("head-chance.normal-entity", Double.class);
-    private final double witherSkeletonHeadChance = getSettings().getOrThrow("head-chance.wither-skeleton", Double.class);
+    private final double normalEntityHeadChance = getSettings().getOrThrow("head-chance.normal-entity", ConfigAdapter.DOUBLE);
+    private final double witherSkeletonHeadChance = getSettings().getOrThrow("head-chance.wither-skeleton", ConfigAdapter.DOUBLE);
 
     public BeheadingSword(@NotNull ItemStack stack) {
         super(stack);

@@ -1,0 +1,70 @@
+pylonbase:obsidian_chip:
+  input: minecraft:obsidian
+  result:
+    pylonbase:obsidian_chip: 3
+  mining-level: diamond
+  chance: 0.2
+
+pylonbase:crushed_raw_copper:
+  input: minecraft:raw_copper
+  result:
+    pylonbase:crushed_raw_copper: 2
+  mining-level: stone
+  chance: 0.75
+
+pylonbase:crushed_raw_iron:
+  input: minecraft:raw_iron
+  result:
+    pylonbase:crushed_raw_iron: 2
+  mining-level: stone
+  chance: 0.75
+
+pylonbase:crushed_raw_gold:
+  input: minecraft:raw_gold
+  result:
+    pylonbase:crushed_raw_gold: 2
+  mining-level: iron
+  chance: 0.75
+
+pylonbase:crushed_raw_tin:
+  input: pylonbase:raw_tin
+  result:
+    pylonbase:crushed_raw_tin: 2
+  mining-level: stone
+  chance: 0.75
+
+pylonbase:copper_sheet:
+  input: minecraft:copper_ingot
+  result: pylonbase:copper_sheet
+  mining-level: stone
+  chance: 0.25
+
+pylonbase:gold_sheet:
+  input: minecraft:gold_ingot
+  result: pylonbase:gold_sheet
+  mining-level: stone
+  chance: 0.25
+
+pylonbase:iron_sheet:
+  input: minecraft:iron_ingot
+  result: pylonbase:iron_sheet
+  mining-level: iron
+  chance: 0.25
+
+pylonbase:tin_sheet:
+  input: pylonbase:tin_ingot
+  result: pylonbase:tin_sheet
+  mining-level: iron
+  chance: 0.25
+
+pylonbase:bronze_sheet:
+  input: pylonbase:bronze_ingot
+  result: pylonbase:bronze_sheet
+  mining-level: iron
+  chance: 0.25
+
+pylonbase:steel_sheet:
+  input: pylonbase:steel_ingot
+  result: pylonbase:steel_sheet
+  mining-level: diamond
+  chance: 0.25

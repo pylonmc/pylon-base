@@ -1,11 +1,14 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
@@ -35,9 +38,18 @@ public record CastingRecipe(
         double temperature
 ) implements PylonRecipe {
 
-    public static final RecipeType<CastingRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("cast_recipe")
-    );
+    public static final RecipeType<CastingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("casting")) {
+        @Override
+        protected @NotNull CastingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new CastingRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("amount", ConfigAdapter.DOUBLE),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
+            );
+        }
+    };
 
     public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
         for (CastingRecipe recipe : RECIPE_TYPE) {

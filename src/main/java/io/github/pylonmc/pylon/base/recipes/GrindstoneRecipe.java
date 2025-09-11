@@ -1,14 +1,17 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.util.WeightedSet;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
@@ -21,7 +24,8 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 /**
  * @param input the input item (respects amount)
@@ -31,11 +35,11 @@ import java.util.Map;
  * @param particleBlockData the block data to use for the particles shown while grinding
  */
 public record GrindstoneRecipe(
-        NamespacedKey key,
-        ItemStack input,
-        Map<ItemStack, Double> results,
+        @NotNull NamespacedKey key,
+        @NotNull ItemStack input,
+        @NotNull WeightedSet<ItemStack> results,
         int cycles,
-        BlockData particleBlockData
+        @NotNull BlockData particleBlockData
 ) implements PylonRecipe {
 
     public GrindstoneRecipe(
@@ -45,7 +49,7 @@ public record GrindstoneRecipe(
             int cycles,
             BlockData particleBlockData
     ) {
-        this(key, input, Map.of(result, 1.0), cycles, particleBlockData);
+        this(key, input, new WeightedSet<>(result, 1f), cycles, particleBlockData);
     }
 
     @Override
@@ -53,9 +57,18 @@ public record GrindstoneRecipe(
         return key;
     }
 
-    public static final RecipeType<GrindstoneRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "grindstone")
-    );
+    public static final RecipeType<GrindstoneRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("grindstone")) {
+        @Override
+        protected @NotNull GrindstoneRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new GrindstoneRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("results", ConfigAdapter.WEIGHTED_SET.from(ConfigAdapter.ITEM_STACK)),
+                    section.getOrThrow("cycles", ConfigAdapter.INT),
+                    section.getOrThrow("particle-data", ConfigAdapter.BLOCK_DATA)
+            );
+        }
+    };
 
     public int timeTicks() {
         return cycles * Grindstone.CYCLE_DURATION_TICKS;
@@ -68,9 +81,8 @@ public record GrindstoneRecipe(
 
     @Override
     public @NotNull List<FluidOrItem> getResults() {
-        return results.keySet()
-                .stream()
-                .map(result -> (FluidOrItem) FluidOrItem.of(result))
+        return results.getElements().stream()
+                .map(FluidOrItem::of)
                 .toList();
     }
 
@@ -96,9 +108,9 @@ public record GrindstoneRecipe(
                 ));
 
         int i = 1;
-        for (Map.Entry<ItemStack, Double> pair : results.entrySet()) {
-            ItemStack stack = pair.getKey().clone();
-            List<Component> lore = pair.getKey().lore();
+        for (WeightedSet.WeightedElement<ItemStack> element : results) {
+            ItemStack stack = element.element().clone();
+            List<Component> lore = element.element().lore();
             if (lore == null) {
                 lore = new ArrayList<>();
             }
@@ -107,7 +119,7 @@ public record GrindstoneRecipe(
                     "pylon.pylonbase.guide.recipe.grindstone.chance",
                     PylonArgument.of(
                             "chance",
-                            UnitFormat.PERCENT.format(Math.round(pair.getValue() * 100)))
+                            UnitFormat.PERCENT.format(Math.round(element.weight() * 100)))
             ));
             stack.lore(lore);
             gui.addIngredient((char) ('0' + i), ItemButton.fromStack(stack));

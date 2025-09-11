@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.EnumPersistentDataType;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -43,7 +44,7 @@ public class FluidTank extends PylonBlock
 
     public static class Item extends PylonItem {
 
-        private final int maxHeight = getSettings().getOrThrow("max-height", Integer.class);
+        private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -62,7 +63,7 @@ public class FluidTank extends PylonBlock
     private static final PersistentDataType<List<String>, List<FluidTemperature>> ALLOWED_TEMPERATURES_TYPE
             = PylonSerializers.LIST.listTypeFrom(new EnumPersistentDataType<>(FluidTemperature.class));
 
-    private final int maxHeight = getSettings().getOrThrow("max-height", Integer.class);
+    private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
     private int height;
     private List<FluidTemperature> allowedTemperatures;
