@@ -11,8 +11,6 @@ public class BaseRecipes {
     public static void initialize() {
         CastingRecipe.RECIPE_TYPE.register();
 
-        DrillingDisplayRecipe.RECIPE_TYPE.register();
-
         GrindstoneRecipe.RECIPE_TYPE.register();
 
         HammerRecipe.RECIPE_TYPE.register();
@@ -22,8 +20,6 @@ public class BaseRecipes {
         MeltingRecipe.RECIPE_TYPE.register();
 
         MixingPotRecipe.RECIPE_TYPE.register();
-
-        MoldingDisplayRecipe.RECIPE_TYPE.register();
 
         PipeBendingRecipe.RECIPE_TYPE.register();
 

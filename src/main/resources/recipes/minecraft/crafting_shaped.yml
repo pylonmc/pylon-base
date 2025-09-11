@@ -387,7 +387,8 @@ pylonbase:fluid_pipe_wood_oak:
     - "WWW"
   key:
     W: minecraft:oak_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -398,7 +399,8 @@ pylonbase:fluid_pipe_wood_spruce:
     - "WWW"
   key:
     W: minecraft:spruce_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -409,7 +411,8 @@ pylonbase:fluid_pipe_wood_birch:
     - "WWW"
   key:
     W: minecraft:birch_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -420,7 +423,8 @@ pylonbase:fluid_pipe_wood_jungle:
     - "WWW"
   key:
     W: minecraft:jungle_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -431,7 +435,8 @@ pylonbase:fluid_pipe_wood_acacia:
     - "WWW"
   key:
     W: minecraft:acacia_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -442,7 +447,8 @@ pylonbase:fluid_pipe_wood_dark_oak:
     - "WWW"
   key:
     W: minecraft:dark_oak_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -453,7 +459,8 @@ pylonbase:fluid_pipe_wood_mangrove:
     - "WWW"
   key:
     W: minecraft:mangrove_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -464,7 +471,8 @@ pylonbase:fluid_pipe_wood_cherry:
     - "WWW"
   key:
     W: minecraft:cherry_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -475,7 +483,8 @@ pylonbase:fluid_pipe_wood_bamboo:
     - "WWW"
   key:
     W: minecraft:bamboo_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -486,7 +495,8 @@ pylonbase:fluid_pipe_wood_crimson:
     - "WWW"
   key:
     W: minecraft:crimson_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -497,7 +507,8 @@ pylonbase:fluid_pipe_wood_warped:
     - "WWW"
   key:
     W: minecraft:warped_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -508,7 +519,8 @@ pylonbase:fluid_pipe_wood_pale_oak:
     - "WWW"
   key:
     W: minecraft:pale_oak_planks
-  result: pylonbase:fluid_pipe_wood
+  result:
+    pylonbase:fluid_pipe_wood: 4
   group: pylonbase:fluid_pipe_wood
   category: building
 
@@ -519,7 +531,8 @@ pylonbase:fluid_pipe_copper:
     - "CCC"
   key:
     C: pylonbase:copper_sheet
-  result: pylonbase:fluid_pipe_copper
+  result:
+    pylonbase:fluid_pipe_copper: 4
   category: building
 
 pylonbase:fluid_pipe_tin:
@@ -529,7 +542,8 @@ pylonbase:fluid_pipe_tin:
     - "CCC"
   key:
     C: pylonbase:tin_sheet
-  result: pylonbase:fluid_pipe_tin
+  result:
+    pylonbase:fluid_pipe_tin: 4
   category: building
 
 pylonbase:fluid_pipe_iron:
@@ -539,7 +553,8 @@ pylonbase:fluid_pipe_iron:
     - "CCC"
   key:
     C: pylonbase:iron_sheet
-  result: pylonbase:fluid_pipe_iron
+  result:
+    pylonbase:fluid_pipe_iron: 4
   category: building
 
 pylonbase:fluid_pipe_bronze:
@@ -549,7 +564,8 @@ pylonbase:fluid_pipe_bronze:
     - "CCC"
   key:
     C: pylonbase:bronze_sheet
-  result: pylonbase:fluid_pipe_bronze
+  result:
+    pylonbase:fluid_pipe_bronze: 4
   category: building
 
 pylonbase:fluid_pipe_igneous_composite:
@@ -559,7 +575,8 @@ pylonbase:fluid_pipe_igneous_composite:
     - "OOO"
   key:
     O: pylonbase:igneous_composite
-  result: pylonbase:fluid_pipe_igneous_composite
+  result:
+    pylonbase:fluid_pipe_igneous_composite: 4
   category: building
 
 pylonbase:fluid_pipe_steel:
@@ -569,7 +586,8 @@ pylonbase:fluid_pipe_steel:
     - "CCC"
   key:
     C: pylonbase:steel_sheet
-  result: pylonbase:fluid_pipe_steel
+  result:
+    pylonbase:fluid_pipe_steel: 4
   category: building
 
 pylonbase:portable_fluid_tank_wood_oak:

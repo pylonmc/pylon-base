@@ -17,8 +17,8 @@ import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
-import io.github.pylonmc.pylon.base.recipes.DrillingDisplayRecipe;
-import io.github.pylonmc.pylon.base.recipes.MoldingDisplayRecipe;
+import io.github.pylonmc.pylon.base.recipes.display.DrillingDisplayRecipe;
+import io.github.pylonmc.pylon.base.recipes.display.MoldingDisplayRecipe;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -26,6 +26,7 @@ import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.DisplayRecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
@@ -843,8 +844,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_WOOD);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_WOOD);
-
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_WOOD).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_COPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_COPPER)
@@ -856,8 +855,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_COPPER);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_COPPER);
-
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_COPPER).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_TIN = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_TIN)
@@ -869,8 +866,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_TIN);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_TIN);
-
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_TIN).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_IRON = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_IRON)
@@ -882,8 +877,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_IRON);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_IRON);
-
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_IRON).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_BRONZE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_BRONZE)
@@ -895,8 +888,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_BRONZE);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_BRONZE);
-
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_BRONZE).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_IGNEOUS_COMPOSITE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_IGNEOUS_COMPOSITE)
@@ -908,8 +899,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_IGNEOUS_COMPOSITE);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_IGNEOUS_COMPOSITE);
-
-        ItemStack output = new ItemStack(FLUID_PIPE_IGNEOUS_COMPOSITE).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_STEEL = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_STEEL)
@@ -921,8 +910,6 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_STEEL);
         BasePages.FLUID_PIPES_AND_TANKS.addItem(BaseKeys.FLUID_PIPE_STEEL);
-
-        ItemStack shapedOutput = new ItemStack(FLUID_PIPE_STEEL).asQuantity(4);
     }
 
     public static final ItemStack FLUID_PIPE_CREATIVE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLUID_PIPE_CREATIVE)
@@ -1329,7 +1316,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, UNFIRED_REFRACTORY_BRICK, BaseKeys.UNFIRED_REFRACTORY_BRICK);
         BasePages.RESOURCES.addItem(BaseKeys.UNFIRED_REFRACTORY_BRICK);
 
-        MoldingDisplayRecipe.RECIPE_TYPE.addRecipe(new MoldingDisplayRecipe(
+        DisplayRecipeType.INSTANCE.addRecipe(new MoldingDisplayRecipe(
                 BaseKeys.UNFIRED_REFRACTORY_BRICK,
                 REFRACTORY_MIX,
                 UNFIRED_REFRACTORY_BRICK,
@@ -1645,7 +1632,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SHALLOW_CORE_CHUNK, BaseKeys.SHALLOW_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SHALLOW_CORE_CHUNK);
 
-        DrillingDisplayRecipe.RECIPE_TYPE.addRecipe(new DrillingDisplayRecipe(
+        DisplayRecipeType.INSTANCE.addRecipe(new DrillingDisplayRecipe(
                 BaseKeys.SHALLOW_CORE_CHUNK,
                 MANUAL_CORE_DRILL,
                 SHALLOW_CORE_CHUNK
@@ -1658,7 +1645,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.SUBSURFACE_CORE_CHUNK);
 
-        DrillingDisplayRecipe.RECIPE_TYPE.addRecipe(new DrillingDisplayRecipe(
+        DisplayRecipeType.INSTANCE.addRecipe(new DrillingDisplayRecipe(
                 BaseKeys.SUBSURFACE_CORE_CHUNK,
                 IMPROVED_MANUAL_CORE_DRILL,
                 SUBSURFACE_CORE_CHUNK
@@ -1671,7 +1658,7 @@ public final class BaseItems {
         PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
         BasePages.RESOURCES.addItem(BaseKeys.INTERMEDIATE_CORE_CHUNK);
 
-        DrillingDisplayRecipe.RECIPE_TYPE.addRecipe(new DrillingDisplayRecipe(
+        DisplayRecipeType.INSTANCE.addRecipe(new DrillingDisplayRecipe(
                 BaseKeys.INTERMEDIATE_CORE_CHUNK,
                 HYDRAULIC_CORE_DRILL,
                 INTERMEDIATE_CORE_CHUNK
