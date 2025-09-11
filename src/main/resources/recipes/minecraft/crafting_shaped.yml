@@ -120,17 +120,6 @@ pylonbase:bronze_axe:
   result: pylonbase:bronze_axe
   category: equipment
 
-pylonbase:bronze_axe_reflected:
-  pattern:
-    - " FF"
-    - " SF"
-    - " S "
-  key:
-    F: pylonbase:bronze_ingot
-    S: minecraft:stick
-  result: pylonbase:bronze_axe
-  category: equipment
-
 pylonbase:bronze_pickaxe:
   pattern:
     - "FFF"
@@ -156,17 +145,6 @@ pylonbase:bronze_shovel:
 pylonbase:bronze_hoe:
   pattern:
     - "FF "
-    - " S "
-    - " S "
-  key:
-    F: pylonbase:bronze_ingot
-    S: minecraft:stick
-  result: pylonbase:bronze_hoe
-  category: equipment
-
-pylonbase:bronze_hoe_reflected:
-  pattern:
-    - " FF"
     - " S "
     - " S "
   key:
@@ -410,6 +388,7 @@ pylonbase:fluid_pipe_wood_oak:
   key:
     W: minecraft:oak_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_spruce:
@@ -420,6 +399,7 @@ pylonbase:fluid_pipe_wood_spruce:
   key:
     W: minecraft:spruce_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_birch:
@@ -430,6 +410,7 @@ pylonbase:fluid_pipe_wood_birch:
   key:
     W: minecraft:birch_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_jungle:
@@ -440,6 +421,7 @@ pylonbase:fluid_pipe_wood_jungle:
   key:
     W: minecraft:jungle_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_acacia:
@@ -450,6 +432,7 @@ pylonbase:fluid_pipe_wood_acacia:
   key:
     W: minecraft:acacia_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_dark_oak:
@@ -460,6 +443,7 @@ pylonbase:fluid_pipe_wood_dark_oak:
   key:
     W: minecraft:dark_oak_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_mangrove:
@@ -470,6 +454,7 @@ pylonbase:fluid_pipe_wood_mangrove:
   key:
     W: minecraft:mangrove_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_cherry:
@@ -480,6 +465,7 @@ pylonbase:fluid_pipe_wood_cherry:
   key:
     W: minecraft:cherry_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_bamboo:
@@ -490,6 +476,7 @@ pylonbase:fluid_pipe_wood_bamboo:
   key:
     W: minecraft:bamboo_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_crimson:
@@ -500,6 +487,7 @@ pylonbase:fluid_pipe_wood_crimson:
   key:
     W: minecraft:crimson_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_warped:
@@ -510,6 +498,7 @@ pylonbase:fluid_pipe_wood_warped:
   key:
     W: minecraft:warped_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_wood_pale_oak:
@@ -520,6 +509,7 @@ pylonbase:fluid_pipe_wood_pale_oak:
   key:
     W: minecraft:pale_oak_planks
   result: pylonbase:fluid_pipe_wood
+  group: pylonbase:fluid_pipe_wood
   category: building
 
 pylonbase:fluid_pipe_copper:
@@ -591,6 +581,7 @@ pylonbase:portable_fluid_tank_wood_oak:
     C: minecraft:oak_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_spruce:
@@ -602,6 +593,7 @@ pylonbase:portable_fluid_tank_wood_spruce:
     C: minecraft:spruce_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_birch:
@@ -613,6 +605,7 @@ pylonbase:portable_fluid_tank_wood_birch:
     C: minecraft:birch_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_jungle:
@@ -624,6 +617,7 @@ pylonbase:portable_fluid_tank_wood_jungle:
     C: minecraft:jungle_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_acacia:
@@ -635,6 +629,7 @@ pylonbase:portable_fluid_tank_wood_acacia:
     C: minecraft:acacia_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_dark_oak:
@@ -646,6 +641,7 @@ pylonbase:portable_fluid_tank_wood_dark_oak:
     C: minecraft:dark_oak_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_mangrove:
@@ -657,6 +653,7 @@ pylonbase:portable_fluid_tank_wood_mangrove:
     C: minecraft:mangrove_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_cherry:
@@ -668,6 +665,7 @@ pylonbase:portable_fluid_tank_wood_cherry:
     C: minecraft:cherry_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_bamboo:
@@ -679,6 +677,7 @@ pylonbase:portable_fluid_tank_wood_bamboo:
     C: minecraft:bamboo_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_crimson:
@@ -690,6 +689,7 @@ pylonbase:portable_fluid_tank_wood_crimson:
     C: minecraft:crimson_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_warped:
@@ -701,6 +701,7 @@ pylonbase:portable_fluid_tank_wood_warped:
     C: minecraft:warped_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_wood_pale_oak:
@@ -712,6 +713,7 @@ pylonbase:portable_fluid_tank_wood_pale_oak:
     C: minecraft:pale_oak_planks
     G: minecraft:glass
   result: pylonbase:portable_fluid_tank_wood
+  group: pylonbase:portable_fluid_tank_wood
   category: building
 
 pylonbase:portable_fluid_tank_copper:
@@ -800,6 +802,7 @@ pylonbase:fluid_tank_casing_wood_oak:
     C: minecraft:oak_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_spruce:
@@ -811,6 +814,7 @@ pylonbase:fluid_tank_casing_wood_spruce:
     C: minecraft:spruce_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_birch:
@@ -822,6 +826,7 @@ pylonbase:fluid_tank_casing_wood_birch:
     C: minecraft:birch_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_jungle:
@@ -833,6 +838,7 @@ pylonbase:fluid_tank_casing_wood_jungle:
     C: minecraft:jungle_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_acacia:
@@ -844,6 +850,7 @@ pylonbase:fluid_tank_casing_wood_acacia:
     C: minecraft:acacia_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_dark_oak:
@@ -855,6 +862,7 @@ pylonbase:fluid_tank_casing_wood_dark_oak:
     C: minecraft:dark_oak_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_mangrove:
@@ -866,6 +874,7 @@ pylonbase:fluid_tank_casing_wood_mangrove:
     C: minecraft:mangrove_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_cherry:
@@ -877,6 +886,7 @@ pylonbase:fluid_tank_casing_wood_cherry:
     C: minecraft:cherry_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_bamboo:
@@ -888,6 +898,7 @@ pylonbase:fluid_tank_casing_wood_bamboo:
     C: minecraft:bamboo_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_crimson:
@@ -899,6 +910,7 @@ pylonbase:fluid_tank_casing_wood_crimson:
     C: minecraft:crimson_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_warped:
@@ -910,6 +922,7 @@ pylonbase:fluid_tank_casing_wood_warped:
     C: minecraft:warped_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_wood_pale_oak:
@@ -921,6 +934,7 @@ pylonbase:fluid_tank_casing_wood_pale_oak:
     C: minecraft:pale_oak_planks
     G: minecraft:glass
   result: pylonbase:fluid_tank_casing_wood
+  group: pylonbase:fluid_tank_casing_wood
   category: building
 
 pylonbase:fluid_tank_casing_copper:
@@ -1070,6 +1084,7 @@ pylonbase:axle_oak:
   key:
     F: minecraft:oak_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_spruce:
@@ -1080,6 +1095,7 @@ pylonbase:axle_spruce:
   key:
     F: minecraft:spruce_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_birch:
@@ -1090,6 +1106,7 @@ pylonbase:axle_birch:
   key:
     F: minecraft:birch_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_jungle:
@@ -1100,6 +1117,7 @@ pylonbase:axle_jungle:
   key:
     F: minecraft:jungle_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_acacia:
@@ -1110,6 +1128,7 @@ pylonbase:axle_acacia:
   key:
     F: minecraft:acacia_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_dark_oak:
@@ -1120,6 +1139,7 @@ pylonbase:axle_dark_oak:
   key:
     F: minecraft:dark_oak_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_mangrove:
@@ -1130,6 +1150,7 @@ pylonbase:axle_mangrove:
   key:
     F: minecraft:mangrove_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_cherry:
@@ -1140,6 +1161,7 @@ pylonbase:axle_cherry:
   key:
     F: minecraft:cherry_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_bamboo:
@@ -1150,6 +1172,7 @@ pylonbase:axle_bamboo:
   key:
     F: minecraft:bamboo_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_crimson:
@@ -1160,6 +1183,7 @@ pylonbase:axle_crimson:
   key:
     F: minecraft:crimson_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_warped:
@@ -1170,6 +1194,7 @@ pylonbase:axle_warped:
   key:
     F: minecraft:warped_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:axle_pale_oak:
@@ -1180,6 +1205,7 @@ pylonbase:axle_pale_oak:
   key:
     F: minecraft:pale_oak_fence
   result: pylonbase:axle
+  group: pylonbase:axle
   category: misc
 
 pylonbase:sawblade:
@@ -1752,6 +1778,7 @@ pylonbase:manual_core_drill_lever_oak:
     L: minecraft:lever
     P: minecraft:oak_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_spruce:
@@ -1763,6 +1790,7 @@ pylonbase:manual_core_drill_lever_spruce:
     L: minecraft:lever
     P: minecraft:spruce_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_birch:
@@ -1774,6 +1802,7 @@ pylonbase:manual_core_drill_lever_birch:
     L: minecraft:lever
     P: minecraft:birch_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_jungle:
@@ -1785,6 +1814,7 @@ pylonbase:manual_core_drill_lever_jungle:
     L: minecraft:lever
     P: minecraft:jungle_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_acacia:
@@ -1796,6 +1826,7 @@ pylonbase:manual_core_drill_lever_acacia:
     L: minecraft:lever
     P: minecraft:acacia_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_dark_oak:
@@ -1807,6 +1838,7 @@ pylonbase:manual_core_drill_lever_dark_oak:
     L: minecraft:lever
     P: minecraft:dark_oak_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_mangrove:
@@ -1818,6 +1850,7 @@ pylonbase:manual_core_drill_lever_mangrove:
     L: minecraft:lever
     P: minecraft:mangrove_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_cherry:
@@ -1829,6 +1862,7 @@ pylonbase:manual_core_drill_lever_cherry:
     L: minecraft:lever
     P: minecraft:cherry_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_bamboo:
@@ -1840,6 +1874,7 @@ pylonbase:manual_core_drill_lever_bamboo:
     L: minecraft:lever
     P: minecraft:bamboo_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_crimson:
@@ -1851,6 +1886,7 @@ pylonbase:manual_core_drill_lever_crimson:
     L: minecraft:lever
     P: minecraft:crimson_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_warped:
@@ -1862,6 +1898,7 @@ pylonbase:manual_core_drill_lever_warped:
     L: minecraft:lever
     P: minecraft:warped_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill_lever_pale_oak:
@@ -1873,6 +1910,7 @@ pylonbase:manual_core_drill_lever_pale_oak:
     L: minecraft:lever
     P: minecraft:pale_oak_planks
   result: pylonbase:manual_core_drill_lever
+  group: pylonbase:manual_core_drill_lever
   category: building
 
 pylonbase:manual_core_drill:
@@ -1946,4 +1984,37 @@ pylonbase:climbing_pick:
     S: minecraft:stick
     T: minecraft:string
   result: pylonbase:climbing_pick
+  category: equipment
+
+pylonbase:hammer_stone:
+  pattern:
+    - " M "
+    - " SM"
+    - "S  "
+  key:
+    M: minecraft:cobblestone
+    S: minecraft:stick
+  result: pylonbase:hammer_stone
+  category: equipment
+
+pylonbase:hammer_iron:
+  pattern:
+    - " M "
+    - " SM"
+    - "S  "
+  key:
+    M: minecraft:iron_ingot
+    S: minecraft:stick
+  result: pylonbase:hammer_iron
+  category: equipment
+
+pylonbase:hammer_diamond:
+  pattern:
+    - " M "
+    - " SM"
+    - "S  "
+  key:
+    M: minecraft:diamond
+    S: minecraft:stick
+  result: pylonbase:hammer_diamond
   category: equipment

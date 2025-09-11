@@ -379,12 +379,6 @@ public final class BaseItems {
     static {
         PylonItem.register(Hammer.class, HAMMER_STONE);
         BasePages.TOOLS.addItem(BaseKeys.HAMMER_STONE);
-
-        RecipeType.VANILLA_SHAPED.addRecipe(Hammer.getRecipe(
-                BaseKeys.HAMMER_STONE,
-                HAMMER_STONE,
-                new ItemStack(Material.COBBLESTONE)
-        ));
     }
 
     public static final ItemStack HAMMER_IRON = Hammer.createItemStack(
@@ -393,12 +387,6 @@ public final class BaseItems {
     static {
         PylonItem.register(Hammer.class, HAMMER_IRON);
         BasePages.TOOLS.addItem(BaseKeys.HAMMER_IRON);
-
-        RecipeType.VANILLA_SHAPED.addRecipe(Hammer.getRecipe(
-                BaseKeys.HAMMER_IRON,
-                HAMMER_IRON,
-                new ItemStack(Material.IRON_INGOT)
-        ));
     }
 
     public static final ItemStack HAMMER_DIAMOND = Hammer.createItemStack(
@@ -407,12 +395,6 @@ public final class BaseItems {
     static {
         PylonItem.register(Hammer.class, HAMMER_DIAMOND);
         BasePages.TOOLS.addItem(BaseKeys.HAMMER_DIAMOND);
-
-        RecipeType.VANILLA_SHAPED.addRecipe(Hammer.getRecipe(
-                BaseKeys.HAMMER_DIAMOND,
-                HAMMER_DIAMOND,
-                new ItemStack(Material.DIAMOND)
-        ));
     }
     //</editor-fold>
 

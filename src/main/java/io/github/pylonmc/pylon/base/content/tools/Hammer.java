@@ -28,9 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -203,19 +200,4 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                             AttributeModifier.Operation.ADD_NUMBER
                     )));
     }
-
-    public static @NotNull ShapedRecipe getRecipe(NamespacedKey key, ItemStack stack, ItemStack toolMaterial) {
-        ShapedRecipe recipe = new ShapedRecipe(key, stack)
-                .shape(
-                        " i ",
-                        " si",
-                        "s  "
-                )
-                .setIngredient('i', new RecipeChoice.ExactChoice(toolMaterial))
-                .setIngredient('s', Material.STICK);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        return recipe;
-    }
-
-
 }
