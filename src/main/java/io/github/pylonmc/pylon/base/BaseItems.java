@@ -19,7 +19,6 @@ import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.base.recipes.DrillingDisplayRecipe;
 import io.github.pylonmc.pylon.base.recipes.MoldingDisplayRecipe;
-import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -41,12 +40,11 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.recipe.CookingBookCategory;
+import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.*;
 
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
@@ -181,28 +179,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, TIN_INGOT);
         BasePages.RESOURCES.addItem(BaseKeys.TIN_INGOT);
-
-        float cookingXp = Settings.get(BaseKeys.TIN_INGOT).getOrThrow("cooking.xp", ConfigAdapter.FLOAT);
-
-        FurnaceRecipe furnaceRecipe = new FurnaceRecipe(
-                baseKey("tin_ingot_furnace"),
-                TIN_INGOT,
-                new RecipeChoice.ExactChoice(RAW_TIN),
-                cookingXp,
-                BaseUtils.DEFAULT_FURNACE_TIME_TICKS
-        );
-        furnaceRecipe.setCategory(CookingBookCategory.MISC);
-        RecipeType.VANILLA_FURNACE.addRecipe(furnaceRecipe);
-
-        BlastingRecipe blastingRecipe = new BlastingRecipe(
-                baseKey("tin_ingot_blasting"),
-                TIN_INGOT,
-                new RecipeChoice.ExactChoice(RAW_TIN),
-                cookingXp,
-                BaseUtils.DEFAULT_BLAST_FURNACE_TIME_TICKS
-        );
-        blastingRecipe.setCategory(CookingBookCategory.MISC);
-        RecipeType.VANILLA_BLASTING.addRecipe(blastingRecipe);
     }
 
     public static final ItemStack TIN_NUGGET = ItemStackBuilder.pylonItem(Material.IRON_NUGGET, BaseKeys.TIN_NUGGET)
@@ -620,28 +596,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, MONSTER_JERKY);
         BasePages.FOOD.addItem(BaseKeys.MONSTER_JERKY);
-
-        float cookingXp = Settings.get(BaseKeys.MONSTER_JERKY).getOrThrow("cooking.xp", ConfigAdapter.DOUBLE).floatValue();
-
-        FurnaceRecipe furnaceRecipe = new FurnaceRecipe(
-                baseKey("monster_jerky_furnace"),
-                MONSTER_JERKY,
-                Material.ROTTEN_FLESH,
-                cookingXp,
-                BaseUtils.DEFAULT_FURNACE_TIME_TICKS
-        );
-        furnaceRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeType.VANILLA_FURNACE.addRecipe(furnaceRecipe);
-
-        SmokingRecipe smokingRecipe = new SmokingRecipe(
-                baseKey("monster_jerky_smoker"),
-                MONSTER_JERKY,
-                Material.ROTTEN_FLESH,
-                cookingXp,
-                BaseUtils.DEFAULT_SMOKER_TIME_TICKS
-        );
-        smokingRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeType.VANILLA_SMOKING.addRecipe(smokingRecipe);
     }
 
     public static final ItemStack SHIMMER_DUST_1 = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.SHIMMER_DUST_1)
@@ -811,26 +765,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, DOUGH);
         BasePages.RESOURCES.addItem(BaseKeys.DOUGH);
-
-        FurnaceRecipe furnaceBreadRecipe = new FurnaceRecipe(
-                baseKey("bread_from_dough_furnace"),
-                new ItemStack(Material.BREAD),
-                new RecipeChoice.ExactChoice(DOUGH),
-                0.2F,
-                DEFAULT_FURNACE_TIME_TICKS
-        );
-        furnaceBreadRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeType.VANILLA_FURNACE.addRecipe(furnaceBreadRecipe);
-
-        SmokingRecipe smokerBreadRecipe = new SmokingRecipe(
-                baseKey("bread_from_dough_smoker"),
-                new ItemStack(Material.BREAD),
-                new RecipeChoice.ExactChoice(DOUGH),
-                0.2F,
-                DEFAULT_SMOKER_TIME_TICKS
-        );
-        smokerBreadRecipe.setCategory(CookingBookCategory.FOOD);
-        RecipeType.VANILLA_SMOKING.addRecipe(smokerBreadRecipe);
     }
 
     public static final ItemStack MIXING_POT = ItemStackBuilder.pylonItem(Material.CAULDRON, BaseKeys.MIXING_POT)
