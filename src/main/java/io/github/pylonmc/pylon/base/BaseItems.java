@@ -210,11 +210,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, TIN_NUGGET);
         BasePages.RESOURCES.addItem(BaseKeys.TIN_NUGGET);
-
-        ShapelessRecipe nuggetsRecipe = new ShapelessRecipe(baseKey("tin_nuggets_from_tin_ingot"), TIN_NUGGET.asQuantity(9))
-                .addIngredient(TIN_INGOT);
-        nuggetsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(nuggetsRecipe);
     }
 
     public static final ItemStack TIN_BLOCK = ItemStackBuilder.pylonItem(Material.IRON_BLOCK, BaseKeys.TIN_BLOCK)
@@ -222,11 +217,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, TIN_BLOCK, BaseKeys.TIN_BLOCK);
         BasePages.RESOURCES.addItem(BaseKeys.TIN_BLOCK);
-
-        ShapelessRecipe ingotsRecipe = new ShapelessRecipe(baseKey("tin_ingots_from_tin_block"), TIN_INGOT.asQuantity(9))
-                .addIngredient(TIN_BLOCK);
-        ingotsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(ingotsRecipe);
     }
 
     public static final ItemStack CRUSHED_RAW_TIN = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.CRUSHED_RAW_TIN)
@@ -264,11 +254,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRONZE_NUGGET);
         BasePages.RESOURCES.addItem(BaseKeys.BRONZE_NUGGET);
-
-        ShapelessRecipe nuggetsRecipe = new ShapelessRecipe(baseKey("bronze_nuggets_from_bronze_ingot"), BRONZE_NUGGET.asQuantity(9))
-                .addIngredient(BRONZE_INGOT);
-        nuggetsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(nuggetsRecipe);
     }
 
     public static final ItemStack BRONZE_BLOCK = ItemStackBuilder.pylonItem(Material.COPPER_BLOCK, BaseKeys.BRONZE_BLOCK)
@@ -276,11 +261,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRONZE_BLOCK, BaseKeys.BRONZE_BLOCK);
         BasePages.RESOURCES.addItem(BaseKeys.BRONZE_BLOCK);
-
-        ShapelessRecipe ingotsRecipe = new ShapelessRecipe(baseKey("bronze_ingots_from_bronze_block"), BRONZE_INGOT.asQuantity(9))
-                .addIngredient(BRONZE_BLOCK);
-        ingotsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(ingotsRecipe);
     }
 
     public static final ItemStack STEEL_INGOT = ItemStackBuilder.pylonItem(Material.NETHERITE_INGOT, BaseKeys.STEEL_INGOT)
@@ -295,11 +275,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, STEEL_NUGGET);
         BasePages.RESOURCES.addItem(BaseKeys.STEEL_NUGGET);
-
-        ShapelessRecipe nuggetsRecipe = new ShapelessRecipe(baseKey("steel_nuggets_from_steel_ingot"), STEEL_NUGGET.asQuantity(9))
-                .addIngredient(STEEL_INGOT);
-        nuggetsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(nuggetsRecipe);
     }
 
     public static final ItemStack STEEL_BLOCK = ItemStackBuilder.pylonItem(Material.NETHERITE_BLOCK, BaseKeys.STEEL_BLOCK)
@@ -307,11 +282,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, STEEL_BLOCK, BaseKeys.STEEL_BLOCK);
         BasePages.RESOURCES.addItem(BaseKeys.STEEL_BLOCK);
-
-        ShapelessRecipe ingotsRecipe = new ShapelessRecipe(baseKey("steel_ingots_from_steel_block"), STEEL_INGOT.asQuantity(9))
-                .addIngredient(STEEL_BLOCK);
-        ingotsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(ingotsRecipe);
     }
 
     public static final ItemStack STEEL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.STEEL_DUST)
@@ -333,11 +303,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, NICKEL_NUGGET);
         BasePages.RESOURCES.addItem(BaseKeys.NICKEL_NUGGET);
-
-        ShapelessRecipe nuggetsRecipe = new ShapelessRecipe(baseKey("nickel_nuggets_from_nickel_ingot"), NICKEL_NUGGET.asQuantity(9))
-                .addIngredient(NICKEL_INGOT);
-        nuggetsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(nuggetsRecipe);
     }
 
     public static final ItemStack NICKEL_BLOCK = ItemStackBuilder.pylonItem(Material.IRON_BLOCK, BaseKeys.NICKEL_BLOCK)
@@ -345,11 +310,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, NICKEL_BLOCK, BaseKeys.NICKEL_BLOCK);
         BasePages.RESOURCES.addItem(BaseKeys.NICKEL_BLOCK);
-
-        ShapelessRecipe ingotsRecipe = new ShapelessRecipe(baseKey("nickel_ingots_from_nickel_block"), NICKEL_INGOT.asQuantity(9))
-                .addIngredient(NICKEL_BLOCK);
-        ingotsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(ingotsRecipe);
     }
 
     public static final ItemStack NICKEL_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.NICKEL_DUST)
@@ -371,11 +331,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COBALT_NUGGET);
         BasePages.RESOURCES.addItem(BaseKeys.COBALT_NUGGET);
-
-        ShapelessRecipe nuggetsRecipe = new ShapelessRecipe(baseKey("cobalt_nuggets_from_cobalt_ingot"), COBALT_NUGGET.asQuantity(9))
-                .addIngredient(COBALT_INGOT);
-        nuggetsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(nuggetsRecipe);
     }
 
     public static final ItemStack COBALT_BLOCK = ItemStackBuilder.pylonItem(Material.IRON_BLOCK, BaseKeys.COBALT_BLOCK)
@@ -383,11 +338,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, COBALT_BLOCK, BaseKeys.COBALT_BLOCK);
         BasePages.RESOURCES.addItem(BaseKeys.COBALT_BLOCK);
-
-        ShapelessRecipe ingotsRecipe = new ShapelessRecipe(baseKey("cobalt_ingots_from_cobalt_block"), COBALT_INGOT.asQuantity(9))
-                .addIngredient(COBALT_BLOCK);
-        ingotsRecipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(ingotsRecipe);
     }
 
     public static final ItemStack COBALT_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.COBALT_DUST)
@@ -700,13 +650,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SHIMMER_DUST_1);
         BasePages.RESOURCES.addItem(BaseKeys.SHIMMER_DUST_1);
-
-        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.SHIMMER_DUST_1, SHIMMER_DUST_1)
-                .addIngredient(COPPER_DUST)
-                .addIngredient(Material.FLINT)
-                .addIngredient(Material.CLAY_BALL);
-        recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     public static final ItemStack COVALENT_BINDER = ItemStackBuilder.pylonItem(Material.LIGHT_BLUE_DYE, BaseKeys.COVALENT_BINDER)
@@ -823,13 +766,6 @@ public final class BaseItems {
     static {
         PylonItem.register(HealingConsumable.class, MEDKIT);
         BasePages.TOOLS.addItem(BaseKeys.MEDKIT);
-
-        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.MEDKIT, MEDKIT)
-                .addIngredient(BANDAGE)
-                .addIngredient(SPLINT)
-                .addIngredient(DISINFECTANT);
-        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
     //</editor-fold>
 
@@ -1439,14 +1375,6 @@ public final class BaseItems {
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_1);
         BasePages.SCIENCE.addItem(BaseKeys.RESEARCH_PACK_1);
-
-        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.RESEARCH_PACK_1, RESEARCH_PACK_1)
-                .addIngredient(BRONZE_INGOT)
-                .addIngredient(SHIMMER_DUST_2)
-                .addIngredient(MONSTER_JERKY)
-                .addIngredient(SULFUR);
-        recipe.setCategory(CraftingBookCategory.MISC);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     public static final ItemStack RESEARCH_PACK_2 = ItemStackBuilder.pylonItem(Material.LIME_BANNER, BaseKeys.RESEARCH_PACK_2)
@@ -1576,11 +1504,6 @@ public final class BaseItems {
     static {
         PylonItem.register(ExplosiveTarget.Item.class, EXPLOSIVE_TARGET_SUPER, BaseKeys.EXPLOSIVE_TARGET_SUPER);
         BasePages.BUILDING.addItem(BaseKeys.EXPLOSIVE_TARGET_SUPER);
-
-        ShapelessRecipe recipe = new ShapelessRecipe(BaseKeys.EXPLOSIVE_TARGET_SUPER, EXPLOSIVE_TARGET_SUPER)
-                .addIngredient(4, EXPLOSIVE_TARGET);
-        recipe.setCategory(CraftingBookCategory.BUILDING);
-        RecipeType.VANILLA_SHAPELESS.addRecipe(recipe);
     }
 
     public static final ItemStack EXPLOSIVE_TARGET_SUPER_FIERY = ItemStackBuilder.pylonItem(Material.TARGET, BaseKeys.EXPLOSIVE_TARGET_SUPER_FIERY)
@@ -1847,6 +1770,8 @@ public final class BaseItems {
     static {
         PylonItem.register(CleansingPotion.class, CLEANSING_POTION);
         BasePages.TOOLS.addItem(BaseKeys.CLEANSING_POTION);
+
+        // This recipe isn't configged because we current have no way to set the healing potion data on it
         ItemStack healingPotion = ItemStackBuilder.of(Material.SPLASH_POTION)
                 .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
                         .potion(PotionType.HEALING)
