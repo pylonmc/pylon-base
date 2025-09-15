@@ -7,10 +7,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -21,20 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 /**
  * @param inputItems the items needed inside the mixing pot (max. 7) (respects item amount)
  * @param inputFluid the fluid that must be in the mixing pot already
- * @param inputFluidAmount the amount of fluid that must be in the mixing pot already
  * @param output the item or fluid that will be output
  * @param requiresEnrichedFire whether enriched fire must be placed below to do this recipe
  */
 public record MixingPotRecipe(
         @NotNull NamespacedKey key,
-        @NotNull List<ItemStack> inputItems,
-        @NotNull PylonFluid inputFluid,
-        double inputFluidAmount,
+        @NotNull List<RecipeInput.Item> inputItems,
+        @NotNull RecipeInput.Fluid inputFluid,
         @NotNull FluidOrItem output,
         boolean requiresEnrichedFire
 ) implements PylonRecipe {
@@ -49,9 +43,8 @@ public record MixingPotRecipe(
         protected @NotNull MixingPotRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new MixingPotRecipe(
                     key,
-                    section.getOrThrow("input-items", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK)),
-                    section.getOrThrow("input-fluid", ConfigAdapter.PYLON_FLUID),
-                    section.getOrThrow("input-fluid-amount", ConfigAdapter.DOUBLE),
+                    section.getOrThrow("input-items", ConfigAdapter.LIST.from(ConfigAdapter.RECIPE_INPUT_ITEM)),
+                    section.getOrThrow("input-fluid", ConfigAdapter.RECIPE_INPUT_FLUID),
                     section.getOrThrow("output", ConfigAdapter.FLUID_OR_ITEM),
                     section.get("requires-enriched-fire", ConfigAdapter.BOOLEAN, false)
             );
@@ -59,22 +52,19 @@ public record MixingPotRecipe(
     };
 
     public boolean matches(
-            List<ItemStack> input,
+            List<ItemStack> inputItems,
             boolean isEnrichedFire,
             PylonFluid fluid,
             double fluidAmount
     ) {
-        if (requiresEnrichedFire && !isEnrichedFire
-                || fluidAmount < this.inputFluidAmount - 1.0e-9
-                || !fluid.equals(this.inputFluid)
-        ) {
+        if (requiresEnrichedFire && !isEnrichedFire || !this.inputFluid.matches(fluid, fluidAmount)) {
             return false;
         }
 
-        for (ItemStack inputStack : this.inputItems) {
+        for (RecipeInput.Item input : this.inputItems) {
             boolean anyMatches = false;
-            for (ItemStack stack : input) {
-                if (isPylonSimilar(inputStack, stack) && stack.getAmount() >= inputStack.getAmount()) {
+            for (ItemStack stack : inputItems) {
+                if (input.matches(stack)) {
                     anyMatches = true;
                     break;
                 }
@@ -88,13 +78,9 @@ public record MixingPotRecipe(
     }
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        List<FluidOrItem> inputs = new ArrayList<>();
-        inputs.add(FluidOrItem.of(inputFluid, inputFluidAmount));
-        inputs.addAll(inputItems.stream()
-                .map(FluidOrItem::of)
-                .toList()
-        );
+    public @NotNull List<RecipeInput> getInputs() {
+        List<RecipeInput> inputs = new ArrayList<>(inputItems);
+        inputs.add(inputFluid);
         return inputs;
     }
 
@@ -115,25 +101,27 @@ public record MixingPotRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('f', new FluidButton(inputFluid.getKey(), inputFluidAmount))
-                .addIngredient('m', ItemButton.fromStack(BaseItems.MIXING_POT))
+                .addIngredient('f', new FluidButton(inputFluid))
+                .addIngredient('m', ItemButton.from(BaseItems.MIXING_POT))
                 .addIngredient('i', requiresEnrichedFire
-                        ? ItemButton.fromStack(BaseItems.ENRICHED_NETHERRACK)
+                        ? ItemButton.from(BaseItems.ENRICHED_NETHERRACK)
                         : GuiItems.background()
                 );
 
-        if (output instanceof FluidOrItem.Item item) {
-            builder.addIngredient('o', ItemButton.fromStack(item.item()));
-        }
-        if (output instanceof FluidOrItem.Fluid fluid) {
-            builder.addIngredient('o', new FluidButton(fluid.fluid().getKey(), fluid.amountMillibuckets()));
-        }
+        builder.addIngredient(
+                'o',
+                switch (output) {
+                    case FluidOrItem.Item item -> ItemButton.from(item.item());
+                    case FluidOrItem.Fluid fluid -> new FluidButton(fluid.amountMillibuckets(), fluid.fluid());
+                    default -> throw new AssertionError();
+                }
+        );
 
         Gui gui = builder.build();
 
         int i = 0;
-        for (ItemStack stack : inputItems) {
-            gui.setItem(10 + ((i / 3) * 9) + i % 3, ItemButton.fromStack(stack));
+        for (RecipeInput.Item input : inputItems) {
+            gui.setItem(10 + ((i / 3) * 9) + i % 3, ItemButton.from(input));
             i++;
         }
 

@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
@@ -74,19 +75,19 @@ public final class PitKiln extends PylonBlock implements
     }
 
     private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
-    private static final PersistentDataType<?, Map<ItemStack, Integer>> CONTENTS_TYPE =
-            PylonSerializers.MAP.mapTypeFrom(PylonSerializers.ITEM_STACK, PylonSerializers.INTEGER);
+    private static final PersistentDataType<?, Set<ItemStack>> CONTENTS_TYPE =
+            PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK);
     private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
     private static final NamespacedKey PROCESSING_TIME_KEY = baseKey("processing_time");
 
-    private final Map<ItemStack, Integer> contents;
+    private final Set<ItemStack> contents;
     private final Set<ItemStack> processing;
     private @Nullable Double processingTime;
 
     @SuppressWarnings("unused")
     public PitKiln(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        contents = new HashMap<>();
+        contents = new HashSet<>();
         processing = new HashSet<>();
         processingTime = null;
     }
@@ -109,11 +110,7 @@ public final class PitKiln extends PylonBlock implements
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         drops.clear(); // Don't drop the block itself
-        for (Map.Entry<ItemStack, Integer> entry : contents.entrySet()) {
-            ItemStack item = entry.getKey();
-            item.setAmount(entry.getValue());
-            drops.add(item);
-        }
+        drops.addAll(contents);
     }
 
     @Override
@@ -134,13 +131,18 @@ public final class PitKiln extends PylonBlock implements
         player.swingHand(event.getHand());
 
         int currentAmount = 0;
-        for (int amount : contents.values()) {
-            currentAmount += amount;
+        for (ItemStack contentItem : contents) {
+            currentAmount += contentItem.getAmount();
         }
         int taken = Math.min(CAPACITY - currentAmount, item.getAmount());
         if (taken <= 0) return;
 
-        contents.merge(item.asOne(), taken, Integer::sum);
+        for (ItemStack contentItem : contents) {
+            if (contentItem.isSimilar(item)) {
+                contentItem.add(taken);
+                break;
+            }
+        }
         item.subtract(taken);
     }
 
@@ -173,11 +175,14 @@ public final class PitKiln extends PylonBlock implements
             topBlock.setType(Material.COARSE_DIRT);
         }
         for (ItemStack outputItem : processing) {
-            contents.merge(
-                    outputItem.asOne(),
-                    (int) Math.floor(outputItem.getAmount() * multiplier),
-                    Integer::sum
-            );
+            int addAmount = (int) Math.floor(outputItem.getAmount() * multiplier);
+            for (ItemStack contentItem : contents) {
+                if (contentItem.isSimilar(outputItem)) {
+                    outputItem.add(addAmount);
+                    contents.remove(contentItem);
+                    break;
+                }
+            }
         }
         processing.clear();
         for (Vector3i coal : COAL_POSITIONS) {
@@ -224,12 +229,15 @@ public final class PitKiln extends PylonBlock implements
         recipeLoop:
         for (PitKilnRecipe recipe : PitKilnRecipe.RECIPE_TYPE) {
             int ratio = Integer.MAX_VALUE;
-            for (ItemStack inputItem : recipe.input()) {
-                if (!contents.containsKey(inputItem)) {
-                    continue recipeLoop;
+            for (RecipeInput.Item input : recipe.input()) {
+                int existing = 0;
+                for (ItemStack contentItem : contents) {
+                    if (input.contains(contentItem)) {
+                        existing = contentItem.getAmount();
+                        break;
+                    }
                 }
-                int existing = contents.get(inputItem.asOne());
-                int required = inputItem.getAmount();
+                int required = input.getAmount();
                 if (existing < required) {
                     continue recipeLoop;
                 }
@@ -237,8 +245,14 @@ public final class PitKiln extends PylonBlock implements
             }
             if (ratio <= 0) continue;
 
-            for (ItemStack inputItem : recipe.input()) {
-                contents.merge(inputItem.asOne(), -inputItem.getAmount() * ratio, Integer::sum);
+            for (RecipeInput.Item input : recipe.input()) {
+                int removeAmount = input.getAmount() * ratio;
+                for (ItemStack contentItem : contents) {
+                    if (input.contains(contentItem)) {
+                        contentItem.subtract(removeAmount);
+                        break;
+                    }
+                }
             }
             Set<ItemStack> outputItems = new HashSet<>(recipe.output().size());
             for (ItemStack outputItem : recipe.output()) {

@@ -8,15 +8,11 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
@@ -31,7 +27,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  */
 public record MeltingRecipe(
         @NotNull NamespacedKey key,
-        @NotNull ItemStack input,
+        @NotNull RecipeInput.Item input,
         @NotNull PylonFluid result,
         double resultAmount,
         double temperature
@@ -42,7 +38,7 @@ public record MeltingRecipe(
         protected @NotNull MeltingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new MeltingRecipe(
                     key,
-                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("input", ConfigAdapter.RECIPE_INPUT_ITEM),
                     section.getOrThrow("result", ConfigAdapter.PYLON_FLUID),
                     section.getOrThrow("amount", ConfigAdapter.DOUBLE),
                     section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
@@ -56,8 +52,8 @@ public record MeltingRecipe(
     }
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        return List.of(FluidOrItem.of(input));
+    public @NotNull List<RecipeInput> getInputs() {
+        return List.of(input);
     }
 
     @Override
@@ -76,15 +72,15 @@ public record MeltingRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('h', ItemButton.fromStack(BaseItems.SMELTERY_HOPPER))
-                .addIngredient('i', ItemButton.fromStack(input))
+                .addIngredient('h', ItemButton.from(BaseItems.SMELTERY_HOPPER))
+                .addIngredient('i', ItemButton.from(input))
                 .addIngredient('t', ItemStackBuilder.of(Material.BLAZE_POWDER)
                         .name(net.kyori.adventure.text.Component.translatable(
                                 "pylon.pylonbase.guide.recipe.melting",
                                 PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         ))
                 )
-                .addIngredient('o', new FluidButton(result.getKey(), resultAmount))
+                .addIngredient('o', new FluidButton(resultAmount, result))
                 .build();
     }
 }

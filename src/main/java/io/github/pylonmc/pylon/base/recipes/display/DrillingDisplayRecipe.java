@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.recipes.display;
 
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +24,7 @@ public record DrillingDisplayRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull FluidOrItem> getInputs() {
+    public @NotNull List<@NotNull RecipeInput> getInputs() {
         return List.of();
     }
 

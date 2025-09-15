@@ -1,78 +1,8 @@
-pylonbase:fluid_pipe_wood_oak:
-  input: minecraft:oak_log
+pylonbase:fluid_pipe_wood:
+  input: "#minecraft:logs"
   result:
     pylonbase:fluid_pipe_wood: 4
   particle-data: minecraft:oak_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_spruce:
-  input: minecraft:spruce_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:spruce_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_birch:
-  input: minecraft:birch_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:birch_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_jungle:
-  input: minecraft:jungle_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:jungle_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_acacia:
-  input: minecraft:acacia_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:acacia_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_dark_oak:
-  input: minecraft:dark_oak_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:dark_oak_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_pale_oak:
-  input: minecraft:pale_oak_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:pale_oak_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_crimson:
-  input: minecraft:crimson_stem
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:crimson_stem
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_warped:
-  input: minecraft:warped_stem
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:warped_stem
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_cherry:
-  input: minecraft:cherry_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:cherry_log
-  time-ticks: 160
-
-pylonbase:fluid_pipe_wood_mangrove:
-  input: minecraft:mangrove_log
-  result:
-    pylonbase:fluid_pipe_wood: 4
-  particle-data: minecraft:mangrove_log
   time-ticks: 160
 
 pylonbase:fluid_pipe_copper:

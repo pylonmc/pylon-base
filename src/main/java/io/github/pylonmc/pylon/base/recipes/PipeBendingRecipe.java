@@ -5,10 +5,7 @@ import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.BlockData;
@@ -28,7 +25,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  */
 public record PipeBendingRecipe(
         @NotNull NamespacedKey key,
-        @NotNull ItemStack input,
+        @NotNull RecipeInput.Item input,
         @NotNull ItemStack result,
         @NotNull BlockData particleData,
         int timeTicks
@@ -44,7 +41,7 @@ public record PipeBendingRecipe(
         protected @NotNull PipeBendingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new PipeBendingRecipe(
                     key,
-                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("input", ConfigAdapter.RECIPE_INPUT_ITEM),
                     section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
                     section.getOrThrow("particle-data", ConfigAdapter.BLOCK_DATA),
                     section.getOrThrow("time-ticks", ConfigAdapter.INT)
@@ -53,8 +50,8 @@ public record PipeBendingRecipe(
     };
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        return List.of(FluidOrItem.of(input));
+    public @NotNull List<RecipeInput> getInputs() {
+        return List.of(input);
     }
 
     @Override
@@ -73,9 +70,9 @@ public record PipeBendingRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', ItemButton.fromStack(input))
+                .addIngredient('i', ItemButton.from(input))
                 .addIngredient('b', GuiItems.progressCyclingItem(timeTicks, ItemStackBuilder.of(BaseItems.HYDRAULIC_PIPE_BENDER)))
-                .addIngredient('o', ItemButton.fromStack(result))
+                .addIngredient('o', ItemButton.from(result))
                 .build();
     }
 }

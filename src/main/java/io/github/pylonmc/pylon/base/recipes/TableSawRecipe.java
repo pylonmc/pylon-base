@@ -5,10 +5,7 @@ import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.BlockData;
@@ -53,8 +50,8 @@ public record TableSawRecipe(
     };
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        return List.of(FluidOrItem.of(input));
+    public @NotNull List<RecipeInput> getInputs() {
+        return List.of(RecipeInput.of(input));
     }
 
     @Override
@@ -73,9 +70,9 @@ public record TableSawRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', ItemButton.fromStack(input))
+                .addIngredient('i', ItemButton.from(input))
                 .addIngredient('s', GuiItems.progressCyclingItem(timeTicks, ItemStackBuilder.of(BaseItems.HYDRAULIC_TABLE_SAW)))
-                .addIngredient('o', ItemButton.fromStack(result))
+                .addIngredient('o', ItemButton.from(result))
                 .build();
     }
 }

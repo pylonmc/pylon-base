@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -270,15 +271,14 @@ public final class BaseFluids {
     ) {
         CastingRecipe.RECIPE_TYPE.addRecipe(new CastingRecipe(
                 fluid.getKey(),
-                fluid,
-                144.0,
+                RecipeInput.of(fluid, 144.0),
                 ingot,
                 temperature
         ));
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluid.getKey(),
-                ingot,
+                RecipeInput.of(ingot),
                 fluid,
                 144.0,
                 temperature
@@ -286,7 +286,7 @@ public final class BaseFluids {
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluid.getKey(),
-                dust,
+                RecipeInput.of(dust),
                 fluid,
                 144.0,
                 temperature
@@ -295,7 +295,7 @@ public final class BaseFluids {
         if (nugget != null) {
             MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                     fluid.getKey(),
-                    nugget,
+                    RecipeInput.of(nugget),
                     fluid,
                     16.0,
                     temperature
@@ -304,7 +304,7 @@ public final class BaseFluids {
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluid.getKey(),
-                block,
+                RecipeInput.of(block),
                 fluid,
                 1296.0,
                 temperature

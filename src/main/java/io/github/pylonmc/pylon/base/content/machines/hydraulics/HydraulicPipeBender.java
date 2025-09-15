@@ -37,8 +37,6 @@ import org.joml.Vector3d;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
-
 public class HydraulicPipeBender extends PylonBlock
         implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractableBlock, PylonTickingBlock {
 
@@ -151,8 +149,7 @@ public class HydraulicPipeBender extends PylonBlock
             double dirtyHydraulicFluidOutput = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * recipe.timeTicks() / 20.0;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
-                    || !isPylonSimilar(stack, recipe.input())
-                    || stack.getAmount() < recipe.input().getAmount()
+                    || !recipe.input().matches(stack)
             ) {
                 continue;
             }

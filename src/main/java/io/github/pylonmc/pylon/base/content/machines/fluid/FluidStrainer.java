@@ -85,7 +85,7 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
-        if (StrainingRecipe.RECIPE_TYPE.getRecipes().stream().anyMatch(recipe -> fluid.equals(recipe.inputFluid()))) {
+        if (StrainingRecipe.RECIPE_TYPE.stream().anyMatch(recipe -> recipe.input().contains(fluid))) {
             return bufferSize - buffer;
         } else {
             return 0.0;
@@ -94,11 +94,11 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
+        if (currentRecipe == null || !currentRecipe.input().contains(fluid)) {
             passedFluid = 0;
             currentRecipe = null;
             for (StrainingRecipe recipe : StrainingRecipe.RECIPE_TYPE) {
-                if (recipe.inputFluid().equals(fluid)) {
+                if (recipe.input().contains(fluid)) {
                     currentRecipe = recipe;
                     break;
                 }
@@ -146,9 +146,9 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (currentRecipe != null && passedFluid >= currentRecipe.fluidAmount()) {
+        if (currentRecipe != null && passedFluid >= currentRecipe.input().getAmountMillibuckets()) {
             inventory.addItem(null, currentRecipe.outputItem().clone());
-            passedFluid -= currentRecipe.fluidAmount();
+            passedFluid -= currentRecipe.input().getAmountMillibuckets();
         }
         if (passedFluid < 1e-9) {
             currentRecipe = null;

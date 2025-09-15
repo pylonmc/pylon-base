@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
@@ -17,11 +16,11 @@ import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.ItemUtils;
 import io.github.pylonmc.pylon.core.util.PdcUtils;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -58,7 +57,10 @@ public class CoalFiredPurificationTower extends PylonBlock
     static {
         ConfigSection config = settings.getSectionOrThrow("fuels");
         for (String key : config.getKeys()) {
-            FUELS.put(PylonUtils.itemFromName(key), config.getOrThrow(key, ConfigAdapter.INT));
+            FUELS.put(
+                    ItemTypeWrapper.of(NamespacedKey.fromString(key)).createItemStack(),
+                    config.getOrThrow(key, ConfigAdapter.INT)
+            );
         }
     }
 

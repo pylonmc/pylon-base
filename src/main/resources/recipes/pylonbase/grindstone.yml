@@ -50,29 +50,11 @@ pylonbase:intermediate_core_chunk:
   cycles: 10
   particle-data: minecraft:stone
 
-pylonbase:rock_dust_from_cobblestone:
-  input: minecraft:cobblestone
+pylonbase:rock_dust:
+  input: "#minecraft:stone_crafting_materials"
   results: pylonbase:rock_dust
   cycles: 2
   particle-data: minecraft:cobblestone
-
-pylonbase:rock_dust_from_andesite:
-  input: minecraft:andesite
-  results: pylonbase:rock_dust
-  cycles: 2
-  particle-data: minecraft:andesite
-
-pylonbase:rock_dust_from_granite:
-  input: minecraft:granite
-  results: pylonbase:rock_dust
-  cycles: 2
-  particle-data: minecraft:granite
-
-pylonbase:rock_dust_from_diorite:
-  input: minecraft:diorite
-  results: pylonbase:rock_dust
-  cycles: 2
-  particle-data: minecraft:diorite
 
 pylonbase:coal_dust_from_coal:
   input: minecraft:coal

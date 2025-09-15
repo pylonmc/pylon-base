@@ -8,10 +8,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
@@ -26,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 /**
  * @param inputs pedestal inputs (must be of size 8) (setting the itemstack to have an amount that's not 1 will
@@ -37,8 +33,8 @@ import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
  */
 public record MagicAltarRecipe(
         @NotNull NamespacedKey key,
-        @NotNull List<@Nullable ItemStack> inputs,
-        @NotNull ItemStack catalyst,
+        @NotNull List<RecipeInput.@Nullable Item> inputs,
+        @NotNull RecipeInput.Item catalyst,
         @NotNull ItemStack result,
         double timeSeconds
 ) implements PylonRecipe {
@@ -60,9 +56,9 @@ public record MagicAltarRecipe(
                     throw new IllegalArgumentException("Invalid shape row length, must be 3");
                 }
             }
-            Map<Character, ItemStack> itemMap = section.getOrThrow("key", ConfigAdapter.MAP.from(
+            Map<Character, RecipeInput.Item> itemMap = section.getOrThrow("key", ConfigAdapter.MAP.from(
                     ConfigAdapter.CHAR,
-                    ConfigAdapter.ITEM_STACK
+                    ConfigAdapter.RECIPE_INPUT_ITEM
             ));
 
             StringBuilder ingredientChars = new StringBuilder();
@@ -70,7 +66,7 @@ public record MagicAltarRecipe(
             ingredientChars.append(shape.get(1).charAt(2));
             ingredientChars.append(new StringBuilder(shape.get(2)).reverse());
             ingredientChars.append(shape.get(1).charAt(0));
-            List<ItemStack> inputs = new ArrayList<>(8);
+            List<RecipeInput.Item> inputs = new ArrayList<>(8);
             for (int i = 0; i < ingredientChars.length(); i++) {
                 char c = ingredientChars.charAt(i);
                 if (c == ' ') {
@@ -82,7 +78,7 @@ public record MagicAltarRecipe(
                 }
             }
 
-            ItemStack catalyst = itemMap.get(shape.get(1).charAt(1));
+            RecipeInput.Item catalyst = itemMap.get(shape.get(1).charAt(1));
             if (catalyst == null) {
                 throw new IllegalArgumentException("Catalyst (center item) cannot be empty");
             }
@@ -113,8 +109,8 @@ public record MagicAltarRecipe(
         for (int i = 0; i < MagicAltar.PEDESTAL_COUNT; i++) {
             boolean allIngredientsMatch = true;
             for (int j = 0; j < MagicAltar.PEDESTAL_COUNT; j++) {
-                ItemStack input = this.inputs.get(j);
-                if (input != null && !isPylonSimilar(input, ingredients.get(j))) {
+                RecipeInput.Item input = this.inputs.get(j);
+                if (input != null && !input.matches(ingredients.get(j))) {
                     allIngredientsMatch = false;
                     break;
                 }
@@ -131,20 +127,13 @@ public record MagicAltarRecipe(
     }
 
     public boolean isValidRecipe(List<ItemStack> ingredients, ItemStack catalyst) {
-        return ingredientsMatch(ingredients) && isPylonSimilar(this.catalyst, catalyst);
+        return ingredientsMatch(ingredients) && this.catalyst.matches(catalyst);
     }
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        List<FluidOrItem> inputResult = new ArrayList<>();
-        for (ItemStack input : inputs) {
-            if (input != null) {
-                inputResult.add(FluidOrItem.of(input));
-            }
-        }
-
-        inputResult.add(FluidOrItem.of(catalyst));
-
+    public @NotNull List<RecipeInput> getInputs() {
+        List<RecipeInput> inputResult = new ArrayList<>(inputs);
+        inputResult.add(catalyst);
         return inputResult;
     }
 
@@ -164,16 +153,16 @@ public record MagicAltarRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('m', ItemButton.fromStack(BaseItems.MAGIC_ALTAR))
-                .addIngredient('c', ItemButton.fromStack(catalyst))
-                .addIngredient('0', ItemButton.fromStack(inputs.get(0)))
-                .addIngredient('1', ItemButton.fromStack(inputs.get(1)))
-                .addIngredient('2', ItemButton.fromStack(inputs.get(2)))
-                .addIngredient('3', ItemButton.fromStack(inputs.get(3)))
-                .addIngredient('4', ItemButton.fromStack(inputs.get(4)))
-                .addIngredient('5', ItemButton.fromStack(inputs.get(5)))
-                .addIngredient('6', ItemButton.fromStack(inputs.get(6)))
-                .addIngredient('7', ItemButton.fromStack(inputs.get(7)))
+                .addIngredient('m', ItemButton.from(BaseItems.MAGIC_ALTAR))
+                .addIngredient('c', ItemButton.from(catalyst))
+                .addIngredient('0', ItemButton.from(inputs.get(0)))
+                .addIngredient('1', ItemButton.from(inputs.get(1)))
+                .addIngredient('2', ItemButton.from(inputs.get(2)))
+                .addIngredient('3', ItemButton.from(inputs.get(3)))
+                .addIngredient('4', ItemButton.from(inputs.get(4)))
+                .addIngredient('5', ItemButton.from(inputs.get(5)))
+                .addIngredient('6', ItemButton.from(inputs.get(6)))
+                .addIngredient('7', ItemButton.from(inputs.get(7)))
                 .addIngredient('t', GuiItems.progressCyclingItem((int) (timeSeconds * 20),
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
@@ -181,7 +170,7 @@ public record MagicAltarRecipe(
                                         PylonArgument.of("time", UnitFormat.SECONDS.format(timeSeconds))
                                 ))
                 ))
-                .addIngredient('r', ItemButton.fromStack(result))
+                .addIngredient('r', ItemButton.from(result))
                 .build();
     }
 }

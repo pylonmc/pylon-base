@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
-
 
 public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractableBlock {
 
@@ -131,7 +129,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         return GrindstoneRecipe.RECIPE_TYPE.getRecipes()
                 .stream()
-                .filter(recipe -> isPylonSimilar(recipe.input(), input) && input.getAmount() >= recipe.input().getAmount())
+                .filter(recipe -> recipe.input().matches(input) && input.getAmount() >= recipe.input().getAmount())
                 .findFirst()
                 .orElse(null);
     }

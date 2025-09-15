@@ -40,8 +40,6 @@ import org.joml.Matrix4f;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
-
 
 public class Press extends PylonBlock
         implements PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
@@ -131,7 +129,7 @@ public class Press extends PylonBlock
 
         for (PressRecipe recipe : PressRecipe.RECIPE_TYPE.getRecipes()) {
             for (ItemStack stack : stacks) {
-                if (isPylonSimilar(recipe.input(), stack)) {
+                if (recipe.input().contains(stack)) {
                     double availableSpace = CAPACITY_MB - fluidAmount(BaseFluids.PLANT_OIL);
                     if (recipe.oilAmount() > availableSpace
                             || !new PrePylonCraftEvent<>(PressRecipe.RECIPE_TYPE, recipe, this, player).callEvent()

@@ -35,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -92,7 +91,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
             if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
 
             for (ItemStack item : items) {
-                if (item.isSimilar(recipe.input())) {
+                if (recipe.input().matches(item)) {
                     item.subtract(recipe.input().getAmount());
                     break;
                 }
@@ -166,13 +165,8 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                 .toList();
     }
 
-    private static boolean containsAtLeast(@NotNull Collection<ItemStack> items, ItemStack item) {
-        return items.stream()
-                .anyMatch(i -> i.isSimilar(item) && i.getAmount() >= item.getAmount());
-    }
-
     private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
-        return containsAtLeast(items, recipe.input());
+        return items.stream().anyMatch(recipe.input()::matches);
     }
 
     public static @NotNull ItemStackBuilder createItemStack(

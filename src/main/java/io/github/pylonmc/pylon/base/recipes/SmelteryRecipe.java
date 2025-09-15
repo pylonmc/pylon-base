@@ -9,10 +9,7 @@ import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
@@ -104,10 +101,10 @@ public class SmelteryRecipe implements PylonRecipe {
     }
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
+    public @NotNull List<RecipeInput> getInputs() {
         return fluidInputs.entrySet()
                 .stream()
-                .map(pair -> (FluidOrItem) FluidOrItem.of(pair.getKey(), pair.getValue()))
+                .map(pair -> (RecipeInput) RecipeInput.of(pair.getKey(), pair.getValue()))
                 .toList();
     }
 
@@ -132,7 +129,7 @@ public class SmelteryRecipe implements PylonRecipe {
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('s', ItemButton.fromStack(BaseItems.SMELTERY_CONTROLLER))
+                .addIngredient('s', ItemButton.from(BaseItems.SMELTERY_CONTROLLER))
                 .addIngredient('t', ItemStackBuilder.of(Material.COAL)
                         .name(Component.translatable(
                                 "pylon.pylonbase.gui.smeltery.temperature",
@@ -142,13 +139,13 @@ public class SmelteryRecipe implements PylonRecipe {
 
         int i = 0;
         for (Map.Entry<PylonFluid, Double> entry : fluidInputs.entrySet()) {
-            gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
+            gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getValue(), entry.getKey()));
             i++;
         }
 
         i = 0;
         for (Map.Entry<PylonFluid, Double> entry : fluidOutputs.entrySet()) {
-            gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getKey().getKey(), entry.getValue()));
+            gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getValue(), entry.getKey()));
             i++;
         }
 

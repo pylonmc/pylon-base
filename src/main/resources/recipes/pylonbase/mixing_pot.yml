@@ -2,8 +2,8 @@ pylonbase:obscyra:
   input-items:
     - pylonbase:obsidian_chip: 5
     - minecraft:blaze_powder: 2
-  input-fluid: pylonbase:water
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:water: 1000
   output:
     pylonbase:obscyra: 1000
   requires-enriched-fire: true
@@ -11,24 +11,24 @@ pylonbase:obscyra:
 pylonbase:slurry:
   input-items:
     - pylonbase:rock_dust
-  input-fluid: pylonbase:water
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:water: 1000
   output:
     pylonbase:slurry: 1000
 
 pylonbase:hydraulic_fluid:
   input-items:
     - pylonbase:shimmer_dust_1
-  input-fluid: pylonbase:plant_oil
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:plant_oil: 1000
   output:
     pylonbase:hydraulic_fluid: 1000
 
 pylonbase:reflector_fluid:
   input-items:
     - pylonbase:quartz_dust: 4
-  input-fluid: pylonbase:plant_oil
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:plant_oil: 1000
   output:
     pylonbase:reflector_fluid: 1000
 
@@ -37,8 +37,8 @@ pylonbase:covalent_binder:
     - minecraft:gunpowder: 4
     - minecraft:shroomlight
     - pylonbase:shimmer_dust_1
-  input-fluid: pylonbase:water
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:water: 1000
   output:
     pylonbase:covalent_binder: 6
   requires-enriched-fire: true
@@ -48,8 +48,8 @@ pylonbase:shimmer_dust_2:
     - pylonbase:shimmer_dust_1
     - pylonbase:gold_dust
     - minecraft:redstone
-  input-fluid: pylonbase:water
-  input-fluid-amount: 333
+  input-fluid:
+    pylonbase:water: 333
   output:
     pylonbase:shimmer_dust_2: 1
 
@@ -58,16 +58,16 @@ pylonbase:disinfectant:
     - minecraft:glass_bottle
     - minecraft:nether_wart: 3
     - minecraft:dandelion
-  input-fluid: pylonbase:plant_oil
-  input-fluid-amount: 100
+  input-fluid:
+    pylonbase:plant_oil: 100
   output:
     pylonbase:disinfectant: 1
 
 pylonbase:dough:
   input-items:
     - pylonbase:flour: 2
-  input-fluid: pylonbase:water
-  input-fluid-amount: 250
+  input-fluid:
+    pylonbase:water: 250
   output:
     pylonbase:dough: 1
 
@@ -75,8 +75,8 @@ pylonbase:igneous_composite:
   input-items:
     - minecraft:nether_brick: 4
     - pylonbase:covalent_binder
-  input-fluid: pylonbase:obscyra
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:obscyra: 1000
   output:
     pylonbase:igneous_composite: 1
   requires-enriched-fire: true
@@ -84,8 +84,8 @@ pylonbase:igneous_composite:
 pylonbase:abyssal_catalyst:
   input-items:
     - minecraft:soul_soil: 4
-  input-fluid: pylonbase:obscyra
-  input-fluid-amount: 250
+  input-fluid:
+    pylonbase:obscyra: 250
   output:
     pylonbase:abyssal_catalyst: 1
   requires-enriched-fire: true
@@ -93,8 +93,8 @@ pylonbase:abyssal_catalyst:
 pylonbase:fluid_voider_2:
   input-items:
     - pylonbase:fluid_voider_1
-  input-fluid: pylonbase:obscyra
-  input-fluid-amount: 500
+  input-fluid:
+    pylonbase:obscyra: 500
   output:
     pylonbase:fluid_voider_2: 1
   requires-enriched-fire: true
@@ -102,8 +102,8 @@ pylonbase:fluid_voider_2:
 pylonbase:fluid_voider_3:
   input-items:
     - pylonbase:fluid_voider_2
-  input-fluid: pylonbase:obscyra
-  input-fluid-amount: 500
+  input-fluid:
+    pylonbase:obscyra: 500
   output:
     pylonbase:fluid_voider_3: 1
   requires-enriched-fire: true
@@ -113,8 +113,8 @@ pylonbase:research_pack_2:
     - pylonbase:hydraulic_motor
     - pylonbase:carbon
     - pylonbase:loupe
-  input-fluid: pylonbase:obscyra
-  input-fluid-amount: 500
+  input-fluid:
+    pylonbase:obscyra: 500
   output:
     pylonbase:research_pack_2: 1
   requires-enriched-fire: true
@@ -127,8 +127,8 @@ pylonbase:refractory_mix:
     - minecraft:gravel: 2
     - pylonbase:gypsum_dust: 3
     - minecraft:clay_ball: 6
-  input-fluid: pylonbase:obscyra
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:obscyra: 1000
   output:
     pylonbase:refractory_mix: 4
   requires-enriched-fire: true
@@ -137,8 +137,8 @@ pylonbase:explosive_target_fiery:
   input-items:
     - pylonbase:explosive_target
     - minecraft:fire_charge: 2
-  input-fluid: pylonbase:plant_oil
-  input-fluid-amount: 500
+  input-fluid:
+    pylonbase:plant_oil: 500
   output:
     pylonbase:explosive_target_fiery: 1
 
@@ -146,15 +146,15 @@ pylonbase:explosive_target_super_fiery:
   input-items:
     - pylonbase:explosive_target
     - minecraft:fire_charge: 4
-  input-fluid: pylonbase:plant_oil
-  input-fluid-amount: 1000
+  input-fluid:
+    pylonbase:plant_oil: 1000
   output:
     pylonbase:explosive_target_super_fiery: 1
 
 pylonbase:solar_lens:
   input-items:
     - minecraft:glass_pane: 4
-  input-fluid: pylonbase:reflector_fluid
-  input-fluid-amount: 250
+  input-fluid:
+    pylonbase:reflector_fluid: 250
   output:
     pylonbase:solar_lens: 1
