@@ -28,15 +28,15 @@ import java.util.Map;
 public class SolarPurificationTower extends PylonBlock
         implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
-    public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.INT);
-    public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", ConfigAdapter.INT);
+    public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.DOUBLE);
+    public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", ConfigAdapter.DOUBLE);
     public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
     public final int lensLayers = getSettings().getOrThrow("lens-layers", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
-        public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.INT);
+        public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.DOUBLE);
         public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
