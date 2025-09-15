@@ -306,7 +306,7 @@ pylonbase:grindstone:
 
 pylonbase:grindstone_handle:
   pattern:
-    - "F  "
+    - "FF "
     - "F  "
     - "F  "
   key:
