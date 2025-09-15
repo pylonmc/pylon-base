@@ -158,9 +158,9 @@ public record MagicAltarRecipe(
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
-                        "# # 7 0 1 # # # #",
-                        "m # 6 c 2 # t # r",
-                        "# # 5 4 3 # # # #",
+                        "# # 0 1 2 # # # #",
+                        "m # 7 c 3 # t # r",
+                        "# # 6 5 4 # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())

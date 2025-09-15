@@ -1,17 +1,8 @@
-
-
-#ShapelessRecipe nuggetsRecipe = new ShapelessRecipe(baseKey("tin_nuggets_from_tin_ingot"), TIN_NUGGET.asQuantity(9))
-#.addIngredient(TIN_INGOT);
-#nuggetsRecipe.setCategory(CraftingBookCategory.MISC);
-#RecipeType.VANILLA_SHAPELESS.addRecipe(nuggetsRecipe);
-
 pylonbase:tin_nuggests_from_tin_ingot:
   ingredients:
     - pylonbase:tin_ingot
   result:
     pylonbase:tin_nugget: 9
-
-
 
 pylonbase:tin_ingots_from_tin_block:
   ingredients:
@@ -24,8 +15,6 @@ pylonbase:bronze_nuggets_from_bronze_ingot:
     - pylonbase:bronze_ingot
   result:
     pylonbase:bronze_nugget: 9
-
-
 
 pylonbase:bronze_ingots_from_bronze_block:
   ingredients:
@@ -51,8 +40,6 @@ pylonbase:nickel_nuggets_from_nickel_ingot:
   result:
     pylonbase:nickel_nugget: 9
 
-
-
 pylonbase:nickel_ingots_from_nickel_block:
   ingredients:
     - pylonbase:nickel_block
@@ -70,8 +57,6 @@ pylonbase:cobalt_ingots_from_cobalt_block:
     - pylonbase:cobalt_block
   result:
     pylonbase:cobalt_ingot: 9
-
-
 
 pylonbase:shimmer_dust_1:
   ingredients:
@@ -97,7 +82,6 @@ pylonbase:research_pack_1:
     - pylonbase:sulfur
   result:
     pylonbase:research_pack_1: 1
-
 
 pylonbase:explosive_target_super:
   ingredients:

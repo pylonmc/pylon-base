@@ -1041,8 +1041,8 @@ pylonbase:backflow_valve:
     P: pylonbase:fluid_pipe_iron
     S: pylonbase:iron_sheet
     R: minecraft:redstone
-  result: pylonbase:backflow_valve
-  count: 2
+  result:
+    pylonbase:backflow_valve: 2
   category: misc
 
 pylonbase:analogue_display:
@@ -1771,8 +1771,8 @@ pylonbase:ice_arrow:
   key:
     I: minecraft:blue_ice
     A: minecraft:arrow
-  result: pylonbase:ice_arrow
-  count: 8
+  result:
+    pylonbase:ice_arrow: 8
   category: equipment
 
 pylonbase:recoil_arrow:
@@ -1783,8 +1783,8 @@ pylonbase:recoil_arrow:
   key:
     S: minecraft:slime_ball
     A: minecraft:arrow
-  result: pylonbase:recoil_arrow
-  count: 8
+  result:
+    pylonbase:recoil_arrow: 8
   category: equipment
 
 pylonbase:manual_core_drill_lever_oak:
