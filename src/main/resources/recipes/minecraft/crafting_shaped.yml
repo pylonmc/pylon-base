@@ -680,7 +680,7 @@ pylonbase:nozzle:
     - "   "
   key:
     P: pylonbase:fluid_pipe_copper
-    B: minecraft:stone_button
+    B: "#minecraft:stone_buttons"
   result: pylonbase:nozzle
   category: misc
 
