@@ -100,5 +100,9 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.WAXED_COPPER_BULB, HydraulicCoreDrill.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, HydraulicCoreDrillInputHatch.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_1, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_2, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_3, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_4, Material.HOPPER, VacuumHopper.class);
     }
 }
