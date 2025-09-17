@@ -134,16 +134,16 @@ public final class PitKiln extends PylonBlock implements
         for (ItemStack contentItem : contents) {
             currentAmount += contentItem.getAmount();
         }
-        int taken = Math.min(CAPACITY - currentAmount, item.getAmount());
-        if (taken <= 0) return;
+        if (currentAmount >= CAPACITY) return;
 
+        item.subtract();
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
-                contentItem.add(taken);
-                break;
+                contentItem.add();
+                return;
             }
         }
-        item.subtract(taken);
+        contents.add(item.asOne());
     }
 
     @Override
@@ -174,15 +174,16 @@ public final class PitKiln extends PylonBlock implements
             };
             topBlock.setType(Material.COARSE_DIRT);
         }
+        outputLoop:
         for (ItemStack outputItem : processing) {
             int addAmount = (int) Math.floor(outputItem.getAmount() * multiplier);
             for (ItemStack contentItem : contents) {
                 if (contentItem.isSimilar(outputItem)) {
-                    outputItem.add(addAmount);
-                    contents.remove(contentItem);
-                    break;
+                    contentItem.add(addAmount);
+                    continue outputLoop;
                 }
             }
+            contents.add(outputItem.asQuantity(addAmount));
         }
         processing.clear();
         for (Vector3i coal : COAL_POSITIONS) {
