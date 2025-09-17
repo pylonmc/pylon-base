@@ -11,12 +11,14 @@ import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
+import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
+import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
 import io.github.pylonmc.pylon.base.recipes.display.DrillingDisplayRecipe;
 import io.github.pylonmc.pylon.base.recipes.display.MoldingDisplayRecipe;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -43,9 +45,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
@@ -1692,6 +1698,72 @@ public final class BaseItems {
     static {
         PylonItem.register(ClimbingPick.class, CLIMBING_PICK);
         BasePages.TOOLS.addItem(CLIMBING_PICK);
+    }
+
+    public static final ItemStack VACUUM_HOPPER_1 = ItemStackBuilder.pylonItem(Material.HOPPER, BaseKeys.VACUUM_HOPPER_1)
+            .build();
+    static {
+        PylonItem.register(VacuumHopper.Item.class, VACUUM_HOPPER_1, BaseKeys.VACUUM_HOPPER_1);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.VACUUM_HOPPER_1);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.VACUUM_HOPPER_1, VACUUM_HOPPER_1)
+                .shape("s s", "shs", " s ")
+                .setIngredient('h', Material.HOPPER)
+                .setIngredient('s', SHIMMER_DUST_1);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack VACUUM_HOPPER_2 = ItemStackBuilder.pylonItem(Material.HOPPER, BaseKeys.VACUUM_HOPPER_2)
+            .build();
+    static {
+        PylonItem.register(VacuumHopper.Item.class, VACUUM_HOPPER_2, BaseKeys.VACUUM_HOPPER_2);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.VACUUM_HOPPER_2);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.VACUUM_HOPPER_2, VACUUM_HOPPER_2)
+                .shape("s s", "shs", " s ")
+                .setIngredient('h', Material.HOPPER)
+                .setIngredient('s', SHIMMER_DUST_2);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack VACUUM_HOPPER_3 = ItemStackBuilder.pylonItem(Material.HOPPER, BaseKeys.VACUUM_HOPPER_3)
+            .build();
+    static {
+        PylonItem.register(VacuumHopper.Item.class, VACUUM_HOPPER_3, BaseKeys.VACUUM_HOPPER_3);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.VACUUM_HOPPER_3);
+
+        ShapedRecipe recipe = new ShapedRecipe(BaseKeys.VACUUM_HOPPER_3, VACUUM_HOPPER_3)
+                .shape("i i", "ihi", " i ")
+                .setIngredient('h', Material.HOPPER)
+                .setIngredient('i', IGNEOUS_COMPOSITE);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
+        RecipeType.VANILLA_SHAPED.addRecipe(recipe);
+    }
+
+    public static final ItemStack VACUUM_HOPPER_4 = ItemStackBuilder.pylonItem(Material.HOPPER, BaseKeys.VACUUM_HOPPER_4)
+            .build();
+    static {
+        PylonItem.register(VacuumHopper.Item.class, VACUUM_HOPPER_4, BaseKeys.VACUUM_HOPPER_4);
+        BasePages.SIMPLE_MACHINES.addItem(BaseKeys.VACUUM_HOPPER_4);
+
+        MagicAltarRecipe.RECIPE_TYPE.addRecipe(new MagicAltarRecipe(
+                BaseKeys.VACUUM_HOPPER_4,
+                new ArrayList<>(Arrays.asList(
+                        IGNEOUS_COMPOSITE,
+                        new ItemStack(Material.CHISELED_QUARTZ_BLOCK),
+                        SHIMMER_DUST_3,
+                        null,
+                        IGNEOUS_COMPOSITE,
+                        new ItemStack(Material.CHISELED_QUARTZ_BLOCK),
+                        SHIMMER_DUST_3,
+                        null
+                )),
+                new ItemStack(Material.HOPPER),
+                VACUUM_HOPPER_4,
+                35
+        ));
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
