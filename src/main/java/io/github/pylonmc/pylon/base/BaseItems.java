@@ -376,7 +376,11 @@ public final class BaseItems {
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
     public static final ItemStack HAMMER_STONE = Hammer.createItemStack(
-            BaseKeys.HAMMER_STONE, Material.STONE_PICKAXE, (1.0 / 3) - 4, 1, 1
+            BaseKeys.HAMMER_STONE,
+            Material.STONE_PICKAXE,
+            (1.0 / 3) - 4,
+            1,
+            1
     ).set(DataComponentTypes.MAX_DAMAGE, 66).build();
     static {
         PylonItem.register(Hammer.class, HAMMER_STONE);
@@ -384,7 +388,11 @@ public final class BaseItems {
     }
 
     public static final ItemStack HAMMER_IRON = Hammer.createItemStack(
-            BaseKeys.HAMMER_IRON, Material.IRON_PICKAXE, (1.0 / 2) - 4, 1.5, 3
+            BaseKeys.HAMMER_IRON,
+            Material.IRON_PICKAXE,
+            (1.0 / 2) - 4,
+            1.5,
+            3
     ).set(DataComponentTypes.MAX_DAMAGE, 125).build();
     static {
         PylonItem.register(Hammer.class, HAMMER_IRON);
@@ -392,7 +400,11 @@ public final class BaseItems {
     }
 
     public static final ItemStack HAMMER_DIAMOND = Hammer.createItemStack(
-            BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_PICKAXE, (1.0 / 1) - 4, 2, 5
+            BaseKeys.HAMMER_DIAMOND,
+            Material.DIAMOND_PICKAXE,
+            (1.0 / 1) - 4,
+            2,
+            5
     ).set(DataComponentTypes.MAX_DAMAGE, 781).build();
     static {
         PylonItem.register(Hammer.class, HAMMER_DIAMOND);
