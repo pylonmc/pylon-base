@@ -103,7 +103,6 @@ public class BaseResearches {
                 BaseKeys.AXLE,
                 BaseKeys.SAWBLADE,
                 BaseKeys.WEIGHTED_SHAFT,
-                BaseKeys.COPPER_DRILL_BIT,
                 BaseKeys.BRONZE_DRILL_BIT,
                 BaseKeys.HYDRAULIC_MOTOR
         ).register();
