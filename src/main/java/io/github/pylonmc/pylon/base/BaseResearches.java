@@ -145,7 +145,11 @@ public class BaseResearches {
                 BaseKeys.BRONZE_AXE,
                 BaseKeys.BRONZE_PICKAXE,
                 BaseKeys.BRONZE_SHOVEL,
-                BaseKeys.BRONZE_HOE
+                BaseKeys.BRONZE_HOE,
+                BaseKeys.BRONZE_BOOTS,
+                BaseKeys.BRONZE_LEGGINGS,
+                BaseKeys.BRONZE_CHESTPLATE,
+                BaseKeys.BRONZE_HELMET
         ).register();
 
         new Research(
