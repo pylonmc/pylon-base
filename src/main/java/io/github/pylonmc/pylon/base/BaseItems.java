@@ -385,7 +385,8 @@ public final class BaseItems {
             1
     ).set(DataComponentTypes.MAX_DAMAGE, 66)
         .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                Settings.get(BaseKeys.HAMMER_STONE).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f)
+                Settings.get(BaseKeys.HAMMER_STONE).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+            )
             .cooldownGroup(BaseKeys.HAMMER_STONE.key())
             .build())
         .build();
@@ -402,7 +403,8 @@ public final class BaseItems {
             3
     ).set(DataComponentTypes.MAX_DAMAGE, 125)
         .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                Settings.get(BaseKeys.HAMMER_IRON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f)
+                Settings.get(BaseKeys.HAMMER_IRON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+            )
             .cooldownGroup(BaseKeys.HAMMER_IRON.key())
             .build())
         .build();
@@ -419,7 +421,8 @@ public final class BaseItems {
             5
     ).set(DataComponentTypes.MAX_DAMAGE, 781)
         .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                Settings.get(BaseKeys.HAMMER_DIAMOND).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f)
+                Settings.get(BaseKeys.HAMMER_DIAMOND).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+            )
             .cooldownGroup(BaseKeys.HAMMER_DIAMOND.key())
             .build())
         .build();
@@ -1314,7 +1317,7 @@ public final class BaseItems {
     public static final ItemStack RESEARCH_PACK_1 = ItemStackBuilder.pylonItem(Material.RED_BANNER, BaseKeys.RESEARCH_PACK_1)
             .set(DataComponentTypes.MAX_STACK_SIZE, 3)
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                    Settings.get(BaseKeys.RESEARCH_PACK_1).getOrThrow("cooldown-ticks", ConfigAdapter.INT)
+                    Settings.get(BaseKeys.RESEARCH_PACK_1).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
                 )
                 .cooldownGroup(BaseKeys.RESEARCH_PACK_1.key())
                 .build())
@@ -1327,7 +1330,7 @@ public final class BaseItems {
     public static final ItemStack RESEARCH_PACK_2 = ItemStackBuilder.pylonItem(Material.LIME_BANNER, BaseKeys.RESEARCH_PACK_2)
             .set(DataComponentTypes.MAX_STACK_SIZE, 3)
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                    Settings.get(BaseKeys.RESEARCH_PACK_2).getOrThrow("cooldown-ticks", ConfigAdapter.INT)
+                    Settings.get(BaseKeys.RESEARCH_PACK_2).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
                 )
                 .cooldownGroup(BaseKeys.RESEARCH_PACK_2.key())
                 .build())
