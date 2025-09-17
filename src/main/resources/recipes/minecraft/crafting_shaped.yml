@@ -320,7 +320,7 @@ pylonbase:mixing_pot:
     - "F F"
     - "FFF"
   key:
-    F: pylonbase:bronze_ingot
+    F: pylonbase:iron_sheet
   result: pylonbase:mixing_pot
   category: building
 
