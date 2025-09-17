@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonConsumable;
@@ -11,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class HealingConsumable extends PylonItem implements PylonConsumable {
-    private final double consumeSeconds = getSettings().getOrThrow("consume-seconds", Double.class);
-    private final double healAmount = getSettings().getOrThrow("heal-amount", Double.class);
+    private final double consumeSeconds = getSettings().getOrThrow("consume-seconds", ConfigAdapter.DOUBLE);
+    private final double healAmount = getSettings().getOrThrow("heal-amount", ConfigAdapter.DOUBLE);
     public HealingConsumable(@NotNull ItemStack stack){ super(stack); }
 
     @Override

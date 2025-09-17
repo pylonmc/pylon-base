@@ -1,0 +1,11 @@
+pylonbase:bread_from_dough_smoker:
+  ingredient: pylonbase:dough
+  result: minecraft:bread
+  experience: 0.2
+  category: food
+
+pylonbase:monster_jerky_smoker:
+  ingredient: minecraft:rotten_flesh
+  result: pylonbase:monster_jerky
+  experience: 0.15
+  category: food
