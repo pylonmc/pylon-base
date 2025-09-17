@@ -320,7 +320,7 @@ pylonbase:mixing_pot:
     - "F F"
     - "FFF"
   key:
-    F: pylonbase:bronze_ingot
+    F: pylonbase:iron_sheet
   result: pylonbase:mixing_pot
   category: building
 
@@ -722,10 +722,11 @@ pylonbase:sawblade:
 
 pylonbase:weighted_shaft:
   pattern:
-    - "II "
-    - "II "
-    - "II "
+    - "I  "
+    - "B  "
+    - "I  "
   key:
+    B: minecraft:iron_block
     I: minecraft:iron_ingot
   result: pylonbase:weighted_shaft
   category: misc

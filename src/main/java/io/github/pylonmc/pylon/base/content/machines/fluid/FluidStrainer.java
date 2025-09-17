@@ -130,6 +130,12 @@ public class FluidStrainer extends PylonBlock
         ));
     }
 
+    @Override
+    @NotNull
+    public Component getGuiTitle() {
+        return getDefaultTranslationKey();
+    }
+
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);
 
     @Override
