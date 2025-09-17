@@ -27,6 +27,13 @@ public class BaseResearches {
         ).register();
 
         new Research(
+                baseKey("climbing_equipment"),
+                Material.IRON_HOE,
+                2L,
+                BaseKeys.CLIMBING_PICK
+        ).register();
+
+        new Research(
                 baseKey("food_preservation"),
                 Material.ROTTEN_FLESH,
                 3L,

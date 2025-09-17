@@ -1271,6 +1271,7 @@ research:
   fluid_storage: "<#88ccbb>Fluid storage"
   simple_components: "<#c1c1c1>Simple components"
   straining: "<#c99fa1>Straining"
+  climbing_equipment: "<#a6b579>Climbing equipment"
 
 guide:
   page:
