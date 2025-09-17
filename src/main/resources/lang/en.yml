@@ -1309,7 +1309,7 @@ message:
     clear: "<white>Clear"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
-  gained_research_points: "<green>+%points% research points"
+  gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
     already_examined: "<red>You cannot find any more interesting things about this item"
