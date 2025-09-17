@@ -1273,7 +1273,8 @@ public final class BaseItems {
         PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_SOURCE);
     }
 
-    public static final ItemStack LOUPE = ItemStackBuilder.pylonItem(Material.GLASS_PANE, BaseKeys.LOUPE)
+    public static final ItemStack LOUPE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.LOUPE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLASS_PANE.getKey())
             .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
