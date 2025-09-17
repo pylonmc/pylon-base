@@ -674,7 +674,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealingConsumable.class, BANDAGE);
-        BasePages.TOOLS.addItem(BANDAGE);
+        BasePages.COMBAT.addItem(BANDAGE);
     }
 
     public static final ItemStack SPLINT = ItemStackBuilder.pylonItem(Material.STICK, BaseKeys.SPLINT)
@@ -686,7 +686,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealingConsumable.class, SPLINT);
-        BasePages.TOOLS.addItem(SPLINT);
+        BasePages.COMBAT.addItem(SPLINT);
     }
 
     public static final ItemStack DISINFECTANT = ItemStackBuilder.pylonItem(Material.BREWER_POTTERY_SHERD, BaseKeys.DISINFECTANT)
@@ -702,7 +702,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealingConsumable.class, DISINFECTANT);
-        BasePages.TOOLS.addItem(DISINFECTANT);
+        BasePages.COMBAT.addItem(DISINFECTANT);
     }
 
     public static final ItemStack MEDKIT = ItemStackBuilder.pylonItem(Material.SHULKER_SHELL, BaseKeys.MEDKIT)
@@ -715,7 +715,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealingConsumable.class, MEDKIT);
-        BasePages.TOOLS.addItem(MEDKIT);
+        BasePages.COMBAT.addItem(MEDKIT);
     }
     //</editor-fold>
 
@@ -799,7 +799,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_SIMPLE);
-        BasePages.TOOLS.addItem(HEALTH_TALISMAN_SIMPLE);
+        BasePages.COMBAT.addItem(HEALTH_TALISMAN_SIMPLE);
     }
 
     public static final ItemStack HEALTH_TALISMAN_ADVANCED = ItemStackBuilder.pylonItem(Material.AMETHYST_CLUSTER, BaseKeys.HEALTH_TALISMAN_ADVANCED)
@@ -807,7 +807,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ADVANCED);
-        BasePages.TOOLS.addItem(HEALTH_TALISMAN_ADVANCED);
+        BasePages.COMBAT.addItem(HEALTH_TALISMAN_ADVANCED);
     }
 
     public static final ItemStack HEALTH_TALISMAN_ULTIMATE = ItemStackBuilder.pylonItem(Material.BUDDING_AMETHYST, BaseKeys.HEALTH_TALISMAN_ULTIMATE)
@@ -815,7 +815,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ULTIMATE);
-        BasePages.TOOLS.addItem(HEALTH_TALISMAN_ULTIMATE);
+        BasePages.COMBAT.addItem(HEALTH_TALISMAN_ULTIMATE);
     }
 
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
