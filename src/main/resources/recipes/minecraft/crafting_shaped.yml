@@ -1387,3 +1387,36 @@ pylonbase:hammer_diamond:
     S: minecraft:stick
   result: pylonbase:hammer_diamond
   category: equipment
+
+pylonbase:vacuum_hopper_1:
+  pattern:
+    - "S S"
+    - "SHS"
+    - " S "
+  key:
+    S: pylonbase:shimmer_dust_1
+    H: minecraft:hopper
+  result: pylonbase:vacuum_hopper_1
+  category: equipment
+
+pylonbase:vacuum_hopper_2:
+  pattern:
+    - "S S"
+    - "SHS"
+    - " S "
+  key:
+    S: pylonbase:shimmer_dust_2
+    H: minecraft:hopper
+  result: pylonbase:vacuum_hopper_2
+  category: equipment
+
+pylonbase:vacuum_hopper_3:
+  pattern:
+    - "I I"
+    - "IHI"
+    - " I "
+  key:
+    S: pylonbase:igneous_composite
+    H: minecraft:hopper
+  result: pylonbase:vacuum_hopper_3
+  category: equipment

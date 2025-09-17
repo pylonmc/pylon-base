@@ -83,3 +83,16 @@ pylonbase:fireproof_rune:
     B: minecraft:magma_block
   result: pylonbase:fireproof_rune
   time-seconds: 70
+
+pylonbase:vacuum_hopper_4:
+  shape:
+    - "IQS"
+    - " H "
+    - "SQI"
+  key:
+    I: pylonbase:igneous_composite
+    Q: minecraft:chiseled_quartz_block
+    S: pylonbase:shimmer_dust_3
+    H: minecraft:hopper
+  result: pylonbase:vacuum_hopper_4
+  time-seconds: 35
