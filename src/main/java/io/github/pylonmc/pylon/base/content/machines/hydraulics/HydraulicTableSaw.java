@@ -166,6 +166,8 @@ public class HydraulicTableSaw extends PylonBlock
             this.recipe = recipe;
             recipeTicksRemaining = recipe.time();
             spawnParticles();
+            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidInput);
+            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, dirtyHydraulicFluidOutput);
 
             break;
         }
