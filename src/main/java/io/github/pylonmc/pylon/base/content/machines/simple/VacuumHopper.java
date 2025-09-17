@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -21,8 +22,8 @@ import java.util.List;
 public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
 
     public static class Item extends PylonItem {
-        public final int radius = getSettings().getOrThrow("radius-blocks", Integer.class);
-        public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+        public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
+        public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -37,8 +38,8 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
         }
     }
 
-    public final int radius = getSettings().getOrThrow("radius-blocks", Integer.class);
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public VacuumHopper(@NotNull Block block, @NotNull BlockCreateContext context) {

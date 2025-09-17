@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -50,10 +51,10 @@ public class HydraulicHammerHead extends PylonBlock
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD);
-    public static final int GO_DOWN_TIME_TICKS = settings.getOrThrow("go-down-time-ticks", Integer.class);
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
+    public static final int GO_DOWN_TIME_TICKS = settings.getOrThrow("go-down-time-ticks", ConfigAdapter.INT);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 

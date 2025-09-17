@@ -3,18 +3,12 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
-import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
-import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -157,23 +151,8 @@ public final class BaseFluids {
         LAVA.register();
 
         OBSCYRA.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                OBSCYRA.getKey(),
-                List.of(BaseItems.OBSIDIAN_CHIP.asQuantity(5), new ItemStack(Material.BLAZE_POWDER, 2)),
-                WATER,
-                1000,
-                FluidOrItem.of(OBSCYRA, 1000),
-                true
-        ));
 
         SULFUR.register();
-        MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                SULFUR.getKey(),
-                BaseItems.SULFUR,
-                SULFUR,
-                144.0,
-                112.8
-        ));
 
         MERCURY.register();
 
@@ -247,16 +226,6 @@ public final class BaseFluids {
                 BaseItems.BRONZE_BLOCK
         );
 
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("bronze"),
-                Map.of(
-                        COPPER, 1.0 - 0.12,
-                        TIN, 0.12
-                ),
-                Map.of(BRONZE, 1.0),
-                950
-        ));
-
         STEEL.register();
         addMetalRecipes(
                 STEEL,
@@ -267,154 +236,29 @@ public final class BaseFluids {
                 BaseItems.STEEL_BLOCK
         );
 
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("steel"),
-                Map.of(
-                        IRON, 1.0 - 0.04,
-                        CARBON_SLURRY, 0.04
-                ),
-                Map.of(STEEL, 1.0),
-                1540
-        ));
-
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("decarburization"), // yes this is a real word
-                Map.of(
-                        STEEL, 1.0,
-                        WATER, 0.1
-                ),
-                Map.of(IRON, 1.0),
-                1540
-        ));
-
         SLURRY.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                SLURRY.getKey(),
-                List.of(BaseItems.ROCK_DUST),
-                WATER,
-                1000,
-                FluidOrItem.of(SLURRY, 1000),
-                false
-        ));
 
         COAL_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("coal_to_carbon"),
-                Map.of(COAL_SLURRY, 1.0),
-                Map.of(
-                        CARBON_SLURRY, 0.9,
-                        SLURRY, 0.1
-                ),
-                1000
-        ));
 
         CARBON_SLURRY.register();
 
         RAW_COPPER_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("copper_smelting"),
-                Map.of(RAW_COPPER_SLURRY, 1.0),
-                Map.of(
-                        COPPER, 0.5,
-                        SLURRY, 0.5
-                ),
-                1085
-        ));
 
         RAW_GOLD_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("gold_smelting"),
-                Map.of(
-                        RAW_GOLD_SLURRY, 1.0,
-                        MERCURY, 1.0
-                ),
-                Map.of(
-                        GOLD, 0.5,
-                        SLURRY, 0.4,
-                        RAW_TIN_SLURRY, 0.2,
-                        MERCURY, 0.9
-                ),
-                1064
-        ));
 
         RAW_IRON_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("iron_smelting"),
-                Map.of(
-                        RAW_IRON_SLURRY, 1.0,
-                        CARBON_SLURRY, 0.5
-                ),
-                Map.of(
-                        IRON, 1.0,
-                        SLURRY, 0.5
-                ),
-                1540
-        ));
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("iron_smelting_with_sulfur"),
-                Map.of(
-                        RAW_IRON_SLURRY, 1.0,
-                        CARBON_SLURRY, 0.5,
-                        SULFUR, 0.1
-                ),
-                Map.of(
-                        IRON, 1.0,
-                        SLURRY, 0.4,
-                        COBALT, 0.1,
-                        NICKEL, 0.1
-                ),
-                1540
-        ));
 
         RAW_TIN_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("tin_smelting"),
-                Map.of(
-                        RAW_TIN_SLURRY, 1.0,
-                        CARBON_SLURRY, 0.5
-                ),
-                Map.of(
-                        TIN, 1.0,
-                        SLURRY, 0.5
-                ),
-                250
-        ));
 
         REDSTONE_SLURRY.register();
-        SmelteryRecipe.RECIPE_TYPE.addRecipe(new SmelteryRecipe(
-                baseKey("redstone_decomposition"),
-                Map.of(REDSTONE_SLURRY, 1.0),
-                Map.of(
-                        SULFUR, 0.25,
-                        MERCURY, 0.25,
-                        SLURRY, 0.5
-                ),
-                345
-        ));
 
         PLANT_OIL.register();
 
         HYDRAULIC_FLUID.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                HYDRAULIC_FLUID.getKey(),
-                List.of(BaseItems.SHIMMER_DUST_1),
-                PLANT_OIL,
-                1000,
-                FluidOrItem.of(HYDRAULIC_FLUID, 1000),
-                false
-        ));
 
         DIRTY_HYDRAULIC_FLUID.register();
 
         REFLECTOR_FLUID.register();
-        MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
-                REFLECTOR_FLUID.getKey(),
-                List.of(BaseItems.QUARTZ_DUST.asQuantity(4)),
-                PLANT_OIL,
-                1000,
-                FluidOrItem.of(REFLECTOR_FLUID, 1000),
-                false
-        ));
     }
 
     private static void addMetalRecipes(
@@ -427,15 +271,14 @@ public final class BaseFluids {
     ) {
         CastingRecipe.RECIPE_TYPE.addRecipe(new CastingRecipe(
                 fluid.getKey(),
-                fluid,
-                144.0,
+                RecipeInput.of(fluid, 144.0),
                 ingot,
                 temperature
         ));
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluid.getKey(),
-                ingot,
+                RecipeInput.of(ingot),
                 fluid,
                 144.0,
                 temperature
@@ -443,7 +286,7 @@ public final class BaseFluids {
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluid.getKey(),
-                dust,
+                RecipeInput.of(dust),
                 fluid,
                 144.0,
                 temperature
@@ -452,7 +295,7 @@ public final class BaseFluids {
         if (nugget != null) {
             MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                     fluid.getKey(),
-                    nugget,
+                    RecipeInput.of(nugget),
                     fluid,
                     16.0,
                     temperature
@@ -461,7 +304,7 @@ public final class BaseFluids {
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
                 fluid.getKey(),
-                block,
+                RecipeInput.of(block),
                 fluid,
                 1296.0,
                 temperature

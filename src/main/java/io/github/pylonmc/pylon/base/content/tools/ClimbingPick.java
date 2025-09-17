@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
@@ -25,8 +26,8 @@ import static java.lang.Math.pow;
 
 public class ClimbingPick extends PylonItem implements PylonInteractor {
     private static final NamespacedKey HOOKED_KEY = new NamespacedKey(PylonBase.getInstance(), "climbing_pick_hooked");
-    private final double jumpSpeed = getSettings().getOrThrow("jump-speed", Double.class);
-    private final double hookRange = getSettings().getOrThrow("hook-range", Double.class);
+    private final double jumpSpeed = getSettings().getOrThrow("jump-speed", ConfigAdapter.DOUBLE);
+    private final double hookRange = getSettings().getOrThrow("hook-range", ConfigAdapter.DOUBLE);
     private final double hookRangeSquared = pow(hookRange, 2);
 
     public ClimbingPick(@NotNull ItemStack stack) {

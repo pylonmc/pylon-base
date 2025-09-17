@@ -3,29 +3,37 @@ package io.github.pylonmc.pylon.base.recipes;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import io.github.pylonmc.pylon.core.util.gui.UnclickableInventory;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public record PitKilnRecipe(
         @NotNull NamespacedKey key,
-        @NotNull List<ItemStack> input,
+        @NotNull List<RecipeInput.Item> input,
         @NotNull List<ItemStack> output
 ) implements PylonRecipe {
 
-    public static final RecipeType<PitKilnRecipe> RECIPE_TYPE = new RecipeType<>(
-            baseKey("pit_kiln_recipe")
-    );
+    public static final RecipeType<PitKilnRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("pit_kiln")) {
+        @Override
+        protected @NotNull PitKilnRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new PitKilnRecipe(
+                    key,
+                    section.getOrThrow("inputs", ConfigAdapter.LIST.from(ConfigAdapter.RECIPE_INPUT_ITEM)),
+                    section.getOrThrow("outputs", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK))
+            );
+        }
+    };
 
     public PitKilnRecipe {
         Preconditions.checkArgument(!input.isEmpty(), "Input cannot be empty");
@@ -35,40 +43,36 @@ public record PitKilnRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull FluidOrItem> getInputs() {
-        return input.stream().map(FluidOrItem::of).toList();
+    public @NotNull List<RecipeInput> getInputs() {
+        return new ArrayList<>(input);
     }
 
     @Override
-    public @NotNull List<@NotNull FluidOrItem> getResults() {
+    public @NotNull List<FluidOrItem> getResults() {
         return output.stream().map(FluidOrItem::of).toList();
     }
 
     @Override
     public @NotNull Gui display() {
-        UnclickableInventory inputs = new UnclickableInventory(6);
-        for (ItemStack item : input) {
-            inputs.addItem(item);
-        }
-
-        UnclickableInventory outputs = new UnclickableInventory(6);
-        for (ItemStack item : output) {
-            outputs.addItem(item);
-        }
-
-        return Gui.normal()
+        Gui.Builder.Normal gui = Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
-                        "# , , # # # . . #",
-                        "# , , # p # . . #",
-                        "# , , # # # . . #",
+                        "# 0 1 # # # a b #",
+                        "# 2 3 # p # c d #",
+                        "# 4 5 # # # e f #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient(',', inputs)
-                .addIngredient('.', outputs)
-                .addIngredient('p', BaseItems.PIT_KILN)
-                .build();
+                .addIngredient('p', BaseItems.PIT_KILN);
+        for (int i = 0; i < 6; i++) {
+            if (i >= input().size()) break;
+            gui.addIngredient((char) ('0' + i), ItemButton.from(input.get(i)));
+        }
+        for (int i = 0; i < 6; i++) {
+            if (i >= output().size()) break;
+            gui.addIngredient((char) ('a' + i), ItemButton.from(output.get(i)));
+        }
+        return gui.build();
     }
 
     @Override

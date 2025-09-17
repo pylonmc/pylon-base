@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
 
-    private final double capacity = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", Double.class);
+    private final double capacity = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public HydraulicCoreDrillOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {

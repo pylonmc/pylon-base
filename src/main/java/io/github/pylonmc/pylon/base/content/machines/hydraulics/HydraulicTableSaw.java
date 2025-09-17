@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -44,11 +45,11 @@ public class HydraulicTableSaw extends PylonBlock
         implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractableBlock, PylonTickingBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_TABLE_SAW);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", Integer.class);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", Integer.class);
-    public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", Integer.class);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
+    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", ConfigAdapter.INT);
+    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", ConfigAdapter.INT);
+    public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
+    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -153,8 +154,8 @@ public class HydraulicTableSaw extends PylonBlock
         }
 
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
-            double hydraulicFluidInput = recipe.time() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND;
-            double dirtyHydraulicFluidOutput = recipe.time() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND;
+            double hydraulicFluidInput = recipe.timeTicks() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND;
+            double dirtyHydraulicFluidOutput = recipe.timeTicks() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
                     || !isPylonSimilar(stack, recipe.input())
@@ -164,7 +165,7 @@ public class HydraulicTableSaw extends PylonBlock
             }
 
             this.recipe = recipe;
-            recipeTicksRemaining = recipe.time();
+            recipeTicksRemaining = recipe.timeTicks();
             spawnParticles();
             removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidInput);
             addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, dirtyHydraulicFluidOutput);
