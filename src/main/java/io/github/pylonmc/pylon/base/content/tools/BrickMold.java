@@ -38,7 +38,6 @@ public class BrickMold extends PylonItem implements PylonBlockInteractor {
         }
 
         moldable.doMoldingClick();
-        event.getPlayer().setCooldown(getStack(), COOLDOWN_TICKS);
         new ParticleBuilder(Particle.BLOCK)
                 .count(20)
                 .offset(0.2, 0.2, 0.2)

@@ -65,13 +65,11 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         if (offhand.isEmpty()) {
             player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.nothing"));
             event.setCancelled(true);
-            player.setCooldown(getStack(), 20);
             return;
         }
         if (PylonItem.fromStack(offhand) != null) {
             player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
             event.setCancelled(true);
-            player.setCooldown(getStack(), 20);
             return;
         }
         ItemRarity rarity = offhand.getType().getDefaultData(DataComponentTypes.RARITY);
@@ -81,7 +79,6 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         if (items.getOrDefault(offhand.getType(), 0) >= maxUses) {
             player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.already_examined"));
             event.setCancelled(true);
-            player.setCooldown(getStack(), 20);
         }
     }
 
@@ -112,7 +109,6 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
                 PylonArgument.of("points", config.points)
         ));
         offhand.subtract();
-        player.setCooldown(getStack(), 20);
     }
 
     public record ItemConfig(int uses, int points) {
