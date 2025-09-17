@@ -104,7 +104,7 @@ public class Sprinkler extends PylonBlock
                                     PylonArgument.of("radius", horizontalRadiusToCheck)
                             ));
                         }
-                        break;
+                        return;
                     }
                 }
             }
