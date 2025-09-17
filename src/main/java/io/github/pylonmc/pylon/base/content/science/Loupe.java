@@ -106,7 +106,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         ));
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.gained_research_points",
-                PylonArgument.of("points", config.points)
+                PylonArgument.of("points", config.points),
+                PylonArgument.of("total", Research.getResearchPoints(player))
         ));
         offhand.subtract();
     }

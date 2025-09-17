@@ -1,263 +1,263 @@
 pylonbase:oak_leaves:
   input: minecraft:oak_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:spruce_leaves:
   input: minecraft:spruce_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:birch_leaves:
   input: minecraft:birch_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:jungle_leaves:
   input: minecraft:jungle_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:acacia_leaves:
   input: minecraft:acacia_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:dark_oak_leaves:
   input: minecraft:dark_oak_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:mangrove_leaves:
   input: minecraft:mangrove_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:cherry_leaves:
   input: minecraft:cherry_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:pale_oak_leaves:
   input: minecraft:pale_oak_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:azalea_leaves:
   input: minecraft:azalea_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:flowering_azalea_leaves:
   input: minecraft:flowering_azalea_leaves
-  oil-amount: 40
+  oil-amount: 8
 
 pylonbase:kelp:
   input: minecraft:kelp
-  oil-amount: 80
+  oil-amount: 16
 
 pylonbase:bamboo:
   input: minecraft:bamboo
-  oil-amount: 80
+  oil-amount: 16
 
 pylonbase:short_grass:
   input: minecraft:short_grass
-  oil-amount: 80
+  oil-amount: 16
 
 pylonbase:tall_grass:
   input: minecraft:tall_grass
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:wheat_seeds:
   input: minecraft:wheat_seeds
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:melon_seeds:
   input: minecraft:melon_seeds
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:pumpkin_seeds:
   input: minecraft:pumpkin_seeds
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:beetroot_seeds:
   input: minecraft:beetroot_seeds
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:torchflower_seeds:
   input: minecraft:torchflower_seeds
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:oak_sapling:
   input: minecraft:oak_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:spruce_sapling:
   input: minecraft:spruce_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:birch_sapling:
   input: minecraft:birch_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:jungle_sapling:
   input: minecraft:jungle_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:acacia_sapling:
   input: minecraft:acacia_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:dark_oak_sapling:
   input: minecraft:dark_oak_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:cherry_sapling:
   input: minecraft:cherry_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:pale_oak_sapling:
   input: minecraft:pale_oak_sapling
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:melon_slice:
   input: minecraft:melon_slice
-  oil-amount: 150
+  oil-amount: 30
 
 pylonbase:fern:
   input: minecraft:fern
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:large_fern:
   input: minecraft:large_fern
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:dead_bush:
   input: minecraft:dead_bush
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:wheat:
   input: minecraft:wheat
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:beetroot:
   input: minecraft:beetroot
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:carrot:
   input: minecraft:carrot
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:potato:
   input: minecraft:potato
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:sugar_cane:
   input: minecraft:sugar_cane
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:cactus:
   input: minecraft:cactus
-  oil-amount: 250
+  oil-amount: 50
 
 pylonbase:melon:
   input: minecraft:melon
-  oil-amount: 320
+  oil-amount: 64
 
 pylonbase:pumpkin:
   input: minecraft:pumpkin
-  oil-amount: 320
+  oil-amount: 64
 
 pylonbase:sweet_berries:
   input: minecraft:sweet_berries
-  oil-amount: 320
+  oil-amount: 64
 
 pylonbase:brown_mushroom:
   input: minecraft:brown_mushroom
-  oil-amount: 320
+  oil-amount: 64
 
 pylonbase:red_mushroom:
   input: minecraft:red_mushroom
-  oil-amount: 320
+  oil-amount: 64
 
 pylonbase:dandelion:
   input: minecraft:dandelion
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:poppy:
   input: minecraft:poppy
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:blue_orchid:
   input: minecraft:blue_orchid
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:allium:
   input: minecraft:allium
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:azure_bluet:
   input: minecraft:azure_bluet
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:red_tulip:
   input: minecraft:red_tulip
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:orange_tulip:
   input: minecraft:orange_tulip
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:white_tulip:
   input: minecraft:white_tulip
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:pink_tulip:
   input: minecraft:pink_tulip
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:oxeye_daisy:
   input: minecraft:oxeye_daisy
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:cornflower:
   input: minecraft:cornflower
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:lily_of_the_valley:
   input: minecraft:lily_of_the_valley
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:torchflower:
   input: minecraft:torchflower
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:closed_eyeblossom:
   input: minecraft:closed_eyeblossom
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:open_eyeblossom:
   input: minecraft:open_eyeblossom
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:vine:
   input: minecraft:vine
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:seagrass:
   input: minecraft:seagrass
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:lily_pad:
   input: minecraft:lily_pad
-  oil-amount: 400
+  oil-amount: 80
 
 pylonbase:sunflower:
   input: minecraft:sunflower
-  oil-amount: 500
+  oil-amount: 50
 
 pylonbase:lilac:
   input: minecraft:lilac
-  oil-amount: 500
+  oil-amount: 50
 
 pylonbase:rose_bush:
   input: minecraft:rose_bush
-  oil-amount: 500
+  oil-amount: 50
 
 pylonbase:peony:
   input: minecraft:peony
-  oil-amount: 500
+  oil-amount: 50
 
 pylonbase:pitcher_plant:
   input: minecraft:pitcher_plant
-  oil-amount: 500
+  oil-amount: 50

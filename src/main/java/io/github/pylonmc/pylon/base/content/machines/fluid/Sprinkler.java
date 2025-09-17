@@ -91,9 +91,9 @@ public class Sprinkler extends PylonBlock
 
             int horizontalRadiusToCheck = 2 * SETTINGS.horizontalRange();
             int verticalRadiusToCheck = 2 * SETTINGS.verticalRange();
-            for (int x = -horizontalRadiusToCheck; x < horizontalRadiusToCheck; x++) {
-                for (int z = -horizontalRadiusToCheck; z < horizontalRadiusToCheck; z++) {
-                    for (int y = -verticalRadiusToCheck; y < verticalRadiusToCheck; y++) {
+            for (int x = -horizontalRadiusToCheck; x <= horizontalRadiusToCheck; x++) {
+                for (int z = -horizontalRadiusToCheck; z <= horizontalRadiusToCheck; z++) {
+                    for (int y = -verticalRadiusToCheck; y <= verticalRadiusToCheck; y++) {
                         if (!(BlockStorage.get(event.getBlock().getRelative(x, y, z)) instanceof Sprinkler)) {
                             continue;
                         }
@@ -105,7 +105,7 @@ public class Sprinkler extends PylonBlock
                                     PylonArgument.of("radius", horizontalRadiusToCheck)
                             ));
                         }
-                        break;
+                        return;
                     }
                 }
             }

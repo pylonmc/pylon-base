@@ -443,22 +443,16 @@ item:
     name: "Grindstone Handle"
     lore: "<star> Grindstone multiblock component"
 
-  hammer_bronze:
-    name: "Bronze Hammer"
-    lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>bronze block</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
-
   hammer_diamond:
     name: "Diamond Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>diamond block</white> to use the hammer on it
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
   hammer_iron:
     name: "Iron Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>iron block</white> to use the hammer on it
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
   hammer_stone:
@@ -1254,7 +1248,7 @@ research:
   pressing: "<#dbe047>Pressing"
   bronze_equipment: "<#bc7f4d>Bronze equipment"
   fireproofing: "<#ad2e2e>Fireproofing"
-  hydraulic_automation: "<#446be2>Hydraulic purification"
+  hydraulic_automation: "<#446be2>Hydraulic automation"
   hydraulic_purification: "<#2e7df4>Hydraulic purification"
   large_scale_hydraulic_purification: "<#77a9f4>Large scale hydraulic purification"
   hydraulic_drilling: "<#96d4e0>Hydraulic drilling"
@@ -1271,6 +1265,9 @@ research:
   fluid_storage: "<#88ccbb>Fluid storage"
   simple_components: "<#c1c1c1>Simple components"
   straining: "<#c99fa1>Straining"
+  climbing_equipment: "<#a6b579>Climbing equipment"
+  vacuum_hoppers: "<#54536d>Vacuum hoppers"
+  advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
 
 guide:
   page:
@@ -1306,7 +1303,7 @@ message:
     clear: "<white>Clear"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
-  gained_research_points: "<green>+%points% research points"
+  gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
     already_examined: "<red>You cannot find any more interesting things about this item"
