@@ -722,10 +722,11 @@ pylonbase:sawblade:
 
 pylonbase:weighted_shaft:
   pattern:
-    - "II "
-    - "II "
-    - "II "
+    - "I  "
+    - "B  "
+    - "I  "
   key:
+    B: minecraft:iron_block
     I: minecraft:iron_ingot
   result: pylonbase:weighted_shaft
   category: misc
