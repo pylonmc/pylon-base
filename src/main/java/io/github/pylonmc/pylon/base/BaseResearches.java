@@ -109,6 +109,14 @@ public class BaseResearches {
         ).register();
 
         new Research(
+                baseKey("vacuum_hoppers"),
+                Material.HOPPER,
+                8L,
+                BaseKeys.VACUUM_HOPPER_1,
+                BaseKeys.VACUUM_HOPPER_2
+        ).register();
+
+        new Research(
                 baseKey("scientific_revolution_1"),
                 Material.RED_BANNER,
                 10L,
@@ -258,6 +266,14 @@ public class BaseResearches {
                 Material.SPLASH_POTION,
                 18L,
                 BaseKeys.CLEANSING_POTION
+        ).register();
+
+        new Research(
+                baseKey("advanced_vacuum_hoppers"),
+                Material.HOPPER,
+                8L,
+                BaseKeys.VACUUM_HOPPER_3,
+                BaseKeys.VACUUM_HOPPER_4
         ).register();
 
         new Research(

@@ -1272,6 +1272,8 @@ research:
   simple_components: "<#c1c1c1>Simple components"
   straining: "<#c99fa1>Straining"
   climbing_equipment: "<#a6b579>Climbing equipment"
+  vacuum_hoppers: "<#54536d>Vacuum hoppers"
+  advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
 
 guide:
   page:
