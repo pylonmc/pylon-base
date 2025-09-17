@@ -3409,7 +3409,7 @@ public final class BaseItems {
                 Map.of(
                         new ItemStack(Material.COAL), 0.5,
                         new ItemStack(Material.RAW_COPPER), 0.4,
-                        CRUSHED_RAW_TIN, 0.3
+                        RAW_TIN, 0.3
                 ),
                 6,
                 Material.STONE.createBlockData()
@@ -3428,7 +3428,7 @@ public final class BaseItems {
                 SUBSURFACE_CORE_CHUNK
         ));
 
-        ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
+        ItemStack tinOutput = RAW_TIN.clone().asQuantity(2);
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.SUBSURFACE_CORE_CHUNK,
@@ -3456,7 +3456,7 @@ public final class BaseItems {
                 INTERMEDIATE_CORE_CHUNK
         ));
 
-        ItemStack tinOutput = CRUSHED_RAW_TIN.clone().asQuantity(2);
+        ItemStack tinOutput = RAW_TIN.clone().asQuantity(2);
 
         GrindstoneRecipe.RECIPE_TYPE.addRecipe(new GrindstoneRecipe(
                 BaseKeys.INTERMEDIATE_CORE_CHUNK,
