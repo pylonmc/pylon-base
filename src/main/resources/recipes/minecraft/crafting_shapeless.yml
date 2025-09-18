@@ -88,10 +88,3 @@ pylonbase:explosive_target_super:
     - pylonbase:explosive_target: 4
   result:
     pylonbase:explosive_target_super: 1
-
-pylonbase:hyper_activated_wither_skull_upgrade:
-  ingredients:
-    - pylonbase:reactivated_wither_skull: 1
-    - pylonbase:shimmer_skull: 4
-  result:
-    pylonbase:hyper_activated_wither_skull: 1

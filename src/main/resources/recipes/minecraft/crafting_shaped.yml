@@ -1433,16 +1433,3 @@ pylonbase:reactivated_wither_skull:
     R: minecraft:nether_star
   result: pylonbase:reactivated_wither_skull
   category: equipment
-
-pylonbase:hyper_activated_wither_skull:
-  pattern:
-    - "MNM"
-    - "MSM"
-    - " R "
-  key:
-    N: minecraft:wither_skeleton_skull
-    S: minecraft:stick
-    M: pylonbase:shimmer_skull
-    R: minecraft:nether_star
-  result: pylonbase:hyper_activated_wither_skull
-  category: equipment
