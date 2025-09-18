@@ -152,7 +152,7 @@ public class Press extends PylonBlock
         getCover().setTransform(TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            getCover().setTransform(RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
+            getCover().setTransform(RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
 
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                 addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount());
