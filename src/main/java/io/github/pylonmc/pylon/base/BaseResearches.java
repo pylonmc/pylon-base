@@ -311,7 +311,8 @@ public class BaseResearches {
                 BaseKeys.HYDRAULIC_PRESS_PISTON,
                 BaseKeys.HYDRAULIC_HAMMER_HEAD,
                 BaseKeys.HYDRAULIC_PIPE_BENDER,
-                BaseKeys.HYDRAULIC_TABLE_SAW
+                BaseKeys.HYDRAULIC_TABLE_SAW,
+                BaseKeys.HYDRAULIC_FARMER
         ).register();
 
         new Research(

@@ -104,5 +104,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.VACUUM_HOPPER_2, Material.HOPPER, VacuumHopper.class);
         PylonBlock.register(BaseKeys.VACUUM_HOPPER_3, Material.HOPPER, VacuumHopper.class);
         PylonBlock.register(BaseKeys.VACUUM_HOPPER_4, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_FARMER, Material.WAXED_EXPOSED_COPPER_BULB, HydraulicFarmer.class);
     }
 }

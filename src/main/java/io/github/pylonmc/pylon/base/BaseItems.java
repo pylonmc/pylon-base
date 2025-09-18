@@ -1736,6 +1736,13 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
+    public static final ItemStack HYDRAULIC_FARMER = ItemStackBuilder.pylonItem(Material.WAXED_EXPOSED_COPPER_BULB, BaseKeys.HYDRAULIC_FARMER)
+            .build();
+    static {
+        PylonItem.register(HydraulicFarmer.Item.class, HYDRAULIC_FARMER, BaseKeys.HYDRAULIC_FARMER);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }

@@ -1127,12 +1127,12 @@ pylonbase:hydraulic_hammer_head:
 
 pylonbase:hydraulic_pipe_bender:
   pattern:
-    - "LBL"
+    - "LCL"
     - "PEP"
-    - "BBB"
+    - "CCC"
   key:
     L: minecraft:lever
-    B: pylonbase:bronze_sheet
+    C: pylonbase:copper_sheet
     E: pylonbase:hydraulic_motor
     P: pylonbase:fluid_pipe_bronze
   result: pylonbase:hydraulic_pipe_bender
@@ -1140,15 +1140,28 @@ pylonbase:hydraulic_pipe_bender:
 
 pylonbase:hydraulic_table_saw:
   pattern:
-    - "BTB"
+    - "CTC"
     - "PEP"
-    - "BBB"
+    - "CCC"
   key:
-    B: pylonbase:bronze_sheet
+    C: pylonbase:copper_sheet
     E: pylonbase:hydraulic_motor
     P: pylonbase:fluid_pipe_bronze
     T: pylonbase:sawblade
   result: pylonbase:hydraulic_table_saw
+  category: building
+
+pylonbase:hydraulic_farmer:
+  pattern:
+    - "CHC"
+    - "PEP"
+    - "CCC"
+  key:
+    B: pylonbase:copper_sheet
+    E: pylonbase:hydraulic_motor
+    P: pylonbase:fluid_pipe_bronze
+    H: pylonbase:bronze_hoe
+  result: pylonbase:hydraulic_farmer
   category: building
 
 pylonbase:purification_tower_glass:
