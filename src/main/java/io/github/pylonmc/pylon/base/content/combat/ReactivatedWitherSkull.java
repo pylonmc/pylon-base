@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
@@ -11,18 +12,16 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor {
-    private final boolean chargedSkulls = getSettings().getOrThrow("charged-skulls", Boolean.class);
-    private final double skullSpeed = getSettings().getOrThrow("skull-speed", Double.class);
-    private final double playerHeight = getSettings().getOrThrow("player-height", Double.class);
-    private final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", Integer.class);
+    private final boolean chargedSkulls = getSettings().getOrThrow("charged-skulls", ConfigAdapter.BOOLEAN);
+    private final double skullSpeed = getSettings().getOrThrow("skull-speed", ConfigAdapter.DOUBLE);
+    private final double playerHeight = getSettings().getOrThrow("player-height", ConfigAdapter.DOUBLE);
+    private final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
     private static final TranslatableComponent trueCharged = Component.translatable("pylon.pylonbase.item.reactivated_wither_skull.charged.true");
     private static final TranslatableComponent falseCharged = Component.translatable("pylon.pylonbase.item.reactivated_wither_skull.charged.false");
 
