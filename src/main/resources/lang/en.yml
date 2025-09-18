@@ -593,7 +593,7 @@ item:
   reactivated_wither_skull:
     name: "<white>Reactivated Wither Skull"
     lore: |-
-      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> <insn>Right click</insn> to shoot a wither skull in the direction you are looking
       <arrow> Skulls are %chargedskulls%
       <arrow> <attr>Skull speed:</attr> %skullspeed%
     charged:
@@ -603,7 +603,7 @@ item:
   hyper_activated_wither_skull:
     name: "<white>Hyper Activated Wither Skull"
     lore: |-
-      <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> <insn>Right click</insn> to shoot a wither skull in the direction you are looking
       <arrow> Skulls are %chargedskulls%
       <arrow> <attr>Skull speed:</attr> %skullspeed%
 
