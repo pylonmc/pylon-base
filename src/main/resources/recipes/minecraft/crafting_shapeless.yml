@@ -1,4 +1,4 @@
-pylonbase:tin_nuggests_from_tin_ingot:
+pylonbase:tin_nuggets_from_tin_ingot:
   ingredients:
     - pylonbase:tin_ingot
   result:
