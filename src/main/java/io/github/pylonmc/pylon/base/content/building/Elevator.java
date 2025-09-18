@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonJumpableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSneakableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -35,7 +36,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(PylonArgument.of(
                     "elevator_range",
-                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class))
+                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", ConfigAdapter.INT))
             ));
         }
     }
@@ -51,7 +52,7 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
-        int range = getSettings().getOrThrow("range", Integer.class);
+        int range = getSettings().getOrThrow("range", ConfigAdapter.INT);
         int checkingLevel = 1;
         List<PylonBlock> blocks = new ArrayList<>();
 

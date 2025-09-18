@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -48,7 +49,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.MAGIC_PEDESTAL);
 
-    private final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    private final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public MagicAltar(Block block, BlockCreateContext context) {

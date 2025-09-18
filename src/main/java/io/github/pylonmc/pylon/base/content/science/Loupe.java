@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -108,7 +109,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         ));
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.gained_research_points",
-                PylonArgument.of("points", config.points)
+                PylonArgument.of("points", config.points),
+                PylonArgument.of("total", Research.getResearchPoints(player))
         ));
         offhand.subtract();
         player.setCooldown(getStack(), 20);
@@ -117,8 +119,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
     public record ItemConfig(int uses, int points) {
         public static ItemConfig loadFrom(ConfigSection section) {
             return new ItemConfig(
-                    section.getOrThrow("uses", Integer.class),
-                    section.getOrThrow("points", Integer.class)
+                    section.getOrThrow("uses", ConfigAdapter.INT),
+                    section.getOrThrow("points", ConfigAdapter.INT)
             );
         }
     }

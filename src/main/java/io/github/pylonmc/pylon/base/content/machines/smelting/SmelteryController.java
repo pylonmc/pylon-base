@@ -2,20 +2,20 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
+import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -29,8 +29,10 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,7 +62,6 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class SmelteryController extends SmelteryComponent
         implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock {
 
-
     private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
     private static final NamespacedKey RUNNING_KEY = baseKey("running");
     private static final NamespacedKey HEIGHT_KEY = baseKey("height");
@@ -69,11 +70,11 @@ public final class SmelteryController extends SmelteryComponent
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
     private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
-    public static final double FLUID_REACTION_PER_SECOND = settings.getOrThrow("fluid-reaction-per-second", Double.class);
-    public static final double HEATING_FACTOR = settings.getOrThrow("heating-factor", Double.class);
-    public static final double COOLING_FACTOR = settings.getOrThrow("cooling-factor", Double.class);
-    public static final double ROOM_TEMPERATURE = settings.getOrThrow("room-temperature", Double.class);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
+    public static final double FLUID_REACTION_PER_SECOND = settings.getOrThrow("fluid-reaction-per-second", ConfigAdapter.DOUBLE);
+    public static final double HEATING_FACTOR = settings.getOrThrow("heating-factor", ConfigAdapter.DOUBLE);
+    public static final double COOLING_FACTOR = settings.getOrThrow("cooling-factor", ConfigAdapter.DOUBLE);
+    public static final double ROOM_TEMPERATURE = settings.getOrThrow("room-temperature", ConfigAdapter.DOUBLE);
 
     @Getter
     @Setter
@@ -443,7 +444,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<SimpleTextDisplay> pixels = new ArrayList<>();
-    private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", Integer.class);
+    private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", ConfigAdapter.INT);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
     private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
@@ -466,7 +467,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private double lastHeight = 0;
-    private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", Double.class);
+    private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", ConfigAdapter.DOUBLE);
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(BaseUtils.colorFromTemperature(temperature));
