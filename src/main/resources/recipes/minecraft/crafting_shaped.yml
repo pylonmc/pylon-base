@@ -1157,7 +1157,7 @@ pylonbase:hydraulic_farmer:
     - "PEP"
     - "CCC"
   key:
-    B: pylonbase:copper_sheet
+    C: pylonbase:copper_sheet
     E: pylonbase:hydraulic_motor
     P: pylonbase:fluid_pipe_bronze
     H: pylonbase:bronze_hoe
