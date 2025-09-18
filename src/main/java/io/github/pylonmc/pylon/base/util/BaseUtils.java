@@ -1,8 +1,12 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -81,5 +85,16 @@ public class BaseUtils {
 
     public @NotNull Vector3d getDirection(@NotNull Location source, @NotNull Location target) {
         return getDisplacement(source, target).normalize();
+    }
+
+    public @NotNull Component createFluidAmountBar(double amount, double capacity, int bars, TextColor fluidColor) {
+        int filledBars = (int) Math.round(bars * amount / capacity);
+        Bukkit.getLogger().severe("b" + filledBars);
+        return Component.translatable("pylon.pylonbase.gui.fluid_amount_bar.text").arguments(
+                PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(fluidColor)),
+                PylonArgument.of("empty_bars", "|".repeat(bars - filledBars)),
+                PylonArgument.of("amount", Math.round(amount)),
+                PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
+        );
     }
 }
