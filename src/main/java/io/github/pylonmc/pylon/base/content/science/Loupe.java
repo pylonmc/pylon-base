@@ -90,6 +90,12 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
                 return;
             }
 
+            if (!stack.getPersistentDataContainer().isEmpty()) {
+                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_other_plugin"));
+                event.setCancelled(true);
+                return;
+            }
+
             boolean invalid = processMaterial(stack.getType(), player);
             event.setCancelled(invalid);
             return;
