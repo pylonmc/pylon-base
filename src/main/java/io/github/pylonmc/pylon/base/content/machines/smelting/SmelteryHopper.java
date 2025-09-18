@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
-import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -40,7 +40,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             if (item == null) continue;
             MeltingRecipe recipe = null;
             for (MeltingRecipe meltingRecipe : MeltingRecipe.RECIPE_TYPE) {
-                if (meltingRecipe.input().isSimilar(item)) {
+                if (meltingRecipe.input().contains(item)) {
                     if (!new PrePylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, meltingRecipe, controller).callEvent()) {
                         continue;
                     }
@@ -49,7 +49,8 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
                 }
             }
             if (recipe == null) continue;
-            if (controller.getTemperature() >= recipe.temperature()) {
+            double fluidAmountAfterAdding = controller.getTotalFluid() + recipe.resultAmount();
+            if (controller.getTemperature() >= recipe.temperature() && fluidAmountAfterAdding <= controller.getCapacity()) {
                 controller.addFluid(recipe.result(), recipe.resultAmount());
                 item.subtract();
                 new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();

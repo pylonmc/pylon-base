@@ -1,8 +1,8 @@
-package io.github.pylonmc.pylon.base.recipes;
+package io.github.pylonmc.pylon.base.recipes.display;
 
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -11,16 +11,12 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
-
+// TODO use DisplayRecipeType
 public record DrillingDisplayRecipe(
         NamespacedKey key,
         ItemStack drill,
         ItemStack result
 ) implements PylonRecipe {
-
-    public static final RecipeType<DrillingDisplayRecipe> RECIPE_TYPE = new RecipeType<>(baseKey("drilling"));
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -28,7 +24,7 @@ public record DrillingDisplayRecipe(
     }
 
     @Override
-    public @NotNull List<@NotNull FluidOrItem> getInputs() {
+    public @NotNull List<@NotNull RecipeInput> getInputs() {
         return List.of();
     }
 
