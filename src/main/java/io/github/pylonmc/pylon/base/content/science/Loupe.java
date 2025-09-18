@@ -21,6 +21,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemRarity;
@@ -163,6 +164,7 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
             if (addPoints(blockType, Component.text(normalizeName(blockType.name())), player)) return;
             if (blockType.getHardness() > 0f) { // filter out unbreakable blocks
                 toScan.setType(Material.AIR);
+                new BlockBreakEvent(toScan, player).callEvent();
             }
         }
 
