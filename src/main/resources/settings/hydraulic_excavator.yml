@@ -1,5 +1,7 @@
+block-break-interval-ticks: 40
 radius: 5
 depth: 5
-speed-seconds-per-block: 2.0
 hydraulic-fluid-input-mb-per-second: 60
-dirty-hydraulic-fluid-output-mb-per_second: 57
+dirty-hydraulic-fluid-output-mb-per-second: 57
+hydraulic-fluid-buffer: 240
+dirty-hydraulic-fluid-buffer: 240

@@ -1183,9 +1183,12 @@ item:
     lore: |-
       <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
       <arrow> Cannot excavate harder blocks such as stone
+      <arrow> <insn>Right click</insn> to start digging
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Depth:</attr> %depth%
-      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
 
 fluid:
   castable:

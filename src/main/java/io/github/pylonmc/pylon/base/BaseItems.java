@@ -1736,6 +1736,14 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
+
+    public static final ItemStack HYDRAULIC_EXCAVATOR = ItemStackBuilder.pylonItem(Material.WAXED_EXPOSED_CHISELED_COPPER, BaseKeys.HYDRAULIC_EXCAVATOR)
+            .build();
+    static {
+        PylonItem.register(HydraulicExcavator.Item.class, HYDRAULIC_EXCAVATOR, BaseKeys.HYDRAULIC_EXCAVATOR);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_EXCAVATOR);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }
