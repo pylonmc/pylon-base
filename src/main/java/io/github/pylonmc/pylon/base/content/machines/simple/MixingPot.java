@@ -186,7 +186,7 @@ public final class MixingPot extends PylonBlock
         }
         switch (recipe.output()) {
             case FluidOrItem.Item item -> {
-                removeFluid(recipe.inputFluid().getAmountMillibuckets());
+                removeFluid(recipe.inputFluid().amountMillibuckets());
                 getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item.item());
             }
             case FluidOrItem.Fluid fluid -> {
