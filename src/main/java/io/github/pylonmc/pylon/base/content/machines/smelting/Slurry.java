@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.recipes.StrainingRecipe;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.PylonFluidTag;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.registry.RegistryHandler;
 import lombok.Getter;
@@ -36,16 +37,14 @@ public class Slurry extends PylonFluid implements RegistryHandler {
     public void onRegister(@NotNull PylonRegistry<?> registry) {
         MixingPotRecipe.RECIPE_TYPE.addRecipe(new MixingPotRecipe(
                 getKey(),
-                List.of(slurryStack),
-                BaseFluids.SLURRY,
-                1000,
+                List.of(RecipeInput.of(slurryStack)),
+                RecipeInput.of(BaseFluids.SLURRY, 1000),
                 FluidOrItem.of(this, 1000),
                 false
         ));
         StrainingRecipe.RECIPE_TYPE.addRecipe(new StrainingRecipe(
                 getKey(),
-                this,
-                1000,
+                RecipeInput.of(this, 1000),
                 BaseFluids.SLURRY,
                 slurryStack
         ));

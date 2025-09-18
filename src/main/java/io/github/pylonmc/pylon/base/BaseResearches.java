@@ -27,6 +27,13 @@ public class BaseResearches {
         ).register();
 
         new Research(
+                baseKey("climbing_equipment"),
+                Material.IRON_HOE,
+                2L,
+                BaseKeys.CLIMBING_PICK
+        ).register();
+
+        new Research(
                 baseKey("food_preservation"),
                 Material.ROTTEN_FLESH,
                 3L,
@@ -96,9 +103,16 @@ public class BaseResearches {
                 BaseKeys.AXLE,
                 BaseKeys.SAWBLADE,
                 BaseKeys.WEIGHTED_SHAFT,
-                BaseKeys.COPPER_DRILL_BIT,
                 BaseKeys.BRONZE_DRILL_BIT,
                 BaseKeys.HYDRAULIC_MOTOR
+        ).register();
+
+        new Research(
+                baseKey("vacuum_hoppers"),
+                Material.HOPPER,
+                8L,
+                BaseKeys.VACUUM_HOPPER_1,
+                BaseKeys.VACUUM_HOPPER_2
         ).register();
 
         new Research(
@@ -138,7 +152,11 @@ public class BaseResearches {
                 BaseKeys.BRONZE_AXE,
                 BaseKeys.BRONZE_PICKAXE,
                 BaseKeys.BRONZE_SHOVEL,
-                BaseKeys.BRONZE_HOE
+                BaseKeys.BRONZE_HOE,
+                BaseKeys.BRONZE_BOOTS,
+                BaseKeys.BRONZE_LEGGINGS,
+                BaseKeys.BRONZE_CHESTPLATE,
+                BaseKeys.BRONZE_HELMET
         ).register();
 
         new Research(
@@ -247,6 +265,14 @@ public class BaseResearches {
                 Material.SPLASH_POTION,
                 18L,
                 BaseKeys.CLEANSING_POTION
+        ).register();
+
+        new Research(
+                baseKey("advanced_vacuum_hoppers"),
+                Material.HOPPER,
+                8L,
+                BaseKeys.VACUUM_HOPPER_3,
+                BaseKeys.VACUUM_HOPPER_4
         ).register();
 
         new Research(
