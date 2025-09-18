@@ -453,5 +453,12 @@ public class BaseResearches {
                 BaseKeys.COBALT_INGOT,
                 BaseKeys.COBALT_NUGGET
         ).register();
+
+        new Research(
+                BaseKeys.SOULBOUND_RUNE,
+                Material.AMETHYST_SHARD,
+                20L,
+                BaseKeys.SOULBOUND_RUNE
+        ).register();
     }
 }
