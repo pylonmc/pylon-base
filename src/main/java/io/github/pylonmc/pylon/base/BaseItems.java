@@ -1681,6 +1681,9 @@ public final class BaseItems {
     public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.DAMAGE, 0)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(0f)
+                    .cooldownGroup(BaseKeys.REACTIVATED_WITHER_SKULL)
+                    .build())
             .build();
     static {
         PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
@@ -1691,6 +1694,9 @@ public final class BaseItems {
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.DAMAGE, 0)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(0f)
+                    .cooldownGroup(BaseKeys.REACTIVATED_WITHER_SKULL)
+                    .build())
             .build();
     static {
         PylonItem.register(ReactivatedWitherSkull.class, HYPER_ACTIVATED_WITHER_SKULL);
