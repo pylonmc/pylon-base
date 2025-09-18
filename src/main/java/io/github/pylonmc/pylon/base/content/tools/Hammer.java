@@ -105,6 +105,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
         if (anyRecipeAttempted) {
             if (player != null) {
+                player.setCooldown(getStack(), cooldownTicks);
                 getStack().damage(1, player);
             } else {
                 if (!getStack().hasData(DataComponentTypes.UNBREAKABLE)) {

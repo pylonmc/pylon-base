@@ -44,6 +44,7 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
                 PylonArgument.of("points", points)
         ));
 
+        event.getPlayer().setCooldown(getStack(), cooldownTicks);
         event.getItem().subtract();
     }
 
