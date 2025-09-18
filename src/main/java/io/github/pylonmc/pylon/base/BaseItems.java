@@ -1736,6 +1736,13 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
+    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylonItem(Material.IRON_HORSE_ARMOR, BaseKeys.HYDRAULIC_CANNON)
+            .build();
+    static {
+        PylonItem.register(HydraulicCannon.class, HYDRAULIC_CANNON, BaseKeys.HYDRAULIC_CANNON);
+        BasePages.COMBAT.addItem(HYDRAULIC_CANNON);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }

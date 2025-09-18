@@ -9,6 +9,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
 
 
 @UtilityClass
@@ -72,5 +73,13 @@ public class BaseUtils {
         display.text(Component.text(" "));
         display.setBackgroundColor(color);
         return display;
+    }
+
+    public @NotNull Vector3d getDisplacement(@NotNull Location source, @NotNull Location target) {
+        return new Vector3d(target.toVector().toVector3f()).sub(source.toVector().toVector3f());
+    }
+
+    public @NotNull Vector3d getDirection(@NotNull Location source, @NotNull Location target) {
+        return getDisplacement(source, target).normalize();
     }
 }

@@ -1178,6 +1178,14 @@ item:
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Interval:</attr> %tick_interval%
 
+  hydraulic_cannon:
+    name: "Hydraulic Cannon"
+    lore: |-
+      <arrow> Uses hydraulic fluid to fire tin projectiles
+      <arrow> <insn>Right click</insn> to fire
+      <arrow> <attr>Range:</attr> %range%
+      <arrow> <attr>Projectile speed:</attr> %speed%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
