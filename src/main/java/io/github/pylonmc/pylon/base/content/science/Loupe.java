@@ -67,54 +67,43 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        ItemStack offhand = player.getInventory().getItemInOffHand();
 
         var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
-        if (offhand.isEmpty()) {
-            // get scanned block
-            Block toScan = player.getTargetBlockExact(5, FluidCollisionMode.SOURCE_ONLY);
 
-            // nothing found or scanning air
-            if (toScan == null || toScan.getType().isAir()) {
-                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.nothing"));
-                event.setCancelled(true);
-                return;
-            }
+        // get scanned block
+        Block toScan = player.getTargetBlockExact(5, FluidCollisionMode.SOURCE_ONLY);
 
-            // scan for entities first and process the first one found only
-            var entityItemType = hasValidItem(toScan, items);
-            if (entityItemType != null) {
-                ItemStack stack = entityItemType.getItemStack();
-                if (PylonItem.fromStack(stack) != null) {
-                    player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
-                    event.setCancelled(true);
-                    return;
-                }
+        // nothing found or scanning air
+        if (toScan == null || toScan.getType().isAir()) {
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.nothing"));
+            event.setCancelled(true);
+            return;
+        }
 
-                boolean invalid = processMaterial(stack.getType(), player);
-                event.setCancelled(invalid);
-                return;
-            }
-
-            // process block aimed at
-            if (BlockStorage.get(toScan) != null) {
+        // scan for entities first and process the first one found only
+        var entityItemType = hasValidItem(toScan, items);
+        if (entityItemType != null) {
+            ItemStack stack = entityItemType.getItemStack();
+            if (PylonItem.fromStack(stack) != null) {
                 player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
                 event.setCancelled(true);
                 return;
             }
 
-            Material blockType = toScan.getType();
-            event.setCancelled(processMaterial(blockType, player));
+            boolean invalid = processMaterial(stack.getType(), player);
+            event.setCancelled(invalid);
             return;
         }
 
-        if (PylonItem.fromStack(offhand) != null) {
+        // process block aimed at
+        if (BlockStorage.get(toScan) != null) {
             player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
             event.setCancelled(true);
             return;
         }
 
-        event.setCancelled(processMaterial(offhand.getType(), player));
+        Material blockType = toScan.getType();
+        event.setCancelled(processMaterial(blockType, player));
     }
 
     private static boolean processMaterial(Material type, Player player) {
@@ -137,42 +126,36 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
 
         var items = new HashMap<>(player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of()));
 
-        ItemStack offhand = player.getInventory().getItemInOffHand();
-        if (offhand.isEmpty()) {
-            Block toScan = player.getTargetBlockExact(5, FluidCollisionMode.SOURCE_ONLY);
+        Block toScan = player.getTargetBlockExact(5, FluidCollisionMode.SOURCE_ONLY);
 
-            if (toScan == null || toScan.getType().isAir()) return;
+        if (toScan == null || toScan.getType().isAir()) return;
 
-            // scan for entities first and process the first one found only
-            org.bukkit.entity.Item entityItem = hasValidItem(toScan, items);
-            if (entityItem != null) {
-                ItemStack stack = entityItem.getItemStack();
-                if(addPoints(stack.getType(), stack.effectiveName(), player)) return;
+        // scan for entities first and process the first one found only
+        org.bukkit.entity.Item entityItem = hasValidItem(toScan, items);
+        if (entityItem != null) {
+            ItemStack stack = entityItem.getItemStack();
+            if(addPoints(stack.getType(), stack.effectiveName(), player)) return;
 
-                if (stack.getAmount() == 1) {
-                    entityItem.remove();
-                } else {
-                    stack.setAmount(stack.getAmount() - 1);
-                    entityItem.setItemStack(stack);
-                }
-
-                return;
+            if (stack.getAmount() == 1) {
+                entityItem.remove();
+            } else {
+                stack.setAmount(stack.getAmount() - 1);
+                entityItem.setItemStack(stack);
             }
 
-            // process block aimed at
-            Material blockType = toScan.getType();
-            BlockType bt = blockType.asBlockType();
-            if (bt == null) return; // shouldn't happen
-
-            if (addPoints(blockType, Component.translatable(bt.translationKey()), player)) return;
-            if (blockType.getHardness() > 0f) { // filter out unbreakable blocks
-                toScan.setType(Material.AIR);
-                new BlockBreakEvent(toScan, player).callEvent();
-            }
+            return;
         }
 
-        if (addPoints(offhand.getType(), offhand.effectiveName(), player)) return;
-        offhand.subtract();
+        // process block aimed at
+        Material blockType = toScan.getType();
+        BlockType bt = blockType.asBlockType();
+        if (bt == null) return; // shouldn't happen
+
+        if (addPoints(blockType, Component.translatable(bt.translationKey()), player)) return;
+        if (blockType.getHardness() > 0f) { // filter out unbreakable blocks
+            toScan.setType(Material.AIR);
+            new BlockBreakEvent(toScan, player).callEvent();
+        }
     }
 
     private static boolean addPoints(Material type, Component name, Player player) {
