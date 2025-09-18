@@ -20,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -160,8 +161,10 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
 
             // process block aimed at
             Material blockType = toScan.getType();
+            BlockType bt = blockType.asBlockType();
+            if (bt == null) return; // shouldn't happen
 
-            if (addPoints(blockType, Component.text(normalizeName(blockType.name())), player)) return;
+            if (addPoints(blockType, Component.translatable(bt.translationKey()), player)) return;
             if (blockType.getHardness() > 0f) { // filter out unbreakable blocks
                 toScan.setType(Material.AIR);
                 new BlockBreakEvent(toScan, player).callEvent();
@@ -210,38 +213,6 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         }
 
         return null;
-    }
-
-    private static String normalizeName(String original) {
-        if (original == null) {
-            return "";
-        }
-
-        String output = original.toLowerCase();
-        if (output.length() <= 1) {
-            return output.toUpperCase();
-        }
-
-        if (!output.contains("_")) {
-            return output.substring(0, 1).toUpperCase() + output.substring(1).toLowerCase();
-        }
-
-        StringBuilder sbName = new StringBuilder();
-        String[] split = output.split("_");
-        for (int i = 0; i < split.length; i++) {
-            String subName = split[i];
-            if (subName.equalsIgnoreCase("with")) continue;
-            if (subName.equalsIgnoreCase("of")) continue;
-
-            sbName.append(subName.substring(0, 1).toUpperCase())
-                .append(subName.substring(1).toLowerCase());
-
-            if (i != split.length - 1) {
-                sbName.append(" ");
-            }
-        }
-
-        return sbName.toString();
     }
 
     public record ItemConfig(int uses, int points) {
