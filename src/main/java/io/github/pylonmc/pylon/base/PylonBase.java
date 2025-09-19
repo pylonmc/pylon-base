@@ -7,9 +7,9 @@ import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
-import io.github.pylonmc.pylon.core.bstats.bukkit.Metrics;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
@@ -75,6 +75,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         return Material.COPPER_INGOT;
     }
 
+    // TODO remove and replace caller with runTaskLater for consistency
     public static void runSyncTimer(@NotNull Consumer<BukkitTask> task, long delay, long period) {
         Bukkit.getScheduler().runTaskTimer(instance, task, delay, period);
     }
