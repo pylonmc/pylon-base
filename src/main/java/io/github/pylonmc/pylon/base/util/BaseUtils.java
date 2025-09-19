@@ -89,7 +89,6 @@ public class BaseUtils {
 
     public @NotNull Component createFluidAmountBar(double amount, double capacity, int bars, TextColor fluidColor) {
         int filledBars = (int) Math.round(bars * amount / capacity);
-        Bukkit.getLogger().severe("b" + filledBars);
         return Component.translatable("pylon.pylonbase.gui.fluid_amount_bar.text").arguments(
                 PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(fluidColor)),
                 PylonArgument.of("empty_bars", "|".repeat(bars - filledBars)),
