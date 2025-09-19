@@ -311,7 +311,9 @@ public class BaseResearches {
                 BaseKeys.HYDRAULIC_PRESS_PISTON,
                 BaseKeys.HYDRAULIC_HAMMER_HEAD,
                 BaseKeys.HYDRAULIC_PIPE_BENDER,
-                BaseKeys.HYDRAULIC_TABLE_SAW
+                BaseKeys.HYDRAULIC_TABLE_SAW,
+                BaseKeys.HYDRAULIC_EXCAVATOR,
+                BaseKeys.HYDRAULIC_FARMER
         ).register();
 
         new Research(
@@ -452,6 +454,14 @@ public class BaseResearches {
                 BaseKeys.COBALT_BLOCK,
                 BaseKeys.COBALT_INGOT,
                 BaseKeys.COBALT_NUGGET
+        ).register();
+
+        new Research(
+                baseKey("reactivated_skulls"),
+                Material.WITHER_SKELETON_SKULL,
+                15L,
+                BaseKeys.REACTIVATED_WITHER_SKULL,
+                BaseKeys.HYPER_ACTIVATED_WITHER_SKULL
         ).register();
 
         new Research(

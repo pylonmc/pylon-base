@@ -97,6 +97,17 @@ pylonbase:vacuum_hopper_4:
   result: pylonbase:vacuum_hopper_4
   time-seconds: 35
 
+pylonbase:hyper_activated_wither_skull:
+  shape:
+    - "D D"
+    - " S "
+    - "D D"
+  key:
+    D: pylonbase:shimmer_dust_2
+    S: pylonbase:reactivated_wither_skull
+  result: pylonbase:hyper_activated_wither_skull
+  time-seconds: 30
+
 pylonbase:soulbound_rune:
   shape:
     - "CSC"

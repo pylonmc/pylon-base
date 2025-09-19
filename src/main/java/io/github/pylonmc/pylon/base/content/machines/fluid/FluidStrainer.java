@@ -152,9 +152,9 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (currentRecipe != null && passedFluid >= currentRecipe.input().getAmountMillibuckets()) {
+        if (currentRecipe != null && passedFluid >= currentRecipe.input().amountMillibuckets()) {
             inventory.addItem(null, currentRecipe.outputItem().clone());
-            passedFluid -= currentRecipe.input().getAmountMillibuckets();
+            passedFluid -= currentRecipe.input().amountMillibuckets();
         }
         if (passedFluid < 1e-9) {
             currentRecipe = null;
