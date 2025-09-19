@@ -1736,7 +1736,7 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
-    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylonItem(Material.IRON_HORSE_ARMOR, BaseKeys.HYDRAULIC_CANNON)
+    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylonItem(Material.CROSSBOW, BaseKeys.HYDRAULIC_CANNON)
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
                     .useCooldown(
                             Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20.0F
