@@ -1183,7 +1183,7 @@ pylonbase:purification_tower_glass:
     - "GCG"
     - "GCG"
   key:
-    B: pylonbase:copper_sheet
+    C: pylonbase:copper_sheet
     G: minecraft:glass
   result: pylonbase:purification_tower_glass
   category: building
