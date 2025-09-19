@@ -119,7 +119,7 @@ public class HydraulicPressPiston extends PylonBlock
         );
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
-                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(-0.3)),
+                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
     }
