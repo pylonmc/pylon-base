@@ -118,7 +118,7 @@ public class BaseResearches {
 
         new Research(
                 baseKey("hydraulic_combat"),
-                Material.CROSSBOW,
+                Material.IRON_HORSE_ARMOR,
                 8L,
                 BaseKeys.HYDRAULIC_REFUELING_STATION,
                 BaseKeys.HYDRAULIC_CANNON,
