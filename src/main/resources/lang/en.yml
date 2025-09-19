@@ -1373,7 +1373,7 @@ message:
     tooltip: "<red><bold>Fire-proofed"
     success: "<red>Your item has been fire-proofed"
   hydraulic_refueling_station:
-    extra: " %hydraulic-fluid-bar% <white>- %dirty-hydraulic-fluid-bar%"
+    extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
 
 gui:
   fluid-selector-title: "Select Fluid"
