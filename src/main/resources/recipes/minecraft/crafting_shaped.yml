@@ -1164,6 +1164,19 @@ pylonbase:hydraulic_farmer:
   result: pylonbase:hydraulic_farmer
   category: building
 
+pylonbase:hydraulic_excavator:
+  pattern:
+    - "BBB"
+    - "PEP"
+    - "BDB"
+  key:
+    B: pylonbase:bronze_sheet
+    E: pylonbase:hydraulic_motor
+    P: pylonbase:fluid_pipe_bronze
+    D: pylonbase:bronze_drill_bit
+  result: pylonbase:hydraulic_excavator
+  category: building
+
 pylonbase:purification_tower_glass:
   pattern:
     - "GBG"
@@ -1433,4 +1446,16 @@ pylonbase:vacuum_hopper_3:
     I: pylonbase:igneous_composite
     H: minecraft:hopper
   result: pylonbase:vacuum_hopper_3
+  category: equipment
+
+pylonbase:reactivated_wither_skull:
+  pattern:
+    - " N "
+    - " S "
+    - " R "
+  key:
+    N: minecraft:wither_skeleton_skull
+    S: minecraft:stick
+    R: minecraft:nether_star
+  result: pylonbase:reactivated_wither_skull
   category: equipment
