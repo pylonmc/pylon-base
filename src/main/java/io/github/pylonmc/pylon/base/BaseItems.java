@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
+import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
@@ -47,7 +48,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
-
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class BaseItems {
@@ -1678,6 +1678,31 @@ public final class BaseItems {
                 INTERMEDIATE_CORE_CHUNK
         ));
     }
+    public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
+            .set(DataComponentTypes.DAMAGE, 0)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(0f)
+                    .cooldownGroup(BaseKeys.REACTIVATED_WITHER_SKULL)
+                    .build())
+            .build();
+    static {
+        PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
+        BasePages.COMBAT.addItem(REACTIVATED_WITHER_SKULL);
+    }
+
+    public static final ItemStack HYPER_ACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.HYPER_ACTIVATED_WITHER_SKULL)
+            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
+            .set(DataComponentTypes.DAMAGE, 0)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(0f)
+                    .cooldownGroup(BaseKeys.REACTIVATED_WITHER_SKULL)
+                    .build())
+            .build();
+    static {
+        PylonItem.register(ReactivatedWitherSkull.class, HYPER_ACTIVATED_WITHER_SKULL);
+        BasePages.COMBAT.addItem(HYPER_ACTIVATED_WITHER_SKULL);
+    }
+
 
     public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
             .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()

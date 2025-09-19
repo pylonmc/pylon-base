@@ -454,5 +454,13 @@ public class BaseResearches {
                 BaseKeys.COBALT_INGOT,
                 BaseKeys.COBALT_NUGGET
         ).register();
+
+        new Research(
+                baseKey("reactivated_skulls"),
+                Material.WITHER_SKELETON_SKULL,
+                15L,
+                BaseKeys.REACTIVATED_WITHER_SKULL,
+                BaseKeys.HYPER_ACTIVATED_WITHER_SKULL
+        ).register();
     }
 }

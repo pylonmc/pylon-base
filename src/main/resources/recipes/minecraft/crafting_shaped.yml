@@ -1434,3 +1434,15 @@ pylonbase:vacuum_hopper_3:
     H: minecraft:hopper
   result: pylonbase:vacuum_hopper_3
   category: equipment
+
+pylonbase:reactivated_wither_skull:
+  pattern:
+    - " N "
+    - " S "
+    - " R "
+  key:
+    N: minecraft:wither_skeleton_skull
+    S: minecraft:stick
+    R: minecraft:nether_star
+  result: pylonbase:reactivated_wither_skull
+  category: equipment
