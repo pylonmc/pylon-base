@@ -67,11 +67,13 @@ public class SoulboundRune extends Rune {
 
     public static class SoulboundRuneListener implements Listener {
         @EventHandler
-        public void onPlayerDeath(PlayerDeathEvent event) {
+        public void onPlayerDeath(PlayerDeathEvent event) { // exception being generated
             Iterator<ItemStack> curItem = event.getDrops().iterator();
-            while (curItem.hasNext()) {
-                if (curItem.next().getPersistentDataContainer().has(SOULBOUND_KEY)) {
-                    event.getItemsToKeep().add(curItem.next());
+            while(curItem.hasNext()){
+                ItemStack curStack = curItem.next();
+                if(curStack == null || !curStack.hasItemMeta()) continue;
+                if(curStack.getItemMeta().getPersistentDataContainer().has(SOULBOUND_KEY)){
+                    event.getItemsToKeep().add(curStack);
                     curItem.remove();
                 }
             }
