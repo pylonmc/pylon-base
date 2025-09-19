@@ -1195,6 +1195,15 @@ item:
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Interval:</attr> %tick_interval%
 
+  hydraulic_farmer:
+    name: "Hydraulic Farmer"
+    lore: |-
+      <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Farm interval:</attr> %tick-interval%
+      <arrow> <attr>Hydraulic fluid per action:</attr> %hydraulic-fluid-per-action%
+      <arrow> <attr>Dirty hydraulic fluid per action:</attr> %dirty-hydraulic-fluid-per-action%
+
   hydraulic_excavator:
     name: "Hydraulic Excavator"
     lore: |-
