@@ -84,13 +84,13 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                         ));
             }
             double bottomAmount = controller.getFluidAmount(bottomFluid);
-            if (bottomAmount < recipe.input().getAmountMillibuckets()) {
+            if (bottomAmount < recipe.input().amountMillibuckets()) {
                 return ItemStackBuilder.of(result.getType())
                         .name(casterKey("cannot_cast"))
                         .lore(casterKey(
                                 "not_enough",
                                 PylonArgument.of("fluid", bottomFluid.getName()),
-                                PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().getAmountMillibuckets())),
+                                PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().amountMillibuckets())),
                                 PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)
                                         .decimalPlaces(1))
                         ));
@@ -100,7 +100,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
                     .lore(casterKey(
                             "click_to_cast",
                             PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)),
-                            PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().getAmountMillibuckets())),
+                            PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().amountMillibuckets())),
                             PylonArgument.of("fluid", bottomFluid.getName())
                     ));
         }
@@ -111,7 +111,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             if (controller == null || bottomFluid == null) return;
 
             CastingRecipe recipe = CastingRecipe.getCastRecipeFor(bottomFluid);
-            if (recipe == null || controller.getTemperature() < recipe.temperature() || controller.getFluidAmount(bottomFluid) < recipe.input().getAmountMillibuckets())
+            if (recipe == null || controller.getTemperature() < recipe.temperature() || controller.getFluidAmount(bottomFluid) < recipe.input().amountMillibuckets())
                 return;
 
             if (!new PrePylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller, player).callEvent()) {
@@ -120,7 +120,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
 
             ItemStack result = recipe.result();
             inventory.addItem(null, result);
-            controller.removeFluid(bottomFluid, recipe.input().getAmountMillibuckets());
+            controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
 
             new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
         }

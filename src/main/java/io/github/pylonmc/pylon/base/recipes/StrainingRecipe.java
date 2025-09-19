@@ -53,7 +53,7 @@ public record StrainingRecipe(
 
     @Override
     public @NotNull List<FluidOrItem> getResults() {
-        return List.of(FluidOrItem.of(outputItem), FluidOrItem.of(outputFluid, input.getAmountMillibuckets()));
+        return List.of(FluidOrItem.of(outputItem), FluidOrItem.of(outputFluid, input.amountMillibuckets()));
     }
 
     @Override
@@ -69,7 +69,7 @@ public record StrainingRecipe(
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('i', new FluidButton(input))
                 .addIngredient('s', BaseItems.FLUID_STRAINER)
-                .addIngredient('o', new FluidButton(input.getAmountMillibuckets(), outputFluid))
+                .addIngredient('o', new FluidButton(input.amountMillibuckets(), outputFluid))
                 .addIngredient('t', ItemButton.from(outputItem))
                 .build();
     }

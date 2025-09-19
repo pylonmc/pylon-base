@@ -400,7 +400,7 @@ pylonbase:fluid_pipe_copper:
   key:
     C: pylonbase:copper_sheet
   result:
-    pylonbase:fluid_pipe_copper: 4
+    pylonbase:fluid_pipe_copper: 8
   category: building
 
 pylonbase:fluid_pipe_tin:
@@ -411,7 +411,7 @@ pylonbase:fluid_pipe_tin:
   key:
     C: pylonbase:tin_sheet
   result:
-    pylonbase:fluid_pipe_tin: 4
+    pylonbase:fluid_pipe_tin: 8
   category: building
 
 pylonbase:fluid_pipe_iron:
@@ -422,7 +422,7 @@ pylonbase:fluid_pipe_iron:
   key:
     C: pylonbase:iron_sheet
   result:
-    pylonbase:fluid_pipe_iron: 4
+    pylonbase:fluid_pipe_iron: 8
   category: building
 
 pylonbase:fluid_pipe_bronze:
@@ -433,7 +433,7 @@ pylonbase:fluid_pipe_bronze:
   key:
     C: pylonbase:bronze_sheet
   result:
-    pylonbase:fluid_pipe_bronze: 4
+    pylonbase:fluid_pipe_bronze: 8
   category: building
 
 pylonbase:fluid_pipe_igneous_composite:
@@ -444,7 +444,7 @@ pylonbase:fluid_pipe_igneous_composite:
   key:
     O: pylonbase:igneous_composite
   result:
-    pylonbase:fluid_pipe_igneous_composite: 4
+    pylonbase:fluid_pipe_igneous_composite: 8
   category: building
 
 pylonbase:fluid_pipe_steel:
@@ -455,7 +455,7 @@ pylonbase:fluid_pipe_steel:
   key:
     C: pylonbase:steel_sheet
   result:
-    pylonbase:fluid_pipe_steel: 4
+    pylonbase:fluid_pipe_steel: 8
   category: building
 
 pylonbase:portable_fluid_tank_wood:
@@ -1127,12 +1127,12 @@ pylonbase:hydraulic_hammer_head:
 
 pylonbase:hydraulic_pipe_bender:
   pattern:
-    - "LBL"
+    - "LCL"
     - "PEP"
-    - "BBB"
+    - "CCC"
   key:
     L: minecraft:lever
-    B: pylonbase:bronze_sheet
+    C: pylonbase:copper_sheet
     E: pylonbase:hydraulic_motor
     P: pylonbase:fluid_pipe_bronze
   result: pylonbase:hydraulic_pipe_bender
@@ -1140,24 +1140,50 @@ pylonbase:hydraulic_pipe_bender:
 
 pylonbase:hydraulic_table_saw:
   pattern:
-    - "BTB"
+    - "CTC"
     - "PEP"
-    - "BBB"
+    - "CCC"
   key:
-    B: pylonbase:bronze_sheet
+    C: pylonbase:copper_sheet
     E: pylonbase:hydraulic_motor
     P: pylonbase:fluid_pipe_bronze
     T: pylonbase:sawblade
   result: pylonbase:hydraulic_table_saw
   category: building
 
-pylonbase:purification_tower_glass:
+pylonbase:hydraulic_farmer:
   pattern:
-    - "GBG"
-    - "GBG"
-    - "GBG"
+    - "CHC"
+    - "PEP"
+    - "CCC"
+  key:
+    C: pylonbase:copper_sheet
+    E: pylonbase:hydraulic_motor
+    P: pylonbase:fluid_pipe_bronze
+    H: pylonbase:bronze_hoe
+  result: pylonbase:hydraulic_farmer
+  category: building
+
+pylonbase:hydraulic_excavator:
+  pattern:
+    - "BBB"
+    - "PEP"
+    - "BDB"
   key:
     B: pylonbase:bronze_sheet
+    E: pylonbase:hydraulic_motor
+    P: pylonbase:fluid_pipe_bronze
+    D: pylonbase:bronze_drill_bit
+  result: pylonbase:hydraulic_excavator
+  category: building
+
+pylonbase:purification_tower_glass:
+  pattern:
+    - "GCG"
+    - "GCG"
+    - "GCG"
+  key:
+    C: pylonbase:copper_sheet
     G: minecraft:glass
   result: pylonbase:purification_tower_glass
   category: building
@@ -1169,7 +1195,7 @@ pylonbase:purification_tower_cap:
     - "GSG"
   key:
     G: minecraft:glass
-    S: pylonbase:bronze_sheet
+    S: pylonbase:copper_sheet
   result: pylonbase:purification_tower_cap
   category: building
 
@@ -1470,3 +1496,16 @@ pylonbase:hydraulic_refueling_station:
     G: minecraft:glass
   result: pylonbase:hydraulic_refueling_station
   category: building
+
+
+pylonbase:reactivated_wither_skull:
+  pattern:
+    - " N "
+    - " S "
+    - " R "
+  key:
+    N: minecraft:wither_skeleton_skull
+    S: minecraft:stick
+    R: minecraft:nether_star
+  result: pylonbase:reactivated_wither_skull
+  category: equipment

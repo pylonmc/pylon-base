@@ -46,7 +46,7 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return getBlock().getLocation().equals(otherBlock.getLocation());
+        return getBlock().getRelative(BlockFace.UP).getLocation().equals(otherBlock.getLocation());
     }
 
     @Override

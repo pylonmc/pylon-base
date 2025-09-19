@@ -274,4 +274,10 @@ public class BaseKeys {
     public static final NamespacedKey HYDRAULIC_CANNON = baseKey("hydraulic_cannon");
     public static final NamespacedKey TIN_PROJECTILE = baseKey("tin_projectile");
     public static final NamespacedKey HYDRAULIC_REFUELING_STATION = baseKey("hydraulic_refueling_station");
+
+    public static final NamespacedKey HYDRAULIC_FARMER = baseKey("hydraulic_farmer");
+    public static final NamespacedKey HYDRAULIC_EXCAVATOR = baseKey("hydraulic_excavator");
+
+    public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
+    public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
 }

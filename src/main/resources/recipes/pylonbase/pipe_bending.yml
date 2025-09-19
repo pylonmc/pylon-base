@@ -8,41 +8,41 @@ pylonbase:fluid_pipe_wood:
 pylonbase:fluid_pipe_copper:
   input: minecraft:copper_block
   result:
-    pylonbase:fluid_pipe_copper: 9
+    pylonbase:fluid_pipe_copper: 18
   particle-data: minecraft:copper_block
   time-ticks: 360
 
 pylonbase:fluid_pipe_tin:
   input: pylonbase:tin_block
   result:
-    pylonbase:fluid_pipe_tin: 9
+    pylonbase:fluid_pipe_tin: 18
   particle-data: minecraft:iron_block
   time-ticks: 360
 
 pylonbase:fluid_pipe_bronze:
   input: pylonbase:bronze_block
   result:
-    pylonbase:fluid_pipe_bronze: 9
+    pylonbase:fluid_pipe_bronze: 18
   particle-data: minecraft:copper_block
   time-ticks: 360
 
 pylonbase:fluid_pipe_iron:
   input: minecraft:iron_block
   result:
-    pylonbase:fluid_pipe_iron: 9
+    pylonbase:fluid_pipe_iron: 18
   particle-data: minecraft:iron_block
   time-ticks: 360
 
 pylonbase:fluid_pipe_steel:
   input: pylonbase:steel_block
   result:
-    pylonbase:fluid_pipe_steel: 9
+    pylonbase:fluid_pipe_steel: 18
   particle-data: minecraft:netherite_block
   time-ticks: 360
 
 pylonbase:fluid_pipe_igneous_composite:
   input: pylonbase:igneous_composite
   result:
-    pylonbase:fluid_pipe_igneous_composite: 1
+    pylonbase:fluid_pipe_igneous_composite: 2
   particle-data: minecraft:obsidian
   time-ticks: 40
