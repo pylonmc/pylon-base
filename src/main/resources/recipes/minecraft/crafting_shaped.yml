@@ -1179,11 +1179,11 @@ pylonbase:hydraulic_excavator:
 
 pylonbase:purification_tower_glass:
   pattern:
-    - "GBG"
-    - "GBG"
-    - "GBG"
+    - "GCG"
+    - "GCG"
+    - "GCG"
   key:
-    B: pylonbase:bronze_sheet
+    B: pylonbase:copper_sheet
     G: minecraft:glass
   result: pylonbase:purification_tower_glass
   category: building
@@ -1195,7 +1195,7 @@ pylonbase:purification_tower_cap:
     - "GSG"
   key:
     G: minecraft:glass
-    S: pylonbase:bronze_sheet
+    S: pylonbase:copper_sheet
   result: pylonbase:purification_tower_cap
   category: building
 
