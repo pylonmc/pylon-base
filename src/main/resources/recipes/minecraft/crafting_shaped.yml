@@ -400,7 +400,7 @@ pylonbase:fluid_pipe_copper:
   key:
     C: pylonbase:copper_sheet
   result:
-    pylonbase:fluid_pipe_copper: 4
+    pylonbase:fluid_pipe_copper: 8
   category: building
 
 pylonbase:fluid_pipe_tin:
@@ -411,7 +411,7 @@ pylonbase:fluid_pipe_tin:
   key:
     C: pylonbase:tin_sheet
   result:
-    pylonbase:fluid_pipe_tin: 4
+    pylonbase:fluid_pipe_tin: 8
   category: building
 
 pylonbase:fluid_pipe_iron:
@@ -422,7 +422,7 @@ pylonbase:fluid_pipe_iron:
   key:
     C: pylonbase:iron_sheet
   result:
-    pylonbase:fluid_pipe_iron: 4
+    pylonbase:fluid_pipe_iron: 8
   category: building
 
 pylonbase:fluid_pipe_bronze:
@@ -433,7 +433,7 @@ pylonbase:fluid_pipe_bronze:
   key:
     C: pylonbase:bronze_sheet
   result:
-    pylonbase:fluid_pipe_bronze: 4
+    pylonbase:fluid_pipe_bronze: 8
   category: building
 
 pylonbase:fluid_pipe_igneous_composite:
@@ -444,7 +444,7 @@ pylonbase:fluid_pipe_igneous_composite:
   key:
     O: pylonbase:igneous_composite
   result:
-    pylonbase:fluid_pipe_igneous_composite: 4
+    pylonbase:fluid_pipe_igneous_composite: 8
   category: building
 
 pylonbase:fluid_pipe_steel:
@@ -455,7 +455,7 @@ pylonbase:fluid_pipe_steel:
   key:
     C: pylonbase:steel_sheet
   result:
-    pylonbase:fluid_pipe_steel: 4
+    pylonbase:fluid_pipe_steel: 8
   category: building
 
 pylonbase:portable_fluid_tank_wood:
