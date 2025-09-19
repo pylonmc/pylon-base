@@ -270,6 +270,11 @@ public class BaseKeys {
     public static final NamespacedKey VACUUM_HOPPER_3 = baseKey("vacuum_hopper_3");
     public static final NamespacedKey VACUUM_HOPPER_4 = baseKey("vacuum_hopper_4");
 
+    public static final NamespacedKey HYDRAULIC_CANNON_CHAMBER = baseKey("hydraulic_cannon_chamber");
+    public static final NamespacedKey HYDRAULIC_CANNON = baseKey("hydraulic_cannon");
+    public static final NamespacedKey TIN_PROJECTILE = baseKey("tin_projectile");
+    public static final NamespacedKey HYDRAULIC_REFUELING_STATION = baseKey("hydraulic_refueling_station");
+
     public static final NamespacedKey HYDRAULIC_FARMER = baseKey("hydraulic_farmer");
     public static final NamespacedKey HYDRAULIC_EXCAVATOR = baseKey("hydraulic_excavator");
 

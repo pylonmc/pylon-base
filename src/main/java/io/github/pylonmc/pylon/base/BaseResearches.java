@@ -104,7 +104,8 @@ public class BaseResearches {
                 BaseKeys.SAWBLADE,
                 BaseKeys.WEIGHTED_SHAFT,
                 BaseKeys.BRONZE_DRILL_BIT,
-                BaseKeys.HYDRAULIC_MOTOR
+                BaseKeys.HYDRAULIC_MOTOR,
+                BaseKeys.HYDRAULIC_CANNON_CHAMBER
         ).register();
 
         new Research(
@@ -113,6 +114,15 @@ public class BaseResearches {
                 8L,
                 BaseKeys.VACUUM_HOPPER_1,
                 BaseKeys.VACUUM_HOPPER_2
+        ).register();
+
+        new Research(
+                baseKey("hydraulic_combat"),
+                Material.IRON_HORSE_ARMOR,
+                8L,
+                BaseKeys.HYDRAULIC_REFUELING_STATION,
+                BaseKeys.HYDRAULIC_CANNON,
+                BaseKeys.TIN_PROJECTILE
         ).register();
 
         new Research(
@@ -270,7 +280,7 @@ public class BaseResearches {
         new Research(
                 baseKey("advanced_vacuum_hoppers"),
                 Material.HOPPER,
-                8L,
+                18L,
                 BaseKeys.VACUUM_HOPPER_3,
                 BaseKeys.VACUUM_HOPPER_4
         ).register();
