@@ -1,4 +1,5 @@
 length: 7.0
 size: 2.0
 amount: 150
-cooldown-seconds: 3
+consume-seconds: 0.5
+cooldown-seconds: 3.0
