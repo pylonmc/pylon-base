@@ -109,7 +109,6 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.clear(); // Don't drop the block itself
         drops.addAll(contents);
     }
 
@@ -269,7 +268,7 @@ public final class PitKiln extends PylonBlock implements
                 case SOUL_FIRE -> MULTIPLIER_SOUL_FIRE;
                 default -> throw new AssertionError();
             };
-            processingTime = PROCESSING_TIME_SECONDS * multiplier;
+            processingTime = PROCESSING_TIME_SECONDS / multiplier;
             break;
         }
     }
