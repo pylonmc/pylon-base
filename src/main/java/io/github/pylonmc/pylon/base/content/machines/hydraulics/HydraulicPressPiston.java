@@ -104,7 +104,7 @@ public class HydraulicPressPiston extends PylonBlock
         Preconditions.checkState(press != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
-                || fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
                 || !press.tryStartRecipe(null)
         ) {
             return;
@@ -119,7 +119,7 @@ public class HydraulicPressPiston extends PylonBlock
         );
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
-                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(-0.3)),
+                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
     }

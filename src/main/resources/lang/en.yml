@@ -590,6 +590,23 @@ item:
   raw_tin:
     name: "Raw Tin"
 
+  reactivated_wither_skull:
+    name: "<white>Reactivated Wither Skull"
+    lore: |-
+      <arrow> <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+    charged:
+      true: "charged"
+      false: "not charged"
+
+  hyper_activated_wither_skull:
+    name: "<white>Hyper Activated Wither Skull"
+    lore: |-
+      <arrow> <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+
   recoil_arrow:
     name: "Recoil Arrow"
     lore: |-
@@ -1178,6 +1195,27 @@ item:
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Interval:</attr> %tick_interval%
 
+  hydraulic_farmer:
+    name: "Hydraulic Farmer"
+    lore: |-
+      <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Farm interval:</attr> %tick-interval%
+      <arrow> <attr>Hydraulic fluid per action:</attr> %hydraulic-fluid-per-action%
+      <arrow> <attr>Dirty hydraulic fluid per action:</attr> %dirty-hydraulic-fluid-per-action%
+
+  hydraulic_excavator:
+    name: "Hydraulic Excavator"
+    lore: |-
+      <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
+      <arrow> Cannot excavate harder blocks such as stone
+      <arrow> <insn>Right click</insn> to start digging
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Depth:</attr> %depth%
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1268,6 +1306,7 @@ research:
   climbing_equipment: "<#a6b579>Climbing equipment"
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
+  reactivated_skulls: "<#000000>Reactivated wither skulls"
 
 guide:
   page:

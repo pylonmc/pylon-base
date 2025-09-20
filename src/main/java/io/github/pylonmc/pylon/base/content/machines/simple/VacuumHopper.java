@@ -57,7 +57,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
     public void tick(double deltaSeconds) {
         Hopper hopper = (Hopper) getBlock().getState();
 
-        for (Entity entity : getBlock().getLocation().getNearbyEntities(radius, radius, radius)) {
+        for (Entity entity : getBlock().getLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }

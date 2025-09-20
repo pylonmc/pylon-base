@@ -136,7 +136,7 @@ public class HydraulicMixingAttachment extends PylonBlock
         Preconditions.checkState(mixingPot != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
-                || fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
                 || !mixingPot.tryDoRecipe(null)
         ) {
             return;
