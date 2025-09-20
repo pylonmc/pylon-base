@@ -269,7 +269,7 @@ public final class PitKiln extends PylonBlock implements
                 case SOUL_FIRE -> MULTIPLIER_SOUL_FIRE;
                 default -> throw new AssertionError();
             };
-            processingTime = PROCESSING_TIME_SECONDS * multiplier;
+            processingTime = PROCESSING_TIME_SECONDS / multiplier;
             break;
         }
     }
