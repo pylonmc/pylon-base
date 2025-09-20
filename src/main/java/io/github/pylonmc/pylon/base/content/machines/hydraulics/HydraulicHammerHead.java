@@ -23,7 +23,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -108,7 +108,7 @@ public class HydraulicHammerHead extends PylonBlock
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
-        PdcUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
+        PylonUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
     }
 
     public void onInteract(@NotNull PlayerInteractEvent event) {

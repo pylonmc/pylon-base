@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -39,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 public class HydraulicTableSaw extends PylonBlock
         implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractableBlock, PylonTickingBlock {
@@ -158,7 +158,7 @@ public class HydraulicTableSaw extends PylonBlock
             double dirtyHydraulicFluidOutput = recipe.timeTicks() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
-                    || !isPylonSimilar(stack, recipe.input())
+                    || !PylonUtils.isPylonSimilar(stack, recipe.input())
                     || stack.getAmount() < recipe.input().getAmount()
             ) {
                 continue;

@@ -21,7 +21,7 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -76,7 +76,7 @@ public class PortableFluidTank extends PylonBlock
         }
 
         public void setFluid(@Nullable PylonFluid fluid) {
-            getStack().editPersistentDataContainer(pdc -> PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluid));
+            getStack().editPersistentDataContainer(pdc -> PylonUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluid));
         }
 
         public void setAmount(double amount) {

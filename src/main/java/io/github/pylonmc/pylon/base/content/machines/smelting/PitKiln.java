@@ -16,7 +16,7 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -104,7 +104,7 @@ public final class PitKiln extends PylonBlock implements
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
         pdc.set(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK), processing);
-        PdcUtils.setNullable(pdc, PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
+        PylonUtils.setNullable(pdc, PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
     }
 
     @Override

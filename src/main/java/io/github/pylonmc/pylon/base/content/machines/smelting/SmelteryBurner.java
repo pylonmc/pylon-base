@@ -8,8 +8,7 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
-import io.github.pylonmc.pylon.core.util.ItemUtils;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import net.kyori.adventure.text.Component;
@@ -65,7 +64,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PdcUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
+        PylonUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
         pdc.set(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, secondsElapsed);
     }
 
@@ -121,7 +120,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                     ItemStack item = inventory.getItem(i);
                     if (item == null) continue;
                     for (Fuel fuel : FUELS) {
-                        if (ItemUtils.isPylonSimilar(item, fuel.material)) {
+                        if (PylonUtils.isPylonSimilar(item, fuel.material)) {
                             this.fuel = fuel;
                             item.subtract();
                             inventory.setItem(null, i, item);
