@@ -1392,8 +1392,8 @@ message:
     tooltip: "<red><bold>Fire-proofed"
     success: "<red>Your item has been fire-proofed"
   soulbound_rune:
-    soulbind-message: "<dark_purple>Your soul has been linked with your item"
     tooltip: "<dark_purple>Soulbound"
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
 
 gui:
   fluid-selector-title: "Select Fluid"

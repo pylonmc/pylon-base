@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -40,7 +41,7 @@ public class SoulboundRune extends Rune {
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
         ItemStack soulboundItem = ItemStackBuilder.of(target.asQuantity(consume))
-                .lore(TOOLTIP)
+                .lore(GlobalTranslator.render(TOOLTIP, event.getPlayer().locale()))
                 .build();
         soulboundItem.editMeta(meta -> {
             meta.getPersistentDataContainer().set(SOULBOUND_KEY, PylonSerializers.UUID, event.getPlayer().getUniqueId());
