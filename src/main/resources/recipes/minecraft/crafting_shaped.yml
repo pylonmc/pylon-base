@@ -293,6 +293,18 @@ pylonbase:brick_mold:
   result: pylonbase:brick_mold
   category: equipment
 
+pylonbase:confetti_popper:
+  pattern:
+    - " P "
+    - " G "
+    - " D "
+  key:
+    P: minecraft:paper
+    G: minecraft:gunpowder
+    D: "#paper:dyes_settag"
+  result: pylonbase:confetti_popper
+  category: tools
+
 pylonbase:grindstone:
   pattern:
     - "STS"

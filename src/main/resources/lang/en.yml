@@ -1167,6 +1167,11 @@ item:
       <arrow> <insn>Right click</insn> a block to mold it
       <arrow> <attr>Cooldown:</attr> %cooldown%
 
+  confetti_popper:
+    name: "Confetti Popper"
+    lore: |-
+      <arrow> <insn>Right click</insn> to spawn some confetti!
+
   vacuum_hopper_1:
     name: "Vacuum Hopper <yellow>I"
     lore: |-

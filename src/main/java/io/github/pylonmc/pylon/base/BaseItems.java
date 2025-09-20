@@ -41,6 +41,8 @@ import net.kyori.adventure.util.TriState;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
+import org.bukkit.Registry;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -733,6 +735,26 @@ public final class BaseItems {
     static {
         PylonItem.register(BrickMold.class, BRICK_MOLD);
         BasePages.TOOLS.addItem(BRICK_MOLD);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static final ItemStack CONFETTI_POPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CONFETTI_POPPER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.FIREWORK_ROCKET.getKey())
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                .consumeSeconds(1f)
+                .sound(Registry.SOUNDS.getKey(Sound.ITEM_CROSSBOW_LOADING_START))
+                .animation(ItemUseAnimation.TOOT_HORN)
+                .hasConsumeParticles(false)
+            )
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.CONFETTI_POPPER).getOrThrow("cooldown-seconds", ConfigAdapter.INT)
+                )
+                .cooldownGroup(BaseKeys.CONFETTI_POPPER)
+                .build())
+            .build();
+    static {
+        PylonItem.register(ConfettiPopper.class, CONFETTI_POPPER);
+        BasePages.TOOLS.addItem(CONFETTI_POPPER);
     }
 
     public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, BaseKeys.GRINDSTONE)
