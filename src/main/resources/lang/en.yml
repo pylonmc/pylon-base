@@ -714,6 +714,12 @@ item:
       <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
 
+  soulbound_rune:
+    name: "Soulbound Rune"
+    lore: |-
+      <arrow> Connects your sense of self to your material possessions such that you can never lose them
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
+
   splint:
     name: "Splint"
     lore: |-
@@ -1307,6 +1313,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  soulbound_rune: "<dark_purple>Material attachment"
 
 guide:
   page:
@@ -1384,6 +1391,9 @@ message:
   fireproof_result:
     tooltip: "<red><bold>Fire-proofed"
     success: "<red>Your item has been fire-proofed"
+  soulbound_rune:
+    tooltip: "<dark_purple>Soulbound"
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
 
 gui:
   fluid-selector-title: "Select Fluid"
