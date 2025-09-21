@@ -41,14 +41,15 @@ public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
     }
 
     @Override
-    public boolean checkFormed() {
-        boolean formed = super.checkFormed();
-        if (!formed) {
-            setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, 0);
-            setFluid(BaseFluids.HYDRAULIC_FLUID, 0);
-        } else {
-            setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, capacity);
-        }
-        return formed;
+    public void onMultiblockFormed() {
+        super.onMultiblockFormed();
+        setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, capacity);
+    }
+
+    @Override
+    public void onMultiblockUnformed() {
+        super.onMultiblockUnformed();
+        setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, 0);
+        setFluid(BaseFluids.HYDRAULIC_FLUID, 0);
     }
 }
