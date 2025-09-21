@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractableBlock {
+public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock {
 
     private static final Random random = new Random();
 
