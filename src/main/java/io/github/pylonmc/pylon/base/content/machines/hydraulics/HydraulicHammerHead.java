@@ -10,7 +10,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -46,7 +46,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicHammerHead extends PylonBlock
-        implements PylonTickingBlock, PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+        implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
