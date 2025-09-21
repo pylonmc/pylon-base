@@ -205,16 +205,18 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public boolean checkFormed() {
-        if (!PylonSimpleMultiblock.super.checkFormed()) {
-            removeWailas();
-            return false;
-        }
+    public void onMultiblockFormed() {
+        PylonSimpleMultiblock.super.onMultiblockFormed();
         for (Vector3i relative : getComponents().keySet()) {
             BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
             Waila.addWailaOverride(block, this::getComponentWaila);
         }
-        return true;
+    }
+
+    @Override
+    public void onMultiblockUnformed() {
+        PylonSimpleMultiblock.super.onMultiblockUnformed();
+        removeWailas();
     }
 
     private void removeWailas() {
