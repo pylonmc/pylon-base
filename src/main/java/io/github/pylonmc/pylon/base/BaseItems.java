@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.content.armor.BronzeArmor;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
@@ -520,7 +521,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_HELMET);
+        PylonItem.register(BronzeArmor.class, BRONZE_HELMET);
         BasePages.ARMOUR.addItem(BRONZE_HELMET);
     }
 
@@ -543,7 +544,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_CHESTPLATE);
+        PylonItem.register(BronzeArmor.class, BRONZE_CHESTPLATE);
         BasePages.ARMOUR.addItem(BRONZE_CHESTPLATE);
     }
 
@@ -566,7 +567,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_LEGGINGS);
+        PylonItem.register(BronzeArmor.class, BRONZE_LEGGINGS);
         BasePages.ARMOUR.addItem(BRONZE_LEGGINGS);
     }
 
@@ -589,7 +590,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_BOOTS);
+        PylonItem.register(BronzeArmor.class, BRONZE_BOOTS);
         BasePages.ARMOUR.addItem(BRONZE_BOOTS);
     }
 
