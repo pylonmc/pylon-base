@@ -717,7 +717,7 @@ item:
   soulbound_rune:
     name: "Soulbound Rune"
     lore: |-
-      <arrow> Connects your sense of self to your material possessions such that you can never lose them
+      <arrow> Connects your sense of self to an item, allowing you to retain the item upon death
       <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
 
   splint:
@@ -1313,7 +1313,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
-  soulbound_rune: "<dark_purple>Material attachment"
+  soulbound_rune: "<dark_purple>Soul attachment"
 
 guide:
   page:
