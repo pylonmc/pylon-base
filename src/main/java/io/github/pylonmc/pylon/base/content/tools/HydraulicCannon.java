@@ -14,9 +14,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
+import static io.github.pylonmc.pylon.core.util.PylonUtils.isPylonSimilar;
 
 
 public class HydraulicCannon extends PylonItem implements PylonInteractor, HydraulicRefuelable {
