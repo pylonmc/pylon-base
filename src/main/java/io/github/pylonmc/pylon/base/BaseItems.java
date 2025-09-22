@@ -41,6 +41,8 @@ import net.kyori.adventure.util.TriState;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
+import org.bukkit.Registry;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -381,7 +383,13 @@ public final class BaseItems {
             (1.0 / 3) - 4,
             1,
             1
-    ).set(DataComponentTypes.MAX_DAMAGE, 66).build();
+    ).set(DataComponentTypes.MAX_DAMAGE, 66)
+        .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                Settings.get(BaseKeys.HAMMER_STONE).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+            )
+            .cooldownGroup(BaseKeys.HAMMER_STONE.key())
+            .build())
+        .build();
     static {
         PylonItem.register(Hammer.class, HAMMER_STONE);
         BasePages.TOOLS.addItem(HAMMER_STONE);
@@ -393,7 +401,13 @@ public final class BaseItems {
             (1.0 / 2) - 4,
             1.5,
             3
-    ).set(DataComponentTypes.MAX_DAMAGE, 125).build();
+    ).set(DataComponentTypes.MAX_DAMAGE, 125)
+        .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                Settings.get(BaseKeys.HAMMER_IRON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+            )
+            .cooldownGroup(BaseKeys.HAMMER_IRON.key())
+            .build())
+        .build();
     static {
         PylonItem.register(Hammer.class, HAMMER_IRON);
         BasePages.TOOLS.addItem(HAMMER_IRON);
@@ -405,7 +419,13 @@ public final class BaseItems {
             (1.0 / 1) - 4,
             2,
             5
-    ).set(DataComponentTypes.MAX_DAMAGE, 781).build();
+    ).set(DataComponentTypes.MAX_DAMAGE, 781)
+        .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                Settings.get(BaseKeys.HAMMER_DIAMOND).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+            )
+            .cooldownGroup(BaseKeys.HAMMER_DIAMOND.key())
+            .build())
+        .build();
     static {
         PylonItem.register(Hammer.class, HAMMER_DIAMOND);
         BasePages.TOOLS.addItem(HAMMER_DIAMOND);
@@ -729,6 +749,12 @@ public final class BaseItems {
 
     public static final ItemStack BRICK_MOLD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRICK_MOLD)
             .set(DataComponentTypes.ITEM_MODEL, Material.OAK_FENCE_GATE.getKey())
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
+                .useCooldown(
+                    Settings.get(BaseKeys.BRICK_MOLD).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+                )
+                .cooldownGroup(BaseKeys.BRICK_MOLD.key())
+                .build())
             .build();
     static {
         PylonItem.register(BrickMold.class, BRICK_MOLD);
@@ -1279,7 +1305,10 @@ public final class BaseItems {
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
                     .consumeSeconds(3)
+                    .sound(Registry.SOUNDS.getKey(Sound.BLOCK_AMETHYST_CLUSTER_HIT))
             )
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(1)
+                    .cooldownGroup(BaseKeys.LOUPE.key()))
             .build();
     static {
         PylonItem.register(Loupe.class, LOUPE);
@@ -1288,6 +1317,11 @@ public final class BaseItems {
 
     public static final ItemStack RESEARCH_PACK_1 = ItemStackBuilder.pylonItem(Material.RED_BANNER, BaseKeys.RESEARCH_PACK_1)
             .set(DataComponentTypes.MAX_STACK_SIZE, 3)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.RESEARCH_PACK_1).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+                )
+                .cooldownGroup(BaseKeys.RESEARCH_PACK_1.key())
+                .build())
             .build();
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_1);
@@ -1296,6 +1330,11 @@ public final class BaseItems {
 
     public static final ItemStack RESEARCH_PACK_2 = ItemStackBuilder.pylonItem(Material.LIME_BANNER, BaseKeys.RESEARCH_PACK_2)
             .set(DataComponentTypes.MAX_STACK_SIZE, 3)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.RESEARCH_PACK_2).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
+                )
+                .cooldownGroup(BaseKeys.RESEARCH_PACK_2.key())
+                .build())
             .build();
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_2);
