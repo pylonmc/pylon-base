@@ -841,8 +841,8 @@ item:
     lore: |-
       <arrow> Efficiently bends materials into pipes
       <arrow> <insn>Right click</insn> to insert an item
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
 
   hydraulic_table_saw:
     name: "Hydraulic Table Saw"
