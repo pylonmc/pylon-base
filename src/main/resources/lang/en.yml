@@ -817,8 +817,8 @@ item:
     lore: |-
       <arrow> Place above the mixer, leaving a one block gap
       <arrow> <attr>Cooldown time:</attr> %cooldown%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_second%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_second%
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
