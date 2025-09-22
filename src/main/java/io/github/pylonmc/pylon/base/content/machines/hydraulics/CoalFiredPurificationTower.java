@@ -19,8 +19,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.util.ItemUtils;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -129,7 +128,7 @@ public class CoalFiredPurificationTower extends PylonBlock
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
-        PdcUtils.setNullable(pdc, FUEL_KEY, PylonSerializers.ITEM_STACK, fuel);
+        PylonUtils.setNullable(pdc, FUEL_KEY, PylonSerializers.ITEM_STACK, fuel);
         pdc.set(FUEL_SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, fuelSecondsElapsed);
     }
 
@@ -170,7 +169,7 @@ public class CoalFiredPurificationTower extends PylonBlock
         if (fuel == null) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Map.Entry<ItemStack, Integer> fuel : FUELS.entrySet()) {
-                if (item == null || !ItemUtils.isPylonSimilar(item, fuel.getKey())) {
+                if (item == null || !PylonUtils.isPylonSimilar(item, fuel.getKey())) {
                     continue;
                 }
 
