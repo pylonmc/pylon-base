@@ -56,8 +56,8 @@ public class HydraulicPipeBender extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic_fluid_input", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)),
-                    PylonArgument.of("dirty_hydraulic_fluid_output", UnitFormat.MILLIBUCKETS.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND))
+                    PylonArgument.of("hydraulic_fluid_input", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)),
+                    PylonArgument.of("dirty_hydraulic_fluid_output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND))
             );
         }
     }
