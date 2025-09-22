@@ -1560,7 +1560,7 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(PURIFICATION_TOWER_GLASS);
     }
 
-    public static final ItemStack PURIFICATION_TOWER_CAP = ItemStackBuilder.pylonItem(Material.WAXED_CUT_COPPER_SLAB, BaseKeys.PURIFICATION_TOWER_CAP)
+    public static final ItemStack PURIFICATION_TOWER_CAP = ItemStackBuilder.pylonItem(Material.QUARTZ_SLAB, BaseKeys.PURIFICATION_TOWER_CAP)
             .build();
     static {
         PylonItem.register(PylonItem.class, PURIFICATION_TOWER_CAP, BaseKeys.PURIFICATION_TOWER_CAP);
@@ -1800,6 +1800,43 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
+    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylonItem(Material.IRON_HORSE_ARMOR, BaseKeys.HYDRAULIC_CANNON)
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
+                    .useCooldown(
+                            Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20.0F
+                    )
+                    .cooldownGroup(BaseKeys.HYDRAULIC_CANNON.key())
+                    .build())
+            .editPdc(pdc -> {
+                pdc.set(BaseFluids.HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
+                pdc.set(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
+            })
+            .build();
+    static {
+        PylonItem.register(HydraulicCannon.class, HYDRAULIC_CANNON);
+        BasePages.COMBAT.addItem(HYDRAULIC_CANNON);
+    }
+
+    public static final ItemStack HYDRAULIC_CANNON_CHAMBER = ItemStackBuilder.pylonItem(Material.SNOWBALL, BaseKeys.HYDRAULIC_CANNON_CHAMBER)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, HYDRAULIC_CANNON_CHAMBER);
+        BasePages.COMPONENTS.addItem(HYDRAULIC_CANNON_CHAMBER);
+    }
+
+    public static final ItemStack TIN_PROJECTILE = ItemStackBuilder.pylonItem(Material.IRON_NUGGET, BaseKeys.TIN_PROJECTILE)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, TIN_PROJECTILE);
+        BasePages.COMBAT.addItem(TIN_PROJECTILE);
+    }
+
+    public static final ItemStack HYDRAULIC_REFUELING_STATION = ItemStackBuilder.pylonItem(Material.WAXED_CUT_COPPER_SLAB, BaseKeys.HYDRAULIC_REFUELING_STATION)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, HYDRAULIC_REFUELING_STATION, BaseKeys.HYDRAULIC_REFUELING_STATION);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_REFUELING_STATION);
+    }
 
     public static final ItemStack HYDRAULIC_EXCAVATOR = ItemStackBuilder.pylonItem(Material.WAXED_EXPOSED_CHISELED_COPPER, BaseKeys.HYDRAULIC_EXCAVATOR)
             .build();
