@@ -448,7 +448,7 @@ public final class BaseItems {
             .set(DataComponentTypes.TOOL, Tool.tool()
                     .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
-                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_AXE.registryKey()),
+                            Registry.BLOCK.getTag(BlockTypeTagKeys.MINEABLE_AXE),
                             Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
                             TriState.TRUE
                     ))
@@ -464,7 +464,7 @@ public final class BaseItems {
             .set(DataComponentTypes.TOOL, Tool.tool()
                     .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
-                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_PICKAXE.registryKey()),
+                            Registry.BLOCK.getTag(BlockTypeTagKeys.MINEABLE_PICKAXE),
                             Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
                             TriState.TRUE
                     ))
@@ -480,7 +480,7 @@ public final class BaseItems {
             .set(DataComponentTypes.TOOL, Tool.tool()
                     .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
-                            RegistrySet.keySet(BlockTypeTagKeys.MINEABLE_SHOVEL.registryKey()),
+                            Registry.BLOCK.getTag(BlockTypeTagKeys.MINEABLE_SHOVEL),
                             Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
                             TriState.TRUE
                     ))
