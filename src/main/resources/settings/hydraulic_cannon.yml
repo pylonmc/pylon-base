@@ -1,0 +1,13 @@
+cooldown-ticks: 20
+
+hydraulic-fluid-per-shot: 40
+dirty-hydraulic-fluid-per-shot: 38
+
+projectile:
+    material: gray_concrete
+    thickness: 0.08
+    length: 0.12
+    speed-blocks-per-second: 16
+    damage: 6
+    tick-interval: 1
+    lifetime-ticks: 50

@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
@@ -29,9 +30,9 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
 
     public static class Item extends PylonItem {
 
-        private final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", Integer.class);
-        private final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", Integer.class);
-        private final ItemStack output = getSettings().getItemOrThrow("output");
+        private final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", ConfigAdapter.INT);
+        private final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", ConfigAdapter.INT);
+        private final ItemStack output = getSettings().getOrThrow("output", ConfigAdapter.ITEM_STACK);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -46,10 +47,10 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         }
     }
 
-    @Getter protected final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", Integer.class);
-    @Getter protected final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", Integer.class);
-    protected final ItemStack output = getSettings().getItemOrThrow("output");
-    protected final Material drillMaterial = getSettings().getMaterialOrThrow("drill-material");
+    @Getter protected final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", ConfigAdapter.INT);
+    @Getter protected final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", ConfigAdapter.INT);
+    protected final ItemStack output = getSettings().getOrThrow("output", ConfigAdapter.ITEM_STACK);
+    protected final Material drillMaterial = getSettings().getOrThrow("drill-material", ConfigAdapter.MATERIAL);
     @Getter protected boolean cycling;
 
     @SuppressWarnings("unused")

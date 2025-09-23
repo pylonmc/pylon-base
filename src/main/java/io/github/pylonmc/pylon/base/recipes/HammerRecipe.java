@@ -1,12 +1,11 @@
 package io.github.pylonmc.pylon.base.recipes;
 
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -17,6 +16,8 @@ import xyz.xenondevs.invui.item.impl.AutoCycleItem;
 
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
 /**
  * @param input the input item (setting the itemstack to have an amount that's not 1 will have no effect)
  * @param result the output item (respects amount)
@@ -24,10 +25,10 @@ import java.util.List;
  * @param chance the chance to succeed per attempt
  */
 public record HammerRecipe(
-        NamespacedKey key,
-        ItemStack input,
-        ItemStack result,
-        MiningLevel level,
+        @NotNull NamespacedKey key,
+        @NotNull RecipeInput.Item input,
+        @NotNull ItemStack result,
+        @NotNull MiningLevel level,
         float chance
 ) implements PylonRecipe {
 
@@ -36,13 +37,25 @@ public record HammerRecipe(
         return key;
     }
 
-    public static final RecipeType<HammerRecipe> RECIPE_TYPE = new RecipeType<>(
-            new NamespacedKey(PylonBase.getInstance(), "hammer")
-    );
+    public static final RecipeType<HammerRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("hammer")) {
+
+        private static final ConfigAdapter<MiningLevel> MINING_LEVEL_ADAPTER = ConfigAdapter.ENUM.from(MiningLevel.class);
+
+        @Override
+        protected @NotNull HammerRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new HammerRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.RECIPE_INPUT_ITEM),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("mining-level", MINING_LEVEL_ADAPTER),
+                    section.getOrThrow("chance", ConfigAdapter.FLOAT)
+            );
+        }
+    };
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        return List.of(FluidOrItem.of(input));
+    public @NotNull List<RecipeInput> getInputs() {
+        return List.of(input);
     }
 
     @Override
@@ -61,15 +74,15 @@ public record HammerRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', ItemButton.fromStack(input))
+                .addIngredient('i', ItemButton.from(input))
                 .addIngredient('h', new AutoCycleItem(20,
                         Hammer.hammersWithMiningLevelAtLeast(level)
                                 .stream()
                                 .map(ItemStackBuilder::of)
                                 .toList()
-                                .toArray(new ItemStackBuilder[]{})
+                                .toArray(ItemStackBuilder[]::new)
                 ))
-                .addIngredient('o', ItemButton.fromStack(result))
+                .addIngredient('o', ItemButton.from(result))
                 .build();
     }
 }

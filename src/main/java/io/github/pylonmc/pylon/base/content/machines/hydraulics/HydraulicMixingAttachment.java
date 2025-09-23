@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -47,12 +48,12 @@ public class HydraulicMixingAttachment extends PylonBlock
     public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = baseKey("cooldown_time_remaining");
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT);
-    public static final int COOLDOWN_TICKS = settings.getOrThrow("cooldown-ticks", Integer.class);
-    public static final int DOWN_ANIMATION_TIME_TICKS = settings.getOrThrow("down-animation-time-ticks", Integer.class);
-    public static final int UP_ANIMATION_TIME_TICKS = settings.getOrThrow("up-animation-time-ticks", Integer.class);
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
+    public static final int COOLDOWN_TICKS = settings.getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+    public static final int DOWN_ANIMATION_TIME_TICKS = settings.getOrThrow("down-animation-time-ticks", ConfigAdapter.INT);
+    public static final int UP_ANIMATION_TIME_TICKS = settings.getOrThrow("up-animation-time-ticks", ConfigAdapter.INT);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -135,7 +136,7 @@ public class HydraulicMixingAttachment extends PylonBlock
         Preconditions.checkState(mixingPot != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
-                || fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
                 || !mixingPot.tryDoRecipe(null)
         ) {
             return;

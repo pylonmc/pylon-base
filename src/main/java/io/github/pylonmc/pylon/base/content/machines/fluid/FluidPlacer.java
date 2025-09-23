@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -14,6 +15,9 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -31,8 +35,8 @@ public class FluidPlacer extends PylonBlock
 
     public static class Item extends PylonItem {
 
-        public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
-        public final double buffer = getSettings().getOrThrow("buffer", Double.class);
+        public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -47,10 +51,10 @@ public class FluidPlacer extends PylonBlock
         }
     }
 
-    public final Material material = getSettings().getMaterialOrThrow("material");
-    public final PylonFluid fluid = getSettings().getFluidOrThrow("fluid");
-    public final double buffer = getSettings().getOrThrow("buffer", Double.class);
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", Integer.class);
+    public final Material material = getSettings().getOrThrow("material", ConfigAdapter.MATERIAL);
+    public final PylonFluid fluid = getSettings().getOrThrow("fluid", ConfigAdapter.PYLON_FLUID);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final Block placeBlock;
 
     @SuppressWarnings("unused")
@@ -76,10 +80,16 @@ public class FluidPlacer extends PylonBlock
     public void tick(double deltaSeconds) {
         if (fluidAmount(fluid) >= 1000.0
                 && placeBlock.getType().isAir()
-                && new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()
         ) {
-            placeBlock.setType(material);
             removeFluid(fluid, 1000.0);
+            if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {
+                placeBlock.getWorld().playSound(placeBlock.getLocation().toCenterLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
+                placeBlock.getWorld().spawnParticle(Particle.SMOKE, placeBlock.getLocation().toCenterLocation(), 10, 0.35, 0.35, 0.35, 0.01);
+            } else {
+                if (new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()) {
+                    placeBlock.setType(material);
+                }
+            }
         }
     }
 

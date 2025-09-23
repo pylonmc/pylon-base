@@ -18,6 +18,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
@@ -39,8 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
-
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
 
 public final class MixingPot extends PylonBlock
         implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidTank {
@@ -176,10 +175,10 @@ public final class MixingPot extends PylonBlock
     }
 
     private void doRecipe(@NotNull MixingPotRecipe recipe, @NotNull List<Item> items) {
-        for (ItemStack choice : recipe.inputItems()) {
+        for (RecipeInput.Item choice : recipe.inputItems()) {
             for (Item item : items) {
                 ItemStack stack = item.getItemStack();
-                if (isPylonSimilar(choice, stack) && stack.getAmount() >= choice.getAmount()) {
+                if (choice.matches(stack)) {
                     item.setItemStack(stack.subtract(choice.getAmount()));
                     break;
                 }
@@ -187,7 +186,7 @@ public final class MixingPot extends PylonBlock
         }
         switch (recipe.output()) {
             case FluidOrItem.Item item -> {
-                removeFluid(recipe.inputFluidAmount());
+                removeFluid(recipe.inputFluid().amountMillibuckets());
                 getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item.item());
             }
             case FluidOrItem.Fluid fluid -> {

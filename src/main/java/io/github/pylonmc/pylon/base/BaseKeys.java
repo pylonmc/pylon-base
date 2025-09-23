@@ -96,6 +96,11 @@ public class BaseKeys {
     public static final NamespacedKey BRONZE_SHOVEL = baseKey("bronze_shovel");
     public static final NamespacedKey BRONZE_HOE = baseKey("bronze_hoe");
 
+    public static final NamespacedKey BRONZE_HELMET = baseKey("bronze_helmet");
+    public static final NamespacedKey BRONZE_CHESTPLATE = baseKey("bronze_chestplate");
+    public static final NamespacedKey BRONZE_LEGGINGS = baseKey("bronze_leggings");
+    public static final NamespacedKey BRONZE_BOOTS = baseKey("bronze_boots");
+
     public static final NamespacedKey BANDAGE = baseKey("bandage");
     public static final NamespacedKey SPLINT = baseKey("splint");
     public static final NamespacedKey DISINFECTANT = baseKey("disinfectant");
@@ -264,4 +269,22 @@ public class BaseKeys {
     public static final NamespacedKey HOT_LAVA_SPONGE = baseKey("hot_lava_sponge");
 
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
+
+    public static final NamespacedKey CLIMBING_PICK = baseKey("climbing_pick");
+
+    public static final NamespacedKey VACUUM_HOPPER_1 = baseKey("vacuum_hopper_1");
+    public static final NamespacedKey VACUUM_HOPPER_2 = baseKey("vacuum_hopper_2");
+    public static final NamespacedKey VACUUM_HOPPER_3 = baseKey("vacuum_hopper_3");
+    public static final NamespacedKey VACUUM_HOPPER_4 = baseKey("vacuum_hopper_4");
+
+    public static final NamespacedKey HYDRAULIC_CANNON_CHAMBER = baseKey("hydraulic_cannon_chamber");
+    public static final NamespacedKey HYDRAULIC_CANNON = baseKey("hydraulic_cannon");
+    public static final NamespacedKey TIN_PROJECTILE = baseKey("tin_projectile");
+    public static final NamespacedKey HYDRAULIC_REFUELING_STATION = baseKey("hydraulic_refueling_station");
+
+    public static final NamespacedKey HYDRAULIC_FARMER = baseKey("hydraulic_farmer");
+    public static final NamespacedKey HYDRAULIC_EXCAVATOR = baseKey("hydraulic_excavator");
+
+    public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
+    public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
 }

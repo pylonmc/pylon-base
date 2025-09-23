@@ -91,7 +91,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_TABLE_SAW, Material.WAXED_CUT_COPPER, HydraulicTableSaw.class);
         PylonBlock.register(BaseKeys.SOLAR_LENS, Material.GLASS_PANE, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_GLASS, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
-        PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.WAXED_CUT_COPPER_SLAB, PylonBlock.class);
+        PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_1, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_2, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_3, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
@@ -108,5 +108,12 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.POWERFUL_LAVA_SPONGE, Material.SPONGE, PowerfulLavaSponge.class);
         PylonBlock.register(BaseKeys.WET_WATER_SPONGE, Material.WET_SPONGE, WetWaterSponge.class);
         PylonBlock.register(BaseKeys.HOT_LAVA_SPONGE, Material.SPONGE, HotLavaSponge.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_1, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_2, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_3, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.VACUUM_HOPPER_4, Material.HOPPER, VacuumHopper.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_REFUELING_STATION, Material.WAXED_CUT_COPPER_SLAB, HydraulicRefuelingStation.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_FARMER, Material.WAXED_EXPOSED_COPPER_BULB, HydraulicFarmer.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_EXCAVATOR, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicExcavator.class);
     }
 }

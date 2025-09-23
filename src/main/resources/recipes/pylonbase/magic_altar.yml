@@ -1,0 +1,109 @@
+pylonbase:shimmer_dust_3:
+  shape:
+    - "BRB"
+    - " D "
+    - "B B"
+  key:
+    B: pylonbase:covalent_binder
+    R: minecraft:redstone_block
+    D: pylonbase:shimmer_dust_2
+  result: pylonbase:shimmer_dust_3
+  time-seconds: 5
+
+pylonbase:shimmer_skull:
+  shape:
+    - " S "
+    - "SWS"
+    - " S "
+  key:
+    S: pylonbase:shimmer_dust_3
+    W: minecraft:wither_skeleton_skull
+  result: pylonbase:shimmer_skull
+  time-seconds: 30
+
+pylonbase:health_talisman_advanced:
+  shape:
+    - " SC"
+    - "SDS"
+    - "BS "
+  key:
+    S: pylonbase:health_talisman_simple
+    D: pylonbase:diamond_dust
+    C: pylonbase:carbon
+    B: pylonbase:bronze_dust
+  result: pylonbase:health_talisman_advanced
+  time-seconds: 35
+
+pylonbase:health_talisman_ultimate:
+  shape:
+    - "AAA"
+    - "ASA"
+    - " E "
+  key:
+    A: pylonbase:health_talisman_advanced
+    S: pylonbase:shimmer_skull
+    E: pylonbase:emerald_dust
+  result: pylonbase:health_talisman_ultimate
+  time-seconds: 90
+
+pylonbase:lumber_axe:
+  shape:
+    - "S G"
+    - " A "
+    - " D "
+  key:
+    S: pylonbase:shimmer_dust_2
+    G: pylonbase:gold_dust
+    A: minecraft:wooden_axe
+    D: pylonbase:diamond_dust
+  result: pylonbase:lumber_axe
+  time-seconds: 45
+
+pylonbase:beheading_sword:
+  shape:
+    - "K K"
+    - " S "
+    - " K "
+  key:
+    K: pylonbase:shimmer_skull
+    S: minecraft:diamond_sword
+  result: pylonbase:beheading_sword
+  time-seconds: 85
+
+pylonbase:fireproof_rune:
+  shape:
+    - "SLS"
+    - "FMB"
+    - "S S"
+  key:
+    S: pylonbase:shimmer_dust_3
+    L: minecraft:lava_bucket
+    F: minecraft:fire_charge
+    M: minecraft:magma_cream
+    B: minecraft:magma_block
+  result: pylonbase:fireproof_rune
+  time-seconds: 70
+
+pylonbase:vacuum_hopper_4:
+  shape:
+    - "IQS"
+    - " H "
+    - "SQI"
+  key:
+    I: pylonbase:igneous_composite
+    Q: minecraft:chiseled_quartz_block
+    S: pylonbase:shimmer_dust_3
+    H: minecraft:hopper
+  result: pylonbase:vacuum_hopper_4
+  time-seconds: 35
+
+pylonbase:hyper_activated_wither_skull:
+  shape:
+    - "D D"
+    - " S "
+    - "D D"
+  key:
+    D: pylonbase:shimmer_dust_2
+    S: pylonbase:reactivated_wither_skull
+  result: pylonbase:hyper_activated_wither_skull
+  time-seconds: 30
