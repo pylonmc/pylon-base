@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -36,15 +37,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static io.github.pylonmc.pylon.core.util.ItemUtils.isPylonSimilar;
-
 
 public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractableBlock {
 
     private static final Random random = new Random();
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
-            .getOrThrow("cycle-duration-ticks",Integer.class);
+            .getOrThrow("cycle-duration-ticks", ConfigAdapter.INT);
 
     @Getter private boolean recipeInProgress;
 
@@ -130,7 +129,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         return GrindstoneRecipe.RECIPE_TYPE.getRecipes()
                 .stream()
-                .filter(recipe -> isPylonSimilar(recipe.input(), input) && input.getAmount() >= recipe.input().getAmount())
+                .filter(recipe -> recipe.input().matches(input) && input.getAmount() >= recipe.input().getAmount())
                 .findFirst()
                 .orElse(null);
     }
@@ -170,13 +169,10 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
                 () -> {
-                    for (Map.Entry<ItemStack, Double> pair : nextRecipe.results().entrySet()) {
-                        if (random.nextDouble() < pair.getValue()) {
-                            getBlock().getWorld().dropItemNaturally(
-                                    getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), pair.getKey()
-                            );
-                        }
-                    }
+                    getBlock().getWorld().dropItemNaturally(
+                            getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
+                            nextRecipe.results().getRandom()
+                    );
 
                     new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this).callEvent();
 

@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -20,7 +21,7 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -41,7 +42,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -55,14 +55,13 @@ public class PortableFluidTank extends PylonBlock
         public static final NamespacedKey FLUID_TYPE_KEY = baseKey("fluid_type");
 
         @Getter
-        private final double capacity = getSettings().getOrThrow("capacity", Double.class);
+        private final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
 
         @Getter
-        @SuppressWarnings("unchecked")
-        private final List<FluidTemperature> allowedTemperatures
-                = ((List<String>) getSettings().getOrThrow("allowed-temperatures", List.class)).stream()
-                .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
-                .toList();
+        private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
+                "allowed-temperatures",
+                ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
+        );
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -77,7 +76,7 @@ public class PortableFluidTank extends PylonBlock
         }
 
         public void setFluid(@Nullable PylonFluid fluid) {
-            getStack().editPersistentDataContainer(pdc -> PdcUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluid));
+            getStack().editPersistentDataContainer(pdc -> PylonUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluid));
         }
 
         public void setAmount(double amount) {
@@ -110,13 +109,12 @@ public class PortableFluidTank extends PylonBlock
         }
     }
 
-    public final double capacity = getSettings().getOrThrow("capacity", Double.class);
+    public final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
 
-    @SuppressWarnings("unchecked")
-    public final List<FluidTemperature> allowedTemperatures
-            = ((List<String>) getSettings().getOrThrow("allowed-temperatures", List.class)).stream()
-            .map(s -> FluidTemperature.valueOf(s.toUpperCase(Locale.ROOT)))
-            .collect(Collectors.toList());
+    public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
+            "allowed-temperatures",
+            ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
+    );
 
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {

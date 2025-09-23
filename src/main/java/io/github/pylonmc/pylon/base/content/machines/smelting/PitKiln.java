@@ -11,10 +11,12 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.Waila;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
@@ -39,17 +41,17 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class PitKiln extends PylonBlock implements
         PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
 
-    public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", Integer.class);
+    public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
-            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", Integer.class);
+            Settings.get(BaseKeys.PIT_KILN).getOrThrow("processing-time-seconds", ConfigAdapter.INT);
 
-    private static final double MULTIPLIER_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.campfire", Double.class);
-    private static final double MULTIPLIER_SOUL_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-campfire", Double.class);
-    private static final double MULTIPLIER_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.fire", Double.class);
-    private static final double MULTIPLIER_SOUL_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-fire", Double.class);
+    private static final double MULTIPLIER_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.campfire", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_SOUL_CAMPFIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-campfire", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.fire", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_SOUL_FIRE = Settings.get(BaseKeys.PIT_KILN).getOrThrow("speed-multipliers.soul-fire", ConfigAdapter.DOUBLE);
 
-    private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", Double.class);
-    private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", Double.class);
+    private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", ConfigAdapter.DOUBLE);
+    private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", ConfigAdapter.DOUBLE);
 
     public static final class Item extends PylonItem {
 
@@ -73,19 +75,19 @@ public final class PitKiln extends PylonBlock implements
     }
 
     private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
-    private static final PersistentDataType<?, Map<ItemStack, Integer>> CONTENTS_TYPE =
-            PylonSerializers.MAP.mapTypeFrom(PylonSerializers.ITEM_STACK, PylonSerializers.INTEGER);
+    private static final PersistentDataType<?, Set<ItemStack>> CONTENTS_TYPE =
+            PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK);
     private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
     private static final NamespacedKey PROCESSING_TIME_KEY = baseKey("processing_time");
 
-    private final Map<ItemStack, Integer> contents;
+    private final Set<ItemStack> contents;
     private final Set<ItemStack> processing;
     private @Nullable Double processingTime;
 
     @SuppressWarnings("unused")
     public PitKiln(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        contents = new HashMap<>();
+        contents = new HashSet<>();
         processing = new HashSet<>();
         processingTime = null;
     }
@@ -102,17 +104,13 @@ public final class PitKiln extends PylonBlock implements
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
         pdc.set(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK), processing);
-        PdcUtils.setNullable(pdc, PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
+        PylonUtils.setNullable(pdc, PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
     }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         drops.clear(); // Don't drop the block itself
-        for (Map.Entry<ItemStack, Integer> entry : contents.entrySet()) {
-            ItemStack item = entry.getKey();
-            item.setAmount(entry.getValue());
-            drops.add(item);
-        }
+        drops.addAll(contents);
     }
 
     @Override
@@ -133,14 +131,19 @@ public final class PitKiln extends PylonBlock implements
         player.swingHand(event.getHand());
 
         int currentAmount = 0;
-        for (int amount : contents.values()) {
-            currentAmount += amount;
+        for (ItemStack contentItem : contents) {
+            currentAmount += contentItem.getAmount();
         }
-        int taken = Math.min(CAPACITY - currentAmount, item.getAmount());
-        if (taken <= 0) return;
+        if (currentAmount >= CAPACITY) return;
 
-        contents.merge(item.asOne(), taken, Integer::sum);
-        item.subtract(taken);
+        item.subtract();
+        for (ItemStack contentItem : contents) {
+            if (contentItem.isSimilar(item)) {
+                contentItem.add();
+                return;
+            }
+        }
+        contents.add(item.asOne());
     }
 
     @Override
@@ -171,12 +174,16 @@ public final class PitKiln extends PylonBlock implements
             };
             topBlock.setType(Material.COARSE_DIRT);
         }
+        outputLoop:
         for (ItemStack outputItem : processing) {
-            contents.merge(
-                    outputItem.asOne(),
-                    (int) Math.floor(outputItem.getAmount() * multiplier),
-                    Integer::sum
-            );
+            int addAmount = (int) Math.floor(outputItem.getAmount() * multiplier);
+            for (ItemStack contentItem : contents) {
+                if (contentItem.isSimilar(outputItem)) {
+                    contentItem.add(addAmount);
+                    continue outputLoop;
+                }
+            }
+            contents.add(outputItem.asQuantity(addAmount));
         }
         processing.clear();
         for (Vector3i coal : COAL_POSITIONS) {
@@ -223,12 +230,15 @@ public final class PitKiln extends PylonBlock implements
         recipeLoop:
         for (PitKilnRecipe recipe : PitKilnRecipe.RECIPE_TYPE) {
             int ratio = Integer.MAX_VALUE;
-            for (ItemStack inputItem : recipe.input()) {
-                if (!contents.containsKey(inputItem)) {
-                    continue recipeLoop;
+            for (RecipeInput.Item input : recipe.input()) {
+                int existing = 0;
+                for (ItemStack contentItem : contents) {
+                    if (input.contains(contentItem)) {
+                        existing = contentItem.getAmount();
+                        break;
+                    }
                 }
-                int existing = contents.get(inputItem.asOne());
-                int required = inputItem.getAmount();
+                int required = input.getAmount();
                 if (existing < required) {
                     continue recipeLoop;
                 }
@@ -236,8 +246,14 @@ public final class PitKiln extends PylonBlock implements
             }
             if (ratio <= 0) continue;
 
-            for (ItemStack inputItem : recipe.input()) {
-                contents.merge(inputItem.asOne(), -inputItem.getAmount() * ratio, Integer::sum);
+            for (RecipeInput.Item input : recipe.input()) {
+                int removeAmount = input.getAmount() * ratio;
+                for (ItemStack contentItem : contents) {
+                    if (input.contains(contentItem)) {
+                        contentItem.subtract(removeAmount);
+                        break;
+                    }
+                }
             }
             Set<ItemStack> outputItems = new HashSet<>(recipe.output().size());
             for (ItemStack outputItem : recipe.output()) {
@@ -253,7 +269,7 @@ public final class PitKiln extends PylonBlock implements
                 case SOUL_FIRE -> MULTIPLIER_SOUL_FIRE;
                 default -> throw new AssertionError();
             };
-            processingTime = PROCESSING_TIME_SECONDS * multiplier;
+            processingTime = PROCESSING_TIME_SECONDS / multiplier;
             break;
         }
     }

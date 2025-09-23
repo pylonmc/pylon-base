@@ -27,6 +27,13 @@ public class BaseResearches {
         ).register();
 
         new Research(
+                baseKey("climbing_equipment"),
+                Material.IRON_HOE,
+                2L,
+                BaseKeys.CLIMBING_PICK
+        ).register();
+
+        new Research(
                 baseKey("food_preservation"),
                 Material.ROTTEN_FLESH,
                 3L,
@@ -96,9 +103,26 @@ public class BaseResearches {
                 BaseKeys.AXLE,
                 BaseKeys.SAWBLADE,
                 BaseKeys.WEIGHTED_SHAFT,
-                BaseKeys.COPPER_DRILL_BIT,
                 BaseKeys.BRONZE_DRILL_BIT,
-                BaseKeys.HYDRAULIC_MOTOR
+                BaseKeys.HYDRAULIC_MOTOR,
+                BaseKeys.HYDRAULIC_CANNON_CHAMBER
+        ).register();
+
+        new Research(
+                baseKey("vacuum_hoppers"),
+                Material.HOPPER,
+                8L,
+                BaseKeys.VACUUM_HOPPER_1,
+                BaseKeys.VACUUM_HOPPER_2
+        ).register();
+
+        new Research(
+                baseKey("hydraulic_combat"),
+                Material.IRON_HORSE_ARMOR,
+                8L,
+                BaseKeys.HYDRAULIC_REFUELING_STATION,
+                BaseKeys.HYDRAULIC_CANNON,
+                BaseKeys.TIN_PROJECTILE
         ).register();
 
         new Research(
@@ -138,7 +162,11 @@ public class BaseResearches {
                 BaseKeys.BRONZE_AXE,
                 BaseKeys.BRONZE_PICKAXE,
                 BaseKeys.BRONZE_SHOVEL,
-                BaseKeys.BRONZE_HOE
+                BaseKeys.BRONZE_HOE,
+                BaseKeys.BRONZE_BOOTS,
+                BaseKeys.BRONZE_LEGGINGS,
+                BaseKeys.BRONZE_CHESTPLATE,
+                BaseKeys.BRONZE_HELMET
         ).register();
 
         new Research(
@@ -250,6 +278,14 @@ public class BaseResearches {
         ).register();
 
         new Research(
+                baseKey("advanced_vacuum_hoppers"),
+                Material.HOPPER,
+                18L,
+                BaseKeys.VACUUM_HOPPER_3,
+                BaseKeys.VACUUM_HOPPER_4
+        ).register();
+
+        new Research(
                 baseKey("portable_workstations"),
                 Material.CRAFTING_TABLE,
                 20L,
@@ -285,7 +321,9 @@ public class BaseResearches {
                 BaseKeys.HYDRAULIC_PRESS_PISTON,
                 BaseKeys.HYDRAULIC_HAMMER_HEAD,
                 BaseKeys.HYDRAULIC_PIPE_BENDER,
-                BaseKeys.HYDRAULIC_TABLE_SAW
+                BaseKeys.HYDRAULIC_TABLE_SAW,
+                BaseKeys.HYDRAULIC_EXCAVATOR,
+                BaseKeys.HYDRAULIC_FARMER
         ).register();
 
         new Research(
@@ -426,6 +464,14 @@ public class BaseResearches {
                 BaseKeys.COBALT_BLOCK,
                 BaseKeys.COBALT_INGOT,
                 BaseKeys.COBALT_NUGGET
+        ).register();
+
+        new Research(
+                baseKey("reactivated_skulls"),
+                Material.WITHER_SKELETON_SKULL,
+                15L,
+                BaseKeys.REACTIVATED_WITHER_SKULL,
+                BaseKeys.HYPER_ACTIVATED_WITHER_SKULL
         ).register();
     }
 }

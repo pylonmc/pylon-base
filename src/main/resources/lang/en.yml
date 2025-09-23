@@ -37,6 +37,15 @@ item:
       <arrow> Instantly turns a zombie villager back into a normal villager
       <arrow> Also heals it to full health
 
+  climbing_pick:
+    name: "Climbing Pick"
+    lore: |-
+      <arrow> <insn>Right click</insn> on a block to hold onto it
+      <arrow> <insn>Double-jump</insn> afterwards to push off the pick
+      <arrow> <insn>Sneak</insn> to release the pick
+      <arrow> <attr>Jump speed:</attr> %jump-speed%
+      <arrow> <attr>Hook range:</attr> %hook-range%
+
   coal_dust:
     name: "Coal Dust"
 
@@ -434,22 +443,16 @@ item:
     name: "Grindstone Handle"
     lore: "<star> Grindstone multiblock component"
 
-  hammer_bronze:
-    name: "Bronze Hammer"
-    lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>bronze block</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
-
   hammer_diamond:
     name: "Diamond Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>diamond block</white> to use the hammer on it
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
   hammer_iron:
     name: "Iron Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>iron block</white> to use the hammer on it
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
   hammer_stone:
@@ -477,7 +480,7 @@ item:
       <arrow> Examining items with the loupe yields research points
       <arrow> The rarer the item, the more times it can be examined
       <arrow> <red>The examined item will be consumed</red>
-      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
+      <arrow> <insn>Hold right click</insn> on a block or dropped item to examine it
 
   lumber_axe:
     name: "Lumber Axe"
@@ -586,6 +589,23 @@ item:
 
   raw_tin:
     name: "Raw Tin"
+
+  reactivated_wither_skull:
+    name: "<white>Reactivated Wither Skull"
+    lore: |-
+      <arrow> <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
+    charged:
+      true: "charged"
+      false: "not charged"
+
+  hyper_activated_wither_skull:
+    name: "<white>Hyper Activated Wither Skull"
+    lore: |-
+      <arrow> <insn>Right click</insn> to shoot a wither skull in the direction you are looking
+      <arrow> Skulls are %chargedskulls%
+      <arrow> <attr>Skull speed:</attr> %skullspeed%
 
   recoil_arrow:
     name: "Recoil Arrow"
@@ -1171,6 +1191,82 @@ item:
       <arrow> <insn>Right click</insn> a block to mold it
       <arrow> <attr>Cooldown:</attr> %cooldown%
 
+  vacuum_hopper_1:
+    name: "Vacuum Hopper <yellow>I"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  vacuum_hopper_2:
+    name: "Vacuum Hopper <yellow>II"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  vacuum_hopper_3:
+    name: "Vacuum Hopper <yellow>III"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  vacuum_hopper_4:
+    name: "Vacuum Hopper <yellow>IV"
+    lore: |-
+      <arrow> Sucks in items in a radius
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Interval:</attr> %tick_interval%
+
+  hydraulic_cannon_chamber:
+    name: "Hydraulic Cannon Chamber"
+
+  hydraulic_cannon:
+    name: "Hydraulic Cannon"
+    lore: |-
+      <arrow> Uses hydraulic fluid to fire tin projectiles
+      <arrow> Refuel using the <white>Hydraulic Refueling Station
+      <arrow> <insn>Right click</insn> to fire
+      <arrow> <attr>Cooldown:</attr> %cooldown%
+      <arrow> <attr>Range:</attr> %range%
+      <arrow> <attr>Projectile speed:</attr> %speed%
+      <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
+      <arrow> <attr>Dirty hydraulic fluid per shot:</attr> %dirty-hydraulic-fluid-per-shot%
+      <arrow> <attr>Hydraulic fluid:</attr> %hydraulic-fluid%
+      <arrow> <attr>Dirty hydraulic fluid:</attr> %dirty-hydraulic-fluid%
+
+  tin_projectile:
+    name: "Tin Projectile"
+
+  hydraulic_refueling_station:
+    name: "Hydraulic Refueling Station"
+    lore: |-
+      <arrow> Refuels items with hydraulic fluid
+      <arrow> <insn>Right click</insn> to insert an item to refuel
+    waila: "Hydraulic Refueling Station %extra%"
+
+  hydraulic_farmer:
+    name: "Hydraulic Farmer"
+    lore: |-
+      <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Farm interval:</attr> %tick-interval%
+      <arrow> <attr>Hydraulic fluid per action:</attr> %hydraulic-fluid-per-action%
+      <arrow> <attr>Dirty hydraulic fluid per action:</attr> %dirty-hydraulic-fluid-per-action%
+
+  hydraulic_excavator:
+    name: "Hydraulic Excavator"
+    lore: |-
+      <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
+      <arrow> Cannot excavate harder blocks such as stone
+      <arrow> <insn>Right click</insn> to start digging
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Depth:</attr> %depth%
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1241,7 +1337,7 @@ research:
   pressing: "<#dbe047>Pressing"
   bronze_equipment: "<#bc7f4d>Bronze equipment"
   fireproofing: "<#ad2e2e>Fireproofing"
-  hydraulic_automation: "<#446be2>Hydraulic purification"
+  hydraulic_automation: "<#446be2>Hydraulic automation"
   hydraulic_purification: "<#2e7df4>Hydraulic purification"
   large_scale_hydraulic_purification: "<#77a9f4>Large scale hydraulic purification"
   hydraulic_drilling: "<#96d4e0>Hydraulic drilling"
@@ -1258,6 +1354,10 @@ research:
   fluid_storage: "<#88ccbb>Fluid storage"
   simple_components: "<#c1c1c1>Simple components"
   straining: "<#c99fa1>Straining"
+  climbing_equipment: "<#a6b579>Climbing equipment"
+  vacuum_hoppers: "<#54536d>Vacuum hoppers"
+  advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
+  reactivated_skulls: "<#000000>Reactivated wither skulls"
 
 guide:
   page:
@@ -1293,12 +1393,13 @@ message:
     clear: "<white>Clear"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
-  gained_research_points: "<green>+%points% research points"
+  gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
     already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
     examined: "<green>As you examine the %item%, you get a sudden flash of insight"
+    is_other_plugin: "<red>You smug little knave, use vanilla items not plugin ones"
   research_pack:
     message: "As you open the research pack, %happening%"
     happening:
@@ -1335,6 +1436,8 @@ message:
   fireproof_result:
     tooltip: "<red>Fireproof Powered"
     success: "<red>Your item has been powered by fireproof rune"
+  hydraulic_refueling_station:
+    extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
 
 gui:
   fluid-selector-title: "Select Fluid"
@@ -1363,3 +1466,8 @@ gui:
     too_cold: "<red>Temperature too low to cast, needs at least %temperature%"
     not_enough: "<red>Not enough %fluid% to cast (%amount%/%needed%)"
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
+  fluid_amount_bar:
+    text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
+    color:
+      hydraulic_fluid: "<#212d99>|"
+      dirty_hydraulic_fluid: "<#48459b>|"

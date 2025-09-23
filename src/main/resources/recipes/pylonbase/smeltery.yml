@@ -1,0 +1,89 @@
+pylonbase:bronze:
+  inputs:
+    pylonbase:copper: 0.88
+    pylonbase:tin: 0.12
+  outputs:
+    pylonbase:bronze: 1
+  temperature: 950
+
+pylonbase:steel:
+  inputs:
+    pylonbase:iron: 0.96
+    pylonbase:slurry_carbon: 0.04
+  outputs:
+    pylonbase:steel: 1
+  temperature: 1540
+
+pylonbase:decarburization:
+  inputs:
+    pylonbase:steel: 1
+    pylonbase:water: 0.1
+  outputs:
+    pylonbase:iron: 1
+  temperature: 1540
+
+pylonbase:coal_to_carbon:
+  inputs:
+    pylonbase:slurry_coal: 1
+  outputs:
+    pylonbase:slurry_carbon: 0.9
+    pylonbase:slurry: 0.1
+  temperature: 1000
+
+pylonbase:copper_smelting:
+  inputs:
+    pylonbase:slurry_raw_copper: 1
+  outputs:
+    pylonbase:copper: 0.5
+    pylonbase:slurry: 0.5
+  temperature: 1085
+
+pylonbase:gold_smelting:
+  inputs:
+    pylonbase:slurry_raw_gold: 1
+    pylonbase:mercury: 1
+  outputs:
+    pylonbase:gold: 0.5
+    pylonbase:slurry: 0.4
+    pylonbase:slurry_raw_tin: 0.2
+    pylonbase:mercury: 0.9
+  temperature: 1064
+
+pylonbase:iron_smelting:
+  inputs:
+    pylonbase:slurry_raw_iron: 1
+    pylonbase:slurry_carbon: 0.5
+  outputs:
+    pylonbase:iron: 1
+    pylonbase:slurry: 0.5
+  temperature: 1540
+
+pylonbase:iron_smelting_with_sulfur:
+  inputs:
+    pylonbase:slurry_raw_iron: 1
+    pylonbase:slurry_carbon: 0.5
+    pylonbase:sulfur: 0.1
+  outputs:
+    pylonbase:iron: 1
+    pylonbase:slurry: 0.4
+    pylonbase:cobalt: 0.1
+    pylonbase:nickel: 0.1
+  temperature: 1540
+
+pylonbase:tin_smelting:
+  inputs:
+    pylonbase:slurry_raw_tin: 1
+    pylonbase:slurry_carbon: 0.5
+  outputs:
+    pylonbase:tin: 1
+    pylonbase:slurry: 0.5
+  temperature: 250
+
+pylonbase:redstone_decomposition:
+  inputs:
+    pylonbase:slurry_redstone: 1
+  outputs:
+    pylonbase:sulfur: 0.25
+    pylonbase:mercury: 0.25
+    pylonbase:slurry: 0.5
+  temperature: 345

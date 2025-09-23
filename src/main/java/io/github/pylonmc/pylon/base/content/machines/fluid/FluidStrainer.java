@@ -8,12 +8,13 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
@@ -33,13 +34,13 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class FluidStrainer extends PylonBlock
         implements PylonFluidBlock, PylonTickingBlock, PylonGuiBlock, PylonEntityHolderBlock {
 
-    public final double bufferSize = getSettings().getOrThrow("buffer-size", Double.class);
+    public final double bufferSize = getSettings().getOrThrow("buffer-size", ConfigAdapter.DOUBLE);
 
     private static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("current_recipe");
     private static final NamespacedKey BUFFER_KEY = baseKey("buffer");
     private static final NamespacedKey PASSED_FLUID_KEY = baseKey("passed_fluid");
 
-    private int tickInterval = getSettings().get("tick-interval", Integer.class);
+    private final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     private @Nullable StrainingRecipe currentRecipe;
     private double buffer;
@@ -70,7 +71,7 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PdcUtils.setNullable(pdc, CURRENT_RECIPE_KEY, StrainingRecipe.DATA_TYPE, currentRecipe);
+        PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, StrainingRecipe.DATA_TYPE, currentRecipe);
         pdc.set(BUFFER_KEY, PylonSerializers.DOUBLE, buffer);
         pdc.set(PASSED_FLUID_KEY, PylonSerializers.DOUBLE, passedFluid);
     }
@@ -84,7 +85,7 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
-        if (StrainingRecipe.RECIPE_TYPE.getRecipes().stream().anyMatch(recipe -> fluid.equals(recipe.inputFluid()))) {
+        if (StrainingRecipe.RECIPE_TYPE.stream().anyMatch(recipe -> recipe.input().contains(fluid))) {
             return bufferSize - buffer;
         } else {
             return 0.0;
@@ -93,11 +94,11 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        if (!fluid.equals(currentRecipe == null ? null : currentRecipe.inputFluid())) {
+        if (currentRecipe == null || !currentRecipe.input().contains(fluid)) {
             passedFluid = 0;
             currentRecipe = null;
             for (StrainingRecipe recipe : StrainingRecipe.RECIPE_TYPE) {
-                if (recipe.inputFluid().equals(fluid)) {
+                if (recipe.input().contains(fluid)) {
                     currentRecipe = recipe;
                     break;
                 }
@@ -129,6 +130,12 @@ public class FluidStrainer extends PylonBlock
         ));
     }
 
+    @Override
+    @NotNull
+    public Component getGuiTitle() {
+        return getDefaultTranslationKey();
+    }
+
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);
 
     @Override
@@ -145,9 +152,9 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (currentRecipe != null && passedFluid >= currentRecipe.fluidAmount()) {
+        if (currentRecipe != null && passedFluid >= currentRecipe.input().amountMillibuckets()) {
             inventory.addItem(null, currentRecipe.outputItem().clone());
-            passedFluid -= currentRecipe.fluidAmount();
+            passedFluid -= currentRecipe.input().amountMillibuckets();
         }
         if (passedFluid < 1e-9) {
             currentRecipe = null;

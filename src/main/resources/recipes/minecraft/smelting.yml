@@ -1,0 +1,17 @@
+pylonbase:bread_from_dough_furnace:
+  ingredient: pylonbase:dough
+  result: minecraft:bread
+  experience: 0.2
+  category: food
+
+pylonbase:monster_jerky_furnace:
+  ingredient: minecraft:rotten_flesh
+  result: pylonbase:monster_jerky
+  experience: 0.15
+  category: food
+
+pylonbase:tin_ingot_furnace:
+  ingredient: pylonbase:raw_tin
+  result: pylonbase:tin_ingot
+  experience: 0.5
+  category: misc

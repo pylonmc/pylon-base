@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -40,9 +41,9 @@ public class HydraulicPressPiston extends PylonBlock
         implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON);
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", Integer.class);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", Integer.class);
+    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -103,7 +104,7 @@ public class HydraulicPressPiston extends PylonBlock
         Preconditions.checkState(press != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
-                || fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
                 || !press.tryStartRecipe(null)
         ) {
             return;
@@ -118,7 +119,7 @@ public class HydraulicPressPiston extends PylonBlock
         );
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
-                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(-0.3)),
+                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
     }
