@@ -52,10 +52,6 @@ import java.util.List;
  * @see HotLavaSponge
  */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, PylonTickingBlock {
-    public PowerfulSponge(@NotNull Block block) {
-        super(block);
-    }
-
     public PowerfulSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }

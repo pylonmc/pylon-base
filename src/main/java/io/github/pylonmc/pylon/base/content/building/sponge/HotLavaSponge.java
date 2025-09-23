@@ -42,10 +42,6 @@ public class HotLavaSponge extends PowerfulSponge {
     private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", Double.class);
     private final Location particleDisplayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
 
-    public HotLavaSponge(@NotNull Block block) {
-        super(block);
-    }
-
     public HotLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }

@@ -24,10 +24,6 @@ import org.jetbrains.annotations.NotNull;
  * @see PowerfulWaterSponge
  */
 public class WetWaterSponge extends PylonBlock {
-    protected WetWaterSponge(@NotNull Block block) {
-        super(block);
-    }
-
     public WetWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 

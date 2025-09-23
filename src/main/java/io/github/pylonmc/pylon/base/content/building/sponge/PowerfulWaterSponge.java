@@ -32,10 +32,6 @@ public class PowerfulWaterSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_WATER_SPONGE);
     private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
 
-    public PowerfulWaterSponge(@NotNull Block block) {
-        super(block);
-    }
-
     public PowerfulWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }

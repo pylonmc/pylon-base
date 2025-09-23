@@ -24,10 +24,6 @@ public class PowerfulLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_LAVA_SPONGE);
     private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
 
-    public PowerfulLavaSponge(@NotNull Block block) {
-        super(block);
-    }
-
     public PowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
