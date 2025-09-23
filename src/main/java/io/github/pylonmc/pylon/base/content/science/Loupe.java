@@ -13,29 +13,36 @@ import io.github.pylonmc.pylon.core.item.base.PylonConsumable;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.item.research.Research;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.registry.keys.SoundEventKeys;
 import lombok.Getter;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Effect;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockType;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -60,6 +67,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         }
     }
 
+    private static final Map<UUID, RayTraceResult> scanning = new HashMap<>();
+
     public Loupe(@NotNull ItemStack stack) {
         super(stack);
     }
@@ -67,114 +76,128 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
-
-        var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
-
-        // get scanned block
-        Block toScan = player.getTargetBlockExact(5, FluidCollisionMode.SOURCE_ONLY);
-
-        // nothing found or scanning air
-        if (toScan == null || toScan.getType().isAir()) {
-            player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.nothing"));
-            event.setCancelled(true);
+        if (player.hasCooldown(getStack())) {
             return;
         }
 
-        // scan for entities first and process the first one found only
-        var entityItemType = hasValidItem(toScan, items);
-        if (entityItemType != null) {
-            ItemStack stack = entityItemType.getItemStack();
+        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0, hit -> hit != player);
+        if (scan == null) {
+            return;
+        }
+
+        RayTraceResult initialScan = scanning.get(player.getUniqueId());
+        if (initialScan != null && Objects.equals(scan.getHitBlock(), initialScan.getHitBlock()) && Objects.equals(scan.getHitEntity(), initialScan.getHitEntity())) {
+            return;
+        }
+
+        if (scan.getHitEntity() instanceof Item hit) {
+            ItemStack stack = hit.getItemStack();
             if (PylonItem.fromStack(stack) != null) {
-                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
-                event.setCancelled(true);
-                return;
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
+            } else if (!stack.getPersistentDataContainer().isEmpty()) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.is_other_plugin"));
+            } else if (!canExamine(stack.getType(), player)) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.already_examined"));
+            } else {
+                player.playSound(Sound.sound(SoundEventKeys.BLOCK_BELL_RESONATE, Sound.Source.PLAYER, 1f, 0.7f));
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.examining")
+                        .arguments(PylonArgument.of("item", stack.effectiveName())));
+                scanning.put(player.getUniqueId(), scan);
             }
-
-            if (!stack.getPersistentDataContainer().isEmpty()) {
-                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_other_plugin"));
-                event.setCancelled(true);
-                return;
+        } else if (scan.getHitEntity() instanceof LivingEntity entity) {
+            // todo: scanning entities, allow scanning players?
+        } else if (scan.getHitBlock() != null) {
+            Block hit = scan.getHitBlock();
+            Material type = hit.getType();
+            if (BlockStorage.get(hit) != null) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
+            } else if (type.getHardness() < 0f) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.is_unbreakable"));
+            } else if (!canExamine(type, player)) {
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.already_examined"));
+            } else {
+                player.playSound(Sound.sound(SoundEventKeys.BLOCK_BELL_RESONATE, Sound.Source.PLAYER, 1f, 0.7f));
+                player.sendActionBar(Component.translatable("pylon.pylonbase.message.loupe.examining")
+                        .arguments(PylonArgument.of("item", Component.translatable(type))));
+                scanning.put(player.getUniqueId(), scan);
             }
-
-            boolean invalid = processMaterial(stack.getType(), player);
-            event.setCancelled(invalid);
-            return;
         }
-
-        // process block aimed at
-        if (BlockStorage.get(toScan) != null) {
-            player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.is_pylon"));
-            event.setCancelled(true);
-            return;
-        }
-
-        Material blockType = toScan.getType();
-        event.setCancelled(processMaterial(blockType, player));
-    }
-
-    private static boolean processMaterial(Material type, Player player) {
-        var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
-        ItemRarity rarity = type.getDefaultData(DataComponentTypes.RARITY);
-        int maxUses = itemConfigs.get(rarity).uses;
-
-        if (items.getOrDefault(type, 0) >= maxUses) {
-            player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.already_examined"));
-            return true;
-        }
-
-        return false;
     }
 
     @Override
     public void onConsumed(@NotNull PlayerItemConsumeEvent event) {
         event.setCancelled(true);
+
         Player player = event.getPlayer();
-
-        var items = new HashMap<>(player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of()));
-
-        Block toScan = player.getTargetBlockExact(5, FluidCollisionMode.SOURCE_ONLY);
-
-        if (toScan == null || toScan.getType().isAir()) return;
-
-        // scan for entities first and process the first one found only
-        org.bukkit.entity.Item entityItem = hasValidItem(toScan, items);
-        if (entityItem != null) {
-            ItemStack stack = entityItem.getItemStack();
-            if(addPoints(stack.getType(), stack.effectiveName(), player)) return;
-
-            if (stack.getAmount() == 1) {
-                entityItem.remove();
-            } else {
-                stack.setAmount(stack.getAmount() - 1);
-                entityItem.setItemStack(stack);
-            }
-
+        RayTraceResult initialScan = scanning.remove(player.getUniqueId());
+        if (initialScan == null) {
             return;
         }
 
-        // process block aimed at
-        Material blockType = toScan.getType();
-        BlockType bt = blockType.asBlockType();
-        if (bt == null) return; // shouldn't happen
+        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0, hit -> hit != player);
+        if (scan == null || !Objects.equals(scan.getHitBlock(), initialScan.getHitBlock()) || !Objects.equals(scan.getHitEntity(), initialScan.getHitEntity())) {
+            return;
+        }
 
-        if (addPoints(blockType, Component.translatable(bt.translationKey()), player)) return;
-        if (blockType.getHardness() > 0f) { // filter out unbreakable blocks
-            toScan.setType(Material.AIR);
-            new BlockBreakEvent(toScan, player).callEvent();
+        if (scan.getHitEntity() instanceof Item hit) {
+            ItemStack stack = hit.getItemStack();
+            if (PylonItem.fromStack(stack) != null || !stack.getPersistentDataContainer().isEmpty() || !canExamine(stack.getType(), player)) {
+                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.examine_failed")
+                        .arguments(PylonArgument.of("item", stack.effectiveName())));
+                return;
+            }
+
+            PlayerAttemptPickupItemEvent pickupEvent = new PlayerAttemptPickupItemEvent(player, hit, stack.getAmount() - 1);
+            if (!pickupEvent.callEvent()) {
+                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.examine_failed")
+                        .arguments(PylonArgument.of("item", stack.effectiveName())));
+                return;
+            }
+
+            if (stack.getAmount() == 1) {
+                hit.remove();
+            } else {
+                stack.subtract();
+                hit.setItemStack(stack);
+            }
+            addPoints(stack.getType(), stack.effectiveName(), player);
+            player.setCooldown(getStack(), 60);
+        } else if (scan.getHitEntity() instanceof LivingEntity entity) {
+            // todo: scanning entities, allow scanning players?
+        } else if (scan.getHitBlock() != null) {
+            Block hit = scan.getHitBlock();
+            Material type = hit.getType();
+            if (type.getHardness() < 0f || BlockStorage.get(hit) != null || !canExamine(type, player)) {
+                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.examine_failed")
+                        .arguments(PylonArgument.of("item", Component.translatable(type))));
+                return;
+            }
+
+            BlockBreakEvent breakEvent = new BlockBreakEvent(hit, player);
+            breakEvent.setDropItems(false);
+            breakEvent.setExpToDrop(0);
+            if (!breakEvent.callEvent()) {
+                player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.examine_failed")
+                        .arguments(PylonArgument.of("item", Component.translatable(type))));
+                return;
+            }
+
+            hit.getWorld().playEffect(hit.getLocation(), Effect.STEP_SOUND, hit.getBlockData());
+            hit.setType(Material.AIR, true);
+            addPoints(type, Component.translatable(type), player);
+            player.setCooldown(getStack(), 60);
         }
     }
 
-    private static boolean addPoints(Material type, Component name, Player player) {
-        var items = new HashMap<>(player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of()));
+    private static void addPoints(Material type, Component name, Player player) {
         ItemConfig config = itemConfigs.get(type.getDefaultData(DataComponentTypes.RARITY));
+        var items = new HashMap<>(player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of()));
 
-        int currentUses = items.getOrDefault(type, 0);
-        if (currentUses >= config.uses) return true; // This should never happen
-
-        items.put(type, currentUses + 1);
+        items.put(type, items.getOrDefault(type, 0) + 1);
         player.getPersistentDataContainer().set(CONSUMED_KEY, CONSUMED_TYPE, items);
-        long points = Research.getResearchPoints(player);
-        Research.setResearchPoints(player, points + config.points);
+
+        long points = Research.getResearchPoints(player) + config.points;
+        Research.setResearchPoints(player, points);
 
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.loupe.examined",
@@ -183,25 +206,15 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.gained_research_points",
                 PylonArgument.of("points", config.points),
-                PylonArgument.of("total", Research.getResearchPoints(player))
+                PylonArgument.of("total", points)
         ));
-        return false;
     }
 
-    private static org.bukkit.entity.Item hasValidItem(Block toScan, Map<Material, Integer> items) {
-        Collection<org.bukkit.entity.Item> entityItems = toScan.getLocation().getNearbyEntitiesByType(org.bukkit.entity.Item.class, 1.2);
-        for (var item : entityItems) {
-            ItemStack stack = item.getItemStack();
-            ItemRarity rarity = stack.getType().getDefaultData(DataComponentTypes.RARITY);
-            int maxUses = itemConfigs.get(rarity).uses;
-
-            // found valid item that hasn't been scanned yet
-            if (items.getOrDefault(stack.getType(), 0) < maxUses) {
-                return item;
-            }
-        }
-
-        return null;
+    private static boolean canExamine(Material type, Player player) {
+        var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
+        ItemRarity rarity = type.getDefaultData(DataComponentTypes.RARITY);
+        int maxUses = itemConfigs.get(rarity).uses;
+        return items.getOrDefault(type, 0) < maxUses;
     }
 
     public record ItemConfig(int uses, int points) {

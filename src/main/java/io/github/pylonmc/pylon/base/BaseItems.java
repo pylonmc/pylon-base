@@ -37,6 +37,7 @@ import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.util.TriState;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -1301,14 +1302,12 @@ public final class BaseItems {
 
     public static final ItemStack LOUPE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.LOUPE)
             .set(DataComponentTypes.ITEM_MODEL, Material.GLASS_PANE.getKey())
-            .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
                     .consumeSeconds(3)
-                    .sound(Registry.SOUNDS.getKey(Sound.BLOCK_AMETHYST_CLUSTER_HIT))
+                    .sound(Key.key("silence"))
             )
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(1)
-                    .cooldownGroup(BaseKeys.LOUPE.key()))
             .build();
     static {
         PylonItem.register(Loupe.class, LOUPE);
