@@ -57,17 +57,16 @@ public record FireproofRuneRecipe(
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
-                        "# # # # b # # # #",
-                        "# # # # # g # # #",
-                        "# i g g g g g r #",
-                        "# # # # # g # # #",
+                        "# # # # # # # # #",
+                        "# # # # # # # # #",
+                        "# # # i f o # # #",
+                        "# # # # # # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('b', ItemButton.fromStack(BaseItems.FIREPROOF_RUNE))
-                .addIngredient('g', ItemButton.fromStack(new ItemStack(Material.GREEN_STAINED_GLASS_PANE)))
+                .addIngredient('f', ItemButton.fromStack(BaseItems.FIREPROOF_RUNE))
                 .addIngredient('i', ItemButton.fromStack(input))
-                .addIngredient('r', ItemButton.fromStack(result))
+                .addIngredient('o', ItemButton.fromStack(result))
                 .build();
     }
 

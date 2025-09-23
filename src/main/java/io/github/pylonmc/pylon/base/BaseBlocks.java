@@ -106,7 +106,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
         PylonBlock.register(BaseKeys.POWERFUL_WATER_SPONGE, Material.SPONGE, PowerfulWaterSponge.class);
         PylonBlock.register(BaseKeys.POWERFUL_LAVA_SPONGE, Material.SPONGE, PowerfulLavaSponge.class);
-        PylonBlock.register(BaseKeys.WET_WATER_SPONGE, Material.WET_SPONGE, WetWaterSponge.class);
-        PylonBlock.register(BaseKeys.HOT_LAVA_SPONGE, Material.SPONGE, HotLavaSponge.class);
+        PylonBlock.register(BaseKeys.WET_POWERFUL_WATER_SPONGE, Material.WET_SPONGE, WetWaterSponge.class);
+        PylonBlock.register(BaseKeys.HOT_POWERFUL_LAVA_SPONGE, Material.SPONGE, HotLavaSponge.class);
     }
 }

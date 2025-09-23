@@ -1,10 +1,8 @@
 package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -39,7 +37,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see PowerfulLavaSponge
  */
 public class HotLavaSponge extends PowerfulSponge {
-    private static final Config settings = Settings.get(BaseKeys.HOT_LAVA_SPONGE);
+    private static final Config settings = Settings.get(BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
     private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
     private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", Double.class);
     private final Location particleDisplayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);

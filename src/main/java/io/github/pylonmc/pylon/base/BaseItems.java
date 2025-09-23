@@ -39,7 +39,6 @@ import io.papermc.paper.datacomponent.item.PotionContents;
 import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
-import io.papermc.paper.registry.keys.DamageTypeKeys;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
@@ -52,8 +51,6 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.recipe.CookingBookCategory;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
@@ -3365,21 +3362,21 @@ public final class BaseItems {
     }
 
     // For trigger SpongeAbsorbEvent, sponges' material must be SPONGE
-    public static final ItemStack WET_WATER_SPONGE
-            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_WATER_SPONGE) // A used sponge shouldn't trigger event
+    public static final ItemStack WET_POWERFUL_WATER_SPONGE
+            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_POWERFUL_WATER_SPONGE) // A used sponge shouldn't trigger event
             .build();
     static {
-        PylonItem.register(PylonItem.class, WET_WATER_SPONGE, BaseKeys.WET_WATER_SPONGE);
-        BasePages.COMPONENTS.addItem(BaseKeys.WET_WATER_SPONGE);
+        PylonItem.register(PylonItem.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_POWERFUL_WATER_SPONGE);
+        BasePages.COMPONENTS.addItem(BaseKeys.WET_POWERFUL_WATER_SPONGE);
     }
 
-    public static final ItemStack HOT_LAVA_SPONGE
-            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_LAVA_SPONGE)
+    public static final ItemStack HOT_POWERFUL_LAVA_SPONGE
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_POWERFUL_LAVA_SPONGE)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(HotLavaSponge.Item.class, HOT_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
-        BasePages.BUILDING.addItem(BaseKeys.HOT_LAVA_SPONGE);
+        PylonItem.register(HotLavaSponge.Item.class, HOT_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
+        BasePages.BUILDING.addItem(BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
     }
 
     public static final ItemStack POWERFUL_WATER_SPONGE
@@ -3402,7 +3399,7 @@ public final class BaseItems {
         BlastingRecipe blastingRecipe = new BlastingRecipe(
                 BaseKeys.POWERFUL_WATER_SPONGE_BLASTING,
                 POWERFUL_WATER_SPONGE,
-                new RecipeChoice.ExactChoice(WET_WATER_SPONGE),
+                new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
                 1.5f,
                 100
         );

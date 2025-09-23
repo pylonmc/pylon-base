@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -104,7 +103,7 @@ public class PowerfulWaterSponge extends PowerfulSponge {
      */
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
-        BlockStorage.placeBlock(sponge, BaseKeys.WET_WATER_SPONGE);
+        BlockStorage.placeBlock(sponge, BaseKeys.WET_POWERFUL_WATER_SPONGE);
     }
 
     /**

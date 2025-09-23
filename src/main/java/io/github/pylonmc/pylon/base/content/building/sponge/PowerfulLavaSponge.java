@@ -89,7 +89,7 @@ public class PowerfulLavaSponge extends PowerfulSponge {
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
-        BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
+        BlockStorage.placeBlock(sponge, BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
     }
 
     public void tick(double deltaSeconds) {
