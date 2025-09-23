@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.science;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -21,6 +22,7 @@ import org.bukkit.Effect;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.Registry;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
@@ -154,6 +156,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
                 return;
             }
 
+            new ParticleBuilder(Particle.ITEM).data(stack).extra(0.05).count(16).location(hit.getLocation().add(0, hit.getHeight() / 2, 0)).spawn();
+            hit.getWorld().playSound(Sound.sound(SoundEventKeys.ENTITY_ITEM_BREAK, Sound.Source.PLAYER, 0.5f, 1f), hit.getX(), hit.getY(), hit.getZ());
             if (stack.getAmount() == 1) {
                 hit.remove();
             } else {
