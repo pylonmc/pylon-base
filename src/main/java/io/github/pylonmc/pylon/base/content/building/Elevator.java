@@ -41,7 +41,6 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         }
     }
 
-
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
