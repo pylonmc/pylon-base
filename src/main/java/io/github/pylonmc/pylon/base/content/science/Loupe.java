@@ -82,7 +82,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
             return;
         }
 
-        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0.25, hit -> hit != player);
+        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5,
+                player.isUnderWater() ? FluidCollisionMode.NEVER : FluidCollisionMode.SOURCE_ONLY, false, 0.25, hit -> hit != player);
         if (scan == null) {
             return;
         }
@@ -136,7 +137,8 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
             return;
         }
 
-        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0.25, hit -> hit != player);
+        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5,
+                player.isUnderWater() ? FluidCollisionMode.NEVER : FluidCollisionMode.SOURCE_ONLY, false, 0.25, hit -> hit != player);
         if (scan == null || !Objects.equals(scan.getHitBlock(), initialScan.getHitBlock()) || !Objects.equals(scan.getHitEntity(), initialScan.getHitEntity())) {
             return;
         }
