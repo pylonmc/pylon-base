@@ -97,19 +97,4 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     public void onJump(@NotNull PlayerJumpEvent event) {
         teleportPlayer(event.getPlayer(), getBlock().getLocation(), false);
     }
-
-    public static class Item extends PylonItem {
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
-                    "elevator_range",
-                    UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", Integer.class))
-            ));
-        }
-    }
 }
