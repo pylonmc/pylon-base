@@ -194,7 +194,7 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
     }
 
     private static void addPoints(Material type, Component name, Player player) {
-        ItemConfig config = itemConfigs.get(type.getDefaultData(DataComponentTypes.RARITY));
+        ItemConfig config = itemConfigs.get(type.isItem() ? type.getDefaultData(DataComponentTypes.RARITY) : ItemRarity.COMMON);
         var items = new HashMap<>(player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of()));
 
         items.put(type, items.getOrDefault(type, 0) + 1);
