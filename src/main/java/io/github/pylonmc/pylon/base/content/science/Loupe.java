@@ -82,7 +82,7 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
             return;
         }
 
-        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0, hit -> hit != player);
+        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0.25, hit -> hit != player);
         if (scan == null) {
             return;
         }
@@ -136,7 +136,7 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
             return;
         }
 
-        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0, hit -> hit != player);
+        RayTraceResult scan = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.SOURCE_ONLY, false, 0.25, hit -> hit != player);
         if (scan == null || !Objects.equals(scan.getHitBlock(), initialScan.getHitBlock()) || !Objects.equals(scan.getHitEntity(), initialScan.getHitEntity())) {
             return;
         }
@@ -216,7 +216,7 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
 
     private static boolean canExamine(Material type, Player player) {
         var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
-        ItemRarity rarity = type.getDefaultData(DataComponentTypes.RARITY);
+        ItemRarity rarity = type.isItem() ? type.getDefaultData(DataComponentTypes.RARITY) : ItemRarity.COMMON;
         int maxUses = itemConfigs.get(rarity).uses;
         return items.getOrDefault(type, 0) < maxUses;
     }
