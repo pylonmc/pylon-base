@@ -13,7 +13,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * WetWaterSponge is the result of a {@link PowerfulWaterSponge} absorbing water.
+ * WetPowerfulWaterSponge is the result of a {@link PowerfulWaterSponge} absorbing water.
  * <p>
  * This sponge is "used" and does not have any special abilities.
  * It represents the end state of a PowerfulWaterSponge after it has absorbed water.
@@ -23,8 +23,8 @@ import org.jetbrains.annotations.NotNull;
  * @see PowerfulSponge
  * @see PowerfulWaterSponge
  */
-public class WetWaterSponge extends PylonBlock {
-    public WetWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+public class WetPowerfulWaterSponge extends PylonBlock {
+    public WetPowerfulWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         Location location = block.getLocation();
@@ -37,7 +37,7 @@ public class WetWaterSponge extends PylonBlock {
         }
     }
 
-    public WetWaterSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public WetPowerfulWaterSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 }

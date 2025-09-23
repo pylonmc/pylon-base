@@ -2,13 +2,12 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -58,15 +57,14 @@ public record FireproofRuneRecipe(
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # # # # # #",
-                        "# # # # # # # # #",
                         "# # # i f o # # #",
                         "# # # # # # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('f', ItemButton.fromStack(BaseItems.FIREPROOF_RUNE))
-                .addIngredient('i', ItemButton.fromStack(input))
-                .addIngredient('o', ItemButton.fromStack(result))
+                .addIngredient('f', ItemButton.from(BaseItems.FIREPROOF_RUNE))
+                .addIngredient('i', ItemButton.from(input))
+                .addIngredient('o', ItemButton.from(result))
                 .build();
     }
 
@@ -81,8 +79,8 @@ public record FireproofRuneRecipe(
     }
 
     @Override
-    public @NotNull List<FluidOrItem> getInputs() {
-        return List.of(FluidOrItem.of(input));
+    public @NotNull List<@NotNull RecipeInput> getInputs() {
+        return List.of(RecipeInput.of(input));
     }
 
     @Override

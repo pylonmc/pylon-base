@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -21,16 +22,16 @@ import java.util.List;
 /**
  * PowerfulWaterSponge is a powerful sponge that can absorb water in a large area.
  * <p>
- * When it absorbs water, it transforms into a {@link WetWaterSponge}.
+ * When it absorbs water, it transforms into a {@link WetPowerfulWaterSponge}.
  * </p>
  *
  * @author balugaq
  * @see PowerfulSponge
- * @see WetWaterSponge
+ * @see WetPowerfulWaterSponge
  */
 public class PowerfulWaterSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_WATER_SPONGE);
-    private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
+    private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
 
     public PowerfulWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -93,7 +94,7 @@ public class PowerfulWaterSponge extends PowerfulSponge {
 
     /**
      * Transforms this sponge into a wet sponge.
-     * This method breaks the current block and places a WetWaterSponge in its place.
+     * This method breaks the current block and places a WetPowerfulWaterSponge in its place.
      *
      * @param sponge The sponge block to transform
      */

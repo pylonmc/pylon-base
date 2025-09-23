@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.content.building.sponge;
 
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSponge;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.util.BlockUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -25,7 +24,7 @@ import java.util.List;
  * <ul>
  *   <li>{@link PowerfulWaterSponge} - able to absorb water</li>
  *   <li>{@link PowerfulLavaSponge} - able to absorb lava</li>
- *   <li>{@link HotLavaSponge} - able to absorb lava, but with special behavior (90% chance turn into obsidian,
+ *   <li>{@link HotPowerfulLavaSponge} - able to absorb lava, but with special behavior (90% chance turn into obsidian,
  *   10% chance turn back into {@link PowerfulLavaSponge})</li>
  * </ul>
  * </p>
@@ -37,7 +36,7 @@ import java.util.List;
  *     Dry out  ↑ |                            10% chance     ↑ |
  *     in Blast | | Inside water              Inside water    | | Inside lava
  *     Furnace  | ↓                                           | ↓
- *   [WetWaterSponge]                                [HotLavaSponge]
+ *   [WetPowerfulWaterSponge]                                [HotPowerfulLavaSponge]
  *     Inside     |                            90% chance     |
  *     Nether     |                           Inside water    |
  *                ↓                                           ↓
@@ -49,7 +48,7 @@ import java.util.List;
  * @see PylonSponge
  * @see PowerfulWaterSponge
  * @see PowerfulLavaSponge
- * @see HotLavaSponge
+ * @see HotPowerfulLavaSponge
  */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, PylonTickingBlock {
     public PowerfulSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -164,7 +163,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
      * Used to absorb lava
      *
      * @see PowerfulLavaSponge
-     * @see HotLavaSponge
+     * @see HotPowerfulLavaSponge
      */
     public void tick(double deltaSeconds) {
     }
@@ -172,12 +171,12 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     /**
      * Try to absorb nearby blocks
      *
-     * @see HotLavaSponge#tick(double)
+     * @see HotPowerfulLavaSponge#tick(double)
      * @see PowerfulLavaSponge#tick(double)
      */
     public void tryAbsorbNearbyBlocks() {
         Location location = getBlock().getLocation();
-        for (BlockFace blockFace : BlockUtils.IMMEDIATE_FACES) {
+        for (BlockFace blockFace : PylonUtils.IMMEDIATE_FACES) {
             if (isAbsorbable(location.clone().add(blockFace.getDirection()).getBlock())) {
                 // Find a nearby absorbable block
                 onAbsorb(getBlock());

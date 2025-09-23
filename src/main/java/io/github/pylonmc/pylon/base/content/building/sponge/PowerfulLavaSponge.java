@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class PowerfulLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.POWERFUL_LAVA_SPONGE);
-    private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
+    private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
 
     public PowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -78,7 +79,7 @@ public class PowerfulLavaSponge extends PowerfulSponge {
 
     /**
      * Transforms this sponge into a hot lava sponge.
-     * This method breaks the current block and places a HotLavaSponge in its place.
+     * This method breaks the current block and places a HotPowerfulLavaSponge in its place.
      *
      * @param sponge The sponge block to transform
      */

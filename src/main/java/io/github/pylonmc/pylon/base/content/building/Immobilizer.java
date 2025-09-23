@@ -81,25 +81,6 @@ public class Immobilizer extends PylonBlock implements PylonPiston {
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> frozenPlayers.clear(), duration);
     }
 
-    public static class Item extends PylonItem {
-        private final double radius = getSettings().getOrThrow("radius", Double.class);
-        private final int duration = getSettings().getOrThrow("duration", Integer.class);
-        private final int cooldown = getSettings().getOrThrow("cooldown", Integer.class);
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(
-                    PylonArgument.of("duration", duration),
-                    PylonArgument.of("radius", radius),
-                    PylonArgument.of("cooldown", cooldown)
-            );
-        }
-    }
-
     public static class PlayerVFX implements Runnable {
         private final Player player;
         private final Immobilizer block;

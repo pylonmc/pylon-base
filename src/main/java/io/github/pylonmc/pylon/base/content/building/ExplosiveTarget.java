@@ -55,17 +55,4 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
         }
         BlockStorage.breakBlock(getBlock());
     }
-
-    public static class Item extends PylonItem {
-        private final Double explosivePower = getSettings().getOrThrow("explosive-power", Double.class);
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("explosive-power", explosivePower));
-        }
-    }
 }

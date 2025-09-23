@@ -1117,6 +1117,7 @@ item:
     lore: |-
       <arrow> <blue>Clear nearby water.
       <arrow> <attr>Range:</attr> %check-range%
+      <arrow> <red> Drop your fireproof rune and this sponge together to make a powerful lava sponge
 
   powerful_lava_sponge:
     name: "<red>Powerful Lava Sponge"
@@ -1134,6 +1135,7 @@ item:
     name: "<red>Hot Lava Sponge"
     lore: |-
       <arrow> <red>No longer can clear lava <blue>but can clear water
+      <arrow> <blue>While it clears water, it has %reuse-rate% to turn back into Powerful Lave Sponge
       <arrow> <attr>Range:</attr> %check-range%
 
   igneous_composite:

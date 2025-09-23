@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * HotLavaSponge is a powerful sponge that can absorb lava but has special behavior.
+ * HotPowerfulLavaSponge is a powerful sponge that can absorb lava but has special behavior.
  * <p>
  * When placed in water, it has a:
  * <ul>
@@ -36,17 +37,17 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see PowerfulSponge
  * @see PowerfulLavaSponge
  */
-public class HotLavaSponge extends PowerfulSponge {
+public class HotPowerfulLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
-    private static final int CHECK_RANGE = settings.getOrThrow("check-range", Integer.class);
-    private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", Double.class);
+    private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
+    private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", ConfigAdapter.DOUBLE);
     private final Location particleDisplayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
 
-    public HotLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public HotPowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public HotLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public HotPowerfulLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -146,7 +147,8 @@ public class HotLavaSponge extends PowerfulSponge {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
+                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1)),
+                    PylonArgument.of("reuse-rate", UnitFormat.PERCENT.format(REUSE_RATE * 100).decimalPlaces(1))
             );
         }
     }
