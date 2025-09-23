@@ -48,8 +48,8 @@ import java.util.UUID;
 @SuppressWarnings("UnstableApiUsage")
 public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable {
 
-    private static final NamespacedKey CONSUMED_KEY = new NamespacedKey(PylonBase.getInstance(), "consumed");
-    private static final PersistentDataType<PersistentDataContainer, Map<Material, Integer>> CONSUMED_TYPE =
+    public static final NamespacedKey CONSUMED_KEY = new NamespacedKey(PylonBase.getInstance(), "consumed");
+    public static final PersistentDataType<PersistentDataContainer, Map<Material, Integer>> CONSUMED_TYPE =
             PylonSerializers.MAP.mapTypeFrom(
                     PylonSerializers.KEYED.keyedTypeFrom(Material.class, Registry.MATERIAL::getOrThrow),
                     PylonSerializers.INTEGER
