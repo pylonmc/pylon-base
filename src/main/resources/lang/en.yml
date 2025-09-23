@@ -1170,7 +1170,7 @@ item:
   confetti_popper:
     name: "Confetti Popper"
     lore: |-
-      <arrow> <insn>Hold Right click</insn> to spawn some confetti!
+      <arrow> <insn>Hold right click</insn> to spawn some confetti!
 
   vacuum_hopper_1:
     name: "Vacuum Hopper <yellow>I"
