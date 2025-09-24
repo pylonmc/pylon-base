@@ -4,7 +4,7 @@ plugins {
     java
     `java-library`
     idea
-    id("com.gradleup.shadow") version "8.3.2"
+    id("com.gradleup.shadow") version "9.0.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     id("xyz.jpenilla.run-paper") version "2.3.0"
     id("io.freefair.lombok") version "8.13.1"
@@ -29,6 +29,8 @@ val coreVersion = project.properties["pylon-core.version"] as String
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
+
+    implementation("org.bstats:bstats-bukkit:2.2.1")
 }
 
 idea {
@@ -47,12 +49,10 @@ java {
 tasks.shadowJar {
     mergeServiceFiles()
 
-    fun doRelocate(lib: String) {
-        relocate(lib, "io.github.pylonmc.pylon.base.shadowlibs.$lib")
-    }
-
     archiveBaseName = project.name
     archiveClassifier = null
+
+    relocate("org.bstats", "io.github.pylonmc.pylon.base.bstats")
 }
 
 bukkit {

@@ -1460,6 +1460,56 @@ pylonbase:vacuum_hopper_3:
   result: pylonbase:vacuum_hopper_3
   category: equipment
 
+pylonbase:hydraulic_cannon_chamber:
+  pattern:
+    - " S "
+    - "PBP"
+    - " S "
+  key:
+    P: pylonbase:fluid_pipe_copper
+    B: pylonbase:backflow_valve
+    S: pylonbase:copper_sheet
+  result: pylonbase:hydraulic_cannon_chamber
+  category: misc
+
+pylonbase:hydraulic_cannon:
+  pattern:
+    - "T  "
+    - "TCP"
+    - "B  "
+  key:
+    T: pylonbase:portable_fluid_tank_copper
+    C: pylonbase:hydraulic_cannon_chamber
+    P: pylonbase:fluid_pipe_copper
+    B: minecraft:iron_bars
+  result: pylonbase:hydraulic_cannon
+  category: equipment
+
+pylonbase:tin_projectile:
+  pattern:
+    - "T  "
+    - "S  "
+    - "T  "
+  key:
+    T: pylonbase:tin_nugget
+    S: minecraft:stick
+  result:
+    pylonbase:tin_projectile: 16
+  category: equipment
+
+pylonbase:hydraulic_refueling_station:
+  pattern:
+    - "   "
+    - "PGP"
+    - "CCC"
+  key:
+    C: pylonbase:copper_sheet
+    P: pylonbase:fluid_pipe_bronze
+    G: minecraft:glass
+  result: pylonbase:hydraulic_refueling_station
+  category: building
+
+
 pylonbase:reactivated_wither_skull:
   pattern:
     - " N "
