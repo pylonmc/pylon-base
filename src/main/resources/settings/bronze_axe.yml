@@ -1,2 +1,7 @@
 mining-speed: 6.5
 durability: 500
+mining-durability-damage: 1
+attack-durability-damage: 2
+attack-damage: 9
+attack-speed: 0.95
+disable-shield-seconds: 5
