@@ -23,21 +23,21 @@ import java.util.List;
  * This class provides the core functionality for different types of powerful sponges including:
  * <ul>
  *   <li>{@link PowerfulWaterSponge} - able to absorb water</li>
- *   <li>{@link PowerfulLavaSponge} - able to absorb lava</li>
- *   <li>{@link HotPowerfulLavaSponge} - able to absorb lava, but with special behavior (90% chance turn into obsidian,
- *   10% chance turn back into {@link PowerfulLavaSponge})</li>
+ *   <li>{@link LavaSponge} - able to absorb lava</li>
+ *   <li>{@link HotLavaSponge} - able to absorb lava, but with special behavior (90% chance turn into obsidian,
+ *   10% chance turn back into {@link LavaSponge})</li>
  * </ul>
  * </p>
  * <p>
  * Powerful Sponges evolutions:
  * <pre>
  *                          Fireproof rune powered
- *   [PowerfulWaterSponge] -----------------------→  [PowerfulLavaSponge]
- *     Dry out  ↑ |                            10% chance     ↑ |
- *     in Blast | | Inside water              Inside water    | | Inside lava
- *     Furnace  | ↓                                           | ↓
- *   [WetPowerfulWaterSponge]                                [HotPowerfulLavaSponge]
- *     Inside     |                            90% chance     |
+ *   [PowerfulWaterSponge] -----------------------→  [LavaSponge]
+ *     Dry out  ↑ |                            90% chance   ↑ |
+ *     in Blast | | Inside water              Inside water  | | Inside lava
+ *     Furnace  | ↓                                         | ↓
+ *   [WetPowerfulWaterSponge]                        [HotLavaSponge]
+ *     Inside     |                            10% chance     |
  *     Nether     |                           Inside water    |
  *                ↓                                           ↓
  *   [PowerfulWaterSponge]                           [Obsidian]
@@ -47,8 +47,8 @@ import java.util.List;
  * @author balugaq
  * @see PylonSponge
  * @see PowerfulWaterSponge
- * @see PowerfulLavaSponge
- * @see HotPowerfulLavaSponge
+ * @see LavaSponge
+ * @see HotLavaSponge
  */
 public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, PylonTickingBlock {
     public PowerfulSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -160,10 +160,11 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     public abstract int getRange();
 
     /**
-     * Used to absorb lava
+     * Used to absorb lava, waterlogged blocks
      *
-     * @see PowerfulLavaSponge
-     * @see HotPowerfulLavaSponge
+     * @see PowerfulWaterSponge
+     * @see LavaSponge
+     * @see HotLavaSponge
      */
     public void tick(double deltaSeconds) {
     }
@@ -171,8 +172,8 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     /**
      * Try to absorb nearby blocks
      *
-     * @see HotPowerfulLavaSponge#tick(double)
-     * @see PowerfulLavaSponge#tick(double)
+     * @see HotLavaSponge#tick(double)
+     * @see LavaSponge#tick(double)
      */
     public void tryAbsorbNearbyBlocks() {
         Location location = getBlock().getLocation();

@@ -98,9 +98,9 @@ public class FireproofRune extends Rune {
         world.dropItemNaturally(explodeLoc, handle).setGlowing(true);
 
         // simple particles
-        BaseUtils.spawnParticle(Particle.EXPLOSION, explodeLoc, 1);
-        BaseUtils.spawnParticle(Particle.FLAME, explodeLoc, 50);
-        BaseUtils.spawnParticle(Particle.SMOKE, explodeLoc, 40);
+        new ParticleBuilder(Particle.EXPLOSION).count(1).location(explodeLoc).spawn();
+        new ParticleBuilder(Particle.FLAME).count(50).location(explodeLoc).spawn();
+        new ParticleBuilder(Particle.SMOKE).count(40).location(explodeLoc).spawn();
         world.playSound(explodeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 
         target.setAmount(0);

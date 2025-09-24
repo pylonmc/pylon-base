@@ -21,15 +21,15 @@ import java.util.List;
 /**
  * @author balugaq
  */
-public class PowerfulLavaSponge extends PowerfulSponge {
-    private static final Config settings = Settings.get(BaseKeys.POWERFUL_LAVA_SPONGE);
+public class LavaSponge extends PowerfulSponge {
+    private static final Config settings = Settings.get(BaseKeys.LAVA_SPONGE);
     private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
 
-    public PowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public LavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public PowerfulLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public LavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -79,14 +79,14 @@ public class PowerfulLavaSponge extends PowerfulSponge {
 
     /**
      * Transforms this sponge into a hot lava sponge.
-     * This method breaks the current block and places a HotPowerfulLavaSponge in its place.
+     * This method breaks the current block and places a HotLavaSponge in its place.
      *
      * @param sponge The sponge block to transform
      */
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
-        BlockStorage.placeBlock(sponge, BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
+        BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
     }
 
     public void tick(double deltaSeconds) {

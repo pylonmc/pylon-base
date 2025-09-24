@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
-import io.github.pylonmc.pylon.base.content.building.sponge.HotPowerfulLavaSponge;
-import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.HotLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.LavaSponge;
 import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulWaterSponge;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
@@ -57,6 +57,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
+
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class BaseItems {
@@ -1759,11 +1761,11 @@ public final class BaseItems {
     }
 
     public static final ItemStack HOT_POWERFUL_LAVA_SPONGE
-            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_POWERFUL_LAVA_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_LAVA_SPONGE)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(HotPowerfulLavaSponge.Item.class, HOT_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
+        PylonItem.register(HotLavaSponge.Item.class, HOT_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
         BasePages.BUILDING.addItem(HOT_POWERFUL_LAVA_SPONGE);
     }
 
@@ -1785,7 +1787,7 @@ public final class BaseItems {
         RecipeType.VANILLA_SHAPED.addRecipe(shapedRecipe);
 
         BlastingRecipe blastingRecipe = new BlastingRecipe(
-                BaseKeys.POWERFUL_WATER_SPONGE_BLASTING,
+                baseKey("powerful_water_sponge_blasting"),
                 POWERFUL_WATER_SPONGE,
                 new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
                 1.5f,
@@ -1796,17 +1798,17 @@ public final class BaseItems {
     }
 
     public static final ItemStack POWERFUL_LAVA_SPONGE
-            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE)
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.LAVA_SPONGE)
             .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(PowerfulLavaSponge.Item.class, POWERFUL_LAVA_SPONGE, BaseKeys.POWERFUL_LAVA_SPONGE);
+        PylonItem.register(LavaSponge.Item.class, POWERFUL_LAVA_SPONGE, BaseKeys.LAVA_SPONGE);
         BasePages.BUILDING.addItem(POWERFUL_LAVA_SPONGE);
 
         // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
         FireproofRuneRecipe recipe = FireproofRuneRecipe.of(
-                BaseKeys.POWERFUL_LAVA_SPONGE,
+                BaseKeys.LAVA_SPONGE,
                 POWERFUL_WATER_SPONGE,
                 POWERFUL_LAVA_SPONGE
         );

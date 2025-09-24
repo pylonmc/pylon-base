@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -29,7 +30,7 @@ public class WetPowerfulWaterSponge extends PylonBlock {
 
         Location location = block.getLocation();
         if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
-            PylonBase.runSyncLater(() -> {
+            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                 // Dry out the sponge in the nether
                 BlockStorage.breakBlock(location, new BlockBreakContext.PluginBreak(false));
                 BlockStorage.placeBlock(location, BaseKeys.POWERFUL_WATER_SPONGE);

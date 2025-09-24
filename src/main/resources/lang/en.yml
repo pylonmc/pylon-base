@@ -1113,29 +1113,29 @@ item:
       <arrow> A chunk of minerals from many layers below the surface
 
   powerful_water_sponge:
-    name: "<blue>Powerful Water Sponge"
+    name: "Powerful Water Sponge"
     lore: |-
-      <arrow> <blue>Clear nearby water.
+      <arrow> Clear nearby water.
       <arrow> <attr>Range:</attr> %check-range%
-      <arrow> <red> Drop your fireproof rune and this sponge together to make a powerful lava sponge
+      <arrow> Drop your fireproof rune and this sponge together to make a powerful lava sponge
 
-  powerful_lava_sponge:
-    name: "<red>Powerful Lava Sponge"
+  lava_sponge:
+    name: "Lava Sponge"
     lore: |-
-      <arrow> <red>Fireproof Powered
-      <arrow> <red>Clears nearby lava
+      <arrow> Fireproof Powered
+      <arrow> Clears nearby lava
       <arrow> <attr>Range:</attr> %check-range%
 
   wet_powerful_water_sponge:
-    name: "<blue>Wet Water Sponge"
+    name: "Wet Water Sponge"
     lore: |-
       <arrow> <insn>Too much water inside... You must dry it out in a Blast Furnace</insn>
 
-  hot_powerful_lava_sponge:
+  hot_lava_sponge:
     name: "<red>Hot Lava Sponge"
     lore: |-
-      <arrow> <red>No longer can clear lava <blue>but can clear water
-      <arrow> <blue>While it clears water, it has %reuse-rate% to turn back into Powerful Lave Sponge
+      <arrow> No longer can clear lava but can clear water
+      <arrow> While it clears water, it has %reuse-rate% to turn back into Powerful Lave Sponge
       <arrow> <attr>Range:</attr> %check-range%
 
   igneous_composite:
@@ -1436,8 +1436,8 @@ message:
     working_with_reduced_efficiency: "<green>Working with reduced efficiency"
     no_sunlight: "<red>No sunlight"
   fireproof_result:
-    tooltip: "<red>Fireproof Powered"
-    success: "<red>Your item has been powered by fireproof rune"
+    tooltip: "<red><bold>Fire-proofed"
+    success: "<red>Your item has been fire-proofed"
   hydraulic_refueling_station:
     extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
 

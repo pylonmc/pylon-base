@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -41,12 +42,9 @@ public record FireproofRuneRecipe(
             @NotNull ItemStack input,
             @NotNull ItemStack result
     ) {
-        if (!input.getType().isItem()) {
-            throw new IllegalArgumentException("Input must be an item");
-        }
-        if (!result.getType().isItem()) {
-            throw new IllegalArgumentException("Result must be an item");
-        }
+        Preconditions.checkArgument(input.getType().isItem(), "Input must be an item");
+        Preconditions.checkArgument(result.getType().isItem(), "Result must be an item");
+
         return new FireproofRuneRecipe(key, input, result);
     }
 

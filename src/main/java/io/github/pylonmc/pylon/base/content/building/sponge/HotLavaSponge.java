@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.building.sponge;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -24,30 +24,30 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * HotPowerfulLavaSponge is a powerful sponge that can absorb lava but has special behavior.
+ * HotLavaSponge is a powerful sponge that can absorb lava but has special behavior.
  * <p>
  * When placed in water, it has a:
  * <ul>
  *   <li>90% chance of turning into obsidian by default</li>
- *   <li>10% chance of turning back into a {@link PowerfulLavaSponge} by default</li>
+ *   <li>10% chance of turning back into a {@link LavaSponge} by default</li>
  * </ul>
  * </p>
  *
  * @author balugaq
  * @see PowerfulSponge
- * @see PowerfulLavaSponge
+ * @see LavaSponge
  */
-public class HotPowerfulLavaSponge extends PowerfulSponge {
-    private static final Config settings = Settings.get(BaseKeys.HOT_POWERFUL_LAVA_SPONGE);
+public class HotLavaSponge extends PowerfulSponge {
+    private static final Config settings = Settings.get(BaseKeys.HOT_LAVA_SPONGE);
     private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
     private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", ConfigAdapter.DOUBLE);
     private final Location particleDisplayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
 
-    public HotPowerfulLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public HotLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public HotPowerfulLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public HotLavaSponge(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -89,11 +89,16 @@ public class HotPowerfulLavaSponge extends PowerfulSponge {
             block.setBlockData(w);
         } else if (block.getType() == Material.WATER_CAULDRON) {
             block.setType(Material.CAULDRON);
+        } else if (block.getType() == Material.SEAGRASS || block.getType() == Material.TALL_SEAGRASS) {
+            block.setType(Material.AIR);
         }
     }
 
     public void tick(double deltaSeconds) {
-        BaseUtils.spawnParticle(Particle.FLAME, particleDisplayLoc, 3);
+        new ParticleBuilder(Particle.FLAME)
+                .location(particleDisplayLoc)
+                .count(3)
+                .spawn();
 
         tryAbsorbNearbyBlocks();
     }
@@ -112,7 +117,7 @@ public class HotPowerfulLavaSponge extends PowerfulSponge {
      * Transforms this sponge based on chance by default:
      * <ul>
      *   <li>90% chance: turns into obsidian with particle effects</li>
-     *   <li>10% chance: turns back into a {@link PowerfulLavaSponge}</li>
+     *   <li>10% chance: turns back into a {@link LavaSponge}</li>
      * </ul>
      *
      * @param sponge The sponge block to transform
@@ -123,11 +128,17 @@ public class HotPowerfulLavaSponge extends PowerfulSponge {
         if (ThreadLocalRandom.current().nextDouble() > REUSE_RATE) {
             // 90% chance of becoming unusable obsidian
             sponge.setType(Material.OBSIDIAN);
-            BaseUtils.spawnParticle(Particle.FLAME, particleDisplayLoc, 20);
-            BaseUtils.spawnParticle(Particle.SMOKE, particleDisplayLoc, 50);
+            new ParticleBuilder(Particle.FLAME)
+                    .location(particleDisplayLoc)
+                    .count(20)
+                    .spawn();
+            new ParticleBuilder(Particle.SMOKE)
+                    .location(particleDisplayLoc)
+                    .count(50)
+                    .spawn();
         } else {
             // 10% chance of reusing the sponge
-            BlockStorage.placeBlock(sponge, BaseKeys.POWERFUL_LAVA_SPONGE);
+            BlockStorage.placeBlock(sponge, BaseKeys.LAVA_SPONGE);
         }
     }
 

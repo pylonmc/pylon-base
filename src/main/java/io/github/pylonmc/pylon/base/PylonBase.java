@@ -79,9 +79,4 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     public static void runSyncTimer(@NotNull Consumer<BukkitTask> task, long delay, long period) {
         Bukkit.getScheduler().runTaskTimer(instance, task, delay, period);
     }
-
-    @NotNull
-    public static BukkitTask runSyncLater(@NotNull Runnable runnable, long delay) {
-        return Bukkit.getScheduler().runTaskLater(instance, runnable, delay);
-    }
 }
