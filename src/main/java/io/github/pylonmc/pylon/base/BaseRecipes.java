@@ -23,6 +23,8 @@ public class BaseRecipes {
 
         PipeBendingRecipe.RECIPE_TYPE.register();
 
+        FireproofRuneRecipe.RECIPE_TYPE.register();
+
         PressRecipe.RECIPE_TYPE.register();
 
         SmelteryRecipe.RECIPE_TYPE.register();

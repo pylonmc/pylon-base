@@ -1,5 +1,7 @@
 package io.github.pylonmc.pylon.base.util;
 
+import com.destroystokyo.paper.MaterialSetTag;
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -10,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -95,5 +98,14 @@ public class BaseUtils {
                 PylonArgument.of("amount", Math.round(amount)),
                 PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
         );
+    }
+
+
+    public static void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count) {
+        new ParticleBuilder(particle)
+                .location(location)
+                .offset(0, 0, 0)
+                .count(count)
+                .spawn();
     }
 }

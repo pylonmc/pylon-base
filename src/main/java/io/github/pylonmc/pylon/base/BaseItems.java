@@ -3,6 +3,9 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.building.sponge.HotLavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.LavaSponge;
+import io.github.pylonmc.pylon.base.content.building.sponge.PowerfulWaterSponge;
 import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
@@ -19,6 +22,7 @@ import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
+import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
 import io.github.pylonmc.pylon.base.recipes.display.DrillingDisplayRecipe;
 import io.github.pylonmc.pylon.base.recipes.display.MoldingDisplayRecipe;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -45,11 +49,16 @@ import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
+
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class BaseItems {
@@ -711,7 +720,7 @@ public final class BaseItems {
 
     public static final ItemStack DISINFECTANT = ItemStackBuilder.pylonItem(Material.BREWER_POTTERY_SHERD, BaseKeys.DISINFECTANT)
             // Using the actual potion material doesn't let you set the name properly, gives you a
-            // class string of a nonexistant potion type for some reason
+            // class string of a nonexistent potion type for some reason
             .set(DataComponentTypes.ITEM_MODEL, Material.POTION.getKey())
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .hasConsumeParticles(false)
@@ -1742,6 +1751,69 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(HYPER_ACTIVATED_WITHER_SKULL);
     }
 
+    // For trigger SpongeAbsorbEvent, sponges' material must be SPONGE
+    public static final ItemStack WET_POWERFUL_WATER_SPONGE
+            = ItemStackBuilder.pylonItem(Material.WET_SPONGE, BaseKeys.WET_POWERFUL_WATER_SPONGE) // A used sponge shouldn't trigger event
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, WET_POWERFUL_WATER_SPONGE, BaseKeys.WET_POWERFUL_WATER_SPONGE);
+        BasePages.COMPONENTS.addItem(WET_POWERFUL_WATER_SPONGE);
+    }
+
+    public static final ItemStack HOT_POWERFUL_LAVA_SPONGE
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.HOT_LAVA_SPONGE)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .build();
+    static {
+        PylonItem.register(HotLavaSponge.Item.class, HOT_POWERFUL_LAVA_SPONGE, BaseKeys.HOT_LAVA_SPONGE);
+        BasePages.BUILDING.addItem(HOT_POWERFUL_LAVA_SPONGE);
+    }
+
+    public static final ItemStack POWERFUL_WATER_SPONGE
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.POWERFUL_WATER_SPONGE)
+            .build();
+    static {
+        PylonItem.register(PowerfulWaterSponge.Item.class, POWERFUL_WATER_SPONGE, BaseKeys.POWERFUL_WATER_SPONGE);
+        BasePages.BUILDING.addItem(POWERFUL_WATER_SPONGE);
+
+        ShapedRecipe shapedRecipe = new ShapedRecipe(BaseKeys.POWERFUL_WATER_SPONGE, POWERFUL_WATER_SPONGE.clone())
+                .shape(
+                        "SBS",
+                        "BBB",
+                        "SBS"
+                )
+                .setIngredient('S', Material.SPONGE)
+                .setIngredient('B', Material.BUCKET);
+        RecipeType.VANILLA_SHAPED.addRecipe(shapedRecipe);
+
+        BlastingRecipe blastingRecipe = new BlastingRecipe(
+                baseKey("powerful_water_sponge_blasting"),
+                POWERFUL_WATER_SPONGE,
+                new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
+                1.5f,
+                100
+        );
+
+        RecipeType.VANILLA_BLASTING.addRecipe(blastingRecipe);
+    }
+
+    public static final ItemStack POWERFUL_LAVA_SPONGE
+            = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.LAVA_SPONGE)
+            .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .build();
+    static {
+        PylonItem.register(LavaSponge.Item.class, POWERFUL_LAVA_SPONGE, BaseKeys.LAVA_SPONGE);
+        BasePages.BUILDING.addItem(POWERFUL_LAVA_SPONGE);
+
+        // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
+        FireproofRuneRecipe recipe = FireproofRuneRecipe.of(
+                BaseKeys.LAVA_SPONGE,
+                POWERFUL_WATER_SPONGE,
+                POWERFUL_LAVA_SPONGE
+        );
+        FireproofRuneRecipe.RECIPE_TYPE.addRecipe(recipe);
+    }
 
     public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
             .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
@@ -1752,7 +1824,7 @@ public final class BaseItems {
         PylonItem.register(CleansingPotion.class, CLEANSING_POTION);
         BasePages.TOOLS.addItem(CLEANSING_POTION);
 
-        // This recipe isn't configged because we current have no way to set the healing potion data on it
+        // This recipe isn't configured because we currently have no way to set the healing potion data on it
         ItemStack healingPotion = ItemStackBuilder.of(Material.SPLASH_POTION)
                 .set(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents()
                         .potion(PotionType.HEALING)

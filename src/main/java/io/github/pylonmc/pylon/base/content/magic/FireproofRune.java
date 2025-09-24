@@ -1,13 +1,17 @@
 package io.github.pylonmc.pylon.base.content.magic;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
+import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
+import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -16,6 +20,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * @author balugaq
@@ -47,8 +53,9 @@ public class FireproofRune extends Rune {
 
     /**
      * Handles contacting between an item and a rune.
+     * When a Fireproof Rune contacts another item, it makes that item fireproof.
      *
-     * @param event  The event
+     * @param event  The player drop item event
      * @param rune   The rune item, amount may be > 1
      * @param target The item to handle, amount may be > 1
      */
@@ -58,10 +65,23 @@ public class FireproofRune extends Rune {
         int consume = Math.min(rune.getAmount(), target.getAmount());
 
         Player player = event.getPlayer();
-        ItemStack handle = ItemStackBuilder.of(target.asQuantity(consume)) // Already cloned in `asQuantity`
-                .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
-                .lore(GlobalTranslator.render(TOOLTIP, player.locale()))
-                .build();
+        ItemStack mappedResult = FireproofRuneRecipe.RECIPE_TYPE.getRecipes().stream().map(recipe -> {
+            if (recipe.input().isSimilar(target)) {
+                return recipe.result();
+            }
+
+            return null;
+        }).filter(Objects::nonNull).findFirst().orElse(null);
+
+        ItemStack handle;
+        if (mappedResult != null) {
+            handle = mappedResult.asQuantity(consume); // Just clone it, don't modify the item
+        } else {
+            handle = ItemStackBuilder.of(target.asQuantity(consume)) // Already cloned in `asQuantity`
+                    .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
+                    .lore(GlobalTranslator.render(TOOLTIP, player.locale()))
+                    .build();
+        }
 
         // (N)Either left runes or targets
         int leftRunes = rune.getAmount() - consume;
@@ -78,21 +98,13 @@ public class FireproofRune extends Rune {
         world.dropItemNaturally(explodeLoc, handle).setGlowing(true);
 
         // simple particles
-        spawnParticle(Particle.EXPLOSION, explodeLoc, 1);
-        spawnParticle(Particle.FLAME, explodeLoc, 50);
-        spawnParticle(Particle.SMOKE, explodeLoc, 40);
+        new ParticleBuilder(Particle.EXPLOSION).count(1).location(explodeLoc).spawn();
+        new ParticleBuilder(Particle.FLAME).count(50).location(explodeLoc).spawn();
+        new ParticleBuilder(Particle.SMOKE).count(40).location(explodeLoc).spawn();
         world.playSound(explodeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 
         target.setAmount(0);
         rune.setAmount(0);
         player.sendMessage(SUCCESS);
-    }
-
-    public void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count) {
-        new ParticleBuilder(particle)
-                .location(location)
-                .offset(0, 0, 0)
-                .count(count)
-                .spawn();
     }
 }
