@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -167,31 +168,5 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
         return items.stream().anyMatch(recipe.input()::matches);
-    }
-
-    public static @NotNull ItemStackBuilder createItemStack(
-            NamespacedKey key,
-            Material material,
-            double attackSpeed,
-            double knockback,
-            double attackDamage
-    ) {
-        return ItemStackBuilder.pylonItem(material, key)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                            baseKey("hammer_attack_speed"),
-                            attackSpeed,
-                            AttributeModifier.Operation.ADD_NUMBER
-                    ))
-                    .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
-                            baseKey("hammer_attack_knockback"),
-                            knockback,
-                            AttributeModifier.Operation.ADD_NUMBER
-                    ))
-                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                            baseKey("hammer_attack_damage"),
-                            attackDamage,
-                            AttributeModifier.Operation.ADD_NUMBER
-                    )));
     }
 }

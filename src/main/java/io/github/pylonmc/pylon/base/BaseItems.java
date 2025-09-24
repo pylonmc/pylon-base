@@ -35,18 +35,12 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
-import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
-import io.papermc.paper.registry.set.RegistrySet;
-import net.kyori.adventure.util.TriState;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -378,55 +372,22 @@ public final class BaseItems {
     //</editor-fold>
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
-    public static final ItemStack HAMMER_STONE = Hammer.createItemStack(
-            BaseKeys.HAMMER_STONE,
-            Material.STONE_PICKAXE,
-            (1.0 / 3) - 4,
-            1,
-            1
-    ).set(DataComponentTypes.MAX_DAMAGE, 66)
-        .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                Settings.get(BaseKeys.HAMMER_STONE).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
-            )
-            .cooldownGroup(BaseKeys.HAMMER_STONE.key())
-            .build())
-        .build();
+    public static final ItemStack HAMMER_STONE = ItemStackBuilder.pylonItem(Material.STONE_PICKAXE, BaseKeys.HAMMER_STONE)
+            .weapon().attackKnockback().noTool().durability().build();
     static {
         PylonItem.register(Hammer.class, HAMMER_STONE);
         BasePages.TOOLS.addItem(HAMMER_STONE);
     }
 
-    public static final ItemStack HAMMER_IRON = Hammer.createItemStack(
-            BaseKeys.HAMMER_IRON,
-            Material.IRON_PICKAXE,
-            (1.0 / 2) - 4,
-            1.5,
-            3
-    ).set(DataComponentTypes.MAX_DAMAGE, 125)
-        .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                Settings.get(BaseKeys.HAMMER_IRON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
-            )
-            .cooldownGroup(BaseKeys.HAMMER_IRON.key())
-            .build())
-        .build();
+    public static final ItemStack HAMMER_IRON = ItemStackBuilder.pylonItem(Material.IRON_PICKAXE, BaseKeys.HAMMER_IRON)
+            .weapon().attackKnockback().noTool().durability().build();
     static {
         PylonItem.register(Hammer.class, HAMMER_IRON);
         BasePages.TOOLS.addItem(HAMMER_IRON);
     }
 
-    public static final ItemStack HAMMER_DIAMOND = Hammer.createItemStack(
-            BaseKeys.HAMMER_DIAMOND,
-            Material.DIAMOND_PICKAXE,
-            (1.0 / 1) - 4,
-            2,
-            5
-    ).set(DataComponentTypes.MAX_DAMAGE, 781)
-        .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                Settings.get(BaseKeys.HAMMER_DIAMOND).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
-            )
-            .cooldownGroup(BaseKeys.HAMMER_DIAMOND.key())
-            .build())
-        .build();
+    public static final ItemStack HAMMER_DIAMOND = ItemStackBuilder.pylonItem(Material.DIAMOND_PICKAXE, BaseKeys.HAMMER_DIAMOND)
+            .weapon().attackKnockback().noTool().durability().build();
     static {
         PylonItem.register(Hammer.class, HAMMER_DIAMOND);
         BasePages.TOOLS.addItem(HAMMER_DIAMOND);
@@ -435,67 +396,35 @@ public final class BaseItems {
 
     //<editor-fold desc="Bronze tools/armour" defaultstate=collapsed>
     public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, BaseKeys.BRONZE_SWORD)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.WEAPON, Weapon.weapon()
-                    .itemDamagePerAttack(Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("damage", ConfigAdapter.INT))
-            )
-            .build();
+            .weapon().durability().build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SWORD);
         BasePages.COMBAT.addItem(BRONZE_SWORD);
     }
 
     public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE)
-            .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
-                    .addRule(Tool.rule(
-                            Registry.BLOCK.getTag(BlockTypeTagKeys.MINEABLE_AXE),
-                            Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
-                            TriState.TRUE
-                    ))
-            )
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("durability", ConfigAdapter.INT))
-            .build();
+            .axe().weapon(true).durability().build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_AXE);
         BasePages.TOOLS.addItem(BRONZE_AXE);
     }
 
     public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE)
-            .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
-                    .addRule(Tool.rule(
-                            Registry.BLOCK.getTag(BlockTypeTagKeys.MINEABLE_PICKAXE),
-                            Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
-                            TriState.TRUE
-                    ))
-            )
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("durability", ConfigAdapter.INT))
-            .build();
+            .pickaxe().weapon().durability().build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_PICKAXE);
         BasePages.TOOLS.addItem(BRONZE_PICKAXE);
     }
 
     public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL)
-            .set(DataComponentTypes.TOOL, Tool.tool()
-                    .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
-                    .addRule(Tool.rule(
-                            Registry.BLOCK.getTag(BlockTypeTagKeys.MINEABLE_SHOVEL),
-                            Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue(),
-                            TriState.TRUE
-                    ))
-            )
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("durability", ConfigAdapter.INT))
-            .build();
+            .shovel().weapon().durability().build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SHOVEL);
         BasePages.TOOLS.addItem(BRONZE_SHOVEL);
     }
 
     public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HOE).getOrThrow("durability", ConfigAdapter.INT))
-            .build();
+            .hoe().weapon().durability().build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_HOE);
         BasePages.TOOLS.addItem(BRONZE_HOE);
@@ -503,92 +432,28 @@ public final class BaseItems {
     //</editor-fold>
 
     public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, BaseKeys.BRONZE_HELMET)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            BaseKeys.BRONZE_HELMET,
-                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.HEAD
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            BaseKeys.BRONZE_HELMET,
-                            Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.HEAD
-                    ))
-                    .build()
-            )
-            .build();
+            .helmet().durability().build();
     static {
         PylonItem.register(BronzeArmor.class, BRONZE_HELMET);
         BasePages.ARMOUR.addItem(BRONZE_HELMET);
     }
 
     public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            BaseKeys.BRONZE_CHESTPLATE,
-                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.CHEST
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            BaseKeys.BRONZE_CHESTPLATE,
-                            Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.CHEST
-                    ))
-                    .build()
-            )
-            .build();
+            .chestPlate().durability().build();
     static {
         PylonItem.register(BronzeArmor.class, BRONZE_CHESTPLATE);
         BasePages.ARMOUR.addItem(BRONZE_CHESTPLATE);
     }
 
     public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            BaseKeys.BRONZE_LEGGINGS,
-                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.LEGS
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            BaseKeys.BRONZE_LEGGINGS,
-                            Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.LEGS
-                    ))
-                    .build()
-            )
-            .build();
+            .leggings().durability().build();
     static {
         PylonItem.register(BronzeArmor.class, BRONZE_LEGGINGS);
         BasePages.ARMOUR.addItem(BRONZE_LEGGINGS);
     }
 
     public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, BaseKeys.BRONZE_BOOTS)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ARMOR, new AttributeModifier(
-                            BaseKeys.BRONZE_BOOTS,
-                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.FEET
-                    ))
-                    .addModifier(Attribute.ARMOR_TOUGHNESS, new AttributeModifier(
-                            BaseKeys.BRONZE_BOOTS,
-                            Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("armor-toughness", ConfigAdapter.DOUBLE),
-                            AttributeModifier.Operation.ADD_NUMBER,
-                            EquipmentSlotGroup.FEET
-                    ))
-                    .build()
-            )
-            .build();
+            .boots().durability().build();
     static {
         PylonItem.register(BronzeArmor.class, BRONZE_BOOTS);
         BasePages.ARMOUR.addItem(BRONZE_BOOTS);
@@ -741,21 +606,14 @@ public final class BaseItems {
     //</editor-fold>
 
     public static final ItemStack LUMBER_AXE = ItemStackBuilder.pylonItem(Material.WOODEN_AXE, BaseKeys.LUMBER_AXE)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.LUMBER_AXE).getOrThrow("durability", ConfigAdapter.INT))
-            .build();
+            .durability().build();
     static {
         PylonItem.register(LumberAxe.class, LUMBER_AXE);
         BasePages.TOOLS.addItem(LUMBER_AXE);
     }
 
     public static final ItemStack BRICK_MOLD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRICK_MOLD)
-            .set(DataComponentTypes.ITEM_MODEL, Material.OAK_FENCE_GATE.getKey())
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
-                .useCooldown(
-                    Settings.get(BaseKeys.BRICK_MOLD).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
-                )
-                .cooldownGroup(BaseKeys.BRICK_MOLD.key())
-                .build())
+            .useCooldown().set(DataComponentTypes.ITEM_MODEL, Material.OAK_FENCE_GATE.getKey())
             .build();
     static {
         PylonItem.register(BrickMold.class, BRICK_MOLD);
@@ -868,8 +726,8 @@ public final class BaseItems {
     }
 
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
+            .durability() //todo: weapon stats?
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BEHEADING_SWORD).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
         PylonItem.register(BeheadingSword.class, BEHEADING_SWORD);
@@ -1339,12 +1197,8 @@ public final class BaseItems {
     }
 
     public static final ItemStack RESEARCH_PACK_1 = ItemStackBuilder.pylonItem(Material.RED_BANNER, BaseKeys.RESEARCH_PACK_1)
+            .useCooldown()
             .set(DataComponentTypes.MAX_STACK_SIZE, 3)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                    Settings.get(BaseKeys.RESEARCH_PACK_1).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
-                )
-                .cooldownGroup(BaseKeys.RESEARCH_PACK_1.key())
-                .build())
             .build();
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_1);
@@ -1352,12 +1206,8 @@ public final class BaseItems {
     }
 
     public static final ItemStack RESEARCH_PACK_2 = ItemStackBuilder.pylonItem(Material.LIME_BANNER, BaseKeys.RESEARCH_PACK_2)
+            .useCooldown()
             .set(DataComponentTypes.MAX_STACK_SIZE, 3)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                    Settings.get(BaseKeys.RESEARCH_PACK_2).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20f
-                )
-                .cooldownGroup(BaseKeys.RESEARCH_PACK_2.key())
-                .build())
             .build();
     static {
         PylonItem.register(ResearchPack.class, RESEARCH_PACK_2);
@@ -1741,11 +1591,7 @@ public final class BaseItems {
         ));
     }
     public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.DAMAGE, 0)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("cooldown-ticks", ConfigAdapter.INT))
-                    .cooldownGroup(BaseKeys.REACTIVATED_WITHER_SKULL)
-                    .build())
+            .durability().useCooldown()
             .build();
     static {
         PylonItem.register(ReactivatedWitherSkull.class, REACTIVATED_WITHER_SKULL);
@@ -1753,12 +1599,8 @@ public final class BaseItems {
     }
 
     public static final ItemStack HYPER_ACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.HYPER_ACTIVATED_WITHER_SKULL)
-            .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
-            .set(DataComponentTypes.DAMAGE, 0)
+            .durability().useCooldown()
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(Settings.get(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL).getOrThrow("cooldown-ticks", ConfigAdapter.INT))
-                    .cooldownGroup(BaseKeys.HYPER_ACTIVATED_WITHER_SKULL)
-                    .build())
             .build();
     static {
         PylonItem.register(ReactivatedWitherSkull.class, HYPER_ACTIVATED_WITHER_SKULL);
@@ -1824,12 +1666,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylonItem(Material.IRON_HORSE_ARMOR, BaseKeys.HYDRAULIC_CANNON)
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
-                    .useCooldown(
-                            Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20.0F
-                    )
-                    .cooldownGroup(BaseKeys.HYDRAULIC_CANNON.key())
-                    .build())
+            .useCooldown()
             .editPdc(pdc -> {
                 pdc.set(BaseFluids.HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
                 pdc.set(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
