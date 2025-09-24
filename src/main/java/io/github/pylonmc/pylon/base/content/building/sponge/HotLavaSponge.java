@@ -82,14 +82,18 @@ public class HotLavaSponge extends PowerfulSponge {
      */
     @Override
     public void absorb(@NotNull Block block) {
-        if (block.getType() == Material.WATER) {
+        Material type = block.getType();
+        if (type == Material.WATER) {
             block.setType(Material.AIR);
         } else if (block.getBlockData() instanceof Waterlogged w) {
             w.setWaterlogged(false);
             block.setBlockData(w);
-        } else if (block.getType() == Material.WATER_CAULDRON) {
+        } else if (type == Material.WATER_CAULDRON) {
             block.setType(Material.CAULDRON);
-        } else if (block.getType() == Material.SEAGRASS || block.getType() == Material.TALL_SEAGRASS) {
+        } else if (type == Material.SEAGRASS
+                || type == Material.TALL_SEAGRASS
+                || type == Material.KELP_PLANT
+                || type == Material.KELP) {
             block.setType(Material.AIR);
         }
     }
