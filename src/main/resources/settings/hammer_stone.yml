@@ -1,2 +1,6 @@
 cooldown-ticks: 40
-sound: minecraft:block.anvil.use
+sound:
+  sound: minecraft:block.anvil.use
+  source: block
+  volume: 0.5
+  pitch: 0.5

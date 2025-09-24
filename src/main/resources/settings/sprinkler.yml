@@ -12,4 +12,8 @@ chances:
   sapling: 0.01
 
 particle-chance: 0.1
-sound: minecraft:weather.rain
+sound:
+  sound: minecraft:weather.rain
+  source: ambient
+  volume: 0.3
+  pitch: 1.0
