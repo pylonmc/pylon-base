@@ -761,6 +761,28 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(BRICK_MOLD);
     }
 
+    @SuppressWarnings("ConstantConditions")
+    public static final ItemStack CONFETTI_POPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CONFETTI_POPPER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.FIREWORK_ROCKET.getKey())
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                .consumeSeconds(
+                    Settings.get(BaseKeys.CONFETTI_POPPER).getOrThrow("consume-seconds", ConfigAdapter.DOUBLE).floatValue()
+                )
+                .sound(Registry.SOUNDS.getKey(Sound.ITEM_CROSSBOW_LOADING_START))
+                .animation(ItemUseAnimation.TOOT_HORN)
+                .hasConsumeParticles(false)
+            )
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.CONFETTI_POPPER).getOrThrow("cooldown-seconds", ConfigAdapter.DOUBLE).floatValue()
+                )
+                .cooldownGroup(BaseKeys.CONFETTI_POPPER)
+                .build())
+            .build();
+    static {
+        PylonItem.register(ConfettiPopper.class, CONFETTI_POPPER);
+        BasePages.TOOLS.addItem(CONFETTI_POPPER);
+    }
+
     public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, BaseKeys.GRINDSTONE)
             .build();
     static {
