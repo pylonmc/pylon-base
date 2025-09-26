@@ -1,10 +1,8 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -20,7 +18,7 @@ import java.util.List;
 
 public class BrickMold extends PylonItem implements PylonBlockInteractor {
 
-    public static final int COOLDOWN_TICKS = Settings.get(BaseKeys.BRICK_MOLD).getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public BrickMold(@NotNull ItemStack stack) {
@@ -38,7 +36,7 @@ public class BrickMold extends PylonItem implements PylonBlockInteractor {
         }
 
         moldable.doMoldingClick();
-        event.getPlayer().setCooldown(getStack(), COOLDOWN_TICKS);
+        event.getPlayer().setCooldown(getStack(), cooldownTicks);
         new ParticleBuilder(Particle.BLOCK)
                 .count(20)
                 .offset(0.2, 0.2, 0.2)
@@ -60,7 +58,7 @@ public class BrickMold extends PylonItem implements PylonBlockInteractor {
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(COOLDOWN_TICKS / 20.0))
+                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0))
         );
     }
 }
