@@ -17,7 +17,7 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -77,7 +77,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PdcUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
+        PylonUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
         pdc.set(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE, remainingTimeSeconds);
     }
 

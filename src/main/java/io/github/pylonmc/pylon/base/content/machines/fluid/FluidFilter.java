@@ -21,7 +21,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PdcUtils;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
@@ -111,7 +110,7 @@ public class FluidFilter extends PylonBlock
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PdcUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
+        PylonUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
     }
 
     @Override

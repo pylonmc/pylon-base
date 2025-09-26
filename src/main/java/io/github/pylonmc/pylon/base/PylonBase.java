@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
@@ -24,12 +25,17 @@ import java.util.function.Consumer;
 @SuppressWarnings("UnstableApiUsage")
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
+    private static final int BSTATS_ID = 27323;
+    private static Metrics metrics;
+
     @Getter
     private static PylonBase instance;
 
     @Override
     public void onEnable() {
         instance = this;
+
+        metrics = new Metrics(this, BSTATS_ID);
 
         registerWithPylon();
 
@@ -71,6 +77,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         return Material.COPPER_INGOT;
     }
 
+    // TODO remove and replace caller with runTaskLater for consistency
     public static void runSyncTimer(@NotNull Consumer<BukkitTask> task, long delay, long period) {
         Bukkit.getScheduler().runTaskTimer(instance, task, delay, period);
     }

@@ -480,7 +480,7 @@ item:
       <arrow> Examining items with the loupe yields research points
       <arrow> The rarer the item, the more times it can be examined
       <arrow> <red>The examined item will be consumed</red>
-      <arrow> <insn>Hold right click</insn> with an item in the offhand to examine it
+      <arrow> <insn>Hold right click</insn> on a block or dropped item to examine it
 
   lumber_axe:
     name: "Lumber Axe"
@@ -1201,6 +1201,33 @@ item:
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Interval:</attr> %tick_interval%
 
+  hydraulic_cannon_chamber:
+    name: "Hydraulic Cannon Chamber"
+
+  hydraulic_cannon:
+    name: "Hydraulic Cannon"
+    lore: |-
+      <arrow> Uses hydraulic fluid to fire tin projectiles
+      <arrow> Refuel using the <white>Hydraulic Refueling Station
+      <arrow> <insn>Right click</insn> to fire
+      <arrow> <attr>Cooldown:</attr> %cooldown%
+      <arrow> <attr>Range:</attr> %range%
+      <arrow> <attr>Projectile speed:</attr> %speed%
+      <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
+      <arrow> <attr>Dirty hydraulic fluid per shot:</attr> %dirty-hydraulic-fluid-per-shot%
+      <arrow> <attr>Hydraulic fluid:</attr> %hydraulic-fluid%
+      <arrow> <attr>Dirty hydraulic fluid:</attr> %dirty-hydraulic-fluid%
+
+  tin_projectile:
+    name: "Tin Projectile"
+
+  hydraulic_refueling_station:
+    name: "Hydraulic Refueling Station"
+    lore: |-
+      <arrow> Refuels items with hydraulic fluid
+      <arrow> <insn>Right click</insn> to insert an item to refuel
+    waila: "Hydraulic Refueling Station %extra%"
+
   hydraulic_farmer:
     name: "Hydraulic Farmer"
     lore: |-
@@ -1355,6 +1382,7 @@ message:
     already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
     examined: "<green>As you examine the %item%, you get a sudden flash of insight"
+    is_other_plugin: "<red>You smug little knave, use vanilla items not plugin ones"
   research_pack:
     message: "As you open the research pack, %happening%"
     happening:
@@ -1391,6 +1419,8 @@ message:
   fireproof_result:
     tooltip: "<red><bold>Fire-proofed"
     success: "<red>Your item has been fire-proofed"
+  hydraulic_refueling_station:
+    extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
   soulbound_rune:
     tooltip: "<dark_purple>Soulbound"
     soulbind-message: "<dark_purple>Your soul has been linked with your item"
@@ -1422,3 +1452,8 @@ gui:
     too_cold: "<red>Temperature too low to cast, needs at least %temperature%"
     not_enough: "<red>Not enough %fluid% to cast (%amount%/%needed%)"
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
+  fluid_amount_bar:
+    text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
+    color:
+      hydraulic_fluid: "<#212d99>|"
+      dirty_hydraulic_fluid: "<#48459b>|"
