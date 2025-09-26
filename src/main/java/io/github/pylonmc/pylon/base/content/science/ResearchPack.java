@@ -41,7 +41,8 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
         ));
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.gained_research_points",
-                PylonArgument.of("points", points)
+                PylonArgument.of("points", points),
+                PylonArgument.of("total", Research.getResearchPoints(player))
         ));
 
         event.getPlayer().setCooldown(getStack(), cooldownTicks);

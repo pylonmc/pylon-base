@@ -109,7 +109,6 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.clear(); // Don't drop the block itself
         drops.addAll(contents);
     }
 

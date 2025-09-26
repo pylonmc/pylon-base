@@ -841,8 +841,8 @@ item:
     lore: |-
       <arrow> Efficiently bends materials into pipes
       <arrow> <insn>Right click</insn> to insert an item
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
+      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
 
   hydraulic_table_saw:
     name: "Hydraulic Table Saw"
@@ -1304,6 +1304,7 @@ research:
   showing_off: "<rainbow>Showing off"
   explosive_targets: "<#ef8c4a>Explosive archery"
   igneous_magic: "<#45336d>Igneous magic"
+  forbidden_medicine: "<#cc2e2e>Forbidden Medicine"
   scientific_revolution_1: "<#fc0505>The Scientific Revolution I"
   scientific_revolution_2: "<#5bfc05>The Scientific Revolution II"
   high_temperature_materials: "<#ce6625>High temperature materials"

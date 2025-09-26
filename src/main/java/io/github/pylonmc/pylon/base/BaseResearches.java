@@ -272,7 +272,7 @@ public class BaseResearches {
 
         new Research(
                 baseKey("forbidden_medicine"),
-                Material.SPLASH_POTION,
+                Material.NETHER_WART,
                 18L,
                 BaseKeys.CLEANSING_POTION
         ).register();
