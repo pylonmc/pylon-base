@@ -1,1 +1,6 @@
 range: 5
+use-sound:
+  sound: minecraft:entity.enderman.teleport
+  source: block
+  volume: 1.0
+  pitch: 1.0

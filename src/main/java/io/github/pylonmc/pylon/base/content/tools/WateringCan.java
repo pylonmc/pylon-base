@@ -188,6 +188,6 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor, Pylo
     }
 
     private static void playSound(Block block, WateringSettings settings) {
-        block.getLocation().getWorld().playSound(block.getLocation(), settings.sound(), 0.3F, 1.0F);
+        block.getWorld().playSound(settings.sound().create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
     }
 }

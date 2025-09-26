@@ -1,0 +1,5 @@
+apply-sound:
+  sound: minecraft:entity.generic.explode
+  source: neutral
+  volume: 1.0
+  pitch: 1.0

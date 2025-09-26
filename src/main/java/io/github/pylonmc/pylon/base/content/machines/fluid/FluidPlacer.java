@@ -78,9 +78,7 @@ public class FluidPlacer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        if (fluidAmount(fluid) >= 1000.0
-                && placeBlock.getType().isAir()
-        ) {
+        if (fluidAmount(fluid) >= 1000.0 && placeBlock.getType().isAir()) {
             removeFluid(fluid, 1000.0);
             if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {
                 placeBlock.getWorld().playSound(placeBlock.getLocation().toCenterLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
