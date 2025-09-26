@@ -1,10 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -17,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public final class SmelteryOutputHatch extends SmelteryComponent
+public class SmelteryOutputHatch extends SmelteryComponent
         implements PylonEntityHolderBlock, PylonFluidBlock {
 
-    public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_OUTPUT_HATCH).getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
+    public final double flowRate = getSettings().getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public SmelteryOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -41,7 +39,7 @@ public final class SmelteryOutputHatch extends SmelteryComponent
         Pair<PylonFluid, Double> supplied = controller.getBottomFluid();
         return supplied == null
                 ? Map.of()
-                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), FLOW_RATE * deltaSeconds));
+                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * deltaSeconds));
     }
 
     @Override
