@@ -59,7 +59,7 @@ public class HydraulicHammerHead extends PylonBlock
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
 
     private final ItemStack emptyHammerTipStack = ItemStackBuilder.of(Material.AIR)
-            .addCustomModelDataString(getKey() + ":hammer_head:empty")
+            .addCustomModelDataString(getKey() + ":hammer_tip:empty")
             .build();
 
     public static class Item extends PylonItem {
