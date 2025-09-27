@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -71,12 +70,12 @@ public class HydraulicPipeBender extends PylonBlock
         setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .lookAlong(new Vector3d(0.0, 1.0, 0.0))
                         .scale(0.4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        ));
+        );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
         recipe = null;
@@ -101,7 +100,7 @@ public class HydraulicPipeBender extends PylonBlock
 
         recipe = null;
 
-        ItemDisplay itemDisplay = getItemDisplay().getEntity();
+        ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
 
@@ -125,7 +124,7 @@ public class HydraulicPipeBender extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        ItemStack stack = getItemDisplay().getEntity().getItemStack();
+        ItemStack stack = getItemDisplay().getItemStack();
 
         if (recipe != null) {
             spawnParticles();
@@ -135,7 +134,7 @@ public class HydraulicPipeBender extends PylonBlock
                 return;
             }
 
-            getItemDisplay().getEntity().setItemStack(stack.subtract(recipe.input().getAmount()));
+            getItemDisplay().setItemStack(stack.subtract(recipe.input().getAmount()));
             getBlock().getWorld().dropItemNaturally(
                     getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
                     recipe.result()
@@ -162,8 +161,8 @@ public class HydraulicPipeBender extends PylonBlock
         }
     }
 
-    public SimpleItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    public ItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     public void spawnParticles() {
@@ -176,6 +175,6 @@ public class HydraulicPipeBender extends PylonBlock
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.add(getItemDisplay().getEntity().getItemStack());
+        drops.add(getItemDisplay().getItemStack());
     }
 }
