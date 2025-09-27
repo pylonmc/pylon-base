@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -19,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -61,12 +63,15 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         } else {
             setFacing(BlockFace.NORTH);
         }
-        addEntity("drill", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(drillMaterial)
+        addEntity("drill", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(drillMaterial)
+                        .addCustomModelDataString(getKey() + ":drill")
+                        .build()
+                )
                 .transformation(new TransformBuilder()
                         .scale(0.3, 2.1, 0.3))
                 .build(getBlock().getLocation().toCenterLocation().subtract(0, 1.5, 0))
-        ));
+        );
         cycling = false;
     }
 
@@ -76,8 +81,8 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         cycling = false;
     }
 
-    public SimpleItemDisplay getDrillDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "drill");
+    public ItemDisplay getDrillDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "drill");
     }
 
     public static @NotNull Matrix4f getDrillDisplayMatrix(double rotation) {
@@ -98,9 +103,7 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
             for (int j = 0; j < 4; j++) {
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                    getDrillDisplay().setTransform(
-                            rotationDuration / 4, getDrillDisplayMatrix(rotation)
-                    );
+                    BaseUtils.animate(getDrillDisplay(), rotationDuration / 4, getDrillDisplayMatrix(rotation));
                     new ParticleBuilder(Particle.BLOCK)
                             .count(5)
                             .data(getBlock().getRelative(BlockFace.DOWN, 3).getBlockData())

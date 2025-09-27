@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.magic.base;
+package io.github.pylonmc.pylon.base.content.tools.base;
 
 import io.github.pylonmc.pylon.core.item.base.PylonArrow;
 import io.github.pylonmc.pylon.core.item.base.PylonBow;

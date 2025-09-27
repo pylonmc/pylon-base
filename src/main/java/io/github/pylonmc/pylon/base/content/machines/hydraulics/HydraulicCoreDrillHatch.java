@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -13,6 +12,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +56,7 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
         if (scale < 1.0e-9) {
             scale = 0.0F;
         }
-        getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
+        getFluidDisplay().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
                 .buildForItemDisplay()
@@ -64,7 +64,7 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
         return result;
     }
 
-    public @NotNull SimpleItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid");
+    public @NotNull ItemDisplay getFluidDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
     }
 }

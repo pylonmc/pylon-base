@@ -1,7 +1,7 @@
-package io.github.pylonmc.pylon.base.content.magic;
+package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.content.magic.base.Rune;
+import io.github.pylonmc.pylon.base.content.tools.base.Rune;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
