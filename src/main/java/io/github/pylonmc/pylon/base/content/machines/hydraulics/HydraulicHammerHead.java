@@ -54,8 +54,7 @@ public class HydraulicHammerHead extends PylonBlock
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_HAMMER_HEAD);
     public static final int GO_DOWN_TIME_TICKS = settings.getOrThrow("go-down-time-ticks", ConfigAdapter.INT);
-    public static final double HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-craft", ConfigAdapter.INT);
+    public static final double HYDRAULIC_FLUID_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
 
     private final ItemStack emptyHammerTipStack = ItemStackBuilder.of(Material.AIR)
@@ -71,8 +70,7 @@ public class HydraulicHammerHead extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic_fluid_per_craft", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_MB_PER_CRAFT)),
-                    PylonArgument.of("dirty_hydraulic_fluid_per_craft", UnitFormat.MILLIBUCKETS.format(DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT))
+                    PylonArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_PER_CRAFT))
             );
         }
     }
@@ -103,8 +101,8 @@ public class HydraulicHammerHead extends PylonBlock
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
         );
 
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT * 2, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT * 2, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -169,15 +167,15 @@ public class HydraulicHammerHead extends PylonBlock
             );
         }
 
-        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_CRAFT
-                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
                 || !hammer.tryDoRecipe(baseBlock, null)
         ) {
             return;
         }
 
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT);
 
         BaseUtils.animate(getHammerHead(), GO_DOWN_TIME_TICKS, getHeadTransformation(-0.7));
         BaseUtils.animate(getHammerTip(), GO_DOWN_TIME_TICKS, getTipTransformation(-1.7));
