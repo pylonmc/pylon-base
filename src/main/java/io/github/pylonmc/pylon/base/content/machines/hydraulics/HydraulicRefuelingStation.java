@@ -35,7 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
+public class HydraulicRefuelingStation extends PylonBlock
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -103,8 +104,8 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
             return new WailaConfig(
-                    getDefaultWailaTranslationKey().arguments(PylonArgument.of("extra", ""))
-            );
+                    getDefaultWailaTranslationKey().arguments(PylonArgument.of("extra", "")
+                    ));
         }
         Component hydraulicFluidBar = BaseUtils.createFluidAmountBar(
                 refuelable.getHydraulicFluid(),

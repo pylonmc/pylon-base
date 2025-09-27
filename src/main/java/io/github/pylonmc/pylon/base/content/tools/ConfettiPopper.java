@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonConsumable;
@@ -17,11 +16,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 public class ConfettiPopper extends PylonItem implements PylonConsumable {
-    public static final double LENGTH = getSettings(BaseKeys.CONFETTI_POPPER).getOrThrow("length", ConfigAdapter.DOUBLE);
-    public static final double SIZE = getSettings(BaseKeys.CONFETTI_POPPER).getOrThrow("size", ConfigAdapter.DOUBLE);
-    public static final int AMOUNT = getSettings(BaseKeys.CONFETTI_POPPER).getOrThrow("amount", ConfigAdapter.INT);
-
     private static final Random RANDOM = new Random();
+
+    public final double length = getSettings().getOrThrow("length", ConfigAdapter.DOUBLE);
+    public final double size = getSettings().getOrThrow("size", ConfigAdapter.DOUBLE);
+    public final int amount = getSettings().getOrThrow("amount", ConfigAdapter.INT);
+    public final int lifetime = getSettings().getOrThrow("lifetime-ticks", ConfigAdapter.INT);
 
     public ConfettiPopper(@NotNull ItemStack stack) {
         super(stack);
@@ -35,12 +35,12 @@ public class ConfettiPopper extends PylonItem implements PylonConsumable {
 
         player.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1.6f);
         player.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1f, 1.5f);
-        for (int i = 0; i < AMOUNT; i++) {
-            double distance = RANDOM.nextDouble(1, LENGTH);
+        for (int i = 0; i < amount; i++) {
+            double distance = RANDOM.nextDouble(1, length);
 
-            double spreadX = (RANDOM.nextDouble() - 0.5) * 2 * SIZE;
-            double spreadY = (RANDOM.nextDouble() - 0.5) * 2 * SIZE;
-            double spreadZ = (RANDOM.nextDouble() - 0.5) * 2 * SIZE;
+            double spreadX = (RANDOM.nextDouble() - 0.5) * 2 * size;
+            double spreadY = (RANDOM.nextDouble() - 0.5) * 2 * size;
+            double spreadZ = (RANDOM.nextDouble() - 0.5) * 2 * size;
 
             Vector offset = direction.clone().multiply(distance).add(new Vector(spreadX, spreadY, spreadZ));
             Vector spawnPos = eyeLocation.toVector().add(offset);
@@ -48,7 +48,7 @@ public class ConfettiPopper extends PylonItem implements PylonConsumable {
             int index = RANDOM.nextInt(ConfettiParticle.CONCRETES.size());
             Material mat = ConfettiParticle.CONCRETES.get(index);
 
-            new ConfettiParticle(spawnPos.toLocation(player.getWorld()), mat, direction);
+            new ConfettiParticle(spawnPos.toLocation(player.getWorld()), direction, lifetime, mat);
         }
     }
 }
