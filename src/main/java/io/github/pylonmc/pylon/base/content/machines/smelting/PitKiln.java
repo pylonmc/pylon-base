@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -39,7 +39,7 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class PitKiln extends PylonBlock implements
-        PylonSimpleMultiblock, PylonInteractableBlock, PylonTickingBlock {
+        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
 
     public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =

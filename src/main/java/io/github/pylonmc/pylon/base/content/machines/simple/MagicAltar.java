@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractableBlock {
+public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractBlock {
 
     public static final int PEDESTAL_COUNT = 8;
 

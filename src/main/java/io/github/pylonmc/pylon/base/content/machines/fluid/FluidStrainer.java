@@ -118,7 +118,7 @@ public class FluidStrainer extends PylonBlock
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", currentRecipe == null ?
                         Component.empty() :
                         Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",
@@ -133,7 +133,7 @@ public class FluidStrainer extends PylonBlock
     @Override
     @NotNull
     public Component getGuiTitle() {
-        return getDefaultTranslationKey();
+        return getDefaultWailaTranslationKey();
     }
 
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);

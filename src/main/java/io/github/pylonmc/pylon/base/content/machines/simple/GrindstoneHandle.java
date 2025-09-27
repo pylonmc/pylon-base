@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 
-public class GrindstoneHandle extends PylonBlock implements PylonInteractableBlock {
+public class GrindstoneHandle extends PylonBlock implements PylonInteractBlock {
 
     @SuppressWarnings("unused")
     public GrindstoneHandle(Block block, BlockCreateContext context) {

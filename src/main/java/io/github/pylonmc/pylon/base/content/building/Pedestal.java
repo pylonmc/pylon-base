@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.building;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -25,7 +25,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
 
-public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
+public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractBlock {
 
     private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
     private static final NamespacedKey LOCKED_KEY = baseKey("locked");
