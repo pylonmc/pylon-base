@@ -1,0 +1,5 @@
+material: amethyst_shard
+cost: 15
+unlocked:
+- pylonbase:health_talisman_simple
+- pylonbase:health_talisman_advanced

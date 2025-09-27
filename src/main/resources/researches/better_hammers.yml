@@ -1,0 +1,5 @@
+material: stone_pickaxe
+cost: 15
+unlocked:
+- pylonbase:hammer_iron
+- pylonbase:hammer_diamond

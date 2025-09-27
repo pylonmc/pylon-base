@@ -1,0 +1,5 @@
+material: bucket
+cost: 8
+unlocked:
+  - "pylonbase:watering_can"
+  - "pylonbase:sprinkler"

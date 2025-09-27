@@ -48,7 +48,7 @@ public class ConfettiPopper extends PylonItem implements PylonConsumable {
             int index = RANDOM.nextInt(ConfettiParticle.CONCRETES.size());
             Material mat = ConfettiParticle.CONCRETES.get(index);
 
-            new ConfettiParticle(spawnPos.toLocation(player.getWorld()), mat, direction);
+            //new ConfettiParticle(spawnPos.toLocation(player.getWorld()), mat, direction);
         }
     }
 }

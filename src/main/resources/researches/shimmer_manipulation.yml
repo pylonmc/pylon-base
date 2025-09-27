@@ -1,0 +1,6 @@
+material: sugar
+cost: 7
+unlocked:
+  - "pylonbase:shimmer_dust_2"
+  - "pylonbase:covalent_binder"
+  - "pylonbase:enriched_netherrack"

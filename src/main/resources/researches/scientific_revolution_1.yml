@@ -1,0 +1,4 @@
+material: red_banner
+cost: 10
+unlock:
+  - "pylonbase:research_pack_1"

@@ -1,0 +1,9 @@
+material: blast_furnace
+cost: 50
+unlocked:
+- pylonbase:smeltery_controller
+- pylonbase:smeltery_burner
+- pylonbase:smeltery_caster
+- pylonbase:smeltery_hopper
+- pylonbase:smeltery_input_hatch
+- pylonbase:smeltery_output_hatch

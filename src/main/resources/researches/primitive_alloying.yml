@@ -1,0 +1,11 @@
+material: iron_ingot
+cost: 10
+unlocked:
+- pylonbase:pit_kiln
+- pylonbase:carbon
+- pylonbase:sulfur
+- pylonbase:bronze_ingot
+- pylonbase:bronze_dust
+- pylonbase:bronze_sheet
+- pylonbase:bronze_nugget
+- pylonbase:bronze_block

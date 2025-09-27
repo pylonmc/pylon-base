@@ -1,0 +1,4 @@
+material: wooden_axe
+cost: 30
+unlocked:
+- pylonbase:lumber_axe

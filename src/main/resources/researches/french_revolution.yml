@@ -1,0 +1,4 @@
+material: diamond_sword
+cost: 25
+unlocked:
+- pylonbase:beheading_sword

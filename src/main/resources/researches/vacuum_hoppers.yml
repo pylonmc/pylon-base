@@ -1,0 +1,5 @@
+material: hopper
+cost: 8
+unlocked:
+  - "pylonbase:vacuum_hopper_1"
+  - "pylonbase:vacuum_hopper_2"

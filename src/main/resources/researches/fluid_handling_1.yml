@@ -1,0 +1,6 @@
+material: orange_terracotta
+cost: 15
+unlocked:
+- pylonbase:fluid_pipe_bronze
+- pylonbase:portable_fluid_tank_bronze
+- pylonbase:fluid_tank_casing_bronze

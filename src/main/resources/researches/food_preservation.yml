@@ -1,0 +1,4 @@
+material: rotten_flesh
+cost: 3
+unlocked:
+  - "pylonbase:monster_jerky"

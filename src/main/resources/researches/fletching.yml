@@ -1,0 +1,5 @@
+material: arrow
+cost: 4
+unlocked:
+  - "pylonbase:recoil_arrow"
+  - "pylonbase:ice_arrow"

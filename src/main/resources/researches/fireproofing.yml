@@ -1,0 +1,4 @@
+material: fire_charge
+cost: 25
+unlocked:
+- pylonbase:fireproof_rune

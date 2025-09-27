@@ -1,0 +1,4 @@
+material: piston
+cost: 30
+unlocked:
+- pylonbase:immobilizer

@@ -1,0 +1,8 @@
+material: light_blue_terracotta
+cost: 12
+unlocked:
+- pylonbase:water_pump
+- pylonbase:water_placer
+- pylonbase:water_drainer
+- pylonbase:lava_placer
+- pylonbase:lava_drainer

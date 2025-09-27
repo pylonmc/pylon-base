@@ -1,0 +1,6 @@
+material: black_terracotta
+cost: 30
+unlocked:
+- pylonbase:fluid_pipe_igneous_composite
+- pylonbase:portable_fluid_tank_igneous_composite
+- pylonbase:fluid_tank_casing_igneous_composite

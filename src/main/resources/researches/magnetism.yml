@@ -1,0 +1,11 @@
+material: iron_ingot
+cost: 50
+unlocked:
+- pylonbase:nickel_dust
+- pylonbase:nickel_ingot
+- pylonbase:nickel_nugget
+- pylonbase:nickel_block
+- pylonbase:cobalt_dust
+- pylonbase:cobalt_block
+- pylonbase:cobalt_ingot
+- pylonbase:cobalt_nugget

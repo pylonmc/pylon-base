@@ -1,0 +1,4 @@
+material: white_concrete
+cost: 32
+unlocked:
+- pylonbase:fluid_strainer

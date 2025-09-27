@@ -1,0 +1,12 @@
+material: brick
+cost: 10
+unlocked:
+- pylonbase:bronze_sword
+- pylonbase:bronze_axe
+- pylonbase:bronze_pickaxe
+- pylonbase:bronze_shovel
+- pylonbase:bronze_hoe
+- pylonbase:bronze_boots
+- pylonbase:bronze_leggings
+- pylonbase:bronze_chestplate
+- pylonbase:bronze_helmet

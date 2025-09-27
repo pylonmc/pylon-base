@@ -1,0 +1,4 @@
+material: black_terracotta
+cost: 20
+unlock:
+  - "pylonbase:fluid_voider_1"
