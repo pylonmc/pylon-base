@@ -1219,7 +1219,6 @@ item:
       <arrow> <attr>Range:</attr> %range%
       <arrow> <attr>Projectile speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
-      <arrow> <attr>Dirty hydraulic fluid per shot:</attr> %dirty-hydraulic-fluid-per-shot%
       <arrow> <attr>Hydraulic fluid:</attr> %hydraulic-fluid%
       <arrow> <attr>Dirty hydraulic fluid:</attr> %dirty-hydraulic-fluid%
 
