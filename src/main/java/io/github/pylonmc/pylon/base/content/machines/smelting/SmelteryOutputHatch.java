@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 public final class SmelteryOutputHatch extends SmelteryComponent
-        implements PylonEntityHolderBlock, PylonFluidBlock {
+        implements PylonEntityHolderBlock, PylonFluidBlock, PylonDirectionalBlock {
 
     public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_OUTPUT_HATCH).getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
@@ -49,5 +50,12 @@ public final class SmelteryOutputHatch extends SmelteryComponent
         SmelteryController controller = getController();
         if (controller == null) return;
         controller.removeFluid(fluid, amount);
+    }
+
+    @Override
+    public @NotNull BlockFace getFacing() {
+        FluidPointInteraction input = getHeldEntity(FluidPointInteraction.class, "output");
+        BlockFace inputFace = input == null ? null : input.getFace();
+        return inputFace == null ? BlockFace.NORTH : inputFace;
     }
 }

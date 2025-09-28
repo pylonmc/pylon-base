@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
@@ -40,7 +41,7 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class FluidTank extends PylonBlock
-        implements PylonMultiblock, PylonFluidTank, PylonEntityHolderBlock {
+        implements PylonMultiblock, PylonFluidTank, PylonEntityHolderBlock, PylonDirectionalBlock {
 
     public static class Item extends PylonItem {
 
@@ -183,5 +184,12 @@ public class FluidTank extends PylonBlock
             );
         }
         return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
+    }
+
+    @Override
+    public @NotNull BlockFace getFacing() {
+        FluidPointInteraction input = getHeldEntity(FluidPointInteraction.class, "input");
+        BlockFace inputFace = input == null ? null : input.getFace();
+        return inputFace == null ? BlockFace.NORTH : inputFace;
     }
 }

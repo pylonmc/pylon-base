@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -25,7 +26,7 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class CreativeFluidSource extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonGuiBlock {
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonGuiBlock, PylonDirectionalBlock {
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
@@ -60,5 +61,12 @@ public class CreativeFluidSource extends PylonBlock
     @Override
     public @NotNull Gui createGui() {
         return (FluidSelector.make(() -> fluid, this::setFluid));
+    }
+
+    @Override
+    public @NotNull BlockFace getFacing() {
+        FluidPointInteraction input = getHeldEntity(FluidPointInteraction.class, "output");
+        BlockFace inputFace = input == null ? null : input.getFace();
+        return inputFace == null ? BlockFace.NORTH : inputFace;
     }
 }

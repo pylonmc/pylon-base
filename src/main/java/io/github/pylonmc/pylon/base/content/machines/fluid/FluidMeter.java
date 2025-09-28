@@ -39,12 +39,14 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
         addEntity("flow_rate_south", createTextDisplay(player, BlockFace.SOUTH));
 
         removedSinceLastUpdate = 0.0;
+        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings("unused")
     public FluidMeter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         removedSinceLastUpdate = 0.0;
+        setDisableBlockTextureEntity(true);
     }
 
     @Override

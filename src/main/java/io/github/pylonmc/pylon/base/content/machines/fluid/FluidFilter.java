@@ -98,12 +98,14 @@ public class FluidFilter extends PylonBlock
         );
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.EAST, 0.25F));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.WEST, 0.25F));
+        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+        setDisableBlockTextureEntity(true);
     }
 
     @Override

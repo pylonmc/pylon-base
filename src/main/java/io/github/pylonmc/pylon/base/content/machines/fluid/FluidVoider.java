@@ -57,11 +57,13 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
                 )
                 .build(getBlock().getLocation().toCenterLocation())
         ));
+        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+        setDisableBlockTextureEntity(true);
     }
 
     @Override
