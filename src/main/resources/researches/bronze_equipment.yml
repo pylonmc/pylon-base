@@ -1,6 +1,6 @@
 material: brick
 cost: 10
-unlocked:
+unlocks:
 - pylonbase:bronze_sword
 - pylonbase:bronze_axe
 - pylonbase:bronze_pickaxe

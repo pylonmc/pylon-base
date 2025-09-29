@@ -1,6 +1,6 @@
 material: waxed_copper_bulb
 cost: 40
-unlocked:
+unlocks:
 - pylonbase:hydraulic_core_drill
 - pylonbase:hydraulic_core_drill_input_hatch
 - pylonbase:hydraulic_core_drill_output_hatch

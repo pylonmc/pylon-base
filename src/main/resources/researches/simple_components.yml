@@ -1,6 +1,6 @@
 material: iron_trapdoor
 cost: 8
-unlocked:
+unlocks:
   - "pylonbase:rotor"
   - "pylonbase:backflow_valve"
   - "pylonbase:analogue_display"

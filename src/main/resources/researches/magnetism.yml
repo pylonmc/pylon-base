@@ -1,6 +1,6 @@
 material: iron_ingot
 cost: 50
-unlocked:
+unlocks:
 - pylonbase:nickel_dust
 - pylonbase:nickel_ingot
 - pylonbase:nickel_nugget

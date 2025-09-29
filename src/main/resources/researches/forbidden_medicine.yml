@@ -1,4 +1,4 @@
 material: nether_wart
 cost: 18
-unlocked:
+unlocks:
 - pylonbase:cleansing_potion

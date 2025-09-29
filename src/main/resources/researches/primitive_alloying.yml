@@ -1,6 +1,6 @@
 material: iron_ingot
 cost: 10
-unlocked:
+unlocks:
 - pylonbase:pit_kiln
 - pylonbase:carbon
 - pylonbase:sulfur

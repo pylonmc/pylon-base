@@ -1,5 +1,5 @@
 material: obsidian
 cost: 18
-unlocked:
+unlocks:
 - pylonbase:obsidian_chip
 - pylonbase:igneous_composite

@@ -1,6 +1,6 @@
 material: crafting_table
 cost: 20
-unlocked:
+unlocks:
 - pylonbase:portability_catalyst
 - pylonbase:portable_crafting_table
 - pylonbase:portable_dustbin

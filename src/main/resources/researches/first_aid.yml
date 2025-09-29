@@ -1,5 +1,5 @@
 material: cobweb
 cost: 5
-unlocked:
+unlocks:
   - "pylonbase:bandage"
   - "pylonbase:splint"

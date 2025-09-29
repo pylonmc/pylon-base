@@ -1,4 +1,4 @@
 material: oak_fence_gate
 cost: 5
-unlocked:
+unlocks:
   - "pylonbase:brick_mold"

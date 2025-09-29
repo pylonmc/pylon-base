@@ -1,5 +1,5 @@
 material: iron_pickaxe
 cost: 15
-unlocked:
+unlocks:
 - pylonbase:improved_manual_core_drill
 - pylonbase:subsurface_core_chunk

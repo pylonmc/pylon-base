@@ -1,4 +1,4 @@
 material: composter
 cost: 12
-unlocked:
+unlocks:
 - pylonbase:press

@@ -1,6 +1,6 @@
 material: white_concrete
 cost: 12
-unlocked:
+unlocks:
 - pylonbase:fluid_valve
 - pylonbase:fluid_filter
 - pylonbase:fluid_meter

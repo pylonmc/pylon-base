@@ -1,5 +1,5 @@
 material: yellow_dye
 cost: 1
-unlocked:
+unlocks:
   - "pylonbase:flour"
   - "pulonbase:dough"

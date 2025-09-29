@@ -1,6 +1,6 @@
 material: blast_furnace
 cost: 50
-unlocked:
+unlocks:
 - pylonbase:smeltery_controller
 - pylonbase:smeltery_burner
 - pylonbase:smeltery_caster

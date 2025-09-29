@@ -1,4 +1,4 @@
 material: budding_amethyst
 cost: 35
-unlocked:
+unlocks:
 - pylonbase:health_talisman_ultimate
