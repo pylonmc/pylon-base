@@ -1375,6 +1375,13 @@ public final class BaseItems {
     }
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
+    public static final ItemStack PIT_KILN = ItemStackBuilder.pylonItem(Material.DECORATED_POT, BaseKeys.PIT_KILN)
+            .build();
+    static {
+        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
+        BasePages.SMELTING.addItem(PIT_KILN);
+    }
+
     public static final ItemStack REFRACTORY_MIX = ItemStackBuilder.pylonItem(Material.SMOOTH_RED_SANDSTONE, BaseKeys.REFRACTORY_MIX)
             .build();
     static {
@@ -1450,13 +1457,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SMELTERY_BURNER, BaseKeys.SMELTERY_BURNER);
         BasePages.SMELTING.addItem(SMELTERY_BURNER);
-    }
-
-    public static final ItemStack PIT_KILN = ItemStackBuilder.pylonItem(Material.DECORATED_POT, BaseKeys.PIT_KILN)
-            .build();
-    static {
-        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
-        BasePages.SMELTING.addItem(PIT_KILN);
     }
     // </editor-fold>
 
