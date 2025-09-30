@@ -139,6 +139,14 @@ item:
       <arrow> Explodes aggressively and sets the surroundings on fire when shot
       <arrow> <attr>Explosion power:</attr> %explosive-power%
 
+  bloomery:
+    name: "Bloomery"
+    lore: |-
+      <arrow> A device used for smelting steel from iron and carbon
+      <arrow> <insn>Set fire to a coal block with gypsum dust on top</insn> to create
+      <arrow> <insn>Right click</insn> to insert items
+      <arrow> <insn>Right click with tongs</insn> to retrieve items safely
+
   bronze_axe:
     name: "Bronze Axe"
 
@@ -473,6 +481,9 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
+
+  iron_carbon_mix:
+    name: "Iron-Carbon Mix"
 
   loupe:
     name: "Loupe"
@@ -1263,6 +1274,7 @@ fluid:
   slurry: "<gray>Slurry"
   slurry_coal: "<gray>Coal Slurry"
   slurry_carbon: "<gray>Carbon Slurry"
+  slurry_iron_carbon: "<gray>Iron-Carbon Slurry"
   slurry_redstone: "<red>Redstone Slurry"
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"

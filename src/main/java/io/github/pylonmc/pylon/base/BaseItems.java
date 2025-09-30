@@ -240,6 +240,13 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(BRONZE_BLOCK);
     }
 
+    public static final ItemStack IRON_CARBON_MIX = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.IRON_CARBON_MIX)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, IRON_CARBON_MIX);
+        BasePages.RESOURCES.addItem(IRON_CARBON_MIX);
+    }
+
     public static final ItemStack STEEL_INGOT = ItemStackBuilder.pylonItem(Material.NETHERITE_INGOT, BaseKeys.STEEL_INGOT)
             .build();
     static {
@@ -1415,6 +1422,13 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, REFRACTORY_BRICKS, BaseKeys.REFRACTORY_BRICKS);
         BasePages.SMELTING.addItem(REFRACTORY_BRICKS);
+    }
+
+    public static final ItemStack BLOOMERY = ItemStackBuilder.pylonItem(Material.MAGMA_BLOCK, BaseKeys.BLOOMERY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BLOOMERY, BaseKeys.BLOOMERY);
+        BasePages.SMELTING.addItem(BLOOMERY);
     }
 
     public static final ItemStack SMELTERY_CONTROLLER = ItemStackBuilder.pylonItem(Material.BLAST_FURNACE, BaseKeys.SMELTERY_CONTROLLER)
