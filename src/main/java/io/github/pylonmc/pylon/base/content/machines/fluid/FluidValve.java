@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
@@ -37,7 +37,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class FluidValve extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
@@ -115,7 +115,7 @@ public class FluidValve extends PylonBlock
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(PylonArgument.of(
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of(
                 "status",
                 Component.translatable("pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled"))
         )));

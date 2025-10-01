@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
@@ -35,7 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractableBlock {
+public class HydraulicRefuelingStation extends PylonBlock
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -103,7 +104,7 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
             return new WailaConfig(
-                    getDefaultTranslationKey().arguments(PylonArgument.of("extra", "")
+                    getDefaultWailaTranslationKey().arguments(PylonArgument.of("extra", "")
                     ));
         }
         Component hydraulicFluidBar = BaseUtils.createFluidAmountBar(
@@ -119,7 +120,7 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
                 TextColor.fromHexString("#48459b")
         );
         return new WailaConfig(
-                getDefaultTranslationKey().arguments(
+                getDefaultWailaTranslationKey().arguments(
                         PylonArgument.of(
                                 "extra",
                                 Component.translatable("pylon.pylonbase.message.hydraulic_refueling_station.extra").arguments(

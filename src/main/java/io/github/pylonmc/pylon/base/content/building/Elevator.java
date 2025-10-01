@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.building;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonJumpableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonJumpBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSneakableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpableBlock {
+public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpBlock {
 
     public static class Item extends PylonItem {
 
@@ -88,12 +88,12 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     @Override
-    public void onSneakStart(@NotNull PlayerToggleSneakEvent event) {
+    public void onSneakedOn(@NotNull PlayerToggleSneakEvent event) {
         teleportPlayer(event.getPlayer(), getBlock().getLocation(), true);
     }
 
     @Override
-    public void onJump(@NotNull PlayerJumpEvent event) {
+    public void onJumpedOn(@NotNull PlayerJumpEvent event) {
         teleportPlayer(event.getPlayer(), getBlock().getLocation(), false);
     }
 }

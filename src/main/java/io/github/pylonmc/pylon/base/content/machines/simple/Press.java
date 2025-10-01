@@ -8,7 +8,7 @@ import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -42,7 +42,7 @@ import java.util.List;
 
 
 public class Press extends PylonBlock
-        implements PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+        implements PylonInteractBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
@@ -87,7 +87,7 @@ public class Press extends PylonBlock
 
     @Override
     public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL)))),
                 PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
                 PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())

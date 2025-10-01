@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -29,7 +29,7 @@ import java.util.List;
 
 
 public class FluidDrainer extends PylonBlock
-        implements PylonFluidBufferBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractableBlock {
+        implements PylonFluidBufferBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
     public static class Item extends PylonItem {
 
