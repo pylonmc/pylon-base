@@ -791,6 +791,12 @@ item:
       <arrow> Does not stack
       <arrow> <attr>Max health increase:</attr> %health-boost% 
 
+  infused_pylon:
+    name: "Infused Pylon"
+    lore: |-
+      <arrow> Increases your pickup range to %pickup-distance%
+      <arrow> Does not stack
+
   water_pump:
     name: "Water Pump"
     lore: |- 
@@ -1389,6 +1395,9 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+  infused_pylon:
+    enabled: "Infused Pylon <gray>has been</gray> <green>enabled"
+    disabled: "Infused Pylon <gray>has been</gray> <red>disabled"
   pipe:
     connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
     cannot_place_here: "<red>You cannot place a pipe here"

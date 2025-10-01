@@ -863,6 +863,14 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(HEALTH_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack INFUSED_PYLON = ItemStackBuilder.pylonItem(Material.BREEZE_ROD, BaseKeys.INFUSED_PYLON)
+        .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        .build();
+    static {
+        PylonItem.register(InfusedPylon.class, INFUSED_PYLON);
+        BasePages.TOOLS.addItem(INFUSED_PYLON);
+    }
+
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BEHEADING_SWORD).getOrThrow("durability", ConfigAdapter.INT))

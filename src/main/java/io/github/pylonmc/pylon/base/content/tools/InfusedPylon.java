@@ -1,0 +1,118 @@
+package io.github.pylonmc.pylon.base.content.tools;
+
+import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.List;
+
+public class InfusedPylon extends PylonItem implements PylonInteractor {
+    @Getter
+    private final double pickupDistance = getSettings().getOrThrow("pickup-distance", ConfigAdapter.DOUBLE);
+    @Getter
+    private final double attractForce = getSettings().getOrThrow("attract-force", ConfigAdapter.DOUBLE);
+
+    private static final NamespacedKey ENABLED_KEY = new NamespacedKey(PylonBase.getInstance(), "infused_pylon_toggler");
+
+    public InfusedPylon(@NotNull ItemStack stack) {
+        super(stack);
+    }
+
+    @Override
+    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        return List.of(PylonArgument.of("pickup-distance", UnitFormat.BLOCKS.format(pickupDistance)));
+    }
+
+    @Override
+    public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
+        if (!event.getAction().isRightClick()) return;
+        ItemStack stack = event.getItem();
+        if (stack == null) return; // should never happen
+
+        ItemMeta meta = stack.getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+
+        boolean enabled;
+        if (!pdc.has(ENABLED_KEY)) {
+            enabled = false;
+        } else {
+            enabled = !(pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) == Boolean.TRUE);
+        }
+
+        String targetKey = enabled ? "enabled" : "disabled";
+        event.getPlayer().sendMessage(Component.translatable("pylon.pylonbase.message.infused_pylon." + targetKey));
+
+        pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
+        stack.setItemMeta(meta);
+    }
+
+    /**
+     * Checks if an infused pylon is enabled
+     * @param stack assumes it is a valid pylon item
+     * @return true is enabled else otherwise
+     */
+    public static boolean isEnabled(@NotNull ItemStack stack) {
+        ItemMeta meta = stack.getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+
+        if (!pdc.has(ENABLED_KEY)) {
+            return true;
+        }
+
+        return pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) == Boolean.TRUE;
+    }
+
+    public static class InfusedPylonTicker extends BukkitRunnable {
+
+        @Override
+        public void run() {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Vector playerPosition = player.getLocation().toVector();
+                for (var stack : player.getInventory()) {
+                    PylonItem pylonItem = fromStack(stack);
+                    if (!(pylonItem instanceof InfusedPylon infusedPylon)) continue;
+
+                    if (!isEnabled(stack)) continue;
+
+                    Collection<Item> nearbyItems = player.getLocation().getNearbyEntitiesByType(
+                        Item.class,
+                        infusedPylon.getPickupDistance()
+                    );
+
+
+                    for (Item item : nearbyItems) {
+                        if (item.getPickupDelay() > 0) continue;
+
+                        Vector direction = playerPosition.clone().subtract(item.getLocation().toVector()).normalize();
+
+                        // it is near enough
+                        if (direction.distanceSquared(playerPosition) < 0.25) continue;
+
+                        Vector toMove = direction.multiply(infusedPylon.getAttractForce());
+                        item.setVelocity(toMove);
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+}

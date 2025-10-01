@@ -138,6 +138,8 @@ public class BaseKeys {
     public static final NamespacedKey HEALTH_TALISMAN_ADVANCED = baseKey("health_talisman_advanced");
     public static final NamespacedKey HEALTH_TALISMAN_ULTIMATE = baseKey("health_talisman_ultimate");
 
+    public static final NamespacedKey INFUSED_PYLON = baseKey("infused_pylon");
+
     public static final NamespacedKey ENRICHED_NETHERRACK = baseKey("enriched_netherrack");
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
