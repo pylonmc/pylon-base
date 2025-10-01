@@ -54,7 +54,7 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
         if (!pdc.has(ENABLED_KEY)) {
             enabled = false;
         } else {
-            enabled = !(pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) == Boolean.TRUE);
+            enabled = pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) != Boolean.TRUE;
         }
 
         String targetKey = enabled ? "enabled" : "disabled";
