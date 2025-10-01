@@ -998,6 +998,7 @@ item:
       <star> Multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Wooden Fluid Tank Casing %info%"
 
   fluid_tank_casing_copper:
     name: "Copper Fluid Tank Casing"
@@ -1005,6 +1006,7 @@ item:
       <star> Multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Copper Fluid Tank Casing %info%"
 
   fluid_tank_casing_tin:
     name: "Tin Fluid Tank Casing"
@@ -1012,6 +1014,7 @@ item:
       <star> Fluid Tank multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Tin Fluid Tank Casing %info%"
 
   fluid_tank_casing_iron:
     name: "Iron Fluid Tank Casing"
@@ -1019,6 +1022,7 @@ item:
       <star> Fluid Tank component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Iron Fluid Tank Casing %info%"
 
   fluid_tank_casing_bronze:
     name: "Bronze Fluid Tank Casing"
@@ -1026,6 +1030,7 @@ item:
       <star> Fluid Tank multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Bronze Fluid Tank Casing %info%"
 
   fluid_tank_casing_igneous_composite:
     name: "Igneous Composite Fluid Tank Casing"
@@ -1033,6 +1038,7 @@ item:
       <star> Fluid Tank multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Igneous Composite Fluid Tank Casing %info%"
 
   fluid_tank_casing_steel:
     name: "Steel Fluid Tank Casing"
@@ -1040,6 +1046,7 @@ item:
       <star> Fluid Tank multiblock component
       <arrow> <attr>Capacity:</attr> %capacity%
       <arrow> <attr>Temperatures:</attr> %temperatures%
+    waila: "Steel Fluid Tank Casing %info%"
 
   manual_core_drill_lever:
     name: "Manual Core Drill Lever"
