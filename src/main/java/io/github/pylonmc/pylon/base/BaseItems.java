@@ -16,6 +16,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
+import io.github.pylonmc.pylon.base.content.resources.Bloom;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
@@ -245,6 +246,20 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, IRON_CARBON_MIX);
         BasePages.RESOURCES.addItem(IRON_CARBON_MIX);
+    }
+
+    public static final ItemStack BLOOM = ItemStackBuilder.pylonItem(Material.RAW_IRON, BaseKeys.BLOOM)
+            .build();
+    static {
+        PylonItem.register(Bloom.class, BLOOM);
+        BasePages.RESOURCES.addItem(BLOOM);
+    }
+
+    public static final ItemStack TONGS = ItemStackBuilder.pylonItem(Material.SHEARS, BaseKeys.TONGS)
+            .build();
+    static {
+        PylonItem.register(Tongs.class, TONGS);
+        BasePages.TOOLS.addItem(TONGS);
     }
 
     public static final ItemStack STEEL_INGOT = ItemStackBuilder.pylonItem(Material.NETHERITE_INGOT, BaseKeys.STEEL_INGOT)

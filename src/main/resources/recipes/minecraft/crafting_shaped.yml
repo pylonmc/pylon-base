@@ -1509,7 +1509,6 @@ pylonbase:hydraulic_refueling_station:
   result: pylonbase:hydraulic_refueling_station
   category: building
 
-
 pylonbase:reactivated_wither_skull:
   pattern:
     - " N "
@@ -1520,4 +1519,16 @@ pylonbase:reactivated_wither_skull:
     S: minecraft:stick
     R: minecraft:nether_star
   result: pylonbase:reactivated_wither_skull
+  category: equipment
+
+pylonbase:tongs:
+  pattern:
+    - "B B"
+    - "BCB"
+    - " W "
+  key:
+    B: pylonbase:bronze_ingot
+    C: "#minecraft:wool_carpets"
+    W: "#minecraft:wool"
+  result: pylonbase:tongs
   category: equipment

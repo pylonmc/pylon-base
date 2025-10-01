@@ -139,6 +139,15 @@ item:
       <arrow> Explodes aggressively and sets the surroundings on fire when shot
       <arrow> <attr>Explosion power:</attr> %explosive-power%
 
+  bloom:
+    name: "Bloom"
+
+  tongs:
+    name: "Tongs"
+    lore: |-
+      <arrow> Used to safely retrieve blooms from a bloomery
+      <arrow> Also used in the working of blooms
+
   bloomery:
     name: "Bloomery"
     lore: |-

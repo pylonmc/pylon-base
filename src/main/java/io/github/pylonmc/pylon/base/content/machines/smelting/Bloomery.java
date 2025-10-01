@@ -2,25 +2,35 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.resources.Bloom;
 import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.particles.PylonParticleBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.BoundingBox;
@@ -30,8 +40,12 @@ import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock {
+public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
+
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final float heatChance = getSettings().getOrThrow("heat-chance", ConfigAdapter.FLOAT);
 
     @SuppressWarnings("unused")
     public Bloomery(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -43,6 +57,7 @@ public class Bloomery extends PylonBlock implements PylonSimpleMultiblock, Pylon
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation())
         ));
+        setTickInterval(tickInterval);
     }
 
     @SuppressWarnings("unused")
@@ -57,24 +72,75 @@ public class Bloomery extends PylonBlock implements PylonSimpleMultiblock, Pylon
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) return;
         event.setCancelled(true);
         if (!isFormedAndFullyLoaded()) return;
         ItemStack placedItem = event.getItem();
-        if (placedItem == null) return;
 
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         if (oldStack.getType().isAir()) {
-            itemDisplay.setItemStack(placedItem.asOne());
-            placedItem.subtract();
+            if (placedItem != null) {
+                itemDisplay.setItemStack(placedItem.asOne());
+                placedItem.subtract();
+            }
         } else {
-            event.getPlayer().getInventory().addItem(oldStack);
+            Player player = event.getPlayer();
+            for (ItemStack stack : player.getInventory().addItem(oldStack).values()) {
+                player.getWorld().dropItemNaturally(player.getLocation(), stack);
+            }
             itemDisplay.setItemStack(null);
         }
     }
 
-    public ItemDisplay getItemDisplay() {
+    @Override
+    public void tick(double deltaSeconds) {
+        ItemDisplay itemDisplay = getItemDisplay();
+        ItemStack stack = itemDisplay.getItemStack();
+        if (stack.getType().isAir()) return;
+
+        if (PylonUtils.isPylonSimilar(stack, BaseItems.IRON_CARBON_MIX)) {
+            Bloom bloom = new Bloom(BaseItems.BLOOM.clone());
+            bloom.setTemperature(0);
+            bloom.setWorking(ThreadLocalRandom.current().nextInt(Bloom.MIN_WORKING, Bloom.MAX_WORKING + 1));
+            itemDisplay.setItemStack(bloom.getStack());
+            return;
+        }
+
+        if (!(PylonItem.fromStack(stack) instanceof Bloom bloom)) return;
+        if (ThreadLocalRandom.current().nextFloat() > heatChance) return;
+
+        int temperature = bloom.getTemperature();
+        if (isFormedAndFullyLoaded()) {
+            temperature = Math.min(Bloom.MAX_TEMPERATURE, temperature + 1);
+        } else {
+            temperature = Math.max(0, temperature - 1);
+        }
+        bloom.setTemperature(temperature);
+        itemDisplay.setItemStack(bloom.getStack());
+
+        Runnable particleSpawner = () -> {
+            Location pos = getBlock().getLocation().add(
+                    ThreadLocalRandom.current().nextDouble(1),
+                    1.2,
+                    ThreadLocalRandom.current().nextDouble(1)
+            );
+            new PylonParticleBuilder.Type.SmallFlame()
+                    .velocity(0, 0, 0)
+                    .location(pos)
+                    .receivers(32, true)
+                    .spawn();
+        };
+        for (int i = 0; i < temperature; i++) {
+            Bukkit.getScheduler().runTaskLater(
+                    PylonBase.getInstance(),
+                    particleSpawner,
+                    ThreadLocalRandom.current().nextInt(tickInterval)
+            );
+        }
+    }
+
+    public @NotNull ItemDisplay getItemDisplay() {
         return getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
     }
 
