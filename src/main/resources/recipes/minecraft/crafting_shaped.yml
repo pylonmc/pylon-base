@@ -1521,3 +1521,14 @@ pylonbase:reactivated_wither_skull:
     R: minecraft:nether_star
   result: pylonbase:reactivated_wither_skull
   category: equipment
+
+pylonbase:powerful_water_sponge:
+  pattern:
+    - "SBS"
+    - "BBB"
+    - "SBS"
+  key:
+    S: minecraft:sponge
+    B: minecraft:bucket
+  result: pylonbase:powerful_water_sponge
+  category: building

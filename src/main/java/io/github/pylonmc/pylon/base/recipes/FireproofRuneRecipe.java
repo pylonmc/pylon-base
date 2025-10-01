@@ -2,8 +2,10 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
@@ -16,6 +18,8 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
 /**
  * @author balugaq
  */
@@ -24,9 +28,16 @@ public record FireproofRuneRecipe(
         @NotNull ItemStack input,
         @NotNull ItemStack result
 ) implements PylonRecipe {
-    public static final RecipeType<FireproofRuneRecipe> RECIPE_TYPE = new RecipeType<>(
-            BaseKeys.FIREPROOF_RUNE
-    );
+    public static final RecipeType<FireproofRuneRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("fireproof_rune")) {
+        @Override
+        protected @NotNull FireproofRuneRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new FireproofRuneRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK)
+            );
+        }
+    };
 
     /**
      * Creates a new FireproofRuneRecipe with the given parameters.

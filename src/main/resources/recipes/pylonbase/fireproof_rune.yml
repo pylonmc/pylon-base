@@ -1,0 +1,3 @@
+pylonbase:lava_sponge:
+  input: pylonbase:powerful_water_sponge
+  result: pylonbase:lava_sponge

@@ -50,7 +50,6 @@ import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
@@ -1794,44 +1793,16 @@ public final class BaseItems {
     static {
         PylonItem.register(PowerfulWaterSponge.Item.class, POWERFUL_WATER_SPONGE, BaseKeys.POWERFUL_WATER_SPONGE);
         BasePages.BUILDING.addItem(POWERFUL_WATER_SPONGE);
-
-        ShapedRecipe shapedRecipe = new ShapedRecipe(BaseKeys.POWERFUL_WATER_SPONGE, POWERFUL_WATER_SPONGE.clone())
-                .shape(
-                        "SBS",
-                        "BBB",
-                        "SBS"
-                )
-                .setIngredient('S', Material.SPONGE)
-                .setIngredient('B', Material.BUCKET);
-        RecipeType.VANILLA_SHAPED.addRecipe(shapedRecipe);
-
-        BlastingRecipe blastingRecipe = new BlastingRecipe(
-                baseKey("powerful_water_sponge_blasting"),
-                POWERFUL_WATER_SPONGE,
-                new RecipeChoice.ExactChoice(WET_POWERFUL_WATER_SPONGE),
-                1.5f,
-                100
-        );
-
-        RecipeType.VANILLA_BLASTING.addRecipe(blastingRecipe);
     }
 
-    public static final ItemStack POWERFUL_LAVA_SPONGE
+    public static final ItemStack LAVA_SPONGE
             = ItemStackBuilder.pylonItem(Material.SPONGE, BaseKeys.LAVA_SPONGE)
             .set(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(DamageTypeTagKeys.IS_FIRE))
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(LavaSponge.Item.class, POWERFUL_LAVA_SPONGE, BaseKeys.LAVA_SPONGE);
-        BasePages.BUILDING.addItem(POWERFUL_LAVA_SPONGE);
-
-        // Apply fireproof rune on PowerfulWaterSponge can turn it into PowerfulLaveSponge :D
-        FireproofRuneRecipe recipe = FireproofRuneRecipe.of(
-                BaseKeys.LAVA_SPONGE,
-                POWERFUL_WATER_SPONGE,
-                POWERFUL_LAVA_SPONGE
-        );
-        FireproofRuneRecipe.RECIPE_TYPE.addRecipe(recipe);
+        PylonItem.register(LavaSponge.Item.class, LAVA_SPONGE, BaseKeys.LAVA_SPONGE);
+        BasePages.BUILDING.addItem(LAVA_SPONGE);
     }
 
     public static final ItemStack CLEANSING_POTION = ItemStackBuilder.pylonItem(Material.SPLASH_POTION, BaseKeys.CLEANSING_POTION)
