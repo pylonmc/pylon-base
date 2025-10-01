@@ -66,11 +66,10 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
 
     /**
      * Checks if an infused pylon is enabled
-     * @param stack assumes it is a valid pylon item
      * @return true is enabled else otherwise
      */
-    public static boolean isEnabled(@NotNull ItemStack stack) {
-        ItemMeta meta = stack.getItemMeta();
+    public boolean isEnabled() {
+        ItemMeta meta = getStack().getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
 
         if (!pdc.has(ENABLED_KEY)) {
@@ -90,7 +89,7 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
                     PylonItem pylonItem = fromStack(stack);
                     if (!(pylonItem instanceof InfusedPylon infusedPylon)) continue;
 
-                    if (!isEnabled(stack)) continue;
+                    if (!infusedPylon.isEnabled()) continue;
 
                     Collection<Item> nearbyItems = player.getLocation().getNearbyEntitiesByType(
                         Item.class,
