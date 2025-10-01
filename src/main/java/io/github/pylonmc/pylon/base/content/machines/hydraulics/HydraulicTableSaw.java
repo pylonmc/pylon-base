@@ -9,7 +9,7 @@ import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -42,7 +42,7 @@ import java.util.List;
 
 
 public class HydraulicTableSaw extends PylonBlock
-        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractableBlock, PylonTickingBlock {
+        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_TABLE_SAW);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);

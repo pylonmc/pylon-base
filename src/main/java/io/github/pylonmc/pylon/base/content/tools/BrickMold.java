@@ -47,7 +47,7 @@ public class BrickMold extends PylonItem implements PylonBlockInteractor {
                 .spawn();
 
         if (moldable.isMoldingFinished()) {
-            BlockStorage.breakBlock(event.getClickedBlock(), new BlockBreakContext.PluginBreak(false));
+            BlockStorage.breakBlock(event.getClickedBlock(), new BlockBreakContext.PluginBreak(event.getClickedBlock(), false));
             event.getClickedBlock().getWorld().dropItemNaturally(event.getClickedBlock().getLocation(), moldable.moldingResult());
         }
     }

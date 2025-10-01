@@ -65,7 +65,7 @@ public class RefractoryMix extends PylonBlock implements Moldable {
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of(
                         "percent",
                         UnitFormat.PERCENT.format(100 * (TOTAL_MOLDING_CLICKS - moldingClicksRemaining) / TOTAL_MOLDING_CLICKS)

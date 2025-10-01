@@ -6,9 +6,9 @@ import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
@@ -48,7 +48,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class PortableFluidTank extends PylonBlock
-        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractableBlock {
+        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractBlock {
 
     public static class Item extends PylonItem {
         public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
@@ -176,11 +176,16 @@ public class PortableFluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getDefaultTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
     }
 
     @Override
-    public @Nullable ItemStack getItem(@NotNull BlockItemContext context) {
+    public @Nullable ItemStack getDropItem(@NotNull BlockBreakContext context) {
+        return getPickItem();
+    }
+
+    @Override
+    public @Nullable ItemStack getPickItem() {
         // TODO implement clone for PylonItem and just clone it
         ItemStack stack = PylonRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
 

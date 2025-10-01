@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.content.armor.BronzeArmor;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
@@ -38,11 +39,7 @@ import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
-import org.bukkit.Registry;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -520,7 +517,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_HELMET);
+        PylonItem.register(BronzeArmor.class, BRONZE_HELMET);
         BasePages.ARMOUR.addItem(BRONZE_HELMET);
     }
 
@@ -543,7 +540,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_CHESTPLATE);
+        PylonItem.register(BronzeArmor.class, BRONZE_CHESTPLATE);
         BasePages.ARMOUR.addItem(BRONZE_CHESTPLATE);
     }
 
@@ -566,7 +563,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_LEGGINGS);
+        PylonItem.register(BronzeArmor.class, BRONZE_LEGGINGS);
         BasePages.ARMOUR.addItem(BRONZE_LEGGINGS);
     }
 
@@ -589,7 +586,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_BOOTS);
+        PylonItem.register(BronzeArmor.class, BRONZE_BOOTS);
         BasePages.ARMOUR.addItem(BRONZE_BOOTS);
     }
 
@@ -1153,7 +1150,7 @@ public final class BaseItems {
         BasePages.COMPONENTS.addItem(BACKFLOW_VALVE);
     }
 
-    public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylonItem(Material.BLACK_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
+    public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylonItem(Material.LIME_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
             .build();
     static {
         PylonItem.register(PylonItem.class, ANALOGUE_DISPLAY);
