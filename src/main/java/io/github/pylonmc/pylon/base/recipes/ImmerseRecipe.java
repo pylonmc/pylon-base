@@ -40,7 +40,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * @param ingredient The ingredient **BLOCK**
  * @param fluid      The fluid
  * @param result     The result **BLOCK**
- * @param chance     The chance of the result, ranged 0.0 to 1.0
+ * @param chance     The chance of the result, ranging from 0.0 to 1.0
  * @author balugaq
  */
 public record ImmerseRecipe(
