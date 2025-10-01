@@ -111,7 +111,7 @@ public class PowerfulWaterSponge extends PowerfulSponge {
      * @param sponge The sponge block to transform
      */
     public void toDriedSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
+        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
         BlockStorage.placeBlock(sponge, BaseKeys.WET_POWERFUL_WATER_SPONGE);
     }
 

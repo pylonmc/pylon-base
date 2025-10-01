@@ -32,7 +32,7 @@ public class WetPowerfulWaterSponge extends PylonBlock {
         if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                 // Dry out the sponge in the nether
-                BlockStorage.breakBlock(location, new BlockBreakContext.PluginBreak(false));
+                BlockStorage.breakBlock(location, new BlockBreakContext.PluginBreak(block, false));
                 BlockStorage.placeBlock(location, BaseKeys.POWERFUL_WATER_SPONGE);
             }, 1);
         }

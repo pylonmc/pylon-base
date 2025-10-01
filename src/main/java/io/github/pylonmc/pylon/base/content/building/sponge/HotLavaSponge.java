@@ -128,7 +128,7 @@ public class HotLavaSponge extends PowerfulSponge {
      */
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
+        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
         if (ThreadLocalRandom.current().nextDouble() > REUSE_RATE) {
             // 90% chance of becoming unusable obsidian
             sponge.setType(Material.OBSIDIAN);

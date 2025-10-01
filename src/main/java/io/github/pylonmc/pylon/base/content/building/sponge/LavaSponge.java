@@ -85,7 +85,7 @@ public class LavaSponge extends PowerfulSponge {
      */
     @Override
     public void toDriedSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(false));
+        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
         BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
     }
 
