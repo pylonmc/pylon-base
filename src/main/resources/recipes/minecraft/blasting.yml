@@ -7,4 +7,4 @@ pylonbase:powerful_water_sponge_blasting:
   ingredient: pylonbase:wet_powerful_water_sponge
   result: pylonbase:powerful_water_sponge
   experience: 1.5
-  cookingtime: 100
+  cookingtime: 200

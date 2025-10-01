@@ -25,6 +25,8 @@ public class BaseRecipes {
 
         FireproofRuneRecipe.RECIPE_TYPE.register();
 
+        ImmerseRecipe.RECIPE_TYPE.register();
+
         PressRecipe.RECIPE_TYPE.register();
 
         SmelteryRecipe.RECIPE_TYPE.register();

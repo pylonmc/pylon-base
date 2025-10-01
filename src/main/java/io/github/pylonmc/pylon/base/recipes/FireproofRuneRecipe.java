@@ -21,6 +21,11 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 /**
+ * This recipe represents the recipe that used fireproof rune as a catalyst to create an upgraded item.
+ * It happens when the player drops the fireproof rune on an item.
+ *
+ * @param input the item to be upgraded
+ * @param result the upgraded item
  * @author balugaq
  */
 public record FireproofRuneRecipe(
@@ -39,15 +44,6 @@ public record FireproofRuneRecipe(
         }
     };
 
-    /**
-     * Creates a new FireproofRuneRecipe with the given parameters.
-     *
-     * @param key    The namespaced key for this recipe
-     * @param input  The input item stack
-     * @param result The result item stack
-     * @return A new FireproofRuneRecipe instance
-     * @throws IllegalArgumentException if input or result is not an item
-     */
     public static @NotNull FireproofRuneRecipe of(
             @NotNull NamespacedKey key,
             @NotNull ItemStack input,
