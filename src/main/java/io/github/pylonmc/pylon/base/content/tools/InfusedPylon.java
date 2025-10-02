@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.persistence.PersistentDataContainerView;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -68,8 +69,7 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
      * @return true is enabled else otherwise
      */
     public boolean isEnabled() {
-        ItemMeta meta = getStack().getItemMeta();
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        PersistentDataContainerView pdc = getStack().getPersistentDataContainer();
 
         if (!pdc.has(ENABLED_KEY)) {
             return true;
