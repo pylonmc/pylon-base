@@ -255,6 +255,13 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(BLOOM);
     }
 
+    public static final ItemStack WROUGHT_IRON = ItemStackBuilder.pylonItem(Material.NETHERITE_SCRAP, BaseKeys.WROUGHT_IRON)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, WROUGHT_IRON);
+        BasePages.RESOURCES.addItem(WROUGHT_IRON);
+    }
+
     public static final ItemStack TONGS = ItemStackBuilder.pylonItem(Material.SHEARS, BaseKeys.TONGS)
             .build();
     static {
@@ -1444,6 +1451,13 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BLOOMERY, BaseKeys.BLOOMERY);
         BasePages.SMELTING.addItem(BLOOMERY);
+    }
+
+    public static final ItemStack BRONZE_ANVIL = ItemStackBuilder.pylonItem(Material.ANVIL, BaseKeys.BRONZE_ANVIL)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_ANVIL, BaseKeys.BRONZE_ANVIL);
+        BasePages.SMELTING.addItem(BRONZE_ANVIL);
     }
 
     public static final ItemStack SMELTERY_CONTROLLER = ItemStackBuilder.pylonItem(Material.BLAST_FURNACE, BaseKeys.SMELTERY_CONTROLLER)

@@ -142,6 +142,9 @@ item:
   bloom:
     name: "Bloom"
 
+  wrought_iron:
+    name: "Wrought Iron"
+
   tongs:
     name: "Tongs"
     lore: |-
@@ -155,6 +158,11 @@ item:
       <arrow> <insn>Set fire to a coal block with gypsum dust on top</insn> to create
       <arrow> <insn>Right click</insn> to insert items
       <arrow> <insn>Right click with tongs</insn> to retrieve items safely
+
+  bronze_anvil:
+    name: "Bronze Anvil"
+    lore: |-
+      <arrow> Used to create wrought iron from blooms
 
   bronze_axe:
     name: "Bronze Axe"

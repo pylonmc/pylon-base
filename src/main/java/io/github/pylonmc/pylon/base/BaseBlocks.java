@@ -66,6 +66,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.REFRACTORY_MIX, Material.SMOOTH_RED_SANDSTONE, RefractoryMix.class);
         PylonBlock.register(BaseKeys.REFRACTORY_BRICKS, Material.DEEPSLATE_TILES, SmelteryComponent.class);
         PylonBlock.register(BaseKeys.BLOOMERY, Material.MAGMA_BLOCK, Bloomery.class);
+        PylonBlock.register(BaseKeys.BRONZE_ANVIL, Material.ANVIL, BronzeAnvil.class);
         PylonBlock.register(BaseKeys.SMELTERY_CONTROLLER, Material.BLAST_FURNACE, SmelteryController.class);
         PylonBlock.register(BaseKeys.SMELTERY_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
         PylonBlock.register(BaseKeys.SMELTERY_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, SmelteryOutputHatch.class);

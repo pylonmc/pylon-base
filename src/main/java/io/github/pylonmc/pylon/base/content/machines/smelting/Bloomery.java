@@ -35,7 +35,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.List;
@@ -66,8 +65,8 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
     }
 
     @Override
-    public @Nullable ItemStack getDropItem(@NotNull BlockBreakContext context) {
-        return null;
+    public @NotNull ItemStack getDropItem(@NotNull BlockBreakContext context) {
+        return getItemDisplay().getItemStack();
     }
 
     @Override
