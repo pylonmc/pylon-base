@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -100,5 +101,10 @@ public class SolarPurificationTower extends PylonBlock
         );
         removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
         addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify);
+    }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return PylonFluidBufferBlock.super.getFacing();
     }
 }

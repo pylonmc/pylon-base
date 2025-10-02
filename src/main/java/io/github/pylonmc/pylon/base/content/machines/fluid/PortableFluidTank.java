@@ -268,4 +268,9 @@ public class PortableFluidTank extends PylonBlock
             }, 0);
         }
     }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return null;
+    }
 }

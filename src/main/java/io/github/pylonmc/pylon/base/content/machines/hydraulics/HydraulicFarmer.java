@@ -23,6 +23,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.List;
@@ -143,5 +144,10 @@ public class HydraulicFarmer extends PylonBlock
                 }
             }
         }
+    }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return PylonFluidBufferBlock.super.getFacing();
     }
 }

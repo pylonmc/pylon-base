@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -16,7 +15,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidBlock, PylonEntityHolderBlock, PylonDirectionalBlock {
+public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidBlock, PylonEntityHolderBlock {
     public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_INPUT_HATCH).getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
@@ -42,12 +41,5 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
         SmelteryController controller = getController();
         if (controller == null) return;
         controller.addFluid(fluid, amount);
-    }
-
-    @Override
-    public @NotNull BlockFace getFacing() {
-        FluidPointInteraction input = getHeldEntity(FluidPointInteraction.class, "input");
-        BlockFace inputFace = input == null ? null : input.getFace();
-        return inputFace == null ? BlockFace.NORTH : inputFace;
     }
 }
