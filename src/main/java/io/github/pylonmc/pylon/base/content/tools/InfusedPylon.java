@@ -47,21 +47,20 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
         ItemStack stack = event.getItem();
         if (stack == null) return; // should never happen
 
-        ItemMeta meta = stack.getItemMeta();
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        Player player = event.getPlayer();
+        stack.editPersistentDataContainer(pdc -> {
+            boolean enabled;
+            if (!pdc.has(ENABLED_KEY)) {
+                enabled = false;
+            } else {
+                enabled = pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) != Boolean.TRUE;
+            }
 
-        boolean enabled;
-        if (!pdc.has(ENABLED_KEY)) {
-            enabled = false;
-        } else {
-            enabled = pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) != Boolean.TRUE;
-        }
+            String targetKey = enabled ? "enabled" : "disabled";
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.infused_pylon." + targetKey));
 
-        String targetKey = enabled ? "enabled" : "disabled";
-        event.getPlayer().sendMessage(Component.translatable("pylon.pylonbase.message.infused_pylon." + targetKey));
-
-        pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
-        stack.setItemMeta(meta);
+            pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
+        });
     }
 
     /**
