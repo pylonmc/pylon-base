@@ -73,11 +73,6 @@ public record FireproofRuneRecipe(
                 .build();
     }
 
-    /**
-     * Return the namespaced identifier for this object.
-     *
-     * @return this object's key
-     */
     @Override
     public @NotNull NamespacedKey getKey() {
         return key;

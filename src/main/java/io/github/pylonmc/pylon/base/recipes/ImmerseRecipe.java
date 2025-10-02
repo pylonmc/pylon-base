@@ -63,15 +63,6 @@ public record ImmerseRecipe(
         }
     };
 
-    /**
-     * Creates a new FireproofRuneRecipe with the given parameters.
-     *
-     * @param key    The namespaced key for this recipe
-     * @param input  The ingredient item stack
-     * @param result The result item stack
-     * @return A new FireproofRuneRecipe instance
-     * @throws IllegalArgumentException if ingredient or result is not an item
-     */
     public static @NotNull ImmerseRecipe of(
             @NotNull NamespacedKey key,
             @NotNull ItemStack input,
@@ -112,11 +103,6 @@ public record ImmerseRecipe(
                 .build();
     }
 
-    /**
-     * Return the namespaced identifier for this object.
-     *
-     * @return this object's key
-     */
     @Override
     public @NotNull NamespacedKey getKey() {
         return key;

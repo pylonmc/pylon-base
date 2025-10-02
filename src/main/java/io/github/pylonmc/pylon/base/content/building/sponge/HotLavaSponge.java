@@ -90,10 +90,10 @@ public class HotLavaSponge extends PowerfulSponge {
             block.setBlockData(w);
         } else if (type == Material.WATER_CAULDRON) {
             block.setType(Material.CAULDRON);
-        } else if (type == Material.SEAGRASS
-                || type == Material.TALL_SEAGRASS
-                || type == Material.KELP_PLANT
-                || type == Material.KELP) {
+        } else if (type == Material.SEAGRASS || type == Material.TALL_SEAGRASS) {
+            block.setType(Material.AIR);
+        } else if (type == Material.KELP_PLANT || type == Material.KELP) {
+            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.KELP));
             block.setType(Material.AIR);
         }
     }
