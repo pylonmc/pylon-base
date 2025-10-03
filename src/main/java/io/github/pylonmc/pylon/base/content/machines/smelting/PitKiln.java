@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -20,11 +21,16 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.DecoratedPot;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -52,6 +58,10 @@ public final class PitKiln extends PylonBlock implements
 
     private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", ConfigAdapter.DOUBLE);
     private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", ConfigAdapter.DOUBLE);
+
+    static {
+        Bukkit.getPluginManager().registerEvents(new HopperListener(), PylonBase.getInstance());
+    }
 
     public static final class Item extends PylonItem {
 
@@ -129,10 +139,10 @@ public final class PitKiln extends PylonBlock implements
         //noinspection DataFlowIssue
         player.swingHand(event.getHand());
 
-        addItem(item);
+        addItem(item, true);
     }
 
-    private void addItem(ItemStack item) {
+    public void addItem(ItemStack item, boolean directRemoval) {
         int currentAmount = 0;
         for (ItemStack contentItem : contents) {
             currentAmount += contentItem.getAmount();
@@ -142,13 +152,14 @@ public final class PitKiln extends PylonBlock implements
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
                 contentItem.add();
-                item.subtract();
+                if (directRemoval) item.subtract();
                 return;
             }
         }
 
         contents.add(item.asOne());
-        item.subtract();
+
+        if (directRemoval) item.subtract();
     }
 
     @Override
@@ -278,6 +289,24 @@ public final class PitKiln extends PylonBlock implements
             break;
         }
     }
+
+    // <editor-fold desc="Hopper Listener" defaultstate="collapsed">
+    private static final class HopperListener implements Listener {
+        @EventHandler
+        public void onHopperMove(InventoryMoveItemEvent event) {
+            if (!(event.getDestination().getHolder() instanceof DecoratedPot pot)) {
+                return;
+            }
+
+            PylonBlock block = PylonBlock.getPylonBlock(pot.getBlock());
+            if (block instanceof PitKiln kiln) {
+                // removing the item itself does absolutely nothing so it is probably a copy
+                // but still better play it safe and use a removal boolean to pass
+                kiln.addItem(event.getItem(), false);
+            }
+        }
+    }
+    // </editor-fold>
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private static final List<Vector3i> COAL_POSITIONS = List.of(
