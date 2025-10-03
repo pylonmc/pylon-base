@@ -84,7 +84,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(CARBON);
     }
 
-    public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, BaseKeys.SULFUR)
+    public static final ItemStack SULFUR = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.SULFUR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.YELLOW_DYE.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, SULFUR);
@@ -622,7 +623,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(SHIMMER_DUST_1);
     }
 
-    public static final ItemStack COVALENT_BINDER = ItemStackBuilder.pylonItem(Material.LIGHT_BLUE_DYE, BaseKeys.COVALENT_BINDER)
+    public static final ItemStack COVALENT_BINDER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.COVALENT_BINDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_BLUE_DYE.getKey())
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -804,7 +806,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(FLOUR);
     }
 
-    public static final ItemStack DOUGH = ItemStackBuilder.pylonItem(Material.YELLOW_DYE, BaseKeys.DOUGH)
+    public static final ItemStack DOUGH = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.DOUGH)
+            .set(DataComponentTypes.ITEM_MODEL, Material.YELLOW_DYE.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, DOUGH);
