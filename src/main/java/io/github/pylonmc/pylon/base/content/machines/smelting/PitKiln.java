@@ -135,14 +135,16 @@ public final class PitKiln extends PylonBlock implements
         }
         if (currentAmount >= CAPACITY) return;
 
-        item.subtract();
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
                 contentItem.add();
+                item.subtract();
                 return;
             }
         }
+
         contents.add(item.asOne());
+        item.subtract();
     }
 
     @Override
