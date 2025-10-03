@@ -99,7 +99,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
         Location source = player.getEyeLocation()
                 .subtract(0, 0.5, 0)
                 .add(direction.clone().multiply(1.5));
-        DisplayProjectile.spawn(
+        new DisplayProjectile(
                 player,
                 PROJECTILE_MATERIAL,
                 source,
