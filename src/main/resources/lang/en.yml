@@ -499,8 +499,8 @@ item:
   iron_sheet:
     name: "Iron Sheet"
 
-  iron_carbon_mix:
-    name: "Iron-Carbon Mix"
+  sponge_iron:
+    name: "Sponge Iron"
 
   loupe:
     name: "Loupe"
@@ -1291,7 +1291,7 @@ fluid:
   slurry: "<gray>Slurry"
   slurry_coal: "<gray>Coal Slurry"
   slurry_carbon: "<gray>Carbon Slurry"
-  slurry_iron_carbon: "<gray>Iron-Carbon Slurry"
+  slurry_sponge_iron: "<gray>Sponge Iron Slurry"
   slurry_redstone: "<red>Redstone Slurry"
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"

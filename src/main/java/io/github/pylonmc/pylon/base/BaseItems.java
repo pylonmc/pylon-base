@@ -241,11 +241,11 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(BRONZE_BLOCK);
     }
 
-    public static final ItemStack IRON_CARBON_MIX = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.IRON_CARBON_MIX)
+    public static final ItemStack SPONGE_IRON = ItemStackBuilder.pylonItem(Material.RAW_IRON, BaseKeys.SPONGE_IRON)
             .build();
     static {
-        PylonItem.register(PylonItem.class, IRON_CARBON_MIX);
-        BasePages.RESOURCES.addItem(IRON_CARBON_MIX);
+        PylonItem.register(PylonItem.class, SPONGE_IRON);
+        BasePages.RESOURCES.addItem(SPONGE_IRON);
     }
 
     public static final ItemStack BLOOM = ItemStackBuilder.pylonItem(Material.RAW_IRON, BaseKeys.BLOOM)

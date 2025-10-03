@@ -16,21 +16,21 @@ pylonbase:slurry:
   output:
     pylonbase:slurry: 1000
 
-pylonbase:slurry_iron_carbon_from_iron:
+pylonbase:slurry_sponge_iron_from_iron:
   input-items:
     - pylonbase:carbon
   input-fluid:
     pylonbase:slurry_raw_iron: 1000
   output:
-    pylonbase:slurry_iron_carbon: 1000
+    pylonbase:slurry_sponge_iron: 1000
 
-pylonbase:slurry_iron_carbon_from_carbon:
+pylonbase:slurry_sponge_iron_from_carbon:
   input-items:
     - pylonbase:crushed_raw_iron
   input-fluid:
     pylonbase:slurry_carbon: 1000
   output:
-    pylonbase:slurry_iron_carbon: 1000
+    pylonbase:slurry_sponge_iron: 1000
 
 pylonbase:hydraulic_fluid:
   input-items:

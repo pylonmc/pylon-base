@@ -98,9 +98,9 @@ public final class BaseFluids {
             BaseItems.CARBON
     ).addTag(FluidTemperature.NORMAL);
 
-    public static final PylonFluid IRON_CARBON_SLURRY = new Slurry(
-            baseKey("slurry_iron_carbon"),
-            BaseItems.IRON_CARBON_MIX
+    public static final PylonFluid SPONGE_IRON_SLURRY = new Slurry(
+            baseKey("slurry_sponge_iron"),
+            BaseItems.SPONGE_IRON
     ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
@@ -247,7 +247,7 @@ public final class BaseFluids {
 
         CARBON_SLURRY.register();
 
-        IRON_CARBON_SLURRY.register();
+        SPONGE_IRON_SLURRY.register();
 
         RAW_COPPER_SLURRY.register();
 

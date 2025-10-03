@@ -98,7 +98,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         ItemStack stack = itemDisplay.getItemStack();
         if (stack.getType().isAir()) return;
 
-        if (PylonUtils.isPylonSimilar(stack, BaseItems.IRON_CARBON_MIX)) {
+        if (PylonUtils.isPylonSimilar(stack, BaseItems.SPONGE_IRON)) {
             Bloom bloom = new Bloom(BaseItems.BLOOM.clone());
             bloom.setTemperature(0);
             bloom.setWorking(ThreadLocalRandom.current().nextInt(Bloom.MIN_WORKING, Bloom.MAX_WORKING + 1));
