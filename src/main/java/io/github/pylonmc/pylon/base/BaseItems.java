@@ -56,7 +56,8 @@ public final class BaseItems {
     }
 
     //<editor-fold desc="Dusts" defaultstate=collapsed>
-    public static final ItemStack ROCK_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.ROCK_DUST)
+    public static final ItemStack ROCK_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.ROCK_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GUNPOWDER.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, ROCK_DUST);
@@ -70,7 +71,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(OBSIDIAN_CHIP);
     }
 
-    public static final ItemStack COAL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.COAL_DUST)
+    public static final ItemStack COAL_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.COAL_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GUNPOWDER.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, COAL_DUST);
@@ -99,72 +101,81 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(GYPSUM);
     }
 
-    public static final ItemStack GYPSUM_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.GYPSUM_DUST)
+    public static final ItemStack GYPSUM_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.GYPSUM_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, GYPSUM_DUST);
         BasePages.RESOURCES.addItem(GYPSUM_DUST);
     }
 
-    public static final ItemStack COPPER_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.COPPER_DUST)
+    public static final ItemStack COPPER_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.COPPER_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLOWSTONE_DUST.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, COPPER_DUST);
         BasePages.RESOURCES.addItem(COPPER_DUST);
     }
 
-    public static final ItemStack CRUSHED_RAW_COPPER = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.CRUSHED_RAW_COPPER)
+    public static final ItemStack CRUSHED_RAW_COPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CRUSHED_RAW_COPPER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLOWSTONE_DUST.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_COPPER);
         BasePages.RESOURCES.addItem(CRUSHED_RAW_COPPER);
     }
 
-    public static final ItemStack IRON_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.IRON_DUST)
+    public static final ItemStack IRON_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.IRON_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GUNPOWDER.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, IRON_DUST);
         BasePages.RESOURCES.addItem(IRON_DUST);
     }
 
-    public static final ItemStack CRUSHED_RAW_IRON = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.CRUSHED_RAW_IRON)
+    public static final ItemStack CRUSHED_RAW_IRON = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CRUSHED_RAW_IRON)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_IRON);
         BasePages.RESOURCES.addItem(CRUSHED_RAW_IRON);
     }
 
-    public static final ItemStack GOLD_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.GOLD_DUST)
+    public static final ItemStack GOLD_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.GOLD_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLOWSTONE_DUST.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, GOLD_DUST);
         BasePages.RESOURCES.addItem(GOLD_DUST);
     }
 
-    public static final ItemStack CRUSHED_RAW_GOLD = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.CRUSHED_RAW_GOLD)
+    public static final ItemStack CRUSHED_RAW_GOLD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CRUSHED_RAW_GOLD)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLOWSTONE_DUST.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_GOLD);
         BasePages.RESOURCES.addItem(CRUSHED_RAW_GOLD);
     }
 
-    public static final ItemStack QUARTZ_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.QUARTZ_DUST)
+    public static final ItemStack QUARTZ_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.QUARTZ_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, QUARTZ_DUST);
         BasePages.RESOURCES.addItem(QUARTZ_DUST);
     }
 
-    public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.DIAMOND_DUST)
+    public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.DIAMOND_DUST)
             .build();
     static {
         PylonItem.register(PylonItem.class, DIAMOND_DUST);
         BasePages.RESOURCES.addItem(DIAMOND_DUST);
     }
 
-    public static final ItemStack EMERALD_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.EMERALD_DUST)
+    public static final ItemStack EMERALD_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.EMERALD_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
-    static {
+        static {
         PylonItem.register(PylonItem.class, EMERALD_DUST);
         BasePages.RESOURCES.addItem(EMERALD_DUST);
     }
@@ -198,7 +209,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(TIN_BLOCK);
     }
 
-    public static final ItemStack CRUSHED_RAW_TIN = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.CRUSHED_RAW_TIN)
+    public static final ItemStack CRUSHED_RAW_TIN = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CRUSHED_RAW_TIN)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CRUSHED_RAW_TIN);
@@ -207,7 +219,8 @@ public final class BaseItems {
 
     }
 
-    public static final ItemStack TIN_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.TIN_DUST)
+    public static final ItemStack TIN_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.TIN_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, TIN_DUST);
@@ -221,7 +234,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(BRONZE_INGOT);
     }
 
-    public static final ItemStack BRONZE_DUST = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.BRONZE_DUST)
+    public static final ItemStack BRONZE_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRONZE_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLOWSTONE_DUST.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_DUST);
@@ -263,7 +277,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(STEEL_BLOCK);
     }
 
-    public static final ItemStack STEEL_DUST = ItemStackBuilder.pylonItem(Material.GUNPOWDER, BaseKeys.STEEL_DUST)
+    public static final ItemStack STEEL_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.STEEL_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GUNPOWDER.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, STEEL_DUST);
@@ -292,7 +307,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(NICKEL_BLOCK);
     }
 
-    public static final ItemStack NICKEL_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.NICKEL_DUST)
+    public static final ItemStack NICKEL_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.NICKEL_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, NICKEL_DUST);
@@ -321,7 +337,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(COBALT_BLOCK);
     }
 
-    public static final ItemStack COBALT_DUST = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.COBALT_DUST)
+    public static final ItemStack COBALT_DUST = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.COBALT_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, COBALT_DUST);
@@ -615,8 +632,9 @@ public final class BaseItems {
         BasePages.FOOD.addItem(MONSTER_JERKY);
     }
 
-    public static final ItemStack SHIMMER_DUST_1 = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.SHIMMER_DUST_1)
+    public static final ItemStack SHIMMER_DUST_1 = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.SHIMMER_DUST_1)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, SHIMMER_DUST_1);
@@ -632,7 +650,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(COVALENT_BINDER);
     }
 
-    public static final ItemStack SHIMMER_DUST_2 = ItemStackBuilder.pylonItem(Material.REDSTONE, BaseKeys.SHIMMER_DUST_2)
+    public static final ItemStack SHIMMER_DUST_2 = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.SHIMMER_DUST_2)
+            .set(DataComponentTypes.ITEM_MODEL, Material.REDSTONE.getKey())
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -640,7 +659,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(SHIMMER_DUST_2);
     }
 
-    public static final ItemStack SHIMMER_DUST_3 = ItemStackBuilder.pylonItem(Material.GLOWSTONE_DUST, BaseKeys.SHIMMER_DUST_3)
+    public static final ItemStack SHIMMER_DUST_3 = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.SHIMMER_DUST_3)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLOWSTONE_DUST.getKey())
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
@@ -799,7 +819,8 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(GRINDSTONE_HANDLE);
     }
 
-    public static final ItemStack FLOUR = ItemStackBuilder.pylonItem(Material.SUGAR, BaseKeys.FLOUR)
+    public static final ItemStack FLOUR = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.FLOUR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, FLOUR);
