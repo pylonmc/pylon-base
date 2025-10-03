@@ -30,6 +30,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -118,18 +119,12 @@ public final class MixingPot extends PylonBlock
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        // Don't allow fluid to be manually inserted/removed
-        if (event.getItem() != null
-                && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())
-        ) {
-            event.setCancelled(true);
-            return;
-        }
-
         if (event.getPlayer().isSneaking()
                 || event.getHand() != EquipmentSlot.HAND
                 || event.getAction() != Action.RIGHT_CLICK_BLOCK
         ) {
+            // Don't allow fluid to be manually inserted/removed
+            event.setUseInteractedBlock(Event.Result.DENY);
             return;
         }
 

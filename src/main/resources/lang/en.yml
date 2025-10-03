@@ -519,7 +519,6 @@ item:
       <arrow> Place items in the pot and <insn>right click</insn> to mix them together
       <arrow> Requires a fire underneath to work
       <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
-      <arrow> Can also be used like a normal cauldron
     waila: "Mixing Pot %info%"
 
   monster_jerky:
