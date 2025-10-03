@@ -1,1 +1,4 @@
 tick-interval: 10
+
+# Chance for a bloom to lose one unit of heat per tick
+cool-chance: 0.5

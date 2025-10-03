@@ -2,7 +2,9 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.smelting.BronzeAnvil;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -57,7 +59,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player) {
         if (baseBlock != block.getType()) {
-            if (player != null) {
+            if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
                 player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
             }
             return false;
