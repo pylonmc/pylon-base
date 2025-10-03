@@ -129,6 +129,10 @@ public final class PitKiln extends PylonBlock implements
         //noinspection DataFlowIssue
         player.swingHand(event.getHand());
 
+        addItem(item);
+    }
+
+    private void addItem(ItemStack item) {
         int currentAmount = 0;
         for (ItemStack contentItem : contents) {
             currentAmount += contentItem.getAmount();
