@@ -175,7 +175,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(RAW_TIN);
     }
 
-    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.TIN_INGOT)
+    public static final ItemStack TIN_INGOT = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.TIN_INGOT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, TIN_INGOT);
@@ -268,7 +269,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(STEEL_DUST);
     }
 
-    public static final ItemStack NICKEL_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.NICKEL_INGOT)
+    public static final ItemStack NICKEL_INGOT = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.NICKEL_INGOT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, NICKEL_INGOT);
@@ -296,7 +298,8 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(NICKEL_DUST);
     }
 
-    public static final ItemStack COBALT_INGOT = ItemStackBuilder.pylonItem(Material.IRON_INGOT, BaseKeys.COBALT_INGOT)
+    public static final ItemStack COBALT_INGOT = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.COBALT_INGOT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, COBALT_INGOT);
