@@ -33,31 +33,11 @@ public class LavaSponge extends PowerfulSponge {
         super(block, pdc);
     }
 
-    /**
-     * Checks if a block is absorbable by this lava sponge.
-     * Lava sponges can absorb:
-     * <ul>
-     *   <li>Lava blocks</li>
-     *   <li>Lava cauldrons</li>
-     * </ul>
-     *
-     * @param block The block to check
-     * @return true if the block can be absorbed, false otherwise
-     */
     @Override
     public boolean isAbsorbable(@NotNull Block block) {
         return block.getType() == Material.LAVA || block.getType() == Material.LAVA_CAULDRON;
     }
 
-    /**
-     * Absorbs a block by removing the lava from it.
-     * <ul>
-     *   <li>Lava blocks become air</li>
-     *   <li>Lava cauldrons become empty cauldrons</li>
-     * </ul>
-     *
-     * @param block The block to absorb
-     */
     @Override
     public void absorb(@NotNull Block block) {
         if (block.getType() == Material.LAVA) {
@@ -67,24 +47,13 @@ public class LavaSponge extends PowerfulSponge {
         }
     }
 
-    /**
-     * Gets the range of this sponge's absorption ability.
-     *
-     * @return The Manhattan distance this sponge can absorb lava within
-     */
     @Override
     public int getRange() {
         return CHECK_RANGE;
     }
 
-    /**
-     * Transforms this sponge into a hot lava sponge.
-     * This method breaks the current block and places a HotLavaSponge in its place.
-     *
-     * @param sponge The sponge block to transform
-     */
     @Override
-    public void toDriedSponge(@NotNull Block sponge) {
+    public void toWetSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
         BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
     }

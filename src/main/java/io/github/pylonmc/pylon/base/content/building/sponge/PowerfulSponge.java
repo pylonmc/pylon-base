@@ -28,21 +28,6 @@ import java.util.List;
  *   10% chance turn back into {@link LavaSponge})</li>
  * </ul>
  * </p>
- * <p>
- * Powerful Sponges evolutions:
- * <pre>
- *                          Fireproof rune powered
- *   [PowerfulWaterSponge] -----------------------→  [LavaSponge]
- *     Dry out  ↑ |                            90% chance   ↑ |
- *     in Blast | | Inside water              Inside water  | | Inside lava
- *     Furnace  | ↓                                         | ↓
- *   [WetPowerfulWaterSponge]                        [HotLavaSponge]
- *     Inside     |                            10% chance     |
- *     Nether     |                           Inside water    |
- *                ↓                                           ↓
- *   [PowerfulWaterSponge]                           [Obsidian]
- * </pre>
- * </p>
  *
  * @author balugaq
  * @see PylonSponge
@@ -80,7 +65,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
         }
 
         if (!blocks.isEmpty()) {
-            toDriedSponge(sponge);
+            toWetSponge(sponge);
         }
     }
 
@@ -150,7 +135,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
      *
      * @param sponge The sponge block to transform
      */
-    public abstract void toDriedSponge(@NotNull Block sponge);
+    public abstract void toWetSponge(@NotNull Block sponge);
 
     /**
      * Gets the range of this sponge's absorption ability.
@@ -160,7 +145,7 @@ public abstract class PowerfulSponge extends PylonBlock implements PylonSponge, 
     public abstract int getRange();
 
     /**
-     * Used to absorb lava, waterlogged blocks
+     * Used to absorb lava, waterlogged blocks, etc.
      *
      * @see PowerfulWaterSponge
      * @see LavaSponge

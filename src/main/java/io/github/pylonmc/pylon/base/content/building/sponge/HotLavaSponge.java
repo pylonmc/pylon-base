@@ -26,10 +26,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * HotLavaSponge is a powerful sponge that can absorb lava but has special behavior.
  * <p>
- * When placed in water, it has a:
+ * When placed in water, it may:
  * <ul>
- *   <li>90% chance of turning into obsidian by default</li>
- *   <li>10% chance of turning back into a {@link LavaSponge} by default</li>
+ *   <li>turn into obsidian/li>
+ *   <li>turn back into a {@link LavaSponge}</li>
  * </ul>
  * </p>
  *
@@ -51,35 +51,18 @@ public class HotLavaSponge extends PowerfulSponge {
         super(block, pdc);
     }
 
-    /**
-     * Checks if a block is absorbable by this hot lava sponge.
-     * Hot lava sponges can absorb:
-     * <ul>
-     *   <li>Water blocks</li>
-     *   <li>Waterlogged blocks</li>
-     *   <li>Water cauldrons</li>
-     * </ul>
-     *
-     * @param block The block to check
-     * @return true if the block can be absorbed, false otherwise
-     */
     @Override
     public boolean isAbsorbable(@NotNull Block block) {
-        return block.getType() == Material.WATER
+        Material type = block.getType();
+        return type == Material.WATER
                 || block.getBlockData() instanceof Waterlogged
-                || block.getType() == Material.WATER_CAULDRON;
+                || type == Material.WATER_CAULDRON
+                || type == Material.SEAGRASS
+                || type == Material.TALL_SEAGRASS
+                || type == Material.KELP_PLANT
+                || type == Material.KELP;
     }
 
-    /**
-     * Absorbs a block by removing the water from it.
-     * <ul>
-     *   <li>Water blocks become air</li>
-     *   <li>Waterlogged blocks become un-waterlogged</li>
-     *   <li>Water cauldrons become empty cauldrons</li>
-     * </ul>
-     *
-     * @param block The block to absorb
-     */
     @Override
     public void absorb(@NotNull Block block) {
         Material type = block.getType();
@@ -107,27 +90,13 @@ public class HotLavaSponge extends PowerfulSponge {
         tryAbsorbNearbyBlocks();
     }
 
-    /**
-     * Gets the range of this sponge's absorption ability.
-     *
-     * @return The Manhattan distance this sponge can absorb water within
-     */
     @Override
     public int getRange() {
         return CHECK_RANGE;
     }
 
-    /**
-     * Transforms this sponge based on chance by default:
-     * <ul>
-     *   <li>90% chance: turns into obsidian with particle effects</li>
-     *   <li>10% chance: turns back into a {@link LavaSponge}</li>
-     * </ul>
-     *
-     * @param sponge The sponge block to transform
-     */
     @Override
-    public void toDriedSponge(@NotNull Block sponge) {
+    public void toWetSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
         if (ThreadLocalRandom.current().nextDouble() > REUSE_RATE) {
             // 90% chance of becoming unusable obsidian
@@ -154,11 +123,6 @@ public class HotLavaSponge extends PowerfulSponge {
             super(stack);
         }
 
-        /**
-         * Gets the placeholders for this item, including the check range.
-         *
-         * @return A list of placeholders for this item
-         */
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(

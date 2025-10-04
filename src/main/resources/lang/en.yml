@@ -1129,7 +1129,7 @@ item:
   wet_powerful_water_sponge:
     name: "Wet Powerful Water Sponge"
     lore: |-
-      <arrow> <insn>Too much water inside... You must dry it out in a Blast Furnace</insn>
+      <arrow> <insn>Too much water inside... You must dry out it in a Blast Furnace, or dry out it by placing it in the nether.</insn>
 
   hot_lava_sponge:
     name: "<red>Hot Lava Sponge"

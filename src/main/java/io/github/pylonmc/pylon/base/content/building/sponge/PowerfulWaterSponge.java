@@ -43,35 +43,18 @@ public class PowerfulWaterSponge extends PowerfulSponge {
         super(block, pdc);
     }
 
-    /**
-     * Checks if a block is absorbable by this water sponge.
-     * Water sponges can absorb:
-     * <ul>
-     *   <li>Water blocks</li>
-     *   <li>Waterlogged blocks</li>
-     *   <li>Water cauldrons</li>
-     * </ul>
-     *
-     * @param block The block to check
-     * @return true if the block can be absorbed, false otherwise
-     */
     @Override
     public boolean isAbsorbable(@NotNull Block block) {
-        return block.getType() == Material.WATER
+        Material type = block.getType();
+        return type == Material.WATER
                 || block.getBlockData() instanceof Waterlogged
-                || block.getType() == Material.WATER_CAULDRON;
+                || type == Material.WATER_CAULDRON
+                || type == Material.SEAGRASS
+                || type == Material.TALL_SEAGRASS
+                || type == Material.KELP_PLANT
+                || type == Material.KELP;
     }
 
-    /**
-     * Absorbs a block by removing the water from it.
-     * <ul>
-     *   <li>Water blocks become air</li>
-     *   <li>Waterlogged blocks become unw waterlogged</li>
-     *   <li>Water cauldrons become empty cauldrons</li>
-     * </ul>
-     *
-     * @param block The block to absorb
-     */
     @Override
     public void absorb(@NotNull Block block) {
         Material type = block.getType();
@@ -94,23 +77,12 @@ public class PowerfulWaterSponge extends PowerfulSponge {
         tryAbsorbNearbyBlocks();
     }
 
-    /**
-     * Gets the range of this sponge's absorption ability.
-     *
-     * @return The Manhattan distance this sponge can absorb water within
-     */
     @Override
     public int getRange() {
         return CHECK_RANGE;
     }
 
-    /**
-     * Transforms this sponge into a wet sponge.
-     * This method breaks the current block and places a WetPowerfulWaterSponge in its place.
-     *
-     * @param sponge The sponge block to transform
-     */
-    public void toDriedSponge(@NotNull Block sponge) {
+    public void toWetSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
         BlockStorage.placeBlock(sponge, BaseKeys.WET_POWERFUL_WATER_SPONGE);
     }
