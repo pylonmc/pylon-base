@@ -44,10 +44,8 @@ public class HydraulicTableSaw extends PylonBlock
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_TABLE_SAW);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", ConfigAdapter.INT);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", ConfigAdapter.INT);
+    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -58,8 +56,7 @@ public class HydraulicTableSaw extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic_fluid_input", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)),
-                    PylonArgument.of("dirty_hydraulic_fluid_output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
             );
         }
     }
@@ -85,7 +82,7 @@ public class HydraulicTableSaw extends PylonBlock
                 .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))
         );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
         recipe = null;
     }
 
@@ -152,10 +149,9 @@ public class HydraulicTableSaw extends PylonBlock
         }
 
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
-            double hydraulicFluidInput = recipe.timeTicks() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND;
-            double dirtyHydraulicFluidOutput = recipe.timeTicks() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND;
-            if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
-                    || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
+            double hydraulicFluidUsed = recipe.timeTicks() * HYDRAULIC_FLUID_USAGE;
+            if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
+                    || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
                     || !PylonUtils.isPylonSimilar(stack, recipe.input())
                     || stack.getAmount() < recipe.input().getAmount()
             ) {
@@ -165,8 +161,8 @@ public class HydraulicTableSaw extends PylonBlock
             this.recipe = recipe;
             recipeTicksRemaining = recipe.timeTicks();
             spawnParticles();
-            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidInput);
-            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, dirtyHydraulicFluidOutput);
+            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
 
             break;
         }

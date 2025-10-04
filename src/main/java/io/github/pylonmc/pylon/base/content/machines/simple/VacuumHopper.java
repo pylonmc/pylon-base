@@ -2,7 +2,9 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -16,10 +18,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 
-public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
+public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
     public static class Item extends PylonItem {
         public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
@@ -51,6 +54,15 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
     @SuppressWarnings("unused")
     public VacuumHopper(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        Hopper hopper = (Hopper) getBlock().getState();
+
+        for (ItemStack item : hopper.getInventory()) {
+            drops.add(item);
+        }
     }
 
     @Override

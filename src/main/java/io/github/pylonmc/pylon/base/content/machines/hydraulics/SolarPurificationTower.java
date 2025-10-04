@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -28,15 +29,17 @@ import java.util.Map;
 public class SolarPurificationTower extends PylonBlock
         implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
-    public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.DOUBLE);
-    public final double fluidBuffer = getSettings().getOrThrow("fluid-buffer-mb", ConfigAdapter.DOUBLE);
+    public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
+    public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
+    public final double hydraulicFluidBuffer = getSettings().getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.DOUBLE);
     public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
     public final int lensLayers = getSettings().getOrThrow("lens-layers", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
-        public final double fluidMbPerSecond = getSettings().getOrThrow("fluid-mb-per-second", ConfigAdapter.DOUBLE);
+        public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
+        public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
         public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
@@ -47,7 +50,8 @@ public class SolarPurificationTower extends PylonBlock
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100)),
-                    PylonArgument.of("fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidMbPerSecond))
+                    PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
+                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100))
             );
         }
     }
@@ -58,8 +62,8 @@ public class SolarPurificationTower extends PylonBlock
         setTickInterval(tickInterval);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidBuffer, true, false);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, fluidBuffer, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidBuffer, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidBuffer, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -95,10 +99,22 @@ public class SolarPurificationTower extends PylonBlock
 
         double multiplier = getBlock().getWorld().isClearWeather() ? 1.0 : rainSpeedFraction;
         double toPurify = Math.min(
-                deltaSeconds * fluidMbPerSecond * multiplier,
-                Math.min(fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID), fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID))
+                // maximum amount of dirty hydraulic fluid that can be purified this tick
+                deltaSeconds * purificationSpeed * multiplier,
+                Math.min(
+                        // amount of dirty hydraulic fluid available
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        // how much dirty hydraulic fluid can be converted without overflowing the hydraulic fluid buffer
+                        fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) / purificationEfficiency
+                )
         );
+
         removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
-        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify);
+        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * purificationEfficiency);
+    }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return PylonFluidBufferBlock.super.getFacing();
     }
 }
