@@ -1,9 +1,13 @@
-package io.github.pylonmc.pylon.base.recipes.display;
+package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
+import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -12,13 +16,27 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-// TODO use DisplayRecipeType
-public record MoldingDisplayRecipe(
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
+
+public record MoldingRecipe(
         NamespacedKey key,
         ItemStack input,
         ItemStack result,
         int moldClicks
 ) implements PylonRecipe {
+
+    public static final RecipeType<MoldingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("molding")) {
+        @Override
+        protected @NotNull MoldingRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new MoldingRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("clicks", ConfigAdapter.INT)
+            );
+        }
+    };
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -27,7 +45,7 @@ public record MoldingDisplayRecipe(
 
     @Override
     public @NotNull List<@NotNull RecipeInput> getInputs() {
-        return List.of();
+        return List.of(RecipeInput.of(input));
     }
 
     @Override
