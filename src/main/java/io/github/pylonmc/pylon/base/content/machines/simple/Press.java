@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -50,6 +51,8 @@ public class Press extends PylonBlock
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
     public static final int RETURN_TO_START_TIME_TICKS = settings.getOrThrow("return-to-start-time-ticks", ConfigAdapter.INT);
     public static final int CAPACITY_MB = settings.getOrThrow("capacity-mb", ConfigAdapter.INT);
+
+    public final boolean[] valid = {false};
 
     public static class PressItem extends PylonItem {
 
@@ -112,6 +115,11 @@ public class Press extends PylonBlock
         tryStartRecipe(event.getPlayer());
     }
 
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        valid[0] = false;
+    }
+
     public boolean tryStartRecipe(@Nullable Player player) {
         if (currentRecipe != null) {
             return false;
@@ -155,9 +163,13 @@ public class Press extends PylonBlock
         BaseUtils.animate(getCover(), TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+            if (!valid[0]) return;
+
             BaseUtils.animate(getCover(), RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
 
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+                if (!valid[0]) return;
+
                 addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount());
                 new PylonCraftEvent<>(PressRecipe.RECIPE_TYPE, recipe, this).callEvent();
                 this.currentRecipe = null;
