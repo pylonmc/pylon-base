@@ -15,8 +15,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -25,15 +23,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-public class InfusedPylon extends PylonItem implements PylonInteractor {
+public class ItemMagnet extends PylonItem implements PylonInteractor {
     @Getter
     private final double pickupDistance = getSettings().getOrThrow("pickup-distance", ConfigAdapter.DOUBLE);
     @Getter
     private final double attractForce = getSettings().getOrThrow("attract-force", ConfigAdapter.DOUBLE);
 
-    private static final NamespacedKey ENABLED_KEY = new NamespacedKey(PylonBase.getInstance(), "infused_pylon_toggler");
+    private static final NamespacedKey ENABLED_KEY = new NamespacedKey(PylonBase.getInstance(), "item_magnet_toggler");
 
-    public InfusedPylon(@NotNull ItemStack stack) {
+    public ItemMagnet(@NotNull ItemStack stack) {
         super(stack);
     }
 
@@ -58,7 +56,7 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
             }
 
             String targetKey = enabled ? "enabled" : "disabled";
-            player.sendMessage(Component.translatable("pylon.pylonbase.message.infused_pylon." + targetKey));
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.item_magnet." + targetKey));
 
             pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
         });
@@ -78,7 +76,7 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
         return pdc.get(ENABLED_KEY, PersistentDataType.BOOLEAN) == Boolean.TRUE;
     }
 
-    public static class InfusedPylonTicker extends BukkitRunnable {
+    public static class Ticker extends BukkitRunnable {
 
         @Override
         public void run() {
@@ -86,7 +84,7 @@ public class InfusedPylon extends PylonItem implements PylonInteractor {
                 Vector playerPosition = player.getLocation().toVector();
                 for (var stack : player.getInventory()) {
                     PylonItem pylonItem = fromStack(stack);
-                    if (!(pylonItem instanceof InfusedPylon infusedPylon)) continue;
+                    if (!(pylonItem instanceof ItemMagnet infusedPylon)) continue;
 
                     if (!infusedPylon.isEnabled()) continue;
 
