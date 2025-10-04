@@ -80,7 +80,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getLocation());
+        return otherBlock.getLocation().equals(getBlock().getRelative(BlockFace.UP).getLocation());
     }
 
     @Override
