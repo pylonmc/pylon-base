@@ -215,4 +215,9 @@ public class CoalFiredPurificationTower extends PylonBlock
                 // output buffer not full
                 && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) > 1.0e-3;
     }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return PylonFluidBufferBlock.super.getFacing();
+    }
 }
