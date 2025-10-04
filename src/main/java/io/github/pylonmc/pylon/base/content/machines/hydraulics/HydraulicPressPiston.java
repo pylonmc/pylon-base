@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -22,12 +22,14 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -64,11 +66,13 @@ public class HydraulicPressPiston extends PylonBlock
     public HydraulicPressPiston(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(TICK_INTERVAL);
-        addEntity("press_piston_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.SPRUCE_LOG)
+        addEntity("press_piston_shaft", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.SPRUCE_LOG)
+                        .addCustomModelDataString(getKey() + ":press_piston_shaft")
+                )
                 .transformation(getTransformation(0.0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
-        ));
+        );
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
@@ -113,13 +117,14 @@ public class HydraulicPressPiston extends PylonBlock
         removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT);
         addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT);
 
-        getPistonShaft().setTransform(
+        BaseUtils.animate(
+                getPistonShaft(),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS,
                 getTransformation(-0.3)
         );
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
-                () -> getPistonShaft().setTransform(Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0)),
+                () -> BaseUtils.animate(getPistonShaft(), Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
     }
@@ -131,7 +136,7 @@ public class HydraulicPressPiston extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull SimpleItemDisplay getPistonShaft() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "press_piston_shaft");
+    public @NotNull ItemDisplay getPistonShaft() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "press_piston_shaft");
     }
 }

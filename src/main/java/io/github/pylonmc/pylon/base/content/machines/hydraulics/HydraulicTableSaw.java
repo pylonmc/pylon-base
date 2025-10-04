@@ -3,8 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.entities.SimpleBlockDisplay;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -75,17 +73,17 @@ public class HydraulicTableSaw extends PylonBlock
         setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3))
                 .build(block.getLocation().toCenterLocation().add(0, 0.65, 0))
-        ));
-        addEntity("saw", new SimpleBlockDisplay(new BlockDisplayBuilder()
+        );
+        addEntity("saw", new BlockDisplayBuilder()
                 .blockData(Material.IRON_BARS.createBlockData("[east=true,west=true]"))
                 .transformation(new TransformBuilder()
                         .scale(0.6, 0.4, 0.4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))
-        ));
+        );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
         recipe = null;
@@ -110,7 +108,7 @@ public class HydraulicTableSaw extends PylonBlock
 
         recipe = null;
 
-        ItemDisplay itemDisplay = getItemDisplay().getEntity();
+        ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
 
@@ -134,7 +132,7 @@ public class HydraulicTableSaw extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        ItemStack stack = getItemDisplay().getEntity().getItemStack();
+        ItemStack stack = getItemDisplay().getItemStack();
 
         if (recipe != null) {
             spawnParticles();
@@ -144,7 +142,7 @@ public class HydraulicTableSaw extends PylonBlock
                 return;
             }
 
-            getItemDisplay().getEntity().setItemStack(stack.subtract(recipe.input().getAmount()));
+            getItemDisplay().setItemStack(stack.subtract(recipe.input().getAmount()));
             getBlock().getWorld().dropItemNaturally(
                     getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
                     recipe.result()
@@ -174,8 +172,8 @@ public class HydraulicTableSaw extends PylonBlock
         }
     }
 
-    public SimpleItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    public ItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     public void spawnParticles() {
@@ -188,6 +186,6 @@ public class HydraulicTableSaw extends PylonBlock
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.add(getItemDisplay().getEntity().getItemStack());
+        drops.add(getItemDisplay().getItemStack());
     }
 }

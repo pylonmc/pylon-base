@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -95,5 +96,15 @@ public class BaseUtils {
                 PylonArgument.of("amount", Math.round(amount)),
                 PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
         );
+    }
+
+    public void animate(ItemDisplay display, int delay, int duration, Matrix4f matrix) {
+        display.setInterpolationDelay(delay);
+        display.setInterpolationDuration(duration);
+        display.setTransformationMatrix(matrix);
+    }
+
+    public void animate(ItemDisplay display, int duration, Matrix4f matrix) {
+        animate(display, 0, duration, matrix);
     }
 }

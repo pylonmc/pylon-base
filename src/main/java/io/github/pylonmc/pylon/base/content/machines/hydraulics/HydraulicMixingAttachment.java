@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import lombok.Getter;
@@ -31,6 +32,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -83,11 +85,13 @@ public class HydraulicMixingAttachment extends PylonBlock
 
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        addEntity("mixing_attachment_shaft", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.LIGHT_GRAY_CONCRETE)
+        addEntity("mixing_attachment_shaft", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
+                        .addCustomModelDataString(getKey() + ":mixing_attachment_shaft")
+                )
                 .transformation(getShaftTransformation(0.7))
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
-        ));
+        );
 
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_CRAFT * 2, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_CRAFT * 2, false, true);
@@ -147,9 +151,9 @@ public class HydraulicMixingAttachment extends PylonBlock
 
         cooldownTimeRemaining = COOLDOWN_TICKS / 20.0;
 
-        getMotorShaft().setTransform(DOWN_ANIMATION_TIME_TICKS, getShaftTransformation(0.2));
+        BaseUtils.animate(getMixingAttachmentShaft(), DOWN_ANIMATION_TIME_TICKS, getShaftTransformation(0.2));
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(),
-                () -> getMotorShaft().setTransform(UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7)),
+                () -> BaseUtils.animate(getMixingAttachmentShaft(), UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7)),
                 DOWN_ANIMATION_TIME_TICKS
         );
     }
@@ -161,7 +165,7 @@ public class HydraulicMixingAttachment extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull SimpleItemDisplay getMotorShaft() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "mixing_attachment_shaft");
+    public @NotNull ItemDisplay getMixingAttachmentShaft() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "mixing_attachment_shaft");
     }
 }
