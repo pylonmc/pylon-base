@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -57,14 +56,14 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         setTickInterval(tickInterval);
 
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .translate(0, 0.5, 0)
                         .scale(0.5)
                         .buildForItemDisplay()
                 )
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
@@ -108,7 +107,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         event.setCancelled(true);
 
-        ItemDisplay itemDisplay = getItemDisplay().getEntity();
+        ItemDisplay itemDisplay = getItemDisplay();
 
         // drop item if not processing and an item is already on the altar
         ItemStack displayItem = itemDisplay.getItemStack();
@@ -179,8 +178,8 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
         return MagicAltarRecipe.RECIPE_TYPE.getRecipe(processingRecipe);
     }
 
-    public SimpleItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    public ItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     public void startRecipe(MagicAltarRecipe recipe) {
@@ -234,7 +233,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     public void finishRecipe() {
-        ItemDisplay itemDisplay = getItemDisplay().getEntity();
+        ItemDisplay itemDisplay = getItemDisplay();
 
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);

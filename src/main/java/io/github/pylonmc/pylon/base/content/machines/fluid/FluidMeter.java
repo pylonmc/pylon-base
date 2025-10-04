@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -15,6 +14,7 @@ import org.bukkit.Color;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
@@ -58,21 +58,21 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     public void tick(double deltaSeconds) {
         Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / deltaSeconds)).asComponent();
 
-        SimpleTextDisplay northDisplay = getHeldEntity(SimpleTextDisplay.class, "flow_rate_north");
+        TextDisplay northDisplay = getHeldEntity(TextDisplay.class, "flow_rate_north");
         if (northDisplay != null) {
-            northDisplay.getEntity().text(component);
+            northDisplay.text(component);
         }
 
-        SimpleTextDisplay southDisplay = getHeldEntity(SimpleTextDisplay.class, "flow_rate_south");
+        TextDisplay southDisplay = getHeldEntity(TextDisplay.class, "flow_rate_south");
         if (southDisplay != null) {
-            southDisplay.getEntity().text(component);
+            southDisplay.text(component);
         }
 
         removedSinceLastUpdate = 0.0;
     }
 
-    private @NotNull SimpleTextDisplay createTextDisplay(@NotNull Player player, @NotNull BlockFace face) {
-        return new SimpleTextDisplay(new TextDisplayBuilder()
+    private @NotNull TextDisplay createTextDisplay(@NotNull Player player, @NotNull BlockFace face) {
+        return new TextDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .lookAlong(PylonUtils.rotateToPlayerFacing(player, face, false).getDirection().toVector3d())
                         .translate(new Vector3d(0.0, 0.0, 0.126))
@@ -80,8 +80,7 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
                 )
                 .backgroundColor(Color.fromARGB(0, 0, 0, 0))
                 .text(UnitFormat.MILLIBUCKETS_PER_SECOND.format(0).asComponent())
-                .build(getBlock().getLocation().toCenterLocation())
-        );
+                .build(getBlock().getLocation().toCenterLocation());
     }
 
     @Override

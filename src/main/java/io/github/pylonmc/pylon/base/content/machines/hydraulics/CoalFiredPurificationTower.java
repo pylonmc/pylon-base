@@ -48,8 +48,9 @@ public class CoalFiredPurificationTower extends PylonBlock
         implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
 
     private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
-    public static final double FLUID_MB_PER_SECOND = settings.getOrThrow("fluid-mb-per-second", ConfigAdapter.INT);
-    public static final double FLUID_BUFFER = settings.getOrThrow("fluid-buffer-mb", ConfigAdapter.INT);
+    public static final double PURIFICATION_SPEED = settings.getOrThrow("purification-speed", ConfigAdapter.INT);
+    public static final double PURIFICATION_EFFICIENCY = settings.getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
+    public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final Map<ItemStack, Integer> FUELS = new HashMap<>();
 
@@ -80,9 +81,10 @@ public class CoalFiredPurificationTower extends PylonBlock
 
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
-                    "fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(FLUID_MB_PER_SECOND)
-            ));
+            return List.of(
+                    PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(PURIFICATION_SPEED)),
+                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(PURIFICATION_EFFICIENCY * 100))
+            );
         }
     }
 
@@ -114,8 +116,8 @@ public class CoalFiredPurificationTower extends PylonBlock
         setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, FLUID_BUFFER, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -185,13 +187,20 @@ public class CoalFiredPurificationTower extends PylonBlock
         }
 
         double toPurify = Math.min(
-                deltaSeconds * FLUID_MB_PER_SECOND,
-                Math.min(fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID), fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID))
+                // maximum amount of dirty hydraulic fluid that can be purified this tick
+                PURIFICATION_SPEED * getTickInterval() / 20.0,
+                Math.min(
+                        // amount of dirty hydraulic fluid available
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        // how much dirty hydraulic fluid can be converted without overflowing the hydraulic fluid buffer
+                        fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) / PURIFICATION_EFFICIENCY
+                )
         );
-        removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
-        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify);
 
-        fuelSecondsElapsed += deltaSeconds;
+        removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
+        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * PURIFICATION_EFFICIENCY);
+
+        fuelSecondsElapsed += getTickInterval() / 20.0;
         progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
         if (fuelSecondsElapsed >= FUELS.get(fuel)) {
             fuel = null;
@@ -201,9 +210,10 @@ public class CoalFiredPurificationTower extends PylonBlock
 
     public boolean isRunning() {
         return fuel != null
+                // input buffer not empty
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
-                // enough space in output buffer for another tick worth of purification
-                && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
+                // output buffer not full
+                && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) > 1.0e-3;
     }
 
     @Override

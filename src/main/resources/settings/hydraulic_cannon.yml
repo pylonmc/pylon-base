@@ -1,7 +1,6 @@
 cooldown-ticks: 20
 
 hydraulic-fluid-per-shot: 40
-dirty-hydraulic-fluid-per-shot: 38
 
 projectile:
     material: gray_concrete

@@ -15,7 +15,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDr
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
-import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
+import io.github.pylonmc.pylon.base.content.tools.FireproofRune;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
@@ -39,11 +39,7 @@ import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
-import org.bukkit.Registry;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -1154,7 +1150,7 @@ public final class BaseItems {
         BasePages.COMPONENTS.addItem(BACKFLOW_VALVE);
     }
 
-    public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylonItem(Material.BLACK_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
+    public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylonItem(Material.LIME_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
             .build();
     static {
         PylonItem.register(PylonItem.class, ANALOGUE_DISPLAY);

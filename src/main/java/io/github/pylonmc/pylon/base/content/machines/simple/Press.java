@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
@@ -22,6 +22,7 @@ import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -70,17 +72,18 @@ public class Press extends PylonBlock
     public Press(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
-        addEntity("press_cover", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.SPRUCE_PLANKS)
+        addEntity("press_cover", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.SPRUCE_PLANKS)
+                        .addCustomModelDataString(getKey() + ":press_cover"))
                 .transformation(getCoverTransform(0.4))
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH));
 
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
     }
@@ -149,10 +152,10 @@ public class Press extends PylonBlock
 
     public void startRecipe(PressRecipe recipe) {
         this.currentRecipe = recipe;
-        getCover().setTransform(TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
+        BaseUtils.animate(getCover(), TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            getCover().setTransform(RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
+            BaseUtils.animate(getCover(), RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
 
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                 addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount());
@@ -162,8 +165,8 @@ public class Press extends PylonBlock
         }, TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS);
     }
 
-    public @NotNull SimpleItemDisplay getCover() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "press_cover");
+    public @NotNull ItemDisplay getCover() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "press_cover");
     }
 
     public static @NotNull Matrix4f getCoverTransform(double translation) {
