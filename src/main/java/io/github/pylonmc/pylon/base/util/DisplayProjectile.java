@@ -129,6 +129,7 @@ public final class DisplayProjectile {
                     entity.setVelocity(locationStep.clone().normalize().multiply(0.2));
                 }
                 projectile.remove();
+                Task.this.cancel();
             });
         }
     }
