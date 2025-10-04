@@ -1,7 +1,0 @@
-material: deepslate_tiles
-cost: 35
-unlocks:
-- pylonbase:refractory_mix
-- pylonbase:unfired_refractory_brick
-- pylonbase:refractory_brick
-- pylonbase:refractory_bricks

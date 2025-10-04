@@ -1,8 +1,0 @@
-material: netherite_ingot
-cost: 50
-unlocks:
-- pylonbase:steel_dust
-- pylonbase:steel_ingot
-- pylonbase:steel_nugget
-- pylonbase:steel_block
-- pylonbase:steel_sheet

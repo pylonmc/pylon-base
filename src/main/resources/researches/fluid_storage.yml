@@ -1,8 +1,0 @@
-material: gray_terracotta
-cost: 10
-unlocks:
-- pylonbase:fluid_tank
-- pylonbase:fluid_tank_casing_wood
-- pylonbase:fluid_tank_casing_copper
-- pylonbase:fluid_tank_casing_tin
-- pylonbase:fluid_tank_casing_iron

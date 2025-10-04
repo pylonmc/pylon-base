@@ -1,7 +1,0 @@
-material: arrow
-cost: 8
-unlocks:
-  - "pylonbase:explosive_target"
-  - "pylonbase:explosive_target_fiery"
-  - "pylonbase:explosive_target_super"
-  - "pylonbase:explosive_target_super_fiery"

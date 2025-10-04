@@ -1,6 +1,0 @@
-material: gray_concrete
-cost: 45
-unlocks:
-- pylonbase:fluid_pipe_steel
-- pylonbase:portable_fluid_tank_steel
-- pylonbase:fluid_tank_casing_steel

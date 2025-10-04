@@ -1,5 +1,0 @@
-material: brewer_pottery_sherd
-cost: 10
-unlocks:
-- pylonbase:disinfectant
-- pylonbase:medkit

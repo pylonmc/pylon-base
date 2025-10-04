@@ -1,5 +1,0 @@
-material: wither_skeleton_skull
-cost: 15
-unlocks:
-- pylonbase:reactivated_wither_skull
-- pylonbase:hyper_activated_wither_skull

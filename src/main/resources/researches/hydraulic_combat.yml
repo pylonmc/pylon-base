@@ -1,6 +1,0 @@
-material: iron_horse_armor
-cost: 8
-unlocks:
-  - "pylonbase:hydraulic_refueling_station"
-  - "pylonbase:hydraulic_cannon"
-  - "pylonbase:tin_projectile"

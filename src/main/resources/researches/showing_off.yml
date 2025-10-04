@@ -1,4 +1,0 @@
-material: stone_brick_wall
-cost: 2
-unlocks:
-  - "pylonbase:pedestal"

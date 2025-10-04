@@ -1,4 +1,0 @@
-material: iron_hoe
-cost: 2
-unlocks:
-  - "pylonbase:climbing_pick"
