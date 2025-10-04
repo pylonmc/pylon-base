@@ -124,7 +124,9 @@ public final class MixingPot extends PylonBlock
                 || event.getAction() != Action.RIGHT_CLICK_BLOCK
         ) {
             // Don't allow fluid to be manually inserted/removed
-            event.setUseInteractedBlock(Event.Result.DENY);
+            if (event.getAction().isRightClick()) {
+                event.setUseInteractedBlock(Event.Result.DENY);
+            }
             return;
         }
 
