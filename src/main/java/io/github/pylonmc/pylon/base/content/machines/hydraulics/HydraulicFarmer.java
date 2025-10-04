@@ -34,8 +34,8 @@ public class HydraulicFarmer extends PylonBlock
         implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
     private static final Map<Material, Material> CROPS = Map.of(
-            Material.CARROT, Material.CARROT,
-            Material.POTATO, Material.POTATO,
+            Material.CARROT, Material.CARROTS,
+            Material.POTATO, Material.POTATOES,
             Material.WHEAT_SEEDS, Material.WHEAT,
             Material.BEETROOT_SEEDS, Material.BEETROOTS,
             Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
