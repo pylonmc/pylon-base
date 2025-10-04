@@ -451,7 +451,8 @@ public final class BaseItems {
     //</editor-fold>
 
     //<editor-fold desc="Bronze tools/armour" defaultstate=collapsed>
-    public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonItem(Material.GOLDEN_SWORD, BaseKeys.BRONZE_SWORD)
+    public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRONZE_SWORD)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_SWORD.getKey())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.WEAPON, Weapon.weapon()
                     .itemDamagePerAttack(Settings.get(BaseKeys.BRONZE_SWORD).getOrThrow("damage", ConfigAdapter.INT))
@@ -462,7 +463,8 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(BRONZE_SWORD);
     }
 
-    public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonItem(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE)
+    public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRONZE_AXE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_AXE.getKey())
             .set(DataComponentTypes.TOOL, Tool.tool()
                     .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_AXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
@@ -478,7 +480,8 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(BRONZE_AXE);
     }
 
-    public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonItem(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE)
+    public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRONZE_PICKAXE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_PICKAXE.getKey())
             .set(DataComponentTypes.TOOL, Tool.tool()
                     .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_PICKAXE).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
@@ -494,7 +497,8 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(BRONZE_PICKAXE);
     }
 
-    public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonItem(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL)
+    public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRONZE_SHOVEL)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_SHOVEL.getKey())
             .set(DataComponentTypes.TOOL, Tool.tool()
                     .defaultMiningSpeed(Settings.get(BaseKeys.BRONZE_SHOVEL).getOrThrow("mining-speed", ConfigAdapter.DOUBLE).floatValue())
                     .addRule(Tool.rule(
@@ -510,7 +514,8 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(BRONZE_SHOVEL);
     }
 
-    public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonItem(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE)
+    public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.BRONZE_HOE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_HOE.getKey())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HOE).getOrThrow("durability", ConfigAdapter.INT))
             .build();
     static {
@@ -519,7 +524,8 @@ public final class BaseItems {
     }
     //</editor-fold>
 
-    public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.GOLDEN_HELMET, BaseKeys.BRONZE_HELMET)
+    public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.CHAINMAIL_HELMET, BaseKeys.BRONZE_HELMET)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_HELMET.getKey())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -542,7 +548,8 @@ public final class BaseItems {
         BasePages.ARMOUR.addItem(BRONZE_HELMET);
     }
 
-    public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.GOLDEN_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
+    public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.CHAINMAIL_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_CHESTPLATE.getKey())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -565,7 +572,8 @@ public final class BaseItems {
         BasePages.ARMOUR.addItem(BRONZE_CHESTPLATE);
     }
 
-    public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.GOLDEN_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
+    public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.CHAINMAIL_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_LEGGINGS.getKey())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -588,7 +596,8 @@ public final class BaseItems {
         BasePages.ARMOUR.addItem(BRONZE_LEGGINGS);
     }
 
-    public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.GOLDEN_BOOTS, BaseKeys.BRONZE_BOOTS)
+    public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.CHAINMAIL_BOOTS, BaseKeys.BRONZE_BOOTS)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_BOOTS.getKey())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
