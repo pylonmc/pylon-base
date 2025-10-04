@@ -41,10 +41,8 @@ public class HydraulicPipeBender extends PylonBlock
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PIPE_BENDER);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", ConfigAdapter.INT);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", ConfigAdapter.INT);
+    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -55,8 +53,7 @@ public class HydraulicPipeBender extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic_fluid_input", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)),
-                    PylonArgument.of("dirty_hydraulic_fluid_output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
             );
         }
     }
@@ -77,7 +74,7 @@ public class HydraulicPipeBender extends PylonBlock
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
         recipe = null;
     }
 
@@ -144,8 +141,8 @@ public class HydraulicPipeBender extends PylonBlock
         }
 
         for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
-            double hydraulicFluidInput = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * recipe.timeTicks() / 20.0;
-            double dirtyHydraulicFluidOutput = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * recipe.timeTicks() / 20.0;
+            double hydraulicFluidInput = HYDRAULIC_FLUID_USAGE * recipe.timeTicks() / 20.0;
+            double dirtyHydraulicFluidOutput = HYDRAULIC_FLUID_USAGE * recipe.timeTicks() / 20.0;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
                     || !recipe.input().matches(stack)
