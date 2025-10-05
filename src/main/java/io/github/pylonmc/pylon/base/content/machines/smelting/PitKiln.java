@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.Waila;
@@ -45,7 +46,7 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class PitKiln extends PylonBlock implements
-        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
+        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonVanillaContainerBlock {
 
     public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
@@ -58,10 +59,6 @@ public final class PitKiln extends PylonBlock implements
 
     private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", ConfigAdapter.DOUBLE);
     private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", ConfigAdapter.DOUBLE);
-
-    static {
-        Bukkit.getPluginManager().registerEvents(new HopperListener(), PylonBase.getInstance());
-    }
 
     public static final class Item extends PylonItem {
 
@@ -290,23 +287,19 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
-    // <editor-fold desc="Hopper Listener" defaultstate="collapsed">
-    private static final class HopperListener implements Listener {
-        @EventHandler
-        public void onHopperMove(InventoryMoveItemEvent event) {
-            if (!(event.getDestination().getHolder() instanceof DecoratedPot pot)) {
-                return;
-            }
+    @Override
+    public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
+        if (!(event.getDestination().getHolder() instanceof DecoratedPot pot)) {
+            return;
+        }
 
-            PylonBlock block = PylonBlock.getPylonBlock(pot.getBlock());
-            if (block instanceof PitKiln kiln) {
-                // removing the item itself does absolutely nothing so it is probably a copy
-                // but still better play it safe and use a removal boolean to pass
-                kiln.addItem(event.getItem(), false);
-            }
+        PylonBlock block = PylonBlock.getPylonBlock(pot.getBlock());
+        if (block instanceof PitKiln kiln) {
+            // removing the item itself does absolutely nothing so it is probably a copy
+            // but still, better play it safe and use a removal boolean to pass
+            kiln.addItem(event.getItem(), false);
         }
     }
-    // </editor-fold>
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private static final List<Vector3i> COAL_POSITIONS = List.of(
