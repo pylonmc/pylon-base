@@ -24,6 +24,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -81,8 +82,8 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         cycling = false;
     }
 
-    public ItemDisplay getDrillDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "drill");
+    public @Nullable ItemDisplay getDrillDisplay() {
+        return getHeldEntity(ItemDisplay.class, "drill");
     }
 
     public static @NotNull Matrix4f getDrillDisplayMatrix(double rotation) {
@@ -103,10 +104,8 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
             for (int j = 0; j < 4; j++) {
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-
-                    try {
-                        BaseUtils.animate(getDrillDisplay(), rotationDuration / 4, getDrillDisplayMatrix(rotation));
-                        new ParticleBuilder(Particle.BLOCK)
+                    BaseUtils.animate(getDrillDisplay(), rotationDuration / 4, getDrillDisplayMatrix(rotation));
+                    new ParticleBuilder(Particle.BLOCK)
                             .count(5)
                             .data(getBlock().getRelative(BlockFace.DOWN, 3).getBlockData())
                             .location(getBlock()
@@ -116,7 +115,6 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
                                     .subtract(0, 0.3, 0)
                             )
                             .spawn();
-                    } catch (Exception ignored) {}
                 }, (long) ((i + j/4.0) * rotationDuration));
             }
         }

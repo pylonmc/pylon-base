@@ -33,6 +33,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -122,11 +123,7 @@ public class HydraulicPressPiston extends PylonBlock
         );
         Bukkit.getScheduler().runTaskLater(
                 PylonBase.getInstance(),
-                () -> {
-                    try {
-                        BaseUtils.animate(getPistonShaft(), Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0));
-                    } catch (Exception ignored) {}
-                },
+                () -> BaseUtils.animate(getPistonShaft(), Press.RETURN_TO_START_TIME_TICKS, getTransformation(0.0)),
                 Press.TIME_PER_ITEM_TICKS - Press.RETURN_TO_START_TIME_TICKS
         );
     }
@@ -138,7 +135,7 @@ public class HydraulicPressPiston extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull ItemDisplay getPistonShaft() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "press_piston_shaft");
+    public @Nullable ItemDisplay getPistonShaft() {
+        return getHeldEntity(ItemDisplay.class, "press_piston_shaft");
     }
 }

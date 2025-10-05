@@ -139,12 +139,17 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return false;
         }
 
-        ItemStack input = getItemDisplay().getItemStack();
+        var itemDisplay = getItemDisplay();
+        if (itemDisplay == null) {
+            return false;
+        }
+
+        ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
             return false;
         }
 
-        getItemDisplay().setItemStack(input.subtract(nextRecipe.input().getAmount()));
+        itemDisplay.setItemStack(input.subtract(nextRecipe.input().getAmount()));
 
         recipeInProgress = true;
 
@@ -154,14 +159,12 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 double translation = isLast ? 0.8 : 0.5;
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                    try {
-                        BaseUtils.animate(getStoneDisplay(), CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation));
-                        new ParticleBuilder(Particle.BLOCK)
+                    BaseUtils.animate(getStoneDisplay(), CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation));
+                    new ParticleBuilder(Particle.BLOCK)
                             .data(nextRecipe.particleBlockData())
                             .count(10)
                             .location(getBlock().getLocation().toCenterLocation())
                             .spawn();
-                    } catch (Exception ignored) {}
                 }, (long) ((i + j/4.0) * CYCLE_DURATION_TICKS));
             }
         }
@@ -184,12 +187,12 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         return true;
     }
 
-    public ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    public @Nullable ItemDisplay getItemDisplay() {
+        return getHeldEntity(ItemDisplay.class, "item");
     }
 
-    public ItemDisplay getStoneDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "block");
+    public @Nullable ItemDisplay getStoneDisplay() {
+        return getHeldEntity(ItemDisplay.class, "block");
     }
 
     public static @NotNull Matrix4f getStoneDisplayMatrix(double translation, double rotation) {

@@ -36,6 +36,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -151,11 +152,7 @@ public class HydraulicMixingAttachment extends PylonBlock
 
         BaseUtils.animate(getMixingAttachmentShaft(), DOWN_ANIMATION_TIME_TICKS, getShaftTransformation(0.2));
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(),
-                () -> {
-                    try {
-                        BaseUtils.animate(getMixingAttachmentShaft(), UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7));
-                    } catch (Exception ignored) {}
-                },
+                () -> BaseUtils.animate(getMixingAttachmentShaft(), UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7)),
                 DOWN_ANIMATION_TIME_TICKS
         );
     }
@@ -167,7 +164,7 @@ public class HydraulicMixingAttachment extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull ItemDisplay getMixingAttachmentShaft() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "mixing_attachment_shaft");
+    public @Nullable ItemDisplay getMixingAttachmentShaft() {
+        return getHeldEntity(ItemDisplay.class, "mixing_attachment_shaft");
     }
 }
