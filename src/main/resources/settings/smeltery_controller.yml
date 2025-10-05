@@ -7,3 +7,5 @@ display:
 room-temperature: 20.0 # °C; defines the temperature of the environment around the smeltery
 heating-factor: 0.05 # unitless; defines how much the smeltery heats up per second when heated
 cooling-factor: 0.02 # unitless; defines how much the smeltery cools down per second when not heated
+
+max-height: 16 # blocks; defines the maximum height of the smeltery
