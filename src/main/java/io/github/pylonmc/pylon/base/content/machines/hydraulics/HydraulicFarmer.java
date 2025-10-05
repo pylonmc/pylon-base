@@ -182,15 +182,15 @@ public class HydraulicFarmer extends PylonBlock
         FARMLAND,
         NONE;
 
-        private static final EnumMap<FarmingTileType, Set<Material>> allowedCrops;
+        private static final EnumMap<FarmingTileType, Set<Material>> ALLOWED_CROPS;
 
         static {
-            allowedCrops = new EnumMap<>(FarmingTileType.class);
-            allowedCrops.put(
+            ALLOWED_CROPS = new EnumMap<>(FarmingTileType.class);
+            ALLOWED_CROPS.put(
                 SOUL_SAND, EnumSet.of(Material.NETHER_WART)
             );
 
-            allowedCrops.put(
+            ALLOWED_CROPS.put(
                 FARMLAND, EnumSet.of(
                     Material.CARROT,
                     Material.POTATO,
@@ -210,7 +210,7 @@ public class HydraulicFarmer extends PylonBlock
         }
 
         private static FarmingTileType getTile(Material mat) {
-            for (var entry : allowedCrops.entrySet()) {
+            for (var entry : ALLOWED_CROPS.entrySet()) {
                 if (entry.getValue().contains(mat)) return entry.getKey();
             }
 
