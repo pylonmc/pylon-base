@@ -30,6 +30,7 @@ import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,8 @@ public class HydraulicFarmer extends PylonBlock
             Material.WHEAT_SEEDS, Material.WHEAT,
             Material.BEETROOT_SEEDS, Material.BEETROOTS,
             Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
-            Material.MELON_SEEDS, Material.MELON_STEM
+            Material.MELON_SEEDS, Material.MELON_STEM,
+            Material.NETHER_WART, Material.NETHER_WART
     );
 
     private static final Set<Material> IGNORE = EnumSet.of(Material.PUMPKIN_STEM, Material.MELON_STEM);
@@ -113,55 +115,132 @@ public class HydraulicFarmer extends PylonBlock
             return;
         }
 
+        var tiles = getFarmingTiles();
         // Attempt to break crops
-        for (int x = -RADIUS; x <= RADIUS; x++) {
-            for (int z = -RADIUS; z <= RADIUS; z++) {
-                Block cropBlock = getBlock().getRelative(x, 0, z);
-                Material cropType = cropBlock.getType();
-                if (IGNORE.contains(cropType)) continue;
+        for (var tile : tiles) {
+            Block cropBlock = tile.crop;
+            Material cropType = cropBlock.getType();
+            if (IGNORE.contains(cropType)) continue;
 
-                if (CROPS.containsValue(cropType)
-                        && cropBlock.getBlockData() instanceof Ageable ageable
-                        && ageable.getAge() == ageable.getMaximumAge()
-                ) {
-                    // maybe instead of breaking them and leaving them be, also put them in the chest above
-                    cropBlock.breakNaturally();
-                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-                    return;
-                } else if (BREAK.contains(cropType)) {
-                    cropBlock.breakNaturally();
-                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-                    return;
-                }
+            if (CROPS.containsValue(cropType)
+                    && cropBlock.getBlockData() instanceof Ageable ageable
+                    && ageable.getAge() == ageable.getMaximumAge()
+            ) {
+                // maybe instead of breaking them and leaving them be, also put them in the chest above
+                cropBlock.breakNaturally();
+                removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
+                return;
+            } else if (BREAK.contains(cropType)) {
+                cropBlock.breakNaturally();
+                removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
+                return;
             }
         }
 
         List<ItemStack> stacks = getItemsFromChest();
-        ItemStack cropToPlantStack = null;
+        EnumMap<FarmingTileType, ItemStack> tileToCrop = new EnumMap<>(FarmingTileType.class);
+
         for (ItemStack stack : stacks) {
-            if (stack != null && CROPS.containsKey(stack.getType())) {
-                cropToPlantStack = stack;
+            if (stack == null) continue;
+            if (tileToCrop.size() == 2) break;
+
+            Material type = stack.getType();
+            if (CROPS.containsKey(type)) {
+                FarmingTileType tileType = FarmingTileType.getTile(type);
+                if (tileToCrop.containsKey(tileType)) continue;
+
+                tileToCrop.put(tileType, stack);
             }
         }
-        if (cropToPlantStack == null) {
+
+        if (tileToCrop.isEmpty()) {
             return;
         }
+
+        for (var tile : tiles) {
+            Block cropBlock = tile.crop;
+
+            if (cropBlock.isEmpty() && tile.type != FarmingTileType.NONE) {
+                ItemStack planted = tileToCrop.get(tile.type);
+                if (planted == null) {
+                    continue;
+                }
+
+                cropBlock.setType(CROPS.get(planted.getType()));
+                planted.subtract();
+                removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
+                return;
+            }
+        }
+    }
+
+    private enum FarmingTileType {
+        SOUL_SAND,
+        FARMLAND,
+        NONE;
+
+        private static final EnumMap<FarmingTileType, Set<Material>> allowedCrops;
+
+        static {
+            allowedCrops = new EnumMap<>(FarmingTileType.class);
+            allowedCrops.put(
+                SOUL_SAND, EnumSet.of(Material.NETHER_WART)
+            );
+
+            allowedCrops.put(
+                FARMLAND, EnumSet.of(
+                    Material.CARROT,
+                    Material.POTATO,
+                    Material.WHEAT_SEEDS,
+                    Material.BEETROOT_SEEDS,
+                    Material.PUMPKIN_SEEDS,
+                    Material.MELON_SEEDS
+                )
+            );
+        }
+
+        private static FarmingTileType from(Material mat) {
+            if (mat == Material.FARMLAND) return FARMLAND;
+            if (mat == Material.SOUL_SAND) return SOUL_SAND;
+
+            return NONE;
+        }
+
+        private static FarmingTileType getTile(Material mat) {
+            for (var entry : allowedCrops.entrySet()) {
+                if (entry.getValue().contains(mat)) return entry.getKey();
+            }
+
+            return null;
+        }
+    }
+
+    private record FarmingTile(Block crop, FarmingTileType type) {}
+
+    private List<FarmingTile> getFarmingTiles() {
+        int diameter = 2 * RADIUS + 1;
+        ArrayList<FarmingTile> tiles = new ArrayList<>(diameter * diameter);
 
         for (int x = -RADIUS; x <= RADIUS; x++) {
             for (int z = -RADIUS; z <= RADIUS; z++) {
                 Block cropBlock = getBlock().getRelative(x, 0, z);
                 Block farmlandBlock = getBlock().getRelative(x, -1, z);
-                if (cropBlock.isEmpty() && farmlandBlock.getType() == Material.FARMLAND) {
-                    cropBlock.setType(CROPS.get(cropToPlantStack.getType()));
-                    cropToPlantStack.subtract();
-                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-                    return;
-                }
+                FarmingTileType type = FarmingTileType.from(farmlandBlock.getType());
+                if (type == FarmingTileType.NONE) continue;
+
+                tiles.add(
+                    new FarmingTile(
+                        cropBlock,
+                        type
+                    )
+                );
             }
         }
+
+        return tiles;
     }
 
     private List<ItemStack> getItemsFromChest() {
