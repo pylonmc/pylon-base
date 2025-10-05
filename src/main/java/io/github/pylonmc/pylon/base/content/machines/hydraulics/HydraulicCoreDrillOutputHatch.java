@@ -42,14 +42,14 @@ public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
 
     @Override
     public void onMultiblockFormed() {
-        super.onMultiblockFormed();
         setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, capacity);
     }
 
     @Override
-    public void onMultiblockUnformed() {
-        super.onMultiblockUnformed();
-        setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
-        setFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        if (!partUnloaded) {
+            setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
+            setFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
+        }
     }
 }
