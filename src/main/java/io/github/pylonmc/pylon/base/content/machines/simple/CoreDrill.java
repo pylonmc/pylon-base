@@ -103,8 +103,10 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
             for (int j = 0; j < 4; j++) {
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                    BaseUtils.animate(getDrillDisplay(), rotationDuration / 4, getDrillDisplayMatrix(rotation));
-                    new ParticleBuilder(Particle.BLOCK)
+
+                    try {
+                        BaseUtils.animate(getDrillDisplay(), rotationDuration / 4, getDrillDisplayMatrix(rotation));
+                        new ParticleBuilder(Particle.BLOCK)
                             .count(5)
                             .data(getBlock().getRelative(BlockFace.DOWN, 3).getBlockData())
                             .location(getBlock()
@@ -114,6 +116,7 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
                                     .subtract(0, 0.3, 0)
                             )
                             .spawn();
+                    } catch (Exception ignored) {}
                 }, (long) ((i + j/4.0) * rotationDuration));
             }
         }
