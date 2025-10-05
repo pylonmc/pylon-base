@@ -19,13 +19,17 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -120,10 +124,9 @@ public class HydraulicFarmer extends PylonBlock
             }
         }
 
-        // Attempt to plant crops
-        Chest chest = (Chest) getBlock().getRelative(0, 1, 0).getState();
+        List<ItemStack> stacks = getItemsFromChest();
         ItemStack cropToPlantStack = null;
-        for (ItemStack stack : chest.getBlockInventory()) {
+        for (ItemStack stack : stacks) {
             if (stack != null && CROPS.containsKey(stack.getType())) {
                 cropToPlantStack = stack;
             }
@@ -145,6 +148,38 @@ public class HydraulicFarmer extends PylonBlock
                 }
             }
         }
+        System.out.println("Failed place");
+    }
+
+    private List<ItemStack> getItemsFromChest() {
+        // Attempt to plant crops
+        Chest chest = (Chest) getBlock().getRelative(0, 1, 0).getState();
+        InventoryHolder holder = chest.getInventory().getHolder();
+        if(holder == null) {
+            return Collections.emptyList();
+        }
+
+        ArrayList<ItemStack> stacks = new ArrayList<>();
+        if (holder instanceof DoubleChest doubleChest) {
+            InventoryHolder leftSide = doubleChest.getLeftSide();
+            if (leftSide != null) {
+                for (ItemStack item : leftSide.getInventory()) {
+                    stacks.add(item);
+                }
+            }
+
+            InventoryHolder rightSide = doubleChest.getRightSide();
+            if (rightSide != null) {
+                for (ItemStack item : rightSide.getInventory()) {
+                    stacks.add(item);
+                }
+            }
+        } else {
+            for (ItemStack item : holder.getInventory()) {
+                stacks.add(item);
+            }
+        }
+        return stacks;
     }
 
     @Override
