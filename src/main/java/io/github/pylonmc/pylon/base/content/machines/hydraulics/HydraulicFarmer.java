@@ -232,7 +232,7 @@ public class HydraulicFarmer extends PylonBlock
         // lazy access
         public FarmingTileType getType() {
             if (type == null) {
-                Block farmlandBlock = getBlock().getRelative(BlockFace.DOWN);
+                Block farmlandBlock = cropBlock.getRelative(BlockFace.DOWN);
                 this.type = FarmingTileType.from(farmlandBlock.getType());
             }
 
