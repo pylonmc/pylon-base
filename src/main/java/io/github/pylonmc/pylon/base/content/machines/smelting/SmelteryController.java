@@ -54,8 +54,9 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryController extends SmelteryComponent
-        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock {
+        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
 
+    private static final NamespacedKey RUNNING_KEY = baseKey("running");
     private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
@@ -75,8 +76,8 @@ public final class SmelteryController extends SmelteryComponent
                     .thenComparing(fluid -> fluid.getKey().toString())
     );
 
-    @Getter private double temperature;
     @Getter private boolean running;
+    @Getter private double temperature;
     @Getter private double capacity;
     private int height;
 
@@ -87,28 +88,26 @@ public final class SmelteryController extends SmelteryComponent
         setTickInterval(TICK_INTERVAL);
 
         temperature = ROOM_TEMPERATURE;
-        running = false;
-        height = 0;
-        capacity = 0;
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
     public SmelteryController(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
+        running = pdc.get(RUNNING_KEY, PylonSerializers.BOOLEAN);
         temperature = pdc.get(TEMPERATURE_KEY, PylonSerializers.DOUBLE);
         fluids.putAll(pdc.get(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE)));
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
+        pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
         pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), fluids);
     }
 
     @Override
     public void postBreak() {
-        PylonEntityHolderBlock.super.postBreak();
         for (SmelteryComponent component : components) {
             component.setController(null);
         }
@@ -271,7 +270,9 @@ public final class SmelteryController extends SmelteryComponent
         // Check sides up to world height
         for (int i = 0; i < maxHeight; i++) {
             if (checkAllComponent(addY(multiblockPositions, i)) && checkAllAir(addY(insidePositions, i))) {
-                height++;
+                if (++height >= maxHeight) {
+                    break;
+                }
             } else {
                 break;
             }
@@ -310,12 +311,7 @@ public final class SmelteryController extends SmelteryComponent
             capacity = 0;
             temperature = ROOM_TEMPERATURE;
             fluids.clear();
-            for (TextDisplay pixel : pixels) {
-                if (pixel.isValid()) {
-                    pixel.remove();
-                }
-            }
-            pixels.clear();
+            removePixels();
         }
     }
 
@@ -407,6 +403,7 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
     private final List<TextDisplay> pixels = new ArrayList<>();
+    private TextDisplay pixelBottom = null;
     private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", ConfigAdapter.INT);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
@@ -420,43 +417,65 @@ public final class SmelteryController extends SmelteryComponent
 
     private double cumulativeSeconds = 0;
 
-    public void spawnOrLoadPixels() {
+    public void spawnPixels() {
         pixels.clear();
+        if (pixelBottom != null && pixelBottom.isValid()) {
+            pixelBottom.remove();
+        }
+
         Location location = center.getLocation().add(-1, 0, -1);
-        int counter = 0;
+        pixelBottom = BaseUtils.spawnUnitSquareTextDisplay(location, BaseUtils.METAL_GRAY, display -> {
+            display.setTransformationMatrix(
+                    TransformUtil.transformationToMatrix(display.getTransformation())
+                            .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
+                            .rotateLocalX((float) Math.toRadians(-90))
+                            .scaleLocal(3f)
+            );
+            display.setBrightness(new Display.Brightness(15, 15));
+            display.setTeleportDuration(Math.min(59, TICK_INTERVAL));
+            display.setPersistent(false); // do not save to world
+        });
+
         for (int x = 0; x < PIXELS_PER_SIDE; x++) {
             for (int z = 0; z < PIXELS_PER_SIDE; z++) {
-                String key = "pixel_" + counter++;
-                if (isHeldEntityPresent(key)) {
-                    pixels.add(getHeldEntityOrThrow(TextDisplay.class, key));
-                    continue;
-                }
-
                 Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
-                TextDisplay display = BaseUtils.spawnUnitSquareTextDisplay(relative, BaseUtils.METAL_GRAY);
-                display.setTransformationMatrix(
-                        TransformUtil.transformationToMatrix(display.getTransformation())
-                                .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
-                                .rotateLocalX((float) Math.toRadians(-90))
-                                .scaleLocal(1f / RESOLUTION)
-                );
-                display.setBrightness(new Display.Brightness(15, 15));
-                display.setTeleportDuration(Math.min(59, TICK_INTERVAL));
-                addEntity(key, display);
-                pixels.add(display);
+                pixels.add(BaseUtils.spawnUnitSquareTextDisplay(relative, BaseUtils.METAL_GRAY, display -> {
+                    display.setTransformationMatrix(
+                            TransformUtil.transformationToMatrix(display.getTransformation())
+                                    .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
+                                    .rotateLocalX((float) Math.toRadians(-90))
+                                    .scaleLocal(1f / RESOLUTION)
+                    );
+                    display.setBrightness(new Display.Brightness(15, 15));
+                    display.setTeleportDuration(Math.min(59, TICK_INTERVAL));
+                    display.setPersistent(false); // do not save to world
+                }));
             }
         }
     }
 
     public @NotNull List<TextDisplay> getPixels() {
         if (pixels.isEmpty()) {
-            spawnOrLoadPixels();
+            spawnPixels();
         }
         return pixels;
     }
 
-    private double lastHeight = 0;
+    public void removePixels() {
+        for (TextDisplay pixel : pixels) {
+            if (pixel.isValid()) {
+                pixel.remove();
+            }
+        }
+        pixels.clear();
+    }
+
     private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", ConfigAdapter.DOUBLE);
+    private static final double LIGHTNESS_SPEED = settings.getOrThrow("display.lightness-speed", ConfigAdapter.DOUBLE);
+    private static final double HEIGHT_VARIATION = settings.getOrThrow("display.height-variation", ConfigAdapter.DOUBLE);
+    private static final double HEIGHT_SPEED = settings.getOrThrow("display.height-speed", ConfigAdapter.DOUBLE);
+    private double lastHeight = 0;
+    private double lastTemperature = 0;
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(BaseUtils.colorFromTemperature(temperature));
@@ -464,7 +483,31 @@ public final class SmelteryController extends SmelteryComponent
         if (Double.isNaN(fill) || Double.isInfinite(fill)) {
             fill = 0;
         }
+        if (fill <= 0 /*&& lastHeight <= center.getY() - 0.01*/) {
+            removePixels();
+            return;
+        }
+
         double finalHeight = center.getY() + height * fill - 0.01;
+        boolean decreased = lastHeight > finalHeight;
+
+        if (pixelBottom != null && pixelBottom.isValid()) {
+            if (lastHeight != finalHeight) {
+                Location bottomLocation = pixelBottom.getLocation();
+                bottomLocation.setY(finalHeight - (1 * HEIGHT_VARIATION));
+                if (decreased) {
+                    pixelBottom.setTeleportDuration(0);
+                }
+                pixelBottom.teleportAsync(bottomLocation).whenComplete((b, t) -> {
+                    if (decreased) {
+                        pixelBottom.setTeleportDuration(Math.min(59, TICK_INTERVAL));
+                    }
+                });
+            }
+            if (lastTemperature != temperature) {
+                pixelBottom.setBackgroundColor(color.toRgb());
+            }
+        }
 
         List<TextDisplay> pixels = getPixels();
         for (int i = 0; i < pixels.size(); i++) {
@@ -476,7 +519,7 @@ public final class SmelteryController extends SmelteryComponent
             double value = noise.noise(
                     x,
                     z,
-                    cumulativeSeconds * 3,
+                    cumulativeSeconds * LIGHTNESS_SPEED,
                     0.01,
                     0.01,
                     true
@@ -488,13 +531,27 @@ public final class SmelteryController extends SmelteryComponent
             );
             entity.setBackgroundColor(newColor.toRgb());
 
-            if (lastHeight != finalHeight) {
-                Location location = entity.getLocation();
-                location.setY(finalHeight);
-                entity.teleportAsync(location);
+            double heightNoise = noise.noise(
+                    x,
+                    z,
+                    cumulativeSeconds * HEIGHT_SPEED,
+                    0.1,
+                    0.1,
+                    true
+            );
+            Location location = entity.getLocation();
+            location.setY(finalHeight + heightNoise * HEIGHT_VARIATION);
+            if (decreased) {
+                entity.setTeleportDuration(0);
             }
+            entity.teleportAsync(location).whenComplete((b, t) -> {
+                if (decreased) {
+                    entity.setTeleportDuration(Math.min(59, TICK_INTERVAL));
+                }
+            });
         }
         lastHeight = finalHeight;
+        lastTemperature = temperature;
     }
     // </editor-fold>
 
@@ -534,8 +591,8 @@ public final class SmelteryController extends SmelteryComponent
             }
             temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * deltaSeconds;
             heaters = 0;
+            updateFluidDisplay();
         }
-        updateFluidDisplay();
         infoItem.notifyWindows();
         contentsItem.notifyWindows();
     }

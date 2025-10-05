@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -37,7 +38,7 @@ import org.joml.Vector3d;
 import java.util.List;
 
 public class HydraulicPipeBender extends PylonBlock
-        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
+        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PIPE_BENDER);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
