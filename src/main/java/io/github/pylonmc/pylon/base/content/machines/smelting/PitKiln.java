@@ -214,8 +214,8 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public void onMultiblockUnformed() {
-        PylonSimpleMultiblock.super.onMultiblockUnformed();
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
         removeWailas();
     }
 
