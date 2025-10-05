@@ -151,7 +151,11 @@ public class HydraulicMixingAttachment extends PylonBlock
 
         BaseUtils.animate(getMixingAttachmentShaft(), DOWN_ANIMATION_TIME_TICKS, getShaftTransformation(0.2));
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(),
-                () -> BaseUtils.animate(getMixingAttachmentShaft(), UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7)),
+                () -> {
+                    try {
+                        BaseUtils.animate(getMixingAttachmentShaft(), UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7));
+                    } catch (Exception ignored) {}
+                },
                 DOWN_ANIMATION_TIME_TICKS
         );
     }

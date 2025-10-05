@@ -154,12 +154,14 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 double translation = isLast ? 0.8 : 0.5;
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                    BaseUtils.animate(getStoneDisplay(), CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation));
-                    new ParticleBuilder(Particle.BLOCK)
+                    try {
+                        BaseUtils.animate(getStoneDisplay(), CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation));
+                        new ParticleBuilder(Particle.BLOCK)
                             .data(nextRecipe.particleBlockData())
                             .count(10)
                             .location(getBlock().getLocation().toCenterLocation())
                             .spawn();
+                    } catch (Exception ignored) {}
                 }, (long) ((i + j/4.0) * CYCLE_DURATION_TICKS));
             }
         }

@@ -181,14 +181,16 @@ public class HydraulicHammerHead extends PylonBlock
         BaseUtils.animate(getHammerTip(), GO_DOWN_TIME_TICKS, getTipTransformation(-1.7));
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            BaseUtils.animate(getHammerHead(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
-            BaseUtils.animate(getHammerTip(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
+            try {
+                BaseUtils.animate(getHammerHead(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
+                BaseUtils.animate(getHammerTip(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
 
-            new ParticleBuilder(Particle.BLOCK)
+                new ParticleBuilder(Particle.BLOCK)
                     .data(baseBlock.getBlockData())
                     .count(20)
                     .location(baseBlock.getLocation().toCenterLocation().add(0, 0.6, 0))
                     .spawn();
+            } catch (Exception ignored) {}
         }, GO_DOWN_TIME_TICKS);
 
         cooldown = hammer.cooldownTicks / 20.0;
