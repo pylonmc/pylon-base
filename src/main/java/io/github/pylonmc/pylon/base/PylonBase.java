@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
-import io.github.pylonmc.pylon.base.content.magic.SoulboundRune;
+import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
