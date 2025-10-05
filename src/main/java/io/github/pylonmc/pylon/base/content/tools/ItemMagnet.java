@@ -84,13 +84,13 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
                 Vector playerPosition = player.getLocation().toVector();
                 for (var stack : player.getInventory()) {
                     PylonItem pylonItem = fromStack(stack);
-                    if (!(pylonItem instanceof ItemMagnet infusedPylon)) continue;
+                    if (!(pylonItem instanceof ItemMagnet itemMagnet)) continue;
 
-                    if (!infusedPylon.isEnabled()) continue;
+                    if (!itemMagnet.isEnabled()) continue;
 
                     Collection<Item> nearbyItems = player.getLocation().getNearbyEntitiesByType(
                         Item.class,
-                        infusedPylon.getPickupDistance()
+                        itemMagnet.getPickupDistance()
                     );
 
 
@@ -102,7 +102,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
                         // it is near enough
                         if (direction.distanceSquared(playerPosition) < 0.25) continue;
 
-                        Vector toMove = direction.multiply(infusedPylon.getAttractForce());
+                        Vector toMove = direction.multiply(itemMagnet.getAttractForce());
                         item.setVelocity(toMove);
                     }
 
