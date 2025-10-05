@@ -30,8 +30,10 @@ import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class HydraulicFarmer extends PylonBlock
@@ -43,8 +45,11 @@ public class HydraulicFarmer extends PylonBlock
             Material.WHEAT_SEEDS, Material.WHEAT,
             Material.BEETROOT_SEEDS, Material.BEETROOTS,
             Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
-            Material.MELON_SEEDS, Material.MELON_SEEDS
+            Material.MELON_SEEDS, Material.MELON_STEM
     );
+
+    private static final Set<Material> IGNORE = EnumSet.of(Material.PUMPKIN_STEM, Material.MELON_STEM);
+    private static final Set<Material> BREAK = EnumSet.of(Material.PUMPKIN, Material.MELON);
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_FARMER);
     public static final int RADIUS = settings.getOrThrow("radius", ConfigAdapter.INT);
@@ -112,10 +117,19 @@ public class HydraulicFarmer extends PylonBlock
         for (int x = -RADIUS; x <= RADIUS; x++) {
             for (int z = -RADIUS; z <= RADIUS; z++) {
                 Block cropBlock = getBlock().getRelative(x, 0, z);
-                if (CROPS.containsValue(cropBlock.getType())
+                Material cropType = cropBlock.getType();
+                if (IGNORE.contains(cropType)) continue;
+
+                if (CROPS.containsValue(cropType)
                         && cropBlock.getBlockData() instanceof Ageable ageable
                         && ageable.getAge() == ageable.getMaximumAge()
                 ) {
+                    // maybe instead of breaking them and leaving them be, also put them in the chest above
+                    cropBlock.breakNaturally();
+                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    return;
+                } else if (BREAK.contains(cropType)) {
                     cropBlock.breakNaturally();
                     removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
                     addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
@@ -148,7 +162,6 @@ public class HydraulicFarmer extends PylonBlock
                 }
             }
         }
-        System.out.println("Failed place");
     }
 
     private List<ItemStack> getItemsFromChest() {
