@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -36,7 +37,7 @@ import java.util.Map;
 
 
 public class HydraulicRefuelingStation extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock, PylonBreakHandler {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
