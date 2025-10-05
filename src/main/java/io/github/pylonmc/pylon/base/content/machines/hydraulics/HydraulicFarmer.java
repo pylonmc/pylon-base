@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -118,7 +119,7 @@ public class HydraulicFarmer extends PylonBlock
         var tiles = getFarmingTiles();
         // Attempt to break crops
         for (var tile : tiles) {
-            Block cropBlock = tile.crop;
+            Block cropBlock = tile.getCropBlock();
             Material cropType = cropBlock.getType();
             if (IGNORE.contains(cropType)) continue;
 
@@ -160,10 +161,11 @@ public class HydraulicFarmer extends PylonBlock
         }
 
         for (var tile : tiles) {
-            Block cropBlock = tile.crop;
+            Block cropBlock = tile.getCropBlock();
+            FarmingTileType type = tile.getType();
 
-            if (cropBlock.isEmpty() && tile.type != FarmingTileType.NONE) {
-                ItemStack planted = tileToCrop.get(tile.type);
+            if (cropBlock.isEmpty() && type != FarmingTileType.NONE) {
+                ItemStack planted = tileToCrop.get(type);
                 if (planted == null) {
                     continue;
                 }
@@ -218,7 +220,25 @@ public class HydraulicFarmer extends PylonBlock
         }
     }
 
-    private record FarmingTile(Block crop, FarmingTileType type) {}
+    private class FarmingTile {
+        @Getter
+        private final Block cropBlock;
+        private FarmingTileType type = null;
+
+        private FarmingTile(Block cropBlock) {
+            this.cropBlock = cropBlock;
+        }
+
+        // lazy access
+        public FarmingTileType getType() {
+            if (type == null) {
+                Block farmlandBlock = getBlock().getRelative(BlockFace.DOWN);
+                this.type = FarmingTileType.from(farmlandBlock.getType());
+            }
+
+            return type;
+        }
+    }
 
     private List<FarmingTile> getFarmingTiles() {
         int diameter = 2 * RADIUS + 1;
@@ -227,14 +247,10 @@ public class HydraulicFarmer extends PylonBlock
         for (int x = -RADIUS; x <= RADIUS; x++) {
             for (int z = -RADIUS; z <= RADIUS; z++) {
                 Block cropBlock = getBlock().getRelative(x, 0, z);
-                Block farmlandBlock = getBlock().getRelative(x, -1, z);
-                FarmingTileType type = FarmingTileType.from(farmlandBlock.getType());
-                if (type == FarmingTileType.NONE) continue;
 
                 tiles.add(
                     new FarmingTile(
-                        cropBlock,
-                        type
+                        cropBlock
                     )
                 );
             }
