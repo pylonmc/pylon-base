@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -26,6 +25,7 @@ import net.kyori.adventure.text.format.Style;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -73,9 +73,9 @@ public class FluidTank extends PylonBlock
         super(block, context);
         height = 0;
         allowedTemperatures = List.of();
-        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("fluid", new ItemDisplayBuilder()
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
-        ));
+        );
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
     }
@@ -147,14 +147,14 @@ public class FluidTank extends PylonBlock
     @Override
     public void setFluidType(@Nullable PylonFluid fluid) {
         PylonFluidTank.super.setFluidType(fluid);
-        getFluidDisplay().getEntity().setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
+        getFluidDisplay().setItemStack(fluid == null ? null : fluid.getItem());
     }
 
     @Override
     public boolean setFluid(double amount) {
         boolean result = PylonFluidTank.super.setFluid(amount);
         float scale = (float) ((height - 0.1) * getFluidAmount() / getFluidCapacity());
-        getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
+        getFluidDisplay().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
                 .buildForItemDisplay()
@@ -162,8 +162,8 @@ public class FluidTank extends PylonBlock
         return result;
     }
 
-    public @NotNull SimpleItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid");
+    public @NotNull ItemDisplay getFluidDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
     }
 
     @Override
@@ -182,6 +182,6 @@ public class FluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getDefaultTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
     }
 }

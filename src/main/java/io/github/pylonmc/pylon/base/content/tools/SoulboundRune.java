@@ -1,6 +1,6 @@
-package io.github.pylonmc.pylon.base.content.magic;
+package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.base.content.magic.base.Rune;
+import io.github.pylonmc.pylon.base.content.tools.base.Rune;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;

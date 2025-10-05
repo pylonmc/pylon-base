@@ -815,48 +815,48 @@ item:
     name: "Hydraulic Grindstone Turner"
     lore: |-
       <arrow> Place below a constructed grindstone
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
+      <arrow> Outputs dirty hydraulic fluid
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
   hydraulic_mixing_attachment:
     name: "Hydraulic Mixing Attachment"
     lore: |-
       <arrow> Place above the mixer, leaving a one block gap
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Cooldown time:</attr> %cooldown%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
     lore: |-
       <arrow> Place above the press, leaving a one block gap
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> Outputs dirty hydraulic fluid
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
 
   hydraulic_hammer_head:
     name: "Hydraulic Hammer Head"
     lore: |-
+      <arrow> Place above the hammer's base block, leaving a two block gap
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> with a hammer to insert the hammer
       <arrow> <insn>Right click</insn> again to take out the hammer
-      <arrow> Place above the hammer's base block, leaving a two block gap
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
 
   hydraulic_pipe_bender:
     name: "Hydraulic Pipe Bender"
     lore: |-
       <arrow> Efficiently bends materials into pipes
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> to insert an item
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
   hydraulic_table_saw:
     name: "Hydraulic Table Saw"
     lore: |-
       <arrow> Efficiently cuts logs into planks, and planks into sticks
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> to insert an item
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage% per craft
 
   quartz_dust:
     name: "Quartz Dust"
@@ -889,7 +889,8 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name></yellow>
@@ -904,7 +905,8 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name></yellow>
@@ -919,7 +921,8 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name></yellow>
@@ -934,7 +937,8 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name></yellow>
@@ -949,7 +953,8 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name></yellow>
@@ -963,7 +968,8 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Burns coal or charcoal
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name></yellow>
@@ -1078,10 +1084,10 @@ item:
     lore: |-
       <star> Multiblock
       <arrow> Consumes hydraulic fluid to mine intermediate core chunks
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
       <br>
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name></yellow>
@@ -1173,6 +1179,11 @@ item:
       <arrow> <insn>Right click</insn> a block to mold it
       <arrow> <attr>Cooldown:</attr> %cooldown%
 
+  confetti_popper:
+    name: "Confetti Popper"
+    lore: |-
+      <arrow> <insn>Hold right click</insn> to spawn some confetti!
+
   vacuum_hopper_1:
     name: "Vacuum Hopper <yellow>I"
     lore: |-
@@ -1214,7 +1225,6 @@ item:
       <arrow> <attr>Range:</attr> %range%
       <arrow> <attr>Projectile speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
-      <arrow> <attr>Dirty hydraulic fluid per shot:</attr> %dirty-hydraulic-fluid-per-shot%
       <arrow> <attr>Hydraulic fluid:</attr> %hydraulic-fluid%
       <arrow> <attr>Dirty hydraulic fluid:</attr> %dirty-hydraulic-fluid%
 
@@ -1232,22 +1242,22 @@ item:
     name: "Hydraulic Farmer"
     lore: |-
       <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Farm interval:</attr> %tick-interval%
-      <arrow> <attr>Hydraulic fluid per action:</attr> %hydraulic-fluid-per-action%
-      <arrow> <attr>Dirty hydraulic fluid per action:</attr> %dirty-hydraulic-fluid-per-action%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
   hydraulic_excavator:
     name: "Hydraulic Excavator"
     lore: |-
       <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
       <arrow> Cannot excavate harder blocks such as stone
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> to start digging
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Depth:</attr> %depth%
       <arrow> <attr>Time per block:</attr> %time-per-block%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
 fluid:
   castable:
@@ -1310,6 +1320,7 @@ research:
   showing_off: "<rainbow>Showing off"
   explosive_targets: "<#ef8c4a>Explosive archery"
   igneous_magic: "<#45336d>Igneous magic"
+  forbidden_medicine: "<#cc2e2e>Forbidden Medicine"
   scientific_revolution_1: "<#fc0505>The Scientific Revolution I"
   scientific_revolution_2: "<#5bfc05>The Scientific Revolution II"
   high_temperature_materials: "<#ce6625>High temperature materials"

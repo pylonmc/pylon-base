@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
+import io.github.pylonmc.pylon.base.content.armor.BronzeArmor;
 import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
@@ -14,14 +15,9 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDr
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
-import io.github.pylonmc.pylon.base.content.magic.FireproofRune;
-import io.github.pylonmc.pylon.base.content.magic.SoulboundRune;
-import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
-import io.github.pylonmc.pylon.base.recipes.display.DrillingDisplayRecipe;
-import io.github.pylonmc.pylon.base.recipes.display.MoldingDisplayRecipe;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPipe;
@@ -29,7 +25,6 @@ import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.DisplayRecipeType;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
@@ -39,11 +34,7 @@ import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.util.TriState;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
-import org.bukkit.Registry;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -521,7 +512,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_HELMET);
+        PylonItem.register(BronzeArmor.class, BRONZE_HELMET);
         BasePages.ARMOUR.addItem(BRONZE_HELMET);
     }
 
@@ -544,7 +535,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_CHESTPLATE);
+        PylonItem.register(BronzeArmor.class, BRONZE_CHESTPLATE);
         BasePages.ARMOUR.addItem(BRONZE_CHESTPLATE);
     }
 
@@ -567,7 +558,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_LEGGINGS);
+        PylonItem.register(BronzeArmor.class, BRONZE_LEGGINGS);
         BasePages.ARMOUR.addItem(BRONZE_LEGGINGS);
     }
 
@@ -590,7 +581,7 @@ public final class BaseItems {
             )
             .build();
     static {
-        PylonItem.register(PylonItem.class, BRONZE_BOOTS);
+        PylonItem.register(BronzeArmor.class, BRONZE_BOOTS);
         BasePages.ARMOUR.addItem(BRONZE_BOOTS);
     }
 
@@ -760,6 +751,28 @@ public final class BaseItems {
     static {
         PylonItem.register(BrickMold.class, BRICK_MOLD);
         BasePages.TOOLS.addItem(BRICK_MOLD);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public static final ItemStack CONFETTI_POPPER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.CONFETTI_POPPER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.FIREWORK_ROCKET.getKey())
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                .consumeSeconds(
+                    Settings.get(BaseKeys.CONFETTI_POPPER).getOrThrow("consume-seconds", ConfigAdapter.DOUBLE).floatValue()
+                )
+                .sound(Registry.SOUNDS.getKey(Sound.ITEM_CROSSBOW_LOADING_START))
+                .animation(ItemUseAnimation.TOOT_HORN)
+                .hasConsumeParticles(false)
+            )
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.CONFETTI_POPPER).getOrThrow("cooldown-seconds", ConfigAdapter.DOUBLE).floatValue()
+                )
+                .cooldownGroup(BaseKeys.CONFETTI_POPPER)
+                .build())
+            .build();
+    static {
+        PylonItem.register(ConfettiPopper.class, CONFETTI_POPPER);
+        BasePages.TOOLS.addItem(CONFETTI_POPPER);
     }
 
     public static final ItemStack GRINDSTONE = ItemStackBuilder.pylonItem(Material.SMOOTH_STONE_SLAB, BaseKeys.GRINDSTONE)
@@ -1132,7 +1145,7 @@ public final class BaseItems {
         BasePages.COMPONENTS.addItem(BACKFLOW_VALVE);
     }
 
-    public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylonItem(Material.BLACK_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
+    public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylonItem(Material.LIME_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
             .build();
     static {
         PylonItem.register(PylonItem.class, ANALOGUE_DISPLAY);
@@ -1369,13 +1382,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, UNFIRED_REFRACTORY_BRICK, BaseKeys.UNFIRED_REFRACTORY_BRICK);
         BasePages.RESOURCES.addItem(UNFIRED_REFRACTORY_BRICK);
-
-        DisplayRecipeType.INSTANCE.addRecipe(new MoldingDisplayRecipe(
-                BaseKeys.UNFIRED_REFRACTORY_BRICK,
-                REFRACTORY_MIX,
-                UNFIRED_REFRACTORY_BRICK,
-                RefractoryMix.TOTAL_MOLDING_CLICKS
-        ));
     }
 
     public static final ItemStack REFRACTORY_BRICK = ItemStackBuilder.pylonItem(Material.NETHERITE_INGOT, BaseKeys.REFRACTORY_BRICK)
@@ -1638,6 +1644,28 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(FIREPROOF_RUNE);
     }
 
+
+    public static final ItemStack SHALLOW_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SHALLOW_CORE_CHUNK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SHALLOW_CORE_CHUNK, BaseKeys.SHALLOW_CORE_CHUNK);
+        BasePages.RESOURCES.addItem(SHALLOW_CORE_CHUNK);
+    }
+
+    public static final ItemStack SUBSURFACE_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SUBSURFACE_CORE_CHUNK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
+        BasePages.RESOURCES.addItem(SUBSURFACE_CORE_CHUNK);
+    }
+
+    public static final ItemStack INTERMEDIATE_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.INTERMEDIATE_CORE_CHUNK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
+        BasePages.RESOURCES.addItem(INTERMEDIATE_CORE_CHUNK);
+    }
+
     public static final ItemStack MANUAL_CORE_DRILL_LEVER = ItemStackBuilder.pylonItem(Material.LEVER, BaseKeys.MANUAL_CORE_DRILL_LEVER)
             .build();
     static {
@@ -1680,44 +1708,6 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
     }
 
-    public static final ItemStack SHALLOW_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SHALLOW_CORE_CHUNK)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, SHALLOW_CORE_CHUNK, BaseKeys.SHALLOW_CORE_CHUNK);
-        BasePages.RESOURCES.addItem(SHALLOW_CORE_CHUNK);
-
-        DisplayRecipeType.INSTANCE.addRecipe(new DrillingDisplayRecipe(
-                BaseKeys.SHALLOW_CORE_CHUNK,
-                MANUAL_CORE_DRILL,
-                SHALLOW_CORE_CHUNK
-        ));
-    }
-
-    public static final ItemStack SUBSURFACE_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.SUBSURFACE_CORE_CHUNK)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, SUBSURFACE_CORE_CHUNK, BaseKeys.SUBSURFACE_CORE_CHUNK);
-        BasePages.RESOURCES.addItem(SUBSURFACE_CORE_CHUNK);
-
-        DisplayRecipeType.INSTANCE.addRecipe(new DrillingDisplayRecipe(
-                BaseKeys.SUBSURFACE_CORE_CHUNK,
-                IMPROVED_MANUAL_CORE_DRILL,
-                SUBSURFACE_CORE_CHUNK
-        ));
-    }
-
-    public static final ItemStack INTERMEDIATE_CORE_CHUNK = ItemStackBuilder.pylonItem(Material.FIREWORK_STAR, BaseKeys.INTERMEDIATE_CORE_CHUNK)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, INTERMEDIATE_CORE_CHUNK, BaseKeys.INTERMEDIATE_CORE_CHUNK);
-        BasePages.RESOURCES.addItem(INTERMEDIATE_CORE_CHUNK);
-
-        DisplayRecipeType.INSTANCE.addRecipe(new DrillingDisplayRecipe(
-                BaseKeys.INTERMEDIATE_CORE_CHUNK,
-                HYDRAULIC_CORE_DRILL,
-                INTERMEDIATE_CORE_CHUNK
-        ));
-    }
     public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylonItem(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.DAMAGE, 0)

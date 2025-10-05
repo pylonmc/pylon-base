@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class MixingPot extends PylonBlock
-        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidTank {
+        implements PylonMultiblock, PylonInteractBlock, PylonEntityHolderBlock, PylonFluidTank {
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -106,7 +106,7 @@ public final class MixingPot extends PylonBlock
 
     @Override
     public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(
+        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", getFluidType() == null ?
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.filled",
