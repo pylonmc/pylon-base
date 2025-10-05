@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -19,15 +19,15 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +39,7 @@ import java.util.Set;
 
 
 public class HydraulicFarmer extends PylonBlock
-        implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
+        implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBufferBlock {
 
     private static final Map<Material, Material> CROPS = Map.of(
             Material.CARROT, Material.CARROTS,
@@ -94,20 +94,9 @@ public class HydraulicFarmer extends PylonBlock
         super(block, pdc);
     }
 
-    @Override
-    public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
-        return Map.of(
-                new Vector3i(0, 1, 0), new VanillaMultiblockComponent(Material.CHEST)
-        );
-    }
-
 
     @Override
     public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded()) {
-            return;
-        }
-
         double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
@@ -160,6 +149,7 @@ public class HydraulicFarmer extends PylonBlock
             return;
         }
 
+        // Attempt plant crops
         for (var tile : tiles) {
             Block cropBlock = tile.getCropBlock();
             FarmingTileType type = tile.getType();
@@ -260,14 +250,18 @@ public class HydraulicFarmer extends PylonBlock
     }
 
     private List<ItemStack> getItemsFromChest() {
-        // Attempt to plant crops
-        Chest chest = (Chest) getBlock().getRelative(0, 1, 0).getState();
-        InventoryHolder holder = chest.getInventory().getHolder();
-        if(holder == null) {
+        BlockState stateAbove = getBlock().getRelative(0, 1, 0).getState();
+        if (!(stateAbove instanceof BlockInventoryHolder blockInventoryHolder)) {
             return Collections.emptyList();
         }
 
-        ArrayList<ItemStack> stacks = new ArrayList<>();
+        ArrayList<ItemStack> stacks = new ArrayList<>(54);
+        InventoryHolder holder = blockInventoryHolder.getInventory().getHolder();
+        if (holder == null) {
+            return Collections.emptyList();
+        }
+
+
         if (holder instanceof DoubleChest doubleChest) {
             InventoryHolder leftSide = doubleChest.getLeftSide();
             if (leftSide != null) {
