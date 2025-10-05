@@ -269,6 +269,14 @@ shimmer_manipulation:
   - pylonbase:shimmer_dust_2
   - pylonbase:covalent_binder
   - pylonbase:enriched_netherrack
+rituals:
+  material: wither_skeleton_skull
+  cost: 20
+  unlocks:
+    - pylonbase:magic_pedestal
+    - pylonbase:magic_altar
+    - pylonbase:shimmer_dust_3
+    - pylonbase:shimmer_skull
 showing_off:
   material: stone_brick_wall
   cost: 2
@@ -310,6 +318,12 @@ vacuum_hoppers:
   unlocks:
   - pylonbase:vacuum_hopper_1
   - pylonbase:vacuum_hopper_2
+advanced_vacuum_hoppers:
+  material: hopper
+  cost: 18
+  unlocks:
+  - pylonbase:vacuum_hopper_3
+  - pylonbase:vacuum_hopper_4
 vitality_1:
   material: amethyst_shard
   cost: 15
@@ -321,3 +335,27 @@ vitality_2:
   cost: 35
   unlocks:
   - pylonbase:health_talisman_ultimate
+elevation:
+  material: quartz_slab
+  cost: 10
+  unlocks:
+  - pylonbase:elevator_1
+  - pylonbase:elevator_2
+  - pylonbase:elevator_3
+hydraulic_purification:
+  material: waxed_copper_block
+  cost: 15
+  unlocks:
+  - pylonbase:solar_purification_tower_1
+  - pylonbase:solar_purification_tower_2
+  - pylonbase:solar_purification_tower_3
+  - pylonbase:coal_fired_purification_tower
+  - pylonbase:purification_tower_glass
+  - pylonbase:purification_tower_cap
+  - pylonbase:solar_lens
+large_scale_hydraulic_purification:
+  material: waxed_copper_block
+  cost: 25
+  unlocks:
+  - pylonbase:solar_purification_tower_4
+  - pylonbase:solar_purification_tower_5
