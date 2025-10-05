@@ -63,7 +63,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
     }
 
     /**
-     * Checks if an infused pylon is enabled
+     * Checks if an item magnet is enabled
      * @return true is enabled else otherwise
      */
     public boolean isEnabled() {

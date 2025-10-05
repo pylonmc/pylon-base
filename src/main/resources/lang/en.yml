@@ -792,7 +792,7 @@ item:
       <arrow> <attr>Max health increase:</attr> %health-boost% 
 
   item_magnet:
-    name: "Infused Pylon"
+    name: "Item Magnet"
     lore: |-
       <arrow> Pulls items towards you in a range of %pickup-distance%
       <arrow> Does not stack
@@ -1396,8 +1396,8 @@ message:
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
   item_magnet:
-    enabled: "Infused Pylon <gray>has been</gray> <green>enabled"
-    disabled: "Infused Pylon <gray>has been</gray> <red>disabled"
+    enabled: "Item Magnet <gray>has been</gray> <green>enabled"
+    disabled: "Item Magnet <gray>has been</gray> <red>disabled"
   pipe:
     connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
     cannot_place_here: "<red>You cannot place a pipe here"
