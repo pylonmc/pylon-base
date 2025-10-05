@@ -475,7 +475,7 @@ public class BaseResearches {
         ).register();
 
         new Research(
-                BaseKeys.SOULBOUND_RUNE,
+                baseKey("soul_attachment"),
                 Material.AMETHYST_SHARD,
                 20L,
                 BaseKeys.SOULBOUND_RUNE

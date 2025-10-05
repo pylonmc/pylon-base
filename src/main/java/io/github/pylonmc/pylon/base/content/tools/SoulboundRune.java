@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
@@ -70,10 +69,10 @@ public class SoulboundRune extends Rune {
         @EventHandler
         public void onPlayerDeath(PlayerDeathEvent event) { // exception being generated
             Iterator<ItemStack> curItem = event.getDrops().iterator();
-            while(curItem.hasNext()){
+            while (curItem.hasNext()) {
                 ItemStack curStack = curItem.next();
-                if(curStack == null || !curStack.hasItemMeta()) continue;
-                if(curStack.getItemMeta().getPersistentDataContainer().has(SOULBOUND_KEY)){
+                if (curStack == null || !curStack.hasItemMeta()) continue;
+                if (curStack.getItemMeta().getPersistentDataContainer().has(SOULBOUND_KEY)) {
                     event.getItemsToKeep().add(curStack);
                     curItem.remove();
                 }

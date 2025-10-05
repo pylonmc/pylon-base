@@ -1351,7 +1351,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
-  soulbound_rune: "<dark_purple>Soul attachment"
+  soul_attachment: "<dark_purple>Soul attachment"
 
 guide:
   page:
