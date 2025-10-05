@@ -37,12 +37,7 @@ import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
-import io.papermc.paper.registry.set.RegistrySet;
-import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -1017,6 +1012,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack ANALOGUE_DISPLAY = ItemStackBuilder.pylon(Material.LIME_STAINED_GLASS_PANE, BaseKeys.ANALOGUE_DISPLAY)
+            .build();
     static {
         PylonItem.register(PylonItem.class, ANALOGUE_DISPLAY);
         BasePages.COMPONENTS.addItem(ANALOGUE_DISPLAY);
