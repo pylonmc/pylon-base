@@ -1235,7 +1235,7 @@ item:
   hydraulic_farmer:
     name: "Hydraulic Farmer"
     lore: |-
-      <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> Breaks crops in a radius, and replants them using seeds from the storage above
       <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Farm interval:</attr> %tick-interval%
