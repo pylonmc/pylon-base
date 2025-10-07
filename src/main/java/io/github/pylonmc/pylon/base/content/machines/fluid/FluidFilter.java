@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
@@ -118,8 +118,8 @@ public class FluidFilter extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of(
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of(
                 "fluid",
                 fluid == null ? Component.translatable("pylon.pylonbase.fluid.none") : fluid.getName()
         )));
