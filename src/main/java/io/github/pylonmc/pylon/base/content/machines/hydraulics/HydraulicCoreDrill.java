@@ -39,17 +39,14 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             List<PylonArgument> placeholders = new ArrayList<>(super.getPlaceholders());
-            placeholders.add(PylonArgument.of("hydraulic-fluid-consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)));
-            placeholders.add(PylonArgument.of("dirty-hydraulic-fluid-output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND)));
+            placeholders.add(PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE)));
             return placeholders;
         }
     }
 
     public static final Config settings = Settings.get(BaseKeys.HYDRAULIC_CORE_DRILL);
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", ConfigAdapter.INT);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", ConfigAdapter.INT);
-    public final double fluidConsumptionPerCycle = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * getCycleDuration() / 20.0;
-    public final double fluidOutputPerCycle = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * getCycleDuration() / 20.0;
+    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
+    public final double hydraulicFluidPerCycle = HYDRAULIC_FLUID_USAGE * getCycleDuration() / 20.0;
 
     @SuppressWarnings("unused")
     public HydraulicCoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -123,14 +120,14 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
 
         Preconditions.checkState(inputHatch != null && outputHatch != null);
 
-        if (inputHatch.fluidAmount(BaseFluids.HYDRAULIC_FLUID) < fluidConsumptionPerCycle
-                || outputHatch.fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < fluidOutputPerCycle
+        if (inputHatch.fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidPerCycle
+                || outputHatch.fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidPerCycle
         ) {
             return;
         }
 
-        inputHatch.removeFluid(BaseFluids.HYDRAULIC_FLUID, fluidConsumptionPerCycle);
-        outputHatch.addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, fluidConsumptionPerCycle);
+        inputHatch.removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerCycle);
+        outputHatch.addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerCycle);
         cycle();
     }
 

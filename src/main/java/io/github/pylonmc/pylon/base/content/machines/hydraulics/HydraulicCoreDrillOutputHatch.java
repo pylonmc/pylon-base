@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -28,11 +27,11 @@ public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
                 false,
                 true
         );
-        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(BaseFluids.DIRTY_HYDRAULIC_FLUID.getMaterial())
+        addEntity("fluid", new ItemDisplayBuilder()
+                .itemStack(BaseFluids.DIRTY_HYDRAULIC_FLUID.getItem())
                 .transformation(new TransformBuilder().scale(0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
-        ));
+        );
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH));
     }
 

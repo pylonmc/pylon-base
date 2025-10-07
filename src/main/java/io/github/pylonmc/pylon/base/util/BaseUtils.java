@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.util;
 
-import com.destroystokyo.paper.MaterialSetTag;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -13,6 +12,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -100,12 +100,13 @@ public class BaseUtils {
         );
     }
 
+    public void animate(ItemDisplay display, int delay, int duration, Matrix4f matrix) {
+        display.setInterpolationDelay(delay);
+        display.setInterpolationDuration(duration);
+        display.setTransformationMatrix(matrix);
+    }
 
-    public static void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count) {
-        new ParticleBuilder(particle)
-                .location(location)
-                .offset(0, 0, 0)
-                .count(count)
-                .spawn();
+    public void animate(ItemDisplay display, int duration, Matrix4f matrix) {
+        animate(display, 0, duration, matrix);
     }
 }

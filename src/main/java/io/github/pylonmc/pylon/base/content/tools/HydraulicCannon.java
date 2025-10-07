@@ -35,7 +35,6 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
     public static final double HYDRAULIC_FLUID_CAPACITY = Settings.get(BaseKeys.PORTABLE_FLUID_TANK_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
     public static final double DIRTY_HYDRAULIC_FLUID_CAPACITY = Settings.get(BaseKeys.PORTABLE_FLUID_TANK_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
     public static final double HYDRAULIC_FLUID_PER_SHOT = settings.getOrThrow("hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
-    public static final double DIRTY_HYDRAULIC_FLUID_PER_SHOT = settings.getOrThrow("dirty-hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
     public static final Material PROJECTILE_MATERIAL = settings.getOrThrow("projectile.material", ConfigAdapter.MATERIAL);
     public static final float PROJECTILE_THICKNESS = settings.getOrThrow("projectile.thickness", ConfigAdapter.FLOAT);
     public static final float PROJECTILE_LENGTH = settings.getOrThrow("projectile.length", ConfigAdapter.FLOAT);
@@ -56,7 +55,6 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
                 PylonArgument.of("range", UnitFormat.BLOCKS.format(Math.round(PROJECTILE_SPEED_BLOCKS_PER_SECOND * PROJECTILE_LIFETIME_TICKS / 20.0))),
                 PylonArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(PROJECTILE_SPEED_BLOCKS_PER_SECOND)),
                 PylonArgument.of("hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_PER_SHOT)),
-                PylonArgument.of("dirty-hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(DIRTY_HYDRAULIC_FLUID_PER_SHOT)),
                 PylonArgument.of("hydraulic-fluid", BaseUtils.createFluidAmountBar(
                         getHydraulicFluid(),
                         HYDRAULIC_FLUID_CAPACITY,
@@ -74,7 +72,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        if (getHydraulicFluid() < HYDRAULIC_FLUID_PER_SHOT || getDirtyHydraulicFluidSpace() < DIRTY_HYDRAULIC_FLUID_PER_SHOT) {
+        if (getHydraulicFluid() < HYDRAULIC_FLUID_PER_SHOT || getDirtyHydraulicFluidSpace() < HYDRAULIC_FLUID_PER_SHOT) {
             return;
         }
 
@@ -91,7 +89,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
         }
 
         setHydraulicFluid(getHydraulicFluid() - HYDRAULIC_FLUID_PER_SHOT);
-        setDirtyHydraulicFluid(getDirtyHydraulicFluid() + DIRTY_HYDRAULIC_FLUID_PER_SHOT);
+        setDirtyHydraulicFluid(getDirtyHydraulicFluid() + HYDRAULIC_FLUID_PER_SHOT);
 
         Player player = event.getPlayer();
         player.setCooldown(getStack(), COOLDOWN_TICKS);

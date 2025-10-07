@@ -1,11 +1,16 @@
-package io.github.pylonmc.pylon.base.content.magic;
+package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.content.tools.base.Rune;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.content.magic.base.Rune;
 import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
+import io.github.pylonmc.pylon.base.recipes.FireproofRuneRecipe;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.util.RandomizedSound;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
@@ -26,10 +31,12 @@ import java.util.Objects;
 /**
  * @author balugaq
  */
+@SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
     public static final Component TOOLTIP = Component.translatable("pylon.pylonbase.message.fireproof_result.tooltip");
 
+    private final RandomizedSound applySound = getSettings().getOrThrow("apply-sound", ConfigAdapter.RANDOMIZED_SOUND);
 
     public FireproofRune(@NotNull ItemStack stack) {
         super(stack);
@@ -101,7 +108,7 @@ public class FireproofRune extends Rune {
         new ParticleBuilder(Particle.EXPLOSION).count(1).location(explodeLoc).spawn();
         new ParticleBuilder(Particle.FLAME).count(50).location(explodeLoc).spawn();
         new ParticleBuilder(Particle.SMOKE).count(40).location(explodeLoc).spawn();
-        world.playSound(explodeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+        world.playSound(applySound.create(), explodeLoc.x(), explodeLoc.y(), explodeLoc.z());
 
         target.setAmount(0);
         rune.setAmount(0);
