@@ -71,7 +71,7 @@ public final class MixingPot extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
+        return otherBlock == getFire();
     }
 
     @Override

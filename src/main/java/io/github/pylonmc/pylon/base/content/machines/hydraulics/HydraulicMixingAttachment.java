@@ -119,7 +119,7 @@ public class HydraulicMixingAttachment extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getLocation());
+        return otherBlock == getBlock().getRelative(BlockFace.DOWN, 2);
     }
 
     @Override

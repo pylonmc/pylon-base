@@ -94,7 +94,7 @@ public class HydraulicPressPiston extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getRelative(BlockFace.DOWN, 2).getLocation());
+        return otherBlock == getBlock().getRelative(BlockFace.DOWN, 2);
     }
 
     public void tick(double deltaSeconds) {
