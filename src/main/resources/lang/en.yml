@@ -1138,7 +1138,7 @@ item:
       <arrow> <insn>Too much water inside... You must dry out it in a Blast Furnace, or dry out it by placing it in the nether.</insn>
 
   hot_lava_sponge:
-    name: "<red>Hot Lava Sponge"
+    name: "Hot Lava Sponge"
     lore: |-
       <arrow> No longer can clear lava but can clear water
       <arrow> While it clears water, it can turn back into Lava Sponge
