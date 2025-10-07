@@ -473,5 +473,12 @@ public class BaseResearches {
                 BaseKeys.REACTIVATED_WITHER_SKULL,
                 BaseKeys.HYPER_ACTIVATED_WITHER_SKULL
         ).register();
+
+        new Research(
+                baseKey("soul_attachment"),
+                Material.AMETHYST_SHARD,
+                20L,
+                BaseKeys.SOULBOUND_RUNE
+        ).register();
     }
 }

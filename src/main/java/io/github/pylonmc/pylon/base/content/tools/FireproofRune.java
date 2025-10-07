@@ -42,6 +42,7 @@ public class FireproofRune extends Rune {
      * @param target The item to handle, amount may be > 1
      * @return true if applicable, false otherwise
      */
+    @Override
     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
         DamageResistant data = target.getData(DataComponentTypes.DAMAGE_RESISTANT);
         if (data == null) return true;
