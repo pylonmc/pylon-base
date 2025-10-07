@@ -795,6 +795,7 @@ item:
     name: "Water Pump"
     lore: |- 
       <arrow> An infinite source of water
+      <arrow> Pulls up water from below
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
   press:
