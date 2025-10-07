@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
@@ -57,6 +58,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         pm.registerEvents(new Rune.RuneListener(), this);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
+        new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
     }
 
     @Override
