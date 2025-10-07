@@ -23,7 +23,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
     private static final int BSTATS_ID = 27323;
@@ -48,7 +47,6 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         BaseItems.initialize();
         BaseBlocks.initialize();
-        BaseEntities.initialize();
         BaseFluids.initialize();
         BaseResearches.initialize();
         BaseRecipes.initialize();
