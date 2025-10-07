@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -31,6 +32,7 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +44,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class MixingPot extends PylonBlock
-        implements PylonMultiblock, PylonInteractBlock, PylonEntityHolderBlock, PylonFluidTank {
+        implements PylonMultiblock, PylonInteractBlock, PylonEntityHolderBlock, PylonFluidTank, PylonCauldron {
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -77,6 +79,11 @@ public final class MixingPot extends PylonBlock
     @Override
     public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
         return true;
+    }
+
+    @Override
+    public void onLevelChange(@NotNull CauldronLevelChangeEvent event) {
+        event.setCancelled(true);
     }
 
     @Override
