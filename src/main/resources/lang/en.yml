@@ -1141,7 +1141,7 @@ item:
     name: "<red>Hot Lava Sponge"
     lore: |-
       <arrow> No longer can clear lava but can clear water
-      <arrow> While it clears water, it has %reuse-rate% to turn back into Lava Sponge
+      <arrow> While it clears water, it can turn back into Lava Sponge
       <arrow> <attr>Range:</attr> %check-range%
 
   igneous_composite:

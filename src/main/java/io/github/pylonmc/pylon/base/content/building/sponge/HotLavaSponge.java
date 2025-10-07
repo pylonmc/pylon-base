@@ -21,18 +21,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * HotLavaSponge is a powerful sponge that can absorb lava but has special behavior.
- * <p>
- * When placed in water, it may:
- * <ul>
- *   <li>turn into obsidian/li>
- *   <li>turn back into a {@link LavaSponge}</li>
- * </ul>
- * </p>
- *
  * @author balugaq
  * @see PowerfulSponge
  * @see LavaSponge
@@ -40,7 +30,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class HotLavaSponge extends PowerfulSponge {
     private static final Config settings = Settings.get(BaseKeys.HOT_LAVA_SPONGE);
     private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
-    private static final double REUSE_RATE = settings.getOrThrow("reuse-rate", ConfigAdapter.DOUBLE);
     private final Location particleDisplayLoc = getBlock().getLocation().clone().add(0.5, 0.5, 0.5);
 
     public HotLavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -98,21 +87,7 @@ public class HotLavaSponge extends PowerfulSponge {
     @Override
     public void toWetSponge(@NotNull Block sponge) {
         BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
-        if (ThreadLocalRandom.current().nextDouble() > REUSE_RATE) {
-            // 90% chance of becoming unusable obsidian
-            sponge.setType(Material.OBSIDIAN);
-            new ParticleBuilder(Particle.FLAME)
-                    .location(particleDisplayLoc)
-                    .count(20)
-                    .spawn();
-            new ParticleBuilder(Particle.SMOKE)
-                    .location(particleDisplayLoc)
-                    .count(50)
-                    .spawn();
-        } else {
-            // 10% chance of reusing the sponge
-            BlockStorage.placeBlock(sponge, BaseKeys.LAVA_SPONGE);
-        }
+        BlockStorage.placeBlock(sponge, BaseKeys.LAVA_SPONGE);
     }
 
     /**
@@ -126,8 +101,7 @@ public class HotLavaSponge extends PowerfulSponge {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1)),
-                    PylonArgument.of("reuse-rate", UnitFormat.PERCENT.format(REUSE_RATE * 100).decimalPlaces(1))
+                    PylonArgument.of("check-range", UnitFormat.BLOCKS.format(CHECK_RANGE).decimalPlaces(1))
             );
         }
     }

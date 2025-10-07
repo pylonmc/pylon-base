@@ -18,16 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * PowerfulSponge is an abstract base class for powerful sponge blocks that can absorb liquids in a large area.
- * <p>
- * This class provides the core functionality for different types of powerful sponges including:
- * <ul>
- *   <li>{@link PowerfulWaterSponge} - able to absorb water</li>
- *   <li>{@link LavaSponge} - able to absorb lava</li>
- *   <li>{@link HotLavaSponge} - able to absorb lava, but with special behavior (90% chance turn into obsidian,
- *   10% chance turn back into {@link LavaSponge})</li>
- * </ul>
- * </p>
+ * PowerfulSponge is an abstract base class for powerful sponges that can absorb specific blocks/liquids in an area.
  *
  * @author balugaq
  * @see PylonSponge
