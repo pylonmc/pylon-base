@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.resources.Bloom;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -14,9 +14,9 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.particles.PylonParticleBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -47,11 +47,11 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
     public BronzeAnvil(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         BlockFace orientation = ((Directional) block.getBlockData()).getFacing();
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new Matrix4f(BASE_TRANSFORM)
                         .rotateLocalY(getItemRotation()))
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
         setTickInterval(tickInterval);
     }
 
@@ -118,47 +118,44 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
             workingChange = 0;
         } else if (PylonUtils.isPylonSimilar(item, BaseItems.TONGS)) {
             workingChange -= temperature;
-        } else if (PylonItem.fromStack(item) instanceof Hammer hammer && !event.getPlayer().hasCooldown(item)) {
-            workingChange += temperature;
-            event.getPlayer().setCooldown(item, hammer.cooldownTicks);
+        } else if (PylonItem.fromStack(item) instanceof Hammer hammer) {
+            if (!event.getPlayer().hasCooldown(item)) {
+                workingChange += temperature;
+                event.getPlayer().setCooldown(item, hammer.cooldownTicks);
+            }
         } else {
             return;
         }
 
         event.setCancelled(true);
         event.getPlayer().swingHand(EquipmentSlot.HAND);
+        if (temperature == 0) return;
 
         int working = bloom.getWorking();
         int newWorking = working + workingChange;
         Location centerLoc = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
-        if (Math.abs(working) > Bloom.MAX_WORKING) {
-            new PylonParticleBuilder.Type.Item()
+        ParticleBuilder builder;
+        if (Math.abs(newWorking) > Bloom.MAX_WORKING) {
+            new ParticleBuilder(Particle.ITEM)
                     .location(centerLoc)
                     .receivers(32, true)
-                    .velocity(0.3, 0.1, 0.3)
-                    .item(bloom.getStack())
-                    .multiple()
+                    .offset(0.03, 0.01, 0.03)
+                    .data(bloom.getStack())
                     .count(8)
                     .spawn();
             itemDisplay.setItemStack(null);
             return;
         } else if (Math.abs(newWorking) < Math.abs(working)) {
-            new PylonParticleBuilder.Type.SmallFlame()
-                    .location(centerLoc)
-                    .receivers(32, true)
-                    .velocity(0.3, 0.1, 0.3)
-                    .multiple()
-                    .count(temperature)
-                    .spawn();
+            builder = new ParticleBuilder(Particle.SMALL_FLAME);
         } else {
-            new PylonParticleBuilder.Type.ElectricSpark()
-                    .location(centerLoc)
-                    .receivers(32, true)
-                    .velocity(0.2, 0.1, 0.2)
-                    .multiple()
-                    .count(temperature)
-                    .spawn();
+            builder = new ParticleBuilder(Particle.CRIT);
         }
+        builder.location(centerLoc)
+                .receivers(32, true)
+                .offset(0.3, 0.1, 0.3)
+                .extra(0.03)
+                .count(temperature)
+                .spawn();
         bloom.setWorking(newWorking);
         itemDisplay.setItemStack(bloom.getStack());
         transformForWorking(newWorking);
@@ -182,7 +179,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
     }
 
     public @NotNull ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     private void transformForWorking(int working) {

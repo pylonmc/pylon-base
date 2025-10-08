@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.resources.Bloom;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -16,11 +16,11 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.particles.PylonParticleBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
@@ -49,13 +49,13 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
     @SuppressWarnings("unused")
     public Bloomery(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3)
                         .translate(0, (1 - .5 + 1d / 16) * 3, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
         setTickInterval(tickInterval);
     }
 
@@ -124,8 +124,8 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
                     1.2,
                     ThreadLocalRandom.current().nextDouble(1)
             );
-            new PylonParticleBuilder.Type.SmallFlame()
-                    .velocity(0, 0, 0)
+            new ParticleBuilder(Particle.SMALL_FLAME)
+                    .extra(0)
                     .location(pos)
                     .receivers(32, true)
                     .spawn();
@@ -140,7 +140,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
     }
 
     public @NotNull ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     @Override
