@@ -19,7 +19,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 
 public class HealthTalisman extends PylonItem implements PylonInventoryItem {
@@ -28,11 +30,12 @@ public class HealthTalisman extends PylonItem implements PylonInventoryItem {
 
     private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", ConfigAdapter.INT);
 
-    private BukkitTask cancelTask;
+    private static final HashMap<UUID, BukkitTask> tasks = new HashMap<>();
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);
     }
+
     public final AttributeModifier healthModifier = new AttributeModifier(
             HEALTH_BOOSTED_KEY,
             maxHealthBoost,
@@ -63,13 +66,14 @@ public class HealthTalisman extends PylonItem implements PylonInventoryItem {
         } else if (maxHealthBoost == playerHealthBoost) {
             foundItem = true;
         }
-        if(foundItem && cancelTask != null){
-            cancelTask.cancel();
+        BukkitTask toCancel = tasks.get(player.getUniqueId());
+        if (foundItem && toCancel != null) {
+            toCancel.cancel();
         }
-        cancelTask = Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+        tasks.put(player.getUniqueId(), Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
             playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
             playerPDC.remove(HEALTH_BOOSTED_KEY);
-        }, getTickSpeed().getTickRate() + 2);
+        }, getTickSpeed().getTickRate() + 1));
     }
 
     @Override
