@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.InventoryTickSpeed;
 import io.github.pylonmc.pylon.core.item.base.PylonInventoryItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -25,6 +27,8 @@ public class HealthTalisman extends PylonItem implements PylonInventoryItem {
     private static final NamespacedKey HEALTH_BOOSTED_KEY = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
 
     private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", ConfigAdapter.INT);
+
+    private BukkitTask cancelTask;
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);
@@ -48,21 +52,24 @@ public class HealthTalisman extends PylonItem implements PylonInventoryItem {
         assert playerHealth != null;
         Integer playerHealthBoost = playerPDC.get(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER);
         if (playerHealthBoost == null) {
-            playerHealth.addModifier(this.healthModifier);
+            playerHealth.addModifier(healthModifier);
             playerPDC.set(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER, maxHealthBoost);
             foundItem = true;
-        } else if (playerHealthBoost < this.maxHealthBoost) {
+        } else if (playerHealthBoost < maxHealthBoost) {
             playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
-            playerHealth.addModifier(this.healthModifier);
+            playerHealth.addModifier(healthModifier);
             playerPDC.set(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER, maxHealthBoost);
             foundItem = true;
         } else if (maxHealthBoost == playerHealthBoost) {
             foundItem = true;
         }
-        if (!foundItem) {
+        if(foundItem && cancelTask != null){
+            cancelTask.cancel();
+        }
+        cancelTask = Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
             playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
             playerPDC.remove(HEALTH_BOOSTED_KEY);
-        }
+        }, getTickSpeed().getTickRate() + 2);
     }
 
     @Override
