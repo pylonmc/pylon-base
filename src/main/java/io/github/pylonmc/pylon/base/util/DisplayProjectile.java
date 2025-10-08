@@ -82,7 +82,7 @@ public final class DisplayProjectile {
                 cancel();
                 return;
             }
-            livedTicks+=tickInterval;
+            livedTicks += tickInterval;
 
             if (projectile.isDead()) {
                 cancel();
