@@ -111,24 +111,25 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
         ItemStack item = event.getItem();
         if (item == null || item.getType().isAir()) return;
 
-        int temperature = bloom.getTemperature();
+        Player player = event.getPlayer();
 
+        int temperature = bloom.getTemperature();
         int workingChange = ThreadLocalRandom.current().nextInt(-1, 2);
         if (temperature == 0) {
             workingChange = 0;
         } else if (PylonUtils.isPylonSimilar(item, BaseItems.TONGS)) {
             workingChange -= temperature;
         } else if (PylonItem.fromStack(item) instanceof Hammer hammer) {
-            if (!event.getPlayer().hasCooldown(item)) {
+            if (!player.hasCooldown(item)) {
                 workingChange += temperature;
-                event.getPlayer().setCooldown(item, hammer.cooldownTicks);
+                player.setCooldown(item, hammer.cooldownTicks);
             }
         } else {
             return;
         }
 
         event.setCancelled(true);
-        event.getPlayer().swingHand(EquipmentSlot.HAND);
+        player.swingHand(EquipmentSlot.HAND);
         if (temperature == 0) return;
 
         int working = bloom.getWorking();
