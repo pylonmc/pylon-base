@@ -19,9 +19,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.WeakHashMap;
 
 
 public class HealthTalisman extends PylonItem implements PylonInventoryItem {
@@ -30,7 +30,7 @@ public class HealthTalisman extends PylonItem implements PylonInventoryItem {
 
     private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", ConfigAdapter.INT);
 
-    private static final HashMap<UUID, BukkitTask> tasks = new HashMap<>();
+    private static final WeakHashMap<UUID, BukkitTask> tasks = new WeakHashMap<>();
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);
