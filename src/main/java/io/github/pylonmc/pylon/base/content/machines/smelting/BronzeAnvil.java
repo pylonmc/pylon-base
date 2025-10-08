@@ -173,7 +173,6 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
             itemDisplay.setItemStack(null);
             Location centerLoc = getBlock().getLocation().toCenterLocation();
             centerLoc.getWorld().dropItemNaturally(centerLoc, BaseItems.WROUGHT_IRON.clone());
-            itemDisplay.setItemStack(null);
             return;
         }
         itemDisplay.setItemStack(bloom.getStack());
