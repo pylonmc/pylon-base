@@ -1845,7 +1845,8 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(HYDRAULIC_CANNON);
     }
 
-    public static final ItemStack HYDRAULIC_CANNON_CHAMBER = ItemStackBuilder.pylonItem(Material.SNOWBALL, BaseKeys.HYDRAULIC_CANNON_CHAMBER)
+    public static final ItemStack HYDRAULIC_CANNON_CHAMBER = ItemStackBuilder.pylonItem(Material.CLAY_BALL, BaseKeys.HYDRAULIC_CANNON_CHAMBER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SNOWBALL.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, HYDRAULIC_CANNON_CHAMBER);
