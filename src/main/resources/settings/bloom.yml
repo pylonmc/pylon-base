@@ -1,0 +1,4 @@
+# The interval in ticks at which hot blooms should be checked for in player inventories
+check-interval: 20
+
+unprotected-damage: 2
