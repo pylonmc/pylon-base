@@ -80,7 +80,6 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
     }
 
     private void onRightClick(@NotNull PlayerInteractEvent event) {
-        //noinspection DuplicatedCode
         ItemStack placedItem = event.getItem();
 
         ItemDisplay itemDisplay = getItemDisplay();
