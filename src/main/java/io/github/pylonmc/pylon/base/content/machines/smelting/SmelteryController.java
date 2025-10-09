@@ -2,8 +2,6 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
@@ -15,7 +13,6 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
-import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -29,10 +26,8 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
-import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -115,7 +110,7 @@ public final class SmelteryController extends SmelteryComponent
                                 .scaleLocal(1f / RESOLUTION)
                 );
                 display.setBrightness(new Display.Brightness(15, 15));
-                addEntity("pixel_" + counter++, new SimpleTextDisplay(display));
+                addEntity("pixel_" + counter++, display);
             }
         }
 
@@ -303,8 +298,8 @@ public final class SmelteryController extends SmelteryComponent
         boolean formed = isFormed();
 
         // set pixels invisible if multiblock not formed, and visible if multiblock formed
-        for (SimpleTextDisplay display : getPixels()) {
-            display.getEntity().text(Component.text(formed ? " " : ""));
+        for (TextDisplay display : getPixels()) {
+            display.text(Component.text(formed ? " " : ""));
         }
 
         return formed;
@@ -443,7 +438,7 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
-    private final List<SimpleTextDisplay> pixels = new ArrayList<>();
+    private final List<TextDisplay> pixels = new ArrayList<>();
     private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", ConfigAdapter.INT);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
@@ -457,10 +452,10 @@ public final class SmelteryController extends SmelteryComponent
 
     private double cumulativeSeconds = 0;
 
-    public @NotNull List<SimpleTextDisplay> getPixels() {
+    public @NotNull List<TextDisplay> getPixels() {
         if (pixels.isEmpty()) {
             for (int i = 0; i < PIXELS_PER_SIDE * PIXELS_PER_SIDE; i++) {
-                pixels.add(getHeldEntityOrThrow(SimpleTextDisplay.class, "pixel_" + i));
+                pixels.add(getHeldEntityOrThrow(TextDisplay.class, "pixel_" + i));
             }
         }
         return pixels;
@@ -477,10 +472,9 @@ public final class SmelteryController extends SmelteryComponent
         }
         double finalHeight = center.getY() + height * fill - 0.01;
 
-        List<SimpleTextDisplay> pixels = getPixels();
+        List<TextDisplay> pixels = getPixels();
         for (int i = 0; i < pixels.size(); i++) {
-            SimpleTextDisplay pixel = pixels.get(i);
-            TextDisplay entity = pixel.getEntity();
+            TextDisplay entity = pixels.get(i);
             if (!entity.isValid()) continue;
 
             int x = i % PIXELS_PER_SIDE;

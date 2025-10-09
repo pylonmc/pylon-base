@@ -1,6 +1,5 @@
 tick-interval: 20
 cooldown-ticks: 100
-hydraulic-fluid-mb-per-craft: 200
-dirty-hydraulic-fluid-mb-per-craft: 190
+hydraulic-fluid-per-craft: 200
 down-animation-time-ticks: 3
 up-animation-time-ticks: 17

@@ -50,4 +50,5 @@ public final class SmelteryOutputHatch extends SmelteryComponent
         if (controller == null) return;
         controller.removeFluid(fluid, amount);
     }
+
 }
