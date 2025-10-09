@@ -24,57 +24,57 @@ public abstract class Talisman extends PylonItem implements PylonInventoryItem {
 
     @Override
     public void onTick(@NotNull Player player, @NotNull ItemStack stack) {
-        tasks.putIfAbsent(GetTalismanKey(), new WeakHashMap<>());
+        tasks.putIfAbsent(getTalismanKey(), new WeakHashMap<>());
         boolean foundItem = false;
-        Integer currentTalismanLevel = player.getPersistentDataContainer().get(GetTalismanKey(), PersistentDataType.INTEGER);
+        Integer currentTalismanLevel = player.getPersistentDataContainer().get(getTalismanKey(), PersistentDataType.INTEGER);
         if (currentTalismanLevel == null) {
-            ApplyEffect_(player, stack);
+            applyEffect(player, stack);
             foundItem = true;
-        } else if (currentTalismanLevel < GetLevel()) {
-            RemoveEffect_(player, stack);
-            ApplyEffect_(player, stack);
+        } else if (currentTalismanLevel < getLevel()) {
+            removeEffect(player, stack);
+            applyEffect(player, stack);
             foundItem = true;
-        } else if (currentTalismanLevel == GetLevel()) {
+        } else if (currentTalismanLevel == getLevel()) {
             foundItem = true;
         }
-        BukkitTask toCancel = tasks.get(GetTalismanKey()).get(player.getUniqueId());
+        BukkitTask toCancel = tasks.get(getTalismanKey()).get(player.getUniqueId());
         if (foundItem) {
             if(toCancel != null) {
                 toCancel.cancel();
             }
-            tasks.get(GetTalismanKey()).put(player.getUniqueId(), Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () ->
-                            RemoveEffect_(player, stack),
+            tasks.get(getTalismanKey()).put(player.getUniqueId(), Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () ->
+                            removeEffect(player, stack),
                     getTickSpeed().getTickRate() + 1));
         }
     }
 
-    private void ApplyEffect_(@NotNull Player player, @NotNull ItemStack stack) {
-        ApplyEffect(player, stack);
-        player.getPersistentDataContainer().set(GetTalismanKey(), PersistentDataType.INTEGER, GetLevel());
+    public void applyEffect(@NotNull Player player, @NotNull ItemStack stack) {
+        applyEffect_(player, stack);
+        player.getPersistentDataContainer().set(getTalismanKey(), PersistentDataType.INTEGER, getLevel());
     }
 
-    private void RemoveEffect_(@NotNull Player player, @NotNull ItemStack stack) {
-        RemoveEffect(player, stack);
-        player.getPersistentDataContainer().remove(GetTalismanKey());
+    public void removeEffect(@NotNull Player player, @NotNull ItemStack stack) {
+        removeEffect_(player, stack);
+        player.getPersistentDataContainer().remove(getTalismanKey());
     }
 
     /**
      * Remove the effect from the player. The implementation of this method must be able to handle removing the effect from other levels of this talisman.
      */
-    public abstract void RemoveEffect(@NotNull Player player, @NotNull ItemStack stack);
+    protected abstract void removeEffect_(@NotNull Player player, @NotNull ItemStack stack);
 
     /**
      * Apply the effect of this talisman onto the player
      */
-    public abstract void ApplyEffect(@NotNull Player player, @NotNull ItemStack stack);
+    protected abstract void applyEffect_(@NotNull Player player, @NotNull ItemStack stack);
 
     /**
      * Get the level of the talisman, this is used to determine which talismans should overwrite other ones
      */
-    public abstract int GetLevel();
+    public abstract int getLevel();
 
     /**
      * Get the generic key of the talisman, should be the same between all talismans of the same type, ie all health talisman levels have the same return value for this.
      */
-    public abstract NamespacedKey GetTalismanKey();
+    public abstract NamespacedKey getTalismanKey();
 }
