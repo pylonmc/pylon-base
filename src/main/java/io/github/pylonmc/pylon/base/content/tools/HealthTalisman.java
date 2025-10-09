@@ -1,43 +1,34 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.InventoryTickSpeed;
-import io.github.pylonmc.pylon.core.item.base.PylonInventoryItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.WeakHashMap;
 
 
-public class HealthTalisman extends PylonItem implements PylonInventoryItem {
+public class HealthTalisman extends Talisman {
 
-    private static final NamespacedKey HEALTH_BOOSTED_KEY = new NamespacedKey(PylonBase.getInstance(), "talisman_health_boosted");
+    private static final NamespacedKey HEALTH_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "health_talisman");
 
     private final int maxHealthBoost = getSettings().getOrThrow("max-health-boost", ConfigAdapter.INT);
-
-    private static final WeakHashMap<UUID, BukkitTask> tasks = new WeakHashMap<>();
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);
     }
 
     public final AttributeModifier healthModifier = new AttributeModifier(
-            HEALTH_BOOSTED_KEY,
+            HEALTH_TALISMAN_KEY,
             maxHealthBoost,
             AttributeModifier.Operation.ADD_NUMBER
     );
@@ -48,32 +39,27 @@ public class HealthTalisman extends PylonItem implements PylonInventoryItem {
     }
 
     @Override
-    public void onTick(@NotNull Player player, @NotNull ItemStack stack) {
-        boolean foundItem = false;
-        PersistentDataContainer playerPDC = player.getPersistentDataContainer();
+    public void RemoveEffect(@NotNull Player player, @NotNull ItemStack stack) {
         AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
         assert playerHealth != null;
-        Integer playerHealthBoost = playerPDC.get(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER);
-        if (playerHealthBoost == null) {
-            playerHealth.addModifier(healthModifier);
-            playerPDC.set(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER, maxHealthBoost);
-            foundItem = true;
-        } else if (playerHealthBoost < maxHealthBoost) {
-            playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
-            playerHealth.addModifier(healthModifier);
-            playerPDC.set(HEALTH_BOOSTED_KEY, PersistentDataType.INTEGER, maxHealthBoost);
-            foundItem = true;
-        } else if (maxHealthBoost == playerHealthBoost) {
-            foundItem = true;
-        }
-        BukkitTask toCancel = tasks.get(player.getUniqueId());
-        if (foundItem && toCancel != null) {
-            toCancel.cancel();
-        }
-        tasks.put(player.getUniqueId(), Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            playerHealth.removeModifier(HEALTH_BOOSTED_KEY);
-            playerPDC.remove(HEALTH_BOOSTED_KEY);
-        }, getTickSpeed().getTickRate() + 1));
+        playerHealth.removeModifier(HEALTH_TALISMAN_KEY);
+    }
+
+    @Override
+    public void ApplyEffect(@NotNull Player player, @NotNull ItemStack stack) {
+        AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
+        assert playerHealth != null;
+        playerHealth.addModifier(healthModifier);
+    }
+
+    @Override
+    public int GetLevel() {
+        return maxHealthBoost;
+    }
+
+    @Override
+    public NamespacedKey GetTalismanKey() {
+        return HEALTH_TALISMAN_KEY;
     }
 
     @Override
