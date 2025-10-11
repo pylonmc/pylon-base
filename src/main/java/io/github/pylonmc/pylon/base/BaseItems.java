@@ -859,6 +859,14 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(HEALTH_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack ITEM_MAGNET = ItemStackBuilder.pylonItem(Material.BREEZE_ROD, BaseKeys.ITEM_MAGNET)
+        .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        .build();
+    static {
+        PylonItem.register(ItemMagnet.class, ITEM_MAGNET);
+        BasePages.TOOLS.addItem(ITEM_MAGNET);
+    }
+
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylonItem(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BEHEADING_SWORD).getOrThrow("durability", ConfigAdapter.INT))
