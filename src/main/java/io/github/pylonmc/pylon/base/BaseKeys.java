@@ -281,4 +281,6 @@ public class BaseKeys {
 
     public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
+
+    public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 }
