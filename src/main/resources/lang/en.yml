@@ -1253,6 +1253,27 @@ item:
       <arrow> <attr>Time per block:</attr> %time-per-block%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
+  hunger_talisman_simple:
+    name: "Simple Hunger Talisman"
+    lore: |-
+      <arrow> Gain saturation and hunger every %period%
+      <arrow> <attr>Saturation multiplier:</attr> %saturation_multiplier%x
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_advanced:
+    name: "Advanced Hunger Talisman"
+    lore: |-
+      <arrow> Gain saturation and hunger every %period%
+      <arrow> <attr>Saturation multiplier:</attr> %saturation_multiplier%x
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_ultimate:
+    name: "Ultimate Hunger Talisman"
+    lore: |-
+      <arrow> Gain saturation and hunger every %period%
+      <arrow> <attr>Saturation multiplier:</attr> %saturation_multiplier%x
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1345,6 +1366,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  diet: "<green>Strong diet"
 
 guide:
   page:

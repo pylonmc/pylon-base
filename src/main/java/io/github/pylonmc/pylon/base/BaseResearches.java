@@ -473,5 +473,14 @@ public class BaseResearches {
                 BaseKeys.REACTIVATED_WITHER_SKULL,
                 BaseKeys.HYPER_ACTIVATED_WITHER_SKULL
         ).register();
+
+        new Research(
+                baseKey("diet"),
+                Material.COOKED_BEEF,
+                15L,
+                BaseKeys.HUNGER_TALISMAN_SIMPLE,
+                BaseKeys.HUNGER_TALISMAN_ADVANCED,
+                BaseKeys.HUNGER_TALISMAN_ULTIMATE
+        ).register();
     }
 }

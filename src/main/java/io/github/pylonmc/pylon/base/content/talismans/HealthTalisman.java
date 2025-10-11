@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.tools;
+package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
