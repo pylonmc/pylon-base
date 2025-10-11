@@ -14,7 +14,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -36,8 +35,7 @@ import org.joml.Vector3d;
 
 import java.util.List;
 
-public class HydraulicPipeBender extends PylonBlock
-        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
+public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PIPE_BENDER);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -65,8 +63,8 @@ public class HydraulicPipeBender extends PylonBlock
     public HydraulicPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .lookAlong(new Vector3d(0.0, 1.0, 0.0))

@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -16,7 +15,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -47,8 +45,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicHammerHead extends PylonBlock
-        implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+public class HydraulicHammerHead extends PylonBlock implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
@@ -86,8 +83,9 @@ public class HydraulicHammerHead extends PylonBlock
 
         setTickInterval(TICK_INTERVAL);
 
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+
         addEntity("hammer_head", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(Material.GRAY_CONCRETE)
                         .addCustomModelDataString(getKey() + ":hammer_head")
@@ -196,7 +194,7 @@ public class HydraulicHammerHead extends PylonBlock
 
     @Override
     public void postBreak() {
-        PylonEntityHolderBlock.super.postBreak();
+        PylonFluidBufferBlock.super.postBreak();
         if (hammer != null) {
             getBlock().getLocation().getWorld().dropItemNaturally(getBlock().getLocation(), hammer.getStack());
         }

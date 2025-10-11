@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -32,7 +31,7 @@ public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
                 .transformation(new TransformBuilder().scale(0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
         );
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH));
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, true);
     }
 
     @SuppressWarnings("unused")

@@ -3,14 +3,14 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -41,8 +41,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidFilter extends PylonBlock
-        implements PylonFluidTank, PylonEntityHolderBlock, PylonGuiBlock {
+public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiBlock {
 
     public static class Item extends PylonItem {
 
@@ -100,8 +99,8 @@ public class FluidFilter extends PylonBlock
                 )
                 .build(block.getLocation().toCenterLocation())
         );
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.EAST, 0.25F));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.WEST, 0.25F));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false, 0.25F);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false, 0.25F);
         setDisableBlockTextureEntity(true);
     }
 
@@ -142,8 +141,8 @@ public class FluidFilter extends PylonBlock
 
         // Make sure the filter always has enough fluid for one tick's worth of output
         // somewhat hacky
-        VirtualFluidPoint output = getHeldPylonEntityOrThrow(FluidPointInteraction.class, "output").getPoint();
-        VirtualFluidPoint input = getHeldPylonEntityOrThrow(FluidPointInteraction.class, "input").getPoint();
+        VirtualFluidPoint output = getFluidPointDisplayOrThrow(FluidPointType.OUTPUT).getPoint();
+        VirtualFluidPoint input = getFluidPointDisplayOrThrow(FluidPointType.INPUT).getPoint();
         double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
         double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
         return Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond)
@@ -166,5 +165,11 @@ public class FluidFilter extends PylonBlock
     @Override
     public @NotNull Component getGuiTitle() {
         return Component.translatable("pylon.pylonbase.item.fluid_filter.gui");
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidTank.super.onBreak(drops, context);
+        PylonGuiBlock.super.onBreak(drops, context);
     }
 }

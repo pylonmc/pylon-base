@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -16,7 +15,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -39,8 +37,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class HydraulicPressPiston extends PylonBlock
-        implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+public class HydraulicPressPiston extends PylonBlock implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PRESS_PISTON);
     public static final double HYDRAULIC_FLUID_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
@@ -71,8 +68,8 @@ public class HydraulicPressPiston extends PylonBlock
                 .transformation(getTransformation(0.0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
         );
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT * 2, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT * 2, false, true);
     }
