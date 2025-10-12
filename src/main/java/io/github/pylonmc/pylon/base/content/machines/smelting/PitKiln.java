@@ -120,8 +120,8 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public void postBreak() {
-        PylonSimpleMultiblock.super.postBreak();
+    public void postBreak(@NotNull BlockBreakContext context) {
+        PylonSimpleMultiblock.super.postBreak(context);
         removeWailas();
     }
 

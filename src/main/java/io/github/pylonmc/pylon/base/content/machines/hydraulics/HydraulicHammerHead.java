@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -195,8 +196,8 @@ public class HydraulicHammerHead extends PylonBlock
     }
 
     @Override
-    public void postBreak() {
-        PylonEntityHolderBlock.super.postBreak();
+    public void postBreak(@NotNull BlockBreakContext context) {
+        PylonEntityHolderBlock.super.postBreak(context);
         if (hammer != null) {
             getBlock().getLocation().getWorld().dropItemNaturally(getBlock().getLocation(), hammer.getStack());
         }
