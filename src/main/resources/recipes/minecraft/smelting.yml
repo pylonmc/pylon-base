@@ -15,3 +15,9 @@ pylonbase:tin_ingot_furnace:
   result: pylonbase:tin_ingot
   experience: 0.5
   category: misc
+
+pylonbase:steel_furnace:
+  ingredient: pylonbase:wrought_iron
+  result: pylonbase:steel_ingot
+  experience: 0.7
+  category: misc
