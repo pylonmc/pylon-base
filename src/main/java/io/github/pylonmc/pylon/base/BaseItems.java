@@ -38,7 +38,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
-import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;

@@ -1,29 +1,26 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
+import io.github.pylonmc.pylon.core.waila.Waila;
+import kotlin.Pair;
 import lombok.Getter;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
-import net.kyori.adventure.text.format.Style;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FluidTankCasing extends PylonBlock {
@@ -67,9 +64,7 @@ public class FluidTankCasing extends PylonBlock {
     );
 
     @Getter
-    private String shape = "single";
-
-    private BlockPosition fluidTank = null;
+    private Shape shape = Shape.SINGLE;
 
     public FluidTankCasing(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -80,57 +75,26 @@ public class FluidTankCasing extends PylonBlock {
     }
 
     @Override
-    public @Nullable ItemStack getBlockTextureItem() {
-        return ItemStackBuilder.of(super.getBlockTextureItem())
-                .addCustomModelDataString(shape)
-                .build();
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("shape", new Pair<>(shape.name().toLowerCase(), Shape.values().length));
+        return properties;
     }
 
-    public FluidTank getFluidTank() {
-        if (fluidTank == null) {
-            return null;
-        }
-
-        FluidTank tank = BlockStorage.getAs(FluidTank.class, fluidTank.getBlock());
-        if (tank == null) {
-            fluidTank = null;
-            return null;
-        } else {
-            return tank;
-        }
-    }
-
-    public void setShape(@NotNull String shape) {
+    public void setShape(@NotNull Shape shape) {
         this.shape = shape;
         refreshBlockTextureItem();
     }
 
-    public void setFluidTank(FluidTank fluidTank) {
-        this.fluidTank = fluidTank == null ? null : new BlockPosition(fluidTank.getBlock());
-    }
-
     public void reset() {
-        fluidTank = null;
-        setShape("single");
+        setShape(Shape.SINGLE);
+        Waila.removeWailaOverride(new BlockPosition(getBlock()));
     }
 
-    @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        Component info;
-        FluidTank fluidTank = getFluidTank();
-        if (fluidTank == null || fluidTank.getFluidType() == null) {
-            info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
-        } else {
-            info = Component.translatable(
-                    "pylon.pylonbase.waila.fluid_tank.filled",
-                    PylonArgument.of("amount", Math.round(fluidTank.getFluidAmount())),
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(fluidTank.getFluidCapacity())
-                            .decimalPlaces(0)
-                            .unitStyle(Style.empty())
-                    ),
-                    PylonArgument.of("fluid", fluidTank.getFluidType().getName())
-            );
-        }
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
+    public enum Shape {
+        SINGLE,
+        BOTTOM,
+        MIDDLE,
+        TOP
     }
 }

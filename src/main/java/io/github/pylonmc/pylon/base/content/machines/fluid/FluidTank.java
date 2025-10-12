@@ -6,6 +6,8 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
+import io.github.pylonmc.pylon.core.waila.Waila;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
@@ -18,7 +20,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import org.bukkit.block.Block;
@@ -96,7 +97,6 @@ public class FluidTank extends PylonBlock
                 break;
             }
 
-            casing.setFluidTank(this);
             casings.add(casing);
         }
         return !casings.isEmpty();
@@ -119,22 +119,25 @@ public class FluidTank extends PylonBlock
         for (int i = 0; i < casings.size(); i++) {
             FluidTankCasing casing = casings.get(i);
             if (i == 0) {
-                casing.setShape(height == 1 ? "single" : "bottom");
+                casing.setShape(height == 1 ? FluidTankCasing.Shape.SINGLE : FluidTankCasing.Shape.BOTTOM);
             } else if (i == casings.size() - 1) {
-                casing.setShape("top");
+                casing.setShape(FluidTankCasing.Shape.TOP);
             } else {
-                casing.setShape("middle");
+                casing.setShape(FluidTankCasing.Shape.MIDDLE);
             }
+            Waila.addWailaOverride(new BlockPosition(casing.getBlock()), this::getWaila);
         }
     }
 
     @Override
-    public void onMultiblockUnformed() {
-        casings.forEach(casing -> casing.setFluidTank(null));
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        casings.forEach(FluidTankCasing::reset);
         casings.clear();
         allowedTemperatures.clear();
-        setCapacity(0);
-        setFluid(0);
+        if (!partUnloaded) {
+            setCapacity(0);
+            setFluidType(null);
+        }
     }
 
     @Override
