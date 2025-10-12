@@ -27,7 +27,7 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.util.ToolType;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
@@ -395,28 +395,28 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(BRONZE_SWORD);
     }
 
-    public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE, ToolType.AXE, true, false, true)
+    public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_AXE, BaseKeys.BRONZE_AXE, PylonUtils.axeMineable(), true, false, true)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_AXE);
         BasePages.TOOLS.addItem(BRONZE_AXE);
     }
 
-    public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE, ToolType.PICKAXE, true, false, false)
+    public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_PICKAXE, BaseKeys.BRONZE_PICKAXE, PylonUtils.pickaxeMineable(), true, false, false)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_PICKAXE);
         BasePages.TOOLS.addItem(BRONZE_PICKAXE);
     }
 
-    public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL, ToolType.SHOVEL, true, false, false)
+    public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_SHOVEL, BaseKeys.BRONZE_SHOVEL, PylonUtils.shovelMineable(), true, false, false)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_SHOVEL);
         BasePages.TOOLS.addItem(BRONZE_SHOVEL);
     }
 
-    public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE, ToolType.HOE, true, false, false)
+    public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonToolWeapon(Material.GOLDEN_HOE, BaseKeys.BRONZE_HOE, PylonUtils.hoeMineable(), true, false, false)
             .build();
     static {
         PylonItem.register(PylonItem.class, BRONZE_HOE);
