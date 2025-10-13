@@ -1257,21 +1257,21 @@ item:
     name: "Simple Hunger Talisman"
     lore: |-
       <arrow> Gain saturation and hunger every %period%
-      <arrow> <attr>Saturation multiplier:</attr> %saturation_multiplier%x
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
   hunger_talisman_advanced:
     name: "Advanced Hunger Talisman"
     lore: |-
       <arrow> Gain saturation and hunger every %period%
-      <arrow> <attr>Saturation multiplier:</attr> %saturation_multiplier%x
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
   hunger_talisman_ultimate:
     name: "Ultimate Hunger Talisman"
     lore: |-
       <arrow> Gain saturation and hunger every %period%
-      <arrow> <attr>Saturation multiplier:</attr> %saturation_multiplier%x
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
 fluid:

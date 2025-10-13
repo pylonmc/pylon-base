@@ -1,4 +1,4 @@
 hunger-increase: 1
-saturation-multiplier: 1.2
+saturation-increase: 3.0
 period-ticks: 300
 level: 1

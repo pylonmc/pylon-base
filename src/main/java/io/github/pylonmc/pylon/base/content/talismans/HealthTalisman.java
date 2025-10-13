@@ -39,14 +39,14 @@ public class HealthTalisman extends Talisman {
     }
 
     @Override
-    public void removeEffect_(@NotNull Player player, @NotNull ItemStack stack) {
+    public void removeEffect_(@NotNull Player player) {
         AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
         assert playerHealth != null;
         playerHealth.removeModifier(HEALTH_TALISMAN_KEY);
     }
 
     @Override
-    public void applyEffect_(@NotNull Player player, @NotNull ItemStack stack) {
+    public void applyEffect_(@NotNull Player player) {
         AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
         assert playerHealth != null;
         playerHealth.addModifier(healthModifier);
