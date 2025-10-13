@@ -1,1 +1,6 @@
 durability: 500
+mining-speed: 6.5
+mining-durability-damage: 1
+attack-durability-damage: 2
+attack-damage: 1
+attack-speed: 3.5

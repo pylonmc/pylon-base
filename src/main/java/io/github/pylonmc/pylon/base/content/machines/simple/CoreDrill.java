@@ -24,6 +24,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -81,8 +82,8 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
         cycling = false;
     }
 
-    public ItemDisplay getDrillDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "drill");
+    public @Nullable ItemDisplay getDrillDisplay() {
+        return getHeldEntity(ItemDisplay.class, "drill");
     }
 
     public static @NotNull Matrix4f getDrillDisplayMatrix(double rotation) {
