@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.InventoryTickSpeed;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -31,7 +30,9 @@ public class HungerTalisman extends Talisman {
     public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     private static final WeakHashMap<UUID, BukkitTask> hungerTasks = new WeakHashMap<>();
 
-    public HungerTalisman(@NotNull ItemStack stack) { super(stack); }
+    public HungerTalisman(@NotNull ItemStack stack) {
+        super(stack);
+    }
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
@@ -41,12 +42,14 @@ public class HungerTalisman extends Talisman {
     }
 
     @Override
-    protected void removeEffect_(@NotNull Player player) {
+    public void removeEffect(@NotNull Player player) {
+        super.removeEffect(player);
         hungerTasks.get(player.getUniqueId()).cancel();
     }
 
     @Override
-    protected void applyEffect_(@NotNull Player player) {
+    public void applyEffect(@NotNull Player player) {
+        super.applyEffect(player);
         hungerTasks.put(player.getUniqueId(), Bukkit.getScheduler().runTaskTimer(PylonBase.getInstance(), () -> {
             player.setSaturation(player.getSaturation() + saturationIncrease);
             player.setFoodLevel(player.getFoodLevel() + hungerIncrease);
@@ -64,24 +67,24 @@ public class HungerTalisman extends Talisman {
     }
 
     @Override
-    public @NotNull InventoryTickSpeed getTickSpeed() {
-        return InventoryTickSpeed.SLOW;
+    public long getTickInterval() {
+        return 4;
     }
 
     public static final class JoinListener implements Listener {
         @EventHandler
-        public void onPlayerJoin(PlayerJoinEvent event){
-            if(event.getPlayer().getPersistentDataContainer().has(HUNGER_TALISMAN_KEY)){
+        public void onPlayerJoin(PlayerJoinEvent event) {
+            if (event.getPlayer().getPersistentDataContainer().has(HUNGER_TALISMAN_KEY)) {
                 int talismanLevel = event.getPlayer().getPersistentDataContainer().get(HUNGER_TALISMAN_KEY, PersistentDataType.INTEGER);
-                for(ItemStack stack : event.getPlayer().getInventory()){
+                for (ItemStack stack : event.getPlayer().getInventory()) {
                     PylonItem item = PylonItem.fromStack(stack);
-                    if(item == null){
+                    if (item == null) {
                         continue;
                     }
-                    if(!(item instanceof Talisman talisman)){
+                    if (!(item instanceof Talisman talisman)) {
                         continue;
                     }
-                    if(talisman.getLevel() != talismanLevel){
+                    if (talisman.getLevel() != talismanLevel) {
                         continue;
                     }
                     talisman.applyEffect(event.getPlayer());
