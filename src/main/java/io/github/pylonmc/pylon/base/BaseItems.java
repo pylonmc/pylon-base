@@ -1687,21 +1687,21 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
     }
 
-    public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylonItem(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_SIMPLE)
+    public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_SIMPLE)
             .build();
     static {
         PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_SIMPLE);
         BasePages.TOOLS.addItem(HUNGER_TALISMAN_SIMPLE);
     }
 
-    public static final ItemStack HUNGER_TALISMAN_ADVANCED = ItemStackBuilder.pylonItem(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_ADVANCED)
+    public static final ItemStack HUNGER_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_ADVANCED)
             .build();
     static {
         PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_ADVANCED);
         BasePages.TOOLS.addItem(HUNGER_TALISMAN_ADVANCED);
     }
 
-    public static final ItemStack HUNGER_TALISMAN_ULTIMATE = ItemStackBuilder.pylonItem(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_ULTIMATE)
+    public static final ItemStack HUNGER_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_ULTIMATE)
             .build();
     static {
         PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_ULTIMATE);
