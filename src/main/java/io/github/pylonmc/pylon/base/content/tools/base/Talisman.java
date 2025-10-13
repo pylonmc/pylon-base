@@ -1,8 +1,9 @@
 package io.github.pylonmc.pylon.base.content.tools.base;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonInventoryItem;
+import io.github.pylonmc.pylon.core.item.base.PylonInventoryTicker;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-public abstract class Talisman extends PylonItem implements PylonInventoryItem {
+public abstract class Talisman extends PylonItem implements PylonInventoryTicker {
     private static final HashMap<NamespacedKey, WeakHashMap<UUID, BukkitTask>> tasks = new HashMap<>();
 
     public Talisman(@NotNull ItemStack stack) {
@@ -45,7 +46,7 @@ public abstract class Talisman extends PylonItem implements PylonInventoryItem {
             }
             tasks.get(getTalismanKey()).put(player.getUniqueId(), Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () ->
                             removeEffect(player),
-                    getTickSpeed().getTickRate() + 1));
+                    getTickInterval() * PylonConfig.getInventoryTickerBaseRate() + 1));
         }
     }
 
