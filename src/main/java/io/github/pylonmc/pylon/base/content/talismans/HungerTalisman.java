@@ -66,11 +66,6 @@ public class HungerTalisman extends Talisman {
         return HUNGER_TALISMAN_KEY;
     }
 
-    @Override
-    public long getTickInterval() {
-        return 4;
-    }
-
     public static final class JoinListener implements Listener {
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event) {

@@ -63,9 +63,4 @@ public class HealthTalisman extends Talisman {
     public NamespacedKey getTalismanKey() {
         return HEALTH_TALISMAN_KEY;
     }
-
-    @Override
-    public long getTickInterval() {
-        return 4L;
-    }
 }
