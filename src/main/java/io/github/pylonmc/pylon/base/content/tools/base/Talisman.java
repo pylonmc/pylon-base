@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 
 public abstract class Talisman extends PylonItem implements PylonInventoryTicker {
-    private static final HashMap<NamespacedKey, WeakHashMap<UUID, BukkitTask>> tasks = new HashMap<>();
+    private static final HashMap<NamespacedKey, HashMap<UUID, BukkitTask>> tasks = new HashMap<>();
 
     public Talisman(@NotNull ItemStack stack) {
         super(stack);
@@ -26,7 +26,7 @@ public abstract class Talisman extends PylonItem implements PylonInventoryTicker
 
     @Override
     public void onTick(@NotNull Player player) {
-        tasks.putIfAbsent(getTalismanKey(), new WeakHashMap<>());
+        tasks.putIfAbsent(getTalismanKey(), new HashMap<>());
         boolean foundItem = false;
         Integer currentTalismanLevel = player.getPersistentDataContainer().get(getTalismanKey(), PersistentDataType.INTEGER);
         if (currentTalismanLevel == null) {
