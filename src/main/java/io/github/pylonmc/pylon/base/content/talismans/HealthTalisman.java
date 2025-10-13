@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.base.InventoryTickSpeed;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -39,16 +39,18 @@ public class HealthTalisman extends Talisman {
     }
 
     @Override
-    public void removeEffect_(@NotNull Player player) {
+    public void removeEffect(@NotNull Player player) {
+        super.removeEffect(player);
         AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
-        assert playerHealth != null;
+        Preconditions.checkNotNull(playerHealth);
         playerHealth.removeModifier(HEALTH_TALISMAN_KEY);
     }
 
     @Override
-    public void applyEffect_(@NotNull Player player) {
+    public void applyEffect(@NotNull Player player) {
+        super.applyEffect(player);
         AttributeInstance playerHealth = player.getAttribute(Attribute.MAX_HEALTH);
-        assert playerHealth != null;
+        Preconditions.checkNotNull(playerHealth);
         playerHealth.addModifier(healthModifier);
     }
 
@@ -63,7 +65,7 @@ public class HealthTalisman extends Talisman {
     }
 
     @Override
-    public @NotNull InventoryTickSpeed getTickSpeed() {
-        return InventoryTickSpeed.SLOW;
+    public long getTickInterval() {
+        return 4L;
     }
 }

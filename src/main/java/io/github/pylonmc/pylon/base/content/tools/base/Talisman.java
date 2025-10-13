@@ -1,20 +1,22 @@
 package io.github.pylonmc.pylon.base.content.tools.base;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonInventoryItem;
+import io.github.pylonmc.pylon.core.item.base.PylonInventoryTicker;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-public abstract class Talisman extends PylonItem implements PylonInventoryItem {
+public abstract class Talisman extends PylonItem implements PylonInventoryTicker {
     private static final HashMap<NamespacedKey, WeakHashMap<UUID, BukkitTask>> tasks = new HashMap<>();
 
     public Talisman(@NotNull ItemStack stack) {
@@ -22,7 +24,7 @@ public abstract class Talisman extends PylonItem implements PylonInventoryItem {
     }
 
     @Override
-    public void onTick(@NotNull Player player, @NotNull ItemStack stack) {
+    public void onTick(@NotNull Player player) {
         tasks.putIfAbsent(getTalismanKey(), new WeakHashMap<>());
         boolean foundItem = false;
         Integer currentTalismanLevel = player.getPersistentDataContainer().get(getTalismanKey(), PersistentDataType.INTEGER);
@@ -38,34 +40,24 @@ public abstract class Talisman extends PylonItem implements PylonInventoryItem {
         }
         BukkitTask toCancel = tasks.get(getTalismanKey()).get(player.getUniqueId());
         if (foundItem) {
-            if(toCancel != null) {
+            if (toCancel != null) {
                 toCancel.cancel();
             }
             tasks.get(getTalismanKey()).put(player.getUniqueId(), Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () ->
                             removeEffect(player),
-                    getTickSpeed().getTickRate() + 1));
+                    getTickInterval() * PylonConfig.getInventoryTickerBaseRate() + 1));
         }
     }
 
+    @MustBeInvokedByOverriders
     public void applyEffect(@NotNull Player player) {
-        applyEffect_(player);
         player.getPersistentDataContainer().set(getTalismanKey(), PersistentDataType.INTEGER, getLevel());
     }
 
+    @MustBeInvokedByOverriders
     public void removeEffect(@NotNull Player player) {
-        removeEffect_(player);
         player.getPersistentDataContainer().remove(getTalismanKey());
     }
-
-    /**
-     * Remove the effect from the player. The implementation of this method must be able to handle removing the effect from other levels of this talisman.
-     */
-    protected abstract void removeEffect_(@NotNull Player player);
-
-    /**
-     * Apply the effect of this talisman onto the player
-     */
-    protected abstract void applyEffect_(@NotNull Player player);
 
     /**
      * Get the level of the talisman, this is used to determine which talismans should overwrite other ones
