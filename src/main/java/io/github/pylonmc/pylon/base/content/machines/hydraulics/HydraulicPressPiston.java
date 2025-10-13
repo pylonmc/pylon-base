@@ -33,6 +33,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -106,7 +107,7 @@ public class HydraulicPressPiston extends PylonBlock
         Preconditions.checkState(press != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
-                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
                 || !press.tryStartRecipe(null)
         ) {
             return;
@@ -134,7 +135,7 @@ public class HydraulicPressPiston extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull ItemDisplay getPistonShaft() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "press_piston_shaft");
+    public @Nullable ItemDisplay getPistonShaft() {
+        return getHeldEntity(ItemDisplay.class, "press_piston_shaft");
     }
 }

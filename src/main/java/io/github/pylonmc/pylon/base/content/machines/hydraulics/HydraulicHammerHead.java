@@ -203,12 +203,12 @@ public class HydraulicHammerHead extends PylonBlock
         }
     }
 
-    public @NotNull ItemDisplay getHammerHead() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_head");
+    public @Nullable ItemDisplay getHammerHead() {
+        return getHeldEntity(ItemDisplay.class, "hammer_head");
     }
 
-    public @NotNull ItemDisplay getHammerTip() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_tip");
+    public @Nullable ItemDisplay getHammerTip() {
+        return getHeldEntity(ItemDisplay.class, "hammer_tip");
     }
 
     public static @NotNull Matrix4f getHeadTransformation(double translationY) {

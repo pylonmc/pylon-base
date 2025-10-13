@@ -12,6 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 
@@ -103,13 +104,23 @@ public class BaseUtils {
         );
     }
 
-    public void animate(ItemDisplay display, int delay, int duration, Matrix4f matrix) {
+    /**
+     * @param display if null nothing gets done
+     */
+    public void animate(@Nullable ItemDisplay display, int delay, int duration, Matrix4f matrix) {
+        if (display == null) return;
+
         display.setInterpolationDelay(delay);
         display.setInterpolationDuration(duration);
         display.setTransformationMatrix(matrix);
     }
 
-    public void animate(ItemDisplay display, int duration, Matrix4f matrix) {
+    /**
+     * @param display if null nothing gets done
+     */
+    public void animate(@Nullable ItemDisplay display, int duration, Matrix4f matrix) {
+        if (display == null) return;
+
         animate(display, 0, duration, matrix);
     }
 }

@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -107,7 +108,7 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     @Override
-    public void postBreak() {
+    public void postBreak(@NotNull BlockBreakContext context) {
         for (SmelteryComponent component : components) {
             component.setController(null);
         }

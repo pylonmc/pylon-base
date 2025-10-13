@@ -139,12 +139,17 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return false;
         }
 
-        ItemStack input = getItemDisplay().getItemStack();
+        var itemDisplay = getItemDisplay();
+        if (itemDisplay == null) {
+            return false;
+        }
+
+        ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
             return false;
         }
 
-        getItemDisplay().setItemStack(input.subtract(nextRecipe.input().getAmount()));
+        itemDisplay.setItemStack(input.subtract(nextRecipe.input().getAmount()));
 
         recipeInProgress = true;
 
@@ -182,12 +187,12 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         return true;
     }
 
-    public ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    public @Nullable ItemDisplay getItemDisplay() {
+        return getHeldEntity(ItemDisplay.class, "item");
     }
 
-    public ItemDisplay getStoneDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "block");
+    public @Nullable ItemDisplay getStoneDisplay() {
+        return getHeldEntity(ItemDisplay.class, "block");
     }
 
     public static @NotNull Matrix4f getStoneDisplayMatrix(double translation, double rotation) {

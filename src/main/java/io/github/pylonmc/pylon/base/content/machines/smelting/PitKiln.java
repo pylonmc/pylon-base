@@ -1,12 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.Waila;
@@ -21,11 +23,16 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.DecoratedPot;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -40,7 +47,7 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class PitKiln extends PylonBlock implements
-        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler {
+        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler, PylonVanillaContainerBlock {
 
     public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
@@ -114,7 +121,7 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public void postBreak() {
+    public void postBreak(@NotNull BlockBreakContext context) {
         removeWailas();
     }
 
@@ -129,20 +136,27 @@ public final class PitKiln extends PylonBlock implements
         //noinspection DataFlowIssue
         player.swingHand(event.getHand());
 
+        addItem(item, true);
+    }
+
+    public void addItem(ItemStack item, boolean directRemoval) {
         int currentAmount = 0;
         for (ItemStack contentItem : contents) {
             currentAmount += contentItem.getAmount();
         }
         if (currentAmount >= CAPACITY) return;
 
-        item.subtract();
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
                 contentItem.add();
+                if (directRemoval) item.subtract();
                 return;
             }
         }
+
         contents.add(item.asOne());
+
+        if (directRemoval) item.subtract();
     }
 
     @Override
@@ -272,6 +286,20 @@ public final class PitKiln extends PylonBlock implements
             };
             processingTime = PROCESSING_TIME_SECONDS / multiplier;
             break;
+        }
+    }
+
+    @Override
+    public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
+        if (!(event.getDestination().getHolder() instanceof DecoratedPot pot)) {
+            return;
+        }
+
+        PylonBlock block = PylonBlock.getPylonBlock(pot.getBlock());
+        if (block instanceof PitKiln kiln) {
+            // removing the item itself does absolutely nothing so it is probably a copy
+            // but still, better play it safe and use a removal boolean to pass
+            kiln.addItem(event.getItem(), false);
         }
     }
 

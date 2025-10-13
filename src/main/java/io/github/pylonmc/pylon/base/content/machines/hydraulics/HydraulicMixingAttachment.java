@@ -36,6 +36,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -138,7 +139,7 @@ public class HydraulicMixingAttachment extends PylonBlock
         Preconditions.checkState(mixingPot != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
-                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
                 || !mixingPot.tryDoRecipe(null)
         ) {
             return;
@@ -163,7 +164,7 @@ public class HydraulicMixingAttachment extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull ItemDisplay getMixingAttachmentShaft() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "mixing_attachment_shaft");
+    public @Nullable ItemDisplay getMixingAttachmentShaft() {
+        return getHeldEntity(ItemDisplay.class, "mixing_attachment_shaft");
     }
 }
