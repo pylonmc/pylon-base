@@ -9,8 +9,8 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.Waila;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.Waila;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -191,9 +191,9 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
-    private WailaConfig getComponentWaila(@NotNull Player player) {
+    private WailaDisplay getComponentWaila(@NotNull Player player) {
         if (processingTime != null) {
-            return new WailaConfig(Component.translatable(
+            return new WailaDisplay(Component.translatable(
                     "pylon.pylonbase.waila.pit_kiln",
                     PylonArgument.of(
                             "time",
@@ -201,7 +201,7 @@ public final class PitKiln extends PylonBlock implements
                     )
             ));
         }
-        return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+        return new WailaDisplay(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
     }
 
     @Override

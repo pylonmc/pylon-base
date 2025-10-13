@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.resources;
 import io.github.pylonmc.pylon.base.content.tools.Moldable;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -52,8 +52,8 @@ public class RefractoryMix extends PylonBlock implements Moldable {
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of(
                         "percent",
                         UnitFormat.PERCENT.format(100 * (totalMoldingClicks() - moldingClicksRemaining) / totalMoldingClicks())

@@ -10,7 +10,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -105,8 +105,8 @@ public final class MixingPot extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", getFluidType() == null ?
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.filled",
