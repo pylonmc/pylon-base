@@ -98,7 +98,7 @@ public class HydraulicFarmer extends PylonBlock
         double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
-                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
         ) {
             return;
         }

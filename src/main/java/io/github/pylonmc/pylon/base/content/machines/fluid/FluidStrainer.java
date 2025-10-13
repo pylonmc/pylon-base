@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -117,8 +117,8 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", currentRecipe == null ?
                         Component.empty() :
                         Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",

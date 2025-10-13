@@ -108,19 +108,6 @@ publishing {
                     developerConnection = "scm:git:ssh://github.com:pylonmc/pylon-base.git"
                     url = "https://github.com/pylonmc/pylon-base"
                 }
-                // Bypass maven-publish erroring when using `from(components["java"])`
-                withXml {
-                    val root = asNode()
-                    val dependenciesNode = root.appendNode("dependencies")
-                    val configs = listOf(configurations.compileOnlyApi, configurations.api)
-                    configs.flatMap { it.get().dependencies }.forEach {
-                        val dependencyNode = dependenciesNode.appendNode("dependency")
-                        dependencyNode.appendNode("groupId", it.group)
-                        dependencyNode.appendNode("artifactId", it.name)
-                        dependencyNode.appendNode("version", it.version)
-                        dependencyNode.appendNode("scope", "compile")
-                    }
-                }
             }
         }
     }

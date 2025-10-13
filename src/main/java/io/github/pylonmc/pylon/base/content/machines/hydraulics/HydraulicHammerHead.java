@@ -8,10 +8,12 @@ import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -48,7 +50,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicHammerHead extends PylonBlock
-        implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+        implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock, PylonEntityHolderBlock, PylonBreakHandler {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
@@ -195,19 +197,18 @@ public class HydraulicHammerHead extends PylonBlock
     }
 
     @Override
-    public void postBreak() {
-        PylonEntityHolderBlock.super.postBreak();
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         if (hammer != null) {
-            getBlock().getLocation().getWorld().dropItemNaturally(getBlock().getLocation(), hammer.getStack());
+            drops.add(hammer.getStack());
         }
     }
 
-    public @NotNull ItemDisplay getHammerHead() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_head");
+    public @Nullable ItemDisplay getHammerHead() {
+        return getHeldEntity(ItemDisplay.class, "hammer_head");
     }
 
-    public @NotNull ItemDisplay getHammerTip() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_tip");
+    public @Nullable ItemDisplay getHammerTip() {
+        return getHeldEntity(ItemDisplay.class, "hammer_tip");
     }
 
     public static @NotNull Matrix4f getHeadTransformation(double translationY) {

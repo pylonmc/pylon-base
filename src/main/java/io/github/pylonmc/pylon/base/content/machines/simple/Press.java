@@ -9,8 +9,9 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -89,8 +90,8 @@ public class Press extends PylonBlock
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL)))),
                 PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
                 PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
@@ -155,9 +156,11 @@ public class Press extends PylonBlock
         BaseUtils.animate(getCover(), TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+
             BaseUtils.animate(getCover(), RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
 
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+
                 addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount());
                 new PylonCraftEvent<>(PressRecipe.RECIPE_TYPE, recipe, this).callEvent();
                 this.currentRecipe = null;
@@ -165,8 +168,8 @@ public class Press extends PylonBlock
         }, TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS);
     }
 
-    public @NotNull ItemDisplay getCover() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "press_cover");
+    public @Nullable ItemDisplay getCover() {
+        return getHeldEntity(ItemDisplay.class, "press_cover");
     }
 
     public static @NotNull Matrix4f getCoverTransform(double translation) {

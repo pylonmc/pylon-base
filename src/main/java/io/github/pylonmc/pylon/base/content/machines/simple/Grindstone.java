@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -38,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock {
+public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonBreakHandler {
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
             .getOrThrow("cycle-duration-ticks", ConfigAdapter.INT);
@@ -113,7 +114,6 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonSimpleMultiblock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
     }
 
@@ -139,12 +139,17 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return false;
         }
 
-        ItemStack input = getItemDisplay().getItemStack();
+        var itemDisplay = getItemDisplay();
+        if (itemDisplay == null) {
+            return false;
+        }
+
+        ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
             return false;
         }
 
-        getItemDisplay().setItemStack(input.subtract(nextRecipe.input().getAmount()));
+        itemDisplay.setItemStack(input.subtract(nextRecipe.input().getAmount()));
 
         recipeInProgress = true;
 
@@ -182,12 +187,12 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
         return true;
     }
 
-    public ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    public @Nullable ItemDisplay getItemDisplay() {
+        return getHeldEntity(ItemDisplay.class, "item");
     }
 
-    public ItemDisplay getStoneDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "block");
+    public @Nullable ItemDisplay getStoneDisplay() {
+        return getHeldEntity(ItemDisplay.class, "block");
     }
 
     public static @NotNull Matrix4f getStoneDisplayMatrix(double translation, double rotation) {
