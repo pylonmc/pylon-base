@@ -4,14 +4,15 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.Waila;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.Waila;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -46,7 +47,7 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class PitKiln extends PylonBlock implements
-        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonVanillaContainerBlock {
+        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler, PylonVanillaContainerBlock {
 
     public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
@@ -121,7 +122,6 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void postBreak(@NotNull BlockBreakContext context) {
-        PylonSimpleMultiblock.super.postBreak(context);
         removeWailas();
     }
 
@@ -205,9 +205,9 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
-    private WailaConfig getComponentWaila(@NotNull Player player) {
+    private WailaDisplay getComponentWaila(@NotNull Player player) {
         if (processingTime != null) {
-            return new WailaConfig(Component.translatable(
+            return new WailaDisplay(Component.translatable(
                     "pylon.pylonbase.waila.pit_kiln",
                     PylonArgument.of(
                             "time",
@@ -215,20 +215,22 @@ public final class PitKiln extends PylonBlock implements
                     )
             ));
         }
-        return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+        return new WailaDisplay(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
     }
 
     @Override
-    public boolean checkFormed() {
-        if (!PylonSimpleMultiblock.super.checkFormed()) {
-            removeWailas();
-            return false;
-        }
+    public void onMultiblockFormed() {
+        PylonSimpleMultiblock.super.onMultiblockFormed();
         for (Vector3i relative : getComponents().keySet()) {
             BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
             Waila.addWailaOverride(block, this::getComponentWaila);
         }
-        return true;
+    }
+
+    @Override
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
+        removeWailas();
     }
 
     private void removeWailas() {

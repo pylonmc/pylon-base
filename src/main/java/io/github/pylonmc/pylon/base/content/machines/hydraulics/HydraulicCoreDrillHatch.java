@@ -39,14 +39,12 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
     @Override
     public boolean checkFormed() {
         PylonBlock aboveBlock = BlockStorage.get(getBlock().getRelative(BlockFace.UP));
-        return aboveBlock != null && aboveBlock
-                .getKey()
-                .equals(BaseKeys.FLUID_TANK_CASING_COPPER);
+        return aboveBlock != null && aboveBlock.getKey().equals(BaseKeys.FLUID_TANK_CASING_COPPER);
     }
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return getBlock().getRelative(BlockFace.UP).getLocation().equals(otherBlock.getLocation());
+        return getBlock().getRelative(BlockFace.UP) == otherBlock;
     }
 
     @Override
