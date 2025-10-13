@@ -359,3 +359,10 @@ large_scale_hydraulic_purification:
   unlocks:
   - pylonbase:solar_purification_tower_4
   - pylonbase:solar_purification_tower_5
+diet:
+  material: cooked_beef
+  cost: 15
+  unlocks:
+    - pylonbase:hunger_talisman_simple
+    - pylonbase:hunger_talisman_advanced
+    - pylonbase:hunger_talisman_ultimate
