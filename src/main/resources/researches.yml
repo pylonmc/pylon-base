@@ -373,3 +373,10 @@ farming_aids:
     - pylonbase:farmer_talisman_simple
     - pylonbase:farmer_talisman_advanced
     - pylonbase:farmer_talisman_ultimate
+negotation_tactics:
+  material: gold_ingot
+  cost: 15
+  unlocks:
+    - pylonbase:bartering_talisman_simple
+    - pylonbase:bartering_talisman_advanced
+    - pylonbase:bartering_talisman_ultimate

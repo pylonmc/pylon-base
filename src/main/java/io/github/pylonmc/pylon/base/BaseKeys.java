@@ -289,4 +289,8 @@ public class BaseKeys {
     public static final NamespacedKey FARMER_TALISMAN_SIMPLE = baseKey("farmer_talisman_simple");
     public static final NamespacedKey FARMER_TALISMAN_ADVANCED = baseKey("farmer_talisman_advanced");
     public static final NamespacedKey FARMER_TALISMAN_ULTIMATE = baseKey("farmer_talisman_ultimate");
+
+    public static final NamespacedKey BARTERING_TALISMAN_SIMPLE = baseKey("bartering_talisman_simple");
+    public static final NamespacedKey BARTERING_TALISMAN_ADVANCED = baseKey("bartering_talisman_advanced");
+    public static final NamespacedKey BARTERING_TALISMAN_ULTIMATE = baseKey("bartering_talisman_ultimate");
 }

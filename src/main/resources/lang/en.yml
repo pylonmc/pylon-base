@@ -1292,6 +1292,24 @@ item:
     lore: |-
       <arrow> Gain a small chance to double your crop outputs
       <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+      
+  bartering_talisman_simple:
+    name: "Simple Bartering Talisman"
+    lore: |-
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+      
+  bartering_talisman_advanced:
+    name: "Advanced Bartering Talisman"
+    lore: |-
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+
+  bartering_talisman_ultimate:
+    name: "Ultimate Bartering Talisman"
+    lore: |-
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
 
 fluid:
   castable:
@@ -1387,6 +1405,7 @@ research:
   reactivated_skulls: "<#000000>Reactivated wither skulls"
   diet: "<green>Strong diet"
   farming_aids: "<green>Farming upgrades"
+  negotiation_tactics: "<#ffde59>Negotiation tactics"
 
 guide:
   page:
