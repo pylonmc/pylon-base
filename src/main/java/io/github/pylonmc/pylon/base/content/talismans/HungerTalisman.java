@@ -73,10 +73,7 @@ public class HungerTalisman extends Talisman {
                 int talismanLevel = event.getPlayer().getPersistentDataContainer().get(HUNGER_TALISMAN_KEY, PersistentDataType.INTEGER);
                 for (ItemStack stack : event.getPlayer().getInventory()) {
                     PylonItem item = PylonItem.fromStack(stack);
-                    if (item == null) {
-                        continue;
-                    }
-                    if (!(item instanceof Talisman talisman)) {
+                    if (!(item instanceof HungerTalisman talisman)) {
                         continue;
                     }
                     if (talisman.getLevel() != talismanLevel) {

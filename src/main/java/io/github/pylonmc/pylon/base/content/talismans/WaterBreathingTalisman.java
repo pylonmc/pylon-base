@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -48,7 +49,7 @@ public class WaterBreathingTalisman extends Talisman {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("bonus_oxygen", Component.text(oxygenBoost)));
+        return List.of(PylonArgument.of("bonus_oxygen", UnitFormat.PERCENT.format(oxygenBoost * 100)));
     }
 
     @Override

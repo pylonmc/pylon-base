@@ -1327,7 +1327,7 @@ item:
     name: "Ultimate Water Breathing Talisman"
     lore: |-
       <arrow> Expands your lungs so you can breathe longer underwater
-      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+      <arrow> <attr>Additional oxygen: </attr> %bonus_oxygen%
 
 fluid:
   castable:
