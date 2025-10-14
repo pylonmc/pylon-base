@@ -1275,6 +1275,24 @@ item:
       <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
+  farmer_talisman_simple:
+    name: "Simple Farming Talisman"
+    lore: |-
+      <arrow> Gain a small chance to double your crop outputs
+      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+
+  farmer_talisman_advanced:
+    name: "Advanced Farming Talisman"
+    lore: |-
+      <arrow> Gain a small chance to double your crop outputs
+      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+
+  farmer_talisman_ultimate:
+    name: "Ultimate Farming Talisman"
+    lore: |-
+      <arrow> Gain a small chance to double your crop outputs
+      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1368,6 +1386,7 @@ research:
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
   diet: "<green>Strong diet"
+  farming_aids: "<green>Farming upgrades"
 
 guide:
   page:

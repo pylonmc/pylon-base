@@ -366,3 +366,10 @@ diet:
     - pylonbase:hunger_talisman_simple
     - pylonbase:hunger_talisman_advanced
     - pylonbase:hunger_talisman_ultimate
+farming_aids:
+  material: bowl
+  cost: 15
+  unlocks:
+    - pylonbase:farmer_talisman_simple
+    - pylonbase:farmer_talisman_advanced
+    - pylonbase:farmer_talisman_ultimate

@@ -285,4 +285,8 @@ public class BaseKeys {
     public static final NamespacedKey HUNGER_TALISMAN_SIMPLE = baseKey("hunger_talisman_simple");
     public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");
     public static final NamespacedKey HUNGER_TALISMAN_ULTIMATE = baseKey("hunger_talisman_ultimate");
+
+    public static final NamespacedKey FARMER_TALISMAN_SIMPLE = baseKey("farmer_talisman_simple");
+    public static final NamespacedKey FARMER_TALISMAN_ADVANCED = baseKey("farmer_talisman_advanced");
+    public static final NamespacedKey FARMER_TALISMAN_ULTIMATE = baseKey("farmer_talisman_ultimate");
 }
