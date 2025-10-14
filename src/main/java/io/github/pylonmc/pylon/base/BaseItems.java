@@ -15,10 +15,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDr
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
-import io.github.pylonmc.pylon.base.content.talismans.BarteringTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.FarmerTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.HungerTalisman;
+import io.github.pylonmc.pylon.base.content.talismans.*;
 import io.github.pylonmc.pylon.base.content.tools.FireproofRune;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
@@ -1750,6 +1747,27 @@ public final class BaseItems {
     static {
         PylonItem.register(BarteringTalisman.class, BARTERING_TALISMAN_ULTIMATE);
         BasePages.TOOLS.addItem(BARTERING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.NAUTILUS_SHELL, BaseKeys.WATER_BREATHING_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(WATER_BREATHING_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.NAUTILUS_SHELL, BaseKeys.WATER_BREATHING_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(WATER_BREATHING_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.NAUTILUS_SHELL, BaseKeys.WATER_BREATHING_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(WATER_BREATHING_TALISMAN_ULTIMATE);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

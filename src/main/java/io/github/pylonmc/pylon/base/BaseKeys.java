@@ -293,4 +293,8 @@ public class BaseKeys {
     public static final NamespacedKey BARTERING_TALISMAN_SIMPLE = baseKey("bartering_talisman_simple");
     public static final NamespacedKey BARTERING_TALISMAN_ADVANCED = baseKey("bartering_talisman_advanced");
     public static final NamespacedKey BARTERING_TALISMAN_ULTIMATE = baseKey("bartering_talisman_ultimate");
+
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_SIMPLE = baseKey("water_breathing_talisman_simple");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_ADVANCED = baseKey("water_breathing_talisman_advanced");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_ULTIMATE = baseKey("water_breathing_talisman_ultimate");
 }

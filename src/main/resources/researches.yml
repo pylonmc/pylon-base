@@ -380,3 +380,10 @@ negotation_tactics:
     - pylonbase:bartering_talisman_simple
     - pylonbase:bartering_talisman_advanced
     - pylonbase:bartering_talisman_ultimate
+optimal_breathing:
+  material: nautilus_shell
+  cost: 15
+  unlocks:
+    - pylonbase:water_breathing_talisman_simple
+    - pylonbase:water_breathing_talisman_advanced
+    - pylonbase:water_breathing_talisman_ultimate
