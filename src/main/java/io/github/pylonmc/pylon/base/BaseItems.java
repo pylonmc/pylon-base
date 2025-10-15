@@ -372,7 +372,7 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(HAMMER_STONE);
     }
 
-    public static final ItemStack HAMMER_IRON = ItemStackBuilder.pylonWeapon(Material.STONE_PICKAXE, BaseKeys.HAMMER_IRON, true, true, false)
+    public static final ItemStack HAMMER_IRON = ItemStackBuilder.pylonWeapon(Material.IRON_PICKAXE, BaseKeys.HAMMER_IRON, true, true, false)
             .noTool().build();
     static {
         PylonItem.register(Hammer.class, HAMMER_IRON);
