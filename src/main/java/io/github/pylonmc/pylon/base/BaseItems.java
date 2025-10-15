@@ -1791,6 +1791,27 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(LUCK_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack BREEDING_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.APPLE, BaseKeys.BREEDING_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(BreedingTalisman.class, BREEDING_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(BREEDING_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack BREEDING_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.APPLE, BaseKeys.BREEDING_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(BreedingTalisman.class, BREEDING_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(BREEDING_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack BREEDING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.APPLE, BaseKeys.BREEDING_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(BreedingTalisman.class, BREEDING_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(BREEDING_TALISMAN_ULTIMATE);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }

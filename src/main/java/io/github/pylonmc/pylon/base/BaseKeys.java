@@ -301,4 +301,8 @@ public class BaseKeys {
     public static final NamespacedKey LUCK_TALISMAN_SIMPLE = baseKey("luck_talisman_simple");
     public static final NamespacedKey LUCK_TALISMAN_ADVANCED = baseKey("luck_talisman_advanced");
     public static final NamespacedKey LUCK_TALISMAN_ULTIMATE = baseKey("luck_talisman_ultimate");
+
+    public static final NamespacedKey BREEDING_TALISMAN_SIMPLE = baseKey("breeding_talisman_simple");
+    public static final NamespacedKey BREEDING_TALISMAN_ADVANCED = baseKey("breeding_talisman_advanced");
+    public static final NamespacedKey BREEDING_TALISMAN_ULTIMATE = baseKey("breeding_talisman_ultimate");
 }

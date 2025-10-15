@@ -394,3 +394,10 @@ lucky_ducky:
     - pylonbase:luck_talisman_simple
     - pylonbase:luck_talisman_advanced
     - pylonbase:luck_talisman_ultimate
+advanced_breeding:
+  material: apple
+  cost: 15
+  unlocks:
+    - pylonbase:breeding_talisman_simple
+    - pylonbase:breeding_talisman_advanced
+    - pylonbase:breeding_talisman_ultimate

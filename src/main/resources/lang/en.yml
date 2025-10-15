@@ -1347,6 +1347,24 @@ item:
       <arrow> Makes you a much luckier ducky
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
 
+  breeding_talisman_simple:
+    name: "Simple Breeding Talisman"
+    lore: |-
+      <arrow> Reduces the cooldown of breeding animals
+      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+
+  breeding_talisman_advanced:
+    name: "Advanced Breeding Talisman"
+    lore: |-
+      <arrow> Reduces the cooldown of breeding animals
+      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+
+  breeding_talisman_ultimate:
+    name: "Ultimate Breeding Talisman"
+    lore: |-
+      <arrow> Reduces the cooldown of breeding animals
+      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1443,6 +1461,8 @@ research:
   farming_aids: "<green>Farming upgrades"
   negotiation_tactics: "<#ffde59>Negotiation tactics"
   optimal_breathing: "<#5f26b6>Optimized breathing"
+  lucky_ducky: "<#ffde59>Lucky ducky"
+  advanced_breeding: "<#e4080a>Advanced breeding"
 
 guide:
   page:
