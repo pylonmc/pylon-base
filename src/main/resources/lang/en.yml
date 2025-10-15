@@ -1327,7 +1327,25 @@ item:
     name: "Ultimate Water Breathing Talisman"
     lore: |-
       <arrow> Expands your lungs so you can breathe longer underwater
-      <arrow> <attr>Additional oxygen: </attr> %bonus_oxygen%
+      <arrow> <attr>Additional oxygen:</attr> %bonus_oxygen%
+
+  luck_talisman_simple:
+    name: "Simple Luck Talisman"
+    lore: |-
+      <arrow> Makes you a much luckier ducky
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_advanced:
+    name: "Advanced Luck Talisman"
+    lore: |-
+      <arrow> Makes you a much luckier ducky
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_ultimate:
+    name: "Ultimate Luck Talisman"
+    lore: |-
+      <arrow> Makes you a much luckier ducky
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
 
 fluid:
   castable:

@@ -297,4 +297,8 @@ public class BaseKeys {
     public static final NamespacedKey WATER_BREATHING_TALISMAN_SIMPLE = baseKey("water_breathing_talisman_simple");
     public static final NamespacedKey WATER_BREATHING_TALISMAN_ADVANCED = baseKey("water_breathing_talisman_advanced");
     public static final NamespacedKey WATER_BREATHING_TALISMAN_ULTIMATE = baseKey("water_breathing_talisman_ultimate");
+
+    public static final NamespacedKey LUCK_TALISMAN_SIMPLE = baseKey("luck_talisman_simple");
+    public static final NamespacedKey LUCK_TALISMAN_ADVANCED = baseKey("luck_talisman_advanced");
+    public static final NamespacedKey LUCK_TALISMAN_ULTIMATE = baseKey("luck_talisman_ultimate");
 }

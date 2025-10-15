@@ -56,7 +56,7 @@ public class FarmerTalisman extends Talisman {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("double_crop_chance", UnitFormat.PERCENT.format(doubleCropChance)));
+        return List.of(PylonArgument.of("double_crop_chance", UnitFormat.PERCENT.format(doubleCropChance * 100)));
     }
 
     public static class FarmerTalismanListener implements Listener {
