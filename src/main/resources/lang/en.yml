@@ -443,19 +443,19 @@ item:
     name: "Grindstone Handle"
     lore: "<star> Grindstone multiblock component"
 
-  hammer_diamond:
+  diamond_hammer:
     name: "Diamond Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
-  hammer_iron:
+  iron_hammer:
     name: "Iron Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
-  hammer_stone:
+  stone_hammer:
     name: "Stone Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it

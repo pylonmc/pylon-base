@@ -114,9 +114,9 @@ public class BaseKeys {
     public static final NamespacedKey FLOUR = baseKey("flour");
     public static final NamespacedKey DOUGH = baseKey("dough");
 
-    public static final NamespacedKey HAMMER_STONE = baseKey("hammer_stone");
-    public static final NamespacedKey HAMMER_IRON = baseKey("hammer_iron");
-    public static final NamespacedKey HAMMER_DIAMOND = baseKey("hammer_diamond");
+    public static final NamespacedKey STONE_HAMMER = baseKey("stone_hammer");
+    public static final NamespacedKey IRON_HAMMER = baseKey("iron_hammer");
+    public static final NamespacedKey DIAMOND_HAMMER = baseKey("diamond_hammer");
 
     public static final NamespacedKey WATERING_CAN = baseKey("watering_can");
     public static final NamespacedKey SPRINKLER = baseKey("sprinkler");

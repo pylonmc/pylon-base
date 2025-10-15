@@ -8,8 +8,8 @@ better_hammers:
   material: stone_pickaxe
   cost: 15
   unlocks:
-  - pylonbase:hammer_iron
-  - pylonbase:hammer_diamond
+  - pylonbase:iron_hammer
+  - pylonbase:diamond_hammer
 bronze_equipment:
   material: brick
   cost: 10
