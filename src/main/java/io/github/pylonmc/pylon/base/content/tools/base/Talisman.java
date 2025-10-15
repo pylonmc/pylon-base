@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.tools.base;
 
+import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -12,7 +13,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
@@ -58,6 +58,11 @@ public abstract class Talisman extends PylonItem implements PylonInventoryTicker
     @MustBeInvokedByOverriders
     public void removeEffect(@NotNull Player player) {
         player.getPersistentDataContainer().remove(getTalismanKey());
+    }
+
+    @Override
+    public long getTickInterval() {
+        return BaseConfig.DEFAULT_TALISMAN_TICK_INTERVAL;
     }
 
     /**

@@ -1254,6 +1254,117 @@ item:
       <arrow> <attr>Time per block:</attr> %time-per-block%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
+  hunger_talisman_simple:
+    name: "Simple Hunger Talisman"
+    lore: |-
+      <arrow> Gain saturation and hunger every %period%
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_advanced:
+    name: "Advanced Hunger Talisman"
+    lore: |-
+      <arrow> Gain saturation and hunger every %period%
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_ultimate:
+    name: "Ultimate Hunger Talisman"
+    lore: |-
+      <arrow> Gain saturation and hunger every %period%
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  farmer_talisman_simple:
+    name: "Simple Farming Talisman"
+    lore: |-
+      <arrow> Gain a small chance to double your crop outputs
+      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+
+  farmer_talisman_advanced:
+    name: "Advanced Farming Talisman"
+    lore: |-
+      <arrow> Gain a small chance to double your crop outputs
+      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+
+  farmer_talisman_ultimate:
+    name: "Ultimate Farming Talisman"
+    lore: |-
+      <arrow> Gain a small chance to double your crop outputs
+      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+      
+  bartering_talisman_simple:
+    name: "Simple Bartering Talisman"
+    lore: |-
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+      
+  bartering_talisman_advanced:
+    name: "Advanced Bartering Talisman"
+    lore: |-
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+
+  bartering_talisman_ultimate:
+    name: "Ultimate Bartering Talisman"
+    lore: |-
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+
+  water_breathing_talisman_simple:
+    name: "Simple Water Breathing Talisman"
+    lore: |-
+      <arrow> Expands your lungs so you can breathe longer underwater
+      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+
+  water_breathing_talisman_advanced:
+    name: "Advanced Water Breathing Talisman"
+    lore: |-
+      <arrow> Expands your lungs so you can breathe longer underwater
+      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+
+  water_breathing_talisman_ultimate:
+    name: "Ultimate Water Breathing Talisman"
+    lore: |-
+      <arrow> Expands your lungs so you can breathe longer underwater
+      <arrow> <attr>Additional oxygen:</attr> %bonus_oxygen%
+
+  luck_talisman_simple:
+    name: "Simple Luck Talisman"
+    lore: |-
+      <arrow> Makes you a much luckier ducky
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_advanced:
+    name: "Advanced Luck Talisman"
+    lore: |-
+      <arrow> Makes you a much luckier ducky
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_ultimate:
+    name: "Ultimate Luck Talisman"
+    lore: |-
+      <arrow> Makes you a much luckier ducky
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  breeding_talisman_simple:
+    name: "Simple Breeding Talisman"
+    lore: |-
+      <arrow> Reduces the cooldown of breeding animals
+      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+
+  breeding_talisman_advanced:
+    name: "Advanced Breeding Talisman"
+    lore: |-
+      <arrow> Reduces the cooldown of breeding animals
+      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+
+  breeding_talisman_ultimate:
+    name: "Ultimate Breeding Talisman"
+    lore: |-
+      <arrow> Reduces the cooldown of breeding animals
+      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1346,6 +1457,12 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  diet: "<green>Strong diet"
+  farming_aids: "<green>Farming upgrades"
+  negotiation_tactics: "<#ffde59>Negotiation tactics"
+  optimal_breathing: "<#5f26b6>Optimized breathing"
+  lucky_ducky: "<#ffde59>Lucky ducky"
+  advanced_breeding: "<#e4080a>Advanced breeding"
 
 guide:
   page:
