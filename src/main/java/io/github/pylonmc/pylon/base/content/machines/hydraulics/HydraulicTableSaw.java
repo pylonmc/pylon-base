@@ -5,8 +5,6 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -15,7 +13,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -40,8 +37,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public class HydraulicTableSaw extends PylonBlock
-        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler {
+public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_TABLE_SAW);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -69,8 +65,8 @@ public class HydraulicTableSaw extends PylonBlock
     public HydraulicTableSaw(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3))

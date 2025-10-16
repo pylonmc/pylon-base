@@ -2,19 +2,15 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
-import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
+import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
@@ -34,11 +30,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidValve extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
+public class FluidValve extends PylonBlock implements PylonFluidTank, PylonInteractBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
@@ -53,8 +50,8 @@ public class FluidValve extends PylonBlock
 
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-        addEntity("east", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.EAST, 0.25F));
-        addEntity("west", FluidPointInteraction.make(context, FluidPointType.CONNECTOR, BlockFace.WEST, 0.25F));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false, 0.25F);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false, 0.25F);
         addEntity("main", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(Material.WHITE_CONCRETE)
                         .addCustomModelDataString(getKey() + ":main")
@@ -81,18 +78,6 @@ public class FluidValve extends PylonBlock
     }
 
     @Override
-    protected void postLoad() {
-        if (enabled) {
-            // connect east and west points when they load
-            EntityStorage.whenEntityLoads(getHeldEntityUuid("east"), FluidPointInteraction.class, east -> {
-                EntityStorage.whenEntityLoads(getHeldEntityUuid("west"), FluidPointInteraction.class, west -> {
-                    FluidManager.connect(getEastPoint(), getWestPoint());
-                });
-            });
-        }
-    }
-
-    @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(ENABLED_KEY, PylonSerializers.BOOLEAN, enabled);
     }
@@ -109,12 +94,6 @@ public class FluidValve extends PylonBlock
 
         getHeldEntityOrThrow(ItemDisplay.class, "main")
                 .setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
-
-        if (enabled) {
-            FluidManager.connect(getEastPoint(), getWestPoint());
-        } else {
-            FluidManager.disconnect(getEastPoint(), getWestPoint());
-        }
     }
 
     @Override
@@ -125,11 +104,24 @@ public class FluidValve extends PylonBlock
         )));
     }
 
-    private @NotNull VirtualFluidPoint getEastPoint() {
-        return getHeldPylonEntityOrThrow(FluidPointInteraction.class, "east").getPoint();
+    @Override
+    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+        if (!enabled) {
+            return 0.0;
+        }
+        return PylonFluidTank.super.fluidAmountRequested(fluid, deltaSeconds);
     }
 
-    private @NotNull VirtualFluidPoint getWestPoint() {
-        return getHeldPylonEntityOrThrow(FluidPointInteraction.class, "west").getPoint();
+    @Override
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
+        if (!enabled) {
+            return Map.of();
+        }
+        return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
+    }
+
+    @Override
+    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+        return true;
     }
 }

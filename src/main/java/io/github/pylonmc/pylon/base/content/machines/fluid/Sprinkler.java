@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.tools.WateringSettings;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFlowerPot;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -14,7 +13,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -34,7 +32,7 @@ import java.util.List;
 
 
 public class Sprinkler extends PylonBlock
-        implements PylonFluidBufferBlock, PylonTickingBlock, PylonEntityHolderBlock, PylonFlowerPot {
+        implements PylonFluidBufferBlock, PylonTickingBlock, PylonFlowerPot {
 
     public static class Item extends PylonItem {
 
@@ -60,7 +58,7 @@ public class Sprinkler extends PylonBlock
     public Sprinkler(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, -0.15F));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP, -0.15F);
         createFluidBuffer(BaseFluids.WATER, WATER_PER_SECOND * 5, true, false);
     }
 

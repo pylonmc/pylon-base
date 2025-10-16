@@ -2,12 +2,9 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidPointDirectional;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -25,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock {
+public class WaterPump extends PylonBlock implements PylonFluidBlock {
 
     public static class Item extends PylonItem {
 
@@ -48,7 +45,7 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
     @SuppressWarnings("unused")
     public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.UP));
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.UP);
     }
 
     @SuppressWarnings("unused")
