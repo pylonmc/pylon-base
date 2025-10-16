@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -35,6 +34,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
@@ -43,8 +43,7 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicMixingAttachment extends PylonBlock
-        implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+public class HydraulicMixingAttachment extends PylonBlock implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
 
     public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = baseKey("cooldown_time_remaining");
 
@@ -119,7 +118,7 @@ public class HydraulicMixingAttachment extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getLocation());
+        return otherBlock == getBlock().getRelative(BlockFace.DOWN, 2);
     }
 
     @Override
@@ -138,7 +137,7 @@ public class HydraulicMixingAttachment extends PylonBlock
         Preconditions.checkState(mixingPot != null);
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
-                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
                 || !mixingPot.tryDoRecipe(null)
         ) {
             return;
@@ -163,7 +162,7 @@ public class HydraulicMixingAttachment extends PylonBlock
                 .buildForItemDisplay();
     }
 
-    public @NotNull ItemDisplay getMixingAttachmentShaft() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "mixing_attachment_shaft");
+    public @Nullable ItemDisplay getMixingAttachmentShaft() {
+        return getHeldEntity(ItemDisplay.class, "mixing_attachment_shaft");
     }
 }

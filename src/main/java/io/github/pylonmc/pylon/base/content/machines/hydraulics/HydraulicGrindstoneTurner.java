@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -77,7 +76,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock implements PylonMultib
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getRelative(BlockFace.UP).getLocation());
+        return otherBlock == getBlock().getRelative(BlockFace.UP);
     }
 
     @Override

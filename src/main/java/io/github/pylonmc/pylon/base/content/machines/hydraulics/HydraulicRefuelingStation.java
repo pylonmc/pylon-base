@@ -7,7 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -97,10 +97,10 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
-            return new WailaConfig(
+            return new WailaDisplay(
                     getDefaultWailaTranslationKey().arguments(PylonArgument.of("extra", "")
                     ));
         }
@@ -116,7 +116,7 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
                 20,
                 TextColor.fromHexString("#48459b")
         );
-        return new WailaConfig(
+        return new WailaDisplay(
                 getDefaultWailaTranslationKey().arguments(
                         PylonArgument.of(
                                 "extra",

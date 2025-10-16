@@ -8,7 +8,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -159,7 +159,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         Component info;
         if (getFluidType() == null) {
             info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
@@ -174,7 +174,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
                     PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
     }
 
     @Override
