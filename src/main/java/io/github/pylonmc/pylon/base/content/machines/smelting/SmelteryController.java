@@ -553,4 +553,11 @@ public final class SmelteryController extends SmelteryComponent
         infoItem.notifyWindows();
         contentsItem.notifyWindows();
     }
+
+    @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("running", new Pair<>(String.valueOf(isFormedAndFullyLoaded() && running), 2));
+        return properties;
+    }
 }
