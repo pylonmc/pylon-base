@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
+import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -25,6 +26,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.time.Duration;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -66,6 +68,13 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     public void write(@NotNull PersistentDataContainer pdc) {
         PylonUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
         pdc.set(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, secondsElapsed);
+    }
+
+    @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("lit", new Pair<>(fuel != null ? "true" : "false", 2));
+        return properties;
     }
 
     private final VirtualInventory inventory = new VirtualInventory(3);
