@@ -286,7 +286,7 @@ public final class BaseFluids {
         ));
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                NamespacedKey.fromString(fluid.getKey() + "from_dust"),
+                NamespacedKey.fromString(fluid.getKey() + "_from_dust"),
                 RecipeInput.of(dust),
                 fluid,
                 144.0,
