@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -15,9 +14,11 @@ import org.bukkit.Particle;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 
+import java.util.function.Consumer;
 
 @UtilityClass
 public class BaseUtils {
@@ -71,15 +72,20 @@ public class BaseUtils {
     }
 
     public @NotNull TextDisplay spawnUnitSquareTextDisplay(@NotNull Location location, @NotNull Color color) {
-        TextDisplay display = location.getWorld().spawn(location, TextDisplay.class);
-        display.setTransformationMatrix( // https://github.com/TheCymaera/minecraft-hologram/blob/d67eb43308df61bdfe7283c6821312cca5f9dea9/src/main/java/com/heledron/hologram/utilities/rendering/textDisplays.kt#L15
-                new Matrix4f()
-                        .translate(-0.1f + .5f, -0.5f + .5f, 0f)
-                        .scale(8.0f, 4.0f, 1f)
-        );
-        display.text(Component.text(" "));
-        display.setBackgroundColor(color);
-        return display;
+        return spawnUnitSquareTextDisplay(location, color, (Consumer<TextDisplay>) display -> {});
+    }
+
+    public @NotNull TextDisplay spawnUnitSquareTextDisplay(@NotNull Location location, @NotNull Color color, Consumer<TextDisplay> initializer) {
+        return location.getWorld().spawn(location, TextDisplay.class, display -> {
+            display.setTransformationMatrix( // https://github.com/TheCymaera/minecraft-hologram/blob/d67eb43308df61bdfe7283c6821312cca5f9dea9/src/main/java/com/heledron/hologram/utilities/rendering/textDisplays.kt#L15
+                    new Matrix4f()
+                            .translate(-0.1f + .5f, -0.5f + .5f, 0f)
+                            .scale(8.0f, 4.0f, 1f)
+            );
+            display.text(Component.text(" "));
+            display.setBackgroundColor(color);
+            initializer.accept(display);
+        });
     }
 
     public @NotNull Vector3d getDisplacement(@NotNull Location source, @NotNull Location target) {
@@ -100,13 +106,23 @@ public class BaseUtils {
         );
     }
 
-    public void animate(ItemDisplay display, int delay, int duration, Matrix4f matrix) {
+    /**
+     * @param display if null nothing gets done
+     */
+    public void animate(@Nullable ItemDisplay display, int delay, int duration, Matrix4f matrix) {
+        if (display == null) return;
+
         display.setInterpolationDelay(delay);
         display.setInterpolationDuration(duration);
         display.setTransformationMatrix(matrix);
     }
 
-    public void animate(ItemDisplay display, int duration, Matrix4f matrix) {
+    /**
+     * @param display if null nothing gets done
+     */
+    public void animate(@Nullable ItemDisplay display, int duration, Matrix4f matrix) {
+        if (display == null) return;
+
         animate(display, 0, duration, matrix);
     }
 }

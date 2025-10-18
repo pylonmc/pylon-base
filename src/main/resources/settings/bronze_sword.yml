@@ -1,2 +1,4 @@
 durability: 500
-damage: 7
+attack-durability-damage: 2
+attack-damage: 6.5
+attack-speed: 1.6
