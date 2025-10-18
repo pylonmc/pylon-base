@@ -32,7 +32,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  * This recipe represents a recipe that converts a **BLOCK** into another **BLOCK**
  * by immersing it in a fluid and this recipe is for display ONLY.
  * Example: Immersing a {@link PowerfulWaterSponge} in Water can result in {@link WetPowerfulWaterSponge}
- *          The actual code of the sponges is in {@link PowerfulWaterSponge#toWetSponge(Block)}
+ *          The actual code of the sponges is in {@link PowerfulWaterSponge#updateSponge(Block)}
  *
  * Note: To express vanilla water/lava, you're supposed to use `pylonbase:water/lava`
  *       instead of `minecraft:water/lava`

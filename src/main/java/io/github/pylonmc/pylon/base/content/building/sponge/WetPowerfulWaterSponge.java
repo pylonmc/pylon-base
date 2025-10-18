@@ -14,11 +14,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * WetPowerfulWaterSponge is the result of a {@link PowerfulWaterSponge} absorbing water.
- * <p>
- * This sponge is "used" and does not have any special abilities.
- * It represents the end state of a PowerfulWaterSponge after it has absorbed water.
- * </p>
+ * This sponge is "used" and does NOT have any special abilities.
  *
  * @author balugaq
  * @see PowerfulSponge
@@ -29,9 +25,10 @@ public class WetPowerfulWaterSponge extends PylonBlock {
         super(block, context);
 
         Location location = block.getLocation();
+
+        // Dry out the sponge in the nether
         if (location.getWorld().getEnvironment() == World.Environment.NETHER) {
             Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                // Dry out the sponge in the nether
                 BlockStorage.breakBlock(location, new BlockBreakContext.PluginBreak(block, false));
                 BlockStorage.placeBlock(location, BaseKeys.POWERFUL_WATER_SPONGE);
             }, 1);

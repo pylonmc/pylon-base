@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -22,8 +21,14 @@ import java.util.List;
  * @author balugaq
  */
 public class LavaSponge extends PowerfulSponge {
-    private static final Config settings = Settings.get(BaseKeys.LAVA_SPONGE);
-    private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
+    private static final Config SETTINGS = Settings.get(BaseKeys.LAVA_SPONGE);
+    private static final int CHECK_RANGE = SETTINGS.getOrThrow("check-range", ConfigAdapter.INT);
+    private static final AbsorbHandler HANDLER = new AbsorbHandler()
+            .handle(block -> block.setType(Material.AIR))
+            .when(Material.LAVA)
+
+            .handle(block -> block.setType(Material.CAULDRON))
+            .when(Material.LAVA_CAULDRON);
 
     public LavaSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -34,32 +39,19 @@ public class LavaSponge extends PowerfulSponge {
     }
 
     @Override
-    public boolean isAbsorbable(@NotNull Block block) {
-        return block.getType() == Material.LAVA || block.getType() == Material.LAVA_CAULDRON;
-    }
-
-    @Override
-    public void absorb(@NotNull Block block) {
-        if (block.getType() == Material.LAVA) {
-            block.setType(Material.AIR);
-        } else if (block.getType() == Material.LAVA_CAULDRON) {
-            block.setType(Material.CAULDRON);
-        }
-    }
-
-    @Override
-    public int getRange() {
+    public int checkRange() {
         return CHECK_RANGE;
     }
 
     @Override
-    public void toWetSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
-        BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
+    public @NotNull AbsorbHandler handler() {
+        return HANDLER;
     }
 
-    public void tick(double deltaSeconds) {
-        tryAbsorbNearbyBlocks();
+    @Override
+    public void updateSponge(@NotNull Block sponge) {
+        super.updateSponge(sponge);
+        BlockStorage.placeBlock(sponge, BaseKeys.HOT_LAVA_SPONGE);
     }
 
     /**

@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.building.sponge;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -20,18 +19,32 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * PowerfulWaterSponge is a powerful sponge that can absorb water in a large area.
- * <p>
- * When it absorbs water, it transforms into a {@link WetPowerfulWaterSponge}.
- * </p>
- *
  * @author balugaq
  * @see PowerfulSponge
  * @see WetPowerfulWaterSponge
  */
 public class PowerfulWaterSponge extends PowerfulSponge {
-    private static final Config settings = Settings.get(BaseKeys.POWERFUL_WATER_SPONGE);
-    private static final int CHECK_RANGE = settings.getOrThrow("check-range", ConfigAdapter.INT);
+    private static final Config SETTINGS = Settings.get(BaseKeys.POWERFUL_WATER_SPONGE);
+    private static final int CHECK_RANGE = SETTINGS.getOrThrow("check-range", ConfigAdapter.INT);
+    private static final AbsorbHandler HANDLER = new AbsorbHandler()
+            .handle(block -> block.setType(Material.AIR))
+            .when(Material.WATER, Material.SEAGRASS, Material.TALL_SEAGRASS)
+
+            .handle(block -> block.setType(Material.CAULDRON))
+            .when(Material.WATER_CAULDRON)
+
+            .handle(block -> {
+                Waterlogged data = (Waterlogged) block.getBlockData();
+                data.setWaterlogged(false);
+                block.setBlockData(data);
+            })
+            .when(block -> block.getBlockData() instanceof Waterlogged)
+
+            .handle(block -> {
+                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.KELP));
+                block.setType(Material.AIR);
+            })
+            .when(Material.KELP_PLANT, Material.KELP);
 
     public PowerfulWaterSponge(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -42,46 +55,18 @@ public class PowerfulWaterSponge extends PowerfulSponge {
     }
 
     @Override
-    public boolean isAbsorbable(@NotNull Block block) {
-        Material type = block.getType();
-        return type == Material.WATER
-                || block.getBlockData() instanceof Waterlogged
-                || type == Material.WATER_CAULDRON
-                || type == Material.SEAGRASS
-                || type == Material.TALL_SEAGRASS
-                || type == Material.KELP_PLANT
-                || type == Material.KELP;
-    }
-
-    @Override
-    public void absorb(@NotNull Block block) {
-        Material type = block.getType();
-        if (type == Material.WATER) {
-            block.setType(Material.AIR);
-        } else if (block.getBlockData() instanceof Waterlogged w) {
-            w.setWaterlogged(false);
-            block.setBlockData(w);
-        } else if (type == Material.WATER_CAULDRON) {
-            block.setType(Material.CAULDRON);
-        } else if (type == Material.SEAGRASS || type == Material.TALL_SEAGRASS) {
-            block.setType(Material.AIR);
-        } else if (type == Material.KELP_PLANT || type == Material.KELP) {
-            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.KELP));
-            block.setType(Material.AIR);
-        }
-    }
-
-    public void tick(double deltaSeconds) {
-        tryAbsorbNearbyBlocks();
-    }
-
-    @Override
-    public int getRange() {
+    public int checkRange() {
         return CHECK_RANGE;
     }
 
-    public void toWetSponge(@NotNull Block sponge) {
-        BlockStorage.breakBlock(sponge, new BlockBreakContext.PluginBreak(sponge, false));
+    @Override
+    public @NotNull AbsorbHandler handler() {
+        return HANDLER;
+    }
+
+    @Override
+    public void updateSponge(@NotNull Block sponge) {
+        super.updateSponge(sponge);
         BlockStorage.placeBlock(sponge, BaseKeys.WET_POWERFUL_WATER_SPONGE);
     }
 
