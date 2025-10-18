@@ -41,18 +41,15 @@ import java.util.Set;
 public class HydraulicFarmer extends PylonBlock
         implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBufferBlock {
 
-    private static final Map<Material, Material> CROPS = Map.of(
-            Material.CARROT, Material.CARROTS,
-            Material.POTATO, Material.POTATOES,
-            Material.WHEAT_SEEDS, Material.WHEAT,
-            Material.BEETROOT_SEEDS, Material.BEETROOTS,
-            Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
-            Material.MELON_SEEDS, Material.MELON_STEM,
-            Material.NETHER_WART, Material.NETHER_WART
+    private static final Set<Material> BREAK = EnumSet.of(
+        Material.PUMPKIN,
+        Material.MELON,
+        Material.CARROTS,
+        Material.POTATOES,
+        Material.WHEAT,
+        Material.BEETROOTS,
+        Material.NETHER_WART
     );
-
-    private static final Set<Material> IGNORE = EnumSet.of(Material.PUMPKIN_STEM, Material.MELON_STEM);
-    private static final Set<Material> BREAK = EnumSet.of(Material.PUMPKIN, Material.MELON);
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_FARMER);
     public static final int RADIUS = settings.getOrThrow("radius", ConfigAdapter.INT);
@@ -110,17 +107,17 @@ public class HydraulicFarmer extends PylonBlock
         for (var tile : tiles) {
             Block cropBlock = tile.getCropBlock();
             Material cropType = cropBlock.getType();
-            if (IGNORE.contains(cropType)) continue;
 
-            if (CROPS.containsValue(cropType)
-                    && cropBlock.getBlockData() instanceof Ageable ageable
-                    && ageable.getAge() == ageable.getMaximumAge()
-            ) {
-                cropBlock.breakNaturally();
-                removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-                addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-                return;
-            } else if (BREAK.contains(cropType)) {
+            if (!BREAK.contains(cropType)) continue;
+
+            if (cropBlock.getBlockData() instanceof Ageable ageable) {
+                if (ageable.getAge() == ageable.getMaximumAge()) {
+                    cropBlock.breakNaturally();
+                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    return;
+                }
+            } else {
                 cropBlock.breakNaturally();
                 removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
                 addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
@@ -136,7 +133,7 @@ public class HydraulicFarmer extends PylonBlock
             if (tileToCrop.size() == 2) break;
 
             Material type = stack.getType();
-            if (CROPS.containsKey(type)) {
+            if (FarmingTileType.isValidCrop(type)) {
                 FarmingTileType tileType = FarmingTileType.getTile(type);
                 if (tileToCrop.containsKey(tileType)) continue;
 
@@ -153,18 +150,20 @@ public class HydraulicFarmer extends PylonBlock
             Block cropBlock = tile.getCropBlock();
             FarmingTileType type = tile.getType();
 
-            if (cropBlock.isEmpty() && type != FarmingTileType.NONE) {
-                ItemStack planted = tileToCrop.get(type);
-                if (planted == null) {
-                    continue;
-                }
-
-                cropBlock.setType(CROPS.get(planted.getType()));
-                planted.subtract();
-                removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-                addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-                return;
+            if (!cropBlock.isEmpty() || type == FarmingTileType.NONE) {
+                continue;
             }
+
+            ItemStack planted = tileToCrop.get(type);
+            if (planted == null) {
+                continue;
+            }
+
+            cropBlock.setType(type.mapCrop(planted.getType()));
+            planted.subtract();
+            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
+            return;
         }
     }
 
@@ -173,39 +172,47 @@ public class HydraulicFarmer extends PylonBlock
         FARMLAND,
         NONE;
 
-        private static final EnumMap<FarmingTileType, Set<Material>> ALLOWED_CROPS;
+        private static final Map<FarmingTileType, Map<Material, Material>> CROPS_TO_PLANT = Map.of(
+            FARMLAND, Map.of(
+                Material.CARROT, Material.CARROTS,
+                Material.POTATO, Material.POTATOES,
+                Material.WHEAT_SEEDS, Material.WHEAT,
+                Material.BEETROOT_SEEDS, Material.BEETROOTS,
+                Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
+                Material.MELON_SEEDS, Material.MELON_STEM
+            ),
+            SOUL_SAND, Map.of(Material.NETHER_WART, Material.NETHER_WART)
+        );
 
-        static {
-            ALLOWED_CROPS = new EnumMap<>(FarmingTileType.class);
-            ALLOWED_CROPS.put(
-                SOUL_SAND, EnumSet.of(Material.NETHER_WART)
-            );
-
-            ALLOWED_CROPS.put(
-                FARMLAND, EnumSet.of(
-                    Material.CARROT,
-                    Material.POTATO,
-                    Material.WHEAT_SEEDS,
-                    Material.BEETROOT_SEEDS,
-                    Material.PUMPKIN_SEEDS,
-                    Material.MELON_SEEDS
-                )
-            );
-        }
-
-        private static FarmingTileType from(Material mat) {
+        private static FarmingTileType tileFrom(Material mat) {
             if (mat == Material.FARMLAND) return FARMLAND;
             if (mat == Material.SOUL_SAND) return SOUL_SAND;
 
             return NONE;
         }
 
+        private Material mapCrop(Material crop) {
+            return CROPS_TO_PLANT.get(this).get(crop);
+        }
+
         private static FarmingTileType getTile(Material mat) {
-            for (var entry : ALLOWED_CROPS.entrySet()) {
-                if (entry.getValue().contains(mat)) return entry.getKey();
+            for (var entry : CROPS_TO_PLANT.entrySet()) {
+                if (entry.getValue().containsKey(mat)) {
+                    return entry.getKey();
+                }
             }
 
-            return null;
+            return NONE;
+        }
+
+        private static boolean isValidCrop(Material material) {
+            for (var entry : CROPS_TO_PLANT.values()) {
+                if (entry.containsKey(material)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
@@ -222,7 +229,7 @@ public class HydraulicFarmer extends PylonBlock
         public FarmingTileType getType() {
             if (type == null) {
                 Block farmlandBlock = cropBlock.getRelative(BlockFace.DOWN);
-                this.type = FarmingTileType.from(farmlandBlock.getType());
+                this.type = FarmingTileType.tileFrom(farmlandBlock.getType());
             }
 
             return type;
