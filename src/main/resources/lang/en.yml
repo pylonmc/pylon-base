@@ -794,7 +794,8 @@ item:
   item_magnet:
     name: "Item Magnet"
     lore: |-
-      <arrow> Pulls items towards you in a range of %pickup-distance%
+      <arrow> <attr>Pulls items</attr> towards you in a range of %pickup-distance%
+      <arrow> Right click to toggle
       <arrow> Does not stack
 
   water_pump:
