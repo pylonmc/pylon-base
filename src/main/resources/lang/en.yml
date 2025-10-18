@@ -1119,6 +1119,32 @@ item:
     lore: |-
       <arrow> A chunk of minerals from many layers below the surface
 
+  powerful_water_sponge:
+    name: "Powerful Water Sponge"
+    lore: |-
+      <arrow> Clear nearby water.
+      <arrow> <attr>Range:</attr> %check-range%
+      <arrow> Drop your fireproof rune and this sponge together to make a Lava Sponge
+
+  lava_sponge:
+    name: "Lava Sponge"
+    lore: |-
+      <arrow> Fireproof Powered
+      <arrow> Clears nearby lava
+      <arrow> <attr>Range:</attr> %check-range%
+
+  wet_powerful_water_sponge:
+    name: "Wet Powerful Water Sponge"
+    lore: |-
+      <arrow> <insn>Too much water inside... You must dry out it in a Blast Furnace, or dry out it by placing it in the nether.</insn>
+
+  hot_lava_sponge:
+    name: "Hot Lava Sponge"
+    lore: |-
+      <arrow> No longer can clear lava but can clear water
+      <arrow> While it clears water, it can turn back into Lava Sponge
+      <arrow> <attr>Range:</attr> %check-range%
+
   igneous_composite:
     name: "Igneous Composite"
     lore: |-
@@ -1373,6 +1399,12 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
+    immerse:
+      name: "Put it in %fluid%"
+      chance: "<attr>Chance:</attr> %chance%"
+      fluid:
+        minecraft:water: "Water"
+        minecraft:lava: "Lava"
 
 message:
   fluid_none: "None"

@@ -44,16 +44,16 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
         rotation = 0;
         locked = false;
-}
+    }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
     public Pedestal(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        
+
         rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
         locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
     }
-    
+
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
