@@ -34,10 +34,12 @@ import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.BlockTypeTagKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import io.papermc.paper.registry.set.RegistrySet;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -522,6 +524,9 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonItem(Material.CHAINMAIL_HELMET, BaseKeys.BRONZE_HELMET)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_HELMET.getKey())
+            .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD)
+                    .assetId(Key.key("gold"))
+                    .build())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_HELMET).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -546,6 +551,9 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonItem(Material.CHAINMAIL_CHESTPLATE, BaseKeys.BRONZE_CHESTPLATE)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_CHESTPLATE.getKey())
+            .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD)
+                    .assetId(Key.key("gold"))
+                    .build())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_CHESTPLATE).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -570,6 +578,9 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonItem(Material.CHAINMAIL_LEGGINGS, BaseKeys.BRONZE_LEGGINGS)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_LEGGINGS.getKey())
+            .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD)
+                    .assetId(Key.key("gold"))
+                    .build())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_LEGGINGS).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
@@ -594,6 +605,9 @@ public final class BaseItems {
 
     public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonItem(Material.CHAINMAIL_BOOTS, BaseKeys.BRONZE_BOOTS)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_BOOTS.getKey())
+            .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD)
+                    .assetId(Key.key("gold"))
+                    .build())
             .set(DataComponentTypes.MAX_DAMAGE, Settings.get(BaseKeys.BRONZE_BOOTS).getOrThrow("durability", ConfigAdapter.INT))
             .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
                     .addModifier(Attribute.ARMOR, new AttributeModifier(
