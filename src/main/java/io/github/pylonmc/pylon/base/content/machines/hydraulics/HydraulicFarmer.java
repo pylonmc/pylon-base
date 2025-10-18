@@ -116,7 +116,6 @@ public class HydraulicFarmer extends PylonBlock
                     && cropBlock.getBlockData() instanceof Ageable ageable
                     && ageable.getAge() == ageable.getMaximumAge()
             ) {
-                // maybe instead of breaking them and leaving them be, also put them in the chest above
                 cropBlock.breakNaturally();
                 removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
                 addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
