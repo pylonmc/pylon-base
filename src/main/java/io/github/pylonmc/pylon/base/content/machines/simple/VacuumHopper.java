@@ -78,8 +78,11 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                 continue;
             }
 
-            boolean added = hopper.getInventory().addItem(item.getItemStack()).isEmpty();
-            item.remove();
+            ItemStack stack = item.getItemStack();
+            boolean added = hopper.getInventory().addItem(stack).isEmpty();
+            if (stack.isEmpty()) {
+                item.remove();
+            }
 
             if (!added) {
                 break;
