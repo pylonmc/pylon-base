@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -68,6 +69,9 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     @Override
     public void tick(double deltaSeconds) {
         Hopper hopper = (Hopper) getBlock().getState();
+        if (getBlock().getBlockData() instanceof Powerable powerable && powerable.isPowered()) {
+            return; // don't vacuum if powered
+        }
 
         for (Entity entity : getBlock().getLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
