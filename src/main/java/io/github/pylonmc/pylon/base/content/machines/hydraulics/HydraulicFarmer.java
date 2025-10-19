@@ -130,7 +130,7 @@ public class HydraulicFarmer extends PylonBlock
 
         for (ItemStack stack : stacks) {
             if (stack == null) continue;
-            if (tileToCrop.size() == 2) break;
+            if (tileToCrop.size() == 3) break;
 
             Material type = stack.getType();
             if (FarmingTileType.isValidCrop(type)) {
