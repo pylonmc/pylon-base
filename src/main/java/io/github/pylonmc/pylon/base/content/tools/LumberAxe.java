@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonTool;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -69,7 +70,9 @@ public class LumberAxe extends PylonItem implements PylonTool {
                 }
             }
         }
-        player.damageItemStack(tool, 1);
+
+        if (player.getGameMode() != GameMode.CREATIVE) player.damageItemStack(tool, 1);
+
         for (BlockFace face : PylonUtils.IMMEDIATE_FACES) {
             breakAttachedWood(block.getRelative(face), player, tool);
         }
