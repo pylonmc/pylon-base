@@ -184,16 +184,19 @@ public final class PitKiln extends PylonBlock implements
         if (processingTime > 0) return;
 
         processingTime = null;
-        double multiplier = 0;
+        double calcMultiplier = 0;
         for (Vector3i top : TOP_POSITIONS) {
             Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
-            multiplier = switch (topBlock.getType()) {
+            calcMultiplier += switch (topBlock.getType()) {
                 case PODZOL -> MULTIPLIER_PODZOL;
                 case COARSE_DIRT -> MULTIPLIER_DIRT;
                 default -> throw new AssertionError();
             };
             topBlock.setType(Material.COARSE_DIRT);
         }
+
+        double multiplier = calcMultiplier / TOP_POSITIONS.size();
+
         outputLoop:
         for (ItemStack outputItem : processing) {
             int addAmount = (int) Math.floor(outputItem.getAmount() * multiplier);
@@ -359,8 +362,11 @@ public final class PitKiln extends PylonBlock implements
         components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
         components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
 
-        components.put(FIRE_POSITION, new VanillaMultiblockComponent(
-                Material.CAMPFIRE, Material.SOUL_CAMPFIRE, Material.FIRE, Material.SOUL_FIRE
+        components.put(FIRE_POSITION, new VanillaBlockdataMultiblockComponent(
+                Material.CAMPFIRE.createBlockData("[lit=true]"),
+                Material.SOUL_CAMPFIRE.createBlockData("[lit=true]"),
+                Material.FIRE.createBlockData(),
+                Material.SOUL_FIRE.createBlockData()
         ));
         return components;
     }
