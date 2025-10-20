@@ -34,6 +34,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -139,6 +140,12 @@ public final class PitKiln extends PylonBlock implements
         addItem(item, true);
     }
 
+    /**
+     * Will add 1 of the type specified in the itemstack
+     *
+     * @param item specified itemstack type
+     * @param directRemoval if item stack passed will be decreased
+     */
     public void addItem(ItemStack item, boolean directRemoval) {
         int currentAmount = 0;
         for (ItemStack contentItem : contents) {
@@ -291,16 +298,8 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
-        if (!(event.getDestination().getHolder() instanceof DecoratedPot pot)) {
-            return;
-        }
-
-        PylonBlock block = PylonBlock.getPylonBlock(pot.getBlock());
-        if (block instanceof PitKiln kiln) {
-            // removing the item itself does absolutely nothing so it is probably a copy
-            // but still, better play it safe and use a removal boolean to pass
-            kiln.addItem(event.getItem(), false);
-        }
+        event.setItem(ItemStack.empty());
+        this.addItem(event.getItem(), false);
     }
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
