@@ -1217,6 +1217,7 @@ item:
       <arrow> Refuel using the <white>Hydraulic Refueling Station
       <arrow> <insn>Right click</insn> to fire
       <arrow> <attr>Cooldown:</attr> %cooldown%
+      <arrow> <attr>Damage: </attr> %damage%
       <arrow> <attr>Range:</attr> %range%
       <arrow> <attr>Projectile speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
