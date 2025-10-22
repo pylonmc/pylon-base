@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
@@ -23,18 +22,13 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.DecoratedPot;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
