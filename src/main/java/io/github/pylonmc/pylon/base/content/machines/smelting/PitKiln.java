@@ -301,7 +301,12 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
-        event.setItem(ItemStack.empty());
+        if (contents.size() >= CAPACITY) {
+            event.setCancelled(true);
+            return;
+        }
+
+        event.setIttem(ItemStack.empty());
         this.addItem(event.getItem(), false);
     }
 
