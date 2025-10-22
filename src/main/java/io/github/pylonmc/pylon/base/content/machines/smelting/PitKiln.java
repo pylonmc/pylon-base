@@ -306,7 +306,7 @@ public final class PitKiln extends PylonBlock implements
             return;
         }
 
-        event.setIttem(ItemStack.empty());
+        event.setItem(ItemStack.empty());
         this.addItem(event.getItem(), false);
     }
 
