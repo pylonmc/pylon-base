@@ -134,6 +134,14 @@ public final class PitKiln extends PylonBlock implements
         addItem(item, true);
     }
 
+    public int countItems() {
+        int amount = 0;
+        for (ItemStack item : contents) {
+            amount += item.getAmount();
+        }
+        return amount;
+    }
+
     /**
      * Will add 1 of the type specified in the itemstack
      *
@@ -141,11 +149,7 @@ public final class PitKiln extends PylonBlock implements
      * @param directRemoval if item stack passed will be decreased
      */
     public void addItem(ItemStack item, boolean directRemoval) {
-        int currentAmount = 0;
-        for (ItemStack contentItem : contents) {
-            currentAmount += contentItem.getAmount();
-        }
-        if (currentAmount >= CAPACITY) return;
+        if (countItems() >= CAPACITY) return;
 
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
@@ -295,13 +299,14 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
-        if (contents.size() >= CAPACITY) {
+        if (countItems() >= CAPACITY) {
             event.setCancelled(true);
             return;
         }
 
+        ItemStack stack = event.getItem().clone();
         event.setItem(ItemStack.empty());
-        this.addItem(event.getItem(), false);
+        this.addItem(stack, false);
     }
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
