@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
@@ -23,14 +22,10 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.DecoratedPot;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -139,12 +134,22 @@ public final class PitKiln extends PylonBlock implements
         addItem(item, true);
     }
 
-    public void addItem(ItemStack item, boolean directRemoval) {
-        int currentAmount = 0;
-        for (ItemStack contentItem : contents) {
-            currentAmount += contentItem.getAmount();
+    public int countItems() {
+        int amount = 0;
+        for (ItemStack item : contents) {
+            amount += item.getAmount();
         }
-        if (currentAmount >= CAPACITY) return;
+        return amount;
+    }
+
+    /**
+     * Will add 1 of the type specified in the itemstack
+     *
+     * @param item specified itemstack type
+     * @param directRemoval if item stack passed will be decreased
+     */
+    public void addItem(ItemStack item, boolean directRemoval) {
+        if (countItems() >= CAPACITY) return;
 
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
@@ -177,16 +182,19 @@ public final class PitKiln extends PylonBlock implements
         if (processingTime > 0) return;
 
         processingTime = null;
-        double multiplier = 0;
+        double calcMultiplier = 0;
         for (Vector3i top : TOP_POSITIONS) {
             Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
-            multiplier = switch (topBlock.getType()) {
+            calcMultiplier += switch (topBlock.getType()) {
                 case PODZOL -> MULTIPLIER_PODZOL;
                 case COARSE_DIRT -> MULTIPLIER_DIRT;
                 default -> throw new AssertionError();
             };
             topBlock.setType(Material.COARSE_DIRT);
         }
+
+        double multiplier = calcMultiplier / TOP_POSITIONS.size();
+
         outputLoop:
         for (ItemStack outputItem : processing) {
             int addAmount = (int) Math.floor(outputItem.getAmount() * multiplier);
@@ -291,16 +299,14 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
-        if (!(event.getDestination().getHolder() instanceof DecoratedPot pot)) {
+        if (countItems() >= CAPACITY) {
+            event.setCancelled(true);
             return;
         }
 
-        PylonBlock block = PylonBlock.getPylonBlock(pot.getBlock());
-        if (block instanceof PitKiln kiln) {
-            // removing the item itself does absolutely nothing so it is probably a copy
-            // but still, better play it safe and use a removal boolean to pass
-            kiln.addItem(event.getItem(), false);
-        }
+        ItemStack stack = event.getItem().clone();
+        event.setItem(ItemStack.empty());
+        this.addItem(stack, false);
     }
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
@@ -360,8 +366,11 @@ public final class PitKiln extends PylonBlock implements
         components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
         components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
 
-        components.put(FIRE_POSITION, new VanillaMultiblockComponent(
-                Material.CAMPFIRE, Material.SOUL_CAMPFIRE, Material.FIRE, Material.SOUL_FIRE
+        components.put(FIRE_POSITION, new VanillaBlockdataMultiblockComponent(
+                Material.CAMPFIRE.createBlockData("[lit=true]"),
+                Material.SOUL_CAMPFIRE.createBlockData("[lit=true]"),
+                Material.FIRE.createBlockData(),
+                Material.SOUL_FIRE.createBlockData()
         ));
         return components;
     }
