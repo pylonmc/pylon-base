@@ -69,7 +69,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     @Override
     public void tick(double deltaSeconds) {
         Hopper hopper = (Hopper) getBlock().getState();
-        if (getBlock().getBlockData() instanceof Powerable powerable && powerable.isPowered()) {
+        if (getBlock().isBlockPowered()) {
             return; // don't vacuum if powered
         }
 
