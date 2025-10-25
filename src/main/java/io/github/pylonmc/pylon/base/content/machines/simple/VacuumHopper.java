@@ -13,15 +13,14 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
-import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
@@ -69,7 +68,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     @Override
     public void tick(double deltaSeconds) {
         Hopper hopper = (Hopper) getBlock().getState();
-        if (getBlock().isBlockPowered()) {
+        if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
             return; // don't vacuum if powered
         }
 
@@ -79,15 +78,21 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
             }
 
             ItemStack stack = item.getItemStack();
-            boolean added = hopper.getInventory().addItem(stack).isEmpty();
-            if (stack.isEmpty()) {
+            HashMap<Integer, ItemStack> rest = hopper.getInventory().addItem(stack);
+            if (rest.isEmpty()) {
+                new ParticleBuilder(Particle.WITCH)
+                        .location(item.getLocation())
+                        .spawn();
                 item.remove();
-            }
-
-            if (!added) {
                 break;
             }
 
+            int fail = rest.values().stream().findFirst().get().getAmount();
+            if (fail == stack.getAmount()) {
+                continue;
+            }
+
+            stack.setAmount(fail);
             new ParticleBuilder(Particle.WITCH)
                     .location(item.getLocation())
                     .spawn();
