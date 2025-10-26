@@ -135,7 +135,8 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     protected void finishCycle() {
         cycling = false;
 
-        if (!(getBlock().getRelative(0, -2, 4).getState() instanceof Chest chest)) {
+        Vector3i chestOffset = PylonUtils.rotateVectorToFace(new Vector3i(0, -2, 4), getFacing());
+        if (!(getBlock().getRelative(chestOffset.x, chestOffset.y, chestOffset.z).getState() instanceof Chest chest)) {
             return;
         }
 

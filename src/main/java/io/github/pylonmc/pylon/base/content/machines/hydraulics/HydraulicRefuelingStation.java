@@ -3,12 +3,13 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -36,7 +37,7 @@ import java.util.Map;
 
 
 public class HydraulicRefuelingStation extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
+        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock, PylonBreakHandler {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -100,10 +101,10 @@ public class HydraulicRefuelingStation extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
-            return new WailaConfig(
+            return new WailaDisplay(
                     getDefaultWailaTranslationKey().arguments(PylonArgument.of("extra", "")
                     ));
         }
@@ -119,7 +120,7 @@ public class HydraulicRefuelingStation extends PylonBlock
                 20,
                 TextColor.fromHexString("#48459b")
         );
-        return new WailaConfig(
+        return new WailaDisplay(
                 getDefaultWailaTranslationKey().arguments(
                         PylonArgument.of(
                                 "extra",
