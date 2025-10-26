@@ -42,7 +42,7 @@ public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor
         Location skullPos = player.getLocation().clone().add(0, playerHeight, 0);
         WitherSkull witherSkull = (WitherSkull) skullPos.getWorld().spawnEntity(skullPos, EntityType.WITHER_SKULL);
         witherSkull.setCharged(chargedSkulls);
-        witherSkull.setVelocity(player.getEyeLocation().getDirection().multiply(skullSpeed));
+        witherSkull.setVelocity(player.getEyeLocation().getDirection().multiply(skullSpeed / 20.0));
     }
 
     @Override
