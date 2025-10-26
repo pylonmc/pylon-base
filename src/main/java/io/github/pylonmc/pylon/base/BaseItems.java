@@ -728,6 +728,14 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(BEHEADING_SWORD);
     }
 
+    public static final ItemStack ITEM_MAGNET = ItemStackBuilder.pylon(Material.BREEZE_ROD, BaseKeys.ITEM_MAGNET)
+        .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        .build();
+    static {
+        PylonItem.register(ItemMagnet.class, ITEM_MAGNET);
+        BasePages.TOOLS.addItem(ITEM_MAGNET);
+    }
+
     public static final ItemStack PEDESTAL = ItemStackBuilder.pylon(Material.STONE_BRICK_WALL, BaseKeys.PEDESTAL)
             .build();
     static {
