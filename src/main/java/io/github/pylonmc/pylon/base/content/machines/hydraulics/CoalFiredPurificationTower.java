@@ -63,11 +63,9 @@ public class CoalFiredPurificationTower extends PylonBlock
         }
     }
 
-    private static final NamespacedKey FUEL_KEY = baseKey("fuel");
-    private static final NamespacedKey FUEL_SECONDS_ELAPSED_KEY = baseKey("fuel_seconds_elapsed");
+    private static final NamespacedKey FUEL_TICKS_REMAINING_KEY = baseKey("fuel_ticks_remaining");
 
-    private @Nullable ItemStack fuel;
-    private double fuelSecondsElapsed;
+    private @Nullable Integer fuelTicksRemaining;
 
     private final ItemStackBuilder idleProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
             .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.idle"));
@@ -75,7 +73,7 @@ public class CoalFiredPurificationTower extends PylonBlock
             .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.running"));
 
     private final VirtualInventory inventory = new VirtualInventory(1);
-    private final ProgressItem progressItem = new ProgressItem(idleProgressItem, true);
+    private final ProgressItem progressItem = new ProgressItem(idleProgressItem);
 
     public static class Item extends PylonItem {
 
@@ -95,8 +93,7 @@ public class CoalFiredPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        fuel = null;
-        fuelSecondsElapsed = 0.0;
+        fuelTicksRemaining = null;
         setTickInterval(TICK_INTERVAL);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
@@ -107,15 +104,13 @@ public class CoalFiredPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        fuel = pdc.get(FUEL_KEY, PylonSerializers.ITEM_STACK);
-        fuelSecondsElapsed = pdc.get(FUEL_SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE);
+        fuelTicksRemaining = pdc.get(FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
-        PylonUtils.setNullable(pdc, FUEL_KEY, PylonSerializers.ITEM_STACK, fuel);
-        pdc.set(FUEL_SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, fuelSecondsElapsed);
+        PylonUtils.setNullable(pdc, FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, fuelTicksRemaining);
     }
 
     @Override
@@ -153,7 +148,7 @@ public class CoalFiredPurificationTower extends PylonBlock
             return;
         }
 
-        if (fuel == null) {
+        if (fuelTicksRemaining == null) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Map.Entry<ItemStack, Integer> fuel : FUELS.entrySet()) {
                 if (item == null || !PylonUtils.isPylonSimilar(item, fuel.getKey())) {
@@ -161,10 +156,9 @@ public class CoalFiredPurificationTower extends PylonBlock
                 }
 
                 inventory.setItemAmount(null, 0, item.getAmount() - 1);
-                this.fuel = fuel.getKey();
                 progressItem.setItemStackBuilder(runningProgressItem);
-                progressItem.setTotalTimeSeconds(FUELS.get(this.fuel));
-                fuelSecondsElapsed = 0.0;
+                progressItem.setTotalTimeSeconds(FUELS.get(fuel.getKey()));
+                fuelTicksRemaining = fuel.getValue() * 20;
                 break;
             }
         }
@@ -187,17 +181,17 @@ public class CoalFiredPurificationTower extends PylonBlock
         removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
         addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * PURIFICATION_EFFICIENCY);
 
-        fuelSecondsElapsed += getTickInterval() / 20.0;
-        progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
-        if (fuelSecondsElapsed >= FUELS.get(fuel)) {
-            fuel = null;
+        fuelTicksRemaining -= getTickInterval();
+        progressItem.setRemainingTimeTicks(fuelTicksRemaining);
+        if (fuelTicksRemaining <= 0) {
+            fuelTicksRemaining = null;
             progressItem.setItemStackBuilder(idleProgressItem);
             progressItem.setTotalTime(null);
         }
     }
 
     public boolean isRunning() {
-        return fuel != null
+        return fuelTicksRemaining != null
                 // input buffer not empty
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
                 // output buffer not full

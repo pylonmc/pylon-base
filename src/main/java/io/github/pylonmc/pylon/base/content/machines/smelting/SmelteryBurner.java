@@ -37,10 +37,10 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     private static final NamespacedKey FUEL_KEY = baseKey("fuel");
     private static final PersistentDataType<?, Fuel> FUEL_TYPE = PylonSerializers.KEYED.keyedTypeFrom(Fuel.class, FUELS::getOrThrow);
-    private static final NamespacedKey SECONDS_ELAPSED_KEY = baseKey("seconds_elapsed");
+    private static final NamespacedKey FUEL_TICKS_REMAINING_KEY = baseKey("seconds_elapsed");
 
     private @Nullable Fuel fuel;
-    private double secondsElapsed;
+    private int fuelTicksRemaining;
 
     private final ItemStackBuilder notBurningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
             .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.not_burning"));
@@ -48,7 +48,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.burning"));
 
     private final VirtualInventory inventory = new VirtualInventory(3);
-    private final ProgressItem progressItem = new ProgressItem(notBurningProgressItem, true);
+    private final ProgressItem progressItem = new ProgressItem(notBurningProgressItem);
 
     @SuppressWarnings("unused")
     public SmelteryBurner(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -57,7 +57,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         setTickInterval(SmelteryController.TICK_INTERVAL);
 
         fuel = null;
-        secondsElapsed = 0;
+        fuelTicksRemaining = 0;
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
@@ -65,13 +65,13 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         super(block, pdc);
 
         fuel = pdc.get(FUEL_KEY, FUEL_TYPE);
-        secondsElapsed = pdc.get(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE);
+        fuelTicksRemaining = pdc.get(FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PylonUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
-        pdc.set(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, secondsElapsed);
+        pdc.set(FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, fuelTicksRemaining);
     }
 
     @Override
@@ -107,7 +107,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                             progressItem.setTotalTimeSeconds((int) fuel.burnTimeSeconds);
                             item.subtract();
                             inventory.setItem(null, i, item);
-                            secondsElapsed = 0;
+                            fuelTicksRemaining = Math.round(fuel.burnTimeSeconds * 20);
                             break itemLoop;
                         }
                     }
@@ -115,10 +115,9 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             }
         }
         if (fuel != null) {
-            secondsElapsed += deltaSeconds;
-            progressItem.setProgress(secondsElapsed / fuel.burnTimeSeconds);
-            if (secondsElapsed >= fuel.burnTimeSeconds) {
-                secondsElapsed = 0;
+            fuelTicksRemaining -= getTickInterval();
+            progressItem.setRemainingTimeTicks(fuelTicksRemaining);
+            if (fuelTicksRemaining <= 0) {
                 fuel = null;
                 progressItem.setItemStackBuilder(notBurningProgressItem);
                 progressItem.setTotalTime(null);
