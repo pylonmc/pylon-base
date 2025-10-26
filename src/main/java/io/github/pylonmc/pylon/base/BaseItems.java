@@ -392,25 +392,25 @@ public final class BaseItems {
     //</editor-fold>
 
     //<editor-fold desc="Hammers" defaultstate=collapsed>
-    public static final ItemStack HAMMER_STONE = ItemStackBuilder.pylonWeapon(Material.STONE_PICKAXE, BaseKeys.HAMMER_STONE, true, true, false)
+    public static final ItemStack STONE_HAMMER = ItemStackBuilder.pylonWeapon(Material.STONE_PICKAXE, BaseKeys.STONE_HAMMER, true, true, false)
             .noTool().build();
     static {
-        PylonItem.register(Hammer.class, HAMMER_STONE);
-        BasePages.TOOLS.addItem(HAMMER_STONE);
+        PylonItem.register(Hammer.class, STONE_HAMMER);
+        BasePages.TOOLS.addItem(STONE_HAMMER);
     }
 
-    public static final ItemStack HAMMER_IRON = ItemStackBuilder.pylonWeapon(Material.STONE_PICKAXE, BaseKeys.HAMMER_IRON, true, true, false)
+    public static final ItemStack IRON_HAMMER = ItemStackBuilder.pylonWeapon(Material.IRON_PICKAXE, BaseKeys.IRON_HAMMER, true, true, false)
             .noTool().build();
     static {
-        PylonItem.register(Hammer.class, HAMMER_IRON);
-        BasePages.TOOLS.addItem(HAMMER_IRON);
+        PylonItem.register(Hammer.class, IRON_HAMMER);
+        BasePages.TOOLS.addItem(IRON_HAMMER);
     }
 
-    public static final ItemStack HAMMER_DIAMOND = ItemStackBuilder.pylonWeapon(Material.DIAMOND_PICKAXE, BaseKeys.HAMMER_DIAMOND, true, true, false)
+    public static final ItemStack DIAMOND_HAMMER = ItemStackBuilder.pylonWeapon(Material.DIAMOND_PICKAXE, BaseKeys.DIAMOND_HAMMER, true, true, false)
             .noTool().build();
     static {
-        PylonItem.register(Hammer.class, HAMMER_DIAMOND);
-        BasePages.TOOLS.addItem(HAMMER_DIAMOND);
+        PylonItem.register(Hammer.class, DIAMOND_HAMMER);
+        BasePages.TOOLS.addItem(DIAMOND_HAMMER);
     }
     //</editor-fold>
 
