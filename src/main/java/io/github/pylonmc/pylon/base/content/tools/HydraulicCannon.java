@@ -54,6 +54,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(
+                PylonArgument.of("damage", UnitFormat.HEARTS.format(projectileDamage)),
                 PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),
                 PylonArgument.of("range", UnitFormat.BLOCKS.format(Math.round(projectileSpeedBlocksPerSecond * projectileLifetimeTicks / 20.0))),
                 PylonArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(projectileSpeedBlocksPerSecond)),
