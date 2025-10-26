@@ -359,3 +359,8 @@ large_scale_hydraulic_purification:
   unlocks:
   - pylonbase:solar_purification_tower_4
   - pylonbase:solar_purification_tower_5
+soul_attachment:
+  material: amethyst_shard
+  cost: 20
+  unlocks:
+  - pylonbase:soulbound_rune

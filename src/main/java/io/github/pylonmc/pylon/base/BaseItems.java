@@ -15,7 +15,6 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDr
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
-import io.github.pylonmc.pylon.base.content.tools.FireproofRune;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -1683,6 +1682,16 @@ public final class BaseItems {
     static {
         PylonItem.register(HydraulicFarmer.Item.class, HYDRAULIC_FARMER, BaseKeys.HYDRAULIC_FARMER);
         BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
+    }
+
+    public static final ItemStack SOULBOUND_RUNE = ItemStackBuilder.pylon(Material.FIREWORK_STAR, BaseKeys.SOULBOUND_RUNE)
+            .set(DataComponentTypes.FIREWORK_EXPLOSION, FireworkEffect.builder()
+                    .withColor(Color.PURPLE)
+                    .build())
+            .build();
+    static {
+        PylonItem.register(SoulboundRune.class, SOULBOUND_RUNE);
+        BasePages.TOOLS.addItem(SOULBOUND_RUNE);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
