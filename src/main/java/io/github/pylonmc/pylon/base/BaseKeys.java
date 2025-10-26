@@ -138,6 +138,8 @@ public class BaseKeys {
     public static final NamespacedKey HEALTH_TALISMAN_ADVANCED = baseKey("health_talisman_advanced");
     public static final NamespacedKey HEALTH_TALISMAN_ULTIMATE = baseKey("health_talisman_ultimate");
 
+    public static final NamespacedKey ITEM_MAGNET = baseKey("item_magnet");
+
     public static final NamespacedKey ENRICHED_NETHERRACK = baseKey("enriched_netherrack");
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
@@ -281,4 +283,6 @@ public class BaseKeys {
 
     public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
+
+    public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 }

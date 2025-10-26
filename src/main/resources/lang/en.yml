@@ -434,7 +434,7 @@ item:
       <arrow> Requires a Grindstone Handle on top
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name></yellow>
@@ -493,7 +493,7 @@ item:
       <star> Multiblock
       <arrow> A self-contained structure for performing shimmer rituals
       <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.magic_altar.name></yellow>
       <diamond> 8x <yellow><lang:pylon.pylonbase.item.magic_pedestal.name></yellow>
@@ -560,7 +560,7 @@ item:
       <arrow> Complete the multiblock with a valid recipe inside to start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name></yellow>
       <diamond> 8x <yellow>Coal Block</yellow>
@@ -686,7 +686,7 @@ item:
       <arrow> The brain of the smeltery
       <arrow> Place in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
       <arrow> <insn>Right click</insn> to open the smeltery GUI
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name></yellow>
       <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name></yellow>
@@ -713,6 +713,12 @@ item:
     lore: |-
       <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
+
+  soulbound_rune:
+    name: "Soulbound Rune"
+    lore: |-
+      <arrow> Connects your sense of self to an item, allowing you to retain the item upon death
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
 
   splint:
     name: "Splint"
@@ -791,10 +797,19 @@ item:
       <arrow> Does not stack
       <arrow> <attr>Max health increase:</attr> %health-boost% 
 
+  item_magnet:
+    name: "Item Magnet"
+    lore: |-
+      <arrow> Pulls item towards you in a range
+      <arrow> Right click to toggle
+      <arrow> Does not stack
+      <arrow> <attr>Pulls distance:</attr> %pickup-distance%
+
   water_pump:
     name: "Water Pump"
     lore: |- 
       <arrow> An infinite source of water
+      <arrow> Pulls up water from below
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
   press:
@@ -885,7 +900,7 @@ item:
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %purification_speed%
       <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -901,7 +916,7 @@ item:
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %purification_speed%
       <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -917,7 +932,7 @@ item:
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %purification_speed%
       <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -933,7 +948,7 @@ item:
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %purification_speed%
       <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -949,7 +964,7 @@ item:
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
       <arrow> <attr>Purification speed:</attr> %purification_speed%
       <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -964,7 +979,7 @@ item:
       <arrow> Burns coal or charcoal
       <arrow> <attr>Purification speed:</attr> %purification_speed%
       <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -986,7 +1001,7 @@ item:
       <arrow> Place fluid casings on top to increase the capacity
       <arrow> All the casings must be the same material
       <arrow> <attr>Max height:</attr> %max-height%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name></yellow>
       <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
@@ -1054,7 +1069,7 @@ item:
       <arrow> Mines shallow core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
@@ -1067,7 +1082,7 @@ item:
       <arrow> Mines subsurface core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
@@ -1082,7 +1097,7 @@ item:
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name></yellow>
       <diamond> 1x <yellow>Cauldron</yellow>
@@ -1345,6 +1360,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  soul_attachment: "<dark_purple>Soul attachment"
 
 guide:
   page:
@@ -1394,6 +1410,9 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+  item_magnet:
+    enabled: "Item Magnet <gray>has been</gray> <green>enabled"
+    disabled: "Item Magnet <gray>has been</gray> <red>disabled"
   pipe:
     connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
     cannot_place_here: "<red>You cannot place a pipe here"
@@ -1425,6 +1444,9 @@ message:
     success: "<red>Your item has been fire-proofed"
   hydraulic_refueling_station:
     extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
+  soulbound_rune:
+    tooltip: "<dark_purple>Soulbound"
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
 
 gui:
   fluid-selector-title: "Select Fluid"

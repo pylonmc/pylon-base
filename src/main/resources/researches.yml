@@ -1,0 +1,366 @@
+baking:
+  material: yellow_dye
+  cost: 1
+  unlocks:
+  - pylonbase:flour
+  - pulonbase:dough
+better_hammers:
+  material: stone_pickaxe
+  cost: 15
+  unlocks:
+  - pylonbase:hammer_iron
+  - pylonbase:hammer_diamond
+bronze_equipment:
+  material: brick
+  cost: 10
+  unlocks:
+  - pylonbase:bronze_sword
+  - pylonbase:bronze_axe
+  - pylonbase:bronze_pickaxe
+  - pylonbase:bronze_shovel
+  - pylonbase:bronze_hoe
+  - pylonbase:bronze_boots
+  - pylonbase:bronze_leggings
+  - pylonbase:bronze_chestplate
+  - pylonbase:bronze_helmet
+climbing_equipment:
+  material: iron_hoe
+  cost: 2
+  unlocks:
+  - pylonbase:climbing_pick
+deforestation:
+  material: wooden_axe
+  cost: 30
+  unlocks:
+  - pylonbase:lumber_axe
+explosive_targets:
+  material: arrow
+  cost: 8
+  unlocks:
+  - pylonbase:explosive_target
+  - pylonbase:explosive_target_fiery
+  - pylonbase:explosive_target_super
+  - pylonbase:explosive_target_super_fiery
+fireproofing:
+  material: fire_charge
+  cost: 25
+  unlocks:
+  - pylonbase:fireproof_rune
+first_aid:
+  material: cobweb
+  cost: 5
+  unlocks:
+  - pylonbase:bandage
+  - pylonbase:splint
+fletching:
+  material: arrow
+  cost: 4
+  unlocks:
+  - pylonbase:recoil_arrow
+  - pylonbase:ice_arrow
+flow_control:
+  material: white_concrete
+  cost: 12
+  unlocks:
+  - pylonbase:fluid_valve
+  - pylonbase:fluid_filter
+  - pylonbase:fluid_meter
+fluid_handling_1:
+  material: orange_terracotta
+  cost: 15
+  unlocks:
+  - pylonbase:fluid_pipe_bronze
+  - pylonbase:portable_fluid_tank_bronze
+  - pylonbase:fluid_tank_casing_bronze
+fluid_handling_2:
+  material: black_terracotta
+  cost: 30
+  unlocks:
+  - pylonbase:fluid_pipe_igneous_composite
+  - pylonbase:portable_fluid_tank_igneous_composite
+  - pylonbase:fluid_tank_casing_igneous_composite
+fluid_handling_3:
+  material: gray_concrete
+  cost: 45
+  unlocks:
+  - pylonbase:fluid_pipe_steel
+  - pylonbase:portable_fluid_tank_steel
+  - pylonbase:fluid_tank_casing_steel
+fluid_storage:
+  material: gray_terracotta
+  cost: 10
+  unlocks:
+  - pylonbase:fluid_tank
+  - pylonbase:fluid_tank_casing_wood
+  - pylonbase:fluid_tank_casing_copper
+  - pylonbase:fluid_tank_casing_tin
+  - pylonbase:fluid_tank_casing_iron
+fluid_voiding_1:
+  material: black_terracotta
+  cost: 20
+  unlock:
+  - pylonbase:fluid_voider_1
+fluid_voiding_2:
+  material: black_terracotta
+  cost: 20
+  unlock:
+  - pylonbase:fluid_voider_2
+  - pylonbase:fluid_voider_3
+food_preservation:
+  material: rotten_flesh
+  cost: 3
+  unlocks:
+  - pylonbase:monster_jerky
+forbidden_medicine:
+  material: nether_wart
+  cost: 18
+  unlocks:
+  - pylonbase:cleansing_potion
+french_revolution:
+  material: diamond_sword
+  cost: 25
+  unlocks:
+  - pylonbase:beheading_sword
+high_temperature_materials:
+  material: deepslate_tiles
+  cost: 35
+  unlocks:
+  - pylonbase:refractory_mix
+  - pylonbase:unfired_refractory_brick
+  - pylonbase:refractory_brick
+  - pylonbase:refractory_bricks
+high_temperature_smelting:
+  material: blast_furnace
+  cost: 50
+  unlocks:
+  - pylonbase:smeltery_controller
+  - pylonbase:smeltery_burner
+  - pylonbase:smeltery_caster
+  - pylonbase:smeltery_hopper
+  - pylonbase:smeltery_input_hatch
+  - pylonbase:smeltery_output_hatch
+hydraulic_automation:
+  material: waxed_chiseled_copper
+  cost: 22
+  unlocks:
+  - pylonbase:hydraulic_grindstone_turner
+  - pylonbase:hydraulic_mixing_attachment
+  - pylonbase:hydraulic_press_piston
+  - pylonbase:hydraulic_hammer_head
+  - pylonbase:hydraulic_pipe_bender
+  - pylonbase:hydraulic_table_saw
+  - pylonbase:hydraulic_excavator
+  - pylonbase:hydraulic_farmer
+hydraulic_combat:
+  material: iron_horse_armor
+  cost: 8
+  unlocks:
+  - pylonbase:hydraulic_refueling_station
+  - pylonbase:hydraulic_cannon
+  - pylonbase:tin_projectile
+hydraulic_drilling:
+  material: waxed_copper_bulb
+  cost: 40
+  unlocks:
+  - pylonbase:hydraulic_core_drill
+  - pylonbase:hydraulic_core_drill_input_hatch
+  - pylonbase:hydraulic_core_drill_output_hatch
+  - pylonbase:intermediate_core_chunk
+igneous_magic:
+  material: obsidian
+  cost: 18
+  unlocks:
+  - pylonbase:obsidian_chip
+  - pylonbase:igneous_composite
+immobilization:
+  material: piston
+  cost: 30
+  unlocks:
+  - pylonbase:immobilizer
+improved_drilling_techniques:
+  material: iron_pickaxe
+  cost: 15
+  unlocks:
+  - pylonbase:improved_manual_core_drill
+  - pylonbase:subsurface_core_chunk
+irrigation:
+  material: bucket
+  cost: 8
+  unlocks:
+  - pylonbase:watering_can
+  - pylonbase:sprinkler
+magnetism:
+  material: iron_ingot
+  cost: 50
+  unlocks:
+  - pylonbase:nickel_dust
+  - pylonbase:nickel_ingot
+  - pylonbase:nickel_nugget
+  - pylonbase:nickel_block
+  - pylonbase:cobalt_dust
+  - pylonbase:cobalt_block
+  - pylonbase:cobalt_ingot
+  - pylonbase:cobalt_nugget
+medicine:
+  material: brewer_pottery_sherd
+  cost: 10
+  unlocks:
+  - pylonbase:disinfectant
+  - pylonbase:medkit
+molding:
+  material: oak_fence_gate
+  cost: 5
+  unlocks:
+  - pylonbase:brick_mold
+portable_workstations:
+  material: crafting_table
+  cost: 20
+  unlocks:
+  - pylonbase:portability_catalyst
+  - pylonbase:portable_crafting_table
+  - pylonbase:portable_dustbin
+  - pylonbase:portable_ender_chest
+pressing:
+  material: composter
+  cost: 12
+  unlocks:
+  - pylonbase:press
+primitive_alloying:
+  material: iron_ingot
+  cost: 10
+  unlocks:
+  - pylonbase:pit_kiln
+  - pylonbase:carbon
+  - pylonbase:sulfur
+  - pylonbase:bronze_ingot
+  - pylonbase:bronze_dust
+  - pylonbase:bronze_sheet
+  - pylonbase:bronze_nugget
+  - pylonbase:bronze_block
+pumps:
+  material: light_blue_terracotta
+  cost: 12
+  unlocks:
+  - pylonbase:water_pump
+  - pylonbase:water_placer
+  - pylonbase:water_drainer
+  - pylonbase:lava_placer
+  - pylonbase:lava_drainer
+reactivated_skulls:
+  material: wither_skeleton_skull
+  cost: 15
+  unlocks:
+  - pylonbase:reactivated_wither_skull
+  - pylonbase:hyper_activated_wither_skull
+scientific_revolution_1:
+  material: red_banner
+  cost: 10
+  unlock:
+  - pylonbase:research_pack_1
+scientific_revolution_2:
+  material: lime_banner
+  cost: 40
+  unlock:
+  - pylonbase:research_pack_2
+shimmer_manipulation:
+  material: sugar
+  cost: 7
+  unlocks:
+  - pylonbase:shimmer_dust_2
+  - pylonbase:covalent_binder
+  - pylonbase:enriched_netherrack
+rituals:
+  material: wither_skeleton_skull
+  cost: 20
+  unlocks:
+    - pylonbase:magic_pedestal
+    - pylonbase:magic_altar
+    - pylonbase:shimmer_dust_3
+    - pylonbase:shimmer_skull
+showing_off:
+  material: stone_brick_wall
+  cost: 2
+  unlocks:
+  - pylonbase:pedestal
+simple_components:
+  material: iron_trapdoor
+  cost: 8
+  unlocks:
+  - pylonbase:rotor
+  - pylonbase:backflow_valve
+  - pylonbase:analogue_display
+  - pylonbase:filter_mash
+  - pylonbase:nozzle
+  - pylonbase:abyssal_catalyst
+  - pylonbase:axle
+  - pylonbase:sawblade
+  - pylonbase:wighted_shaft
+  - pylonbase:bronze_drill_bit
+  - pylonbase:hydraulic_motor
+  - pylonbase:hydraulic_cannon_chamber
+steel:
+  material: netherite_ingot
+  cost: 50
+  unlocks:
+  - pylonbase:steel_dust
+  - pylonbase:steel_ingot
+  - pylonbase:steel_nugget
+  - pylonbase:steel_block
+  - pylonbase:steel_sheet
+straining:
+  material: white_concrete
+  cost: 32
+  unlocks:
+  - pylonbase:fluid_strainer
+vacuum_hoppers:
+  material: hopper
+  cost: 8
+  unlocks:
+  - pylonbase:vacuum_hopper_1
+  - pylonbase:vacuum_hopper_2
+advanced_vacuum_hoppers:
+  material: hopper
+  cost: 18
+  unlocks:
+  - pylonbase:vacuum_hopper_3
+  - pylonbase:vacuum_hopper_4
+vitality_1:
+  material: amethyst_shard
+  cost: 15
+  unlocks:
+  - pylonbase:health_talisman_simple
+  - pylonbase:health_talisman_advanced
+vitality_2:
+  material: budding_amethyst
+  cost: 35
+  unlocks:
+  - pylonbase:health_talisman_ultimate
+elevation:
+  material: quartz_slab
+  cost: 10
+  unlocks:
+  - pylonbase:elevator_1
+  - pylonbase:elevator_2
+  - pylonbase:elevator_3
+hydraulic_purification:
+  material: waxed_copper_block
+  cost: 15
+  unlocks:
+  - pylonbase:solar_purification_tower_1
+  - pylonbase:solar_purification_tower_2
+  - pylonbase:solar_purification_tower_3
+  - pylonbase:coal_fired_purification_tower
+  - pylonbase:purification_tower_glass
+  - pylonbase:purification_tower_cap
+  - pylonbase:solar_lens
+large_scale_hydraulic_purification:
+  material: waxed_copper_block
+  cost: 25
+  unlocks:
+  - pylonbase:solar_purification_tower_4
+  - pylonbase:solar_purification_tower_5
+soul_attachment:
+  material: amethyst_shard
+  cost: 20
+  unlocks:
+  - pylonbase:soulbound_rune
