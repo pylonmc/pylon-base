@@ -14,6 +14,7 @@ import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.util.RandomizedSound;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -100,7 +101,8 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         if (anyRecipeAttempted) {
             if (player != null) {
                 player.setCooldown(getStack(), cooldownTicks);
-                getStack().damage(1, player);
+
+                if (player.getGameMode() != GameMode.CREATIVE) getStack().damage(1, player);
             } else {
                 if (!getStack().hasData(DataComponentTypes.UNBREAKABLE)) {
                     int newDamage = getStack().getData(DataComponentTypes.DAMAGE) + 1;
