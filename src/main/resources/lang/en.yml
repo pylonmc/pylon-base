@@ -443,19 +443,19 @@ item:
     name: "Grindstone Handle"
     lore: "<star> Grindstone multiblock component"
 
-  hammer_diamond:
+  diamond_hammer:
     name: "Diamond Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
-  hammer_iron:
+  iron_hammer:
     name: "Iron Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
-  hammer_stone:
+  stone_hammer:
     name: "Stone Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
@@ -714,6 +714,12 @@ item:
       <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
 
+  soulbound_rune:
+    name: "Soulbound Rune"
+    lore: |-
+      <arrow> Connects your sense of self to an item, allowing you to retain the item upon death
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
+
   splint:
     name: "Splint"
     lore: |-
@@ -790,6 +796,14 @@ item:
       <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
       <arrow> <attr>Max health increase:</attr> %health-boost% 
+
+  item_magnet:
+    name: "Item Magnet"
+    lore: |-
+      <arrow> Pulls item towards you in a range
+      <arrow> Right click to toggle
+      <arrow> Does not stack
+      <arrow> <attr>Pulls distance:</attr> %pickup-distance%
 
   water_pump:
     name: "Water Pump"
@@ -1347,6 +1361,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  soul_attachment: "<dark_purple>Soul attachment"
 
 guide:
   page:
@@ -1396,6 +1411,9 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
+  item_magnet:
+    enabled: "Item Magnet <gray>has been</gray> <green>enabled"
+    disabled: "Item Magnet <gray>has been</gray> <red>disabled"
   pipe:
     connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
     cannot_place_here: "<red>You cannot place a pipe here"
@@ -1427,6 +1445,9 @@ message:
     success: "<red>Your item has been fire-proofed"
   hydraulic_refueling_station:
     extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
+  soulbound_rune:
+    tooltip: "<dark_purple>Soulbound"
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
 
 gui:
   fluid-selector-title: "Select Fluid"
