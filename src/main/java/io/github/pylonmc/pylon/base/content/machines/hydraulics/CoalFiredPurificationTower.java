@@ -36,7 +36,6 @@ import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,8 +69,13 @@ public class CoalFiredPurificationTower extends PylonBlock
     private @Nullable ItemStack fuel;
     private double fuelSecondsElapsed;
 
+    private final ItemStackBuilder idleProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
+            .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.idle"));
+    private final ItemStackBuilder runningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
+            .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.running"));
+
     private final VirtualInventory inventory = new VirtualInventory(1);
-    private final FuelProgressItem progressItem = new FuelProgressItem();
+    private final ProgressItem progressItem = new ProgressItem(idleProgressItem, true);
 
     public static class Item extends PylonItem {
 
@@ -85,26 +89,6 @@ public class CoalFiredPurificationTower extends PylonBlock
                     PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(PURIFICATION_SPEED)),
                     PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(PURIFICATION_EFFICIENCY * 100))
             );
-        }
-    }
-
-    private class FuelProgressItem extends ProgressItem {
-        public FuelProgressItem() {
-            super(Material.BLAZE_POWDER, true);
-        }
-
-        @Override
-        protected void completeItem(@NotNull ItemStackBuilder builder) {
-            builder.name(Component.translatable(
-                    "pylon.pylonbase.item.coal_fired_purification_tower.progress_item." + (isRunning() ? "running" : "idle"))
-            );
-        }
-
-        @Override
-        public @Nullable Duration getTotalTime() {
-            return fuel == null
-                    ? null
-                    : Duration.ofSeconds(FUELS.get(fuel));
         }
     }
 
@@ -163,6 +147,7 @@ public class CoalFiredPurificationTower extends PylonBlock
         return components;
     }
 
+    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) {
             return;
@@ -177,6 +162,8 @@ public class CoalFiredPurificationTower extends PylonBlock
 
                 inventory.setItemAmount(null, 0, item.getAmount() - 1);
                 this.fuel = fuel.getKey();
+                progressItem.setItemStackBuilder(runningProgressItem);
+                progressItem.setTotalTimeSeconds(FUELS.get(this.fuel));
                 fuelSecondsElapsed = 0.0;
                 break;
             }
@@ -204,7 +191,8 @@ public class CoalFiredPurificationTower extends PylonBlock
         progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
         if (fuelSecondsElapsed >= FUELS.get(fuel)) {
             fuel = null;
-            progressItem.notifyWindows();
+            progressItem.setItemStackBuilder(idleProgressItem);
+            progressItem.setTotalTime(null);
         }
     }
 

@@ -24,8 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.time.Duration;
-
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
@@ -43,6 +41,14 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     private @Nullable Fuel fuel;
     private double secondsElapsed;
+
+    private final ItemStackBuilder notBurningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
+            .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.not_burning"));
+    private final ItemStackBuilder burningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
+            .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.burning"));
+
+    private final VirtualInventory inventory = new VirtualInventory(3);
+    private final ProgressItem progressItem = new ProgressItem(notBurningProgressItem, true);
 
     @SuppressWarnings("unused")
     public SmelteryBurner(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -68,10 +74,6 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         pdc.set(SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, secondsElapsed);
     }
 
-    private final VirtualInventory inventory = new VirtualInventory(3);
-
-    private final BurnerProgressItem progressItem = new BurnerProgressItem();
-
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
@@ -85,27 +87,6 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 .addIngredient('x', inventory)
                 .addIngredient('#', GuiItems.background())
                 .build();
-    }
-
-    private class BurnerProgressItem extends ProgressItem {
-        public BurnerProgressItem() {
-            super(Material.BLAZE_POWDER, true);
-        }
-
-        @Override
-        protected void completeItem(@NotNull ItemStackBuilder builder) {
-            builder.name(Component.translatable(
-                    fuel != null
-                            ? "pylon.pylonbase.gui.smeltery_burner.burning"
-                            : "pylon.pylonbase.gui.smeltery_burner.not_burning"
-            ));
-        }
-
-        @Override
-        public @Nullable Duration getTotalTime() {
-            if (fuel == null) return null;
-            return Duration.ofSeconds(fuel.burnTimeSeconds);
-        }
     }
 
     @Override
@@ -122,6 +103,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                     for (Fuel fuel : FUELS) {
                         if (PylonUtils.isPylonSimilar(item, fuel.material)) {
                             this.fuel = fuel;
+                            progressItem.setItemStackBuilder(burningProgressItem);
+                            progressItem.setTotalTimeSeconds((int) fuel.burnTimeSeconds);
                             item.subtract();
                             inventory.setItem(null, i, item);
                             secondsElapsed = 0;
@@ -137,7 +120,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             if (secondsElapsed >= fuel.burnTimeSeconds) {
                 secondsElapsed = 0;
                 fuel = null;
-                progressItem.notifyWindows();
+                progressItem.setItemStackBuilder(notBurningProgressItem);
+                progressItem.setTotalTime(null);
             }
         }
     }
