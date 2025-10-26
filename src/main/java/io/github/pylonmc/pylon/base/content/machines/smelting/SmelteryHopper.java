@@ -40,7 +40,9 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
         Hopper hopper = (Hopper) getBlock().getState();
 
         for (ItemStack item : hopper.getInventory()) {
-            drops.add(item);
+            if (item != null) {
+                drops.add(item);
+            }
         }
     }
 
