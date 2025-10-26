@@ -1,4 +1,3 @@
 radius: 4
 tick-interval: 80
-hydraulic-fluid-mb-per-action: 80
-dirty-hydraulic-fluid-mb-per-action: 76
+hydraulic-fluid-usage: 80

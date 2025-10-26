@@ -21,6 +21,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -35,10 +36,8 @@ public class HydraulicGrindstoneTurner extends PylonBlock
         implements PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock, PylonFluidBufferBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_GRINDSTONE_TURNER);
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", ConfigAdapter.INT);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", ConfigAdapter.INT);
+    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -49,8 +48,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic_fluid_input", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)),
-                    PylonArgument.of("dirty_hydraulic_fluid_output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
             );
         }
     }
@@ -62,7 +60,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -82,7 +80,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.getLocation().equals(getBlock().getLocation());
+        return otherBlock == getBlock().getRelative(BlockFace.UP);
     }
 
     @Override
@@ -103,17 +101,16 @@ public class HydraulicGrindstoneTurner extends PylonBlock
             return;
         }
 
-        double inputFluidAmount = nextRecipe.timeTicks() * HYDRAULIC_FLUID_INPUT_MB_PER_SECOND / 20.0;
-        double outputFluidAmount = nextRecipe.timeTicks() * DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND / 20.0;
+        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * nextRecipe.timeTicks() / 20.0;
 
-        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < inputFluidAmount
-                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < outputFluidAmount
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
                 || !grindstone.tryStartRecipe(nextRecipe, null)
         ) {
             return;
         }
 
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, inputFluidAmount);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, outputFluidAmount);
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
     }
 }

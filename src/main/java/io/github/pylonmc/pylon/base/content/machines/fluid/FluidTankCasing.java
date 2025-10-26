@@ -31,7 +31,6 @@ public class FluidTankCasing extends PylonBlock {
                 ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
         );
 
-
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }

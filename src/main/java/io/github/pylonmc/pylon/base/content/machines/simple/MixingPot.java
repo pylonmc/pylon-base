@@ -5,12 +5,13 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -31,6 +32,7 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +44,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class MixingPot extends PylonBlock
-        implements PylonMultiblock, PylonInteractableBlock, PylonEntityHolderBlock, PylonFluidTank {
+        implements PylonMultiblock, PylonInteractBlock, PylonEntityHolderBlock, PylonFluidTank, PylonCauldron {
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -71,12 +73,17 @@ public final class MixingPot extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return new BlockPosition(otherBlock).equals(new BlockPosition(getFire()));
+        return otherBlock == getFire();
     }
 
     @Override
     public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
         return true;
+    }
+
+    @Override
+    public void onLevelChange(@NotNull CauldronLevelChangeEvent event) {
+        event.setCancelled(true);
     }
 
     @Override
@@ -105,8 +112,8 @@ public final class MixingPot extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", getFluidType() == null ?
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.filled",

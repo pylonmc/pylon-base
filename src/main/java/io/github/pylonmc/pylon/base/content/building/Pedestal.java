@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.building;
 
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -25,7 +25,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
 
-public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractableBlock {
+public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractBlock, PylonBreakHandler {
 
     private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
     private static final NamespacedKey LOCKED_KEY = baseKey("locked");
@@ -37,10 +37,10 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     public Pedestal(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(transformBuilder().buildForItemDisplay())
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
 
         rotation = 0;
         locked = false;
@@ -96,12 +96,11 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonEntityHolderBlock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
     }
 
     public ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     public TransformBuilder transformBuilder() {

@@ -101,7 +101,7 @@ public record GrindstoneRecipe(
             if (lore == null) {
                 lore = new ArrayList<>();
             }
-            lore.add(Component.newline());
+            lore.add(Component.empty());
             lore.add(Component.translatable(
                     "pylon.pylonbase.guide.recipe.grindstone.chance",
                     PylonArgument.of(

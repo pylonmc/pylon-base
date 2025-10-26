@@ -38,7 +38,6 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
     public final int cooldownTicks = settings.getOrThrow("cooldown-ticks", ConfigAdapter.INT);
     public final double hydraulicFluidPerShot = settings.getOrThrow("hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
-    public final double dirtyHydraulicFluidPerShot = settings.getOrThrow("dirty-hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
     public final Material projectileMaterial = settings.getOrThrow("projectile.material", ConfigAdapter.MATERIAL);
     public final float projectileThickness = settings.getOrThrow("projectile.thickness", ConfigAdapter.FLOAT);
     public final float projectileLength = settings.getOrThrow("projectile.length", ConfigAdapter.FLOAT);
@@ -59,7 +58,6 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
                 PylonArgument.of("range", UnitFormat.BLOCKS.format(Math.round(projectileSpeedBlocksPerSecond * projectileLifetimeTicks / 20.0))),
                 PylonArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(projectileSpeedBlocksPerSecond)),
                 PylonArgument.of("hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerShot)),
-                PylonArgument.of("dirty-hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(dirtyHydraulicFluidPerShot)),
                 PylonArgument.of("hydraulic-fluid", BaseUtils.createFluidAmountBar(
                         getHydraulicFluid(),
                         HYDRAULIC_FLUID_CAPACITY,
@@ -77,7 +75,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        if (getHydraulicFluid() < hydraulicFluidPerShot || getDirtyHydraulicFluidSpace() < dirtyHydraulicFluidPerShot) {
+        if (getHydraulicFluid() < hydraulicFluidPerShot || getDirtyHydraulicFluidSpace() < hydraulicFluidPerShot) {
             return;
         }
 
@@ -94,7 +92,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
         }
 
         setHydraulicFluid(getHydraulicFluid() - hydraulicFluidPerShot);
-        setDirtyHydraulicFluid(getDirtyHydraulicFluid() + dirtyHydraulicFluidPerShot);
+        setDirtyHydraulicFluid(getDirtyHydraulicFluid() + hydraulicFluidPerShot);
 
         Player player = event.getPlayer();
         player.setCooldown(getStack(), cooldownTicks);

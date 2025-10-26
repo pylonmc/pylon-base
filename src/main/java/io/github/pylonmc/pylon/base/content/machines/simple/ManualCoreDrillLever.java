@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -13,7 +13,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-public class ManualCoreDrillLever extends PylonBlock implements PylonInteractableBlock {
+public class ManualCoreDrillLever extends PylonBlock implements PylonInteractBlock {
 
     private BukkitTask leverResetTask;
 

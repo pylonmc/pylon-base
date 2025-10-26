@@ -3,16 +3,16 @@ package io.github.pylonmc.pylon.base.content.building;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonJumpableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonJumpBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSneakableBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.RandomizedSound;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpableBlock {
+public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpBlock {
 
     public static class Item extends PylonItem {
 
@@ -40,6 +40,8 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
             ));
         }
     }
+
+    private final RandomizedSound useSound = getSettings().getOrThrow("use-sound", ConfigAdapter.RANDOMIZED_SOUND);
 
     @SuppressWarnings("unused")
     public Elevator(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -81,19 +83,20 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         }
 
         PylonBlock elevator = elevators.getFirst();
-        double distance = getDistance(player.getLocation(), elevator.getBlock().getLocation());
+        Location elevatorLocation = elevator.getBlock().getLocation();
+        double distance = getDistance(player.getLocation(), elevatorLocation);
 
         player.teleport(player.getLocation().add(0, distance + 1, 0));
-        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
+        player.getWorld().playSound(useSound.create(), elevatorLocation.x(), elevatorLocation.y(), elevatorLocation.z());
     }
 
     @Override
-    public void onSneakStart(@NotNull PlayerToggleSneakEvent event) {
+    public void onSneakedOn(@NotNull PlayerToggleSneakEvent event) {
         teleportPlayer(event.getPlayer(), getBlock().getLocation(), true);
     }
 
     @Override
-    public void onJump(@NotNull PlayerJumpEvent event) {
+    public void onJumpedOn(@NotNull PlayerJumpEvent event) {
         teleportPlayer(event.getPlayer(), getBlock().getLocation(), false);
     }
 }

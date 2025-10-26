@@ -107,6 +107,7 @@ public class BaseKeys {
     public static final NamespacedKey MEDKIT = baseKey("medkit");
 
     public static final NamespacedKey BRICK_MOLD = baseKey("brick_mold");
+    public static final NamespacedKey CONFETTI_POPPER = baseKey("confetti_popper");
 
     public static final NamespacedKey MONSTER_JERKY = baseKey("monster_jerky");
 
@@ -280,4 +281,6 @@ public class BaseKeys {
 
     public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
+
+    public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 }

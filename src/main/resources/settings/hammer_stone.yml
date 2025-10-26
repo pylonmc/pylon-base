@@ -1,2 +1,11 @@
 cooldown-ticks: 40
-sound: minecraft:block.anvil.use
+durability: 66
+attack-durability-damage: 1
+attack-speed: 0.33
+attack-damage: 1
+attack-knockback: 1
+sound:
+  sound: minecraft:block.anvil.use
+  source: block
+  volume: 0.5
+  pitch: 0.5

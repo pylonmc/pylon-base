@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -13,6 +12,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,18 +50,23 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
     public FluidVoider(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, (float) (mainDisplaySize / 2.0)));
-        addEntity("main", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(mainMaterial)
+        addEntity("main", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(mainMaterial)
+                        .addCustomModelDataString(getKey() + ":main")
+                        .build()
+                )
                 .transformation(new TransformBuilder()
                         .scale(mainDisplaySize)
                 )
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
+        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+        setDisableBlockTextureEntity(true);
     }
 
     @Override
