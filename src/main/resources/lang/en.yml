@@ -434,7 +434,7 @@ item:
       <arrow> Requires a Grindstone Handle on top
       <arrow> <insn>Right click</insn> with an item to insert it
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name></yellow>
@@ -493,7 +493,7 @@ item:
       <star> Multiblock
       <arrow> A self-contained structure for performing shimmer rituals
       <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.magic_altar.name></yellow>
       <diamond> 8x <yellow><lang:pylon.pylonbase.item.magic_pedestal.name></yellow>
@@ -560,7 +560,7 @@ item:
       <arrow> Complete the multiblock with a valid recipe inside to start the smelting process
       <arrow> <attr>Capacity:</attr> %capacity% items
       <arrow> <attr>Smelting time:</attr> %smelting_time%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name></yellow>
       <diamond> 8x <yellow>Coal Block</yellow>
@@ -686,7 +686,7 @@ item:
       <arrow> The brain of the smeltery
       <arrow> Place in the center of an edge of a 5x5 square of smeltery components, with a 5x5 floor of smeltery components below that to build the smallest smeltery
       <arrow> <insn>Right click</insn> to open the smeltery GUI
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name></yellow>
       <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name></yellow>
@@ -713,6 +713,12 @@ item:
     lore: |-
       <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
+
+  soulbound_rune:
+    name: "Soulbound Rune"
+    lore: |-
+      <arrow> Connects your sense of self to an item, allowing you to retain the item upon death
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
 
   splint:
     name: "Splint"
@@ -803,6 +809,7 @@ item:
     name: "Water Pump"
     lore: |- 
       <arrow> An infinite source of water
+      <arrow> Pulls up water from below
       <arrow> <attr>Pump rate:</attr> %water_per_second%
 
   press:
@@ -817,48 +824,48 @@ item:
     name: "Hydraulic Grindstone Turner"
     lore: |-
       <arrow> Place below a constructed grindstone
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
+      <arrow> Outputs dirty hydraulic fluid
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
   hydraulic_mixing_attachment:
     name: "Hydraulic Mixing Attachment"
     lore: |-
       <arrow> Place above the mixer, leaving a one block gap
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Cooldown time:</attr> %cooldown%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
 
   hydraulic_press_piston:
     name: "Hydraulic Press Piston"
     lore: |-
       <arrow> Place above the press, leaving a one block gap
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> Outputs dirty hydraulic fluid
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
 
   hydraulic_hammer_head:
     name: "Hydraulic Hammer Head"
     lore: |-
+      <arrow> Place above the hammer's base block, leaving a two block gap
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> with a hammer to insert the hammer
       <arrow> <insn>Right click</insn> again to take out the hammer
-      <arrow> Place above the hammer's base block, leaving a two block gap
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_per_craft% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_per_craft% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
 
   hydraulic_pipe_bender:
     name: "Hydraulic Pipe Bender"
     lore: |-
       <arrow> Efficiently bends materials into pipes
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> to insert an item
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
   hydraulic_table_saw:
     name: "Hydraulic Table Saw"
     lore: |-
       <arrow> Efficiently cuts logs into planks, and planks into sticks
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> to insert an item
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic_fluid_input% per craft
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty_hydraulic_fluid_output% per craft
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage% per craft
 
   quartz_dust:
     name: "Quartz Dust"
@@ -891,8 +898,9 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
-      <br>
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -906,8 +914,9 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
-      <br>
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -921,8 +930,9 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
-      <br>
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -936,8 +946,9 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
-      <br>
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -951,8 +962,9 @@ item:
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Only works during the day
       <arrow> Runs at %rain_speed_percentage% speed when it's raining/snowing
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
-      <br>
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -965,8 +977,9 @@ item:
       <star> Multiblock
       <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
       <arrow> Burns coal or charcoal
-      <arrow> <attr>Purification speed:</attr> %fluid_mb_per_second%
-      <br>
+      <arrow> <attr>Purification speed:</attr> %purification_speed%
+      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
@@ -988,7 +1001,7 @@ item:
       <arrow> Place fluid casings on top to increase the capacity
       <arrow> All the casings must be the same material
       <arrow> <attr>Max height:</attr> %max-height%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name></yellow>
       <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
@@ -1056,7 +1069,7 @@ item:
       <arrow> Mines shallow core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
@@ -1069,7 +1082,7 @@ item:
       <arrow> Mines subsurface core chunks
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
-      <br>
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name></yellow>
@@ -1080,11 +1093,11 @@ item:
     lore: |-
       <star> Multiblock
       <arrow> Consumes hydraulic fluid to mine intermediate core chunks
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Cycle time:</attr> %cycle-time%
       <arrow> <attr>Output:</attr> %cycle-output%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
-      <br>
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
+      
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name></yellow>
       <diamond> 1x <yellow>Cauldron</yellow>
@@ -1221,7 +1234,6 @@ item:
       <arrow> <attr>Range:</attr> %range%
       <arrow> <attr>Projectile speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
-      <arrow> <attr>Dirty hydraulic fluid per shot:</attr> %dirty-hydraulic-fluid-per-shot%
       <arrow> <attr>Hydraulic fluid:</attr> %hydraulic-fluid%
       <arrow> <attr>Dirty hydraulic fluid:</attr> %dirty-hydraulic-fluid%
 
@@ -1239,22 +1251,22 @@ item:
     name: "Hydraulic Farmer"
     lore: |-
       <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Farm interval:</attr> %tick-interval%
-      <arrow> <attr>Hydraulic fluid per action:</attr> %hydraulic-fluid-per-action%
-      <arrow> <attr>Dirty hydraulic fluid per action:</attr> %dirty-hydraulic-fluid-per-action%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
   hydraulic_excavator:
     name: "Hydraulic Excavator"
     lore: |-
       <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
       <arrow> Cannot excavate harder blocks such as stone
+      <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> to start digging
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Depth:</attr> %depth%
       <arrow> <attr>Time per block:</attr> %time-per-block%
-      <arrow> <attr>Hydraulic fluid consumption:</attr> %hydraulic-fluid-consumption%
-      <arrow> <attr>Dirty hydraulic fluid output:</attr> %dirty-hydraulic-fluid-output%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
 fluid:
   castable:
@@ -1348,6 +1360,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  soul_attachment: "<dark_purple>Soul attachment"
 
 guide:
   page:
@@ -1431,6 +1444,9 @@ message:
     success: "<red>Your item has been fire-proofed"
   hydraulic_refueling_station:
     extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
+  soulbound_rune:
+    tooltip: "<dark_purple>Soulbound"
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
 
 gui:
   fluid-selector-title: "Select Fluid"

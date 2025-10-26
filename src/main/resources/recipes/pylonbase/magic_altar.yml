@@ -120,3 +120,16 @@ pylonbase:hyper_activated_wither_skull:
     S: pylonbase:reactivated_wither_skull
   result: pylonbase:hyper_activated_wither_skull
   time-seconds: 30
+
+pylonbase:soulbound_rune:
+  shape:
+    - "CSC"
+    - "DAC"
+    - "DCS"
+  key:
+    C: pylonbase:covalent_binder
+    S: pylonbase:shimmer_skull
+    D: pylonbase:shimmer_dust_3
+    A: pylonbase:abyssal_catalyst
+  result: pylonbase:soulbound_rune
+  time-seconds: 45

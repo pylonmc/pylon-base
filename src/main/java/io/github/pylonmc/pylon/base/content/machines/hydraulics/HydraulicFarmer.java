@@ -23,6 +23,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.List;
@@ -44,8 +45,7 @@ public class HydraulicFarmer extends PylonBlock
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_FARMER);
     public static final int RADIUS = settings.getOrThrow("radius", ConfigAdapter.INT);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final double HYDRAULIC_FLUID_MB_PER_ACTION = settings.getOrThrow("hydraulic-fluid-mb-per-action", ConfigAdapter.DOUBLE);
-    public static final double DIRTY_HYDRAULIC_FLUID_MB_PER_ACTION = settings.getOrThrow("dirty-hydraulic-fluid-mb-per-action", ConfigAdapter.DOUBLE);
+    public static final double HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.DOUBLE);
 
     public static class Item extends PylonItem {
 
@@ -58,8 +58,7 @@ public class HydraulicFarmer extends PylonBlock
             return List.of(
                     PylonArgument.of("radius", UnitFormat.BLOCKS.format(RADIUS)),
                     PylonArgument.of("tick-interval", UnitFormat.SECONDS.format(TICK_INTERVAL / 20.0)),
-                    PylonArgument.of("hydraulic-fluid-per-action", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_MB_PER_ACTION)),
-                    PylonArgument.of("dirty-hydraulic-fluid-per-action", UnitFormat.MILLIBUCKETS.format(DIRTY_HYDRAULIC_FLUID_MB_PER_ACTION))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
             );
         }
     }
@@ -73,8 +72,8 @@ public class HydraulicFarmer extends PylonBlock
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
 
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_ACTION * 2, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_ACTION * 2, false, true);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_USAGE * 2, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_USAGE * 2, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -96,8 +95,10 @@ public class HydraulicFarmer extends PylonBlock
             return;
         }
 
-        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_MB_PER_ACTION
-                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < DIRTY_HYDRAULIC_FLUID_MB_PER_ACTION
+        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
+
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
         ) {
             return;
         }
@@ -111,8 +112,8 @@ public class HydraulicFarmer extends PylonBlock
                         && ageable.getAge() == ageable.getMaximumAge()
                 ) {
                     cropBlock.breakNaturally();
-                    removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_ACTION);
-                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_ACTION);
+                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
                     return;
                 }
             }
@@ -137,11 +138,16 @@ public class HydraulicFarmer extends PylonBlock
                 if (cropBlock.isEmpty() && farmlandBlock.getType() == Material.FARMLAND) {
                     cropBlock.setType(CROPS.get(cropToPlantStack.getType()));
                     cropToPlantStack.subtract();
-                    removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_MB_PER_ACTION);
-                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_MB_PER_ACTION);
+                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
                     return;
                 }
             }
         }
+    }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return PylonFluidBufferBlock.super.getFacing();
     }
 }

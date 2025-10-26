@@ -10,14 +10,15 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
+import io.github.pylonmc.pylon.core.util.RandomizedSound;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
@@ -49,7 +50,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
     public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
-    public final Sound sound = getSettings().getOrThrow("sound", ConfigAdapter.SOUND);
+    public final RandomizedSound sound = getSettings().getOrThrow("sound", ConfigAdapter.RANDOMIZED_SOUND);
 
     public Hammer(@NotNull ItemStack stack) {
         super(stack);
@@ -117,7 +118,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                     }
                 }
             }
-            block.getLocation().getWorld().playSound(block.getLocation(), sound, 0.5F, 0.5F);
+            block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
         }
 
         for (ItemStack item : items) {
@@ -167,31 +168,5 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
     private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
         return items.stream().anyMatch(recipe.input()::matches);
-    }
-
-    public static @NotNull ItemStackBuilder createItemStack(
-            NamespacedKey key,
-            Material material,
-            double attackSpeed,
-            double knockback,
-            double attackDamage
-    ) {
-        return ItemStackBuilder.pylonItem(material, key)
-            .set(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes()
-                    .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                            baseKey("hammer_attack_speed"),
-                            attackSpeed,
-                            AttributeModifier.Operation.ADD_NUMBER
-                    ))
-                    .addModifier(Attribute.ATTACK_KNOCKBACK, new AttributeModifier(
-                            baseKey("hammer_attack_knockback"),
-                            knockback,
-                            AttributeModifier.Operation.ADD_NUMBER
-                    ))
-                    .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                            baseKey("hammer_attack_damage"),
-                            attackDamage,
-                            AttributeModifier.Operation.ADD_NUMBER
-                    )));
     }
 }

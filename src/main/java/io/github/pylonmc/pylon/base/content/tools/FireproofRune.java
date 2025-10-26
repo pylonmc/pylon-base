@@ -1,8 +1,10 @@
-package io.github.pylonmc.pylon.base.content.magic;
+package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.content.magic.base.Rune;
+import io.github.pylonmc.pylon.base.content.tools.base.Rune;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.util.RandomizedSound;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
@@ -10,7 +12,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -20,10 +21,12 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author balugaq
  */
+@SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
     public static final Component SUCCESS = Component.translatable("pylon.pylonbase.message.fireproof_result.success");
     public static final Component TOOLTIP = Component.translatable("pylon.pylonbase.message.fireproof_result.tooltip");
 
+    private final RandomizedSound applySound = getSettings().getOrThrow("apply-sound", ConfigAdapter.RANDOMIZED_SOUND);
 
     public FireproofRune(@NotNull ItemStack stack) {
         super(stack);
@@ -39,6 +42,7 @@ public class FireproofRune extends Rune {
      * @param target The item to handle, amount may be > 1
      * @return true if applicable, false otherwise
      */
+    @Override
     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
         DamageResistant data = target.getData(DataComponentTypes.DAMAGE_RESISTANT);
         if (data == null) return true;
@@ -81,7 +85,7 @@ public class FireproofRune extends Rune {
         spawnParticle(Particle.EXPLOSION, explodeLoc, 1);
         spawnParticle(Particle.FLAME, explodeLoc, 50);
         spawnParticle(Particle.SMOKE, explodeLoc, 40);
-        world.playSound(explodeLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+        world.playSound(applySound.create(), explodeLoc.x(), explodeLoc.y(), explodeLoc.z());
 
         target.setAmount(0);
         rune.setAmount(0);

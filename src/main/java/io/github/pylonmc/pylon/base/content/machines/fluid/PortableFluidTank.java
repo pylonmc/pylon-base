@@ -2,14 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -32,6 +31,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -119,9 +119,9 @@ public class PortableFluidTank extends PylonBlock
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("fluid", new ItemDisplayBuilder()
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
         addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
         addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
         setCapacity(capacity);
@@ -141,14 +141,14 @@ public class PortableFluidTank extends PylonBlock
     @Override
     public void setFluidType(@Nullable PylonFluid fluid) {
         PylonFluidTank.super.setFluidType(fluid);
-        getFluidDisplay().getEntity().setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
+        getFluidDisplay().setItemStack(fluid == null ? null : fluid.getItem());
     }
 
     @Override
     public boolean setFluid(double amount) {
         boolean result = PylonFluidTank.super.setFluid(amount);
         float scale = (float) (0.9F * getFluidAmount() / capacity);
-        getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
+        getFluidDisplay().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
                 .buildForItemDisplay()
@@ -156,12 +156,12 @@ public class PortableFluidTank extends PylonBlock
         return result;
     }
 
-    public @NotNull SimpleItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid");
+    public @NotNull ItemDisplay getFluidDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         Component info;
         if (getFluidType() == null) {
             info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
@@ -176,7 +176,7 @@ public class PortableFluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
     }
 
     @Override
@@ -267,5 +267,10 @@ public class PortableFluidTank extends PylonBlock
                 event.getPlayer().give(finalNewItemStack);
             }, 0);
         }
+    }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return null;
     }
 }
