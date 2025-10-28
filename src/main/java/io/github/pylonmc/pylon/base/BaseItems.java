@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
+import io.github.pylonmc.pylon.base.content.talismans.*;
 import io.github.pylonmc.pylon.base.content.tools.*;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -32,14 +33,9 @@ import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
-import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -1756,6 +1752,132 @@ public final class BaseItems {
     static {
         PylonItem.register(SoulboundRune.class, SOULBOUND_RUNE);
         BasePages.TOOLS.addItem(SOULBOUND_RUNE);
+    }
+
+    public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(HUNGER_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack HUNGER_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(HUNGER_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack HUNGER_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(HUNGER_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack FARMER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.BOWL, BaseKeys.FARMER_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(FarmerTalisman.class, FARMER_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(FARMER_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack FARMER_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.BOWL, BaseKeys.FARMER_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(FarmerTalisman.class, FARMER_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(FARMER_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack FARMER_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.BOWL, BaseKeys.FARMER_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(FarmerTalisman.class, FARMER_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(FARMER_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack BARTERING_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.GOLD_INGOT, BaseKeys.BARTERING_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(BarteringTalisman.class, BARTERING_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(BARTERING_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack BARTERING_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.GOLD_INGOT, BaseKeys.BARTERING_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(BarteringTalisman.class, BARTERING_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(BARTERING_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack BARTERING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.GOLD_INGOT, BaseKeys.BARTERING_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(BarteringTalisman.class, BARTERING_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(BARTERING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.NAUTILUS_SHELL, BaseKeys.WATER_BREATHING_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(WATER_BREATHING_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.NAUTILUS_SHELL, BaseKeys.WATER_BREATHING_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(WATER_BREATHING_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.NAUTILUS_SHELL, BaseKeys.WATER_BREATHING_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(WATER_BREATHING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack LUCK_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.BIG_DRIPLEAF, BaseKeys.LUCK_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(LuckTalisman.class, LUCK_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(LUCK_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack LUCK_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.BIG_DRIPLEAF, BaseKeys.LUCK_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(LuckTalisman.class, LUCK_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(LUCK_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack LUCK_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.BIG_DRIPLEAF, BaseKeys.LUCK_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(LuckTalisman.class, LUCK_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(LUCK_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack BREEDING_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.APPLE, BaseKeys.BREEDING_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(BreedingTalisman.class, BREEDING_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(BREEDING_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack BREEDING_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.APPLE, BaseKeys.BREEDING_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(BreedingTalisman.class, BREEDING_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(BREEDING_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack BREEDING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.APPLE, BaseKeys.BREEDING_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(BreedingTalisman.class, BREEDING_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(BREEDING_TALISMAN_ULTIMATE);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items
