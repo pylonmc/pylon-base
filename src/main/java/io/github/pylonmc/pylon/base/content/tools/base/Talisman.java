@@ -50,11 +50,19 @@ public abstract class Talisman extends PylonItem implements PylonInventoryTicker
         }
     }
 
+    /**
+     * The implementation of this method MUST call super.applyEffect
+     * @param player The player who the effect is being applied to
+     */
     @MustBeInvokedByOverriders
     public void applyEffect(@NotNull Player player) {
         player.getPersistentDataContainer().set(getTalismanKey(), PersistentDataType.INTEGER, getLevel());
     }
 
+    /**
+     * The implementation of this method MUST call super.removeEffect
+     * @param player The player who the effect is being removed from
+     */
     @MustBeInvokedByOverriders
     public void removeEffect(@NotNull Player player) {
         player.getPersistentDataContainer().remove(getTalismanKey());
