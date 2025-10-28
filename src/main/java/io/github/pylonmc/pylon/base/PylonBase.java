@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.base.content.talismans.BarteringTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.BreedingTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.FarmerTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.HungerTalisman;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
