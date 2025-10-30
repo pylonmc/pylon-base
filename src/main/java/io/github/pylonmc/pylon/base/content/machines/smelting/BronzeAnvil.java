@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.resources.Bloom;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -32,7 +33,7 @@ import org.joml.Matrix4f;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
+public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final float coolChance = getSettings().getOrThrow("cool-chance", ConfigAdapter.FLOAT);
@@ -62,7 +63,6 @@ public final class BronzeAnvil extends PylonBlock implements PylonEntityHolderBl
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonEntityHolderBlock.super.onBreak(drops, context);
         ItemStack stack = getItemDisplay().getItemStack();
         if (!stack.isEmpty()) {
             drops.add(stack);
