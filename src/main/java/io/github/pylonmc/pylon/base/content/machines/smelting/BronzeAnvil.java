@@ -35,8 +35,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
-    public final float coolChance = getSettings().getOrThrow("cool-chance", ConfigAdapter.FLOAT);
+    private final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    private final float coolChance = getSettings().getOrThrow("cool-chance", ConfigAdapter.FLOAT);
+    private final int tolerance = getSettings().getOrThrow("tolerance", ConfigAdapter.INT);
 
     private static final Matrix4f BASE_TRANSFORM = new TransformBuilder()
             .scale(0.3)
@@ -51,6 +52,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new Matrix4f(BASE_TRANSFORM)
                         .rotateLocalY(getItemRotation()))
+                .interpolationDuration(1)
                 .build(getBlock().getLocation().toCenterLocation())
         );
         setTickInterval(tickInterval);
@@ -90,6 +92,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                 placedItem.subtract();
                 if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
                     transformForWorking(bloom.getWorking());
+                    bloom.setDisplayGlowOn(itemDisplay);
                 }
             }
         } else {
@@ -168,7 +171,8 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
         int newTemperature = Math.max(0, bloom.getTemperature() - 1);
         bloom.setTemperature(newTemperature);
-        if (bloom.getWorking() == 0 && newTemperature == 0) {
+        bloom.setDisplayGlowOn(itemDisplay);
+        if (bloom.getWorking() >= -tolerance && bloom.getWorking() <= tolerance && newTemperature == 0) {
             itemDisplay.setItemStack(null);
             Location centerLoc = getBlock().getLocation().toCenterLocation();
             centerLoc.getWorld().dropItemNaturally(centerLoc, BaseItems.WROUGHT_IRON.clone());

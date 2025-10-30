@@ -2,3 +2,7 @@ tick-interval: 10
 
 # Chance for a bloom to lose one unit of heat per tick
 cool-chance: 0.5
+
+# Tolerance amount for the bronze anvil to pop off the bloom as a wrought iron. 0 means you
+# need a perfect working, higher allows for more misshapen blooms to still be considered good
+tolerance: 1

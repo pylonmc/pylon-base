@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.resources;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -10,6 +11,9 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInventoryTicker;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.NamespacedKey;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -62,6 +66,16 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
         getStack().editPersistentDataContainer((pdc) -> pdc.set(WORKING_KEY, PylonSerializers.INTEGER, working));
     }
 
+    public void setDisplayGlowOn(@NotNull ItemDisplay display) {
+        int temperature = getTemperature();
+        if (temperature == 0) {
+            display.setGlowing(false);
+        } else {
+            display.setGlowColorOverride(BaseUtils.colorFromTemperature(600 + (temperature - 1) * 300));
+            display.setGlowing(true);
+        }
+    }
+
     @Override
     public long getTickInterval() {
         return DAMAGE_INTERVAL;
@@ -73,6 +87,6 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
                 PylonUtils.isPylonSimilar(player.getInventory().getItemInOffHand(), BaseItems.TONGS)) {
             return;
         }
-        player.damage(UNPROTECTED_DAMAGE);
+        player.damage(UNPROTECTED_DAMAGE, DamageSource.builder(DamageType.HOT_FLOOR).build());
     }
 }
