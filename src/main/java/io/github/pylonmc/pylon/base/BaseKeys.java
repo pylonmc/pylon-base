@@ -56,7 +56,7 @@ public class BaseKeys {
     public static final NamespacedKey BRONZE_BLOCK = baseKey("bronze_block");
 
     public static final NamespacedKey SPONGE_IRON = baseKey("sponge_iron");
-    public static final NamespacedKey BLOOM = baseKey("bloom");
+    public static final NamespacedKey IRON_BLOOM = baseKey("iron_bloom");
     public static final NamespacedKey WROUGHT_IRON = baseKey("wrought_iron");
     public static final NamespacedKey TONGS = baseKey("tongs");
 

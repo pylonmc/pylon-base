@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.content.resources.Bloom;
+import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
@@ -88,7 +88,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
             if (placedItem != null) {
                 itemDisplay.setItemStack(placedItem.asOne());
                 placedItem.subtract();
-                if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof Bloom bloom) {
+                if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
                     transformForWorking(bloom.getWorking());
                 }
             }
@@ -105,7 +105,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
 
     private void onLeftClick(@NotNull PlayerInteractEvent event) {
         ItemDisplay itemDisplay = getItemDisplay();
-        if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof Bloom bloom)) return;
+        if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
 
         ItemStack item = event.getItem();
         if (item == null || item.getType().isAir()) return;
@@ -135,7 +135,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         int newWorking = working + workingChange;
         Location centerLoc = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
         ParticleBuilder builder;
-        if (Math.abs(newWorking) > Bloom.MAX_WORKING) {
+        if (Math.abs(newWorking) > IronBloom.MAX_WORKING) {
             new ParticleBuilder(Particle.ITEM)
                     .location(centerLoc)
                     .receivers(32, true)
@@ -165,7 +165,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
     public void tick(double deltaSeconds) {
         if (ThreadLocalRandom.current().nextFloat() > coolChance) return;
         ItemDisplay itemDisplay = getItemDisplay();
-        if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof Bloom bloom)) return;
+        if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
         int newTemperature = Math.max(0, bloom.getTemperature() - 1);
         bloom.setTemperature(newTemperature);
         if (bloom.getWorking() == 0 && newTemperature == 0) {

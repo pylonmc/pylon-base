@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
-import io.github.pylonmc.pylon.base.content.resources.Bloom;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
@@ -60,7 +59,6 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new Rune.RuneListener(), this);
         pm.registerEvents(new SoulboundRune.SoulboundRuneListener(), this);
         pm.registerEvents(new Bloomery.CreationListener(), this);
-        pm.registerEvents(new Bloom.Listener(), this);
 
         new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);

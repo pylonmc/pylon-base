@@ -139,8 +139,8 @@ item:
       <arrow> Explodes aggressively and sets the surroundings on fire when shot
       <arrow> <attr>Explosion power:</attr> %explosive-power%
 
-  bloom:
-    name: "Bloom"
+  iron_bloom:
+    name: "Iron Bloom"
 
   wrought_iron:
     name: "Wrought Iron"
@@ -148,13 +148,13 @@ item:
   tongs:
     name: "Tongs"
     lore: |-
-      <arrow> Used to safely retrieve blooms from a bloomery
-      <arrow> Also used in the working of blooms
+      <arrow> Used to safely retrieve iron blooms from a bloomery
+      <arrow> Also used in the working of iron blooms
 
   bloomery:
     name: "Bloomery"
     lore: |-
-      <arrow> A device used for smelting steel from iron and carbon
+      <arrow> A device used for smelting steel from sponge iron
       <arrow> <insn>Set fire to a coal block with gypsum dust on top</insn> to create
       <arrow> <insn>Right click</insn> to insert items
       <arrow> <insn>Right click with tongs</insn> to retrieve items safely
@@ -162,7 +162,7 @@ item:
   bronze_anvil:
     name: "Bronze Anvil"
     lore: |-
-      <arrow> Used to create wrought iron from blooms
+      <arrow> Used to create wrought iron from iron blooms
 
   bronze_axe:
     name: "Bronze Axe"

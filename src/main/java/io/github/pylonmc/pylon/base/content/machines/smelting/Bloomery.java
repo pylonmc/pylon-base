@@ -4,7 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.resources.Bloom;
+import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -99,19 +99,19 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         if (stack.getType().isAir()) return;
 
         if (PylonUtils.isPylonSimilar(stack, BaseItems.SPONGE_IRON)) {
-            Bloom bloom = new Bloom(BaseItems.BLOOM.clone());
+            IronBloom bloom = new IronBloom(BaseItems.IRON_BLOOM.clone());
             bloom.setTemperature(0);
-            bloom.setWorking(ThreadLocalRandom.current().nextInt(Bloom.MIN_WORKING, Bloom.MAX_WORKING + 1));
+            bloom.setWorking(ThreadLocalRandom.current().nextInt(IronBloom.MIN_WORKING, IronBloom.MAX_WORKING + 1));
             itemDisplay.setItemStack(bloom.getStack());
             return;
         }
 
-        if (!(PylonItem.fromStack(stack) instanceof Bloom bloom)) return;
+        if (!(PylonItem.fromStack(stack) instanceof IronBloom bloom)) return;
         if (ThreadLocalRandom.current().nextFloat() > heatChance) return;
 
         int temperature = bloom.getTemperature();
         if (isFormedAndFullyLoaded()) {
-            temperature = Math.min(Bloom.MAX_TEMPERATURE, temperature + 1);
+            temperature = Math.min(IronBloom.MAX_TEMPERATURE, temperature + 1);
         } else {
             temperature = Math.max(0, temperature - 1);
         }
