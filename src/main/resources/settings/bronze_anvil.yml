@@ -6,3 +6,15 @@ cool-chance: 0.5
 # Tolerance amount for the bronze anvil to pop off the bloom as a wrought iron. 0 means you
 # need a perfect working, higher allows for more misshapen blooms to still be considered good
 tolerance: 1
+
+sound:
+  hammer:
+    name: minecraft:block.anvil.use
+    source: player
+    pitch: 1
+    volume: 1
+  tongs:
+    name: minecraft:item.crossbow.loading_middle
+    source: player
+    pitch: 1
+    volume: 1

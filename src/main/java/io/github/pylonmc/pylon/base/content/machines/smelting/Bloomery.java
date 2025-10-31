@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -43,8 +44,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
 
-    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
-    public final float heatChance = getSettings().getOrThrow("heat-chance", ConfigAdapter.FLOAT);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.BLOOMERY).getOrThrow("tick-interval", ConfigAdapter.INT);
+    public static final float HEAT_CHANCE = Settings.get(BaseKeys.BLOOMERY).getOrThrow("heat-chance", ConfigAdapter.FLOAT);
 
     @SuppressWarnings("unused")
     public Bloomery(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -56,7 +57,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation())
         );
-        setTickInterval(tickInterval);
+        setTickInterval(TICK_INTERVAL);
     }
 
     @SuppressWarnings("unused")
@@ -130,11 +131,11 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
             Bukkit.getScheduler().runTaskLater(
                     PylonBase.getInstance(),
                     particleSpawner,
-                    ThreadLocalRandom.current().nextInt(tickInterval)
+                    ThreadLocalRandom.current().nextInt(TICK_INTERVAL)
             );
         }
 
-        if (ThreadLocalRandom.current().nextFloat() > heatChance) return;
+        if (ThreadLocalRandom.current().nextFloat() > HEAT_CHANCE) return;
 
         int temperature = bloom.getTemperature();
         if (isFormedAndFullyLoaded()) {

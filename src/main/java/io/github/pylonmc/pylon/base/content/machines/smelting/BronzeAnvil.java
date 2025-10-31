@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
@@ -12,11 +13,13 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -36,9 +39,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
-    private final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
-    private final float coolChance = getSettings().getOrThrow("cool-chance", ConfigAdapter.FLOAT);
-    private final int tolerance = getSettings().getOrThrow("tolerance", ConfigAdapter.INT);
+    public static final int TICK_INTERVAL = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tick-interval", ConfigAdapter.INT);
+    public static  final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
+    public static  final int TOLERANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tolerance", ConfigAdapter.INT);
+    public static final Sound HAMMER_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.hammer", ConfigAdapter.SOUND);
+    public static final Sound TONGS_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.tongs", ConfigAdapter.SOUND);
 
     private static final Matrix4f BASE_TRANSFORM = new TransformBuilder()
             .scale(0.3)
@@ -55,7 +60,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                         .rotateLocalY(getItemRotation()))
                 .build(getBlock().getLocation().toCenterLocation())
         );
-        setTickInterval(tickInterval);
+        setTickInterval(TICK_INTERVAL);
     }
 
     @SuppressWarnings("unused")
@@ -121,10 +126,12 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
             workingChange = 0;
         } else if (PylonUtils.isPylonSimilar(item, BaseItems.TONGS)) {
             workingChange -= temperature;
+            getBlock().getWorld().playSound(TONGS_SOUND, player);
         } else if (PylonItem.fromStack(item) instanceof Hammer hammer) {
             if (!player.hasCooldown(item)) {
                 workingChange += temperature;
                 player.setCooldown(item, hammer.cooldownTicks);
+                getBlock().getWorld().playSound(HAMMER_SOUND, player);
             }
         } else {
             return;
@@ -162,13 +169,13 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
 
     @Override
     public void tick(double deltaSeconds) {
-        if (ThreadLocalRandom.current().nextFloat() > coolChance) return;
+        if (ThreadLocalRandom.current().nextFloat() > COOL_CHANCE) return;
         ItemDisplay itemDisplay = getItemDisplay();
         if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
         int newTemperature = Math.max(0, bloom.getTemperature() - 1);
         bloom.setTemperature(newTemperature);
         bloom.setDisplayGlowOn(itemDisplay);
-        if (bloom.getWorking() >= -tolerance && bloom.getWorking() <= tolerance && newTemperature == 0) {
+        if (bloom.getWorking() >= -TOLERANCE && bloom.getWorking() <= TOLERANCE && newTemperature == 0) {
             itemDisplay.setItemStack(null);
             Location centerLoc = getBlock().getLocation().toCenterLocation();
             centerLoc.getWorld().dropItemNaturally(centerLoc, BaseItems.WROUGHT_IRON.clone());

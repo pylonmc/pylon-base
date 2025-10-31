@@ -159,6 +159,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.DIAMOND_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, DIAMOND_DUST);
