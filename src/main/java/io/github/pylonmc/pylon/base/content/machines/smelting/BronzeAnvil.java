@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -52,7 +53,6 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new Matrix4f(BASE_TRANSFORM)
                         .rotateLocalY(getItemRotation()))
-                .interpolationDuration(1)
                 .build(getBlock().getLocation().toCenterLocation())
         );
         setTickInterval(tickInterval);
@@ -91,7 +91,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                 itemDisplay.setItemStack(placedItem.asOne());
                 placedItem.subtract();
                 if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
-                    transformForWorking(bloom.getWorking());
+                    transformForWorking(bloom.getWorking(), false);
                     bloom.setDisplayGlowOn(itemDisplay);
                 }
             }
@@ -161,7 +161,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                 .spawn();
         bloom.setWorking(newWorking);
         itemDisplay.setItemStack(bloom.getStack());
-        transformForWorking(newWorking);
+        transformForWorking(newWorking, PylonUtils.isPylonSimilar(item, BaseItems.TONGS));
     }
 
     @Override
@@ -185,7 +185,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
-    private void transformForWorking(int working) {
+    private void transformForWorking(int working, boolean interpolate) {
         Matrix4f transform = new Matrix4f(BASE_TRANSFORM)
                 .rotateLocalY(getItemRotation())
                 .scaleLocal(
@@ -193,7 +193,11 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                         1,
                         Math.max(0, -working * 0.5f) + 1
                 );
-        getItemDisplay().setTransformationMatrix(transform);
+        if (interpolate) {
+            BaseUtils.animate(getItemDisplay(), 10, transform);
+        } else {
+            getItemDisplay().setTransformationMatrix(transform);
+        }
     }
 
     private float getItemRotation() {
