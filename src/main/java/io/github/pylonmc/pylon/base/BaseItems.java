@@ -32,14 +32,9 @@ import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
-import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -163,6 +158,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.DIAMOND_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, DIAMOND_DUST);
