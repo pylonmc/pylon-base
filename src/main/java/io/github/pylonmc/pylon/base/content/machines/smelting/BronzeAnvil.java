@@ -137,7 +137,6 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         int working = bloom.getWorking();
         int newWorking = working + workingChange;
         Location centerLoc = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
-        ParticleBuilder builder;
         if (Math.abs(newWorking) > IronBloom.MAX_WORKING) {
             new ParticleBuilder(Particle.ITEM)
                     .location(centerLoc)
@@ -148,17 +147,14 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                     .spawn();
             itemDisplay.setItemStack(null);
             return;
-        } else if (Math.abs(newWorking) < Math.abs(working)) {
-            builder = new ParticleBuilder(Particle.SMALL_FLAME);
         } else {
-            builder = new ParticleBuilder(Particle.CRIT);
+            new ParticleBuilder(Particle.LAVA).location(centerLoc)
+                    .receivers(32, true)
+                    .offset(0.1, 0.1, 0.1)
+                    .extra(0.03)
+                    .count(temperature)
+                    .spawn();
         }
-        builder.location(centerLoc)
-                .receivers(32, true)
-                .offset(0.3, 0.1, 0.3)
-                .extra(0.03)
-                .count(temperature)
-                .spawn();
         bloom.setWorking(newWorking);
         itemDisplay.setItemStack(bloom.getStack());
         transformForWorking(newWorking, PylonUtils.isPylonSimilar(item, BaseItems.TONGS));
@@ -194,7 +190,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
                         Math.max(0, -working * 0.5f) + 1
                 );
         if (interpolate) {
-            BaseUtils.animate(getItemDisplay(), 10, transform);
+            BaseUtils.animate(getItemDisplay(), 5, transform);
         } else {
             getItemDisplay().setTransformationMatrix(transform);
         }

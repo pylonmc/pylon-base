@@ -80,6 +80,9 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         ItemStack oldStack = itemDisplay.getItemStack();
         if (oldStack.getType().isAir()) {
             if (placedItem != null) {
+                if (PylonItem.fromStack(placedItem) instanceof IronBloom bloom) {
+                    bloom.setDisplayGlowOn(itemDisplay);
+                }
                 itemDisplay.setItemStack(placedItem.asOne());
                 placedItem.subtract();
             }
@@ -89,6 +92,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
                 player.getWorld().dropItemNaturally(player.getLocation(), stack);
             }
             itemDisplay.setItemStack(null);
+            itemDisplay.setGlowing(false);
         }
     }
 
@@ -107,6 +111,29 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         }
 
         if (!(PylonItem.fromStack(stack) instanceof IronBloom bloom)) return;
+
+        Runnable particleSpawner = () -> {
+            Location pos = getBlock().getLocation().add(
+                    ThreadLocalRandom.current().nextDouble(1),
+                    1.2,
+                    ThreadLocalRandom.current().nextDouble(1)
+            );
+            new ParticleBuilder(Particle.SMOKE)
+                    .extra(0.01)
+                    .count(0)
+                    .offset(0, 1, 0)
+                    .location(pos)
+                    .receivers(32, true)
+                    .spawn();
+        };
+        for (int i = 0; i < 8; i++) {
+            Bukkit.getScheduler().runTaskLater(
+                    PylonBase.getInstance(),
+                    particleSpawner,
+                    ThreadLocalRandom.current().nextInt(tickInterval)
+            );
+        }
+
         if (ThreadLocalRandom.current().nextFloat() > heatChance) return;
 
         int temperature = bloom.getTemperature();
@@ -117,26 +144,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         }
         bloom.setTemperature(temperature);
         itemDisplay.setItemStack(bloom.getStack());
-
-        Runnable particleSpawner = () -> {
-            Location pos = getBlock().getLocation().add(
-                    ThreadLocalRandom.current().nextDouble(1),
-                    1.2,
-                    ThreadLocalRandom.current().nextDouble(1)
-            );
-            new ParticleBuilder(Particle.SMALL_FLAME)
-                    .extra(0)
-                    .location(pos)
-                    .receivers(32, true)
-                    .spawn();
-        };
-        for (int i = 0; i < temperature; i++) {
-            Bukkit.getScheduler().runTaskLater(
-                    PylonBase.getInstance(),
-                    particleSpawner,
-                    ThreadLocalRandom.current().nextInt(tickInterval)
-            );
-        }
+        bloom.setDisplayGlowOn(itemDisplay);
     }
 
     public @NotNull ItemDisplay getItemDisplay() {
