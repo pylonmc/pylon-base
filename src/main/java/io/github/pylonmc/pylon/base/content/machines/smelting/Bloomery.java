@@ -175,6 +175,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
             if (gypsum == null) return;
             gypsum.remove();
             BlockStorage.placeBlock(against, BaseKeys.BLOOMERY);
+            fire.setType(Material.AIR);
         }
     }
 }
