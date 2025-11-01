@@ -172,7 +172,7 @@ public final class SmelteryController extends SmelteryComponent
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             if (isFormedAndFullyLoaded()) {
-                running = !running;
+                setRunning(!running);
                 notifyWindows();
             }
         }
@@ -306,7 +306,7 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public void onMultiblockUnformed(boolean partUnloaded) {
-        running = false;
+        setRunning(false);
         if (!partUnloaded) {
             height = 0;
             capacity = 0;
@@ -553,6 +553,11 @@ public final class SmelteryController extends SmelteryComponent
         }
         infoItem.notifyWindows();
         contentsItem.notifyWindows();
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+        refreshBlockTextureItem();
     }
 
     @Override

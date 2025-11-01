@@ -134,6 +134,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                             item.subtract();
                             inventory.setItem(null, i, item);
                             secondsElapsed = 0;
+                            refreshBlockTextureItem();
                             break itemLoop;
                         }
                     }
@@ -147,6 +148,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 secondsElapsed = 0;
                 fuel = null;
                 progressItem.notifyWindows();
+                refreshBlockTextureItem();
             }
         }
     }
