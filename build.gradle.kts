@@ -30,7 +30,7 @@ repositories {
 val coreVersion = project.properties["pylon-core.version"] as String
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
     compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
 
     implementation("org.bstats:bstats-bukkit:2.2.1")
@@ -72,7 +72,7 @@ tasks.runServer {
         github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
     }
     maxHeapSize = "4G"
-    minecraftVersion("1.21.8")
+    minecraftVersion("1.21.10")
 }
 
 tasks.withType<Jar> {
