@@ -55,10 +55,12 @@ public class ManualCoreDrillLever extends PylonBlock implements PylonInteractBlo
             leverResetTask.cancel();
         }
 
+        scheduleBlockTextureItemRefresh();
         leverResetTask = Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
             if (getBlock().getBlockData() instanceof Switch switchData) {
                 switchData.setPowered(false);
                 getBlock().setBlockData(switchData);
+                refreshBlockTextureItem();
             }
         }, (long) drill.getRotationDuration() * drill.getRotationsPerCycle());
     }
