@@ -1370,6 +1370,7 @@ guide:
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulic Machines"
+    diesel_machines: "Diesel Machines"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
