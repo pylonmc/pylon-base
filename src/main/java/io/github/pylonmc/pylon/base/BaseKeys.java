@@ -286,6 +286,8 @@ public class BaseKeys {
 
     public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 
+    public static final NamespacedKey DIESEL_PIPE_BENDER = baseKey("diesel_pipe_bender");
+
     public static final NamespacedKey HUNGER_TALISMAN_SIMPLE = baseKey("hunger_talisman_simple");
     public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");
     public static final NamespacedKey HUNGER_TALISMAN_ULTIMATE = baseKey("hunger_talisman_ultimate");

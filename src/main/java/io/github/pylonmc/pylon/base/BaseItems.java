@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
@@ -159,6 +160,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.DIAMOND_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, DIAMOND_DUST);
@@ -1752,6 +1754,13 @@ public final class BaseItems {
     static {
         PylonItem.register(SoulboundRune.class, SOULBOUND_RUNE);
         BasePages.TOOLS.addItem(SOULBOUND_RUNE);
+    }
+
+    public static final ItemStack DIESEL_PIPE_BENDER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_PIPE_BENDER)
+            .build();
+    static {
+        PylonItem.register(DieselPipeBender.Item.class, DIESEL_PIPE_BENDER, BaseKeys.DIESEL_PIPE_BENDER);
+        BasePages.HYDRAULICS.addItem(DIESEL_PIPE_BENDER);
     }
 
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CARROT_ON_A_STICK, BaseKeys.HUNGER_TALISMAN_SIMPLE)
