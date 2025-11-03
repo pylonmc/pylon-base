@@ -3,6 +3,8 @@ package io.github.pylonmc.pylon.base.content.talismans;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
@@ -13,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Random;
 
 public class EnchantingTalisman extends Talisman {
@@ -35,6 +38,13 @@ public class EnchantingTalisman extends Talisman {
     public void removeEffect(@NotNull Player player) {
         super.removeEffect(player);
         player.getPersistentDataContainer().remove(ENCHANTING_TALISMAN_BONUS_KEY);
+    }
+
+    @Override
+    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        return List.of(
+                PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance))
+        );
     }
 
     @Override
