@@ -1380,6 +1380,24 @@ item:
       <arrow> Reduces the cooldown of breeding animals
       <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
 
+  enchanting_talisman_simple:
+    name: "Simple Enchanting Talisman"
+    lore: |-
+      <arrow> Improves your odds of getting higher level enchants from the enchanting table
+      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+
+  enchanting_talisman_advanced:
+    name: "Advanced Enchanting Talisman"
+    lore: |-
+      <arrow> Improves your odds of getting higher level enchants from the enchanting table
+      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+
+  enchanting_talisman_ultimate:
+    name: "Ultimate Enchanting Talisman"
+    lore: |-
+      <arrow> Improves your odds of getting higher level enchants from the enchanting table
+      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1479,6 +1497,7 @@ research:
   optimal_breathing: "<#5f26b6>Optimized breathing"
   lucky_ducky: "<#ffde59>Lucky ducky"
   advanced_breeding: "<#e4080a>Advanced breeding"
+  portable_enchanting_books: "<#060270>Portable enchanting books"
 
 guide:
   page:

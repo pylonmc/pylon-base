@@ -406,3 +406,10 @@ advanced_breeding:
     - pylonbase:breeding_talisman_simple
     - pylonbase:breeding_talisman_advanced
     - pylonbase:breeding_talisman_ultimate
+portable_enchanting_books:
+  material: lapis_lazuli
+  cost: 15
+  unlocks:
+    - pylonbase:enchanting_talisman_simple
+    - pylonbase:enchanting_talisman_advanced
+    - pylonbase:enchanting_talisman_ultimate
