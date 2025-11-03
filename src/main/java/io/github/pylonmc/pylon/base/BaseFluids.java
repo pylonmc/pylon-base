@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,6 +145,11 @@ public final class BaseFluids {
             Material.WHITE_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid BIODIESEL = new PylonFluid(
+            baseKey("biodiesel"),
+            Material.YELLOW_CONCRETE
+    ).addTag(FluidTemperature.NORMAL);
+
     // TODO refactor into static blocks as in BaseItems
     public static void initialize() {
         WATER.register();
@@ -259,6 +265,8 @@ public final class BaseFluids {
         DIRTY_HYDRAULIC_FLUID.register();
 
         REFLECTOR_FLUID.register();
+
+        BIODIESEL.register();
     }
 
     private static void addMetalRecipes(
@@ -270,14 +278,14 @@ public final class BaseFluids {
             ItemStack block
     ) {
         CastingRecipe.RECIPE_TYPE.addRecipe(new CastingRecipe(
-                fluid.getKey(),
+                NamespacedKey.fromString(fluid.getKey() + "_to_ingot"),
                 RecipeInput.of(fluid, 144.0),
                 ingot,
                 temperature
         ));
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                fluid.getKey(),
+                NamespacedKey.fromString(fluid.getKey() + "_from_ingot"),
                 RecipeInput.of(ingot),
                 fluid,
                 144.0,
@@ -285,7 +293,7 @@ public final class BaseFluids {
         ));
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                fluid.getKey(),
+                NamespacedKey.fromString(fluid.getKey() + "_from_dust"),
                 RecipeInput.of(dust),
                 fluid,
                 144.0,
@@ -294,7 +302,7 @@ public final class BaseFluids {
 
         if (nugget != null) {
             MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                    fluid.getKey(),
+                    NamespacedKey.fromString(fluid.getKey() + "_from_nugget"),
                     RecipeInput.of(nugget),
                     fluid,
                     16.0,
@@ -303,7 +311,7 @@ public final class BaseFluids {
         }
 
         MeltingRecipe.RECIPE_TYPE.addRecipe(new MeltingRecipe(
-                fluid.getKey(),
+                NamespacedKey.fromString(fluid.getKey() + "_from_block"),
                 RecipeInput.of(block),
                 fluid,
                 1296.0,
