@@ -317,6 +317,7 @@ item:
     name: "<white>Fluid Valve"
     lore: |-
       <arrow> <insn>Right click</insn> a fluid valve to toggle it
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Valve (%status%)"
 
   fluid_filter:
@@ -324,6 +325,7 @@ item:
     lore: |-
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Filter (%fluid%)"
     gui: "Fluid Filter"
 
@@ -332,6 +334,7 @@ item:
     lore: |-
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Meter (%fluid%)"
     gui: "Fluid Meter"
 
@@ -1425,11 +1428,6 @@ message:
   item_magnet:
     enabled: "Item Magnet <gray>has been</gray> <green>enabled"
     disabled: "Item Magnet <gray>has been</gray> <red>disabled"
-  pipe:
-    connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-    cannot_place_here: "<red>You cannot place a pipe here"
-    not_enough_pipes: "<red>Not enough pipes"
-    not_of_same_type: "<red>Pipes are of different types"
   valve:
     enabled: "enabled"
     disabled: "disabled"

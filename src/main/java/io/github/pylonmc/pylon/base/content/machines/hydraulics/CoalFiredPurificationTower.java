@@ -7,12 +7,12 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -95,8 +95,8 @@ public class CoalFiredPurificationTower extends PylonBlock
         super(block, context);
         fuelTicksRemaining = null;
         setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
     }
@@ -201,5 +201,11 @@ public class CoalFiredPurificationTower extends PylonBlock
     @Override
     public @Nullable BlockFace getFacing() {
         return PylonFluidBufferBlock.super.getFacing();
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+        PylonGuiBlock.super.onBreak(drops, context);
     }
 }
