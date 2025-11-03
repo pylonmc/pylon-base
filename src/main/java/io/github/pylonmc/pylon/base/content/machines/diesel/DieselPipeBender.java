@@ -5,13 +5,12 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -42,13 +41,18 @@ import xyz.xenondevs.invui.inventory.event.PlayerUpdateReason;
 import java.util.List;
 
 
-public class DieselPipeBender extends PylonBlock
-        implements PylonGuiBlock, PylonEntityHolderBlock, PylonFluidBufferBlock, PylonTickingBlock {
+public class DieselPipeBender extends PylonBlock implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
 
     public static class Item extends PylonItem {
 
@@ -78,7 +82,7 @@ public class DieselPipeBender extends PylonBlock
     public DieselPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH, 0.55F));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH);
         addEntity("chimney", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
                         .addCustomModelDataString(getKey() + ":chimney")
