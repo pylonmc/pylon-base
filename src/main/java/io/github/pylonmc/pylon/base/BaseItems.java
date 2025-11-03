@@ -1903,11 +1903,32 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(ENCHANTING_TALISMAN_ADVANCED);
     }
 
-    public static final ItemStack ENCHANTING_TALISMAN_ULTIMATE= ItemStackBuilder.pylon(Material.LAPIS_LAZULI, BaseKeys.ENCHANTING_TALISMAN_ULTIMATE)
+    public static final ItemStack ENCHANTING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.LAPIS_LAZULI, BaseKeys.ENCHANTING_TALISMAN_ULTIMATE)
             .build();
     static {
         PylonItem.register(EnchantingTalisman.class, ENCHANTING_TALISMAN_ULTIMATE);
         BasePages.TOOLS.addItem(ENCHANTING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack HUNTING_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.TURTLE_SCUTE, BaseKeys.HUNTING_TALISMAN_SIMPLE)
+            .build();
+    static {
+        PylonItem.register(HuntingTalisman.class, HUNTING_TALISMAN_SIMPLE);
+        BasePages.TOOLS.addItem(HUNTING_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack HUNTING_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.TURTLE_SCUTE, BaseKeys.HUNTING_TALISMAN_ADVANCED)
+            .build();
+    static {
+        PylonItem.register(HuntingTalisman.class, HUNTING_TALISMAN_ADVANCED);
+        BasePages.TOOLS.addItem(HUNTING_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack HUNTING_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.TURTLE_SCUTE, BaseKeys.HUNTING_TALISMAN_ULTIMATE)
+            .build();
+    static {
+        PylonItem.register(HuntingTalisman.class, HUNTING_TALISMAN_ULTIMATE);
+        BasePages.TOOLS.addItem(HUNTING_TALISMAN_ULTIMATE);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

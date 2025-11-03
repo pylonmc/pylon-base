@@ -64,6 +64,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new BarteringTalisman.BarteringTalismanListener(), this);
         pm.registerEvents(new BreedingTalisman.BreedingTalismanListener(), this);
         pm.registerEvents(new EnchantingTalisman.EnchantingListener(), this);
+        pm.registerEvents(new HuntingTalisman.HuntingTalismanListener(), this);
     }
 
     @Override
