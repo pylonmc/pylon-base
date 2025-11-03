@@ -1,11 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -24,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock {
+public class FluidVoider extends PylonBlock implements PylonFluidBlock {
 
     public static class Item extends PylonItem {
 
@@ -49,7 +47,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock, PylonEnt
     @SuppressWarnings("unused")
     public FluidVoider(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, (float) (mainDisplaySize / 2.0)));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP, (float) (mainDisplaySize / 2.0));
         addEntity("main", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(mainMaterial)
                         .addCustomModelDataString(getKey() + ":main")

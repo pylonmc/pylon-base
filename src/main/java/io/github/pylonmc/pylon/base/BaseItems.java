@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
@@ -32,14 +33,9 @@ import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
-import io.papermc.paper.registry.set.RegistrySet;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
@@ -163,6 +159,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack DIAMOND_DUST = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.DIAMOND_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, DIAMOND_DUST);
@@ -1756,6 +1753,13 @@ public final class BaseItems {
     static {
         PylonItem.register(SoulboundRune.class, SOULBOUND_RUNE);
         BasePages.TOOLS.addItem(SOULBOUND_RUNE);
+    }
+
+    public static final ItemStack DIESEL_PIPE_BENDER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_PIPE_BENDER)
+            .build();
+    static {
+        PylonItem.register(DieselPipeBender.Item.class, DIESEL_PIPE_BENDER, BaseKeys.DIESEL_PIPE_BENDER);
+        BasePages.HYDRAULICS.addItem(DIESEL_PIPE_BENDER);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

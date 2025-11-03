@@ -55,6 +55,7 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
         removedSinceLastUpdate += amount;
     }
 
+    @Override
     public void tick(double deltaSeconds) {
         Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / deltaSeconds)).asComponent();
 
@@ -87,4 +88,5 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     public @NotNull Component getGuiTitle() {
         return Component.translatable("pylon.pylonbase.item.fluid_meter.gui");
     }
+
 }

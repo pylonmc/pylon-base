@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.EnumPersistentDataType;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -76,8 +75,8 @@ public class FluidTank extends PylonBlock
         addEntity("fluid", new ItemDisplayBuilder()
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
         );
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
