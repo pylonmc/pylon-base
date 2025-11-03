@@ -43,7 +43,7 @@ public class EnchantingTalisman extends Talisman {
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance))
+                PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance * 100))
         );
     }
 
