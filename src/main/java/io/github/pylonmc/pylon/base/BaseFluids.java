@@ -150,6 +150,11 @@ public final class BaseFluids {
             Material.WHITE_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid BIODIESEL = new PylonFluid(
+            baseKey("biodiesel"),
+            Material.YELLOW_CONCRETE
+    ).addTag(FluidTemperature.NORMAL);
+
     // TODO refactor into static blocks as in BaseItems
     public static void initialize() {
         WATER.register();
@@ -267,6 +272,8 @@ public final class BaseFluids {
         DIRTY_HYDRAULIC_FLUID.register();
 
         REFLECTOR_FLUID.register();
+
+        BIODIESEL.register();
     }
 
     private static void addMetalRecipes(

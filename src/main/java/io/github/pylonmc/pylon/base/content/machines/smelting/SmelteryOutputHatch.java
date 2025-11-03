@@ -1,10 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import kotlin.Pair;
@@ -15,15 +13,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class SmelteryOutputHatch extends SmelteryComponent
-        implements PylonEntityHolderBlock, PylonFluidBlock {
+public final class SmelteryOutputHatch extends SmelteryComponent implements PylonFluidBlock {
 
     public final double flowRate = getSettings().getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public SmelteryOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH, 0.5F, true));
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, true);
     }
 
     @SuppressWarnings("unused")

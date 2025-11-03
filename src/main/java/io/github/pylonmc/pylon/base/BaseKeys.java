@@ -292,4 +292,6 @@ public class BaseKeys {
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
 
     public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
+
+    public static final NamespacedKey DIESEL_PIPE_BENDER = baseKey("diesel_pipe_bender");
 }

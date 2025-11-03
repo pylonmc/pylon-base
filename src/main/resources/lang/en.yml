@@ -342,6 +342,7 @@ item:
     name: "<white>Fluid Valve"
     lore: |-
       <arrow> <insn>Right click</insn> a fluid valve to toggle it
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Valve (%status%)"
 
   fluid_filter:
@@ -349,6 +350,7 @@ item:
     lore: |-
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Filter (%fluid%)"
     gui: "Fluid Filter"
 
@@ -357,6 +359,7 @@ item:
     lore: |-
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Meter (%fluid%)"
     gui: "Fluid Meter"
 
@@ -1297,6 +1300,15 @@ item:
       <arrow> <attr>Time per block:</attr> %time-per-block%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
+  diesel_pipe_bender:
+    name: "Diesel Pipe Bender"
+    lore: |-
+      <arrow> Efficiently bends materials into pipes
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Pipe Bender | %diesel-bar%"
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1327,6 +1339,7 @@ fluid:
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
   obscyra: "<#5c4a66>Obscyra"
   reflector_fluid: "<#d1c9ab>Reflector Fluid"
+  biodiesel: "<#eaa627>Biodiesel"
 
 waila:
   mixing_pot:
@@ -1405,6 +1418,7 @@ guide:
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulic Machines"
+    diesel_machines: "Diesel Machines"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
@@ -1443,11 +1457,6 @@ message:
   item_magnet:
     enabled: "Item Magnet <gray>has been</gray> <green>enabled"
     disabled: "Item Magnet <gray>has been</gray> <red>disabled"
-  pipe:
-    connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-    cannot_place_here: "<red>You cannot place a pipe here"
-    not_enough_pipes: "<red>Not enough pipes"
-    not_of_same_type: "<red>Pipes are of different types"
   valve:
     enabled: "enabled"
     disabled: "disabled"

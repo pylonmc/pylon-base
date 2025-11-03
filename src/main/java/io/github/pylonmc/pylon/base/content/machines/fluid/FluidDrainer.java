@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -28,8 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class FluidDrainer extends PylonBlock
-        implements PylonFluidBufferBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
+public class FluidDrainer extends PylonBlock implements PylonFluidBufferBlock, PylonTickingBlock, PylonInteractBlock {
 
     public static class Item extends PylonItem {
 
@@ -59,7 +57,7 @@ public class FluidDrainer extends PylonBlock
     public FluidDrainer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         setTickInterval(tickInterval);
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, true);
         createFluidBuffer(fluid, buffer, false, true);
         Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
         Directional directional = (Directional) getBlock().getBlockData();
