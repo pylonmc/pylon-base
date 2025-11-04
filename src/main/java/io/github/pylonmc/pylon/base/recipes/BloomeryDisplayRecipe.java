@@ -1,7 +1,9 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
@@ -14,18 +16,18 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public record DrillingDisplayRecipe(
+public record BloomeryDisplayRecipe(
         NamespacedKey key,
-        ItemStack drill,
+        ItemStack input,
         ItemStack result
 ) implements PylonRecipe {
 
-    public static final RecipeType<DrillingDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("drilling_display")) {
+    public static final RecipeType<BloomeryDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("bloomery_display")) {
         @Override
-        protected @NotNull DrillingDisplayRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
-            return new DrillingDisplayRecipe(
+        protected @NotNull BloomeryDisplayRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new BloomeryDisplayRecipe(
                     key,
-                    section.getOrThrow("drill", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
                     section.getOrThrow("result", ConfigAdapter.ITEM_STACK)
             );
         }
@@ -52,12 +54,13 @@ public record DrillingDisplayRecipe(
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # # # # # #",
-                        "# # # d # r # # #",
+                        "# # i # b # r # #",
                         "# # # # # # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('d', drill)
+                .addIngredient('i', input)
+                .addIngredient('b', new ItemButton(BaseItems.BLOOMERY))
                 .addIngredient('r', result)
                 .build();
     }
