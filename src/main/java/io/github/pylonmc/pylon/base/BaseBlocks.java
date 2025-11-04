@@ -1,6 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.base.content.building.*;
+import io.github.pylonmc.pylon.base.content.building.Elevator;
+import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
+import io.github.pylonmc.pylon.base.content.building.Immobilizer;
+import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
@@ -63,6 +66,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CREATIVE_FLUID_SOURCE, Material.PINK_CONCRETE, CreativeFluidSource.class);
         PylonBlock.register(BaseKeys.REFRACTORY_MIX, Material.SMOOTH_RED_SANDSTONE, RefractoryMix.class);
         PylonBlock.register(BaseKeys.REFRACTORY_BRICKS, Material.DEEPSLATE_TILES, SmelteryComponent.class);
+        PylonBlock.register(BaseKeys.BLOOMERY, Material.MAGMA_BLOCK, Bloomery.class);
+        PylonBlock.register(BaseKeys.BRONZE_ANVIL, Material.ANVIL, BronzeAnvil.class);
         PylonBlock.register(BaseKeys.SMELTERY_CONTROLLER, Material.BLAST_FURNACE, SmelteryController.class);
         PylonBlock.register(BaseKeys.SMELTERY_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, SmelteryInputHatch.class);
         PylonBlock.register(BaseKeys.SMELTERY_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, SmelteryOutputHatch.class);

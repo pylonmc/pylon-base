@@ -1,0 +1,4 @@
+tick-interval: 10
+
+# Chance to heat a bloom per tick
+heat-chance: 0.3
