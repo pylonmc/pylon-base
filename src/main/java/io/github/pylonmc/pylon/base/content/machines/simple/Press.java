@@ -23,7 +23,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.papermc.paper.event.block.CompostItemEvent;
 import io.papermc.paper.event.entity.EntityCompostItemEvent;
 import lombok.Getter;
 import org.bukkit.Bukkit;
