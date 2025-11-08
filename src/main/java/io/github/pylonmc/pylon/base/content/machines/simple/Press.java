@@ -6,9 +6,9 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonComposter;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -23,6 +23,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.event.entity.EntityCompostItemEvent;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -42,7 +43,7 @@ import org.joml.Matrix4f;
 import java.util.List;
 
 
-public class Press extends PylonBlock implements PylonInteractBlock, PylonFluidBufferBlock {
+public class Press extends PylonBlock implements PylonInteractBlock, PylonFluidBufferBlock, PylonComposter {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
@@ -107,6 +108,11 @@ public class Press extends PylonBlock implements PylonInteractBlock, PylonFluidB
         }
 
         tryStartRecipe(event.getPlayer());
+    }
+
+    @Override
+    public void onCompostByEntity(EntityCompostItemEvent event) {
+        event.setCancelled(true);
     }
 
     public boolean tryStartRecipe(@Nullable Player player) {
