@@ -255,12 +255,12 @@ reactivated_skulls:
 scientific_revolution_1:
   material: red_banner
   cost: 10
-  unlock:
+  unlocks:
   - pylonbase:research_pack_1
 scientific_revolution_2:
   material: lime_banner
   cost: 40
-  unlock:
+  unlocks:
   - pylonbase:research_pack_2
 shimmer_manipulation:
   material: sugar
