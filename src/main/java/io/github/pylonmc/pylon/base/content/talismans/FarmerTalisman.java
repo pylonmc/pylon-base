@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
-import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -65,25 +64,17 @@ public class FarmerTalisman extends Talisman {
             if (!event.getPlayer().getPersistentDataContainer().has(FARMER_TALISMAN_CHANCE_KEY)) {
                 return;
             }
-            if (!Tag.CROPS.isTagged(event.getBlock().getType())) {
-                return;
-            }
-            if (!(event.getBlock().getBlockData() instanceof Ageable cropAge)) {
-                return;
-            }
-            if (cropAge.getAge() != cropAge.getMaximumAge()) {
-                return; // crop not fully grown
-            }
-            if (RNG.nextFloat() > event.getPlayer().getPersistentDataContainer().get(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT)) {
-                return;
-            }
-            List<Item> newDrops = new ArrayList<>();
+            List<Item> additionalDrops = new ArrayList<>();
             for (Item drop : event.getItems()) {
-                newDrops.add(drop.getWorld().dropItem(drop.getLocation(), drop.getItemStack().clone()));
+                if (!Tag.CROPS.isTagged(drop.getItemStack().getType())) {
+                    continue;
+                }
+                if (RNG.nextFloat() > event.getPlayer().getPersistentDataContainer().get(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT)) {
+                    continue;
+                }
+                additionalDrops.add(drop.getWorld().dropItem(drop.getLocation(), drop.getItemStack().clone()));
             }
-            event.getItems().addAll(newDrops);
-            Item extraDrop = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), new ItemStack(event.getBlock().getType()));
-            event.getItems().add(extraDrop);
+            event.getItems().addAll(additionalDrops);
         }
     }
 }
