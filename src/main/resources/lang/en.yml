@@ -1305,20 +1305,20 @@ item:
   farmer_talisman_simple:
     name: "Simple Farming Talisman"
     lore: |-
-      <arrow> Gain a small chance to double your crop outputs
-      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+      <arrow> Gain a small chance to get an extra crop drop
+      <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
 
   farmer_talisman_advanced:
     name: "Advanced Farming Talisman"
     lore: |-
-      <arrow> Gain a small chance to double your crop outputs
-      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+      <arrow> Gain a small chance to get an extra crop drop
+      <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
 
   farmer_talisman_ultimate:
     name: "Ultimate Farming Talisman"
     lore: |-
-      <arrow> Gain a small chance to double your crop outputs
-      <arrow> <attr>Chance for double crops:</attr> %double_crop_chance%
+      <arrow> Gain a small chance to get an extra crop drop
+      <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
 
   bartering_talisman_simple:
     name: "Simple Bartering Talisman"

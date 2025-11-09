@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 public class FarmerTalisman extends Talisman {
-    public float doubleCropChance = getSettings().getOrThrow("double-crop-chance", ConfigAdapter.FLOAT);
+    public float extraCropChance = getSettings().getOrThrow("extra-crop-chance", ConfigAdapter.FLOAT);
     public int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public static final NamespacedKey FARMER_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman");
     public static final NamespacedKey FARMER_TALISMAN_CHANCE_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman_chance");
@@ -34,7 +34,7 @@ public class FarmerTalisman extends Talisman {
     @Override
     public void applyEffect(@NotNull Player player) {
         super.applyEffect(player);
-        player.getPersistentDataContainer().set(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT, doubleCropChance);
+        player.getPersistentDataContainer().set(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT, extraCropChance);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FarmerTalisman extends Talisman {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("double_crop_chance", UnitFormat.PERCENT.format(doubleCropChance * 100)));
+        return List.of(PylonArgument.of("extra_crop_chance", UnitFormat.PERCENT.format(extraCropChance * 100)));
     }
 
     public static class FarmerTalismanListener implements Listener {
