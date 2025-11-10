@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -119,10 +120,12 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             }
 
             ItemStack result = recipe.result();
-            inventory.addItem(null, result);
-            controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
+            int leftover = inventory.addItem(null, result);
 
-            new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
+            if (leftover == 0) {
+                controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
+                new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
+            }
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
