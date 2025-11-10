@@ -3,7 +3,7 @@ baking:
   cost: 1
   unlocks:
   - pylonbase:flour
-  - pulonbase:dough
+  - pylonbase:dough
 better_hammers:
   material: stone_pickaxe
   cost: 15
