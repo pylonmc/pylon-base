@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.content.tools.base.Talisman;
+import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;

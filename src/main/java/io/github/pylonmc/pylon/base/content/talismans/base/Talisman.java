@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.tools.base;
+package io.github.pylonmc.pylon.base.content.talismans.base;
 
 import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.PylonBase;
@@ -15,7 +15,6 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.WeakHashMap;
 
 public abstract class Talisman extends PylonItem implements PylonInventoryTicker {
     private static final HashMap<NamespacedKey, HashMap<UUID, BukkitTask>> tasks = new HashMap<>();
