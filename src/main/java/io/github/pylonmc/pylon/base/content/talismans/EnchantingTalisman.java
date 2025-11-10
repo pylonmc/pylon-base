@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -18,8 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Random;
 
-public class EnchantingTalisman extends Talisman {
-    public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
+public class EnchantingTalisman extends PDCKeyTalisman<Double,Double> {
     public final double bonusLevelChance = getSettings().getOrThrow("bonus-level-chance", ConfigAdapter.DOUBLE);
     public static final NamespacedKey ENCHANTING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "enchanting_talisman");
     private static final NamespacedKey ENCHANTING_TALISMAN_BONUS_KEY = new NamespacedKey(PylonBase.getInstance(), "enchanting_talisman_bonus");
@@ -29,15 +29,18 @@ public class EnchantingTalisman extends Talisman {
     }
 
     @Override
-    public void applyEffect(@NotNull Player player) {
-        super.applyEffect(player);
-        player.getPersistentDataContainer().set(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE, bonusLevelChance);
+    public @NotNull NamespacedKey getPDCEffectKey() {
+        return ENCHANTING_TALISMAN_BONUS_KEY;
     }
 
     @Override
-    public void removeEffect(@NotNull Player player) {
-        super.removeEffect(player);
-        player.getPersistentDataContainer().remove(ENCHANTING_TALISMAN_BONUS_KEY);
+    public @NotNull PersistentDataType<Double, Double> getPDCType() {
+        return PersistentDataType.DOUBLE;
+    }
+
+    @Override
+    public @NotNull Double getPDCValue() {
+        return bonusLevelChance;
     }
 
     @Override
@@ -45,11 +48,6 @@ public class EnchantingTalisman extends Talisman {
         return List.of(
                 PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance * 100))
         );
-    }
-
-    @Override
-    public int getLevel() {
-        return level;
     }
 
     @Override

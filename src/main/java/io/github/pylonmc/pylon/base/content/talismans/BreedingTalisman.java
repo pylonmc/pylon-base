@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -18,8 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BreedingTalisman extends Talisman {
-    public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
+public class BreedingTalisman extends PDCKeyTalisman<Float,Float> {
     public final float breedingCooldownMultiplier = getSettings().getOrThrow("breeding-cd-multiplier", ConfigAdapter.FLOAT);
     public static final NamespacedKey BREEDING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "breeding_talisman");
     public static final NamespacedKey BREEDING_TALISMAN_MULTIPLIER_KEY = new NamespacedKey(PylonBase.getInstance(), "breeding_talisman_multiplier");
@@ -29,25 +29,23 @@ public class BreedingTalisman extends Talisman {
     }
 
     @Override
-    public void applyEffect(@NotNull Player player) {
-        super.applyEffect(player);
-        player.getPersistentDataContainer().set(BREEDING_TALISMAN_MULTIPLIER_KEY, PersistentDataType.FLOAT, breedingCooldownMultiplier);
+    public @NotNull NamespacedKey getPDCEffectKey() {
+        return BREEDING_TALISMAN_MULTIPLIER_KEY;
     }
 
     @Override
-    public void removeEffect(@NotNull Player player) {
-        super.removeEffect(player);
-        player.getPersistentDataContainer().remove(BREEDING_TALISMAN_MULTIPLIER_KEY);
+    public @NotNull PersistentDataType<Float, Float> getPDCType() {
+        return PersistentDataType.FLOAT;
+    }
+
+    @Override
+    public @NotNull Float getPDCValue() {
+        return breedingCooldownMultiplier;
     }
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(PylonArgument.of("cd_multiplier", UnitFormat.PERCENT.format(breedingCooldownMultiplier * 100)));
-    }
-
-    @Override
-    public int getLevel() {
-        return level;
     }
 
     @Override

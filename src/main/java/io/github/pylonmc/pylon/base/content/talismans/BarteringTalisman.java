@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -22,10 +23,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class BarteringTalisman extends Talisman {
+public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
     public static final NamespacedKey BARTERING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "bartering_talisman");
     public static final NamespacedKey BARTERING_TALISMAN_NO_CONSUME_KEY = new NamespacedKey(PylonBase.getInstance(), "bartering_talisman_no_consume_chance");
-    public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public final float chanceToNotConsumeInput = getSettings().getOrThrow("chance-to-not-consume-input", ConfigAdapter.FLOAT);
     private static final Random RNG = new Random();
 
@@ -34,25 +34,23 @@ public class BarteringTalisman extends Talisman {
     }
 
     @Override
-    public void applyEffect(@NotNull Player player) {
-        super.applyEffect(player);
-        player.getPersistentDataContainer().set(BARTERING_TALISMAN_NO_CONSUME_KEY, PersistentDataType.FLOAT, chanceToNotConsumeInput);
+    public @NotNull NamespacedKey getPDCEffectKey() {
+        return BARTERING_TALISMAN_NO_CONSUME_KEY;
     }
 
     @Override
-    public void removeEffect(@NotNull Player player) {
-        super.removeEffect(player);
-        player.getPersistentDataContainer().remove(BARTERING_TALISMAN_NO_CONSUME_KEY);
+    public @NotNull PersistentDataType<Float, Float> getPDCType() {
+        return PersistentDataType.FLOAT;
+    }
+
+    @Override
+    public @NotNull Float getPDCValue() {
+        return chanceToNotConsumeInput;
     }
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(PylonArgument.of("chance_to_not_consume_input", UnitFormat.PERCENT.format(chanceToNotConsumeInput * 100)));
-    }
-
-    @Override
-    public int getLevel() {
-        return level;
     }
 
     @Override

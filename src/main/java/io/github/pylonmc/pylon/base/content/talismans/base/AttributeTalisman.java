@@ -1,7 +1,6 @@
-package io.github.pylonmc.pylon.base.content.talismans;
+package io.github.pylonmc.pylon.base.content.talismans.base;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -11,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AttributeTalisman extends Talisman {
-    public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public final double attrBonus = getSettings().getOrThrow("attr-bonus", ConfigAdapter.DOUBLE);
     private final AttributeModifier modifier = new AttributeModifier(
             getTalismanKey(),
@@ -39,10 +37,5 @@ public abstract class AttributeTalisman extends Talisman {
         attr.removeModifier(getTalismanKey());
     }
 
-    @Override
-    public int getLevel() {
-        return level;
-    }
-
-    abstract Attribute getAttribute();
+    protected abstract Attribute getAttribute();
 }

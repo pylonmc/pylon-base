@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.talismans.base.AttributeTalisman;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
@@ -25,7 +26,7 @@ public class HealthTalisman extends AttributeTalisman {
     }
 
     @Override
-    Attribute getAttribute() {
+    protected Attribute getAttribute() {
         return Attribute.MAX_HEALTH;
     }
 

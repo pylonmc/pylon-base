@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -20,9 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FarmerTalisman extends Talisman {
+public class FarmerTalisman extends PDCKeyTalisman<Float,Float> {
     public float extraCropChance = getSettings().getOrThrow("extra-crop-chance", ConfigAdapter.FLOAT);
-    public int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public static final NamespacedKey FARMER_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman");
     public static final NamespacedKey FARMER_TALISMAN_CHANCE_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman_chance");
     private static final Random RNG = new Random();
@@ -32,20 +32,18 @@ public class FarmerTalisman extends Talisman {
     }
 
     @Override
-    public void applyEffect(@NotNull Player player) {
-        super.applyEffect(player);
-        player.getPersistentDataContainer().set(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT, extraCropChance);
+    public @NotNull NamespacedKey getPDCEffectKey() {
+        return FARMER_TALISMAN_CHANCE_KEY;
     }
 
     @Override
-    public void removeEffect(@NotNull Player player) {
-        super.removeEffect(player);
-        player.getPersistentDataContainer().remove(FARMER_TALISMAN_CHANCE_KEY);
+    public @NotNull PersistentDataType<Float, Float> getPDCType() {
+        return PersistentDataType.FLOAT;
     }
 
     @Override
-    public int getLevel() {
-        return level;
+    public @NotNull Float getPDCValue() {
+        return extraCropChance;
     }
 
     @Override

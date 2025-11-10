@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Random;
 
-public class HuntingTalisman extends Talisman {
+public class HuntingTalisman extends PDCKeyTalisman<Double,Double> {
     public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public final double chanceForExtraItem = getSettings().getOrThrow("chance-for-extra-item", ConfigAdapter.DOUBLE);
     public static final NamespacedKey HUNTING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "hunting_talisman");
@@ -30,16 +31,20 @@ public class HuntingTalisman extends Talisman {
     }
 
     @Override
-    public void applyEffect(@NotNull Player player) {
-        super.applyEffect(player);
-        player.getPersistentDataContainer().set(HUNTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE, chanceForExtraItem);
+    public @NotNull NamespacedKey getPDCEffectKey() {
+        return HUNTING_TALISMAN_BONUS_KEY;
     }
 
     @Override
-    public void removeEffect(@NotNull Player player) {
-        super.removeEffect(player);
-        player.getPersistentDataContainer().remove(HUNTING_TALISMAN_BONUS_KEY);
+    public @NotNull PersistentDataType<Double, Double> getPDCType() {
+        return PersistentDataType.DOUBLE;
     }
+
+    @Override
+    public @NotNull Double getPDCValue() {
+        return chanceForExtraItem;
+    }
+
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {

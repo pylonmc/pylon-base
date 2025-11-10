@@ -69,18 +69,19 @@ public class HungerTalisman extends Talisman {
     public static final class JoinListener implements Listener {
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event) {
-            if (event.getPlayer().getPersistentDataContainer().has(HUNGER_TALISMAN_KEY)) {
-                int talismanLevel = event.getPlayer().getPersistentDataContainer().get(HUNGER_TALISMAN_KEY, PersistentDataType.INTEGER);
-                for (ItemStack stack : event.getPlayer().getInventory()) {
-                    PylonItem item = PylonItem.fromStack(stack);
-                    if (!(item instanceof HungerTalisman talisman)) {
-                        continue;
-                    }
-                    if (talisman.getLevel() != talismanLevel) {
-                        continue;
-                    }
-                    talisman.applyEffect(event.getPlayer());
+            if (!event.getPlayer().getPersistentDataContainer().has(HUNGER_TALISMAN_KEY)) {
+                return;
+            }
+            int talismanLevel = event.getPlayer().getPersistentDataContainer().get(HUNGER_TALISMAN_KEY, PersistentDataType.INTEGER);
+            for (ItemStack stack : event.getPlayer().getInventory()) {
+                PylonItem item = PylonItem.fromStack(stack);
+                if (!(item instanceof HungerTalisman talisman)) {
+                    continue;
                 }
+                if (talisman.getLevel() != talismanLevel) {
+                    continue;
+                }
+                talisman.applyEffect(event.getPlayer());
             }
         }
     }
