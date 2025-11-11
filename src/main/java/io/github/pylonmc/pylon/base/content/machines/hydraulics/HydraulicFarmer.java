@@ -30,8 +30,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +40,7 @@ import java.util.Set;
 public class HydraulicFarmer extends PylonBlock
         implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBufferBlock {
 
-    private static final Set<Material> BREAK = EnumSet.of(
+    private static final Set<Material> CROPS_TO_BREAK = EnumSet.of(
         Material.PUMPKIN,
         Material.MELON,
         Material.CARROTS,
@@ -48,6 +48,19 @@ public class HydraulicFarmer extends PylonBlock
         Material.WHEAT,
         Material.BEETROOTS,
         Material.NETHER_WART
+    );
+
+    // farmland -> crop item -> block
+    private static final Map<Material, Map<Material, Material>> CROP_TO_PLANT = Map.of(
+        Material.FARMLAND, Map.of(
+            Material.CARROT, Material.CARROTS,
+            Material.POTATO, Material.POTATOES,
+            Material.WHEAT_SEEDS, Material.WHEAT,
+            Material.BEETROOT_SEEDS, Material.BEETROOTS,
+            Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
+            Material.MELON_SEEDS, Material.MELON_STEM
+        ),
+        Material.SOUL_SAND, Map.of(Material.NETHER_WART, Material.NETHER_WART)
     );
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_FARMER);
@@ -107,7 +120,7 @@ public class HydraulicFarmer extends PylonBlock
             Block cropBlock = tile.getCropBlock();
             Material cropType = cropBlock.getType();
 
-            if (!BREAK.contains(cropType)) continue;
+            if (!CROPS_TO_BREAK.contains(cropType)) continue;
 
             if (cropBlock.getBlockData() instanceof Ageable ageable) {
                 if (ageable.getAge() == ageable.getMaximumAge()) {
@@ -125,18 +138,17 @@ public class HydraulicFarmer extends PylonBlock
         }
 
         List<ItemStack> stacks = getItemsFromChest();
-        EnumMap<FarmingTileType, ItemStack> tileToCrop = new EnumMap<>(FarmingTileType.class);
+        Map<Material, ItemStack> tileToCrop = new HashMap<>();
 
         for (ItemStack stack : stacks) {
             if (stack == null) continue;
-            if (tileToCrop.size() == 3) break;
+            if (tileToCrop.size() == 2) break;
 
             Material type = stack.getType();
-            if (FarmingTileType.isValidCrop(type)) {
-                FarmingTileType tileType = FarmingTileType.getTile(type);
-                if (tileToCrop.containsKey(tileType)) continue;
-
-                tileToCrop.put(tileType, stack);
+            Material farmland = getFarmlandFromItem(type);
+            if (farmland != null) {
+                if (tileToCrop.containsKey(farmland)) continue;
+                tileToCrop.put(farmland, stack);
             }
         }
 
@@ -147,9 +159,13 @@ public class HydraulicFarmer extends PylonBlock
         // Attempt plant crops
         for (var tile : tiles) {
             Block cropBlock = tile.getCropBlock();
-            FarmingTileType type = tile.getType();
+            Material type = tile.getType();
 
-            if (!cropBlock.isEmpty() || type == FarmingTileType.NONE) {
+            if (!isValidFarmland(type)) {
+                continue;
+            }
+
+            if (!cropBlock.isEmpty()) {
                 continue;
             }
 
@@ -158,7 +174,9 @@ public class HydraulicFarmer extends PylonBlock
                 continue;
             }
 
-            cropBlock.setType(type.mapCrop(planted.getType()));
+            Material blockPlant = CROP_TO_PLANT.get(type).get(planted.getType());
+            cropBlock.setType(blockPlant);
+
             planted.subtract();
             removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
             addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
@@ -166,73 +184,36 @@ public class HydraulicFarmer extends PylonBlock
         }
     }
 
-    private enum FarmingTileType {
-        SOUL_SAND,
-        FARMLAND,
-        NONE;
-
-        private static final Map<FarmingTileType, Map<Material, Material>> CROPS_TO_PLANT = Map.of(
-            FARMLAND, Map.of(
-                Material.CARROT, Material.CARROTS,
-                Material.POTATO, Material.POTATOES,
-                Material.WHEAT_SEEDS, Material.WHEAT,
-                Material.BEETROOT_SEEDS, Material.BEETROOTS,
-                Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
-                Material.MELON_SEEDS, Material.MELON_STEM
-            ),
-            SOUL_SAND, Map.of(Material.NETHER_WART, Material.NETHER_WART)
-        );
-
-        private static FarmingTileType tileFrom(Material mat) {
-            if (mat == Material.FARMLAND) return FARMLAND;
-            if (mat == Material.SOUL_SAND) return SOUL_SAND;
-
-            return NONE;
-        }
-
-        private Material mapCrop(Material crop) {
-            return CROPS_TO_PLANT.get(this).get(crop);
-        }
-
-        private static FarmingTileType getTile(Material mat) {
-            for (var entry : CROPS_TO_PLANT.entrySet()) {
-                if (entry.getValue().containsKey(mat)) {
-                    return entry.getKey();
-                }
-            }
-
-            return NONE;
-        }
-
-        private static boolean isValidCrop(Material material) {
-            for (var entry : CROPS_TO_PLANT.values()) {
-                if (entry.containsKey(material)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    }
-
-    private class FarmingTile {
+    private static class FarmingTile {
         @Getter
         private final Block cropBlock;
-        private FarmingTileType type = null;
+        private Material type = null;
 
         private FarmingTile(Block cropBlock) {
             this.cropBlock = cropBlock;
         }
 
         // lazy access
-        public FarmingTileType getType() {
+        public Material getType() {
             if (type == null) {
                 Block farmlandBlock = cropBlock.getRelative(BlockFace.DOWN);
-                this.type = FarmingTileType.tileFrom(farmlandBlock.getType());
+                this.type = farmlandBlock.getType();
             }
 
             return type;
         }
+    }
+
+    private static boolean isValidFarmland(Material type) {
+        return type == Material.SOUL_SAND || type == Material.FARMLAND;
+    }
+
+    private static Material getFarmlandFromItem(Material crop) {
+        for (var entry : CROP_TO_PLANT.entrySet()) {
+            if (entry.getValue().containsKey(crop)) return entry.getKey();
+        }
+
+        return null;
     }
 
     private List<FarmingTile> getFarmingTiles() {
