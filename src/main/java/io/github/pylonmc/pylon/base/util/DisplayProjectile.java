@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.entity.PylonEntity;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -61,7 +63,7 @@ public final class DisplayProjectile {
             .build(source);
         this.projectile.setPersistent(false);
 
-        new Task(tickInterval, lifetimeTicks).runTaskTimer(PylonBase.getInstance(), tickInterval, tickInterval);
+        new Task(tickInterval, lifetimeTicks).start();
     }
 
     private class Task extends BukkitRunnable {
@@ -131,6 +133,10 @@ public final class DisplayProjectile {
                 projectile.remove();
                 Task.this.cancel();
             });
+        }
+
+        public void start() {
+            this.runTaskTimer(PylonBase.getInstance(), tickInterval, tickInterval);
         }
     }
 }
