@@ -9,18 +9,13 @@ import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.RandomizedSound;
-import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -28,6 +23,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
@@ -39,8 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -56,7 +50,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         super(stack);
     }
 
-    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player) {
+    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot) {
         if (baseBlock != block.getType()) {
             if (player != null) {
                 player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
@@ -107,16 +101,9 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         if (anyRecipeAttempted) {
             if (player != null) {
                 player.setCooldown(getStack(), cooldownTicks);
-                getStack().damage(1, player);
+                PylonUtils.damageItem(getStack(), 1, player, slot);
             } else {
-                if (!getStack().hasData(DataComponentTypes.UNBREAKABLE)) {
-                    int newDamage = getStack().getData(DataComponentTypes.DAMAGE) + 1;
-                    if (newDamage >= getStack().getData(DataComponentTypes.MAX_DAMAGE)) {
-                        getStack().subtract();
-                    } else {
-                        getStack().setData(DataComponentTypes.DAMAGE, newDamage);
-                    }
-                }
+                PylonUtils.damageItem(getStack(), 1, block.getWorld());
             }
             block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
         }
@@ -139,22 +126,22 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         Block clickedBlock = event.getClickedBlock();
         Preconditions.checkState(clickedBlock != null);
 
-        tryDoRecipe(clickedBlock, player);
+        tryDoRecipe(clickedBlock, player, event.getHand());
     }
 
     private static Material getBaseBlock(@NotNull NamespacedKey key) {
         return Map.of(
-                BaseKeys.HAMMER_STONE, Material.STONE,
-                BaseKeys.HAMMER_IRON, Material.IRON_BLOCK,
-                BaseKeys.HAMMER_DIAMOND, Material.DIAMOND_BLOCK
+                BaseKeys.STONE_HAMMER, Material.STONE,
+                BaseKeys.IRON_HAMMER, Material.IRON_BLOCK,
+                BaseKeys.DIAMOND_HAMMER, Material.DIAMOND_BLOCK
         ).get(key);
     }
 
     private static MiningLevel getMiningLevel(@NotNull NamespacedKey key) {
         return Map.of(
-                BaseKeys.HAMMER_STONE, MiningLevel.STONE,
-                BaseKeys.HAMMER_IRON, MiningLevel.IRON,
-                BaseKeys.HAMMER_DIAMOND, MiningLevel.DIAMOND
+                BaseKeys.STONE_HAMMER, MiningLevel.STONE,
+                BaseKeys.IRON_HAMMER, MiningLevel.IRON,
+                BaseKeys.DIAMOND_HAMMER, MiningLevel.DIAMOND
         ).get(key);
     }
 

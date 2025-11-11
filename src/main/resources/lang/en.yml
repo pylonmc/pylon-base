@@ -317,6 +317,7 @@ item:
     name: "<white>Fluid Valve"
     lore: |-
       <arrow> <insn>Right click</insn> a fluid valve to toggle it
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Valve (%status%)"
 
   fluid_filter:
@@ -324,6 +325,7 @@ item:
     lore: |-
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Filter (%fluid%)"
     gui: "Fluid Filter"
 
@@ -332,6 +334,7 @@ item:
     lore: |-
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Meter (%fluid%)"
     gui: "Fluid Meter"
 
@@ -443,19 +446,19 @@ item:
     name: "Grindstone Handle"
     lore: "<star> Grindstone multiblock component"
 
-  hammer_diamond:
+  diamond_hammer:
     name: "Diamond Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
-  hammer_iron:
+  iron_hammer:
     name: "Iron Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
-  hammer_stone:
+  stone_hammer:
     name: "Stone Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
@@ -714,6 +717,12 @@ item:
       <star> Smeltery multiblock component
       <arrow> Serves as fluid output for the smeltery
 
+  soulbound_rune:
+    name: "Soulbound Rune"
+    lore: |-
+      <arrow> Connects your sense of self to an item, allowing you to retain the item upon death
+      <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
+
   splint:
     name: "Splint"
     lore: |-
@@ -790,6 +799,14 @@ item:
       <arrow> Increases your maximum health while in your inventory
       <arrow> Does not stack
       <arrow> <attr>Max health increase:</attr> %health-boost% 
+
+  item_magnet:
+    name: "Item Magnet"
+    lore: |-
+      <arrow> Pulls item towards you in a range
+      <arrow> Right click to toggle
+      <arrow> Does not stack
+      <arrow> <attr>Pulls distance:</attr> %pickup-distance%
 
   water_pump:
     name: "Water Pump"
@@ -1217,6 +1234,7 @@ item:
       <arrow> Refuel using the <white>Hydraulic Refueling Station
       <arrow> <insn>Right click</insn> to fire
       <arrow> <attr>Cooldown:</attr> %cooldown%
+      <arrow> <attr>Damage: </attr> %damage%
       <arrow> <attr>Range:</attr> %range%
       <arrow> <attr>Projectile speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid per shot:</attr> %hydraulic-fluid-per-shot%
@@ -1254,6 +1272,15 @@ item:
       <arrow> <attr>Time per block:</attr> %time-per-block%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
+  diesel_pipe_bender:
+    name: "Diesel Pipe Bender"
+    lore: |-
+      <arrow> Efficiently bends materials into pipes
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Pipe Bender | %diesel-bar%"
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1283,6 +1310,7 @@ fluid:
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
   obscyra: "<#5c4a66>Obscyra"
   reflector_fluid: "<#d1c9ab>Reflector Fluid"
+  biodiesel: "<#eaa627>Biodiesel"
 
 waila:
   mixing_pot:
@@ -1346,6 +1374,7 @@ research:
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<#000000>Reactivated wither skulls"
+  soul_attachment: "<dark_purple>Soul attachment"
 
 guide:
   page:
@@ -1360,6 +1389,7 @@ guide:
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulic Machines"
+    diesel_machines: "Diesel Machines"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
@@ -1395,11 +1425,9 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
-  pipe:
-    connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-    cannot_place_here: "<red>You cannot place a pipe here"
-    not_enough_pipes: "<red>Not enough pipes"
-    not_of_same_type: "<red>Pipes are of different types"
+  item_magnet:
+    enabled: "Item Magnet <gray>has been</gray> <green>enabled"
+    disabled: "Item Magnet <gray>has been</gray> <red>disabled"
   valve:
     enabled: "enabled"
     disabled: "disabled"
@@ -1426,6 +1454,9 @@ message:
     success: "<red>Your item has been fire-proofed"
   hydraulic_refueling_station:
     extra: "<gray>[<white>In: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>Out: %dirty-hydraulic-fluid-bar%<gray>]"
+  soulbound_rune:
+    tooltip: "<dark_purple>Soulbound"
+    soulbind-message: "<dark_purple>Your soul has been linked with your item"
 
 gui:
   fluid-selector-title: "Select Fluid"
