@@ -480,9 +480,9 @@ item:
   loupe:
     name: "Loupe"
     lore: |-
-      <arrow> Examining items with the loupe yields research points
-      <arrow> The rarer the item, the more times it can be examined
-      <arrow> <red>The examined item will be consumed</red>
+      <arrow> Examining items/blocks with the loupe yields research points
+      <arrow> The rarer the item/block, the more times it can be examined
+      <arrow> <red>The examined item/block will be consumed</red>
       <arrow> <insn>Hold right click</insn> on a block or dropped item to examine it
 
   lumber_axe:
