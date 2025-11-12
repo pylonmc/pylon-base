@@ -75,8 +75,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
             return; // don't vacuum if powered
         }
 
-        Location location = getBlock().getLocation().add(0.5, 0.5, 0.5);
-        for (Entity entity : location.getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
+        for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }
