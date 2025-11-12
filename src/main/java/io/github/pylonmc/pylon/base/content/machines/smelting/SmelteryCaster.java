@@ -120,12 +120,14 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             }
 
             ItemStack result = recipe.result();
-            int leftover = inventory.addItem(null, result);
-
-            if (leftover == 0) {
-                controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
-                new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
+            if (!inventory.canHold(result)) {
+                return;
             }
+
+            inventory.addItem(null, result);
+
+            controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
+            new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
