@@ -755,7 +755,7 @@ item:
     name: "Steel Sheet"
 
   charcoal_block:
-    name: "Charcoal Block"
+    name: "Block of Charcoal"
 
   sulfur:
     name: "Sulfur"

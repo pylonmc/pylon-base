@@ -66,7 +66,7 @@ pylonbase:charcoal_block_from_charcoal:
   key:
     N: minecraft:charcoal
   result: pylonbase:charcoal_block
-  category: misc
+  category: building
 
 pylonbase:nickel_ingot_from_nickel_nuggets:
   pattern:
