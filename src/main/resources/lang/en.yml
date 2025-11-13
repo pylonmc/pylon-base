@@ -450,19 +450,19 @@ item:
     name: "Diamond Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
+      <arrow> Higher tier hammers are twice as likely to succeed than the tier below them for a given recipe
 
   iron_hammer:
     name: "Iron Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
+      <arrow> Higher tier hammers are twice as likely to succeed than the tier below them for a given recipe
 
   stone_hammer:
     name: "Stone Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
+      <arrow> Higher tier hammers are twice as likely to succeed than the tier below them for a given recipe
 
   immobilizer:
     name: "Immobilizer"
@@ -803,10 +803,10 @@ item:
   item_magnet:
     name: "Item Magnet"
     lore: |-
-      <arrow> Pulls item towards you in a range
-      <arrow> Right click to toggle
+      <arrow> Pulls items towards you in a range
+      <arrow> <insn>Right click</insn> to toggle
       <arrow> Does not stack
-      <arrow> <attr>Pulls distance:</attr> %pickup-distance%
+      <arrow> <attr>Pull distance:</attr> %pickup-distance%
 
   water_pump:
     name: "Water Pump"
@@ -1403,6 +1403,7 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
+    hammer: "<attr>Chance:</attr> %chance%"
 
 message:
   fluid_none: "None"

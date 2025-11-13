@@ -7,9 +7,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.RandomizedSound;
@@ -29,7 +27,6 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,10 +77,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
             anyRecipeAttempted = true;
 
-            float adjustedChance = recipe.chance() *
-                    // Each tier is twice as likely to succeed as the previous one
-                    (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
-            if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
+            if (ThreadLocalRandom.current().nextFloat() > recipe.getChanceFor(miningLevel)) continue;
 
             for (ItemStack item : items) {
                 if (recipe.input().matches(item)) {
@@ -143,14 +137,6 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                 BaseKeys.IRON_HAMMER, MiningLevel.IRON,
                 BaseKeys.DIAMOND_HAMMER, MiningLevel.DIAMOND
         ).get(key);
-    }
-
-    public static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
-        return PylonRegistry.ITEMS.getValues().stream()
-                .map(PylonItemSchema::getItemStack)
-                .filter(item -> fromStack(item) instanceof Hammer hammer
-                                && hammer.miningLevel.isAtLeast(level))
-                .toList();
     }
 
     private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
