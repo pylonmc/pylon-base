@@ -26,7 +26,7 @@ item:
     name: "Bronze Nugget"
 
   bronze_block:
-    name: "Bronze Block"
+    name: "Block of Bronze"
 
   bronze_sheet:
     name: "Bronze Sheet"
@@ -59,7 +59,7 @@ item:
     name: "Cobalt Nugget"
 
   cobalt_block:
-    name: "Cobalt Block"
+    name: "Block of Cobalt"
 
   carbon:
     name: "Carbon"
@@ -541,7 +541,7 @@ item:
     name: "Nickel Nugget"
 
   nickel_block:
-    name: "Nickel Block"
+    name: "Block of Nickel"
 
   obsidian_chip:
     name: "Obsidian Chip"
@@ -566,7 +566,7 @@ item:
       
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name></yellow>
-      <diamond> 8x <yellow>Coal Block</yellow>
+      <diamond> 8x <yellow>Block of Coal</yellow>
       <diamond> 20x <yellow>Coarse Dirt</yellow>
       <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
       ...or 1x <yellow>Fire</yellow> (%fire%x <attr>speed</attr>) 
@@ -749,7 +749,7 @@ item:
     name: "Steel Nugget"
 
   steel_block:
-    name: "Steel Block"
+    name: "Block of Steel"
 
   steel_sheet:
     name: "Steel Sheet"
@@ -767,7 +767,7 @@ item:
     name: "Tin Nugget"
 
   tin_block:
-    name: "Tin Block"
+    name: "Block of Tin"
 
   tin_sheet:
     name: "Tin Sheet"
@@ -1373,7 +1373,7 @@ research:
   climbing_equipment: "<#a6b579>Climbing equipment"
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
-  reactivated_skulls: "<#000000>Reactivated wither skulls"
+  reactivated_skulls: "<gray>Reactivated wither skulls"
   soul_attachment: "<dark_purple>Soul attachment"
 
 guide:
