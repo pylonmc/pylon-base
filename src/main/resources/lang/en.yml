@@ -1415,6 +1415,7 @@ message:
   gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
+    invalid_block: "<red>Try as you may, you cannot glean any information from this block"
     already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
     examined: "<green>As you examine the %item%, you get a sudden flash of insight"
