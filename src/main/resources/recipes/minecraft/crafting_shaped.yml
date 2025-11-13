@@ -58,6 +58,16 @@ pylonbase:steel_block_from_steel_ingots:
   result: pylonbase:steel_block
   category: misc
 
+pylonbase:charcoal_block_from_charcoal:
+  pattern:
+    - "NNN"
+    - "NNN"
+    - "NNN"
+  key:
+    N: minecraft:charcoal
+  result: pylonbase:charcoal_block
+  category: misc
+
 pylonbase:nickel_ingot_from_nickel_nuggets:
   pattern:
     - "NNN"
