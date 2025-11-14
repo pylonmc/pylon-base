@@ -1,2 +1,2 @@
 rune-check-range: 1.75
-health-talisman-check-interval: 40
+default-talisman-tick-interval: 4
