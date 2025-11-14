@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonJobBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -31,6 +32,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.VillagerCareerChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +44,7 @@ import org.joml.Matrix4f;
 import java.util.List;
 
 
-public class Press extends PylonBlock implements PylonInteractBlock, PylonFluidBufferBlock {
+public class Press extends PylonBlock implements PylonInteractBlock, PylonFluidBufferBlock, PylonJobBlock {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
@@ -173,6 +175,11 @@ public class Press extends PylonBlock implements PylonInteractBlock, PylonFluidB
                 .translate(0, translation, 0)
                 .scale(0.9, 0.1, 0.9)
                 .buildForItemDisplay();
+    }
+
+    @Override
+    public void onVillagerGetJob(@NotNull VillagerCareerChangeEvent event) {
+        event.setCancelled(true);
     }
 
 
