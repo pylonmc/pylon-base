@@ -31,17 +31,17 @@ public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
     }
 
     @Override
-    public @NotNull NamespacedKey getPDCEffectKey() {
+    public @NotNull NamespacedKey getPdcEffectKey() {
         return BARTERING_TALISMAN_NO_CONSUME_KEY;
     }
 
     @Override
-    public @NotNull PersistentDataType<Float, Float> getPDCType() {
+    public @NotNull PersistentDataType<Float, Float> getPdcType() {
         return PersistentDataType.FLOAT;
     }
 
     @Override
-    public @NotNull Float getPDCValue() {
+    public @NotNull Float getPdcValue() {
         return chanceToNotConsumeInput;
     }
 

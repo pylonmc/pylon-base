@@ -30,17 +30,17 @@ public class HuntingTalisman extends PDCKeyTalisman<Double, Double> {
     }
 
     @Override
-    public @NotNull NamespacedKey getPDCEffectKey() {
+    public @NotNull NamespacedKey getPdcEffectKey() {
         return HUNTING_TALISMAN_BONUS_KEY;
     }
 
     @Override
-    public @NotNull PersistentDataType<Double, Double> getPDCType() {
+    public @NotNull PersistentDataType<Double, Double> getPdcType() {
         return PersistentDataType.DOUBLE;
     }
 
     @Override
-    public @NotNull Double getPDCValue() {
+    public @NotNull Double getPdcValue() {
         return chanceForExtraItem;
     }
 

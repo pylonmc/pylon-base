@@ -15,16 +15,16 @@ public abstract class PDCKeyTalisman<P,C> extends Talisman {
     @Override
     public void applyEffect(@NotNull Player player) {
         super.applyEffect(player);
-        player.getPersistentDataContainer().set(getPDCEffectKey(), getPDCType(), getPDCValue());
+        player.getPersistentDataContainer().set(getPdcEffectKey(), getPdcType(), getPdcValue());
     }
 
     @Override
     public void removeEffect(@NotNull Player player) {
         super.removeEffect(player);
-        player.getPersistentDataContainer().remove(getPDCEffectKey());
+        player.getPersistentDataContainer().remove(getPdcEffectKey());
     }
 
-    public abstract @NotNull NamespacedKey getPDCEffectKey();
-    public abstract @NotNull PersistentDataType<P,C> getPDCType();
-    public abstract @NotNull C getPDCValue();
+    public abstract @NotNull NamespacedKey getPdcEffectKey();
+    public abstract @NotNull PersistentDataType<P,C> getPdcType();
+    public abstract @NotNull C getPdcValue();
 }
