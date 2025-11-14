@@ -1408,7 +1408,7 @@ item:
     name: "Ultimate Enchanting Talisman"
     lore: |-
       <arrow> Improves your odds of getting higher level enchants from the enchanting table
-      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+      <arrow> <attr>Chance of incrementing enchantment level by 1:%bonus_level_chance%</attr> 
 
   hunting_talisman_simple:
     name: "Simple Hunting Talisman"
