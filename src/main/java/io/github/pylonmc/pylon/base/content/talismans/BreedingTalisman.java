@@ -2,14 +2,12 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
@@ -19,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BreedingTalisman extends PDCKeyTalisman<Float,Float> {
+public class BreedingTalisman extends PDCKeyTalisman<Float, Float> {
     public final float breedingCooldownMultiplier = getSettings().getOrThrow("breeding-cd-multiplier", ConfigAdapter.FLOAT);
     public static final NamespacedKey BREEDING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "breeding_talisman");
     public static final NamespacedKey BREEDING_TALISMAN_MULTIPLIER_KEY = new NamespacedKey(PylonBase.getInstance(), "breeding_talisman_multiplier");
@@ -55,14 +53,14 @@ public class BreedingTalisman extends PDCKeyTalisman<Float,Float> {
 
     public static final class BreedingTalismanListener implements Listener {
         @EventHandler
-        public void onBreedEvent(EntityBreedEvent event){
-            if(event.getBreeder() == null || event.getBreeder().getType() != EntityType.PLAYER) {
+        public void onBreedEvent(EntityBreedEvent event) {
+            if (event.getBreeder() == null || event.getBreeder().getType() != EntityType.PLAYER) {
                 return;
             }
-            if(!event.getBreeder().getPersistentDataContainer().has(BREEDING_TALISMAN_MULTIPLIER_KEY)){
+            if (!event.getBreeder().getPersistentDataContainer().has(BREEDING_TALISMAN_MULTIPLIER_KEY)) {
                 return;
             }
-            if(!(event.getFather() instanceof Animals a1) || !(event.getMother() instanceof Animals a2)){
+            if (!(event.getFather() instanceof Animals a1) || !(event.getMother() instanceof Animals a2)) {
                 return;
             }
             float multiplier = event.getBreeder().getPersistentDataContainer().get(BREEDING_TALISMAN_MULTIPLIER_KEY, PersistentDataType.FLOAT);

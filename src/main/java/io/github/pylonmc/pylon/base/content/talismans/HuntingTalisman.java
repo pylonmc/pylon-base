@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -18,9 +17,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class HuntingTalisman extends PDCKeyTalisman<Double,Double> {
+public class HuntingTalisman extends PDCKeyTalisman<Double, Double> {
     public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public final double chanceForExtraItem = getSettings().getOrThrow("chance-for-extra-item", ConfigAdapter.DOUBLE);
     public static final NamespacedKey HUNTING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "hunting_talisman");
@@ -64,7 +63,6 @@ public class HuntingTalisman extends PDCKeyTalisman<Double,Double> {
     }
 
     public static final class HuntingTalismanListener implements Listener {
-        private final Random randGen = new Random();
 
         @EventHandler
         public void onEntityDeath(EntityDeathEvent event) {
@@ -83,7 +81,7 @@ public class HuntingTalisman extends PDCKeyTalisman<Double,Double> {
                 if (drop.getItemMeta().hasRarity() && drop.getItemMeta().getRarity().ordinal() >= ItemRarity.RARE.ordinal()) {
                     continue;
                 }
-                if (randGen.nextDouble() > chanceForExtraItem) {
+                if (ThreadLocalRandom.current().nextDouble() > chanceForExtraItem) {
                     continue;
                 }
                 drop.setAmount(drop.getAmount() + 1);

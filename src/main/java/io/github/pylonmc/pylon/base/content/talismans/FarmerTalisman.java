@@ -2,14 +2,12 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
@@ -19,13 +17,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class FarmerTalisman extends PDCKeyTalisman<Float,Float> {
+public class FarmerTalisman extends PDCKeyTalisman<Float, Float> {
     public float extraCropChance = getSettings().getOrThrow("extra-crop-chance", ConfigAdapter.FLOAT);
     public static final NamespacedKey FARMER_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman");
     public static final NamespacedKey FARMER_TALISMAN_CHANCE_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman_chance");
-    private static final Random RNG = new Random();
 
     public FarmerTalisman(@NotNull ItemStack stack) {
         super(stack);
@@ -67,7 +64,7 @@ public class FarmerTalisman extends PDCKeyTalisman<Float,Float> {
                 if (!Tag.CROPS.isTagged(drop.getItemStack().getType())) {
                     continue;
                 }
-                if (RNG.nextFloat() > event.getPlayer().getPersistentDataContainer().get(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT)) {
+                if (ThreadLocalRandom.current().nextFloat() > event.getPlayer().getPersistentDataContainer().get(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT)) {
                     continue;
                 }
                 additionalDrops.add(drop.getWorld().dropItem(drop.getLocation(), drop.getItemStack().clone()));

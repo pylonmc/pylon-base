@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
-import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -10,7 +9,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDropItemEvent;
@@ -21,13 +19,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
     public static final NamespacedKey BARTERING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "bartering_talisman");
     public static final NamespacedKey BARTERING_TALISMAN_NO_CONSUME_KEY = new NamespacedKey(PylonBase.getInstance(), "bartering_talisman_no_consume_chance");
     public final float chanceToNotConsumeInput = getSettings().getOrThrow("chance-to-not-consume-input", ConfigAdapter.FLOAT);
-    private static final Random RNG = new Random();
 
     public BarteringTalisman(@NotNull ItemStack stack) {
         super(stack);
@@ -60,19 +57,19 @@ public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
 
     public static final class BarteringTalismanListener implements Listener {
         @EventHandler
-        public void onBarter(PiglinBarterEvent event){
+        public void onBarter(PiglinBarterEvent event) {
             Optional<Entity> player = event.getEntity().getNearbyEntities(15, 5, 15).stream().filter(
                     entity -> entity.getType() == EntityType.PLAYER
             ).findFirst();
-            if(player.isEmpty()){
+            if (player.isEmpty()) {
                 return;
             }
             float chance = player.get().getPersistentDataContainer().get(BARTERING_TALISMAN_NO_CONSUME_KEY, PersistentDataType.FLOAT);
-            if(RNG.nextFloat() > chance){
+            if (ThreadLocalRandom.current().nextFloat() > chance) {
                 return;
             }
             Item item = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), event.getInput().clone());
-            if(!new EntityDropItemEvent(event.getEntity(), item).callEvent()){
+            if (!new EntityDropItemEvent(event.getEntity(), item).callEvent()) {
                 item.remove();
             }
         }
