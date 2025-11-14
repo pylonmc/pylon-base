@@ -206,9 +206,9 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("info", getFluidType() == null ? //todo: change to crucible
-                Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
-                Component.translatable("pylon.pylonbase.waila.mixing_pot.filled",
+            PylonArgument.of("info", getFluidType() == null ?
+                Component.translatable("pylon.pylonbase.waila.crucible.empty") :
+                Component.translatable("pylon.pylonbase.waila.crucible.filled",
                     PylonArgument.of("fluid", getFluidType().getName()),
                     PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1))
                 ))

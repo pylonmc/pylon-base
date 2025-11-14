@@ -525,6 +525,13 @@ item:
       <arrow> Can also be used like a normal cauldron
     waila: "Mixing Pot %info%"
 
+  crucible:
+    name: "Crucible"
+    lore: |-
+      <arrow> Place items in the crucible and <insn>right click</insn> to melt it
+      <arrow> Requires a fire underneath to work
+    waila: "Crucible %info%"
+
   monster_jerky:
     name: "Monster Jerky"
     lore: |-
@@ -1319,6 +1326,9 @@ waila:
   fluid_tank:
     empty: "(empty)"
     filled: "| %amount%/%capacity% of %fluid%"
+  crucible:
+    empty: "(empty)"
+    filled: "| %amount% of %fluid%"
   fluid_strainer:
     straining: " | Straining %item%: %progress%"
   pit_kiln: "Pit Kiln | %time% left"
