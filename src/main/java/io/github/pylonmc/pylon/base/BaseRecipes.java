@@ -23,6 +23,8 @@ public class BaseRecipes {
 
         MixingPotRecipe.RECIPE_TYPE.register();
 
+        CrucibleRecipe.RECIPE_TYPE.register();
+
         MoldingRecipe.RECIPE_TYPE.register();
 
         PipeBendingRecipe.RECIPE_TYPE.register();

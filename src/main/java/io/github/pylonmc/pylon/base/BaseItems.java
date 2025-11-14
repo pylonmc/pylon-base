@@ -723,6 +723,13 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(MIXING_POT);
     }
 
+    public static final ItemStack CRUCIBLE = ItemStackBuilder.pylon(Material.CAULDRON, BaseKeys.CRUCIBLE)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CRUCIBLE, BaseKeys.CRUCIBLE);
+        BasePages.SIMPLE_MACHINES.addItem(CRUCIBLE);
+    }
+
     public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylon(Material.NETHERRACK, BaseKeys.ENRICHED_NETHERRACK)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();

@@ -336,6 +336,16 @@ pylonbase:mixing_pot:
   result: pylonbase:mixing_pot
   category: building
 
+pylonbase:crucible:
+  pattern:
+    - "C C"
+    - "C C"
+    - "CCC"
+  key:
+    C: minecraft:brick
+  result: pylonbase:crucible
+  category: building
+
 pylonbase:enriched_netherrack:
   pattern:
     - " S "
