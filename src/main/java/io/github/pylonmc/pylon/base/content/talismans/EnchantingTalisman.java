@@ -56,7 +56,7 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
     public static class EnchantingListener implements Listener {
         @EventHandler
         public void onPreEnchant(PrepareItemEnchantEvent event) {
-            double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
+            Double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
             if (bonusLevelChance == null) {
                 return;
             }
