@@ -56,11 +56,10 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
     public static class EnchantingListener implements Listener {
         @EventHandler
         public void onPreEnchant(PrepareItemEnchantEvent event) {
-            if (!event.getEnchanter().getPersistentDataContainer().has(ENCHANTING_TALISMAN_BONUS_KEY)) {
+            double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
+            if (bonusLevelChance == null) {
                 return;
             }
-            @SuppressWarnings("DataFlowIssue")
-            double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
             Random randGen = new Random(event.getView().getEnchantmentSeed());
             for (EnchantmentOffer offer : event.getOffers()) {
                 if (offer == null) continue;
