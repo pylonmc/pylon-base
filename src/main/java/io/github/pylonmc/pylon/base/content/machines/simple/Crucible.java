@@ -120,7 +120,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     }
 
     private void doRecipe(@NotNull CrucibleRecipe recipe, @NotNull List<Item> items) {
-        ItemStack recipeInput = recipe.input();
+        RecipeInput.Item recipeInput = recipe.input();
 
         if (recipe.output().fluid().equals(getFluidType())) {
             if (getFluidAmount() == getFluidCapacity()) return; // no need to waste stuff

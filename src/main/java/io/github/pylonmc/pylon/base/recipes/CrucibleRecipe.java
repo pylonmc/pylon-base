@@ -24,7 +24,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public record CrucibleRecipe(
     @NotNull NamespacedKey key,
-    @NotNull ItemStack input,
+    @NotNull RecipeInput.Item input,
     @NotNull FluidOrItem.Fluid output
 ) implements PylonRecipe {
 
@@ -38,7 +38,7 @@ public record CrucibleRecipe(
 
             return new CrucibleRecipe(
                 key,
-                section.getOrThrow("input-item", ConfigAdapter.ITEM_STACK),
+                section.getOrThrow("input-item", ConfigAdapter.RECIPE_INPUT_ITEM),
                 fluidOutput
             );
         }
@@ -46,7 +46,7 @@ public record CrucibleRecipe(
 
     @Override
     public @NotNull List<@NotNull RecipeInput> getInputs() {
-        return List.of(RecipeInput.of(input));
+        return List.of(input);
     }
 
     @Override
@@ -65,7 +65,7 @@ public record CrucibleRecipe(
                 "# # # # # # # # #"
             )
             .addIngredient('#', GuiItems.backgroundBlack())
-            .addIngredient('i', new ItemButton(input))
+            .addIngredient('i', ItemButton.from(input))
             .addIngredient('m', ItemButton.from(BaseItems.CRUCIBLE))
             .addIngredient('o', new FluidButton(output.amountMillibuckets(), output.fluid())
         ).build();
@@ -73,7 +73,7 @@ public record CrucibleRecipe(
 
     public boolean matches(ItemStack inputItem) {
         if (inputItem.getAmount() < input.getAmount()) return false;
-        return input.isSimilar(inputItem);
+        return input.matches(inputItem);
     }
 
     @Override
