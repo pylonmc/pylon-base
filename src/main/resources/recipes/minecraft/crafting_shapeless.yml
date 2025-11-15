@@ -33,7 +33,7 @@ pylonbase:charcoal_from_charcoal_block:
     - pylonbase:charcoal_block
   result:
     minecraft:charcoal: 9
-  category: BUILDING
+  category: building
 
 pylonbase:steel_ingots_from_steel_block:
   ingredients:
