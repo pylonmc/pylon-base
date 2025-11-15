@@ -3,6 +3,8 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.guide.pages.base.SimpleStaticGuidePage;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -26,6 +28,14 @@ public class BasePages {
 
     public static final SimpleStaticGuidePage BUILDING = new SimpleStaticGuidePage(baseKey("building"), Material.STONE_BRICK_WALL);
 
+    public static final SimpleStaticGuidePage CREATIVE_ITEMS = new SimpleStaticGuidePage(baseKey("creative_items"), Material.BEDROCK) {
+        @Override
+        public boolean shouldDisplay(@NotNull Player player) {
+            //todo: maybe define a permission instead?
+            return player.isOp();
+        }
+    };
+
     static {
         PylonGuide.getRootPage().addPage(SCIENCE);
         PylonGuide.getRootPage().addPage(RESOURCES);
@@ -44,5 +54,6 @@ public class BasePages {
         PylonGuide.getRootPage().addPage(MACHINES);
 
         PylonGuide.getRootPage().addPage(BUILDING);
+        PylonGuide.getRootPage().addPage(CREATIVE_ITEMS);
     }
 }

@@ -1393,6 +1393,7 @@ guide:
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
+    creative_items: "Creative Items"
     magic: "Magic"
   recipe:
     grindstone:
