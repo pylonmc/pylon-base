@@ -104,7 +104,7 @@ public record MixingPotRecipe(
                 .addIngredient('f', new FluidButton(inputFluid))
                 .addIngredient('m', ItemButton.from(BaseItems.MIXING_POT))
                 .addIngredient('i', requiresEnrichedFire
-                        ? ItemButton.from(BaseItems.ENRICHED_NETHERRACK)
+                        ? ItemButton.from(BaseItems.ENRICHED_SOUL_SOIL)
                         : GuiItems.background()
                 );
 

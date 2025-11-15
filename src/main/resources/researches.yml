@@ -268,7 +268,7 @@ shimmer_manipulation:
   unlocks:
   - pylonbase:shimmer_dust_2
   - pylonbase:covalent_binder
-  - pylonbase:enriched_netherrack
+  - pylonbase:enriched_soul_soil
 rituals:
   material: wither_skeleton_skull
   cost: 20

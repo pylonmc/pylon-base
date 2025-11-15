@@ -110,8 +110,8 @@ item:
   dough:
     name: "Dough"
 
-  enriched_netherrack:
-    name: "Enriched Netherrack"
+  enriched_soul_soil:
+    name: "Enriched Soul Soil"
     lore: |-
       <arrow> Burns hotter and brighter than netherrack
 

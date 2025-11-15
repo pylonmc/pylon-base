@@ -161,7 +161,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
 
         PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
         boolean isEnrichedFire = ignitedBlock != null
-                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
+                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_SOUL_SOIL);
 
         for (MixingPotRecipe recipe : MixingPotRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, getFluidType(), getFluidAmount())) {
