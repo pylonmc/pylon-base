@@ -723,7 +723,7 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(MIXING_POT);
     }
 
-    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylon(Material.NETHERRACK, BaseKeys.ENRICHED_NETHERRACK)
+    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylon(Material.SOUL_SOIL, BaseKeys.ENRICHED_NETHERRACK)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
