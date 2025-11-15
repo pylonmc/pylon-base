@@ -31,8 +31,7 @@ public class BasePages {
     public static final SimpleStaticGuidePage CREATIVE_ITEMS = new SimpleStaticGuidePage(baseKey("creative_items"), Material.BEDROCK) {
         @Override
         public boolean shouldDisplay(@NotNull Player player) {
-            //todo: maybe define a permission instead?
-            return player.isOp();
+            return player.hasPermission("pylon.guide.view_admin_pages");
         }
     };
 
