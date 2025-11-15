@@ -723,12 +723,12 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(MIXING_POT);
     }
 
-    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylon(Material.SOUL_SOIL, BaseKeys.ENRICHED_NETHERRACK)
+    public static final ItemStack ENRICHED_SOUL_SOIL = ItemStackBuilder.pylon(Material.SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(PylonItem.class, ENRICHED_NETHERRACK, BaseKeys.ENRICHED_NETHERRACK);
-        BasePages.COMPONENTS.addItem(ENRICHED_NETHERRACK);
+        PylonItem.register(PylonItem.class, ENRICHED_SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL);
+        BasePages.COMPONENTS.addItem(ENRICHED_SOUL_SOIL);
     }
 
     public static final ItemStack SHIMMER_SKULL = ItemStackBuilder.pylon(Material.WITHER_SKELETON_SKULL, BaseKeys.SHIMMER_SKULL)
