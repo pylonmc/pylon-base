@@ -26,6 +26,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.Style;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -114,6 +115,8 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
             ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
     );
 
+    private int lastDisplayUpdate = -1;
+
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -144,13 +147,21 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
 
     @Override
     public boolean setFluid(double amount) {
+        double oldAmount = getFluidAmount();
         boolean result = PylonFluidTank.super.setFluid(amount);
-        float scale = (float) (0.9F * getFluidAmount() / capacity);
-        getFluidDisplay().setTransformationMatrix(new TransformBuilder()
-                .translate(0.0, -0.45 + scale / 2, 0.0)
-                .scale(0.9, scale, 0.9)
-                .buildForItemDisplay()
-        );
+        amount = getFluidAmount();
+        if (lastDisplayUpdate == -1 || (result && oldAmount != amount)) {
+            float scale = (float) (0.9F * amount / capacity);
+            ItemDisplay fluidDisplay = getFluidDisplay();
+            fluidDisplay.setInterpolationDelay(Math.min(-3 + (fluidDisplay.getTicksLived() - lastDisplayUpdate), 0));
+            fluidDisplay.setInterpolationDuration(4);
+            fluidDisplay.setTransformationMatrix(new TransformBuilder()
+                    .translate(0.0, -0.45 + scale / 2, 0.0)
+                    .scale(0.9, scale, 0.9)
+                    .buildForItemDisplay()
+            );
+            lastDisplayUpdate = fluidDisplay.getTicksLived();
+        }
         return result;
     }
 
@@ -202,7 +213,7 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
 
         ItemStack item = event.getItem();
         EquipmentSlot hand = event.getHand();
-        if (item == null || hand != EquipmentSlot.HAND || PylonItem.isPylonItem(item)) {
+        if (item == null || hand == null || PylonItem.isPylonItem(item)) {
             return;
         }
 
@@ -256,14 +267,18 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
             }
         }
 
-        ItemStack finalNewItemStack = newItemStack;
-        if (finalNewItemStack != null) {
-            // This is a hack. When I change the item from within a PlayerInteractEvent, a new event
-            // is fired for the new item stack. No idea why. Nor did the guy from the paper team.
-            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                item.subtract();
-                event.getPlayer().give(finalNewItemStack);
-            }, 0);
+
+        if (newItemStack != null) {
+            event.getPlayer().swingHand(hand);
+            if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                // This is a hack. When I change the item from within a PlayerInteractEvent, a new event
+                // is fired for the new item stack. No idea why. Nor did the guy from the paper team.
+                ItemStack finalNewItemStack = newItemStack;
+                Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+                    item.subtract();
+                    event.getPlayer().give(finalNewItemStack);
+                }, 0);
+            }
         }
     }
 

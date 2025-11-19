@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
+import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -23,6 +24,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+
+import java.time.Duration;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -75,6 +79,13 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("lit", new Pair<>(fuel != null ? "true" : "false", 2));
+        return properties;
+    }
+
+    @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
@@ -108,6 +119,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                             item.subtract();
                             inventory.setItem(null, i, item);
                             fuelTicksRemaining = Math.round(fuel.burnTimeSeconds * 20);
+                            refreshBlockTextureItem();
                             break itemLoop;
                         }
                     }
@@ -121,6 +133,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 fuel = null;
                 progressItem.setItemStackBuilder(notBurningProgressItem);
                 progressItem.setTotalTime(null);
+                refreshBlockTextureItem();
             }
         }
     }
