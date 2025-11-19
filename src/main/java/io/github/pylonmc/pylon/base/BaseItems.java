@@ -756,7 +756,7 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(HEALTH_TALISMAN_SIMPLE);
     }
 
-    public static final ItemStack HEALTH_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.AMETHYST_CLUSTER, BaseKeys.HEALTH_TALISMAN_ADVANCED)
+    public static final ItemStack HEALTH_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_ADVANCED)
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     static {
@@ -764,7 +764,7 @@ public final class BaseItems {
         BasePages.COMBAT.addItem(HEALTH_TALISMAN_ADVANCED);
     }
 
-    public static final ItemStack HEALTH_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.BUDDING_AMETHYST, BaseKeys.HEALTH_TALISMAN_ULTIMATE)
+    public static final ItemStack HEALTH_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_ULTIMATE)
             .set(DataComponentTypes.MAX_STACK_SIZE, 1)
             .build();
     static {
