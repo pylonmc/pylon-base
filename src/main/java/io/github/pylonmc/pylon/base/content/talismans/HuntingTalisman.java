@@ -48,7 +48,7 @@ public class HuntingTalisman extends PDCKeyTalisman<Double, Double> {
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("bonus_item_chance", UnitFormat.PERCENT.format(chanceForExtraItem * 100))
+                PylonArgument.of("bonus_item_chance", UnitFormat.PERCENT.format(chanceForExtraItem * 100, 2))
         );
     }
 

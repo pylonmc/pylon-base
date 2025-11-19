@@ -47,7 +47,7 @@ public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("chance_to_not_consume_input", UnitFormat.PERCENT.format(chanceToNotConsumeInput * 100)));
+        return List.of(PylonArgument.of("chance_to_not_consume_input", UnitFormat.PERCENT.format(chanceToNotConsumeInput * 100, 2)));
     }
 
     @Override
