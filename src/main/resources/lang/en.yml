@@ -1339,19 +1339,19 @@ item:
       <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
 
   water_breathing_talisman_simple:
-    name: "Simple Water Breathing Talisman"
+    name: "<white>Simple Water Breathing Talisman"
     lore: |-
       <arrow> Expands your lungs so you can breathe longer underwater
       <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
 
   water_breathing_talisman_advanced:
-    name: "Advanced Water Breathing Talisman"
+    name: "<white>Advanced Water Breathing Talisman"
     lore: |-
       <arrow> Expands your lungs so you can breathe longer underwater
       <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
 
   water_breathing_talisman_ultimate:
-    name: "Ultimate Water Breathing Talisman"
+    name: "<white>Ultimate Water Breathing Talisman"
     lore: |-
       <arrow> Expands your lungs so you can breathe longer underwater
       <arrow> <attr>Additional oxygen:</attr> %bonus_oxygen%
