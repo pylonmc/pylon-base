@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.talismans.*;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
