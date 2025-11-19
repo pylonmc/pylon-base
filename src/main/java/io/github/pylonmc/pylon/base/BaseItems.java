@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
@@ -15,6 +16,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDr
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
+import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -247,6 +249,34 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRONZE_BLOCK, BaseKeys.BRONZE_BLOCK);
         BasePages.RESOURCES.addItem(BRONZE_BLOCK);
+    }
+
+    public static final ItemStack SPONGE_IRON = ItemStackBuilder.pylon(Material.RAW_IRON, BaseKeys.SPONGE_IRON)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SPONGE_IRON);
+        BasePages.RESOURCES.addItem(SPONGE_IRON);
+    }
+
+    public static final ItemStack IRON_BLOOM = ItemStackBuilder.pylon(Material.RAW_IRON, BaseKeys.IRON_BLOOM)
+            .build();
+    static {
+        PylonItem.register(IronBloom.class, IRON_BLOOM);
+        BasePages.RESOURCES.addItem(IRON_BLOOM);
+    }
+
+    public static final ItemStack WROUGHT_IRON = ItemStackBuilder.pylon(Material.NETHERITE_SCRAP, BaseKeys.WROUGHT_IRON)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, WROUGHT_IRON);
+        BasePages.RESOURCES.addItem(WROUGHT_IRON);
+    }
+
+    public static final ItemStack TONGS = ItemStackBuilder.pylon(Material.SHEARS, BaseKeys.TONGS)
+            .build();
+    static {
+        PylonItem.register(Tongs.class, TONGS);
+        BasePages.TOOLS.addItem(TONGS);
     }
 
     public static final ItemStack STEEL_INGOT = ItemStackBuilder.pylon(Material.NETHERITE_INGOT, BaseKeys.STEEL_INGOT)
@@ -1282,6 +1312,13 @@ public final class BaseItems {
     }
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
+    public static final ItemStack PIT_KILN = ItemStackBuilder.pylon(Material.DECORATED_POT, BaseKeys.PIT_KILN)
+            .build();
+    static {
+        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
+        BasePages.SMELTING.addItem(PIT_KILN);
+    }
+
     public static final ItemStack REFRACTORY_MIX = ItemStackBuilder.pylon(Material.SMOOTH_RED_SANDSTONE, BaseKeys.REFRACTORY_MIX)
             .build();
     static {
@@ -1308,6 +1345,20 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, REFRACTORY_BRICKS, BaseKeys.REFRACTORY_BRICKS);
         BasePages.SMELTING.addItem(REFRACTORY_BRICKS);
+    }
+
+    public static final ItemStack BLOOMERY = ItemStackBuilder.pylon(Material.MAGMA_BLOCK, BaseKeys.BLOOMERY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BLOOMERY, BaseKeys.BLOOMERY);
+        BasePages.SMELTING.addItem(BLOOMERY);
+    }
+
+    public static final ItemStack BRONZE_ANVIL = ItemStackBuilder.pylon(Material.ANVIL, BaseKeys.BRONZE_ANVIL)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_ANVIL, BaseKeys.BRONZE_ANVIL);
+        BasePages.SMELTING.addItem(BRONZE_ANVIL);
     }
 
     public static final ItemStack SMELTERY_CONTROLLER = ItemStackBuilder.pylon(Material.BLAST_FURNACE, BaseKeys.SMELTERY_CONTROLLER)
@@ -1350,13 +1401,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SMELTERY_BURNER, BaseKeys.SMELTERY_BURNER);
         BasePages.SMELTING.addItem(SMELTERY_BURNER);
-    }
-
-    public static final ItemStack PIT_KILN = ItemStackBuilder.pylon(Material.DECORATED_POT, BaseKeys.PIT_KILN)
-            .build();
-    static {
-        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
-        BasePages.SMELTING.addItem(PIT_KILN);
     }
     // </editor-fold>
 
@@ -1752,6 +1796,13 @@ public final class BaseItems {
     static {
         PylonItem.register(SoulboundRune.class, SOULBOUND_RUNE);
         BasePages.TOOLS.addItem(SOULBOUND_RUNE);
+    }
+
+    public static final ItemStack DIESEL_PIPE_BENDER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_PIPE_BENDER)
+            .build();
+    static {
+        PylonItem.register(DieselPipeBender.Item.class, DIESEL_PIPE_BENDER, BaseKeys.DIESEL_PIPE_BENDER);
+        BasePages.HYDRAULICS.addItem(DIESEL_PIPE_BENDER);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

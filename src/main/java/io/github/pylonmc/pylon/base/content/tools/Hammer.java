@@ -2,7 +2,9 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.smelting.BronzeAnvil;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
@@ -11,10 +13,9 @@ import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.RandomizedSound;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -24,6 +25,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
@@ -50,9 +52,9 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         super(stack);
     }
 
-    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player) {
+    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot) {
         if (baseBlock != block.getType()) {
-            if (player != null) {
+            if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
                 player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
             }
             return false;
@@ -101,17 +103,9 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         if (anyRecipeAttempted) {
             if (player != null) {
                 player.setCooldown(getStack(), cooldownTicks);
-
-                if (player.getGameMode() != GameMode.CREATIVE) getStack().damage(1, player);
+                PylonUtils.damageItem(getStack(), 1, player, slot);
             } else {
-                if (!getStack().hasData(DataComponentTypes.UNBREAKABLE)) {
-                    int newDamage = getStack().getData(DataComponentTypes.DAMAGE) + 1;
-                    if (newDamage >= getStack().getData(DataComponentTypes.MAX_DAMAGE)) {
-                        getStack().subtract();
-                    } else {
-                        getStack().setData(DataComponentTypes.DAMAGE, newDamage);
-                    }
-                }
+                PylonUtils.damageItem(getStack(), 1, block.getWorld());
             }
             block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
         }
@@ -134,7 +128,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         Block clickedBlock = event.getClickedBlock();
         Preconditions.checkState(clickedBlock != null);
 
-        tryDoRecipe(clickedBlock, player);
+        tryDoRecipe(clickedBlock, player, event.getHand());
     }
 
     private static Material getBaseBlock(@NotNull NamespacedKey key) {

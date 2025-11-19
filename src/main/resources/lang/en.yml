@@ -139,6 +139,41 @@ item:
       <arrow> Explodes aggressively and sets the surroundings on fire when shot
       <arrow> <attr>Explosion power:</attr> %explosive-power%
 
+  iron_bloom:
+    name: "Iron Bloom"
+
+  wrought_iron:
+    name: "Wrought Iron"
+
+  tongs:
+    name: "Tongs"
+    lore: |-
+      <arrow> Used to safely retrieve iron blooms from a bloomery
+      <arrow> Also used in the working of iron blooms
+
+  bloomery:
+    name: "Bloomery"
+    lore: |-
+      <arrow> A device used for smelting steel from sponge iron
+      <arrow> <insn>Set fire to a coal block with gypsum dust thrown on top</insn> to create
+      <arrow> <insn>Right click</insn> to insert items
+      <arrow> <insn>Right click with tongs</insn> to retrieve items safely
+      
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.bloomery.name></yellow> aiojioegwjnioeginoegiopegw
+      <diamond> 4x <yellow><lang:pylon.pylonbase.item.refractory_bricks.name></yellow>
+
+  bronze_anvil:
+    name: "Bronze Anvil"
+    lore: |-
+      <arrow> Used to create wrought iron from iron blooms
+      <arrow> The aim to is to hammer the bloom into a "normal" shape
+      <arrow> <insn>Right click</insn> to place items on the anvil
+      <arrow> <insn>Left click</insn> with a hammer to make the bloom shorter/wider
+      <arrow> <insn>Left click</insn> with a <lang:pylon.pylonbase.item.tongs.name> to make the bloom taller/narrower
+      <arrow> The amount of shape change is determined by the temperature
+      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron> will pop off
+
   bronze_axe:
     name: "Bronze Axe"
 
@@ -317,6 +352,7 @@ item:
     name: "<white>Fluid Valve"
     lore: |-
       <arrow> <insn>Right click</insn> a fluid valve to toggle it
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Valve (%status%)"
 
   fluid_filter:
@@ -324,6 +360,7 @@ item:
     lore: |-
       <arrow> Only lets a certain fluid through
       <arrow> <insn>Right click</insn> a fluid filter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Filter (%fluid%)"
     gui: "Fluid Filter"
 
@@ -332,6 +369,7 @@ item:
     lore: |-
       <arrow> A variant of the fluid filter which displays the amount of fluid passing through
       <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Meter (%fluid%)"
     gui: "Fluid Meter"
 
@@ -473,6 +511,9 @@ item:
 
   iron_sheet:
     name: "Iron Sheet"
+
+  sponge_iron:
+    name: "Sponge Iron"
 
   loupe:
     name: "Loupe"
@@ -1258,7 +1299,7 @@ item:
   hydraulic_farmer:
     name: "Hydraulic Farmer"
     lore: |-
-      <arrow> Breaks crops in a radius, and replants them using seeds from the above chest
+      <arrow> Breaks crops in a radius, and replants them using seeds from the storage above
       <arrow> Outputs dirty hydraulic fluid
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Farm interval:</attr> %tick-interval%
@@ -1276,6 +1317,15 @@ item:
       <arrow> <attr>Time per block:</attr> %time-per-block%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
 
+  diesel_pipe_bender:
+    name: "Diesel Pipe Bender"
+    lore: |-
+      <arrow> Efficiently bends materials into pipes
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Pipe Bender | %diesel-bar%"
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1291,6 +1341,7 @@ fluid:
   slurry: "<gray>Slurry"
   slurry_coal: "<gray>Coal Slurry"
   slurry_carbon: "<gray>Carbon Slurry"
+  slurry_sponge_iron: "<gray>Sponge Iron Slurry"
   slurry_redstone: "<red>Redstone Slurry"
   slurry_raw_copper: "<#b5591b>Raw Copper Slurry"
   slurry_raw_gold: "<gold>Raw Gold Slurry"
@@ -1305,6 +1356,7 @@ fluid:
   dirty_hydraulic_fluid: "<#212d99>Hydraulic Fluid <#48459b>(dirty)"
   obscyra: "<#5c4a66>Obscyra"
   reflector_fluid: "<#d1c9ab>Reflector Fluid"
+  biodiesel: "<#eaa627>Biodiesel"
 
 waila:
   mixing_pot:
@@ -1383,6 +1435,7 @@ guide:
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulic Machines"
+    diesel_machines: "Diesel Machines"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
@@ -1421,11 +1474,6 @@ message:
   item_magnet:
     enabled: "Item Magnet <gray>has been</gray> <green>enabled"
     disabled: "Item Magnet <gray>has been</gray> <red>disabled"
-  pipe:
-    connecting: "<insn>Right click</insn> <gray>to place, <insn>deselect the pipe item</insn> <gray>to cancel"
-    cannot_place_here: "<red>You cannot place a pipe here"
-    not_enough_pipes: "<red>Not enough pipes"
-    not_of_same_type: "<red>Pipes are of different types"
   valve:
     enabled: "enabled"
     disabled: "disabled"

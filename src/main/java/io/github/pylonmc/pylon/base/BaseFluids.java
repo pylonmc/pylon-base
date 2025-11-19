@@ -99,6 +99,11 @@ public final class BaseFluids {
             BaseItems.CARBON
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid SPONGE_IRON_SLURRY = new Slurry(
+            baseKey("slurry_sponge_iron"),
+            BaseItems.SPONGE_IRON
+    ).addTag(FluidTemperature.NORMAL);
+
     public static final PylonFluid RAW_COPPER_SLURRY = new Slurry(
             baseKey("slurry_raw_copper"),
             BaseItems.CRUSHED_RAW_COPPER
@@ -143,6 +148,11 @@ public final class BaseFluids {
     public static final PylonFluid REFLECTOR_FLUID = new PylonFluid(
             baseKey("reflector_fluid"),
             Material.WHITE_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid BIODIESEL = new PylonFluid(
+            baseKey("biodiesel"),
+            Material.YELLOW_CONCRETE
     ).addTag(FluidTemperature.NORMAL);
 
     // TODO refactor into static blocks as in BaseItems
@@ -243,6 +253,8 @@ public final class BaseFluids {
 
         CARBON_SLURRY.register();
 
+        SPONGE_IRON_SLURRY.register();
+
         RAW_COPPER_SLURRY.register();
 
         RAW_GOLD_SLURRY.register();
@@ -260,6 +272,8 @@ public final class BaseFluids {
         DIRTY_HYDRAULIC_FLUID.register();
 
         REFLECTOR_FLUID.register();
+
+        BIODIESEL.register();
     }
 
     private static void addMetalRecipes(

@@ -10,7 +10,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -48,8 +47,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class PortableFluidTank extends PylonBlock
-        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractBlock {
+public class PortableFluidTank extends PylonBlock implements PylonFluidTank, PylonInteractBlock {
 
     public static class Item extends PylonItem {
         public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
@@ -125,8 +123,8 @@ public class PortableFluidTank extends PylonBlock
         addEntity("fluid", new ItemDisplayBuilder()
                 .build(getBlock().getLocation().toCenterLocation())
         );
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.DOWN);
         setCapacity(capacity);
     }
 
