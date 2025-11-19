@@ -98,12 +98,12 @@ fluid_storage:
 fluid_voiding_1:
   material: black_terracotta
   cost: 20
-  unlock:
+  unlocks:
   - pylonbase:fluid_voider_1
 fluid_voiding_2:
   material: black_terracotta
   cost: 20
-  unlock:
+  unlocks:
   - pylonbase:fluid_voider_2
   - pylonbase:fluid_voider_3
 food_preservation:
@@ -255,12 +255,12 @@ reactivated_skulls:
 scientific_revolution_1:
   material: red_banner
   cost: 10
-  unlock:
+  unlocks:
   - pylonbase:research_pack_1
 scientific_revolution_2:
   material: lime_banner
   cost: 40
-  unlock:
+  unlocks:
   - pylonbase:research_pack_2
 shimmer_manipulation:
   material: sugar
