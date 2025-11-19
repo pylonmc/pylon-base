@@ -25,7 +25,7 @@ public class WaterBreathingTalisman extends AttributeTalisman {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("bonus_oxygen", UnitFormat.PERCENT.format(attrBonus * 100, 2)));
+        return List.of(PylonArgument.of("bonus_oxygen", UnitFormat.PERCENT.format(attrBonus * 100).decimalPlaces(2)));
     }
 
     @Override

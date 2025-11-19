@@ -43,7 +43,7 @@ public class BreedingTalisman extends PDCKeyTalisman<Float, Float> {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("cd_multiplier", UnitFormat.PERCENT.format(breedingCooldownMultiplier * 100, 2)));
+        return List.of(PylonArgument.of("cd_multiplier", UnitFormat.PERCENT.format(breedingCooldownMultiplier * 100).decimalPlaces(2)));
     }
 
     @Override

@@ -50,7 +50,7 @@ public class FarmerTalisman extends PDCKeyTalisman<Float, Float> {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("extra_crop_chance", UnitFormat.PERCENT.format(extraCropChance * 100, 2)));
+        return List.of(PylonArgument.of("extra_crop_chance", UnitFormat.PERCENT.format(extraCropChance * 100).decimalPlaces(2)));
     }
 
     public static class FarmerTalismanListener implements Listener {

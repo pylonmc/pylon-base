@@ -44,7 +44,7 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance * 100, 2))
+                PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance * 100).decimalPlaces(2))
         );
     }
 
