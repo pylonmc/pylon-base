@@ -26,6 +26,8 @@ public class BasePages {
 
     public static final SimpleStaticGuidePage BUILDING = new SimpleStaticGuidePage(baseKey("building"), Material.STONE_BRICK_WALL);
 
+    public static final SimpleStaticGuidePage TALISMANS = new SimpleStaticGuidePage(baseKey("talismans"), Material.TOTEM_OF_UNDYING);
+
     static {
         PylonGuide.getRootPage().addPage(SCIENCE);
         PylonGuide.getRootPage().addPage(RESOURCES);
@@ -44,5 +46,6 @@ public class BasePages {
         PylonGuide.getRootPage().addPage(MACHINES);
 
         PylonGuide.getRootPage().addPage(BUILDING);
+        PylonGuide.getRootPage().addPage(TALISMANS);
     }
 }
