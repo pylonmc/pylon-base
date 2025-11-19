@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
@@ -74,7 +75,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
             return; // don't vacuum if powered
         }
 
-        for (Entity entity : getBlock().getLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
+        for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }

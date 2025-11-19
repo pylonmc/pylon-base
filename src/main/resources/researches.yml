@@ -3,7 +3,7 @@ baking:
   cost: 1
   unlocks:
   - pylonbase:flour
-  - pulonbase:dough
+  - pylonbase:dough
 better_hammers:
   material: stone_pickaxe
   cost: 15
@@ -98,12 +98,12 @@ fluid_storage:
 fluid_voiding_1:
   material: black_terracotta
   cost: 20
-  unlock:
+  unlocks:
   - pylonbase:fluid_voider_1
 fluid_voiding_2:
   material: black_terracotta
   cost: 20
-  unlock:
+  unlocks:
   - pylonbase:fluid_voider_2
   - pylonbase:fluid_voider_3
 food_preservation:
@@ -255,12 +255,12 @@ reactivated_skulls:
 scientific_revolution_1:
   material: red_banner
   cost: 10
-  unlock:
+  unlocks:
   - pylonbase:research_pack_1
 scientific_revolution_2:
   material: lime_banner
   cost: 40
-  unlock:
+  unlocks:
   - pylonbase:research_pack_2
 shimmer_manipulation:
   material: sugar
@@ -268,7 +268,7 @@ shimmer_manipulation:
   unlocks:
   - pylonbase:shimmer_dust_2
   - pylonbase:covalent_binder
-  - pylonbase:enriched_netherrack
+  - pylonbase:enriched_soul_soil
 rituals:
   material: wither_skeleton_skull
   cost: 20
@@ -289,12 +289,12 @@ simple_components:
   - pylonbase:rotor
   - pylonbase:backflow_valve
   - pylonbase:analogue_display
-  - pylonbase:filter_mash
+  - pylonbase:filter_mesh
   - pylonbase:nozzle
   - pylonbase:abyssal_catalyst
   - pylonbase:axle
   - pylonbase:sawblade
-  - pylonbase:wighted_shaft
+  - pylonbase:weighted_shaft
   - pylonbase:bronze_drill_bit
   - pylonbase:hydraulic_motor
   - pylonbase:hydraulic_cannon_chamber

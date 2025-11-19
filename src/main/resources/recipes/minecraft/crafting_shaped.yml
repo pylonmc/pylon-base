@@ -336,7 +336,7 @@ pylonbase:mixing_pot:
   result: pylonbase:mixing_pot
   category: building
 
-pylonbase:enriched_netherrack:
+pylonbase:enriched_soul_soil:
   pattern:
     - " S "
     - "SNS"
@@ -344,7 +344,7 @@ pylonbase:enriched_netherrack:
   key:
     S: pylonbase:shimmer_dust_2
     N: minecraft:netherrack
-  result: pylonbase:enriched_netherrack
+  result: pylonbase:enriched_soul_soil
   category: building
 
 pylonbase:health_talisman_simple:
@@ -1509,7 +1509,6 @@ pylonbase:hydraulic_refueling_station:
   result: pylonbase:hydraulic_refueling_station
   category: building
 
-
 pylonbase:reactivated_wither_skull:
   pattern:
     - " N "
@@ -1520,6 +1519,18 @@ pylonbase:reactivated_wither_skull:
     S: minecraft:stick
     R: minecraft:nether_star
   result: pylonbase:reactivated_wither_skull
+  category: equipment
+
+pylonbase:tongs:
+  pattern:
+    - "B B"
+    - "BCB"
+    - " W "
+  key:
+    B: pylonbase:bronze_ingot
+    C: "#minecraft:wool_carpets"
+    W: "#minecraft:wool"
+  result: pylonbase:tongs
   category: equipment
 
 pylonbase:breeding_talisman_simple:
