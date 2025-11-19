@@ -3,7 +3,7 @@ baking:
   cost: 1
   unlocks:
   - pylonbase:flour
-  - pulonbase:dough
+  - pylonbase:dough
 better_hammers:
   material: stone_pickaxe
   cost: 15
@@ -289,12 +289,12 @@ simple_components:
   - pylonbase:rotor
   - pylonbase:backflow_valve
   - pylonbase:analogue_display
-  - pylonbase:filter_mash
+  - pylonbase:filter_mesh
   - pylonbase:nozzle
   - pylonbase:abyssal_catalyst
   - pylonbase:axle
   - pylonbase:sawblade
-  - pylonbase:wighted_shaft
+  - pylonbase:weighted_shaft
   - pylonbase:bronze_drill_bit
   - pylonbase:hydraulic_motor
   - pylonbase:hydraulic_cannon_chamber
