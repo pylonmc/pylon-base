@@ -1284,148 +1284,148 @@ item:
   hunger_talisman_simple:
     name: "Simple Hunger Talisman"
     lore: |-
-      <arrow> Gain saturation and hunger every %period%
+      <arrow> Gain saturation and hunger every %period% while in your inventory
       <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
   hunger_talisman_advanced:
     name: "Advanced Hunger Talisman"
     lore: |-
-      <arrow> Gain saturation and hunger every %period%
+      <arrow> Gain saturation and hunger every %period% while in your inventory
       <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
   hunger_talisman_ultimate:
     name: "Ultimate Hunger Talisman"
     lore: |-
-      <arrow> Gain saturation and hunger every %period%
+      <arrow> Gain saturation and hunger every %period% while in your inventory
       <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
   farmer_talisman_simple:
     name: "Simple Farming Talisman"
     lore: |-
-      <arrow> Gain a small chance to get an extra crop drop
+      <arrow> Gain a small chance to get an extra crop drop while in your inventory
       <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
 
   farmer_talisman_advanced:
     name: "Advanced Farming Talisman"
     lore: |-
-      <arrow> Gain a small chance to get an extra crop drop
+      <arrow> Gain a small chance to get an extra crop drop while in your inventory
       <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
 
   farmer_talisman_ultimate:
     name: "Ultimate Farming Talisman"
     lore: |-
-      <arrow> Gain a small chance to get an extra crop drop
+      <arrow> Gain a small chance to get an extra crop drop while in your inventory
       <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
 
   bartering_talisman_simple:
     name: "Simple Bartering Talisman"
     lore: |-
-      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin while in your inventory
       <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
 
   bartering_talisman_advanced:
     name: "Advanced Bartering Talisman"
     lore: |-
-      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin while in your inventory
       <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
 
   bartering_talisman_ultimate:
     name: "Ultimate Bartering Talisman"
     lore: |-
-      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
+      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin while in your inventory
       <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
 
   water_breathing_talisman_simple:
     name: "<white>Simple Water Breathing Talisman"
     lore: |-
-      <arrow> Expands your lungs so you can breathe longer underwater
+      <arrow> Expands your lungs so you can breathe longer underwater while in your inventory
       <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
 
   water_breathing_talisman_advanced:
     name: "<white>Advanced Water Breathing Talisman"
     lore: |-
-      <arrow> Expands your lungs so you can breathe longer underwater
+      <arrow> Expands your lungs so you can breathe longer underwater while in your inventory
       <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
 
   water_breathing_talisman_ultimate:
     name: "<white>Ultimate Water Breathing Talisman"
     lore: |-
-      <arrow> Expands your lungs so you can breathe longer underwater
+      <arrow> Expands your lungs so you can breathe longer underwater while in your inventory
       <arrow> <attr>Additional oxygen:</attr> %bonus_oxygen%
 
   luck_talisman_simple:
     name: "Simple Luck Talisman"
     lore: |-
-      <arrow> Makes you a much luckier ducky
+      <arrow> Makes you a much luckier ducky while in your inventory
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
 
   luck_talisman_advanced:
     name: "Advanced Luck Talisman"
     lore: |-
-      <arrow> Makes you a much luckier ducky
+      <arrow> Makes you a much luckier ducky while in your inventory
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
 
   luck_talisman_ultimate:
     name: "Ultimate Luck Talisman"
     lore: |-
-      <arrow> Makes you a much luckier ducky
+      <arrow> Makes you a much luckier ducky while in your inventory
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
 
   breeding_talisman_simple:
     name: "Simple Breeding Talisman"
     lore: |-
-      <arrow> Reduces the cooldown of breeding animals
+      <arrow> Reduces the cooldown of breeding animals while in your inventory
       <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
 
   breeding_talisman_advanced:
     name: "Advanced Breeding Talisman"
     lore: |-
-      <arrow> Reduces the cooldown of breeding animals
+      <arrow> Reduces the cooldown of breeding animals while in your inventory
       <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
 
   breeding_talisman_ultimate:
     name: "Ultimate Breeding Talisman"
     lore: |-
-      <arrow> Reduces the cooldown of breeding animals
+      <arrow> Reduces the cooldown of breeding animals while in your inventory
       <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
 
   enchanting_talisman_simple:
     name: "Simple Enchanting Talisman"
     lore: |-
-      <arrow> Improves your odds of getting higher level enchants from the enchanting table
+      <arrow> Improves your odds of getting higher level enchants from the enchanting table while in your inventory
       <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
 
   enchanting_talisman_advanced:
     name: "Advanced Enchanting Talisman"
     lore: |-
-      <arrow> Improves your odds of getting higher level enchants from the enchanting table
+      <arrow> Improves your odds of getting higher level enchants from the enchanting table while in your inventory
       <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
 
   enchanting_talisman_ultimate:
     name: "Ultimate Enchanting Talisman"
     lore: |-
-      <arrow> Improves your odds of getting higher level enchants from the enchanting table
-      <arrow> <attr>Chance of incrementing enchantment level by 1:%bonus_level_chance%</attr> 
+      <arrow> Improves your odds of getting higher level enchants from the enchanting table while in your inventory
+      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
 
   hunting_talisman_simple:
     name: "Simple Hunting Talisman"
     lore: |-
-      <arrow> Grants you a chance to get an extra item for each drop when you kill a mob
+      <arrow> While in your inventory, grants you a chance to get an extra item for each drop when you kill a mob
       <arrow> <attr>Chance for extra item:</attr> %bonus_item_chance%
 
   hunting_talisman_advanced:
     name: "Advanced Hunting Talisman"
     lore: |-
-      <arrow> Grants you a chance to get an extra item for each drop when you kill a mob
+      <arrow> While in your inventory, grants you a chance to get an extra item for each drop when you kill a mob
       <arrow> <attr>Chance for extra item:</attr> %bonus_item_chance%
 
   hunting_talisman_ultimate:
     name: "Ultimate Hunting Talisman"
     lore: |-
-      <arrow> Grants you a chance to get an extra item for each drop when you kill a mob
+      <arrow> While in your inventory, grants you a chance to get an extra item for each drop when you kill a mob
       <arrow> <attr>Chance for extra item:</attr> %bonus_item_chance%
 
 fluid:
