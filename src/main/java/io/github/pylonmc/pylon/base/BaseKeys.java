@@ -145,7 +145,7 @@ public class BaseKeys {
 
     public static final NamespacedKey ITEM_MAGNET = baseKey("item_magnet");
 
-    public static final NamespacedKey ENRICHED_NETHERRACK = baseKey("enriched_netherrack");
+    public static final NamespacedKey ENRICHED_SOUL_SOIL = baseKey("enriched_soul_soil");
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
     public static final NamespacedKey MAGIC_PEDESTAL = baseKey("magic_pedestal");

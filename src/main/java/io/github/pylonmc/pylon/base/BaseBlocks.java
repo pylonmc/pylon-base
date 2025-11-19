@@ -33,7 +33,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.MAGIC_ALTAR, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
         PylonBlock.register(BaseKeys.GRINDSTONE, Material.SMOOTH_STONE_SLAB, Grindstone.class);
         PylonBlock.register(BaseKeys.GRINDSTONE_HANDLE, Material.OAK_FENCE, GrindstoneHandle.class);
-        PylonBlock.register(BaseKeys.ENRICHED_NETHERRACK, Material.NETHERRACK, EnrichedNetherrack.class);
+        PylonBlock.register(BaseKeys.ENRICHED_SOUL_SOIL, Material.SOUL_SOIL, EnrichedNetherrack.class);
         PylonBlock.register(BaseKeys.MIXING_POT, Material.CAULDRON, MixingPot.class);
         PylonBlock.register(BaseKeys.IGNEOUS_COMPOSITE, Material.OBSIDIAN, PylonBlock.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_WOOD, Material.BROWN_STAINED_GLASS, PortableFluidTank.class);
