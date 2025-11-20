@@ -1,11 +1,14 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
-import io.github.pylonmc.pylon.base.content.tools.base.Rune;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
+import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
+import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
+import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
+import io.github.pylonmc.pylon.base.content.tools.base.Rune;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
@@ -21,7 +24,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
     private static final int BSTATS_ID = 27323;
@@ -55,6 +57,10 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         pm.registerEvents(new Rune.RuneListener(), this);
+        pm.registerEvents(new SoulboundRune.SoulboundRuneListener(), this);
+        pm.registerEvents(new Bloomery.CreationListener(), this);
+
+        new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
         new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
     }
 

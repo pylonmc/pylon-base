@@ -7,8 +7,10 @@ import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,13 +33,16 @@ public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        if ((event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) || event.getPlayer().isSneaking()) return;
-        getStack().damage(1, event.getPlayer());
-        event.getPlayer().setCooldown(getStack(), cooldownTicks);
-        Location skullPos = event.getPlayer().getLocation().clone().add(0, playerHeight, 0);
+        Player player = event.getPlayer();
+        if ((event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) || player.isSneaking()) return;
+
+        if (player.getGameMode() != GameMode.CREATIVE) getStack().damage(1, player);
+
+        player.setCooldown(getStack(), cooldownTicks);
+        Location skullPos = player.getLocation().clone().add(0, playerHeight, 0);
         WitherSkull witherSkull = (WitherSkull) skullPos.getWorld().spawnEntity(skullPos, EntityType.WITHER_SKULL);
         witherSkull.setCharged(chargedSkulls);
-        witherSkull.setVelocity(event.getPlayer().getEyeLocation().getDirection().multiply(skullSpeed));
+        witherSkull.setVelocity(player.getEyeLocation().getDirection().multiply(skullSpeed / 20.0));
     }
 
     @Override

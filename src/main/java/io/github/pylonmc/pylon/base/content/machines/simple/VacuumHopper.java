@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
@@ -18,9 +19,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
@@ -61,26 +62,40 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         Hopper hopper = (Hopper) getBlock().getState();
 
         for (ItemStack item : hopper.getInventory()) {
-            drops.add(item);
+            if (item != null) {
+                drops.add(item);
+            }
         }
     }
 
     @Override
     public void tick(double deltaSeconds) {
         Hopper hopper = (Hopper) getBlock().getState();
+        if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
+            return; // don't vacuum if powered
+        }
 
-        for (Entity entity : getBlock().getLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
+        for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }
 
-            boolean added = hopper.getInventory().addItem(item.getItemStack()).isEmpty();
-            item.remove();
-
-            if (!added) {
+            ItemStack stack = item.getItemStack();
+            HashMap<Integer, ItemStack> rest = hopper.getInventory().addItem(stack);
+            if (rest.isEmpty()) {
+                new ParticleBuilder(Particle.WITCH)
+                        .location(item.getLocation())
+                        .spawn();
+                item.remove();
                 break;
             }
 
+            int fail = rest.values().stream().findFirst().get().getAmount();
+            if (fail == stack.getAmount()) {
+                continue;
+            }
+
+            stack.setAmount(fail);
             new ParticleBuilder(Particle.WITCH)
                     .location(item.getLocation())
                     .spawn();

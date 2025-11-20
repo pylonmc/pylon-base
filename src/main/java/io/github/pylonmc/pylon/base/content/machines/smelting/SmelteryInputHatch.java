@@ -1,9 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -14,7 +12,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 public final class SmelteryInputHatch extends SmelteryComponent implements PylonFluidBlock {
-    public static final double FLOW_RATE = Settings.get(BaseKeys.SMELTERY_INPUT_HATCH).getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
+    public final double flowRate = getSettings().getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public SmelteryInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -31,7 +29,7 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
         SmelteryController controller = getController();
         if (controller == null || !fluid.hasTag(FluidTemperature.class)) return 0.0;
-        return Math.min(controller.getCapacity() - controller.getTotalFluid(), FLOW_RATE * deltaSeconds);
+        return Math.min(controller.getCapacity() - controller.getTotalFluid(), flowRate * deltaSeconds);
     }
 
     @Override
