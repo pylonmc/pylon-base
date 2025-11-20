@@ -1508,6 +1508,7 @@ message:
 
 gui:
   fluid-selector-title: "Select Fluid"
+  portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"
