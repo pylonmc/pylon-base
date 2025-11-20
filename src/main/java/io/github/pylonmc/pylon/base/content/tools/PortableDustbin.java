@@ -17,7 +17,7 @@ public class PortableDustbin extends PylonItem implements PylonInteractor {
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        var menu = MenuType.GENERIC_9X6.create(event.getPlayer(), Component.text("Portable Dustbin"));
+        var menu = MenuType.GENERIC_9X6.create(event.getPlayer(), Component.translatable("pylon.pylonbase.gui.portable-dustbin"));
         event.getPlayer().openInventory(menu);
     }
 }
