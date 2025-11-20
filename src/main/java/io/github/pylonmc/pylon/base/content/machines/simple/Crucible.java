@@ -1,17 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
-import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -24,6 +21,7 @@ import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -36,25 +34,58 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public final class Crucible extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron {
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
+public final class Crucible extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
+    public final int CAPACITY = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
+    public final int SMELT_TIME = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
+    public final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = getSettings().getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
+
+    private final Stack<ItemStack> contents;
+    private ItemStack processing = null;
+
+    private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
+    private static final PersistentDataType<?, List<ItemStack>> CONTENTS_TYPE = PylonSerializers.LIST.listTypeFrom(PylonSerializers.ITEM_STACK);
+    private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
+
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
-
+        contents = new Stack<>();
         setCapacity(1000.0);
     }
 
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+        contents = new Stack<>();
+        contents.addAll(pdc.get(CONTENTS_KEY, CONTENTS_TYPE));
+        processing = pdc.get(PROCESSING_KEY, PylonSerializers.ITEM_STACK);
+    }
+
+    //region Inventory handling
+    public int spaceAvailable() {
+        return CAPACITY - contents.stream().mapToInt(ItemStack::getAmount).sum() - ((processing == null) ? 0 : processing.getAmount());
+    }
+
+    @Override
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        drops.addAll(contents);
+    }
+    //endregion
+
+    @Override
+    public void write(@NotNull PersistentDataContainer pdc) {
+        pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
+        pdc.set(PROCESSING_KEY, PylonSerializers.ITEM_STACK, processing);
     }
 
     @Override
@@ -85,53 +116,53 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
             return;
         }
 
-        tryDoRecipe(event.getPlayer());
-        updateCauldron();
-    }
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
 
-    public boolean tryDoRecipe(@Nullable Player player) {
-        List<Item> items = getBlock()
-                .getLocation()
-                .toCenterLocation()
-                .getNearbyEntities(0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
-                .stream()
-                .filter(Item.class::isInstance)
-                .map(Item.class::cast)
-                .toList();
-
-        List<ItemStack> stacks = items.stream()
-                .map(Item::getItemStack)
-                .toList();
-
-        for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
-            for (ItemStack stack : stacks) {
-                if (recipe.matches(stack)) {
-                    if (!new PrePylonCraftEvent<>(CrucibleRecipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
-                        continue;
-                    }
-
-                    doRecipe(recipe, items);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private void doRecipe(@NotNull CrucibleRecipe recipe, @NotNull List<Item> items) {
-        RecipeInput.Item recipeInput = recipe.input();
-
-        if (recipe.output().fluid().equals(getFluidType())) {
-            if (getFluidAmount() == getFluidCapacity()) return; // no need to waste stuff
-        }
-
-        for (Item item : items) {
-            ItemStack stack = item.getItemStack();
-            if (recipe.matches(stack)) {
-                item.setItemStack(stack.subtract(recipeInput.getAmount()));
+        boolean valid = false;
+        for(var entry : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
+            if (entry.matches(item)) {
+                valid = true;
                 break;
             }
+        }
+
+        if (!valid) {
+            return;
+        }
+
+        int amount = Math.min(item.getAmount(), spaceAvailable());
+        ItemStack toAdd = item.asQuantity(amount);
+        if (amount == 0) {
+            return;
+        }
+
+        contents.add(toAdd);
+        item.subtract(amount);
+
+        //tryDoRecipe(event.getPlayer());
+        //updateCauldron();
+    }
+
+    public boolean tryDoRecipe() {
+        if (processing == null) return false;
+
+        for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
+            if (recipe.matches(processing)) {
+                if (!new PrePylonCraftEvent<>(CrucibleRecipe.RECIPE_TYPE, recipe, this, null).callEvent()) {
+                    continue;
+                }
+
+                doRecipe(recipe);
+                return true;
+            }
+        }
+
+        throw new IllegalArgumentException("This shouldn't happen");
+    }
+
+    private void doRecipe(@NotNull CrucibleRecipe recipe) {
+        if (recipe.output().fluid().equals(getFluidType())) {
+            if (getFluidAmount() == getFluidCapacity()) return; // no need to waste stuff
         }
 
         FluidOrItem.Fluid fluid = recipe.output();
@@ -152,6 +183,11 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
                 .location(getBlock().getLocation().toCenterLocation())
                 .extra(0.05)
                 .spawn();
+
+        processing.subtract();
+        if (processing.getAmount() == 0) {
+            processing = null;
+        }
     }
 
     @Override
@@ -161,12 +197,12 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
 
     @Override
     public boolean checkFormed() {
-        return getFire().getType() == Material.FIRE;
+        return getHeatFactor() != null;
     }
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.equals(getFire());
+        return otherBlock.equals(getBelow());
     }
 
     //region Cauldron logic
@@ -215,11 +251,58 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
         ));
     }
 
-    public @NotNull Block getFire() {
+    //region Tick handling
+    @Override
+    public void tick(double deltaSeconds) {
+        if (!isFormedAndFullyLoaded()) return;
+        if (processing == null) {
+            if (!contents.isEmpty()) {
+                processing = contents.pop();
+            }
+        }
+
+        tryDoRecipe();
+        updateCauldron();
+    }
+
+    @Override
+    public int getTickInterval() {
+        if (processing == null) {
+            return SMELT_TIME; // minimize ticking when empty
+        }
+
+        Integer heatFactor = getHeatFactor();
+        if (heatFactor == null) {
+            return SMELT_TIME; // probably won't even work be operating in such scenario
+        }
+
+        // stronger heat factor -> faster smelting
+        return SMELT_TIME / heatFactor;
+    }
+
+    //endregion
+
+    //region Heat handling
+    public @NotNull Block getBelow() {
         return getBlock().getRelative(BlockFace.DOWN);
     }
 
-    public @NotNull Block getIgnitedBlock() {
-        return getFire().getRelative(BlockFace.DOWN);
+    public interface HeatedBlock {
+        int heatGenerated();
     }
+
+    public Integer getHeatFactor() {
+        Block below = getBelow();
+        var pylonBlock = BlockStorage.get(below);
+        if (pylonBlock != null) {
+            if (pylonBlock instanceof HeatedBlock heatedBlock) {
+                return heatedBlock.heatGenerated();
+            }
+
+            return null;
+        }
+
+        return VANILLA_BLOCK_HEAT_MAP.get(below.getType());
+    }
+    //endregion
 }

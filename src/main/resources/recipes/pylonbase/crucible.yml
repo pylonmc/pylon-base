@@ -24,6 +24,6 @@ pylonbase:obsidian_to_lava:
 
 pylonbase:leaves_to_water:
   input-item:
-    "#minecraft:leaves": 2
+    "#minecraft:leaves": 1
   output:
-    pylonbase:water: 125
+    pylonbase:water: 50

@@ -1,10 +1,8 @@
 package io.github.pylonmc.pylon.base.recipes;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
@@ -38,7 +36,7 @@ public record CrucibleRecipe(
 
             return new CrucibleRecipe(
                 key,
-                section.getOrThrow("input-item", ConfigAdapter.RECIPE_INPUT_ITEM),
+                new RecipeInput.Item(section.getOrThrow("input-item", ConfigAdapter.RECIPE_INPUT_ITEM).getItems(), 1),
                 fluidOutput
             );
         }
@@ -72,7 +70,6 @@ public record CrucibleRecipe(
     }
 
     public boolean matches(ItemStack inputItem) {
-        if (inputItem.getAmount() < input.getAmount()) return false;
         return input.matches(inputItem);
     }
 

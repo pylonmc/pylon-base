@@ -1,0 +1,9 @@
+capacity: 64
+smelt-time: 60
+vanilla-block-heat-map:
+  torch: 1
+  redstone_torch: 1
+  magma_block: 10
+  fire: 10
+  soul_fire: 15
+  lava: 20
