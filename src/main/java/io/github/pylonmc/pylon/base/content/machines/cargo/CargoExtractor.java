@@ -1,25 +1,28 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.cargo.CargoPointType;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import kotlin.Pair;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.inventory.BlockInventoryHolder;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 
-public class CargoExtractor extends PylonBlock implements PylonMultiblock, PylonDirectionalBlock {
+public class CargoExtractor extends PylonBlock implements PylonMultiblock, PylonDirectionalBlock, PylonLogisticBlock {
 
     private BlockFace facing;
 
@@ -27,20 +30,14 @@ public class CargoExtractor extends PylonBlock implements PylonMultiblock, Pylon
         super(block, context);
 
         if (!(context instanceof BlockCreateContext.PlayerPlace playerPlaceContext)) {
-            throw new IllegalArgumentException("Cargo extractor can only be placed by player");
+            throw new IllegalArgumentException("Cargo interface can only be placed by player");
         }
 
         facing = playerPlaceContext.getPlayer().getFacing();
-
-//        createCargoPoint(facing.getOppositeFace(), CargoPointType.OUTPUT);
     }
 
     public CargoExtractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-    }
-
-    public Block getTarget() {
-        return getBlock().getRelative(facing);
     }
 
     @Override
@@ -50,7 +47,7 @@ public class CargoExtractor extends PylonBlock implements PylonMultiblock, Pylon
 
     @Override
     public boolean checkFormed() {
-        return getTarget().getState() instanceof BlockInventoryHolder;
+        return BlockStorage.get(getTarget()) instanceof PylonLogisticBlock;
     }
 
     @Override
@@ -64,15 +61,22 @@ public class CargoExtractor extends PylonBlock implements PylonMultiblock, Pylon
         return facing;
     }
 
-//    @Override
-//    public @Nullable Inventory getCargoInventory(BlockFace face) {
-//        return isFormedAndFullyLoaded()
-//                ? ((InventoryHolder) (getTarget().getState())).getInventory()
-//                : null;
-//    }
-//
-//    @Override
-//    public void setCargoInventory(BlockFace face) {
-//        throw new IllegalStateException("Should never be called");
-//    }
+    @Override
+    public void setupLogisticSlotGroups() {}
+
+    @Override
+    public @NotNull Map<String, Pair<LogisticSlotType, LogisticSlot[]>> getLogisticSlotGroups() {
+        PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
+        return logisticBlock != null
+                ? logisticBlock.getLogisticSlotGroups()
+                : Collections.emptyMap();
+    }
+
+    public @NotNull Block getTarget() {
+        return getBlock().getRelative(facing);
+    }
+
+    public @Nullable PylonLogisticBlock getTargetLogisticBlock() {
+        return BlockStorage.getAs(PylonLogisticBlock.class, getTarget().getRelative(facing));
+    }
 }

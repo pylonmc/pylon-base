@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.building.*;
 import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
@@ -107,5 +108,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_REFUELING_STATION, Material.WAXED_CUT_COPPER_SLAB, HydraulicRefuelingStation.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_FARMER, Material.WAXED_EXPOSED_COPPER_BULB, HydraulicFarmer.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_EXCAVATOR, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicExcavator.class);
+        PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.LIME_TERRACOTTA, CargoBuffer.class);
     }
 }

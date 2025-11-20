@@ -1685,6 +1685,13 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
     }
 
+    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.LIME_TERRACOTTA, BaseKeys.CARGO_BUFFER)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CARGO_BUFFER, BaseKeys.CARGO_BUFFER);
+        BasePages.CARGO.addItem(CARGO_BUFFER);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }
