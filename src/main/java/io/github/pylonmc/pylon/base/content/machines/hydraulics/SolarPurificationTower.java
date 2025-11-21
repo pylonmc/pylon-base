@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SolarPurificationTower extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
+public class SolarPurificationTower extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock, PylonCopperInteractBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
     public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
