@@ -6,11 +6,9 @@ import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlot;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import kotlin.Pair;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -62,10 +60,10 @@ public class CargoExtractor extends PylonBlock implements PylonMultiblock, Pylon
     }
 
     @Override
-    public void setupLogisticSlotGroups() {}
+    public void setupLogisticGroups() {}
 
     @Override
-    public @NotNull Map<String, Pair<LogisticSlotType, LogisticSlot[]>> getLogisticSlotGroups() {
+    public @NotNull Map<String, LogisticGroup> getLogisticSlotGroups() {
         PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
         return logisticBlock != null
                 ? logisticBlock.getLogisticSlotGroups()

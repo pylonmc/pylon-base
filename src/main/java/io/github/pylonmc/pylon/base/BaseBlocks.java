@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.*;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
 import org.bukkit.Material;
 
 
@@ -115,6 +116,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_FARMER, Material.WAXED_EXPOSED_COPPER_BULB, HydraulicFarmer.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_EXCAVATOR, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicExcavator.class);
         PylonBlock.register(BaseKeys.DIESEL_PIPE_BENDER, Material.IRON_BLOCK, DieselPipeBender.class);
+        PylonBlock.register(BaseKeys.CARGO_DUCT, Material.GRAY_TERRACOTTA, CargoDuct.class);
         PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.LIME_TERRACOTTA, CargoBuffer.class);
     }
 }

@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -19,10 +19,12 @@ import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
+import java.util.Map;
+
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoBuffer extends PylonBlock implements PylonDirectionalBlock, PylonGuiBlock, PylonLogisticBlock {
+public class CargoBuffer extends PylonBlock implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock {
 
     private static final NamespacedKey FACE_KEY = baseKey("face");
 
@@ -37,7 +39,7 @@ public class CargoBuffer extends PylonBlock implements PylonDirectionalBlock, Py
             throw new IllegalArgumentException("Cargo extractor can only be placed by player");
         }
 
-        face = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false);
+        face = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.SOUTH, true);
     }
 
     @SuppressWarnings("unused")
@@ -67,8 +69,21 @@ public class CargoBuffer extends PylonBlock implements PylonDirectionalBlock, Py
     }
 
     @Override
-    public void setupLogisticSlotGroups() {
-        createLogisticSlotGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        createLogisticSlotGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+    }
+
+    @Override
+    public @NotNull Map<BlockFace, LogisticSlotType> getCargoFaces() {
+        return Map.of(
+                face, LogisticSlotType.OUTPUT,
+                face.getOppositeFace(), LogisticSlotType.INPUT
+        );
+    }
+
+    @Override
+    public long getCargoTransferRate() {
+        return 1;
     }
 }
