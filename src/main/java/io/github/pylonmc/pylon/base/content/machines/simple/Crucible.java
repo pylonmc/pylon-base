@@ -15,7 +15,6 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -26,7 +25,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
@@ -131,16 +129,13 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
         }
 
         int amount = Math.min(item.getAmount(), spaceAvailable());
-        ItemStack toAdd = item.asQuantity(amount);
         if (amount == 0) {
             return;
         }
 
+        ItemStack toAdd = item.asQuantity(amount);
         contents.add(toAdd);
         item.subtract(amount);
-
-        //tryDoRecipe(event.getPlayer());
-        //updateCauldron();
     }
 
     public boolean tryDoRecipe() {
@@ -157,7 +152,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
             }
         }
 
-        throw new IllegalArgumentException("This shouldn't happen");
+        return false;
     }
 
     private void doRecipe(@NotNull CrucibleRecipe recipe) {
