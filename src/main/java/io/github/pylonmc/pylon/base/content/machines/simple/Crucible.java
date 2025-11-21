@@ -1,12 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -43,7 +45,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class Crucible extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
     public final int CAPACITY = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int SMELT_TIME = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
-    public final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = getSettings().getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
+    public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
 
     private final Stack<ItemStack> contents = new Stack<>();
     private ItemStack processing = null;

@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.content.machines.simple.Crucible;
+import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
@@ -10,12 +12,17 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -52,19 +59,49 @@ public record CrucibleRecipe(
         return List.of(output);
     }
 
+    private static List<ItemStack> HEAT_SOURCES = null;
     @Override
     public @NotNull Gui display() {
+        if (HEAT_SOURCES == null) {
+            HEAT_SOURCES = new ArrayList<>();
+            HEAT_SOURCES.addAll(Crucible.VANILLA_BLOCK_HEAT_MAP.keySet().stream().map(material -> {
+                if (!material.isItem()) {
+                    ItemStack stack = new ItemStack(Material.BARRIER);
+                    stack.setData(DataComponentTypes.ITEM_NAME, Component.translatable(material.translationKey()));
+                    return stack;
+                } else {
+                    return new ItemStack(material);
+                }
+            }).toList());
+
+            for (PylonBlockSchema block : PylonRegistry.BLOCKS) {
+                var clazz = block.getBlockClass();
+                if (!Crucible.HeatedBlock.class.isAssignableFrom(clazz)) {
+                    continue;
+                }
+
+                var item = PylonRegistry.ITEMS.get(block.getKey());
+
+                if (item == null) {
+                    continue;
+                }
+
+                HEAT_SOURCES.add(item.getItemStack());
+            }
+        }
+
         return Gui.normal()
             .setStructure(
                 "# # # # # # # # #",
-                "# # # # # i # # #",
-                "# # . # # m # o #",
-                "# # # # # # # # #",
+                "# # # # i # # # #",
+                "# # # # m # # o #",
+                "# # # # h # # # #",
                 "# # # # # # # # #"
             )
             .addIngredient('#', GuiItems.backgroundBlack())
             .addIngredient('i', ItemButton.from(input))
             .addIngredient('m', ItemButton.from(BaseItems.CRUCIBLE))
+            .addIngredient('h', new ItemButton(HEAT_SOURCES))
             .addIngredient('o', new FluidButton(output.amountMillibuckets(), output.fluid())
         ).build();
     }
