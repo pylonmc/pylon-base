@@ -2,10 +2,9 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -32,7 +31,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicExcavator extends PylonBlock implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock {
+public class HydraulicExcavator extends PylonBlock implements PylonTickingBlock, PylonCopperInteractBlock, PylonFluidBufferBlock {
 
     public static class Item extends PylonItem {
 
@@ -145,5 +144,6 @@ public class HydraulicExcavator extends PylonBlock implements PylonTickingBlock,
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         working = true;
+        PylonCopperInteractBlock.super.onInteract(event);
     }
 }

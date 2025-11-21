@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
@@ -38,7 +39,7 @@ import java.util.Set;
 
 
 public class HydraulicFarmer extends PylonBlock
-        implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBufferBlock {
+        implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBufferBlock, PylonCopperInteractBlock {
 
     private static final Set<Material> CROPS_TO_BREAK = EnumSet.of(
         Material.PUMPKIN,
