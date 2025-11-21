@@ -91,12 +91,11 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
         return true;
     }
 
+    public static final Set<Material> ITEM_BLACKLIST = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // Don't allow fluid to be manually inserted/removed
-        if (event.getItem() != null
-            && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())
-        ) {
+        if (event.getItem() != null && ITEM_BLACKLIST.contains(event.getMaterial())) {
             event.setCancelled(true);
             return;
         }
