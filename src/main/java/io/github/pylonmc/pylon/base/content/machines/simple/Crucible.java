@@ -45,7 +45,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     public final int SMELT_TIME = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
     public final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = getSettings().getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
 
-    private final Stack<ItemStack> contents;
+    private final Stack<ItemStack> contents = new Stack<>();
     private ItemStack processing = null;
 
     private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
@@ -55,16 +55,13 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
-        contents = new Stack<>();
         setCapacity(1000.0);
     }
 
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        contents = new Stack<>();
         contents.addAll(pdc.get(CONTENTS_KEY, CONTENTS_TYPE));
         processing = pdc.get(PROCESSING_KEY, PylonSerializers.ITEM_STACK);
     }
