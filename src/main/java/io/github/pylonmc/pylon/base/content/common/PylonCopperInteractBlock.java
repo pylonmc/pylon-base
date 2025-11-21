@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.common;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -16,7 +17,8 @@ public interface PylonCopperInteractBlock extends PylonInteractBlock {
         if (hand == null) return;
 
         ItemStack stack = event.getPlayer().getInventory().getItem(hand);
-        if (Tag.ITEMS_AXES.isTagged(stack.getType())) {
+        Material type = stack.getType();
+        if (Tag.ITEMS_AXES.isTagged(type) || type == Material.HONEYCOMB) {
             event.setCancelled(true);
         }
     }
