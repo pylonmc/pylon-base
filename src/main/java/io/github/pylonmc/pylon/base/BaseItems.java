@@ -1808,7 +1808,7 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(DIESEL_PIPE_BENDER);
     }
 
-    public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.GRAY_TERRACOTTA, BaseKeys.CARGO_DUCT)
+    public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
             .build();
     static {
         PylonItem.register(PylonItem.class, CARGO_DUCT, BaseKeys.CARGO_DUCT);
