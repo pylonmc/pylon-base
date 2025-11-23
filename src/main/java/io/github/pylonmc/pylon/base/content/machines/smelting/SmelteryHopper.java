@@ -1,6 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
+import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
@@ -10,7 +14,11 @@ import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -69,6 +77,30 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
                 controller.addFluid(recipe.result(), recipe.resultAmount());
                 item.subtract();
                 new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
+            }
+        }
+    }
+
+    /**
+     * Fix #388
+     *
+     * @author baluagq
+     */
+    public static class TransportSpeedFixListener implements Listener {
+        @EventHandler
+        public void handle(InventoryMoveItemEvent event) {
+            Inventory source = event.getSource();
+            Inventory dest = event.getDestination();
+            if (source.getType() != InventoryType.HOPPER
+                    || dest.getType() != InventoryType.HOPPER
+                    || source.getLocation() == null
+                    || dest.getLocation() == null) {
+                return;
+            }
+
+            PylonBlock smelteryHopper = BlockStorage.get(dest.getLocation());
+            if (smelteryHopper != null && smelteryHopper.getSchema().getKey().equals(BaseKeys.SMELTERY_HOPPER)) {
+                event.setCancelled(true);
             }
         }
     }
