@@ -496,7 +496,7 @@ item:
   stone_hammer:
     name: "Stone Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
   immobilizer:
