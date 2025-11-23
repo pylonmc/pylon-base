@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -13,6 +12,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Hopper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -94,7 +94,9 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             if (source.getType() != InventoryType.HOPPER
                     || dest.getType() != InventoryType.HOPPER
                     || source.getLocation() == null
-                    || dest.getLocation() == null) {
+                    || dest.getLocation() == null
+                    || !(source.getLocation().getBlock().getBlockData() instanceof org.bukkit.block.data.type.Hopper hopper)
+                    || hopper.getFacing() != BlockFace.DOWN) {
                 return;
             }
 
