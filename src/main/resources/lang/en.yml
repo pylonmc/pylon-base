@@ -667,6 +667,7 @@ item:
     name: "Refractory Bricks"
     lore: |-
       <star> Smeltery multiblock component
+      <star> Bloomery multiblock component
       <arrow> The cheapest and most basic smeltery component
 
   research_pack_1:
