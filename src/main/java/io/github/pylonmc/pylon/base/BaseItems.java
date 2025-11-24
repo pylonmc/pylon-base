@@ -8,6 +8,9 @@ import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
@@ -1805,21 +1808,37 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(DieselPipeBender.Item.class, DIESEL_PIPE_BENDER, BaseKeys.DIESEL_PIPE_BENDER);
-        BasePages.HYDRAULICS.addItem(DIESEL_PIPE_BENDER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_PIPE_BENDER);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GRAY_CONCRETE.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CARGO_DUCT, BaseKeys.CARGO_DUCT);
         BasePages.CARGO.addItem(CARGO_DUCT);
     }
 
-    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.LIME_TERRACOTTA, BaseKeys.CARGO_BUFFER)
+    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_BUFFER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BARREL.getKey())
             .build();
     static {
-        PylonItem.register(PylonItem.class, CARGO_BUFFER, BaseKeys.CARGO_BUFFER);
+        PylonItem.register(CargoBuffer.Item.class, CARGO_BUFFER, BaseKeys.CARGO_BUFFER);
         BasePages.CARGO.addItem(CARGO_BUFFER);
+    }
+
+    public static final ItemStack CARGO_EXTRACTOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_EXTRACTOR)
+            .build();
+    static {
+        PylonItem.register(CargoExtractor.Item.class, CARGO_EXTRACTOR, BaseKeys.CARGO_EXTRACTOR);
+        BasePages.CARGO.addItem(CARGO_EXTRACTOR);
+    }
+
+    public static final ItemStack CARGO_INSERTER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_INSERTER)
+            .build();
+    static {
+        PylonItem.register(CargoInserter.Item.class, CARGO_INSERTER, BaseKeys.CARGO_INSERTER);
+        BasePages.CARGO.addItem(CARGO_INSERTER);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

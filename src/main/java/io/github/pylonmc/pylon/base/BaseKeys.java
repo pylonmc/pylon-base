@@ -297,4 +297,6 @@ public class BaseKeys {
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");
+    public static final NamespacedKey CARGO_EXTRACTOR = baseKey("cargo_extractor");
+    public static final NamespacedKey CARGO_INSERTER = baseKey("cargo_inserter");
 }

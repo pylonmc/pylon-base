@@ -33,7 +33,7 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoExtractor extends PylonBlock
+public class CargoInserter extends PylonBlock
         implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
 
     private static final NamespacedKey FACING_KEY = baseKey("facing");
@@ -45,8 +45,8 @@ public class CargoExtractor extends PylonBlock
     public final ItemStack mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main")
             .build();
-    public final ItemStack outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":output")
+    public final ItemStack inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":input")
             .build();
     public final ItemStack ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":duct")
@@ -72,18 +72,18 @@ public class CargoExtractor extends PylonBlock
     }
 
     @SuppressWarnings("unused")
-    public CargoExtractor(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public CargoInserter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         if (!(context instanceof BlockCreateContext.PlayerPlace playerPlaceContext)) {
-            throw new IllegalArgumentException("Cargo extractor can only be placed by player");
+            throw new IllegalArgumentException("Cargo inserter can only be placed by player");
         }
 
         facing = playerPlaceContext.getPlayer().getFacing();
 
-        addCargoLogisticGroup(facing.getOppositeFace(), "output");
+        addCargoLogisticGroup(facing.getOppositeFace(), "input");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
-            addCargoLogisticGroup(face, "output");
+            addCargoLogisticGroup(face, "input");
         }
         setCargoTransferRate(transferRate);
 
@@ -98,7 +98,7 @@ public class CargoExtractor extends PylonBlock
         );
 
         addEntity("input", new ItemDisplayBuilder()
-                .itemStack(outputStack)
+                .itemStack(inputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(facing)
                         .translate(0, 0, 0.3)
@@ -119,7 +119,7 @@ public class CargoExtractor extends PylonBlock
     }
 
     @SuppressWarnings("unused")
-    public CargoExtractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public CargoInserter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
         facing = pdc.get(FACING_KEY, PylonSerializers.BLOCK_FACE);
@@ -131,7 +131,7 @@ public class CargoExtractor extends PylonBlock
     }
 
     @Override
-    public @NotNull Set<@NotNull ChunkPosition> getChunksOccupied() {
+    public @NotNull Set<ChunkPosition> getChunksOccupied() {
         Set<ChunkPosition> chunks = new HashSet<>();
         chunks.add(new ChunkPosition(getBlock()));
         chunks.add(new ChunkPosition(getTarget()));
@@ -145,8 +145,7 @@ public class CargoExtractor extends PylonBlock
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return new BlockPosition(otherBlock)
-                .equals(new BlockPosition(getTarget()));
+        return otherBlock.equals(getTarget());
     }
 
     @Override
@@ -156,14 +155,6 @@ public class CargoExtractor extends PylonBlock
 
     @Override
     public void setupLogisticGroups() {}
-
-    @Override
-    public @NotNull Map<String, LogisticGroup> getLogisticGroups() {
-        PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
-        return logisticBlock != null
-                ? logisticBlock.getLogisticGroups()
-                : Collections.emptyMap();
-    }
 
     @Override
     public void onDuctConnected(@NotNull PylonCargoDuctConnectEvent event) {
@@ -185,13 +176,21 @@ public class CargoExtractor extends PylonBlock
         List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(facing);
         faces.add(facing.getOppositeFace());
         for (BlockFace face : faces) {
-            addCargoLogisticGroup(face, "output");
+            addCargoLogisticGroup(face, "input");
         }
         for (BlockFace face : faces) {
             if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct ) {
                 duct.updateConnectedFaces();
             }
         }
+    }
+
+    @Override
+    public @NotNull Map<String, LogisticGroup> getLogisticGroups() {
+        PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
+        return logisticBlock != null
+                ? logisticBlock.getLogisticGroups()
+                : Collections.emptyMap();
     }
 
     public @NotNull Block getTarget() {
