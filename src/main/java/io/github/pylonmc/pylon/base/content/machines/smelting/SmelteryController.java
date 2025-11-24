@@ -6,7 +6,9 @@ import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -289,13 +291,12 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public void onMultiblockRefreshed() {
-        double previousCapacity = capacity;
         capacity = height * insidePositions.size() * 1000;
-
-        if (capacity < previousCapacity) {
-            double removeRatio = 1 - (capacity / previousCapacity);
-            for (PylonFluid fluid : new HashSet<>(fluids.keySet())) {
-                removeFluid(fluid, fluids.getDouble(fluid) * removeRatio);
+        double totalFluid = getTotalFluid();
+        if (totalFluid > capacity) {
+            double ratio = capacity / totalFluid;
+            for (PylonFluid fluid : fluids.keySet()) {
+                fluids.computeDouble(fluid, (key, value) -> value * ratio);
             }
         }
 
