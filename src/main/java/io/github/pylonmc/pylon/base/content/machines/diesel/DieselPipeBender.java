@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -17,6 +18,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -41,18 +43,13 @@ import xyz.xenondevs.invui.inventory.event.PlayerUpdateReason;
 import java.util.List;
 
 
-public class DieselPipeBender extends PylonBlock implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock {
+public class DieselPipeBender extends PylonBlock
+        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
-
-    @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonGuiBlock.super.onBreak(drops, context);
-        PylonFluidBufferBlock.super.onBreak(drops, context);
-    }
 
     public static class Item extends PylonItem {
 
@@ -129,6 +126,18 @@ public class DieselPipeBender extends PylonBlock implements PylonGuiBlock, Pylon
         super(block, pdc);
         recipe = null;
         attachInventoryHandlers();
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
     }
 
     @Override
@@ -225,7 +234,12 @@ public class DieselPipeBender extends PylonBlock implements PylonGuiBlock, Pylon
 
     private void attachInventoryHandlers() {
         inputInventory.setPostUpdateHandler(event -> {
-            getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(event.getNewItem());
+            // Null check here because I've seen exceptions when the block is loading in but the entity hasn't been
+            // loaded yet (no idea why this handler would fire at that point but oh well)
+            ItemDisplay display = getHeldEntity(ItemDisplay.class, "item");
+            if (display != null) {
+                display.setItemStack(event.getNewItem());
+            }
         });
         outputInventory.setPreUpdateHandler(event -> {
             if (!event.isRemove() && event.getUpdateReason() instanceof PlayerUpdateReason) {
