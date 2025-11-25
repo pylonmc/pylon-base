@@ -4,11 +4,14 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -25,7 +28,8 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
 
-public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractBlock, PylonBreakHandler {
+public class Pedestal extends PylonBlock
+        implements PylonEntityHolderBlock, PylonInteractBlock, PylonBreakHandler, PylonLogisticBlock {
 
     private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
     private static final NamespacedKey LOCKED_KEY = baseKey("locked");
@@ -108,5 +112,11 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
                 .translate(0, 0.7, 0)
                 .scale(0.4)
                 .rotate(0, rotation, 0);
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
     }
 }

@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -10,6 +11,7 @@ import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import kotlin.Pair;
@@ -29,7 +31,8 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
-public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
+public final class SmelteryCaster extends SmelteryComponent
+        implements PylonGuiBlock, PylonTickingBlock, PylonLogisticBlock {
 
     private @Nullable PylonFluid bottomFluid = null;
 
@@ -149,5 +152,10 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             }
         }
         castItem.notifyWindows();
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, inventory);
     }
 }

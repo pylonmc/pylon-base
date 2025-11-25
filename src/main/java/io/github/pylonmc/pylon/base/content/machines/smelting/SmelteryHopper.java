@@ -17,7 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock, PylonVanillaContainerBlock, PylonBreakHandler {
+public final class SmelteryHopper extends SmelteryComponent
+        implements PylonTickingBlock, PylonVanillaContainerBlock, PylonBreakHandler {
 
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {

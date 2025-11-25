@@ -3,10 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -19,6 +16,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -44,7 +42,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class CoalFiredPurificationTower extends PylonBlock
-        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
+        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock, PylonLogisticBlock {
 
     private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
     public static final double PURIFICATION_SPEED = settings.getOrThrow("purification-speed", ConfigAdapter.INT);
@@ -74,6 +72,11 @@ public class CoalFiredPurificationTower extends PylonBlock
 
     private final VirtualInventory inventory = new VirtualInventory(1);
     private final ProgressItem progressItem = new ProgressItem(idleProgressItem);
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, inventory);
+    }
 
     public static class Item extends PylonItem {
 

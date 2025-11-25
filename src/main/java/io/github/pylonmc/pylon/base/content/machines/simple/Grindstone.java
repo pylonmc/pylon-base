@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -18,6 +19,8 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -39,7 +42,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonBreakHandler {
+public class Grindstone extends PylonBlock
+        implements PylonSimpleMultiblock, PylonInteractBlock, PylonBreakHandler, PylonLogisticBlock {
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
             .getOrThrow("cycle-duration-ticks", ConfigAdapter.INT);
@@ -200,5 +204,10 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 .translate(0, translation, 0)
                 .rotate(0, rotation, 0)
                 .buildForItemDisplay();
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
     }
 }

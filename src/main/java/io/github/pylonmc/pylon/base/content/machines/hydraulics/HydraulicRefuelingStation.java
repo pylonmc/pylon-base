@@ -5,8 +5,11 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -33,7 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidBlock, PylonInteractBlock {
+public class HydraulicRefuelingStation extends PylonBlock
+        implements PylonFluidBlock, PylonInteractBlock, PylonLogisticBlock {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -176,5 +180,12 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
         if (!stack.isEmpty()) {
             drops.add(stack);
         }
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        ItemDisplay display = getHeldEntityOrThrow(ItemDisplay.class, "item");
+        createLogisticGroup("input", LogisticSlotType.INPUT, new ItemDisplayLogisticSlot(display));
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, new ItemDisplayLogisticSlot(display));
     }
 }

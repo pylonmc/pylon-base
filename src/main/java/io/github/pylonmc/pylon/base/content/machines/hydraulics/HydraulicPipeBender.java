@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -18,6 +19,8 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -34,7 +37,8 @@ import org.joml.Vector3d;
 
 import java.util.List;
 
-public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
+public class HydraulicPipeBender extends PylonBlock
+        implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonLogisticBlock {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PIPE_BENDER);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -170,5 +174,10 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         drops.add(getItemDisplay().getItemStack());
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
     }
 }

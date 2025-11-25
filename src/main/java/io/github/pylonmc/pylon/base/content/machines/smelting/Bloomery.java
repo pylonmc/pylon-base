@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -17,6 +18,8 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,7 +45,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
+public final class Bloomery extends PylonBlock
+        implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonLogisticBlock {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BLOOMERY).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float HEAT_CHANCE = Settings.get(BaseKeys.BLOOMERY).getOrThrow("heat-chance", ConfigAdapter.FLOAT);
@@ -160,6 +164,12 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
                 new Vector3i(-1, 1, 0), new PylonMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
                 new Vector3i(0, 1, 1), new PylonMultiblockComponent(BaseKeys.REFRACTORY_BRICKS)
         );
+    }
+
+    @Override
+    public void setupLogisticGroups() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay(), 1L));
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, new ItemDisplayLogisticSlot(getItemDisplay(), 1L));
     }
 
     public static class CreationListener implements Listener {
