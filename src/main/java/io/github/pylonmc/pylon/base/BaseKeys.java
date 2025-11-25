@@ -294,4 +294,36 @@ public class BaseKeys {
     public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 
     public static final NamespacedKey DIESEL_PIPE_BENDER = baseKey("diesel_pipe_bender");
+
+    public static final NamespacedKey HUNGER_TALISMAN_SIMPLE = baseKey("hunger_talisman_simple");
+    public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");
+    public static final NamespacedKey HUNGER_TALISMAN_ULTIMATE = baseKey("hunger_talisman_ultimate");
+
+    public static final NamespacedKey FARMER_TALISMAN_SIMPLE = baseKey("farmer_talisman_simple");
+    public static final NamespacedKey FARMER_TALISMAN_ADVANCED = baseKey("farmer_talisman_advanced");
+    public static final NamespacedKey FARMER_TALISMAN_ULTIMATE = baseKey("farmer_talisman_ultimate");
+
+    public static final NamespacedKey BARTERING_TALISMAN_SIMPLE = baseKey("bartering_talisman_simple");
+    public static final NamespacedKey BARTERING_TALISMAN_ADVANCED = baseKey("bartering_talisman_advanced");
+    public static final NamespacedKey BARTERING_TALISMAN_ULTIMATE = baseKey("bartering_talisman_ultimate");
+
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_SIMPLE = baseKey("water_breathing_talisman_simple");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_ADVANCED = baseKey("water_breathing_talisman_advanced");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_ULTIMATE = baseKey("water_breathing_talisman_ultimate");
+
+    public static final NamespacedKey LUCK_TALISMAN_SIMPLE = baseKey("luck_talisman_simple");
+    public static final NamespacedKey LUCK_TALISMAN_ADVANCED = baseKey("luck_talisman_advanced");
+    public static final NamespacedKey LUCK_TALISMAN_ULTIMATE = baseKey("luck_talisman_ultimate");
+
+    public static final NamespacedKey BREEDING_TALISMAN_SIMPLE = baseKey("breeding_talisman_simple");
+    public static final NamespacedKey BREEDING_TALISMAN_ADVANCED = baseKey("breeding_talisman_advanced");
+    public static final NamespacedKey BREEDING_TALISMAN_ULTIMATE = baseKey("breeding_talisman_ultimate");
+
+    public static final NamespacedKey ENCHANTING_TALISMAN_SIMPLE = baseKey("enchanting_talisman_simple");
+    public static final NamespacedKey ENCHANTING_TALISMAN_ADVANCED = baseKey("enchanting_talisman_advanced");
+    public static final NamespacedKey ENCHANTING_TALISMAN_ULTIMATE = baseKey("enchanting_talisman_ultimate");
+
+    public static final NamespacedKey HUNTING_TALISMAN_SIMPLE = baseKey("hunting_talisman_simple");
+    public static final NamespacedKey HUNTING_TALISMAN_ADVANCED = baseKey("hunting_talisman_advanced");
+    public static final NamespacedKey HUNTING_TALISMAN_ULTIMATE = baseKey("hunting_talisman_ultimate");
 }
