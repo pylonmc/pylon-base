@@ -154,20 +154,21 @@ item:
   bloomery:
     name: "Bloomery"
     lore: |-
+      <star> Multiblock
       <arrow> A device used for smelting steel from sponge iron
-      <arrow> <insn>Set fire to a coal block with gypsum dust thrown on top</insn> to create
+      <arrow> <insn>Set fire to a block of coal with gypsum dust thrown on top</insn> to create
       <arrow> <insn>Right click</insn> to insert items
       <arrow> <insn>Right click with tongs</insn> to retrieve items safely
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.bloomery.name></yellow> aiojioegwjnioeginoegiopegw
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.bloomery.name></yellow>
       <diamond> 4x <yellow><lang:pylon.pylonbase.item.refractory_bricks.name></yellow>
 
   bronze_anvil:
     name: "Bronze Anvil"
     lore: |-
       <arrow> Used to create wrought iron from iron blooms
-      <arrow> The aim to is to hammer the bloom into a "normal" shape
+      <arrow> The aim is to hammer the bloom into a "normal" shape
       <arrow> <insn>Right click</insn> to place items on the anvil
       <arrow> <insn>Left click</insn> with a hammer to make the bloom shorter/wider
       <arrow> <insn>Left click</insn> with a <lang:pylon.pylonbase.item.tongs.name> to make the bloom taller/narrower
@@ -352,7 +353,6 @@ item:
     name: "<white>Fluid Valve"
     lore: |-
       <arrow> <insn>Right click</insn> a fluid valve to toggle it
-      <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Fluid Valve (%status%)"
 
   fluid_filter:
@@ -496,7 +496,7 @@ item:
   stone_hammer:
     name: "Stone Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone</white> to use the hammer on it
       <arrow> Higher tier hammers are more likely to succeed
 
   immobilizer:
@@ -559,8 +559,7 @@ item:
     lore: |-
       <arrow> Place items in the pot and <insn>right click</insn> to mix them together
       <arrow> Requires a fire underneath to work
-      <arrow> Some recipes require <white>Enriched Netherrack</white> fire underneath
-      <arrow> Can also be used like a normal cauldron
+      <arrow> Some recipes require <white><lang:pylon.pylonbase.item.enriched_soul_soil.name></white> fire underneath
     waila: "Mixing Pot %info%"
 
   monster_jerky:
@@ -604,7 +603,7 @@ item:
       
       <u>Components</u>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name></yellow>
-      <diamond> 8x <yellow>Coal Block</yellow>
+      <diamond> 8x <yellow>Block of Coal</yellow>
       <diamond> 20x <yellow>Coarse Dirt</yellow>
       <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
       ...or 1x <yellow>Fire</yellow> (%fire%x <attr>speed</attr>) 
@@ -668,6 +667,7 @@ item:
     name: "Refractory Bricks"
     lore: |-
       <star> Smeltery multiblock component
+      <star> Bloomery multiblock component
       <arrow> The cheapest and most basic smeltery component
 
   research_pack_1:
@@ -1032,7 +1032,7 @@ item:
   fireproof_rune:
     name: "Fireproof Rune"
     lore: |-
-      <arrow> The same fields that make enriched netherrack burn so hot can be inverted to protect items from burning
+      <arrow> The same fields that make <lang:pylon.pylonbase.item.enriched_soul_soil.name> burn so hot can be inverted to protect items from burning
       <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
 
   fluid_tank:
