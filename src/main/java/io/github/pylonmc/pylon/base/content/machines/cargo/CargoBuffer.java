@@ -72,7 +72,7 @@ public class CargoBuffer extends PylonBlock
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of(
-                            "items-per-second",
+                            "transfer-rate",
                             UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );

@@ -1819,7 +1819,7 @@ public final class BaseItems {
         BasePages.CARGO.addItem(CARGO_DUCT);
     }
 
-    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_BUFFER)
+    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.BARRIER, BaseKeys.CARGO_BUFFER)
             .set(DataComponentTypes.ITEM_MODEL, Material.BARREL.getKey())
             .build();
     static {
@@ -1828,6 +1828,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack CARGO_EXTRACTOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_EXTRACTOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.RED_TERRACOTTA.getKey())
             .build();
     static {
         PylonItem.register(CargoExtractor.Item.class, CARGO_EXTRACTOR, BaseKeys.CARGO_EXTRACTOR);
@@ -1835,6 +1836,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack CARGO_INSERTER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_INSERTER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.LIME_TERRACOTTA.getKey())
             .build();
     static {
         PylonItem.register(CargoInserter.Item.class, CARGO_INSERTER, BaseKeys.CARGO_INSERTER);
