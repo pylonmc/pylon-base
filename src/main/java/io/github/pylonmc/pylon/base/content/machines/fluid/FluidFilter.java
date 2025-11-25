@@ -80,7 +80,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
         // fluidAmountRequested to control how much fluid comes in
         setCapacity(1.0e9);
 
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
+        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid filter can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
         addEntity("main", new ItemDisplayBuilder()

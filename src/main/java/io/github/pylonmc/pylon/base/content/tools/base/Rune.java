@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.item.base.PylonBow;
 import io.github.pylonmc.pylon.core.item.base.PylonBucket;
 import io.github.pylonmc.pylon.core.item.base.PylonTool;
 import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -80,7 +81,7 @@ public abstract class Rune extends PylonItem {
 
             // Fix #155 - Fireproof rune only checks proximity at the moment it's dropped
             // Force run synchronously for entity handling
-            PylonBase.runSyncTimer(task -> {
+            Bukkit.getScheduler().runTaskTimer(PylonBase.getInstance(), task -> {
                 if (runeEntity.isDead() || !runeEntity.isValid()) {
                     task.cancel();
                     return;
