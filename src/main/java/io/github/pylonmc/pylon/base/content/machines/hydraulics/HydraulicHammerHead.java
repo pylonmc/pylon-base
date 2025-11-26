@@ -169,7 +169,7 @@ public class HydraulicHammerHead extends PylonBlock implements PylonTickingBlock
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
                 || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
-                || !hammer.tryDoRecipe(baseBlock, null, null)
+                || !hammer.tryDoRecipe(baseBlock, null, null, BlockFace.UP)
         ) {
             return;
         }

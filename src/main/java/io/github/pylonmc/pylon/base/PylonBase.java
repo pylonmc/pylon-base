@@ -6,6 +6,8 @@ import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
+import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
@@ -24,7 +26,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
     private static final int BSTATS_ID = 27323;
@@ -58,10 +59,12 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         pm.registerEvents(new Rune.RuneListener(), this);
-        new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
         pm.registerEvents(new SoulboundRune.SoulboundRuneListener(), this);
-        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, BaseConfig.HEALTH_TALISMAN_CHECK_INTERVAL);
+        pm.registerEvents(new Bloomery.CreationListener(), this);
         pm.registerEvents(new Grindstone.PlaceListener(), this);
+
+        new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
+        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, BaseConfig.HEALTH_TALISMAN_CHECK_INTERVAL);
     }
 
     @Override
@@ -77,10 +80,5 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     @Override
     public @NotNull Material getMaterial() {
         return Material.COPPER_INGOT;
-    }
-
-    // TODO remove and replace caller with runTaskLater for consistency
-    public static void runSyncTimer(@NotNull Consumer<BukkitTask> task, long delay, long period) {
-        Bukkit.getScheduler().runTaskTimer(instance, task, delay, period);
     }
 }

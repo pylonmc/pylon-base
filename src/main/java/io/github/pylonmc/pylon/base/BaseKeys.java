@@ -55,6 +55,11 @@ public class BaseKeys {
     public static final NamespacedKey BRONZE_NUGGET = baseKey("bronze_nugget");
     public static final NamespacedKey BRONZE_BLOCK = baseKey("bronze_block");
 
+    public static final NamespacedKey SPONGE_IRON = baseKey("sponge_iron");
+    public static final NamespacedKey IRON_BLOOM = baseKey("iron_bloom");
+    public static final NamespacedKey WROUGHT_IRON = baseKey("wrought_iron");
+    public static final NamespacedKey TONGS = baseKey("tongs");
+
     public static final NamespacedKey STEEL_DUST = baseKey("steel_dust");
     public static final NamespacedKey STEEL_INGOT = baseKey("steel_ingot");
     public static final NamespacedKey STEEL_NUGGET = baseKey("steel_nugget");
@@ -140,7 +145,7 @@ public class BaseKeys {
 
     public static final NamespacedKey ITEM_MAGNET = baseKey("item_magnet");
 
-    public static final NamespacedKey ENRICHED_NETHERRACK = baseKey("enriched_netherrack");
+    public static final NamespacedKey ENRICHED_SOUL_SOIL = baseKey("enriched_soul_soil");
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
     public static final NamespacedKey MAGIC_PEDESTAL = baseKey("magic_pedestal");
@@ -208,6 +213,8 @@ public class BaseKeys {
     public static final NamespacedKey UNFIRED_REFRACTORY_BRICK = baseKey("unfired_refractory_brick");
     public static final NamespacedKey REFRACTORY_BRICK = baseKey("refractory_brick");
     public static final NamespacedKey REFRACTORY_BRICKS = baseKey("refractory_bricks");
+    public static final NamespacedKey BLOOMERY = baseKey("bloomery");
+    public static final NamespacedKey BRONZE_ANVIL = baseKey("bronze_anvil");
     public static final NamespacedKey SMELTERY_CONTROLLER = baseKey("smeltery_controller");
     public static final NamespacedKey SMELTERY_INPUT_HATCH = baseKey("smeltery_input_hatch");
     public static final NamespacedKey SMELTERY_OUTPUT_HATCH = baseKey("smeltery_output_hatch");

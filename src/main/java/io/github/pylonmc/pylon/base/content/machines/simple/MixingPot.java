@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
@@ -19,7 +18,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -40,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 
-public final class MixingPot extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron {
+public final class MixingPot extends PylonBlock implements PylonInteractBlock, PylonFluidTank, PylonCauldron {
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -55,21 +53,6 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Set<ChunkPosition> getChunksOccupied() {
-        return Set.of(new ChunkPosition(getBlock()));
-    }
-
-    @Override
-    public boolean checkFormed() {
-        return getFire().getType() == Material.FIRE;
-    }
-
-    @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock == getFire();
     }
 
     @Override
@@ -108,7 +91,7 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
     }
 
     @Override
-    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", getFluidType() == null ?
                         Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
@@ -137,31 +120,30 @@ public final class MixingPot extends PylonBlock implements PylonMultiblock, Pylo
         }
 
         event.setCancelled(true);
-
-        if (!isFormedAndFullyLoaded() || getFluidType() == null) {
-            return;
-        }
-
         tryDoRecipe(event.getPlayer());
     }
 
     public boolean tryDoRecipe(@Nullable Player player) {
+        if (getFluidType() == null) return false;
+
+        Material fireType = getFire().getType();
+        boolean isFire = fireType == Material.FIRE || fireType == Material.SOUL_FIRE;
+        if (!isFire) return false;
+
+        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
+        boolean isEnrichedFire = ignitedBlock != null
+                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_SOUL_SOIL);
+
         List<Item> items = getBlock()
                 .getLocation()
                 .toCenterLocation()
-                .getNearbyEntities(0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
+                .getNearbyEntitiesByType(Item.class, 0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
                 .stream()
-                .filter(Item.class::isInstance)
-                .map(Item.class::cast)
                 .toList();
 
         List<ItemStack> stacks = items.stream()
                 .map(Item::getItemStack)
                 .toList();
-
-        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
-        boolean isEnrichedFire = ignitedBlock != null
-                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
 
         for (MixingPotRecipe recipe : MixingPotRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(stacks, isEnrichedFire, getFluidType(), getFluidAmount())) {

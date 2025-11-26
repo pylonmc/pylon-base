@@ -16,6 +16,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDr
 import io.github.pylonmc.pylon.base.content.machines.simple.Press;
 import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
+import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.base.content.science.ResearchPack;
 import io.github.pylonmc.pylon.base.content.tools.*;
@@ -248,6 +249,34 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, BRONZE_BLOCK, BaseKeys.BRONZE_BLOCK);
         BasePages.RESOURCES.addItem(BRONZE_BLOCK);
+    }
+
+    public static final ItemStack SPONGE_IRON = ItemStackBuilder.pylon(Material.RAW_IRON, BaseKeys.SPONGE_IRON)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, SPONGE_IRON);
+        BasePages.RESOURCES.addItem(SPONGE_IRON);
+    }
+
+    public static final ItemStack IRON_BLOOM = ItemStackBuilder.pylon(Material.RAW_IRON, BaseKeys.IRON_BLOOM)
+            .build();
+    static {
+        PylonItem.register(IronBloom.class, IRON_BLOOM);
+        BasePages.RESOURCES.addItem(IRON_BLOOM);
+    }
+
+    public static final ItemStack WROUGHT_IRON = ItemStackBuilder.pylon(Material.NETHERITE_SCRAP, BaseKeys.WROUGHT_IRON)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, WROUGHT_IRON);
+        BasePages.RESOURCES.addItem(WROUGHT_IRON);
+    }
+
+    public static final ItemStack TONGS = ItemStackBuilder.pylon(Material.SHEARS, BaseKeys.TONGS)
+            .build();
+    static {
+        PylonItem.register(Tongs.class, TONGS);
+        BasePages.TOOLS.addItem(TONGS);
     }
 
     public static final ItemStack STEEL_INGOT = ItemStackBuilder.pylon(Material.NETHERITE_INGOT, BaseKeys.STEEL_INGOT)
@@ -723,12 +752,12 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(MIXING_POT);
     }
 
-    public static final ItemStack ENRICHED_NETHERRACK = ItemStackBuilder.pylon(Material.NETHERRACK, BaseKeys.ENRICHED_NETHERRACK)
+    public static final ItemStack ENRICHED_SOUL_SOIL = ItemStackBuilder.pylon(Material.SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL)
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
-        PylonItem.register(PylonItem.class, ENRICHED_NETHERRACK, BaseKeys.ENRICHED_NETHERRACK);
-        BasePages.COMPONENTS.addItem(ENRICHED_NETHERRACK);
+        PylonItem.register(PylonItem.class, ENRICHED_SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL);
+        BasePages.COMPONENTS.addItem(ENRICHED_SOUL_SOIL);
     }
 
     public static final ItemStack SHIMMER_SKULL = ItemStackBuilder.pylon(Material.WITHER_SKELETON_SKULL, BaseKeys.SHIMMER_SKULL)
@@ -895,6 +924,7 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_CREATIVE, BaseKeys.FLUID_PIPE_CREATIVE);
         PylonGuide.hideItem(BaseKeys.FLUID_PIPE_CREATIVE);
+        BasePages.CREATIVE_ITEMS.addItem(FLUID_PIPE_CREATIVE);
     }
 
     public static final ItemStack PORTABLE_FLUID_TANK_WOOD
@@ -1225,6 +1255,7 @@ public final class BaseItems {
     static {
         PylonItem.register(FluidVoider.Item.class, CREATIVE_FLUID_VOIDER, BaseKeys.CREATIVE_FLUID_VOIDER);
         PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_VOIDER);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_FLUID_VOIDER);
     }
 
     public static final ItemStack CREATIVE_FLUID_SOURCE = ItemStackBuilder.pylon(Material.PINK_CONCRETE, BaseKeys.CREATIVE_FLUID_SOURCE)
@@ -1232,6 +1263,7 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, CREATIVE_FLUID_SOURCE, BaseKeys.CREATIVE_FLUID_SOURCE);
         PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_SOURCE);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_FLUID_SOURCE);
     }
 
     public static final ItemStack LOUPE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.LOUPE)
@@ -1283,6 +1315,13 @@ public final class BaseItems {
     }
 
     //<editor-fold desc="Smeltery" defaultstate="collapsed">
+    public static final ItemStack PIT_KILN = ItemStackBuilder.pylon(Material.DECORATED_POT, BaseKeys.PIT_KILN)
+            .build();
+    static {
+        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
+        BasePages.SMELTING.addItem(PIT_KILN);
+    }
+
     public static final ItemStack REFRACTORY_MIX = ItemStackBuilder.pylon(Material.SMOOTH_RED_SANDSTONE, BaseKeys.REFRACTORY_MIX)
             .build();
     static {
@@ -1309,6 +1348,20 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, REFRACTORY_BRICKS, BaseKeys.REFRACTORY_BRICKS);
         BasePages.SMELTING.addItem(REFRACTORY_BRICKS);
+    }
+
+    public static final ItemStack BLOOMERY = ItemStackBuilder.pylon(Material.MAGMA_BLOCK, BaseKeys.BLOOMERY)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BLOOMERY, BaseKeys.BLOOMERY);
+        BasePages.SMELTING.addItem(BLOOMERY);
+    }
+
+    public static final ItemStack BRONZE_ANVIL = ItemStackBuilder.pylon(Material.ANVIL, BaseKeys.BRONZE_ANVIL)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BRONZE_ANVIL, BaseKeys.BRONZE_ANVIL);
+        BasePages.SMELTING.addItem(BRONZE_ANVIL);
     }
 
     public static final ItemStack SMELTERY_CONTROLLER = ItemStackBuilder.pylon(Material.BLAST_FURNACE, BaseKeys.SMELTERY_CONTROLLER)
@@ -1351,13 +1404,6 @@ public final class BaseItems {
     static {
         PylonItem.register(PylonItem.class, SMELTERY_BURNER, BaseKeys.SMELTERY_BURNER);
         BasePages.SMELTING.addItem(SMELTERY_BURNER);
-    }
-
-    public static final ItemStack PIT_KILN = ItemStackBuilder.pylon(Material.DECORATED_POT, BaseKeys.PIT_KILN)
-            .build();
-    static {
-        PylonItem.register(PitKiln.Item.class, PIT_KILN, BaseKeys.PIT_KILN);
-        BasePages.SMELTING.addItem(PIT_KILN);
     }
     // </editor-fold>
 
