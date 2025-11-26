@@ -68,3 +68,15 @@ pylonbase:steel_sheet:
   result: pylonbase:steel_sheet
   mining-level: diamond
   chance: 0.25
+
+pylonbase:gravel_from_rocks:
+  input: "#pyloncore:rocks"
+  result: minecraft:gravel
+  mining-level: stone
+  chance: 0.5
+
+pylonbase:flint_from_gravel:
+  input: minecraft:gravel
+  result: minecraft:flint
+  mining-level: stone
+  chance: 0.5

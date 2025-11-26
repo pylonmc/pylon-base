@@ -182,7 +182,7 @@ public class HydraulicHammerHead extends PylonBlock implements PylonTickingBlock
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
             BaseUtils.animate(getHammerHead(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
-            BaseUtils.animate(getHammerTip(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getHeadTransformation(0.7));
+            BaseUtils.animate(getHammerTip(), hammer.cooldownTicks - GO_DOWN_TIME_TICKS, getTipTransformation(-0.3));
 
             new ParticleBuilder(Particle.BLOCK)
                     .data(baseBlock.getBlockData())
