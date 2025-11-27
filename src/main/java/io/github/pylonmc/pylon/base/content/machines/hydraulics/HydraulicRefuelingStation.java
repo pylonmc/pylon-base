@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidBlock, PylonInteractBlock {
+public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidBlock, PylonCopperInteractBlock {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -67,6 +68,7 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
+        PylonCopperInteractBlock.super.onInteract(event);
         if (event.getHand() != EquipmentSlot.HAND || !event.getAction().isRightClick()) {
             return;
         }
