@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -13,14 +14,17 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
+import io.github.pylonmc.pylon.core.event.PylonRegisterEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
+import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -28,6 +32,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -45,7 +51,6 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class Crucible extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
     public final int CAPACITY = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int SMELT_TIME = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
-    public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
 
     private final Stack<ItemStack> contents = new Stack<>();
     private ItemStack processing = null;
@@ -278,12 +283,32 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     //endregion
 
     //region Heat handling
-    public @NotNull Block getBelow() {
-        return getBlock().getRelative(BlockFace.DOWN);
+    public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
+    public static final Set<NamespacedKey> HEATED_BLOCKS = new HashSet<>();
+
+    public static class HeatRegistrar implements Listener {
+        @EventHandler
+        void registerHeatable(PylonRegisterEvent e) {
+            if (!e.getRegistry().equals(PylonRegistry.BLOCKS)) return;
+
+            PylonBlockSchema blockSchema = (PylonBlockSchema) e.getValue();
+            if (!Crucible.HeatedBlock.class.isAssignableFrom(blockSchema.getBlockClass())) return;
+            HEATED_BLOCKS.add(blockSchema.getKey());
+        }
     }
 
-    public interface HeatedBlock {
+    static {
+        for (var material : VANILLA_BLOCK_HEAT_MAP.keySet()) {
+            HEATED_BLOCKS.add(material.getKey());
+        }
+    }
+
+    public interface HeatedBlock extends Keyed {
         int heatGenerated();
+    }
+
+    public @NotNull Block getBelow() {
+        return getBlock().getRelative(BlockFace.DOWN);
     }
 
     public Integer getHeatFactor() {

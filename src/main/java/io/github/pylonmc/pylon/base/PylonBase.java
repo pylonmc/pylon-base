@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.simple.Crucible;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
@@ -53,6 +54,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         PluginManager pm = Bukkit.getPluginManager();
 
+        pm.registerEvents(new Crucible.HeatRegistrar(), PylonBase.getInstance());
         pm.registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
