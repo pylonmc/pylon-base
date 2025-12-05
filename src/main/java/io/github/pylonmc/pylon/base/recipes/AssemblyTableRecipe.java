@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -15,19 +15,20 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.Item;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +36,36 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public record AssemblyTableRecipe(
     NamespacedKey key,
-    ShapedRecipe recipe,
+    RecipeFormation recipe,
     List<ItemStack> results,
     List<Step> steps
 ) implements PylonRecipe {
+
+    @Getter
+    public static class RecipeFormation {
+        private final String[] rows;
+        private final Map<Character, RecipeChoice> ingredients = new HashMap<>();
+
+        public RecipeFormation(String... shape) {
+            Preconditions.checkNotNull(shape);
+            Preconditions.checkArgument(shape.length > 0 && shape.length < 4);
+
+            int lastLen = -1;
+            for (String row : shape) {
+                Preconditions.checkArgument(row != null, "Shape cannot have null rows");
+                Preconditions.checkArgument(!row.isEmpty() && row.length() < 4, "Crafting rows should be 1, 2, or 3 characters, not ", row.length());
+
+                Preconditions.checkArgument(lastLen == -1 || lastLen == row.length(), "Crafting recipes must be rectangular");
+                lastLen = row.length();
+            }
+
+            rows = Arrays.copyOf(shape, shape.length);
+        }
+
+        public void setIngredient(char c, RecipeChoice choice) {
+            ingredients.put(c, choice);
+        }
+    }
 
     public static final RecipeType<AssemblyTableRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("assembly_table")) {
         @Override
@@ -46,17 +73,14 @@ public record AssemblyTableRecipe(
             List<ItemStack> results = section.getOrThrow("results", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK));
 
             // region Recipe
-            Map<Character, RecipeInput.Item> ingredientKey = section.getOrThrow("key", ConfigAdapter.MAP.from(ConfigAdapter.CHAR, ConfigAdapter.RECIPE_INPUT_ITEM));
+            var recipeSection = section.getSection("ingredients");
+            Map<Character, RecipeInput.Item> ingredientKey = recipeSection.getOrThrow("key", ConfigAdapter.MAP.from(ConfigAdapter.CHAR, ConfigAdapter.RECIPE_INPUT_ITEM));
 
-            List<String> pattern = section.getOrThrow("pattern", ConfigAdapter.LIST.from(ConfigAdapter.STRING));
+            List<String> pattern = recipeSection.getOrThrow("pattern", ConfigAdapter.LIST.from(ConfigAdapter.STRING));
 
-            ItemStack result = section.getOrThrow("result", ConfigAdapter.ITEM_STACK);
-
-            ShapedRecipe recipe = new ShapedRecipe(key, result);
+            RecipeFormation recipe = new RecipeFormation(pattern.toArray(new String[0]));
 
             // Convert List<String> to String[]
-            recipe.shape(pattern.toArray(new String[0]));
-
             for (var entry : ingredientKey.entrySet()) {
                 Character character = entry.getKey();
                 RecipeInput.Item item = entry.getValue();
@@ -66,17 +90,6 @@ public record AssemblyTableRecipe(
                         .toList()
                     )
                 );
-            }
-
-            // Optional fields
-            CraftingBookCategory category = section.get("category", ConfigAdapter.ENUM.from(CraftingBookCategory.class));
-            if (category != null) {
-                recipe.setCategory(category);
-            }
-
-            String group = section.get("group", ConfigAdapter.STRING);
-            if (group != null) {
-                recipe.setGroup(group);
             }
 
             //endregion
@@ -94,7 +107,7 @@ public record AssemblyTableRecipe(
 
     @Override
     public @NotNull List<@NotNull RecipeInput> getInputs() {
-        var exactChoiceList = recipe.getChoiceMap().values().stream()
+        var exactChoiceList = recipe.getIngredients().values().stream()
             .map(RecipeChoice.ExactChoice.class::cast)
             .toList();
 
@@ -132,8 +145,8 @@ public record AssemblyTableRecipe(
             )
             .build();
 
-        int height = recipe.getShape().length;
-        int width = recipe.getShape()[0].length();
+        int height = recipe.getRows().length;
+        int width = recipe.getRows()[0].length();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 gui.setItem(10 + x + 9 * y, getDisplaySlot(recipe, x, y));
@@ -160,9 +173,9 @@ public record AssemblyTableRecipe(
         return gui;
     }
 
-    private Item getDisplaySlot(ShapedRecipe recipe, int x, int y) {
-        var character = recipe.getShape()[y].charAt(x);
-        return ItemButton.from(recipe.getChoiceMap().get(character));
+    private Item getDisplaySlot(RecipeFormation recipe, int x, int y) {
+        var character = recipe.getRows()[y].charAt(x);
+        return ItemButton.from(recipe.getIngredients().get(character));
     }
 
     @Override
