@@ -179,7 +179,7 @@ public class CargoInserter extends PylonBlock
             addCargoLogisticGroup(face, "input");
         }
         for (BlockFace face : faces) {
-            if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct ) {
+            if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct) {
                 duct.updateConnectedFaces();
             }
         }

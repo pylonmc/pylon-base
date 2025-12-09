@@ -188,7 +188,7 @@ public class CargoExtractor extends PylonBlock
             addCargoLogisticGroup(face, "output");
         }
         for (BlockFace face : faces) {
-            if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct ) {
+            if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct) {
                 duct.updateConnectedFaces();
             }
         }
