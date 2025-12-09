@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
+public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock, PylonCopperInteractBlock {
 
     public static class Item extends CoreDrill.Item {
 
