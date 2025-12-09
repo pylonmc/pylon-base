@@ -1023,7 +1023,7 @@ pylonbase:explosive_target:
     G: minecraft:gunpowder
     X: minecraft:target
   result: pylonbase:explosive_target
-  category: building
+  category: redstone
 
 pylonbase:immobilizer:
   pattern:
@@ -1076,12 +1076,12 @@ pylonbase:elevator_3:
 
 pylonbase:press:
   pattern:
-    - "BPB"
-    - "B B"
-    - "BBB"
+    - "LPL"
+    - "L L"
+    - "LLL"
   key:
     P: minecraft:piston
-    B: minecraft:brick
+    L: "#minecraft:logs"
   result: pylonbase:press
   category: building
 

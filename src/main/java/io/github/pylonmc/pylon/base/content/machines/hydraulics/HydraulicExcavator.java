@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -133,13 +132,12 @@ public class HydraulicExcavator extends PylonBlock implements PylonTickingBlock,
                 Block block = position.getBlock();
                 if (Tag.MINEABLE_SHOVEL.isTagged(block.getType())) {
                     block.breakNaturally();
+                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
                     break;
                 }
             }
         }
-
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
     }
 
     @Override
