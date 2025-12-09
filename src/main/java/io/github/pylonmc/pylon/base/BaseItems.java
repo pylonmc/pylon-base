@@ -1819,7 +1819,7 @@ public final class BaseItems {
         BasePages.CARGO.addItem(CARGO_DUCT);
     }
 
-    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.BARRIER, BaseKeys.CARGO_BUFFER)
+    public static final ItemStack CARGO_BUFFER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_BUFFER)
             .set(DataComponentTypes.ITEM_MODEL, Material.BARREL.getKey())
             .build();
     static {

@@ -119,7 +119,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_EXCAVATOR, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicExcavator.class);
         PylonBlock.register(BaseKeys.DIESEL_PIPE_BENDER, Material.IRON_BLOCK, DieselPipeBender.class);
         PylonBlock.register(BaseKeys.CARGO_DUCT, Material.STRUCTURE_VOID, CargoDuct.class);
-        PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.BARRIER, CargoBuffer.class);
+        PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
         PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);
         PylonBlock.register(BaseKeys.CARGO_INSERTER, Material.STRUCTURE_VOID, CargoInserter.class);
     }
