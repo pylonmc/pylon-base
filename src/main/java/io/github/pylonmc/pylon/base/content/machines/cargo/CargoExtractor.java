@@ -9,7 +9,7 @@ import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PylonCargoDuctConnectEvent;
+import io.github.pylonmc.pylon.core.event.PylonCargoConnectEvent;
 import io.github.pylonmc.pylon.core.event.PylonCargoDuctDisconnectEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -79,7 +79,8 @@ public class CargoExtractor extends PylonBlock
             throw new IllegalArgumentException("Cargo extractor can only be placed by player");
         }
 
-        facing = playerPlaceContext.getPlayer().getFacing();
+        // TODO add a util function for this because ffs really
+        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true);
 
         addCargoLogisticGroup(facing.getOppositeFace(), "output");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
@@ -91,13 +92,13 @@ public class CargoExtractor extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(facing)
-                        .translate(0, 0, 0.4)
+                        .translate(0, 0, -0.4)
                         .scale(0.65, 0.65, 0.2)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
 
-        addEntity("input", new ItemDisplayBuilder()
+        addEntity("output", new ItemDisplayBuilder()
                 .itemStack(outputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(facing)
@@ -166,12 +167,20 @@ public class CargoExtractor extends PylonBlock
     }
 
     @Override
-    public void onDuctConnected(@NotNull PylonCargoDuctConnectEvent event) {
+    public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
-        BlockPosition ductPosition = new BlockPosition(event.getDuct().getBlock());
         BlockPosition thisPosition = new BlockPosition(getBlock());
-        BlockFace connectedFace = PylonUtils.vectorToBlockFace(ductPosition.minus(thisPosition).getVector3i());
+        BlockPosition blockPosition1 = new BlockPosition(event.getBlock1().getBlock());
+        BlockPosition blockPosition2 = new BlockPosition(event.getBlock2().getBlock());
+        BlockFace connectedFace;
+        if (blockPosition1.equals(thisPosition)) {
+            connectedFace = PylonUtils.vectorToBlockFace(blockPosition2.minus(thisPosition).getVector3i());
+        } else if (blockPosition2.equals(thisPosition)) {
+            connectedFace = PylonUtils.vectorToBlockFace(blockPosition1.minus(thisPosition).getVector3i());
+        } else {
+            return;
+        }
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
             if (face != connectedFace) {
                 removeCargoLogisticGroup(face);
