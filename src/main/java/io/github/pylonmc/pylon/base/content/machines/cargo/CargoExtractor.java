@@ -80,7 +80,7 @@ public class CargoExtractor extends PylonBlock
         }
 
         // TODO add a util function for this because ffs really
-        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true);
+        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace();
 
         addCargoLogisticGroup(facing.getOppositeFace(), "output");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
@@ -92,7 +92,7 @@ public class CargoExtractor extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(facing)
-                        .translate(0, 0, -0.4)
+                        .translate(0, 0, 0.4)
                         .scale(0.65, 0.65, 0.2)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -170,19 +170,8 @@ public class CargoExtractor extends PylonBlock
     public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
-        BlockPosition thisPosition = new BlockPosition(getBlock());
-        BlockPosition blockPosition1 = new BlockPosition(event.getBlock1().getBlock());
-        BlockPosition blockPosition2 = new BlockPosition(event.getBlock2().getBlock());
-        BlockFace connectedFace;
-        if (blockPosition1.equals(thisPosition)) {
-            connectedFace = PylonUtils.vectorToBlockFace(blockPosition2.minus(thisPosition).getVector3i());
-        } else if (blockPosition2.equals(thisPosition)) {
-            connectedFace = PylonUtils.vectorToBlockFace(blockPosition1.minus(thisPosition).getVector3i());
-        } else {
-            return;
-        }
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
-            if (face != connectedFace) {
+            if (!getBlock().getRelative(face).equals(event.getBlock1().getBlock()) && !getBlock().getRelative(face).equals(event.getBlock2().getBlock())) {
                 removeCargoLogisticGroup(face);
             }
         }

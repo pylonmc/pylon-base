@@ -19,6 +19,7 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -79,7 +80,7 @@ public class CargoInserter extends PylonBlock
             throw new IllegalArgumentException("Cargo inserter can only be placed by player");
         }
 
-        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true);
+        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace();
 
         addCargoLogisticGroup(facing.getOppositeFace(), "input");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
@@ -91,7 +92,7 @@ public class CargoInserter extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(facing)
-                        .translate(0, 0, -0.4)
+                        .translate(0, 0, 0.4)
                         .scale(0.65, 0.65, 0.2)
                 )
                 .build(block.getLocation().toCenterLocation())
