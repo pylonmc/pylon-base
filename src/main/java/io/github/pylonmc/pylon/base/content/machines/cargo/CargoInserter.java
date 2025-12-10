@@ -10,16 +10,14 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PylonCargoConnectEvent;
-import io.github.pylonmc.pylon.core.event.PylonCargoDuctDisconnectEvent;
+import io.github.pylonmc.pylon.core.event.PylonCargoDisconnectEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -169,7 +167,7 @@ public class CargoInserter extends PylonBlock
     }
 
     @Override
-    public void onDuctDisconnected(@NotNull PylonCargoDuctDisconnectEvent event) {
+    public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
         List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(facing);
         faces.add(facing.getOppositeFace());
