@@ -170,7 +170,7 @@ public class CargoBuffer extends PylonBlock
     }
 
     @Override
-    public void setupLogisticGroups() {
+    public void postInitialise() {
         createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
         createLogisticGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
     }
