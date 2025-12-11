@@ -22,21 +22,26 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
@@ -58,7 +63,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         BlockFace orientation = ((Directional) block.getBlockData()).getFacing();
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new Matrix4f(BASE_TRANSFORM)
-                        .rotateLocalY(getItemRotation()))
+                        .rotateLocalY(getItemRotation(getBlockFace())))
                 .build(getBlock().getLocation().toCenterLocation())
         );
         setTickInterval(TICK_INTERVAL);
@@ -183,13 +188,34 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         itemDisplay.setItemStack(bloom.getStack());
     }
 
+    public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
+    @Override
+    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity spawnedEntity) {
+        spawnedEntity
+            .getEntity()
+            .getPersistentDataContainer()
+            .set(DIRECTION_FALLING, PersistentDataType.INTEGER, getBlockFace().ordinal());
+    }
+
+    @Override
+    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity entity) {
+        int ordinal = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PersistentDataType.INTEGER);
+        BlockFace face = BlockFace.values()[ordinal];
+
+        addEntity("item", new ItemDisplayBuilder()
+            .transformation(new Matrix4f(BASE_TRANSFORM)
+                .rotateLocalY(getItemRotation(face)))
+            .build(getBlock().getLocation().toCenterLocation())
+        );
+    }
+
     public @NotNull ItemDisplay getItemDisplay() {
         return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     private void transformForWorking(int working, boolean interpolate) {
         Matrix4f transform = new Matrix4f(BASE_TRANSFORM)
-                .rotateLocalY(getItemRotation())
+                .rotateLocalY(getItemRotation(getBlockFace()))
                 .scaleLocal(
                         Math.max(0, working * 0.5f) + 1,
                         1,
@@ -202,9 +228,12 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         }
     }
 
-    private float getItemRotation() {
-        BlockFace orientation = ((Directional) getBlock().getBlockData()).getFacing();
-        return (float) switch (orientation) {
+    private BlockFace getBlockFace() {
+        return ((Directional) getBlock().getBlockData()).getFacing();
+    }
+
+    private static float getItemRotation(BlockFace face) {
+        return (float) switch (face) {
             case NORTH -> 3 * Math.PI / 2;
             case EAST -> Math.PI;
             case SOUTH -> Math.PI / 2;
