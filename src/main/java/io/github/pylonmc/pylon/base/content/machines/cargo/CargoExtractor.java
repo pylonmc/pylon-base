@@ -156,9 +156,6 @@ public class CargoExtractor extends PylonBlock
     }
 
     @Override
-    public void setupLogisticGroups() {}
-
-    @Override
     public @NotNull Map<String, LogisticGroup> getLogisticGroups() {
         PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
         return logisticBlock != null

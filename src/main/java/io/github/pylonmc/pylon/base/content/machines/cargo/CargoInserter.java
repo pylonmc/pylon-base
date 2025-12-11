@@ -153,9 +153,6 @@ public class CargoInserter extends PylonBlock
     }
 
     @Override
-    public void setupLogisticGroups() {}
-
-    @Override
     public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
