@@ -16,10 +16,12 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -38,7 +40,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -201,11 +205,19 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity entity) {
         int ordinal = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PersistentDataType.INTEGER);
         BlockFace face = BlockFace.values()[ordinal];
-
-        addEntity("item", new ItemDisplayBuilder()
+        HashMap<String, UUID> map = new HashMap<>();
+        ItemDisplay itemDisplay = new ItemDisplayBuilder()
             .transformation(new Matrix4f(BASE_TRANSFORM)
                 .rotateLocalY(getItemRotation(face)))
-            .build(getBlock().getLocation().toCenterLocation())
+            .build(getBlock().getLocation().toCenterLocation());
+
+        itemDisplay.getPersistentDataContainer().set(PylonEntityHolderBlock.getBlockKey(), PylonSerializers.BLOCK_POSITION, new BlockPosition(event.getBlock()));
+        map.put("item", itemDisplay.getUniqueId());
+
+        entity.getBlockData().set(
+            PylonEntityHolderBlock.getEntityKey(),
+            PylonEntityHolderBlock.getEntityType(),
+            map
         );
     }
 
