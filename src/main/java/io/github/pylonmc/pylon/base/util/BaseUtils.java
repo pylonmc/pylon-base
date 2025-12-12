@@ -23,10 +23,15 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 @UtilityClass
 public class BaseUtils {
+    private static final Map<Material, Material> BLOCK_ITEM_FALLBACK = Map.of(
+        Material.FIRE, Material.FLINT_AND_STEEL,
+        Material.SOUL_FIRE, Material.FLINT_AND_STEEL
+    );
 
     public static @NotNull NamespacedKey baseKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
@@ -147,9 +152,14 @@ public class BaseUtils {
             return stack;
         }
 
-        if (material.isItem()) return new ItemStack(material);
 
-        ItemStack stack = new ItemStack(Material.BARRIER);
+        if (material.isItem()) {
+            return new ItemStack(material);
+        } else {
+            material = BLOCK_ITEM_FALLBACK.getOrDefault(material, Material.BARRIER);
+        }
+
+        ItemStack stack = new ItemStack(material);
         stack.setData(DataComponentTypes.ITEM_NAME, Component.translatable(material.translationKey()));
         return stack;
     }
