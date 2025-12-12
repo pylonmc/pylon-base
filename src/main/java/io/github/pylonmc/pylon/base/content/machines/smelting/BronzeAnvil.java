@@ -9,35 +9,45 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFallingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
+public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
@@ -57,7 +67,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         BlockFace orientation = ((Directional) block.getBlockData()).getFacing();
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new Matrix4f(BASE_TRANSFORM)
-                        .rotateLocalY(getItemRotation()))
+                        .rotateLocalY(getItemRotation(getBlockFace())))
                 .build(getBlock().getLocation().toCenterLocation())
         );
         setTickInterval(TICK_INTERVAL);
@@ -182,13 +192,42 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         itemDisplay.setItemStack(bloom.getStack());
     }
 
+    public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
+    @Override
+    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity spawnedEntity) {
+        spawnedEntity
+            .getEntity()
+            .getPersistentDataContainer()
+            .set(DIRECTION_FALLING, PersistentDataType.INTEGER, getBlockFace().ordinal());
+    }
+
+    @Override
+    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity entity) {
+        int ordinal = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PersistentDataType.INTEGER);
+        BlockFace face = BlockFace.values()[ordinal];
+        HashMap<String, UUID> map = new HashMap<>();
+        ItemDisplay itemDisplay = new ItemDisplayBuilder()
+            .transformation(new Matrix4f(BASE_TRANSFORM)
+                .rotateLocalY(getItemRotation(face)))
+            .build(getBlock().getLocation().toCenterLocation());
+
+        itemDisplay.getPersistentDataContainer().set(PylonEntityHolderBlock.getBlockKey(), PylonSerializers.BLOCK_POSITION, new BlockPosition(event.getBlock()));
+        map.put("item", itemDisplay.getUniqueId());
+
+        entity.getBlockData().set(
+            PylonEntityHolderBlock.getEntityKey(),
+            PylonEntityHolderBlock.getEntityType(),
+            map
+        );
+    }
+
     public @NotNull ItemDisplay getItemDisplay() {
         return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     private void transformForWorking(int working, boolean interpolate) {
         Matrix4f transform = new Matrix4f(BASE_TRANSFORM)
-                .rotateLocalY(getItemRotation())
+                .rotateLocalY(getItemRotation(getBlockFace()))
                 .scaleLocal(
                         Math.max(0, working * 0.5f) + 1,
                         1,
@@ -201,9 +240,12 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         }
     }
 
-    private float getItemRotation() {
-        BlockFace orientation = ((Directional) getBlock().getBlockData()).getFacing();
-        return (float) switch (orientation) {
+    private BlockFace getBlockFace() {
+        return ((Directional) getBlock().getBlockData()).getFacing();
+    }
+
+    private static float getItemRotation(BlockFace face) {
+        return (float) switch (face) {
             case NORTH -> 3 * Math.PI / 2;
             case EAST -> Math.PI;
             case SOUTH -> Math.PI / 2;
