@@ -16,6 +16,8 @@ import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,7 +27,9 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -34,6 +38,8 @@ public record CrucibleRecipe(
     @NotNull RecipeInput.Item input,
     @NotNull FluidOrItem.Fluid output
 ) implements PylonRecipe {
+
+    private static List<ItemStack> HEAT_SOURCES = null;
 
     public static final RecipeType<CrucibleRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("crucible")) {
         @Override
@@ -61,12 +67,33 @@ public record CrucibleRecipe(
         return List.of(output);
     }
 
-    private static List<ItemStack> HEAT_SOURCES = null;
-    @Override
-    public @NotNull Gui display() {
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class HeatManager {
+        public static final HeatManager INSTANCE = new HeatManager();
+
+        private Set<NamespacedKey> HEATED_BLOCKS = null;
+        public Set<NamespacedKey> getHeatedBlocks() {
+            if (HEATED_BLOCKS == null) {
+                HEATED_BLOCKS = new HashSet<>();
+                for (Material material : Crucible.VANILLA_BLOCK_HEAT_MAP.keySet())  {
+                    HEATED_BLOCKS.add(material.getKey());
+                }
+
+                for (PylonBlockSchema schema : PylonRegistry.BLOCKS) {
+                    if (Crucible.HeatedBlock.class.isAssignableFrom(schema.getBlockClass())) {
+                        HEATED_BLOCKS.add(schema.getKey());
+                    }
+                }
+            }
+
+            return HEATED_BLOCKS;
+        }
+    }
+
+    public static List<ItemStack> getHeatSources() {
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
-            for (NamespacedKey key : Crucible.HEATED_BLOCKS) {
+            for (NamespacedKey key : HeatManager.INSTANCE.getHeatedBlocks()) {
                 if (key.getNamespace().equals("minecraft")) {
                     HEAT_SOURCES.add(makeItemVanilla(key));
                 } else {
@@ -74,6 +101,12 @@ public record CrucibleRecipe(
                 }
             }
         }
+
+        return HEAT_SOURCES;
+    }
+
+    @Override
+    public @NotNull Gui display() {
 
         return Gui.normal()
             .setStructure(
@@ -86,12 +119,12 @@ public record CrucibleRecipe(
             .addIngredient('#', GuiItems.backgroundBlack())
             .addIngredient('i', ItemButton.from(input))
             .addIngredient('m', ItemButton.from(BaseItems.CRUCIBLE))
-            .addIngredient('h', new ItemButton(HEAT_SOURCES))
+            .addIngredient('h', new ItemButton(getHeatSources()))
             .addIngredient('o', new FluidButton(output.amountMillibuckets(), output.fluid())
         ).build();
     }
 
-    private @NotNull ItemStack makeItemVanilla(@NotNull NamespacedKey materialKey) {
+    private static @NotNull ItemStack makeItemVanilla(@NotNull NamespacedKey materialKey) {
         Material material = Registry.MATERIAL.get(materialKey);
         if (material == null) {
             ItemStack stack = new ItemStack(Material.BARRIER);
@@ -106,8 +139,8 @@ public record CrucibleRecipe(
         return stack;
     }
 
-    private @NotNull ItemStack makeItemPylon(@NotNull NamespacedKey blockKey) {
-        PylonItemSchema item = PylonRegistry.ITEMS.get(key);
+    private static @NotNull ItemStack makeItemPylon(@NotNull NamespacedKey blockKey) {
+        PylonItemSchema item = PylonRegistry.ITEMS.get(blockKey);
         if (item == null) {
             PylonBlockSchema block = PylonRegistry.BLOCKS.get(blockKey);
             if (block == null) {

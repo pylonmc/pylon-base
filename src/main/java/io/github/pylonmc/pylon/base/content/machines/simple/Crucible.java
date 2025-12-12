@@ -59,6 +59,9 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     private static final PersistentDataType<?, List<ItemStack>> CONTENTS_TYPE = PylonSerializers.LIST.listTypeFrom(PylonSerializers.ITEM_STACK);
     private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
 
+    public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
+    public static final Set<Material> ITEM_BLACKLIST = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
+
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -87,7 +90,9 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
-        pdc.set(PROCESSING_KEY, PylonSerializers.ITEM_STACK, processing);
+        if (processing != null) {
+            pdc.set(PROCESSING_KEY, PylonSerializers.ITEM_STACK, processing);
+        }
     }
 
     @Override
@@ -95,7 +100,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
         return true;
     }
 
-    public static final Set<Material> ITEM_BLACKLIST = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // Don't allow fluid to be manually inserted/removed
@@ -267,7 +271,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
 
     @Override
     public int getTickInterval() {
-        if (processing == null) {
+        if (processing == null && contents.isEmpty()) {
             return SMELT_TIME; // minimize ticking when empty
         }
 
@@ -283,26 +287,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     //endregion
 
     //region Heat handling
-    public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
-    public static final Set<NamespacedKey> HEATED_BLOCKS = new HashSet<>();
-
-    public static class HeatRegistrar implements Listener {
-        @EventHandler
-        void registerHeatable(PylonRegisterEvent e) {
-            if (!e.getRegistry().equals(PylonRegistry.BLOCKS)) return;
-
-            PylonBlockSchema blockSchema = (PylonBlockSchema) e.getValue();
-            if (!Crucible.HeatedBlock.class.isAssignableFrom(blockSchema.getBlockClass())) return;
-            HEATED_BLOCKS.add(blockSchema.getKey());
-        }
-    }
-
-    static {
-        for (var material : VANILLA_BLOCK_HEAT_MAP.keySet()) {
-            HEATED_BLOCKS.add(material.getKey());
-        }
-    }
-
     public interface HeatedBlock extends Keyed {
         int heatGenerated();
     }

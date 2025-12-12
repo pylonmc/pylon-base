@@ -54,7 +54,6 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         PluginManager pm = Bukkit.getPluginManager();
 
-        pm.registerEvents(new Crucible.HeatRegistrar(), PylonBase.getInstance());
         pm.registerEvents(new Sprinkler.SprinklerPlaceListener(), this);
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
