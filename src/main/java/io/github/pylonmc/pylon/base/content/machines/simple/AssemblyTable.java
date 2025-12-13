@@ -3,14 +3,19 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import io.github.pylonmc.pylon.base.recipes.AssemblyTableRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,7 +37,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Getter
-public class AssemblyTable extends PylonBlock implements PylonBreakHandler, PylonInteractBlock {
+public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock, PylonBreakHandler, PylonInteractBlock {
     public static final NamespacedKey CRAFTING_INVENTORY_KEY = baseKey("assembly_table_crafting_inventory");
     public static final NamespacedKey OUTPUT_INVENTORY_KEY = baseKey("assembly_table_output_inventory");
 
@@ -72,6 +77,7 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
 
         this.currentRecipe = null;
         this.currentProgress = null;
+        updateStep();
     }
 
     @SuppressWarnings("unused")
@@ -97,7 +103,7 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
 
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PersistentDataType.LONG);
         this.currentProgress = currentStepLong == null ? null : new AssemblyTableRecipe.ActionStep(currentStepLong);
-        updateStepItem();
+        updateStep();
     }
 
     @Override
@@ -120,6 +126,8 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
         } else {
             pdc.remove(CURRENT_PROGRESS_KEY);
         }
+
+        nukeEntities();
     }
 
     @Override
@@ -219,7 +227,7 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
                 //todo: message
                 player.sendMessage("next step");
                 currentProgress.setStep(newStep);
-                updateStepItem();
+                updateStep();
             } else {
                 //todo: message
                 player.sendMessage("recipe completed");
@@ -229,7 +237,7 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
             //todo: message
             player.sendMessage("added progress");
             currentProgress.setUsedAmount(newUsedAmount);
-            updateStepItem();
+            updateStep();
         }
     }
 
@@ -242,7 +250,8 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
         this.currentRecipe = null;
         this.currentProgress = null;
 
-        updateStepItem();
+        updateStep();
+        nukeEntities();
     }
 
     private static void updateInventory(VirtualInventory toUpdate, List<ItemStack> itemList) {
@@ -258,7 +267,12 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
         }
     }
 
-    private @NotNull void updateStepItem() {
+    private void updateStep() {
+        updateStepItem();
+        updateStepDisplay();
+    }
+
+    private void updateStepItem() {
         ItemStack stack;
         if (currentRecipe == null || currentProgress == null) {
             stack = GuiItems.background().getItemProvider().get();
@@ -268,6 +282,26 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
         }
 
         this.stepDisplay.setItem(UpdateReason.SUPPRESSED, 0, stack);
+    }
+
+    private void updateStepDisplay() {
+        if (currentRecipe == null || currentProgress == null) return;
+        AssemblyTableRecipe.Step current = this.getStep();
+        current.removeDisplays().forEach(this::removeEntity);
+
+        Location up = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
+        current.addDisplays().forEach(data -> {
+            double[] positions = data.position();
+            double[] scale = data.scale();
+            addEntity(data.name(), new BlockDisplayBuilder()
+                .material(data.material())
+                .transformation(new TransformBuilder()
+                    .translate(positions[0], 0, positions[1])
+                    .scale(scale[0], 0, scale[1])
+                )
+                .build(up)
+            );
+        });
     }
 
     private void cancelOutput(@NotNull ItemPreUpdateEvent event) {
@@ -306,7 +340,7 @@ public class AssemblyTable extends PylonBlock implements PylonBreakHandler, Pylo
             updateInventory(this.outputInventory, currentRecipe.results());
         }
 
-        updateStepItem();
+        updateStep();
     }
 
     private void clearInventory(VirtualInventory inventory) {
