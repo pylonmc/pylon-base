@@ -151,6 +151,8 @@ public class BaseKeys {
     public static final NamespacedKey MAGIC_PEDESTAL = baseKey("magic_pedestal");
     public static final NamespacedKey MAGIC_ALTAR = baseKey("magic_altar");
 
+    public static final NamespacedKey ASSEMBLY_TABLE = baseKey("assembly_table");
+
     public static final NamespacedKey GRINDSTONE = baseKey("grindstone");
     public static final NamespacedKey GRINDSTONE_HANDLE = baseKey("grindstone_handle");
 

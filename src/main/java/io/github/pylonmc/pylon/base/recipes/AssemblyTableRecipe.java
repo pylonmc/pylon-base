@@ -15,6 +15,8 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -65,6 +67,37 @@ public record AssemblyTableRecipe(
         public void setIngredient(char c, RecipeChoice choice) {
             ingredients.put(c, choice);
         }
+
+        public boolean check(ItemStack[] array) {
+            RecipeChoice[] grid = new RecipeChoice[9];
+            for (int x = 0; x < 3; x++) {
+                for (int y = 0; y < 3; y++) {
+                    int position = x + y * 3;
+                    RecipeChoice choice = getChoice(x, y);
+                    grid[position] = choice;
+                }
+            }
+
+            for (int i = 0; i < 9; i++) {
+                RecipeChoice choice = grid[i];
+                if (choice == null) continue;
+
+                if (!choice.test(array[i])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public RecipeChoice getChoice(int x, int y) {
+            var character = this.rows[y].charAt(x);
+            return this.ingredients.get(character);
+        }
+
+        public Item getDisplaySlot(int x, int y) {
+            return ItemButton.from(getChoice(x, y));
+        }
     }
 
     public static final RecipeType<AssemblyTableRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("assembly_table")) {
@@ -105,6 +138,17 @@ public record AssemblyTableRecipe(
         }
     };
 
+    public static List<AssemblyTableRecipe> findRecipes(ItemStack[] items) {
+        List<AssemblyTableRecipe> recipes = new ArrayList<>();
+        for (AssemblyTableRecipe recipe : RECIPE_TYPE.getRecipes()) {
+            if (recipe.recipe.check(items)) {
+                recipes.add(recipe);
+            }
+        }
+
+        return recipes;
+    }
+
     @Override
     public @NotNull List<@NotNull RecipeInput> getInputs() {
         var exactChoiceList = recipe.getIngredients().values().stream()
@@ -137,19 +181,14 @@ public record AssemblyTableRecipe(
             )
             .addIngredient('#', GuiItems.backgroundBlack())
             .addIngredient('p', BaseItems.PIT_KILN)
-            .addIngredient('$', new ItemButton(
-                steps.stream()
-                    .map(Step::asStack)
-                    .toArray(ItemStack[]::new)
-                )
-            )
+            .addIngredient('$', this.getItemStep())
             .build();
 
         int height = recipe.getRows().length;
         int width = recipe.getRows()[0].length();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                gui.setItem(10 + x + 9 * y, getDisplaySlot(recipe, x, y));
+                gui.setItem(10 + x + 9 * y, recipe.getDisplaySlot(x, y));
             }
         }
 
@@ -173,9 +212,12 @@ public record AssemblyTableRecipe(
         return gui;
     }
 
-    private Item getDisplaySlot(RecipeFormation recipe, int x, int y) {
-        var character = recipe.getRows()[y].charAt(x);
-        return ItemButton.from(recipe.getIngredients().get(character));
+    public Item getItemStep() {
+        return new ItemButton(
+            steps.stream()
+                .map(Step::asStack)
+                .toArray(ItemStack[]::new)
+        );
     }
 
     @Override
@@ -224,6 +266,25 @@ public record AssemblyTableRecipe(
             }
 
             return output;
+        }
+    }
+
+    /**
+     * Points to a specific step in a step array and the relative used amount
+     */
+    @Data
+    @AllArgsConstructor
+    public static class ActionStep {
+        private int step;
+        private int usedAmount;
+
+        public long toLong() {
+            return ((long) step << 32) | (usedAmount & 0xFFFFFFFFL);
+        }
+
+        public ActionStep(long packed) {
+            this.step = (int) (packed >> 32);
+            this.usedAmount = (int) packed;
         }
     }
 

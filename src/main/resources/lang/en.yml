@@ -465,6 +465,11 @@ item:
   gold_sheet:
     name: "Gold Sheet"
 
+  assembly_table:
+    name: "Assembly Table"
+    lore: |-
+      <arrow> Smash stuff together hoping it works, jk, TODO
+
   grindstone:
     name: "Grindstone"
     lore: |-
