@@ -31,6 +31,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.MAGIC_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(BaseKeys.PEDESTAL, Material.STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(BaseKeys.MAGIC_ALTAR, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
+        PylonBlock.register(BaseKeys.ASSEMBLY_TABLE, Material.CRAFTING_TABLE, AssemblyTable.class);
         PylonBlock.register(BaseKeys.GRINDSTONE, Material.SMOOTH_STONE_SLAB, Grindstone.class);
         PylonBlock.register(BaseKeys.GRINDSTONE_HANDLE, Material.OAK_FENCE, GrindstoneHandle.class);
         PylonBlock.register(BaseKeys.ENRICHED_SOUL_SOIL, Material.SOUL_SOIL, EnrichedSoulSoil.class);
