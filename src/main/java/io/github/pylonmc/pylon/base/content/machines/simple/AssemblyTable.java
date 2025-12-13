@@ -285,15 +285,24 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
     }
 
     private void updateStepDisplay() {
-        if (currentRecipe == null || currentProgress == null) return;
+        if (currentRecipe == null || currentProgress == null) {
+            nukeEntities();
+            return;
+        }
+
         AssemblyTableRecipe.Step current = this.getStep();
         current.removeDisplays().forEach(this::removeEntity);
 
-        Location up = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
+        Location up = getBlock().getRelative(BlockFace.UP).getLocation()
+            .toCenterLocation()
+            .add(0, -0.45, 0);
         current.addDisplays().forEach(data -> {
+            String name = data.name();
             double[] positions = data.position();
             double[] scale = data.scale();
-            addEntity(data.name(), new BlockDisplayBuilder()
+            if (getHeldEntityUuid(name) != null) return;
+
+            addEntity(name, new BlockDisplayBuilder()
                 .material(data.material())
                 .transformation(new TransformBuilder()
                     .translate(positions[0], 0, positions[1])
