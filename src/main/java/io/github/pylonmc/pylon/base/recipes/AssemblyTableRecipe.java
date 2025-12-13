@@ -81,8 +81,10 @@ public record AssemblyTableRecipe(
             for (int i = 0; i < 9; i++) {
                 RecipeChoice choice = grid[i];
                 if (choice == null) continue;
+                ItemStack stack = array[i];
+                if (stack == null) stack = ItemStack.empty();
 
-                if (!choice.test(array[i])) {
+                if (!choice.test(stack)) {
                     return false;
                 }
             }
@@ -147,6 +149,13 @@ public record AssemblyTableRecipe(
         }
 
         return recipes;
+    }
+
+    public static AssemblyTableRecipe findRecipe(ItemStack[] items, int offset) {
+        List<AssemblyTableRecipe> recipes = findRecipes(items);
+        if (recipes.isEmpty()) return null;
+
+        return recipes.get(offset % recipes.size());
     }
 
     @Override
@@ -252,16 +261,20 @@ public record AssemblyTableRecipe(
         };
 
         public ItemStack asStack() {
+            return asStack(uses);
+        }
+
+        public ItemStack asStack(int times) {
             ItemStack output;
             // todo: allow proper translation somewhere appropriate once we made sure this works
             if (tool.getNamespace().equals("minecraft")) {
                 output = ItemStackBuilder.of(Registry.MATERIAL.get(tool))
-                    .lore("Use it " + uses + " times")
+                    .lore("Use it " + times + " times")
                     .build();
             } else {
                 PylonItemSchema pis = PylonRegistry.ITEMS.get(tool);
                 output = ItemStackBuilder.of(pis.getItemStack())
-                    .lore("Use it " + uses + " times")
+                    .lore("Use it " + times + " times")
                     .build();
             }
 
