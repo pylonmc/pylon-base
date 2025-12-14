@@ -177,3 +177,10 @@ pylonbase:string_from_bamboo:
   results: minecraft:string
   cycles: 3
   particle-data: minecraft:bamboo[age=1]
+
+pylonbase:flint_from_gravel:
+  input:
+    pylonbase:gravel: 1
+  results: pylonbase:flint
+  cycles: 2
+  particle-data: minecraft:gravel

@@ -68,3 +68,15 @@ pylonbase:steel_sheet:
   result: pylonbase:steel_sheet
   mining-level: diamond
   chance: 0.25
+
+pylonbase:gravel_from_cobblestone:
+  input: pylonbase:cobblestone
+  result: pylonbase:gravel
+  mining-level: stone
+  chance: 1.0
+
+pylonbase:sand_from_gravel:
+  input: pylonbase:gravel
+  result: pylonbase:sand
+  mining-level: stone
+  chance: 1.0
