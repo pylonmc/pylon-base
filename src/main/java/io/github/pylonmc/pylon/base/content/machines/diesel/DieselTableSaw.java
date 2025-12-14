@@ -139,14 +139,6 @@ public class DieselTableSaw extends PylonBlock
         createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
         setProgressItem(progressItem);
-        inputInventory.setPostUpdateHandler(event -> {
-            // Null check here because I've seen exceptions when the block is loading in but the entity hasn't been
-            // loaded yet (no idea why this handler would fire at that point but oh well)
-            ItemDisplay display = getHeldEntity(ItemDisplay.class, "item");
-            if (display != null) {
-                display.setItemStack(event.getNewItem());
-            }
-        });
         outputInventory.setPreUpdateHandler(event -> {
             if (!event.isRemove() && event.getUpdateReason() instanceof PlayerUpdateReason) {
                 event.setCancelled(true);
@@ -199,6 +191,7 @@ public class DieselTableSaw extends PylonBlock
             progressItem.setItemStackBuilder(ItemStackBuilder.of(recipe.result().clone()).clearLore());
             spawnParticles();
             removeFluid(BaseFluids.BIODIESEL, dieselAmount);
+            getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
             break;
         }
     }
@@ -236,6 +229,7 @@ public class DieselTableSaw extends PylonBlock
     public void onRecipeFinished(@NotNull TableSawRecipe recipe) {
         outputInventory.addItem(null, recipe.result().clone());
         progressItem.setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+        getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
     }
 
     public void spawnParticles() {
