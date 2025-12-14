@@ -1,0 +1,253 @@
+package io.github.pylonmc.pylon.base.content.machines.diesel;
+
+import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
+import io.github.pylonmc.pylon.base.recipes.PressRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
+import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.VirtualInventory;
+
+import java.util.List;
+
+
+public class DieselPress extends PylonBlock
+        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<PressRecipe> {
+
+    public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+    public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
+    public final double plantOilBuffer = getSettings().getOrThrow("plant-oil-buffer", ConfigAdapter.DOUBLE);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final double timePerItem = getSettings().getOrThrow("time-per-item", ConfigAdapter.DOUBLE);
+    public final double yield = getSettings().getOrThrow("yield", ConfigAdapter.DOUBLE);
+
+    private final VirtualInventory inputInventory = new VirtualInventory(1);
+    private final ProgressItem progressItem = new ProgressItem(ItemStackBuilder.of(GuiItems.background()));
+
+    public static class Item extends PylonItem {
+
+        public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+        public final double timePerItem = getSettings().getOrThrow("time-per-item", ConfigAdapter.DOUBLE);
+        public final double yield = getSettings().getOrThrow("yield", ConfigAdapter.DOUBLE);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    PylonArgument.of("time-per-item", UnitFormat.SECONDS.format(timePerItem)),
+                    PylonArgument.of("yield", UnitFormat.PERCENT.format(yield * 100))
+            );
+        }
+    }
+
+    public ItemStack pressStack = ItemStackBuilder.of(Material.COMPOSTER)
+            .addCustomModelDataString(getKey() + ":press")
+            .build();
+    public ItemStack pressLidStack = ItemStackBuilder.of(Material.COMPOSTER)
+            .addCustomModelDataString(getKey() + ":press_lid")
+            .build();
+    public ItemStack sideStack = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side")
+            .build();
+
+    @SuppressWarnings("unused")
+    public DieselPress(@NotNull Block block, @NotNull BlockCreateContext context) {
+        super(block, context);
+        setTickInterval(tickInterval);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.55F);
+        BlockFace facing;
+        if (context instanceof BlockCreateContext.PlayerPlace playerPlaceContext) {
+            facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false);
+        } else {
+            facing = BlockFace.NORTH;
+        }
+        addEntity("chimney", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+                        .addCustomModelDataString(getKey() + ":chimney")
+                        .build()
+                )
+                .transformation(new TransformBuilder()
+                        .lookAlong(facing)
+                        .translate(0.37499, -0.15, 0.0)
+                        .scale(0.15, 1.7, 0.15))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("side1", new ItemDisplayBuilder()
+                .itemStack(sideStack)
+                .transformation(new TransformBuilder()
+                        .translate(0, -0.5, 0)
+                        .scale(1.1, 0.8, 0.8))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("side2", new ItemDisplayBuilder()
+                .itemStack(sideStack)
+                .transformation(new TransformBuilder()
+                        .translate(0, -0.5, 0)
+                        .scale(0.9, 0.8, 1.1))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("press", new ItemDisplayBuilder()
+                .itemStack(pressStack)
+                .transformation(new TransformBuilder()
+                        .translate(0, 0.3, 0)
+                        .scale(0.6))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("press_lid", new ItemDisplayBuilder()
+                .itemStack(pressLidStack)
+                .transformation(new TransformBuilder()
+                        .translate(0, 0.3, 0)
+                        .rotate(Math.PI, 0, 0)
+                        .scale(0.5999))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
+        createFluidBuffer(BaseFluids.PLANT_OIL, plantOilBuffer, false, true);
+        setRecipeType(PressRecipe.RECIPE_TYPE);
+    }
+
+    @SuppressWarnings("unused")
+    public DieselPress(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
+        setProgressItem(progressItem);
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    @Override
+    public void tick(double deltaSeconds) {
+        progressRecipe(tickInterval);
+
+        if (isProcessingRecipe()) {
+            spawnParticles();
+            return;
+        }
+
+        ItemStack stack = inputInventory.getItem(0);
+        if (stack == null) {
+            return;
+        }
+
+        for (PressRecipe recipe : PressRecipe.RECIPE_TYPE) {
+            // check we have enough diesel to finish the craft and we have the correct input
+            double dieselAmount = dieselPerSecond * timePerItem;
+            if (fluidAmount(BaseFluids.BIODIESEL) < dieselAmount || !recipe.input().matches(stack)) {
+                continue;
+            }
+
+            // check we have enough space for output
+            double plantOilAmount = recipe.oilAmount() * yield;
+            if (fluidSpaceRemaining(BaseFluids.PLANT_OIL) < plantOilAmount) {
+                return;
+            }
+
+            // start recipe
+            startRecipe(recipe, (int) (timePerItem * 20));
+            stack.subtract(recipe.input().getAmount());
+            inputInventory.setItem(null, 0, stack);
+            progressItem.setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
+            spawnParticles();
+            removeFluid(BaseFluids.BIODIESEL, dieselAmount);
+            break;
+        }
+    }
+
+    @Override
+    public @NotNull Gui createGui() {
+        return Gui.normal()
+                .setStructure(
+                        "# # # # I # # # #",
+                        "# # # # i # # # #",
+                        "# # # # p # # # #"
+                )
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('I', GuiItems.input())
+                .addIngredient('i', inputInventory)
+                .addIngredient('p', progressItem)
+                .build();
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("diesel-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.BIODIESEL),
+                        fluidCapacity(BaseFluids.BIODIESEL),
+                        20,
+                        TextColor.fromHexString("#eaa627")
+                )),
+                PylonArgument.of("plant-oil-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.PLANT_OIL),
+                        fluidCapacity(BaseFluids.PLANT_OIL),
+                        20,
+                        TextColor.fromHexString("#c4b352")
+                ))
+        ));
+    }
+
+    @Override
+    public void onRecipeFinished(@NotNull PressRecipe recipe) {
+        addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount() * yield);
+        progressItem.setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+    }
+
+    public void spawnParticles() {
+        Vector3d translation = PylonUtils.rotateVectorToFace(new Vector3d(0.375, 1.5, 0), getFacing());
+        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+                .location(getBlock().getLocation().toCenterLocation().add(Vector.fromJOML(translation)))
+                .offset(0, 1, 0)
+                .count(0)
+                .extra(0.05)
+                .spawn();
+    }
+}

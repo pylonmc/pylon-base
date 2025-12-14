@@ -1335,6 +1335,15 @@ item:
       <arrow> <attr>Speed:</attr> %speed%
     waila: "Diesel Pipe Bender | %diesel-bar%"
 
+  diesel_press:
+    name: "Diesel Press"
+    lore: |-
+      <arrow> Presses plants into plant oil
+      <arrow> Throw plants in and <insn>right click</insn> to press them into plant oil
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Time per item:</attr> %time_per_item%
+      <arrow> <attr>Yield:</attr> %yield%
+    waila: "Diesel Press | %diesel-bar% | %plant-oil-bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"

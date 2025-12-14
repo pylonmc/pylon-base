@@ -1,0 +1,6 @@
+diesel-per-second: 20
+diesel-buffer: 500
+plant-oil-buffer: 1000
+tick-interval: 10
+time-per-item: 1.5
+yield: 1.2
