@@ -528,7 +528,7 @@ item:
   crucible:
     name: "Crucible"
     lore: |-
-      <arrow> Place items in the crucible and <insn>right click</insn> to melt it
+      <arrow> Place items in the crucible and <insn>right click</insn> to melt them
       <arrow> Requires a fire underneath to work
     waila: "Crucible %info%"
 

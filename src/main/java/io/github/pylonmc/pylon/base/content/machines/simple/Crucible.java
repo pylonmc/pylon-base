@@ -65,7 +65,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         setCapacity(1000.0);
     }
 
