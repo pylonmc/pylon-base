@@ -1349,6 +1349,14 @@ item:
       <arrow> <attr>Diesel usage:</attr> %diesel-usage%
     waila: "Diesel Grindstone | %diesel-bar%"
 
+  diesel_brick_molder:
+    name: "Diesel Brick Molder"
+    lore: |-
+      <arrow> Molds materials into bricks
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Molding cycles:</attr> %molding-cycles%
+    waila: "Diesel Brick Molder | %diesel-bar%"
+
   cargo_duct:
     name: "<white>Cargo Duct"
     lore: |-
@@ -1500,6 +1508,7 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
+    molding: "<attr>Molding cycles:</attr> %molding-cycles%"
 
 message:
   fluid_none: "None"

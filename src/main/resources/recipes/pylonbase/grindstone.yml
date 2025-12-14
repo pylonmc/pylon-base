@@ -180,7 +180,7 @@ pylonbase:string_from_bamboo:
 
 pylonbase:flint_from_gravel:
   input:
-    pylonbase:gravel: 1
-  results: pylonbase:flint
+    minecraft:gravel: 1
+  results: minecraft:flint
   cycles: 2
   particle-data: minecraft:gravel

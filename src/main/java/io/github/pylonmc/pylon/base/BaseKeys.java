@@ -7,6 +7,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseKeys {
     public static final NamespacedKey ROCK_DUST = baseKey("rock_dust");
+    public static final NamespacedKey UNFIRED_BRICK = baseKey("unfired_brick");
 
     public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
 
@@ -293,6 +294,7 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_TABLE_SAW = baseKey("diesel_table_saw");
     public static final NamespacedKey DIESEL_PRESS = baseKey("diesel_press");
     public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
+    public static final NamespacedKey DIESEL_BRICK_MOLDER = baseKey("diesel_brick_molder");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

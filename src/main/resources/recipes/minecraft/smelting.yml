@@ -21,3 +21,9 @@ pylonbase:steel_furnace:
   result: pylonbase:steel_ingot
   experience: 0.7
   category: misc
+
+pylonbase:brick_from_unfired_brick:
+  ingredient: pylonbase:unfired_brick
+  result: minecraft:brick
+  experience: 0.3
+  category: misc

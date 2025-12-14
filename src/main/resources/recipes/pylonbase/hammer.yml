@@ -76,7 +76,7 @@ pylonbase:gravel_from_cobblestone:
   chance: 1.0
 
 pylonbase:sand_from_gravel:
-  input: pylonbase:gravel
-  result: pylonbase:sand
+  input: minecraft:gravel
+  result: minecraft:sand
   mining-level: stone
   chance: 1.0

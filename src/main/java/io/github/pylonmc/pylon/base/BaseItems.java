@@ -64,6 +64,13 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(ROCK_DUST);
     }
 
+    public static final ItemStack UNFIRED_BRICK = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.UNFIRED_BRICK)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, UNFIRED_BRICK);
+        BasePages.RESOURCES.addItem(UNFIRED_BRICK);
+    }
+
     public static final ItemStack OBSIDIAN_CHIP = ItemStackBuilder.pylon(Material.POLISHED_BLACKSTONE_BUTTON, BaseKeys.OBSIDIAN_CHIP)
             .build();
     static {
@@ -1836,6 +1843,14 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselGrindstone.Item.class, DIESEL_GRINDSTONE, BaseKeys.DIESEL_GRINDSTONE);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_GRINDSTONE);
+    }
+
+    public static final ItemStack DIESEL_BRICK_MOLDER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_BRICK_MOLDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SMOOTH_STONE_SLAB.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselGrindstone.Item.class, DIESEL_BRICK_MOLDER, BaseKeys.DIESEL_BRICK_MOLDER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_BRICK_MOLDER);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
