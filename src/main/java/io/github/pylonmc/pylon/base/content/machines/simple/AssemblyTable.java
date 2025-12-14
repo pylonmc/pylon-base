@@ -120,8 +120,8 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         pdc.set(OUTPUT_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY, outputSerialized);
         pdc.set(DISPLAY_KEY, PylonSerializers.BOOLEAN, displayPhase);
 
-        PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe.getKey());
-        PylonUtils.setNullable(pdc, CURRENT_PROGRESS_KEY, PylonSerializers.LONG, currentProgress.toLong());
+        PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe == null ? null : currentRecipe.getKey());
+        PylonUtils.setNullable(pdc, CURRENT_PROGRESS_KEY, PylonSerializers.LONG, currentProgress == null ? null : currentProgress.toLong());
     }
 
     @Override
