@@ -139,11 +139,7 @@ public class DieselTableSaw extends PylonBlock
         createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
         setProgressItem(progressItem);
-        outputInventory.setPreUpdateHandler(event -> {
-            if (!event.isRemove() && event.getUpdateReason() instanceof PlayerUpdateReason) {
-                event.setCancelled(true);
-            }
-        });
+        PylonUtils.disallowAddingItems(outputInventory);
     }
 
     @Override

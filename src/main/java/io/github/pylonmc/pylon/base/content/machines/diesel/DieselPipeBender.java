@@ -39,7 +39,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
-import xyz.xenondevs.invui.inventory.event.PlayerUpdateReason;
 
 import java.util.List;
 
@@ -160,11 +159,7 @@ public class DieselPipeBender extends PylonBlock
         createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
         setProgressItem(progressItem);
-        outputInventory.setPreUpdateHandler(event -> {
-            if (!event.isRemove() && event.getUpdateReason() instanceof PlayerUpdateReason) {
-                event.setCancelled(true);
-            }
-        });
+        PylonUtils.disallowAddingItems(outputInventory);
     }
 
     @Override
