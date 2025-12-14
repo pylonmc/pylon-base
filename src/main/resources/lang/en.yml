@@ -1326,6 +1326,16 @@ item:
       <arrow> <attr>Speed:</attr> %speed%
     waila: "Diesel Pipe Bender | %diesel-bar%"
 
+  diesel_table_saw:
+    name: "Diesel Table Saw"
+    lore: |-
+      <arrow> Efficiently cuts logs into planks, and planks into sticks
+      <arrow> <insn>Right click</insn> to insert an item
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Pipe Bender | %diesel-bar%"
+
+
   cargo_duct:
     name: "<white>Cargo Duct"
     lore: |-

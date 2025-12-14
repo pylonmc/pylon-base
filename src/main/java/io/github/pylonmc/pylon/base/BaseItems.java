@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
@@ -1809,6 +1810,13 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselPipeBender.Item.class, DIESEL_PIPE_BENDER, BaseKeys.DIESEL_PIPE_BENDER);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_PIPE_BENDER);
+    }
+
+    public static final ItemStack DIESEL_TABLE_SAW = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_TABLE_SAW)
+            .build();
+    static {
+        PylonItem.register(DieselTableSaw.Item.class, DIESEL_TABLE_SAW, BaseKeys.DIESEL_TABLE_SAW);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_TABLE_SAW);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
