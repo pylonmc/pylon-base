@@ -188,6 +188,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             return;
         }
 
+        event.setCancelled(true);
         Player player = event.getPlayer();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         if (mainHand.isEmpty()) {
