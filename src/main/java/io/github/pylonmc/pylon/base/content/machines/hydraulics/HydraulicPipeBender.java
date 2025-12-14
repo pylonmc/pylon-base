@@ -19,7 +19,10 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -42,6 +45,10 @@ public class HydraulicPipeBender extends PylonBlock
     public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
 
+    public ItemStack cubeStack = ItemStackBuilder.of(Material.ORANGE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":cube")
+            .build();
+
     public static class Item extends PylonItem {
 
         public Item(@NotNull ItemStack stack) {
@@ -62,6 +69,36 @@ public class HydraulicPipeBender extends PylonBlock
         setTickInterval(TICK_INTERVAL);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        BlockFace facing;
+        if (context instanceof BlockCreateContext.PlayerPlace playerPlaceContext) {
+            facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false);
+        } else {
+            facing = BlockFace.NORTH;
+        }
+        addEntity("cube1", new ItemDisplayBuilder()
+                .itemStack(cubeStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(facing)
+                        .translate(0, 0, 0.2)
+                        .scale(0.25))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("cube2", new ItemDisplayBuilder()
+                .itemStack(cubeStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(facing)
+                        .translate(0.2, 0, -0.2)
+                        .scale(0.25))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("cube3", new ItemDisplayBuilder()
+                .itemStack(cubeStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(facing)
+                        .translate(-0.2, 0, -0.2)
+                        .scale(0.25))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .lookAlong(new Vector3d(0.0, 1.0, 0.0))
