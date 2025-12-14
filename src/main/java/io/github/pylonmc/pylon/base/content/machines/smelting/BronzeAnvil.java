@@ -198,13 +198,12 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         spawnedEntity
             .getEntity()
             .getPersistentDataContainer()
-            .set(DIRECTION_FALLING, PersistentDataType.INTEGER, getBlockFace().ordinal());
+            .set(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE, getBlockFace());
     }
 
     @Override
     public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity entity) {
-        int ordinal = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PersistentDataType.INTEGER);
-        BlockFace face = BlockFace.values()[ordinal];
+        BlockFace face = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
         HashMap<String, UUID> map = new HashMap<>();
         ItemDisplay itemDisplay = new ItemDisplayBuilder()
             .transformation(new Matrix4f(BASE_TRANSFORM)
