@@ -17,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -107,7 +108,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         updateStep();
     }
 
-    //todo: mirror, entities don't load properly
+    //todo: entities don't load properly
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
@@ -129,8 +130,6 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         } else {
             pdc.remove(CURRENT_PROGRESS_KEY);
         }
-
-        nukeEntities();
     }
 
     @Override
@@ -284,9 +283,8 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             String name = data.name();
             double[] positions = data.position();
             double[] scale = data.scale();
-            if (getHeldEntityUuid(name) != null) return;
 
-            addEntity(name, new BlockDisplayBuilder()
+            addEntityIfMissing(name, new BlockDisplayBuilder()
                 .material(data.material())
                 .transformation(new TransformBuilder()
                     .translate(positions[0], 0, positions[1])
@@ -296,7 +294,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             );
 
             if (data.mirrorX()) {
-                addEntity(name + "$mirror_x", new BlockDisplayBuilder()
+                addEntityIfMissing(name + "$mirror_x", new BlockDisplayBuilder()
                     .material(data.material())
                     .transformation(new TransformBuilder()
                         .translate(-positions[0], 0, positions[1])
@@ -307,7 +305,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             }
 
             if (data.mirrorZ()) {
-                addEntity(name + "$mirror_z", new BlockDisplayBuilder()
+                addEntityIfMissing(name + "$mirror_z", new BlockDisplayBuilder()
                     .material(data.material())
                     .transformation(new TransformBuilder()
                         .translate(positions[0], 0, -positions[1])
@@ -317,6 +315,11 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
                 );
             }
         });
+    }
+
+    private void addEntityIfMissing(String name, Entity entity) {
+        if (getHeldEntityUuid(name) != null) return;
+        addEntity(name, entity);
     }
 
     //<editor-fold desc="Inventory event handlers">
