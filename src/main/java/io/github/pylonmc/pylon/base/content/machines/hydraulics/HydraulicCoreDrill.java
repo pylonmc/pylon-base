@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -100,23 +101,15 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
 
     @Override
     public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded() || isCycling()) {
+        if (!isFormedAndFullyLoaded() || isProcessing()) {
             return;
         }
 
-        HydraulicCoreDrillHatch inputHatch = BlockStorage.getAs(
-                HydraulicCoreDrillInputHatch.class,
-                getBlock().getLocation().add(
-                        Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()))
-                )
-        );
+        Location inputHatchLocation = getBlock().getLocation().add(Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing())));
+        HydraulicCoreDrillHatch inputHatch = BlockStorage.getAs(HydraulicCoreDrillInputHatch.class, inputHatchLocation);
 
-        HydraulicCoreDrillHatch outputHatch = BlockStorage.getAs(
-                HydraulicCoreDrillOutputHatch.class,
-                getBlock().getLocation().add(
-                        Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing()))
-                )
-        );
+        Location outputHatchLocation = getBlock().getLocation().add(Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing())));
+        HydraulicCoreDrillHatch outputHatch = BlockStorage.getAs(HydraulicCoreDrillOutputHatch.class, outputHatchLocation);
 
         Preconditions.checkState(inputHatch != null && outputHatch != null);
 
@@ -132,8 +125,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     }
 
     @Override
-    protected void finishCycle() {
-        cycling = false;
+    public void onProcessFinished() {
 
         Vector3i chestOffset = PylonUtils.rotateVectorToFace(new Vector3i(0, -2, 4), getFacing());
         if (!(getBlock().getRelative(chestOffset.x, chestOffset.y, chestOffset.z).getState() instanceof Chest chest)) {

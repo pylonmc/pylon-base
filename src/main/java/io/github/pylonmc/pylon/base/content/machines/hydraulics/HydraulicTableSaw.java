@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -32,12 +33,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 
-public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
+public class HydraulicTableSaw extends PylonBlock
+        implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<TableSawRecipe> {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_TABLE_SAW);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -58,9 +59,6 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
         }
     }
 
-    private int recipeTicksRemaining;
-    private @Nullable TableSawRecipe recipe;
-
     @SuppressWarnings("unused")
     public HydraulicTableSaw(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -80,13 +78,12 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
         );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
-        recipe = null;
+        setRecipeType(TableSawRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public HydraulicTableSaw(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        recipe = null;
     }
 
     @Override
@@ -100,8 +97,6 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
 
         event.setCancelled(true);
 
-        recipe = null;
-
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
@@ -113,6 +108,7 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
                     oldStack
             );
             itemDisplay.setItemStack(null);
+            stopRecipe();
             return;
         }
 
@@ -126,25 +122,14 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
 
     @Override
     public void tick(double deltaSeconds) {
-        ItemStack stack = getItemDisplay().getItemStack();
+        progressRecipe(TICK_INTERVAL);
 
-        if (recipe != null) {
+        if (isProcessingRecipe()) {
             spawnParticles();
-
-            if (recipeTicksRemaining > 0) {
-                recipeTicksRemaining -= TICK_INTERVAL;
-                return;
-            }
-
-            getItemDisplay().setItemStack(stack.subtract(recipe.input().getAmount()));
-            getBlock().getWorld().dropItemNaturally(
-                    getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
-                    recipe.result()
-            );
-            recipe = null;
             return;
         }
 
+        ItemStack stack = getItemDisplay().getItemStack();
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
             double hydraulicFluidUsed = recipe.timeTicks() * HYDRAULIC_FLUID_USAGE;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
@@ -155,12 +140,10 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
                 continue;
             }
 
-            this.recipe = recipe;
-            recipeTicksRemaining = recipe.timeTicks();
+            startRecipe(recipe, recipe.timeTicks());
             spawnParticles();
             removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
             addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-
             break;
         }
     }
@@ -173,12 +156,21 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
         new ParticleBuilder(Particle.BLOCK)
                 .count(5)
                 .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                .data(recipe.particleData())
+                .data(getCurrentRecipe().particleData())
                 .spawn();
     }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         drops.add(getItemDisplay().getItemStack());
+    }
+
+    @Override
+    public void onRecipeFinished(@NotNull TableSawRecipe recipe) {
+        getItemDisplay().setItemStack(getItemDisplay().getItemStack().subtract(recipe.input().getAmount()));
+        getBlock().getWorld().dropItemNaturally(
+                getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
+                recipe.result()
+        );
     }
 }
