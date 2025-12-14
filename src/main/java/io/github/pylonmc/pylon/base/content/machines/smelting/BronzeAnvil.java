@@ -36,7 +36,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
@@ -194,7 +193,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
 
     public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
     @Override
-    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity spawnedEntity) {
+    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity spawnedEntity) {
         spawnedEntity
             .getEntity()
             .getPersistentDataContainer()
@@ -202,7 +201,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     }
 
     @Override
-    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull FallingBlockEntity entity) {
+    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity entity) {
         BlockFace face = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
         HashMap<String, UUID> map = new HashMap<>();
         ItemDisplay itemDisplay = new ItemDisplayBuilder()
