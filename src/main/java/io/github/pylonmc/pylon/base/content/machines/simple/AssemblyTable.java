@@ -209,6 +209,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         }
     }
 
+    //<editor-fold desc="Recipe handling">
     public void progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
         if (currentRecipe == null || currentProgress == null) return;
 
@@ -260,35 +261,11 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         updateStep();
         nukeEntities();
     }
-
-    private static void updateInventory(VirtualInventory toUpdate, List<ItemStack> itemList) {
-        for (int i = 0; i < 9; i++) {
-            ItemStack item;
-            if (i < itemList.size()) {
-                item = itemList.get(i);
-            } else {
-                item = null;
-            }
-
-            toUpdate.setItem(UpdateReason.SUPPRESSED, i, item);
-        }
-    }
+    //</editor-fold>
 
     private void updateStep() {
         updateStepItem();
         updateStepDisplay();
-    }
-
-    private void updateStepItem() {
-        ItemStack stack;
-        if (currentRecipe == null || currentProgress == null) {
-            stack = GuiItems.background().getItemProvider().get();
-        } else {
-            AssemblyTableRecipe.Step current = this.getStep();
-            stack = current.asStack(current.uses() - currentProgress.getUsedAmount());
-        }
-
-        this.stepDisplay.setItem(UpdateReason.SUPPRESSED, 0, stack);
     }
 
     private void updateStepDisplay() {
@@ -320,6 +297,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         });
     }
 
+    //<editor-fold desc="Inventory event handlers">
     private void cancelOutput(@NotNull ItemPreUpdateEvent event) {
         if (this.displayPhase || event.isAdd() || event.isSwap()) {
             event.setCancelled(true);
@@ -341,6 +319,33 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
 
     private void updateInputGrid(@NotNull ItemPostUpdateEvent event) {
         updateInputGrid();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Inventory updating methods">
+    private void updateStepItem() {
+        ItemStack stack;
+        if (currentRecipe == null || currentProgress == null) {
+            stack = GuiItems.background().getItemProvider().get();
+        } else {
+            AssemblyTableRecipe.Step current = this.getStep();
+            stack = current.asStack(current.uses() - currentProgress.getUsedAmount());
+        }
+
+        this.stepDisplay.setItem(UpdateReason.SUPPRESSED, 0, stack);
+    }
+
+    private static void updateInventory(VirtualInventory toUpdate, List<ItemStack> itemList) {
+        for (int i = 0; i < 9; i++) {
+            ItemStack item;
+            if (i < itemList.size()) {
+                item = itemList.get(i);
+            } else {
+                item = null;
+            }
+
+            toUpdate.setItem(UpdateReason.SUPPRESSED, i, item);
+        }
     }
 
     private void updateInputGrid() {
@@ -364,4 +369,5 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             inventory.setItem(UpdateReason.SUPPRESSED, i, null);
         }
     }
+    //</editor-fold>
 }
