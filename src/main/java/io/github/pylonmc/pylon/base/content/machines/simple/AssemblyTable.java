@@ -13,6 +13,8 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -199,8 +201,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         Player player = event.getPlayer();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         if (mainHand.isEmpty()) {
-            //todo: message recipe change
-            player.sendMessage("offset changed");
+            sendMessage(player, "progress_recipe.offset_changed");
             offset++; // left click changes selected recipe, if any
             updateInputGrid();
         } else {
@@ -217,8 +218,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
 
         AssemblyTableRecipe.Step current = this.getStep();
         if (!current.tool().equals(key)) {
-            player.sendMessage("invalid tool");
-            //todo: message that the tool is invalid
+            sendMessage(player, "progress_recipe.invalid_tool");
             return;
         }
 
@@ -231,18 +231,15 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         if (remainingAmount == 0) {
             int newStep = currentProgress.getStep() + 1;
             if (newStep < currentRecipe.steps().size()) {
-                //todo: message
-                player.sendMessage("next step");
+                sendMessage(player, "progress_recipe.next_step");
                 currentProgress.setStep(newStep);
                 updateStep();
             } else {
-                //todo: message
-                player.sendMessage("recipe completed");
+                sendMessage(player, "progress_recipe.recipe_completed");
                 completeRecipe();
             }
         } else {
-            //todo: message
-            player.sendMessage("added progress");
+            sendMessage(player, "progress_recipe.added_progress");
             currentProgress.setUsedAmount(newUsedAmount);
             updateStep();
         }
@@ -395,4 +392,14 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         }
     }
     //</editor-fold>
+
+    private TranslatableComponent getMessage(String key) {
+        String fullKey = "pylon." + getKey().getNamespace() + ".item." + getKey().getKey() + "." + key;
+        return Component.translatable(fullKey);
+    }
+
+    private void sendMessage(Player player, String key) {
+        player.sendMessage(getMessage(key));
+    }
+
 }

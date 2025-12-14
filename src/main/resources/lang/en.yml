@@ -469,6 +469,13 @@ item:
     name: "Assembly Table"
     lore: |-
       <arrow> Smash stuff together hoping it works, jk, TODO
+    progress_recipe:
+      offset_changed: "Changed recipe offset [Useful in case some items have the same recipe]"
+      invalid_tool: "<red>Invalid tool, check required item in the assembly table"
+      added_progress: "<green>Progress added"
+      next_step: "<green>This item progress completed, proceed to the next item"
+      recipe_completed: "<green>Recipe completed correctly"
+
 
   grindstone:
     name: "Grindstone"
@@ -1456,6 +1463,8 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
+    assembly-table:
+      used-times-lore: "<gray> Use it %times% times"
 
 message:
   fluid_none: "None"

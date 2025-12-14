@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
@@ -18,6 +19,8 @@ import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -266,15 +269,22 @@ public record AssemblyTableRecipe(
 
         public ItemStack asStack(int times) {
             ItemStack output;
-            // todo: allow proper translation somewhere appropriate once we made sure this works
+
+            TranslatableComponent lore = Component.translatable("pylon.pylonbase.guide.recipe.assembly-table.used-times-lore")
+                .arguments(
+                    PylonArgument.of(
+                        "times",
+                        times
+                    )
+                );
             if (tool.getNamespace().equals("minecraft")) {
                 output = ItemStackBuilder.of(Registry.MATERIAL.get(tool))
-                    .lore("Use it " + times + " times")
+                    .lore(lore)
                     .build();
             } else {
                 PylonItemSchema pis = PylonRegistry.ITEMS.get(tool);
                 output = ItemStackBuilder.of(pis.getItemStack())
-                    .lore("Use it " + times + " times")
+                    .lore(lore)
                     .build();
             }
 
