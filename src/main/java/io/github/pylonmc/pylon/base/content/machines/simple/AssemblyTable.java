@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -26,7 +27,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
@@ -88,24 +88,23 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
     public AssemblyTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        byte[] craftingSerialized = pdc.get(CRAFTING_INVENTORY_KEY, PersistentDataType.BYTE_ARRAY);
+        byte[] craftingSerialized = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY);
         this.craftInventory = VirtualInventory.deserialize(craftingSerialized);
         this.craftInventory.setPreUpdateHandler(this::cancelInput);
         this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
 
-        byte[] outputSerialized = pdc.get(OUTPUT_INVENTORY_KEY, PersistentDataType.BYTE_ARRAY);
+        byte[] outputSerialized = pdc.get(OUTPUT_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY);
         this.outputInventory = VirtualInventory.deserialize(outputSerialized);
         this.outputInventory.setPreUpdateHandler(this::cancelOutput);
 
         this.stepDisplay.setPreUpdateHandler(this::cancelEverything);
 
-        this.displayPhase = pdc.get(DISPLAY_KEY, PersistentDataType.BOOLEAN);
+        this.displayPhase = pdc.get(DISPLAY_KEY, PylonSerializers.BOOLEAN);
 
-        String currentRecipeString = pdc.get(CURRENT_RECIPE_KEY, PersistentDataType.STRING);
-        NamespacedKey currentRecipeKey = currentRecipeString == null ? null : NamespacedKey.fromString(currentRecipeString);
+        NamespacedKey currentRecipeKey = pdc.get(CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
         this.currentRecipe = currentRecipeKey == null ? null : AssemblyTableRecipe.RECIPE_TYPE.getRecipe(currentRecipeKey);
 
-        Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PersistentDataType.LONG);
+        Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
         this.currentProgress = currentStepLong == null ? null : new AssemblyTableRecipe.ActionStep(currentStepLong);
         updateStep();
     }
@@ -117,21 +116,12 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         byte[] craftingSerialized = craftInventory.serialize();
         byte[] outputSerialized = outputInventory.serialize();
 
-        pdc.set(CRAFTING_INVENTORY_KEY, PersistentDataType.BYTE_ARRAY, craftingSerialized);
-        pdc.set(OUTPUT_INVENTORY_KEY, PersistentDataType.BYTE_ARRAY, outputSerialized);
-        pdc.set(DISPLAY_KEY, PersistentDataType.BOOLEAN, displayPhase);
+        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY, craftingSerialized);
+        pdc.set(OUTPUT_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY, outputSerialized);
+        pdc.set(DISPLAY_KEY, PylonSerializers.BOOLEAN, displayPhase);
 
-        if (currentRecipe != null) {
-            pdc.set(CURRENT_RECIPE_KEY, PersistentDataType.STRING, currentRecipe.getKey().toString());
-        } else {
-            pdc.remove(CURRENT_RECIPE_KEY);
-        }
-
-        if (currentProgress != null) {
-            pdc.set(CURRENT_PROGRESS_KEY, PersistentDataType.LONG, currentProgress.toLong());
-        } else {
-            pdc.remove(CURRENT_PROGRESS_KEY);
-        }
+        PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe.getKey());
+        PylonUtils.setNullable(pdc, CURRENT_PROGRESS_KEY, PylonSerializers.LONG, currentProgress.toLong());
     }
 
     @Override
