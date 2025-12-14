@@ -301,7 +301,14 @@ public record AssemblyTableRecipe(
         }
     }
 
-    public record DisplayData(String name, Material material, double[] position, double[] scale) {
+    public record DisplayData(
+        String name,
+        Material material,
+        double[] position,
+        double[] scale,
+        boolean mirrorX,
+        boolean mirrorZ
+    ) {
         public static final ConfigAdapter<DisplayData> ADAPTER = new ConfigAdapter<>() {
             @Override
             public @NotNull Type getType() {
@@ -311,7 +318,10 @@ public record AssemblyTableRecipe(
             @Override
             public DisplayData convert(@NotNull Object value) {
                 var map = MapConfigAdapter.STRING_TO_ANY.convert(value);
+
                 String name = ConfigAdapter.STRING.convert(map.get("name"));
+                if (name.contains("$")) throw new IllegalArgumentException("DisplayData's name shouldn't have '$' characters, as it is used internally");
+
                 Material material = ConfigAdapter.MATERIAL.convert(map.get("material"));
 
                 var doubleListAdapter = ConfigAdapter.LIST.from(ConfigAdapter.DOUBLE);
@@ -324,11 +334,16 @@ public record AssemblyTableRecipe(
                 double[] position = new double[] {positionList.get(0), positionList.get(1)};
                 double[] scale = new double[] {scaleList.get(0), scaleList.get(1)};
 
+                boolean mirrorX = ConfigAdapter.BOOLEAN.convert(map.getOrDefault("mirror_x", false));
+                boolean mirrorZ = ConfigAdapter.BOOLEAN.convert(map.getOrDefault("mirror_z", false));
+
                 return new DisplayData(
                     name,
                     material,
                     position,
-                    scale
+                    scale,
+                    mirrorX,
+                    mirrorZ
                 );
             }
         };
