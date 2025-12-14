@@ -20,6 +20,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -90,9 +91,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
-        if (processing != null) {
-            pdc.set(PROCESSING_KEY, PylonSerializers.ITEM_STACK, processing);
-        }
+        PylonUtils.setNullable(pdc, PROCESSING_KEY, PylonSerializers.ITEM_STACK, processing);
     }
 
     @Override
