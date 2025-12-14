@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -105,6 +106,8 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         this.currentProgress = currentStepLong == null ? null : new AssemblyTableRecipe.ActionStep(currentStepLong);
         updateStep();
     }
+
+    //todo: mirror, damage item, entities don't load properly
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
@@ -202,11 +205,11 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             offset++; // left click changes selected recipe, if any
             updateInputGrid();
         } else {
-            progressRecipe(mainHand, player);
+            progressRecipe(mainHand, player, true);
         }
     }
 
-    public void progressRecipe(@NotNull ItemStack item, Player player) {
+    public void progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
         if (currentRecipe == null || currentProgress == null) return;
 
         PylonItem pylonItem = PylonItem.fromStack(item);
@@ -217,6 +220,10 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             player.sendMessage("invalid tool");
             //todo: message that the tool is invalid
             return;
+        }
+
+        if (shouldDamage && current.damageConsume()) {
+            PylonUtils.damageItem(item, 1, player.getWorld());
         }
 
         int newUsedAmount = currentProgress.getUsedAmount() + 1;
