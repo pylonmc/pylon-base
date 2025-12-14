@@ -87,6 +87,11 @@ public record AssemblyTableRecipe(
                 ItemStack stack = array[i];
                 if (stack == null) stack = ItemStack.empty();
 
+                // only allow 1
+                if (stack.getAmount() != 1) {
+                    return false;
+                }
+
                 if (!choice.test(stack)) {
                     return false;
                 }
