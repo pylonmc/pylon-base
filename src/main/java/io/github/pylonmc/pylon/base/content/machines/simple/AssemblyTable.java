@@ -258,7 +258,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         this.currentProgress = null;
 
         updateStep();
-        nukeEntities();
+        removeAllEntities();
     }
     //</editor-fold>
 
@@ -269,7 +269,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
 
     private void updateStepDisplay() {
         if (currentRecipe == null || currentProgress == null) {
-            nukeEntities();
+            removeAllEntities();
             return;
         }
 
