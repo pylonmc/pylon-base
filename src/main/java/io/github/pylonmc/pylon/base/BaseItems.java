@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselGrindstone;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
@@ -1827,6 +1828,14 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselPress.Item.class, DIESEL_PRESS, BaseKeys.DIESEL_PRESS);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_PRESS);
+    }
+
+    public static final ItemStack DIESEL_GRINDSTONE = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_GRINDSTONE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SMOOTH_STONE_SLAB.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselGrindstone.Item.class, DIESEL_GRINDSTONE, BaseKeys.DIESEL_GRINDSTONE);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_GRINDSTONE);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)

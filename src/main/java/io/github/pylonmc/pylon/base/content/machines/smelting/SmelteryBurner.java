@@ -75,7 +75,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     @Override
     public void postInitialise() {
-        setProgressItem(progressItem);
+        setProcessProgressItem(progressItem);
     }
 
     @Override

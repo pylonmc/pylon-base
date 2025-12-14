@@ -101,7 +101,7 @@ public class CoalFiredPurificationTower extends PylonBlock
 
     @Override
     public void postInitialise() {
-        setProgressItem(progressItem);
+        setProcessProgressItem(progressItem);
     }
 
     @Override

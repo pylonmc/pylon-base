@@ -265,10 +265,6 @@ public class BaseKeys {
     public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");
     public static final NamespacedKey INTERMEDIATE_CORE_CHUNK = baseKey("intermediate_core_chunk");
 
-    public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
-    public static final NamespacedKey SIMPLE_BLOCK_DISPLAY = baseKey("simple_block_display");
-    public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
-
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
@@ -296,6 +292,7 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_PIPE_BENDER = baseKey("diesel_pipe_bender");
     public static final NamespacedKey DIESEL_TABLE_SAW = baseKey("diesel_table_saw");
     public static final NamespacedKey DIESEL_PRESS = baseKey("diesel_press");
+    public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

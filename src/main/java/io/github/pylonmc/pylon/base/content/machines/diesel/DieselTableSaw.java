@@ -2,20 +2,16 @@ package io.github.pylonmc.pylon.base.content.machines.diesel;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -25,6 +21,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -37,16 +34,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
-import xyz.xenondevs.invui.inventory.event.PlayerUpdateReason;
 
 import java.util.List;
 
@@ -65,7 +58,6 @@ public class DieselTableSaw extends PylonBlock
 
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory outputInventory = new VirtualInventory(1);
-    private final ProgressItem progressItem = new ProgressItem(ItemStackBuilder.of(GuiItems.background()));
 
     public static class Item extends PylonItem {
 
@@ -127,6 +119,7 @@ public class DieselTableSaw extends PylonBlock
         );
         createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
         setRecipeType(TableSawRecipe.RECIPE_TYPE);
+        setRecipeProgressItem(new ProgressItem(GuiItems.background()));
     }
 
     @SuppressWarnings("unused")
@@ -138,8 +131,13 @@ public class DieselTableSaw extends PylonBlock
     public void postInitialise() {
         createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
-        setProgressItem(progressItem);
-        PylonUtils.disallowAddingItems(outputInventory);
+        outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        outputInventory.setPostUpdateHandler(event -> tryStartRecipe());
+        inputInventory.setPostUpdateHandler(event -> {
+            if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
+                tryStartRecipe();
+            }
+        });
     }
 
     @Override
@@ -150,10 +148,27 @@ public class DieselTableSaw extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        progressRecipe(tickInterval);
+        if (!isProcessingRecipe() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerSecond * tickInterval / 20) {
+            return;
+        }
 
+        removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
+        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+                .location(getBlock().getLocation().toCenterLocation().add(0.3, 0.7, 0.3))
+                .offset(0, 1, 0)
+                .count(0)
+                .extra(0.05)
+                .spawn();
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                .data(getCurrentRecipe().particleData())
+                .spawn();
+        progressRecipe(tickInterval);
+    }
+
+    public void tryStartRecipe() {
         if (isProcessingRecipe()) {
-            spawnParticles();
             return;
         }
 
@@ -163,31 +178,18 @@ public class DieselTableSaw extends PylonBlock
         }
 
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
-            // check we have enough diesel to finish the craft and we have the correct input
             double dieselAmount = dieselPerSecond * recipe.timeTicks() / 20.0;
-            if (fluidAmount(BaseFluids.BIODIESEL) < dieselAmount || !recipe.input().isSimilar(stack)) {
+            if (fluidAmount(BaseFluids.BIODIESEL) < dieselAmount
+                    || !recipe.input().isSimilar(stack)
+                    || !outputInventory.canHold(recipe.result())
+            ) {
                 continue;
             }
 
-            // check output has no item or the same item as the result
-            ItemStack outputItem = outputInventory.getItem(0);
-            if (outputItem != null && !PylonUtils.isPylonSimilar(outputItem, recipe.result())) {
-                return;
-            }
-
-            // if output item same as result, check there's space for the output
-            if (outputItem != null && outputItem.getAmount() + recipe.result().getAmount() > outputItem.getMaxStackSize()) {
-                return;
-            }
-
-            // start recipe
             startRecipe(recipe, recipe.timeTicks());
-            stack.subtract(recipe.input().getAmount());
-            inputInventory.setItem(null, 0, stack);
-            progressItem.setItemStackBuilder(ItemStackBuilder.of(recipe.result().clone()).clearLore());
-            spawnParticles();
-            removeFluid(BaseFluids.BIODIESEL, dieselAmount);
+            getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
             getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
+            inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
             break;
         }
     }
@@ -203,7 +205,7 @@ public class DieselTableSaw extends PylonBlock
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('I', GuiItems.input())
                 .addIngredient('i', inputInventory)
-                .addIngredient('p', progressItem)
+                .addIngredient('p', getRecipeProgressItem())
                 .addIngredient('O', GuiItems.output())
                 .addIngredient('o', outputInventory)
                 .build();
@@ -223,16 +225,8 @@ public class DieselTableSaw extends PylonBlock
 
     @Override
     public void onRecipeFinished(@NotNull TableSawRecipe recipe) {
-        outputInventory.addItem(null, recipe.result().clone());
-        progressItem.setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
         getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
-    }
-
-    public void spawnParticles() {
-        new ParticleBuilder(Particle.BLOCK)
-                .count(5)
-                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                .data(getCurrentRecipe().particleData())
-                .spawn();
+        outputInventory.addItem(null, recipe.result().clone());
     }
 }
