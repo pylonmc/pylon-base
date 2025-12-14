@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselBrickMolder;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselGrindstone;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
@@ -1846,10 +1847,10 @@ public final class BaseItems {
     }
 
     public static final ItemStack DIESEL_BRICK_MOLDER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_BRICK_MOLDER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.SMOOTH_STONE_SLAB.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.OAK_PLANKS.getKey())
             .build();
     static {
-        PylonItem.register(DieselGrindstone.Item.class, DIESEL_BRICK_MOLDER, BaseKeys.DIESEL_BRICK_MOLDER);
+        PylonItem.register(DieselBrickMolder.Item.class, DIESEL_BRICK_MOLDER, BaseKeys.DIESEL_BRICK_MOLDER);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_BRICK_MOLDER);
     }
 

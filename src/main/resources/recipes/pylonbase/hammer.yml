@@ -70,8 +70,8 @@ pylonbase:steel_sheet:
   chance: 0.25
 
 pylonbase:gravel_from_cobblestone:
-  input: pylonbase:cobblestone
-  result: pylonbase:gravel
+  input: minecraft:cobblestone
+  result: minecraft:gravel
   mining-level: stone
   chance: 1.0
 

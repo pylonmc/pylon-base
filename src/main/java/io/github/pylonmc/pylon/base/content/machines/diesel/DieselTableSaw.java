@@ -88,7 +88,7 @@ public class DieselTableSaw extends PylonBlock
                         .build()
                 )
                 .transformation(new TransformBuilder()
-                        .translate(0.3, 0.0, 0.3)
+                        .translate(0.4, 0.0, 0.4)
                         .scale(0.15))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
@@ -154,7 +154,7 @@ public class DieselTableSaw extends PylonBlock
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                .location(getBlock().getLocation().toCenterLocation().add(0.3, 0.7, 0.3))
+                .location(getBlock().getLocation().toCenterLocation().add(0.4, 0.7, 0.4))
                 .offset(0, 1, 0)
                 .count(0)
                 .extra(0.05)
