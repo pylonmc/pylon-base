@@ -152,7 +152,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             .addIngredient('x', craftInventory)
             .addIngredient('y', outputInventory)
             .addIngredient('$', stepDisplay)
-            .addIngredient('#', GuiItems.backgroundBlack());
+            .addIngredient('#', GuiItems.background());
 
         return builder.build();
     }
