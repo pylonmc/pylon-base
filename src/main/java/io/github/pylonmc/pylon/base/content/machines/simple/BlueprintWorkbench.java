@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
-import io.github.pylonmc.pylon.base.recipes.AssemblyTableRecipe;
+import io.github.pylonmc.pylon.base.recipes.BlueprintWorkbenchRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -41,21 +41,21 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Getter
-public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock, PylonBreakHandler, PylonInteractBlock {
-    public static final NamespacedKey CRAFTING_INVENTORY_KEY = baseKey("assembly_table_crafting_inventory");
-    public static final NamespacedKey OUTPUT_INVENTORY_KEY = baseKey("assembly_table_output_inventory");
+public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderBlock, PylonBreakHandler, PylonInteractBlock {
+    public static final NamespacedKey CRAFTING_INVENTORY_KEY = baseKey("blueprint_workbench_crafting_inventory");
+    public static final NamespacedKey OUTPUT_INVENTORY_KEY = baseKey("blueprint_workbench_output_inventory");
 
-    public static final NamespacedKey DISPLAY_KEY = baseKey("assembly_table_display");
-    public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("assembly_table_current_recipe");
-    public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("assembly_table_current_step");
+    public static final NamespacedKey DISPLAY_KEY = baseKey("blueprint_workbench_display");
+    public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("blueprint_workbench_current_recipe");
+    public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("blueprint_workbench_current_step");
 
     private final VirtualInventory craftInventory;
     private final VirtualInventory outputInventory;
     private final VirtualInventory stepDisplay = new VirtualInventory(1);
 
     private boolean displayPhase;
-    private AssemblyTableRecipe currentRecipe;
-    private AssemblyTableRecipe.ActionStep currentProgress;
+    private BlueprintWorkbenchRecipe currentRecipe;
+    private BlueprintWorkbenchRecipe.ActionStep currentProgress;
 
     private int offset = 1;
 
@@ -66,7 +66,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
     }
 
     @SuppressWarnings("unused")
-    public AssemblyTable(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public BlueprintWorkbench(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         this.craftInventory = new VirtualInventory(9);
         this.craftInventory.setPreUpdateHandler(this::cancelInput);
@@ -85,7 +85,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
     }
 
     @SuppressWarnings("unused")
-    public AssemblyTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public BlueprintWorkbench(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
         this.craftInventory = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
@@ -100,10 +100,10 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         this.displayPhase = pdc.get(DISPLAY_KEY, PylonSerializers.BOOLEAN);
 
         NamespacedKey currentRecipeKey = pdc.get(CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
-        this.currentRecipe = currentRecipeKey == null ? null : AssemblyTableRecipe.RECIPE_TYPE.getRecipe(currentRecipeKey);
+        this.currentRecipe = currentRecipeKey == null ? null : BlueprintWorkbenchRecipe.RECIPE_TYPE.getRecipe(currentRecipeKey);
 
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
-        this.currentProgress = currentStepLong == null ? null : new AssemblyTableRecipe.ActionStep(currentStepLong);
+        this.currentProgress = currentStepLong == null ? null : new BlueprintWorkbenchRecipe.ActionStep(currentStepLong);
         updateStep();
     }
 
@@ -136,7 +136,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         }
     }
 
-    public AssemblyTableRecipe.Step getStep() {
+    public BlueprintWorkbenchRecipe.Step getStep() {
         return currentRecipe.steps().get(currentProgress.getStep());
     }
 
@@ -202,7 +202,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         PylonItem pylonItem = PylonItem.fromStack(item);
         NamespacedKey key = pylonItem != null ? pylonItem.getKey() : item.getType().getKey();
 
-        AssemblyTableRecipe.Step current = this.getStep();
+        BlueprintWorkbenchRecipe.Step current = this.getStep();
         if (!current.tool().equals(key)) {
             sendMessage(player, "progress_recipe.invalid_tool");
             return;
@@ -256,7 +256,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
             return;
         }
 
-        AssemblyTableRecipe.Step current = this.getStep();
+        BlueprintWorkbenchRecipe.Step current = this.getStep();
         current.removeDisplays().forEach(this::removeEntity);
 
         Location up = getBlock().getRelative(BlockFace.UP).getLocation()
@@ -336,7 +336,7 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
         if (currentRecipe == null || currentProgress == null) {
             stack = GuiItems.background().getItemProvider().get();
         } else {
-            AssemblyTableRecipe.Step current = this.getStep();
+            BlueprintWorkbenchRecipe.Step current = this.getStep();
             stack = current.asStack(current.uses() - currentProgress.getUsedAmount());
         }
 
@@ -358,14 +358,14 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
 
     private void updateInputGrid() {
         this.offset = 1;
-        this.currentRecipe = AssemblyTableRecipe.findRecipe(craftInventory.getItems(), offset);
+        this.currentRecipe = BlueprintWorkbenchRecipe.findRecipe(craftInventory.getItems(), offset);
         if (this.currentRecipe == null) {
             this.displayPhase = false;
             this.currentProgress = null;
             clearInventory(this.outputInventory);
         } else {
             this.displayPhase = true;
-            this.currentProgress = new AssemblyTableRecipe.ActionStep(0, 0);
+            this.currentProgress = new BlueprintWorkbenchRecipe.ActionStep(0, 0);
             updateInventory(this.outputInventory, currentRecipe.results());
         }
 

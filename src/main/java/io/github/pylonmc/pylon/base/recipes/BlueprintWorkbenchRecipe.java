@@ -39,7 +39,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public record AssemblyTableRecipe(
+public record BlueprintWorkbenchRecipe(
     NamespacedKey key,
     RecipeFormation recipe,
     List<ItemStack> results,
@@ -110,9 +110,9 @@ public record AssemblyTableRecipe(
         }
     }
 
-    public static final RecipeType<AssemblyTableRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("assembly_table")) {
+    public static final RecipeType<BlueprintWorkbenchRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("blueprint_workbench")) {
         @Override
-        protected @NotNull AssemblyTableRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+        protected @NotNull BlueprintWorkbenchRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             List<ItemStack> results = section.getOrThrow("results", ConfigAdapter.LIST.from(ConfigAdapter.ITEM_STACK));
 
             // region Recipe
@@ -139,7 +139,7 @@ public record AssemblyTableRecipe(
 
             List<Step> steps = section.getOrThrow("steps", ConfigAdapter.LIST.from(Step.ADAPTER));
 
-            return new AssemblyTableRecipe(
+            return new BlueprintWorkbenchRecipe(
                 key,
                 recipe,
                 results,
@@ -148,9 +148,9 @@ public record AssemblyTableRecipe(
         }
     };
 
-    public static List<AssemblyTableRecipe> findRecipes(ItemStack[] items) {
-        List<AssemblyTableRecipe> recipes = new ArrayList<>();
-        for (AssemblyTableRecipe recipe : RECIPE_TYPE.getRecipes()) {
+    public static List<BlueprintWorkbenchRecipe> findRecipes(ItemStack[] items) {
+        List<BlueprintWorkbenchRecipe> recipes = new ArrayList<>();
+        for (BlueprintWorkbenchRecipe recipe : RECIPE_TYPE.getRecipes()) {
             if (recipe.recipe.check(items)) {
                 recipes.add(recipe);
             }
@@ -159,8 +159,8 @@ public record AssemblyTableRecipe(
         return recipes;
     }
 
-    public static AssemblyTableRecipe findRecipe(ItemStack[] items, int offset) {
-        List<AssemblyTableRecipe> recipes = findRecipes(items);
+    public static BlueprintWorkbenchRecipe findRecipe(ItemStack[] items, int offset) {
+        List<BlueprintWorkbenchRecipe> recipes = findRecipes(items);
         if (recipes.isEmpty()) return null;
 
         return recipes.get(offset % recipes.size());
@@ -275,7 +275,7 @@ public record AssemblyTableRecipe(
         public ItemStack asStack(int times) {
             ItemStack output;
 
-            TranslatableComponent lore = Component.translatable("pylon.pylonbase.guide.recipe.assembly-table.used-times-lore")
+            TranslatableComponent lore = Component.translatable("pylon.pylonbase.guide.recipe.blueprint-workbench.used-times-lore")
                 .arguments(
                     PylonArgument.of(
                         "times",

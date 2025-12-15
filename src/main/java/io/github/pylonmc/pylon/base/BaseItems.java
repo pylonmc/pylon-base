@@ -715,11 +715,11 @@ public final class BaseItems {
         BasePages.TOOLS.addItem(CONFETTI_POPPER);
     }
 
-    public static final ItemStack ASSEMBLY_TABLE = ItemStackBuilder.pylon(Material.CRAFTING_TABLE, BaseKeys.ASSEMBLY_TABLE)
+    public static final ItemStack BLUEPRINT_WORKBENCH = ItemStackBuilder.pylon(Material.CRAFTING_TABLE, BaseKeys.BLUEPRINT_WORKBENCH)
             .build();
     static {
-        PylonItem.register(PylonItem.class, ASSEMBLY_TABLE, BaseKeys.ASSEMBLY_TABLE);
-        BasePages.SIMPLE_MACHINES.addItem(ASSEMBLY_TABLE);
+        PylonItem.register(PylonItem.class, BLUEPRINT_WORKBENCH, BaseKeys.BLUEPRINT_WORKBENCH);
+        BasePages.SIMPLE_MACHINES.addItem(BLUEPRINT_WORKBENCH);
     }
 
     public static final ItemStack GRINDSTONE = ItemStackBuilder.pylon(Material.SMOOTH_STONE_SLAB, BaseKeys.GRINDSTONE)

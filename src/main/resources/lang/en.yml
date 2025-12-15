@@ -465,13 +465,13 @@ item:
   gold_sheet:
     name: "Gold Sheet"
 
-  assembly_table:
-    name: "Assembly Table"
+  blueprint_workbench:
+    name: "Blueprint Workbench"
     lore: |-
       <arrow> Smash stuff together hoping it works, jk, TODO
     progress_recipe:
       offset_changed: "Changed recipe offset [Useful in case some items have the same recipe]"
-      invalid_tool: "<red>Invalid tool, check required item in the assembly table"
+      invalid_tool: "<red>Invalid tool, check required item in the blueprint workbench"
       added_progress: "<green>Progress added"
       next_step: "<green>This item progress completed, proceed to the next item"
       recipe_completed: "<green>Recipe completed correctly"
@@ -1463,7 +1463,7 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
-    assembly-table:
+    blueprint-workbench:
       used-times-lore: "<gray> Use it %times% times"
 
 message:
