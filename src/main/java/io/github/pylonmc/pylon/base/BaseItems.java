@@ -65,13 +65,6 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(ROCK_DUST);
     }
 
-    public static final ItemStack UNFIRED_BRICK = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.UNFIRED_BRICK)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, UNFIRED_BRICK);
-        BasePages.RESOURCES.addItem(UNFIRED_BRICK);
-    }
-
     public static final ItemStack OBSIDIAN_CHIP = ItemStackBuilder.pylon(Material.POLISHED_BLACKSTONE_BUTTON, BaseKeys.OBSIDIAN_CHIP)
             .build();
     static {
