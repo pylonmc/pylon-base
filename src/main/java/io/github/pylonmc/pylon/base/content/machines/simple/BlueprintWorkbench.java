@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.recipes.BlueprintWorkbenchRecipe;
+import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -55,7 +56,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
     private boolean displayPhase;
     private BlueprintWorkbenchRecipe currentRecipe;
-    private BlueprintWorkbenchRecipe.ActionStep currentProgress;
+    private Step.ActionStep currentProgress;
 
     private int offset = 1;
 
@@ -103,7 +104,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         this.currentRecipe = currentRecipeKey == null ? null : BlueprintWorkbenchRecipe.RECIPE_TYPE.getRecipe(currentRecipeKey);
 
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
-        this.currentProgress = currentStepLong == null ? null : new BlueprintWorkbenchRecipe.ActionStep(currentStepLong);
+        this.currentProgress = currentStepLong == null ? null : new Step.ActionStep(currentStepLong);
         updateStep();
     }
 
@@ -136,7 +137,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         }
     }
 
-    public BlueprintWorkbenchRecipe.Step getStep() {
+    public Step getStep() {
         return currentRecipe.steps().get(currentProgress.getStep());
     }
 
@@ -202,7 +203,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         PylonItem pylonItem = PylonItem.fromStack(item);
         NamespacedKey key = pylonItem != null ? pylonItem.getKey() : item.getType().getKey();
 
-        BlueprintWorkbenchRecipe.Step current = this.getStep();
+        Step current = this.getStep();
         if (!current.tool().equals(key)) {
             sendMessage(player, "progress_recipe.invalid_tool");
             return;
@@ -256,7 +257,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             return;
         }
 
-        BlueprintWorkbenchRecipe.Step current = this.getStep();
+        Step current = this.getStep();
         current.removeDisplays().forEach(this::removeEntity);
 
         Location up = getBlock().getRelative(BlockFace.UP).getLocation()
@@ -336,7 +337,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         if (currentRecipe == null || currentProgress == null) {
             stack = GuiItems.background().getItemProvider().get();
         } else {
-            BlueprintWorkbenchRecipe.Step current = this.getStep();
+            Step current = this.getStep();
             stack = current.asStack(current.uses() - currentProgress.getUsedAmount());
         }
 
@@ -365,7 +366,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             clearInventory(this.outputInventory);
         } else {
             this.displayPhase = true;
-            this.currentProgress = new BlueprintWorkbenchRecipe.ActionStep(0, 0);
+            this.currentProgress = new Step.ActionStep(0, 0);
             updateInventory(this.outputInventory, currentRecipe.results());
         }
 

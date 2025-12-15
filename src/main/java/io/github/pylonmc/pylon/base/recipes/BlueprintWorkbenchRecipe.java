@@ -1,39 +1,25 @@
 package io.github.pylonmc.pylon.base.recipes;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
+import io.github.pylonmc.pylon.base.recipes.intermediate.RecipeFormation;
+import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TranslatableComponent;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.Item;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,70 +31,6 @@ public record BlueprintWorkbenchRecipe(
     List<ItemStack> results,
     List<Step> steps
 ) implements PylonRecipe {
-
-    @Getter
-    public static class RecipeFormation {
-        private final String[] rows;
-        private final Map<Character, RecipeChoice> ingredients = new HashMap<>();
-
-        public RecipeFormation(String... shape) {
-            Preconditions.checkNotNull(shape);
-            Preconditions.checkArgument(shape.length > 0 && shape.length < 4);
-
-            int lastLen = -1;
-            for (String row : shape) {
-                Preconditions.checkArgument(row != null, "Shape cannot have null rows");
-                Preconditions.checkArgument(!row.isEmpty() && row.length() < 4, "Crafting rows should be 1, 2, or 3 characters, not ", row.length());
-
-                Preconditions.checkArgument(lastLen == -1 || lastLen == row.length(), "Crafting recipes must be rectangular");
-                lastLen = row.length();
-            }
-
-            rows = Arrays.copyOf(shape, shape.length);
-        }
-
-        public void setIngredient(char c, RecipeChoice choice) {
-            ingredients.put(c, choice);
-        }
-
-        public boolean check(ItemStack[] array) {
-            RecipeChoice[] grid = new RecipeChoice[9];
-            for (int x = 0; x < 3; x++) {
-                for (int y = 0; y < 3; y++) {
-                    int position = x + y * 3;
-                    RecipeChoice choice = getChoice(x, y);
-                    grid[position] = choice;
-                }
-            }
-
-            for (int i = 0; i < 9; i++) {
-                RecipeChoice choice = grid[i];
-                if (choice == null) continue;
-                ItemStack stack = array[i];
-                if (stack == null) stack = ItemStack.empty();
-
-                // only allow 1
-                if (stack.getAmount() != 1) {
-                    return false;
-                }
-
-                if (!choice.test(stack)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public RecipeChoice getChoice(int x, int y) {
-            var character = this.rows[y].charAt(x);
-            return this.ingredients.get(character);
-        }
-
-        public Item getDisplaySlot(int x, int y) {
-            return ItemButton.from(getChoice(x, y));
-        }
-    }
 
     public static final RecipeType<BlueprintWorkbenchRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("blueprint_workbench")) {
         @Override
@@ -242,125 +164,4 @@ public record BlueprintWorkbenchRecipe(
         return key;
     }
 
-    /**
-     * @param damageConsume
-     *   If true and item has durability -> damage
-     *   If true and item has no durability -> consume item
-     *   If false -> do nothing
-     */
-    public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<String> removeDisplays, List<DisplayData> addDisplays) {
-        public static final ConfigAdapter<Step> ADAPTER = new ConfigAdapter<>() {
-            @Override
-            public @NotNull Type getType() {
-                return Step.class;
-            }
-
-            @Override
-            public Step convert(@NotNull Object value) {
-                var map = MapConfigAdapter.STRING_TO_ANY.convert(value);
-                return new Step(
-                    ConfigAdapter.NAMESPACED_KEY.convert(map.get("tool")),
-                    ConfigAdapter.INT.convert(map.get("uses") != null ? map.get("uses") : 1),
-                    ConfigAdapter.BOOLEAN.convert(map.get("damage_consume") == Boolean.TRUE),
-                    ConfigAdapter.LIST.from(ConfigAdapter.STRING).convert(map.get("remove_displays") != null ? map.get("remove_displays") : Map.of()),
-                    ConfigAdapter.LIST.from(DisplayData.ADAPTER).convert(map.get("add_displays") != null ? map.get("add_displays") : Map.of())
-                );
-            }
-        };
-
-        public ItemStack asStack() {
-            return asStack(uses);
-        }
-
-        public ItemStack asStack(int times) {
-            ItemStack output;
-
-            TranslatableComponent lore = Component.translatable("pylon.pylonbase.guide.recipe.blueprint-workbench.used-times-lore")
-                .arguments(
-                    PylonArgument.of(
-                        "times",
-                        times
-                    )
-                );
-            if (tool.getNamespace().equals("minecraft")) {
-                output = ItemStackBuilder.of(Registry.MATERIAL.get(tool))
-                    .lore(lore)
-                    .build();
-            } else {
-                PylonItemSchema pis = PylonRegistry.ITEMS.get(tool);
-                output = ItemStackBuilder.of(pis.getItemStack())
-                    .lore(lore)
-                    .build();
-            }
-
-            return output;
-        }
-    }
-
-    /**
-     * Points to a specific step in a step array and the relative used amount
-     */
-    @Data
-    @AllArgsConstructor
-    public static class ActionStep {
-        private int step;
-        private int usedAmount;
-
-        public long toLong() {
-            return ((long) step << 32) | (usedAmount & 0xFFFFFFFFL);
-        }
-
-        public ActionStep(long packed) {
-            this.step = (int) (packed >> 32);
-            this.usedAmount = (int) packed;
-        }
-    }
-
-    public record DisplayData(
-        String name,
-        Material material,
-        double[] position,
-        double[] scale,
-        boolean mirrorX,
-        boolean mirrorZ
-    ) {
-        public static final ConfigAdapter<DisplayData> ADAPTER = new ConfigAdapter<>() {
-            @Override
-            public @NotNull Type getType() {
-                return DisplayData.class;
-            }
-
-            @Override
-            public DisplayData convert(@NotNull Object value) {
-                var map = MapConfigAdapter.STRING_TO_ANY.convert(value);
-
-                String name = ConfigAdapter.STRING.convert(map.get("name"));
-                if (name.contains("$")) throw new IllegalArgumentException("DisplayData's name shouldn't have '$' characters, as it is used internally");
-
-                Material material = ConfigAdapter.MATERIAL.convert(map.get("material"));
-
-                var doubleListAdapter = ConfigAdapter.LIST.from(ConfigAdapter.DOUBLE);
-                List<Double> positionList = doubleListAdapter.convert(map.get("position"));
-                List<Double> scaleList = doubleListAdapter.convert(map.get("scale"));
-
-                if (positionList.size() != 2) throw new IllegalArgumentException("DisplayData's position must be a 2 double list");
-                if (scaleList.size() != 2) throw new IllegalArgumentException("DisplayData's scale must be a 2 double list");
-
-                double[] position = new double[] {positionList.get(0), positionList.get(1)};
-                double[] scale = new double[] {scaleList.get(0), scaleList.get(1)};
-
-                boolean mirrorX = ConfigAdapter.BOOLEAN.convert(map.getOrDefault("mirror_x", false));
-                boolean mirrorZ = ConfigAdapter.BOOLEAN.convert(map.getOrDefault("mirror_z", false));
-
-                return new DisplayData(
-                    name,
-                    material,
-                    position,
-                    scale,
-                    mirrorX,
-                    mirrorZ
-                );
-            }
-        };
-    }
 }
