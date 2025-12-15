@@ -88,13 +88,11 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
     public AssemblyTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        byte[] craftingSerialized = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY);
-        this.craftInventory = VirtualInventory.deserialize(craftingSerialized);
+        this.craftInventory = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
         this.craftInventory.setPreUpdateHandler(this::cancelInput);
         this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
 
-        byte[] outputSerialized = pdc.get(OUTPUT_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY);
-        this.outputInventory = VirtualInventory.deserialize(outputSerialized);
+        this.outputInventory = pdc.get(OUTPUT_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
         this.outputInventory.setPreUpdateHandler(this::cancelOutput);
 
         this.stepDisplay.setPreUpdateHandler(this::cancelEverything);
@@ -113,11 +111,8 @@ public class AssemblyTable extends PylonBlock implements PylonEntityHolderBlock,
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        byte[] craftingSerialized = craftInventory.serialize();
-        byte[] outputSerialized = outputInventory.serialize();
-
-        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY, craftingSerialized);
-        pdc.set(OUTPUT_INVENTORY_KEY, PylonSerializers.BYTE_ARRAY, outputSerialized);
+        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, craftInventory);
+        pdc.set(OUTPUT_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, outputInventory);
         pdc.set(DISPLAY_KEY, PylonSerializers.BOOLEAN, displayPhase);
 
         PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe == null ? null : currentRecipe.getKey());
