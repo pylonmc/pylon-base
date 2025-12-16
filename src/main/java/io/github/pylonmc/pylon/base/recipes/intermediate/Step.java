@@ -111,10 +111,9 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
         }
 
         public void setVisibility(boolean visibility) {
-            /*
-            this.amountLeft.setVisibleByDefault(visibility);
-            this.itemToUse.setVisibleByDefault(visibility);
-            this.itemName.setVisibleByDefault(visibility);*/
+            this.amountLeft().setVisibleByDefault(visibility);
+            this.itemToUse().setVisibleByDefault(visibility);
+            this.itemName().setVisibleByDefault(visibility);
         }
 
         public void update(Step step, ActionStep current) {
@@ -126,7 +125,7 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
             setVisibility(true);
 
             ItemStack stack = step.asStack();
-            this.amountLeft().text(step.getUseTimes(step.uses - current.getStep()));
+            this.amountLeft().text(step.getUseTimes(step.uses - current.getUsedAmount()));
             this.itemToUse().setItemStack(stack);
             this.itemName().text(stack.getData(DataComponentTypes.ITEM_NAME));
         }
