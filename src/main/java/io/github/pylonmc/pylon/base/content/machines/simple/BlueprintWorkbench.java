@@ -253,7 +253,11 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
     public void completeRecipe() {
         this.displayPhase = false;
 
-        clearInventory(this.craftInventory);
+        for (int i = 0; i < 9; i++) {
+            ItemStack stack = this.craftInventory.getUnsafeItem(i);
+            if (stack != null) stack.subtract();
+        }
+
         updateInventory(this.outputInventory, currentRecipe.results());
 
         this.currentRecipe = null;
@@ -264,7 +268,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
     }
     //</editor-fold>
 
-    private void updateStep() {
+    public void updateStep() {
         updateStepItem();
         updateStepDisplay();
 
@@ -335,6 +339,8 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         if (this.displayPhase || event.isAdd() || event.isSwap()) {
             event.setCancelled(true);
         }
+
+        updateInputGrid();
     }
 
     private void cancelInput(@NotNull ItemPreUpdateEvent event) {
@@ -381,7 +387,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         }
     }
 
-    private void updateInputGrid() {
+    public void updateInputGrid() {
         this.offset = 1;
         this.currentRecipe = BlueprintWorkbenchRecipe.findRecipe(craftInventory.getItems(), offset);
         if (this.currentRecipe == null) {
