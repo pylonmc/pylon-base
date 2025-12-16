@@ -16,6 +16,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
@@ -35,11 +37,14 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
     protected T currentRecipe;
     protected Step.ActionStep currentProgress;
 
+    protected final Step.StateDisplay currentStateDisplay;
+
     public ProceduralCraftingTable(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         this.currentRecipe = null;
         this.currentProgress = null;
+        this.currentStateDisplay = Step.StateDisplay.init(this);
     }
 
     public ProceduralCraftingTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
@@ -50,6 +55,8 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
 
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
         this.currentProgress = currentStepLong == null ? null : new Step.ActionStep(currentStepLong);
+
+        this.currentStateDisplay = Step.StateDisplay.load(this);
     }
 
     protected abstract T deserializeRecipeKey(NamespacedKey key);
@@ -58,6 +65,25 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
     public void write(@NotNull PersistentDataContainer pdc) {
         PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe == null ? null : currentRecipe.getKey());
         PylonUtils.setNullable(pdc, CURRENT_PROGRESS_KEY, PylonSerializers.LONG, currentProgress == null ? null : currentProgress.toLong());
+    }
+
+    @Override
+    protected void postLoad() {
+        updateStep();
+    }
+
+    public abstract void updateStep();
+    public abstract void completeRecipe();
+
+    public boolean progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
+        Step.StepsHolder.Result result = this.currentRecipe.progressRecipe(currentProgress, getStep(), item, player, shouldDamage);
+
+        switch (result) {
+            case NEXT_STEP, NEXT_PROGRESS -> updateStep();
+            case COMPLETED_RECIPE -> completeRecipe();
+        }
+
+        return result.isSuccess();
     }
 
     protected static void clearInventory(VirtualInventory inventory) {

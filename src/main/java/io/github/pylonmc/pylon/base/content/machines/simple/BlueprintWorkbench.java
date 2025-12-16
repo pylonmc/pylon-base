@@ -9,8 +9,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -47,8 +45,6 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
 
     private int offset = 1;
 
-    private Step.StateDisplay currentStateDisplay = null;
-
     @SuppressWarnings("unused")
     public BlueprintWorkbench(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -62,8 +58,6 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         this.stepDisplay.setPreUpdateHandler(this::cancelEverything);
 
         this.displayPhase = false;
-
-        this.currentStateDisplay = Step.StateDisplay.init(this);
         updateStep();
     }
 
@@ -81,18 +75,11 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         this.stepDisplay.setPreUpdateHandler(this::cancelEverything);
 
         this.displayPhase = pdc.get(DISPLAY_KEY, PylonSerializers.BOOLEAN);
-
-        this.currentStateDisplay = Step.StateDisplay.load(this);
     }
 
     @Override
     protected BlueprintWorkbenchRecipe deserializeRecipeKey(NamespacedKey key) {
         return BlueprintWorkbenchRecipe.RECIPE_TYPE.getRecipe(key);
-    }
-
-    @Override
-    protected void postLoad() {
-        updateStep();
     }
 
     @Override
@@ -156,7 +143,6 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (this.currentStateDisplay == null) return;
         if (event.getHand() != EquipmentSlot.HAND) return;
 
         if (event.getAction().isRightClick()) {
@@ -179,18 +165,8 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     }
 
     //<editor-fold desc="Recipe handling">
-    public boolean progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
-        Step.StepsHolder.Result result = this.currentRecipe.progressRecipe(currentProgress, getStep(), item, player, shouldDamage);
 
-        switch (result) {
-            case NEXT_STEP, NEXT_PROGRESS -> updateStep();
-            case COMPLETED_RECIPE -> completeRecipe();
-
-        }
-
-        return result.isSuccess();
-    }
-
+    @Override
     public void completeRecipe() {
         this.displayPhase = false;
 
@@ -215,6 +191,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     }
     //</editor-fold>
 
+    @Override
     public void updateStep() {
         updateStepItem();
         updateRecipeEntities();
