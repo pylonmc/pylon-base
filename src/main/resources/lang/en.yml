@@ -469,9 +469,6 @@ item:
     name: "Blueprint Workbench"
     lore: |-
       <arrow> Smash stuff together hoping it works, jk, TODO
-    progress_recipe:
-      offset_changed: "Changed recipe offset [Useful in case some items have the same recipe]"
-      recipe_completed: "<green>Recipe completed correctly"
 
 
   grindstone:

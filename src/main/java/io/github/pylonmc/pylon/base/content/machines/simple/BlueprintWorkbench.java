@@ -167,7 +167,6 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         Player player = event.getPlayer();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         if (mainHand.isEmpty()) {
-            sendMessage(player, "progress_recipe.offset_changed");
             offset++; // left click changes selected recipe, if any
             updateInputGrid();
         } else {
@@ -185,10 +184,8 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
 
         switch (result) {
             case NEXT_STEP, NEXT_PROGRESS -> updateStep();
-            case COMPLETED_RECIPE -> {
-                sendMessage(player, "progress_recipe.recipe_completed");
-                completeRecipe();
-            }
+            case COMPLETED_RECIPE -> completeRecipe();
+
         }
 
         return result.isSuccess();
@@ -299,13 +296,4 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         updateStep();
     }
     //</editor-fold>
-
-    private TranslatableComponent getMessage(String key) {
-        String fullKey = "pylon." + getKey().getNamespace() + ".item." + getKey().getKey() + "." + key;
-        return Component.translatable(fullKey);
-    }
-
-    private void sendMessage(Player player, String key) {
-        player.sendMessage(getMessage(key));
-    }
 }
