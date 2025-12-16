@@ -113,12 +113,12 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
         this.currentProgress = currentStepLong == null ? null : new Step.ActionStep(currentStepLong);
-        updateStep();
+        this.currentStateDisplay = Step.StateDisplay.load(this);
     }
 
     @Override
     protected void postLoad() {
-        this.currentStateDisplay = Step.StateDisplay.load(this);
+        updateStep();
     }
 
     //todo: entities don't load properly

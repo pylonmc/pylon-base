@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -73,9 +74,20 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
 
             Location centerLocation = entityHolder.getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation().add(0, 1, 0);
 
-            entityHolder.addEntity("display$amount_left", new TextDisplayBuilder().build(centerLocation.clone().add(0, 0.3, 0)));
-            entityHolder.addEntity("display$item_to_use", new ItemDisplayBuilder().build(centerLocation.clone()));
-            entityHolder.addEntity("display$item_name", new TextDisplayBuilder().build(centerLocation.clone().add(0, -0.3, 0)));
+            entityHolder.addEntity("display$amount_left", new TextDisplayBuilder()
+                    .transformation(new TransformBuilder()
+                        .translate(0, 0, 0)
+                    ).build(centerLocation));
+            entityHolder.addEntity("display$item_to_use", new ItemDisplayBuilder()
+                    .transformation(new TransformBuilder()
+                        .translate(0, -0.3, 0)
+                        .scale(0.25)
+                        .rotate(0, Math.PI, 0) // no idea why but it spawns flipped
+                    ).build(centerLocation));
+            entityHolder.addEntity("display$item_name", new TextDisplayBuilder()
+                    .transformation(new TransformBuilder()
+                        .translate(0, -0.8, 0)
+                    ).build(centerLocation));
 
             display.setVisibility(false);
 
