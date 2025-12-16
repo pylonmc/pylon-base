@@ -338,6 +338,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
     private void cancelOutput(@NotNull ItemPreUpdateEvent event) {
         if (this.displayPhase || event.isAdd() || event.isSwap()) {
             event.setCancelled(true);
+            return;
         }
 
         updateInputGrid();
