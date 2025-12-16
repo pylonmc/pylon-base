@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -37,7 +38,10 @@ import xyz.xenondevs.invui.inventory.event.ItemPreUpdateEvent;
 import xyz.xenondevs.invui.inventory.event.UpdateReason;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -59,6 +63,8 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
     private Step.ActionStep currentProgress;
 
     private int offset = 1;
+
+    private Step.StateDisplay currentStateDisplay = null;
 
     public static class Item extends PylonItem {
         public Item(@NotNull ItemStack stack) {
@@ -82,6 +88,8 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
         this.currentRecipe = null;
         this.currentProgress = null;
+
+        this.currentStateDisplay = Step.StateDisplay.init(this);
         updateStep();
     }
 
@@ -106,6 +114,11 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
         this.currentProgress = currentStepLong == null ? null : new Step.ActionStep(currentStepLong);
         updateStep();
+    }
+
+    @Override
+    protected void postLoad() {
+        this.currentStateDisplay = Step.StateDisplay.load(this);
     }
 
     //todo: entities don't load properly
@@ -177,6 +190,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
+        if (this.currentStateDisplay == null) return;
         if (event.getHand() != EquipmentSlot.HAND) return;
 
         if (event.getAction().isRightClick()) {
@@ -184,7 +198,6 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             return;
         }
 
-        event.setCancelled(true);
         Player player = event.getPlayer();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         if (mainHand.isEmpty()) {
@@ -192,13 +205,16 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             offset++; // left click changes selected recipe, if any
             updateInputGrid();
         } else {
-            progressRecipe(mainHand, player, true);
+            boolean outcome = progressRecipe(mainHand, player, true);
+            if (outcome) {
+                event.setCancelled(true);
+            }
         }
     }
 
     //<editor-fold desc="Recipe handling">
-    public void progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
-        if (currentRecipe == null || currentProgress == null) return;
+    public boolean progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
+        if (currentRecipe == null || currentProgress == null) return false;
 
         PylonItem pylonItem = PylonItem.fromStack(item);
         NamespacedKey key = pylonItem != null ? pylonItem.getKey() : item.getType().getKey();
@@ -206,7 +222,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         Step current = this.getStep();
         if (!current.tool().equals(key)) {
             sendMessage(player, "progress_recipe.invalid_tool");
-            return;
+            return false;
         }
 
         if (shouldDamage && current.damageConsume()) {
@@ -230,6 +246,8 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             currentProgress.setUsedAmount(newUsedAmount);
             updateStep();
         }
+
+        return true;
     }
 
     public void completeRecipe() {
@@ -242,18 +260,24 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         this.currentProgress = null;
 
         updateStep();
-        removeAllEntities();
+        removeAddedEntities();
     }
     //</editor-fold>
 
     private void updateStep() {
         updateStepItem();
         updateStepDisplay();
+
+        if (currentRecipe != null) {
+            this.currentStateDisplay.update(getStep(), currentProgress);
+        } else {
+            this.currentStateDisplay.setVisibility(false);
+        }
     }
 
     private void updateStepDisplay() {
         if (currentRecipe == null || currentProgress == null) {
-            removeAllEntities();
+            removeAddedEntities();
             return;
         }
 
@@ -268,7 +292,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             double[] positions = data.position();
             double[] scale = data.scale();
 
-            addEntityIfMissing(name, new BlockDisplayBuilder()
+            addEntityIfMissing(name, () -> new BlockDisplayBuilder()
                 .material(data.material())
                 .transformation(new TransformBuilder()
                     .translate(positions[0], 0, positions[1])
@@ -278,7 +302,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             );
 
             if (data.mirrorX()) {
-                addEntityIfMissing(name + "$mirror_x", new BlockDisplayBuilder()
+                addEntityIfMissing(name + "$mirror_x", () -> new BlockDisplayBuilder()
                     .material(data.material())
                     .transformation(new TransformBuilder()
                         .translate(-positions[0], 0, positions[1])
@@ -289,7 +313,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             }
 
             if (data.mirrorZ()) {
-                addEntityIfMissing(name + "$mirror_z", new BlockDisplayBuilder()
+                addEntityIfMissing(name + "$mirror_z", () -> new BlockDisplayBuilder()
                     .material(data.material())
                     .transformation(new TransformBuilder()
                         .translate(positions[0], 0, -positions[1])
@@ -301,9 +325,9 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         });
     }
 
-    private void addEntityIfMissing(String name, Entity entity) {
+    private void addEntityIfMissing(String name, Supplier<Entity> entity) {
         if (getHeldEntityUuid(name) != null) return;
-        addEntity(name, entity);
+        addEntity(name, entity.get());
     }
 
     //<editor-fold desc="Inventory event handlers">
@@ -387,6 +411,19 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
     private void sendMessage(Player player, String key) {
         player.sendMessage(getMessage(key));
+    }
+
+    public void removeAddedEntities() {
+        ArrayList<UUID> entities = new ArrayList<>(getHeldEntities().size());
+        for (var entry : this.getHeldEntities().entrySet()) {
+            if (Step.StateDisplay.ENTITY_IDENTIFIERS.contains(entry.getKey())) continue;
+            entities.add(entry.getValue());
+        }
+
+        for (UUID entityId : entities) {
+            Entity entity = Bukkit.getEntity(entityId);
+            if (entity != null && entity.isValid()) entity.remove();
+        }
     }
 
 }

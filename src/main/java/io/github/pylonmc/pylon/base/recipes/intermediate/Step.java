@@ -1,23 +1,34 @@
 package io.github.pylonmc.pylon.base.recipes.intermediate;
 
+import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
+import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @param damageConsume
@@ -46,6 +57,69 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
         }
     };
 
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class StateDisplay {
+        private final PylonEntityHolderBlock entityHolder;
+        public static final Set<String> ENTITY_IDENTIFIERS = Set.of(
+            "display$amount_left",
+            "display$item_to_use",
+            "display$item_name"
+        );
+
+        public static StateDisplay init(PylonEntityHolderBlock entityHolder) {
+            StateDisplay display = new StateDisplay(entityHolder);
+
+
+            Location centerLocation = entityHolder.getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation().add(0, 1, 0);
+
+            entityHolder.addEntity("display$amount_left", new TextDisplayBuilder().build(centerLocation.clone().add(0, 0.3, 0)));
+            entityHolder.addEntity("display$item_to_use", new ItemDisplayBuilder().build(centerLocation.clone()));
+            entityHolder.addEntity("display$item_name", new TextDisplayBuilder().build(centerLocation.clone().add(0, -0.3, 0)));
+
+            display.setVisibility(false);
+
+            return display;
+        }
+
+        public static StateDisplay load(PylonEntityHolderBlock entityHolder) {
+            return new StateDisplay(entityHolder);
+        }
+
+        public TextDisplay amountLeft() {
+            return entityHolder.getHeldEntityOrThrow(TextDisplay.class, "display$amount_left");
+        }
+
+        public ItemDisplay itemToUse() {
+            return entityHolder.getHeldEntityOrThrow(ItemDisplay.class, "display$item_to_use");
+        }
+
+        public TextDisplay itemName() {
+            return entityHolder.getHeldEntityOrThrow(TextDisplay.class, "display$item_name");
+        }
+
+        public void setVisibility(boolean visibility) {
+            /*
+            this.amountLeft.setVisibleByDefault(visibility);
+            this.itemToUse.setVisibleByDefault(visibility);
+            this.itemName.setVisibleByDefault(visibility);*/
+        }
+
+        public void update(Step step, ActionStep current) {
+            if (step == null || current == null) {
+                setVisibility(false);
+                return;
+            }
+
+            setVisibility(true);
+
+            ItemStack stack = step.asStack();
+            this.amountLeft().text(step.getUseTimes(step.uses - current.getStep()));
+            this.itemToUse().setItemStack(stack);
+            this.itemName().text(stack.getData(DataComponentTypes.ITEM_NAME));
+        }
+    }
+
     public ItemStack asStack() {
         return asStack(uses);
     }
@@ -53,13 +127,7 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
     public ItemStack asStack(int times) {
         ItemStack output;
 
-        TranslatableComponent lore = Component.translatable("pylon.pylonbase.guide.recipe.blueprint-workbench.used-times-lore")
-            .arguments(
-                PylonArgument.of(
-                    "times",
-                    times
-                )
-            );
+        TranslatableComponent lore = getUseTimes(times);
         if (tool.getNamespace().equals("minecraft")) {
             output = ItemStackBuilder.of(Registry.MATERIAL.get(tool))
                 .lore(lore)
@@ -72,6 +140,17 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
         }
 
         return output;
+    }
+
+    public TranslatableComponent getUseTimes(int times) {
+        // todo: maybe generalize key to procedural-crafting as this will be reused for assembly table
+        return Component.translatable("pylon.pylonbase.guide.recipe.blueprint-workbench.used-times-lore")
+            .arguments(
+                PylonArgument.of(
+                    "times",
+                    times
+                )
+            );
     }
 
     /**
