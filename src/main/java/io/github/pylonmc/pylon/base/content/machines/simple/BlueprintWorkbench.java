@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
+import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.BlueprintWorkbenchRecipe;
 import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -205,6 +206,7 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
             offset++; // left click changes selected recipe, if any
             updateInputGrid();
         } else {
+            if (currentRecipe == null || currentProgress == null) return;
             boolean outcome = progressRecipe(mainHand, player, true);
             if (outcome) {
                 event.setCancelled(true);
@@ -214,40 +216,25 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
     //<editor-fold desc="Recipe handling">
     public boolean progressRecipe(@NotNull ItemStack item, Player player, boolean shouldDamage) {
-        if (currentRecipe == null || currentProgress == null) return false;
+        Step.StepsHolder.Result result = this.currentRecipe.progressRecipe(currentProgress, getStep(), item, player, shouldDamage);
 
-        PylonItem pylonItem = PylonItem.fromStack(item);
-        NamespacedKey key = pylonItem != null ? pylonItem.getKey() : item.getType().getKey();
-
-        Step current = this.getStep();
-        if (!current.tool().equals(key)) {
-            sendMessage(player, "progress_recipe.invalid_tool");
-            return false;
-        }
-
-        if (shouldDamage && current.damageConsume()) {
-            PylonUtils.damageItem(item, 1, player.getWorld());
-        }
-
-        int newUsedAmount = currentProgress.getUsedAmount() + 1;
-        int remainingAmount = current.uses() - newUsedAmount;
-        if (remainingAmount == 0) {
-            int newStep = currentProgress.getStep() + 1;
-            if (newStep < currentRecipe.steps().size()) {
+        switch (result) {
+            case INVALID_TOOL -> sendMessage(player, "progress_recipe.invalid_tool");
+            case NEXT_STEP -> {
                 sendMessage(player, "progress_recipe.next_step");
-                currentProgress.setStep(newStep);
                 updateStep();
-            } else {
+            }
+            case COMPLETED_RECIPE -> {
                 sendMessage(player, "progress_recipe.recipe_completed");
                 completeRecipe();
             }
-        } else {
-            sendMessage(player, "progress_recipe.added_progress");
-            currentProgress.setUsedAmount(newUsedAmount);
-            updateStep();
+            case NEXT_PROGRESS -> {
+                sendMessage(player, "progress_recipe.added_progress");
+                updateStep();
+            }
         }
 
-        return true;
+        return result.isSuccess();
     }
 
     public void completeRecipe() {

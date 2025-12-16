@@ -7,9 +7,11 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import org.bukkit.Registry;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -38,8 +41,13 @@ import java.util.Set;
  *   If true and item has no durability -> consume item
  *   If false -> do nothing
  */
-public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<String> removeDisplays,
-                   List<DisplayData> addDisplays) {
+public record Step(
+    NamespacedKey tool,
+    int uses,
+    boolean damageConsume,
+    List<String> removeDisplays,
+    List<DisplayData> addDisplays
+) {
     public static final ConfigAdapter<Step> ADAPTER = new ConfigAdapter<>() {
         @Override
         public @NotNull Type getType() {
@@ -181,6 +189,50 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
         public ActionStep(long packed) {
             this.step = (int) (packed >> 32);
             this.usedAmount = (int) packed;
+        }
+    }
+
+    public interface StepsHolder {
+
+        @Getter
+        @AllArgsConstructor
+        enum Result {
+            INVALID_TOOL(false),
+            NEXT_STEP(true),
+            NEXT_PROGRESS(true),
+            COMPLETED_RECIPE(true);
+
+            private final boolean success;
+        }
+
+        List<Step> steps();
+
+        default @NotNull Result progressRecipe(@NotNull ActionStep currentProgress, @NotNull Step currentStep, @NotNull ItemStack item, @NotNull Player player, boolean shouldDamage) {
+            PylonItem pylonItem = PylonItem.fromStack(item);
+            NamespacedKey key = pylonItem != null ? pylonItem.getKey() : item.getType().getKey();
+
+            if (!currentStep.tool().equals(key)) {
+                return Result.INVALID_TOOL;
+            }
+
+            if (shouldDamage && currentStep.damageConsume()) {
+                PylonUtils.damageItem(item, 1, player.getWorld());
+            }
+
+            int newUsedAmount = currentProgress.getUsedAmount() + 1;
+            int remainingAmount = currentStep.uses() - newUsedAmount;
+            if (remainingAmount == 0) {
+                int newStep = currentProgress.getStep() + 1;
+                if (newStep < this.steps().size()) {
+                    currentProgress.setStep(newStep);
+                    return Result.NEXT_STEP;
+                } else {
+                    return Result.COMPLETED_RECIPE;
+                }
+            } else {
+                currentProgress.setUsedAmount(newUsedAmount);
+                return Result.NEXT_PROGRESS;
+            }
         }
     }
 }

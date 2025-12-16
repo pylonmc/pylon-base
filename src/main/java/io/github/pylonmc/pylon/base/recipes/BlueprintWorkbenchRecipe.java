@@ -30,7 +30,7 @@ public record BlueprintWorkbenchRecipe(
     RecipeFormation recipe,
     List<ItemStack> results,
     List<Step> steps
-) implements PylonRecipe {
+) implements PylonRecipe, Step.StepsHolder {
 
     public static final RecipeType<BlueprintWorkbenchRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("blueprint_workbench")) {
         @Override
