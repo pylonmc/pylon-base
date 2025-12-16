@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
-import io.github.pylonmc.pylon.base.recipes.BlueprintWorkbenchRecipe;
 import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -8,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -28,11 +28,11 @@ import java.util.function.Supplier;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Getter
-public abstract class ProceduralCraftingTable extends PylonBlock implements PylonEntityHolderBlock {
+public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & PylonRecipe> extends PylonBlock implements PylonEntityHolderBlock {
     public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("blueprint_workbench_current_recipe");
     public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("blueprint_workbench_current_step");
 
-    protected BlueprintWorkbenchRecipe currentRecipe;
+    protected T currentRecipe;
     protected Step.ActionStep currentProgress;
 
     public ProceduralCraftingTable(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -46,11 +46,13 @@ public abstract class ProceduralCraftingTable extends PylonBlock implements Pylo
         super(block, pdc);
 
         NamespacedKey currentRecipeKey = pdc.get(CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
-        this.currentRecipe = currentRecipeKey == null ? null : BlueprintWorkbenchRecipe.RECIPE_TYPE.getRecipe(currentRecipeKey);
+        this.currentRecipe = currentRecipeKey == null ? null : deserializeRecipeKey(currentRecipeKey);
 
         Long currentStepLong = pdc.get(CURRENT_PROGRESS_KEY, PylonSerializers.LONG);
         this.currentProgress = currentStepLong == null ? null : new Step.ActionStep(currentStepLong);
     }
+
+    protected abstract T deserializeRecipeKey(NamespacedKey key);
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {

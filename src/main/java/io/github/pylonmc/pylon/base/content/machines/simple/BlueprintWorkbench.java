@@ -33,7 +33,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Getter
-public class BlueprintWorkbench extends ProceduralCraftingTable implements PylonBreakHandler, PylonInteractBlock {
+public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkbenchRecipe> implements PylonBreakHandler, PylonInteractBlock {
     public static final NamespacedKey CRAFTING_INVENTORY_KEY = baseKey("blueprint_workbench_crafting_inventory");
     public static final NamespacedKey OUTPUT_INVENTORY_KEY = baseKey("blueprint_workbench_output_inventory");
 
@@ -83,6 +83,11 @@ public class BlueprintWorkbench extends ProceduralCraftingTable implements Pylon
         this.displayPhase = pdc.get(DISPLAY_KEY, PylonSerializers.BOOLEAN);
 
         this.currentStateDisplay = Step.StateDisplay.load(this);
+    }
+
+    @Override
+    protected BlueprintWorkbenchRecipe deserializeRecipeKey(NamespacedKey key) {
+        return BlueprintWorkbenchRecipe.RECIPE_TYPE.getRecipe(key);
     }
 
     @Override
