@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -26,6 +27,7 @@ import java.util.function.Supplier;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
+@Getter
 public abstract class ProceduralCraftingTable extends PylonBlock implements PylonEntityHolderBlock {
     public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("blueprint_workbench_current_recipe");
     public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("blueprint_workbench_current_step");
