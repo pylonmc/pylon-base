@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.recipes;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.recipes.intermediate.RecipeFormation;
 import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
@@ -111,11 +112,12 @@ public record BlueprintWorkbenchRecipe(
         var gui = Gui.normal()
             .setStructure(
                 "# # # # # # # # #",
-                "# 0 3 6 # a d g #",
+                "# 0 3 6 r a d g #",
                 "# 1 4 7 $ b e h #",
                 "# 2 5 8 # c f i #",
                 "# # # # # # # # #"
             )
+            .addIngredient('r', BaseItems.BLUEPRINT_WORKBENCH)
             .addIngredient('#', GuiItems.backgroundBlack())
             .addIngredient('$', this.getItemStep())
             .build();

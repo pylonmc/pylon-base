@@ -31,9 +31,11 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Getter
 public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & PylonRecipe> extends PylonBlock implements PylonEntityHolderBlock {
-    public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("blueprint_workbench_current_recipe");
-    public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("blueprint_workbench_current_step");
+    public static final NamespacedKey CRAFTING_INVENTORY_KEY = baseKey("procedural_crafting_crafting_inventory");
+    public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("procedural_crafting_current_recipe");
+    public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("procedural_crafting_current_step");
 
+    protected final VirtualInventory craftInventory;
     protected T currentRecipe;
     protected Step.ActionStep currentProgress;
 
@@ -42,6 +44,8 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
     public ProceduralCraftingTable(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        this.craftInventory = new VirtualInventory(9);
+
         this.currentRecipe = null;
         this.currentProgress = null;
         this.currentStateDisplay = Step.StateDisplay.init(this);
@@ -49,6 +53,8 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
 
     public ProceduralCraftingTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+
+        this.craftInventory = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
 
         NamespacedKey currentRecipeKey = pdc.get(CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
         this.currentRecipe = currentRecipeKey == null ? null : deserializeRecipeKey(currentRecipeKey);
@@ -63,6 +69,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
+        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, craftInventory);
         PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe == null ? null : currentRecipe.getKey());
         PylonUtils.setNullable(pdc, CURRENT_PROGRESS_KEY, PylonSerializers.LONG, currentProgress == null ? null : currentProgress.toLong());
     }
@@ -104,7 +111,6 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
             if (entity != null && entity.isValid()) entity.remove();
         }
     }
-
 
     protected void updateRecipeEntities() {
         if (currentRecipe == null || currentProgress == null) {

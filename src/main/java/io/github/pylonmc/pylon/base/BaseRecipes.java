@@ -25,6 +25,7 @@ public class BaseRecipes {
         PitKilnRecipe.RECIPE_TYPE.register();
         StrainingRecipe.RECIPE_TYPE.register();
         TableSawRecipe.RECIPE_TYPE.register();
+        AssemblyTableRecipe.RECIPE_TYPE.register();
         BlueprintWorkbenchRecipe.RECIPE_TYPE.register();
     }
 }

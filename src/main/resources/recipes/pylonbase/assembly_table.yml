@@ -1,0 +1,38 @@
+pylonbase:iron_screw:
+  ingredients:
+    - pylonbase:iron_sheet: 4
+  results:
+    - minecraft:stick: 8
+  steps:
+    - tool: minecraft:clock
+      add_displays:
+        - name: "base"
+          material: light_gray_concrete
+          position: [0, 0]
+          scale: [1.0, 1.0]
+    - tool: minecraft:iron_axe
+      uses: 7
+      remove_displays: ["base"]
+      add_displays:
+        - name: "screw1"
+          material: light_gray_concrete
+          position: [0.1, 0]
+          scale: [0.08, 0.1]
+          mirror_x: true
+        - name: "screw2"
+          material: light_gray_concrete
+          position: [0.2, 0]
+          scale: [0.08, 0.1]
+          mirror_x: true
+        - name: "screw3"
+          material: light_gray_concrete
+          position: [0.3, 0]
+          scale: [0.08, 0.1]
+          mirror_x: true
+        - name: "screw4"
+          material: light_gray_concrete
+          position: [0.4, 0]
+          scale: [0.08, 0.1]
+          mirror_x: true
+    - tool: pylonbase:iron_hammer
+      uses: 8

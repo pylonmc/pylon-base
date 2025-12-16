@@ -32,12 +32,10 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 @Getter
 public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkbenchRecipe> implements PylonBreakHandler, PylonInteractBlock {
-    public static final NamespacedKey CRAFTING_INVENTORY_KEY = baseKey("blueprint_workbench_crafting_inventory");
     public static final NamespacedKey OUTPUT_INVENTORY_KEY = baseKey("blueprint_workbench_output_inventory");
 
     public static final NamespacedKey DISPLAY_KEY = baseKey("blueprint_workbench_display");
 
-    private final VirtualInventory craftInventory;
     private final VirtualInventory outputInventory;
     private final VirtualInventory stepDisplay = new VirtualInventory(1);
 
@@ -48,7 +46,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     @SuppressWarnings("unused")
     public BlueprintWorkbench(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        this.craftInventory = new VirtualInventory(9);
+
         this.craftInventory.setPreUpdateHandler(this::cancelInput);
         this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
 
@@ -65,7 +63,6 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     public BlueprintWorkbench(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        this.craftInventory = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
         this.craftInventory.setPreUpdateHandler(this::cancelInput);
         this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
 
@@ -85,7 +82,6 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
-        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, craftInventory);
         pdc.set(OUTPUT_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, outputInventory);
         pdc.set(DISPLAY_KEY, PylonSerializers.BOOLEAN, displayPhase);
     }
