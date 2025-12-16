@@ -154,7 +154,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         if (mainHand.isEmpty()) {
             offset++; // left click changes selected recipe, if any
-            updateInputGrid();
+            updateInputGrid(true);
         } else {
             if (currentRecipe == null || currentProgress == null) return;
             boolean outcome = progressRecipe(mainHand, player, true);
@@ -210,7 +210,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
             return;
         }
 
-        updateInputGrid();
+        updateInputGrid(true);
     }
 
     private void cancelInput(@NotNull ItemPreUpdateEvent event) {
@@ -227,7 +227,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     }
 
     private void updateInputGrid(@NotNull ItemPostUpdateEvent event) {
-        updateInputGrid();
+        updateInputGrid(false);
     }
     //</editor-fold>
 
@@ -257,8 +257,10 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         }
     }
 
-    public void updateInputGrid() {
-        this.offset = 1;
+    public void updateInputGrid(boolean preserveOffset) {
+        if (!preserveOffset) {
+            this.offset = 1;
+        }
         this.currentRecipe = BlueprintWorkbenchRecipe.findRecipe(craftInventory.getItems(), offset);
         if (this.currentRecipe == null) {
             this.displayPhase = false;
