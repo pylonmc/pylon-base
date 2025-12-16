@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
@@ -29,6 +30,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.item.Item;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -233,6 +235,14 @@ public record Step(
                 currentProgress.setUsedAmount(newUsedAmount);
                 return Result.NEXT_PROGRESS;
             }
+        }
+
+        default Item getItemStep() {
+            return new ItemButton(
+                steps().stream()
+                    .map(Step::asStack)
+                    .toArray(ItemStack[]::new)
+            );
         }
     }
 }
