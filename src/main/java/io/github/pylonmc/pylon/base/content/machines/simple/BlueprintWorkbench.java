@@ -255,7 +255,13 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
         for (int i = 0; i < 9; i++) {
             ItemStack stack = this.craftInventory.getUnsafeItem(i);
-            if (stack != null) stack.subtract();
+            if (stack != null) {
+                stack.subtract();
+                // invui bug? I am not sure
+                if (stack.getAmount() == 0) {
+                    this.craftInventory.setItem(UpdateReason.SUPPRESSED, i, null);
+                }
+            }
         }
 
         updateInventory(this.outputInventory, currentRecipe.results());
