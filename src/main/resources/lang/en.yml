@@ -471,9 +471,6 @@ item:
       <arrow> Smash stuff together hoping it works, jk, TODO
     progress_recipe:
       offset_changed: "Changed recipe offset [Useful in case some items have the same recipe]"
-      invalid_tool: "<red>Invalid tool, check required item in the blueprint workbench"
-      added_progress: "<green>Progress added"
-      next_step: "<green>This item progress completed, proceed to the next item"
       recipe_completed: "<green>Recipe completed correctly"
 
 

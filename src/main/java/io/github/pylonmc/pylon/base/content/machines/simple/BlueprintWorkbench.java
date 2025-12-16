@@ -184,18 +184,10 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         Step.StepsHolder.Result result = this.currentRecipe.progressRecipe(currentProgress, getStep(), item, player, shouldDamage);
 
         switch (result) {
-            case INVALID_TOOL -> sendMessage(player, "progress_recipe.invalid_tool");
-            case NEXT_STEP -> {
-                sendMessage(player, "progress_recipe.next_step");
-                updateStep();
-            }
+            case NEXT_STEP, NEXT_PROGRESS -> updateStep();
             case COMPLETED_RECIPE -> {
                 sendMessage(player, "progress_recipe.recipe_completed");
                 completeRecipe();
-            }
-            case NEXT_PROGRESS -> {
-                sendMessage(player, "progress_recipe.added_progress");
-                updateStep();
             }
         }
 
