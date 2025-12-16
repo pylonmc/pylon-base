@@ -48,11 +48,12 @@ public class RecipeFormation {
 
         for (int i = 0; i < 9; i++) {
             RecipeChoice choice = grid[i];
-            if (choice == null) continue;
             ItemStack stack = array[i];
-            if (stack == null) stack = ItemStack.empty();
 
-            if (!choice.test(stack)) {
+            if (stack == null) stack = ItemStack.empty();
+            if (choice == null && stack.isEmpty()) continue;
+
+            if (choice == null || !choice.test(stack)) {
                 return false;
             }
         }
