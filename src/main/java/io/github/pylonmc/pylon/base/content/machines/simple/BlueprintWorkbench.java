@@ -67,12 +67,6 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
 
     private Step.StateDisplay currentStateDisplay = null;
 
-    public static class Item extends PylonItem {
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-    }
-
     @SuppressWarnings("unused")
     public BlueprintWorkbench(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
