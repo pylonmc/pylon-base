@@ -116,8 +116,6 @@ public class BlueprintWorkbench extends PylonBlock implements PylonEntityHolderB
         updateStep();
     }
 
-    //todo: entities don't load properly
-
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, craftInventory);
