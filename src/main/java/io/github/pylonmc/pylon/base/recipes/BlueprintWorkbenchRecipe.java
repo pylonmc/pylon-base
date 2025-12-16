@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.recipes;
 
-import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.recipes.intermediate.RecipeFormation;
 import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
@@ -17,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +117,6 @@ public record BlueprintWorkbenchRecipe(
                 "# # # # # # # # #"
             )
             .addIngredient('#', GuiItems.backgroundBlack())
-            .addIngredient('p', BaseItems.PIT_KILN)
             .addIngredient('$', this.getItemStep())
             .build();
 
@@ -149,14 +146,6 @@ public record BlueprintWorkbenchRecipe(
         }
 
         return gui;
-    }
-
-    public Item getItemStep() {
-        return new ItemButton(
-            steps.stream()
-                .map(Step::asStack)
-                .toArray(ItemStack[]::new)
-        );
     }
 
     @Override
