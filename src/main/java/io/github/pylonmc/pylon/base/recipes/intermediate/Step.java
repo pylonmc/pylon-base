@@ -21,6 +21,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
@@ -77,17 +78,17 @@ public record Step(NamespacedKey tool, int uses, boolean damageConsume, List<Str
             entityHolder.addEntity("display$amount_left", new TextDisplayBuilder()
                     .transformation(new TransformBuilder()
                         .translate(0, 0, 0)
-                    ).build(centerLocation));
+                    ).billboard(Display.Billboard.VERTICAL).build(centerLocation));
             entityHolder.addEntity("display$item_to_use", new ItemDisplayBuilder()
                     .transformation(new TransformBuilder()
                         .translate(0, -0.3, 0)
                         .scale(0.25)
                         .rotate(0, Math.PI, 0) // no idea why but it spawns flipped
-                    ).build(centerLocation));
+                    ).billboard(Display.Billboard.VERTICAL).build(centerLocation));
             entityHolder.addEntity("display$item_name", new TextDisplayBuilder()
                     .transformation(new TransformBuilder()
                         .translate(0, -0.8, 0)
-                    ).build(centerLocation));
+                    ).billboard(Display.Billboard.VERTICAL).build(centerLocation));
 
             display.setVisibility(false);
 
