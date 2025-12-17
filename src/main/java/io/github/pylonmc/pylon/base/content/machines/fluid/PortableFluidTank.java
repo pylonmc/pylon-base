@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -280,10 +279,5 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
                 }, 0);
             }
         }
-    }
-
-    @Override
-    public @Nullable BlockFace getFacing() {
-        return null;
     }
 }
