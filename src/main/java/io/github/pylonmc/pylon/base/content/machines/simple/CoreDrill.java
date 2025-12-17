@@ -60,9 +60,9 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
     protected CoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         if (context instanceof BlockCreateContext.PlayerPlace playerPlace) {
-            setFacing(TransformUtil.yawToFace(playerPlace.getPlayer().getYaw()));
+            setDirection(TransformUtil.yawToFace(playerPlace.getPlayer().getYaw()));
         } else {
-            setFacing(BlockFace.NORTH);
+            setDirection(BlockFace.NORTH);
         }
         addEntity("drill", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(drillMaterial)

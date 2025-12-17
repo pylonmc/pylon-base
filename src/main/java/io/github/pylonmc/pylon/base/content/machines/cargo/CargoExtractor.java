@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PylonCargoConnectEvent;
@@ -20,7 +19,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -30,15 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
 
 public class CargoExtractor extends PylonBlock
         implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
-
-    private static final NamespacedKey FACING_KEY = baseKey("facing");
-
-    private final BlockFace facing;
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -80,10 +72,10 @@ public class CargoExtractor extends PylonBlock
         }
 
         // TODO add a util function for this because ffs really
-        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace();
+        setFacing(PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace());
 
-        addCargoLogisticGroup(facing.getOppositeFace(), "output");
-        for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
+        addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
+        for (BlockFace face : PylonUtils.perpendicularImmediateFaces(getFacing())) {
             addCargoLogisticGroup(face, "output");
         }
         setCargoTransferRate(transferRate);
@@ -91,7 +83,7 @@ public class CargoExtractor extends PylonBlock
         addEntity("main", new ItemDisplayBuilder()
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0, 0, 0.4)
                         .scale(0.65, 0.65, 0.2)
                 )
@@ -101,7 +93,7 @@ public class CargoExtractor extends PylonBlock
         addEntity("output", new ItemDisplayBuilder()
                 .itemStack(outputStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0, 0, 0.3)
                         .scale(0.4, 0.4, 0.05)
                 )
@@ -111,7 +103,7 @@ public class CargoExtractor extends PylonBlock
         addEntity("duct", new ItemDisplayBuilder()
                 .itemStack(ductStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0, 0, 0.0625)
                         .scale(0.35, 0.35, 0.475)
                 )
@@ -122,13 +114,6 @@ public class CargoExtractor extends PylonBlock
     @SuppressWarnings("unused")
     public CargoExtractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-
-        facing = pdc.get(FACING_KEY, PylonSerializers.BLOCK_FACE);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(FACING_KEY, PylonSerializers.BLOCK_FACE, facing);
     }
 
     @Override
@@ -148,11 +133,6 @@ public class CargoExtractor extends PylonBlock
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         return new BlockPosition(otherBlock)
                 .equals(new BlockPosition(getTarget()));
-    }
-
-    @Override
-    public @Nullable BlockFace getFacing() {
-        return facing;
     }
 
     @Override
@@ -177,8 +157,8 @@ public class CargoExtractor extends PylonBlock
     @Override
     public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
-        List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(facing);
-        faces.add(facing.getOppositeFace());
+        List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(getFacing());
+        faces.add(getFacing().getOppositeFace());
         for (BlockFace face : faces) {
             addCargoLogisticGroup(face, "output");
         }
@@ -190,7 +170,7 @@ public class CargoExtractor extends PylonBlock
     }
 
     public @NotNull Block getTarget() {
-        return getBlock().getRelative(facing);
+        return getBlock().getRelative(getFacing());
     }
 
     public @Nullable PylonLogisticBlock getTargetLogisticBlock() {
