@@ -147,7 +147,7 @@ public class DieselTableSaw extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isProcessingRecipe() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerSecond * tickInterval / 20) {
             return;
         }

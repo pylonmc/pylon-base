@@ -105,19 +105,19 @@ public class FluidValve extends PylonBlock implements PylonFluidTank, PylonInter
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         if (!enabled) {
             return 0.0;
         }
-        return PylonFluidTank.super.fluidAmountRequested(fluid, deltaSeconds);
+        return PylonFluidTank.super.fluidAmountRequested(fluid);
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
         if (!enabled) {
             return Map.of();
         }
-        return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
+        return PylonFluidTank.super.getSuppliedFluids();
     }
 
     @Override

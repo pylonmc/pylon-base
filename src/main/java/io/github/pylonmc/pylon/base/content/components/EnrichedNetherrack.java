@@ -28,7 +28,7 @@ public final class EnrichedNetherrack extends PylonBlock implements PylonTicking
         super(block, pdc);
     }
 
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (getBlock().getRelative(BlockFace.UP).getType() == Material.FIRE) {
             new ParticleBuilder(Particle.LAVA)
                     .location(getBlock().getLocation().toCenterLocation())

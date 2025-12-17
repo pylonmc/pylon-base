@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -30,7 +31,7 @@ import org.joml.Matrix4f;
 
 import java.util.List;
 
-public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultiblock, PylonProcessor {
+public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultiblock, PylonDirectionalBlock, PylonProcessor {
 
     public static class Item extends PylonItem {
 
@@ -60,10 +61,11 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
     protected CoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         if (context instanceof BlockCreateContext.PlayerPlace playerPlace) {
-            setDirection(TransformUtil.yawToFace(playerPlace.getPlayer().getYaw()));
+            setFacing(TransformUtil.yawToFace(playerPlace.getPlayer().getYaw()));
         } else {
-            setDirection(BlockFace.NORTH);
+            setFacing(BlockFace.NORTH);
         }
+        setMultiblockDirection(getFacing());
         addEntity("drill", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(drillMaterial)
                         .addCustomModelDataString(getKey() + ":drill")

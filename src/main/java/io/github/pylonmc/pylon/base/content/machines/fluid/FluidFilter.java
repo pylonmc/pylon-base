@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -134,7 +133,7 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         if (fluid != this.fluid) {
             return 0.0;
         }
@@ -145,10 +144,12 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
         VirtualFluidPoint input = getFluidPointDisplayOrThrow(FluidPointType.INPUT).getPoint();
         double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
         double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
-        return Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond)
-                * PylonConfig.getFluidTickInterval()
-                * deltaSeconds
-                - getFluidAmount()
+        return Math.max(
+                0.0,
+                Math.min(
+                        outputFluidPerSecond,
+                        inputFluidPerSecond
+                ) * PylonConfig.fluidTickInterval / 20 - getFluidAmount()
         );
     }
 

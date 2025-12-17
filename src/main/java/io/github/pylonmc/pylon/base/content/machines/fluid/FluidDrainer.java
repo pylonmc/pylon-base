@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -73,7 +72,7 @@ public class FluidDrainer extends PylonBlock implements PylonFluidBufferBlock, P
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (fluidSpaceRemaining(fluid) >= 1000.0
                 && drainBlock.getType() == material
                 && drainBlock.getBlockData() instanceof Levelled levelled

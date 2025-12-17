@@ -122,12 +122,12 @@ public class HydraulicMixingAttachment extends PylonBlock implements PylonMultib
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             return;
         }
 
-        cooldownTimeRemaining = Math.max(0, cooldownTimeRemaining - deltaSeconds);
+        cooldownTimeRemaining = Math.max(0, cooldownTimeRemaining - getTickInterval() / 20.0);
 
         if (cooldownTimeRemaining > 1.0e-5) {
             return;

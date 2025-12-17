@@ -134,7 +134,7 @@ public class CoalFiredPurificationTower extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             return;
         }
@@ -185,11 +185,6 @@ public class CoalFiredPurificationTower extends PylonBlock
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
                 // output buffer not full
                 && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) > 1.0e-3;
-    }
-
-    @Override
-    public @Nullable BlockFace getFacing() {
-        return PylonFluidBufferBlock.super.getFacing();
     }
 
     @Override

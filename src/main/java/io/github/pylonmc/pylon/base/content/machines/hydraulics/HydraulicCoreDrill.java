@@ -100,7 +100,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded() || isProcessing()) {
             return;
         }

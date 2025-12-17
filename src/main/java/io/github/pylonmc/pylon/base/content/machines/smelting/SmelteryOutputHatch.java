@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -29,14 +30,14 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
         SmelteryController controller = getController();
         if (controller == null) return Map.of();
 
         Pair<PylonFluid, Double> supplied = controller.getBottomFluid();
         return supplied == null
                 ? Map.of()
-                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * deltaSeconds));
+                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * PylonConfig.fluidTickInterval/ 20.0));
     }
 
     @Override

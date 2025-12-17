@@ -26,7 +26,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -105,7 +104,7 @@ public class HydraulicFarmer extends PylonBlock
 
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
@@ -268,10 +267,5 @@ public class HydraulicFarmer extends PylonBlock
             }
         }
         return stacks;
-    }
-
-    @Override
-    public @Nullable BlockFace getFacing() {
-        return PylonFluidBufferBlock.super.getFacing();
     }
 }

@@ -513,7 +513,7 @@ public final class SmelteryController extends SmelteryComponent
     }
     // </editor-fold>
 
-    private void performRecipes(double deltaSeconds) {
+    private void performRecipes() {
         if (fluids.isEmpty()) return;
         recipeLoop:
         for (SmelteryRecipe recipe : SmelteryRecipe.RECIPE_TYPE) {
@@ -524,7 +524,7 @@ public final class SmelteryController extends SmelteryComponent
             }
 
             double highestFluidAmount = getFluidAmount(recipe.getHighestFluid());
-            double consumptionRatio = highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND);
+            double consumptionRatio = highestFluidAmount / (FLUID_REACTION_PER_SECOND * getTickInterval() / 20.0);
             double currentTemperature = temperature;
             for (var entry : recipe.getFluidInputs().entrySet()) {
                 PylonFluid fluid = entry.getKey();
@@ -541,13 +541,13 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        cumulativeSeconds += deltaSeconds;
+    public void tick() {
+        cumulativeSeconds += getTickInterval() / 20.0;
         if (isFormedAndFullyLoaded()) {
             if (running) {
-                performRecipes(deltaSeconds);
+                performRecipes();
             }
-            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * deltaSeconds;
+            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * getTickInterval() / 20.0;
             heaters = 0;
             updateFluidDisplay();
         }

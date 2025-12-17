@@ -5,11 +5,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -44,8 +40,13 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import java.util.List;
 
 
-public class DieselPress extends PylonBlock
-        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<PressRecipe> {
+public class DieselPress extends PylonBlock implements
+        PylonGuiBlock,
+        PylonDirectionalBlock,
+        PylonFluidBufferBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonRecipeProcessor<PressRecipe> {
 
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
@@ -89,11 +90,10 @@ public class DieselPress extends PylonBlock
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.55F);
-        BlockFace facing;
         if (context instanceof BlockCreateContext.PlayerPlace playerPlaceContext) {
-            facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false);
+            setFacing(PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false));
         } else {
-            facing = BlockFace.NORTH;
+            setFacing(BlockFace.NORTH);
         }
         addEntity("chimney", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
@@ -101,7 +101,7 @@ public class DieselPress extends PylonBlock
                         .build()
                 )
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0.37499, -0.15, 0.0)
                         .scale(0.15, 1.7, 0.15))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
@@ -157,7 +157,7 @@ public class DieselPress extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isProcessingRecipe() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerSecond * tickInterval / 20) {
             return;
         }

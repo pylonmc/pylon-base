@@ -51,7 +51,7 @@ public class CreativeFluidSource extends PylonBlock implements PylonFluidBlock, 
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
         return fluid == null ? Map.of() : Map.of(fluid, 1.0e9);
     }
 

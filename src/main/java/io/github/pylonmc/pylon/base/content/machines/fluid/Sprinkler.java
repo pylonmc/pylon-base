@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
@@ -73,10 +74,10 @@ public class Sprinkler extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * deltaSeconds) {
+    public void tick() {
+        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * PylonConfig.fluidTickInterval) {
             WateringCan.water(getBlock(), SETTINGS);
-            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * deltaSeconds);
+            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * PylonConfig.fluidTickInterval);
         }
     }
 

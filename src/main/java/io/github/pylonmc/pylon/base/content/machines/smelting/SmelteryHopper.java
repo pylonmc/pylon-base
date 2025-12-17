@@ -47,7 +47,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null) return;
         Hopper hopper = (Hopper) getBlock().getState(false);

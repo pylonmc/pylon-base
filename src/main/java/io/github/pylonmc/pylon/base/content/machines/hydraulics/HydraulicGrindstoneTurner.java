@@ -80,7 +80,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock implements PylonMultib
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             return;
         }

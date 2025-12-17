@@ -95,7 +95,7 @@ public class HydraulicPressPiston extends PylonBlock implements PylonMultiblock,
         return otherBlock == getBlock().getRelative(BlockFace.DOWN, 2);
     }
 
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             return;
         }

@@ -121,7 +121,7 @@ public class HydraulicTableSaw extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         progressRecipe(TICK_INTERVAL);
 
         if (isProcessingRecipe()) {

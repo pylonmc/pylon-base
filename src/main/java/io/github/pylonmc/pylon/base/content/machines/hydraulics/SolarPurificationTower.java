@@ -17,7 +17,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -91,7 +90,7 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded() || !getBlock().getWorld().isDayTime()) {
             return;
         }
@@ -99,7 +98,7 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
         double multiplier = getBlock().getWorld().isClearWeather() ? 1.0 : rainSpeedFraction;
         double toPurify = Math.min(
                 // maximum amount of dirty hydraulic fluid that can be purified this tick
-                deltaSeconds * purificationSpeed * multiplier,
+                purificationSpeed * multiplier * getTickInterval() / 20.0,
                 Math.min(
                         // amount of dirty hydraulic fluid available
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
@@ -110,10 +109,5 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
 
         removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
         addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * purificationEfficiency);
-    }
-
-    @Override
-    public @Nullable BlockFace getFacing() {
-        return PylonFluidBufferBlock.super.getFacing();
     }
 }

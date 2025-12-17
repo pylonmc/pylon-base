@@ -101,7 +101,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null || !controller.isRunning()) {
             return;
@@ -110,7 +110,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         progressProcess(getTickInterval());
 
         if (fuel != null) {
-            controller.heatAsymptotically(deltaSeconds, fuel.temperature);
+            controller.heatAsymptotically(getTickInterval() / 20.0, fuel.temperature);
             return;
         }
 

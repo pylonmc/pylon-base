@@ -77,14 +77,14 @@ public class FluidStrainer extends PylonBlock implements PylonFluidBlock, PylonT
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
         return currentRecipe == null ?
                 Map.of() :
                 Map.of(currentRecipe.outputFluid(), buffer);
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         if (StrainingRecipe.RECIPE_TYPE.stream().anyMatch(recipe -> recipe.input().contains(fluid))) {
             return bufferSize - buffer;
         } else {
@@ -151,7 +151,7 @@ public class FluidStrainer extends PylonBlock implements PylonFluidBlock, PylonT
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (currentRecipe != null && passedFluid >= currentRecipe.input().amountMillibuckets()) {
             inventory.addItem(null, currentRecipe.outputItem().clone());
             passedFluid -= currentRecipe.input().amountMillibuckets();

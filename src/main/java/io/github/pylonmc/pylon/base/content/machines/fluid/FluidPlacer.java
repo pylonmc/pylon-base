@@ -74,7 +74,7 @@ public class FluidPlacer extends PylonBlock implements PylonFluidBufferBlock, Py
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (fluidAmount(fluid) >= 1000.0 && placeBlock.getType().isAir()) {
             removeFluid(fluid, 1000.0);
             if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {

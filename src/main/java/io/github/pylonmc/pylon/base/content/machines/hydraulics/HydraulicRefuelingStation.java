@@ -130,7 +130,7 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
             return Map.of();
@@ -139,7 +139,7 @@ public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidB
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         if (!fluid.equals(BaseFluids.HYDRAULIC_FLUID)) {
             return 0.0;
         }

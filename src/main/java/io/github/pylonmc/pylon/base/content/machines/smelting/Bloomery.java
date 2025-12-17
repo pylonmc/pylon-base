@@ -98,7 +98,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack stack = itemDisplay.getItemStack();
         if (stack.getType().isAir()) return;

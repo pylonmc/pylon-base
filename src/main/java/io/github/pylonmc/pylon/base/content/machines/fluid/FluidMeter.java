@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -56,8 +57,8 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / deltaSeconds)).asComponent();
+    public void tick() {
+        Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / (20 * PylonConfig.fluidTickInterval))).asComponent();
 
         TextDisplay northDisplay = getHeldEntity(TextDisplay.class, "flow_rate_north");
         if (northDisplay != null) {

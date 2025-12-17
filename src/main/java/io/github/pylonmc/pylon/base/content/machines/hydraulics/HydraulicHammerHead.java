@@ -144,8 +144,8 @@ public class HydraulicHammerHead extends PylonBlock implements PylonTickingBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        cooldown = Math.max(0, cooldown - deltaSeconds);
+    public void tick() {
+        cooldown = Math.max(0, cooldown - getTickInterval());
 
         if (cooldown > 1.0e-5 || hammer == null) {
             return;
