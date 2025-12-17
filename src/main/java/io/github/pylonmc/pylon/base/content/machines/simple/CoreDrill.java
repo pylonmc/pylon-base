@@ -121,7 +121,7 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
                                     .subtract(0, 0.3, 0)
                             )
                             .spawn();
-                    progressProcess(rotationDuration);
+                    progressProcess(rotationDuration / 4);
                 }, (long) ((i + j/4.0) * rotationDuration));
             }
         }
