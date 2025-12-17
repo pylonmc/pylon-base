@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.base.recipes.StrainingRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
@@ -34,7 +33,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidStrainer extends PylonBlock implements PylonCopperInteractBlock, PylonFluidBlock, PylonTickingBlock, PylonGuiBlock {
+public class FluidStrainer extends PylonBlock implements PylonFluidBlock, PylonTickingBlock, PylonGuiBlock {
 
     public final double bufferSize = getSettings().getOrThrow("buffer-size", ConfigAdapter.DOUBLE);
 
@@ -168,11 +167,5 @@ public class FluidStrainer extends PylonBlock implements PylonCopperInteractBloc
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonFluidBlock.super.onBreak(drops, context);
         PylonGuiBlock.super.onBreak(drops, context);
-    }
-
-    @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        PylonCopperInteractBlock.super.onInteract(event);
-        PylonGuiBlock.super.onInteract(event);
     }
 }

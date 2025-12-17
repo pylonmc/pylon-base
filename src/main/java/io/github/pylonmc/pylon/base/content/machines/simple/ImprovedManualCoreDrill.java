@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.common.PylonCopperInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +11,7 @@ import org.joml.Vector3i;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ImprovedManualCoreDrill extends ManualCoreDrill implements PylonCopperInteractBlock {
+public class ImprovedManualCoreDrill extends ManualCoreDrill {
 
     @SuppressWarnings("unused")
     public ImprovedManualCoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
