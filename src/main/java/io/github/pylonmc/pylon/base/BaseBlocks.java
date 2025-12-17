@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.base.content.building.Elevator;
 import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
-import io.github.pylonmc.pylon.base.content.components.EnrichedNetherrack;
+import io.github.pylonmc.pylon.base.content.components.EnrichedSoulSoil;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
@@ -33,7 +33,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.MAGIC_ALTAR, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
         PylonBlock.register(BaseKeys.GRINDSTONE, Material.SMOOTH_STONE_SLAB, Grindstone.class);
         PylonBlock.register(BaseKeys.GRINDSTONE_HANDLE, Material.OAK_FENCE, GrindstoneHandle.class);
-        PylonBlock.register(BaseKeys.ENRICHED_SOUL_SOIL, Material.SOUL_SOIL, EnrichedNetherrack.class);
+        PylonBlock.register(BaseKeys.ENRICHED_SOUL_SOIL, Material.SOUL_SOIL, EnrichedSoulSoil.class);
         PylonBlock.register(BaseKeys.MIXING_POT, Material.CAULDRON, MixingPot.class);
         PylonBlock.register(BaseKeys.IGNEOUS_COMPOSITE, Material.OBSIDIAN, PylonBlock.class);
         PylonBlock.register(BaseKeys.PORTABLE_FLUID_TANK_WOOD, Material.BROWN_STAINED_GLASS, PortableFluidTank.class);
