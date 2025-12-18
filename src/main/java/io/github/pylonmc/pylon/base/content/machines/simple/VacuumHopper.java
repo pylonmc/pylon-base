@@ -20,7 +20,10 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -33,7 +36,9 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.inventory.event.ItemPreUpdateEvent;
 import xyz.xenondevs.invui.inventory.event.UpdateReason;
+import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
+import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 import xyz.xenondevs.invui.window.Window;
 
 import java.util.List;
@@ -184,10 +189,11 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                 }));
     }
 
+    // todo: replace all stuff with translatable components
     private @NotNull Gui.Builder.Normal createSettingsGui() {
         return Gui.normal()
                 .setStructure(
-                        "# # # # # # # # #",
+                        "# # # # w # # # #",
                         "x x x x x x x x x",
                         "# # # # $ # # # #"
                 )
@@ -204,7 +210,29 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                             .setViewer(click.getPlayer())
                             .build()
                             .open();
-                }));
+                }))
+                .addIngredient('w', new ControlItem<>() {
+                    @Override
+                    public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+                        whitelist = !whitelist;
+                        event.setCurrentItem(getItem());
+                    }
+
+                    @Override
+                    public ItemProvider getItemProvider(Gui gui) {
+                        return (ignored) -> getItem();
+                    }
+
+                    private ItemStack getItem() {
+                        ItemStack item = new ItemStack(whitelist ? Material.WHITE_WOOL : Material.BLACK_WOOL);
+                        item.setData(
+                                DataComponentTypes.ITEM_NAME,
+                                whitelist ? Component.text("Whitelist").color(NamedTextColor.WHITE)
+                                        : Component.text("Blacklist").color(NamedTextColor.BLACK)
+                        );
+                        return item;
+                    }
+                });
     }
 
     @Override
