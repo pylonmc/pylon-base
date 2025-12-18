@@ -11,6 +11,10 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -24,7 +28,9 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.inventory.event.ItemPreUpdateEvent;
 import xyz.xenondevs.invui.inventory.event.UpdateReason;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.window.Window;
 
 import java.util.List;
@@ -55,6 +61,13 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     public static final NamespacedKey INVENTORY_KEY = baseKey("vacuum_hopper_inventory");
     public final VirtualInventory inventory; // todo: when assembly table additions is merged replace set & get with proper serializer
 
+    public static final NamespacedKey WHITELIST_KEY = baseKey("whitelist");
+    public static final NamespacedKey ITEMS_TO_CHECK_KEY = baseKey("vacuum_hopper_whitelist");
+
+    // if whitelist is true behaves like a whitelist, otherwise like a blacklist
+    public boolean whitelist;
+    public final VirtualInventory itemsToCheck;
+
     public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
@@ -63,6 +76,9 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         super(block, context);
 
         this.inventory = new VirtualInventory(5);
+        this.whitelist = true;
+        this.itemsToCheck = new VirtualInventory(9);
+        this.itemsToCheck.setPreUpdateHandler(this::preUpdate);
         setTickInterval(tickInterval);
     }
 
@@ -71,11 +87,29 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         super(block, pdc);
 
         this.inventory = VirtualInventory.deserialize(pdc.get(INVENTORY_KEY, PylonSerializers.BYTE_ARRAY));
+        this.whitelist = pdc.get(WHITELIST_KEY, PylonSerializers.BOOLEAN);
+        this.itemsToCheck = VirtualInventory.deserialize(pdc.get(ITEMS_TO_CHECK_KEY, PylonSerializers.BYTE_ARRAY));
+        this.itemsToCheck.setPreUpdateHandler(this::preUpdate);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(INVENTORY_KEY, PylonSerializers.BYTE_ARRAY, inventory.serialize());
+        pdc.set(WHITELIST_KEY, PylonSerializers.BOOLEAN, whitelist);
+        pdc.set(ITEMS_TO_CHECK_KEY, PylonSerializers.BYTE_ARRAY, itemsToCheck.serialize());
+    }
+
+    private void preUpdate(@NotNull ItemPreUpdateEvent event) {
+        if (event.getUpdateReason() == UpdateReason.SUPPRESSED) return;
+        event.setCancelled(true);
+
+        ItemStack newItem = event.getNewItem();
+        int slot = event.getSlot();
+        if (newItem == null) {
+            event.getInventory().setItem(UpdateReason.SUPPRESSED, slot, null);
+        } else {
+            event.getInventory().setItem(UpdateReason.SUPPRESSED, slot, newItem.asOne());
+        }
     }
 
     @Override
@@ -99,22 +133,57 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         event.setCancelled(true);
 
         Window.single()
-                .setGui(createGui())
+                .setGui(createInventoryGui())
                 .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
                 .setViewer(event.getPlayer())
                 .build()
                 .open();
     }
 
-    private @NotNull Gui.Builder<?, ?> createGui() {
+    private @NotNull Gui.Builder.Normal createInventoryGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # x x x x x # #",
-                        "# # # # # # # # #"
+                        "# # # # $ # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
-                .addIngredient('x', this.inventory);
+                .addIngredient('x', this.inventory)
+                .addIngredient('$', new SimpleItem(lang -> {
+                    ItemStack item = new ItemStack(Material.REDSTONE);
+                    item.setData(DataComponentTypes.ITEM_NAME, Component.text("Settings").color(NamedTextColor.RED));
+                    return item;
+                }, click -> {
+                    Window.single()
+                            .setGui(createSettingsGui())
+                            .setTitle("Settings")
+                            .setViewer(click.getPlayer())
+                            .build()
+                            .open();
+                }));
+    }
+
+    private @NotNull Gui.Builder.Normal createSettingsGui() {
+        return Gui.normal()
+                .setStructure(
+                        "# # # # # # # # #",
+                        "x x x x x x x x x",
+                        "# # # # $ # # # #"
+                )
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('x', itemsToCheck)
+                .addIngredient('$', new SimpleItem(lang -> {
+                    ItemStack item = new ItemStack(Material.CHEST);
+                    item.setData(DataComponentTypes.ITEM_NAME, Component.text("Inventory").color(NamedTextColor.LIGHT_PURPLE));
+                    return item;
+                }, click -> {
+                    Window.single()
+                            .setGui(createInventoryGui())
+                            .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
+                            .setViewer(click.getPlayer())
+                            .build()
+                            .open();
+                }));
     }
 
     @Override
@@ -129,6 +198,8 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
             }
 
             ItemStack stack = item.getItemStack();
+            if (!isValid(stack)) continue;
+
             int surplus = inventory.addItem(VACUUM, stack);
             if (surplus == 0) {
                 new ParticleBuilder(Particle.WITCH)
@@ -147,5 +218,14 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                     .location(item.getLocation())
                     .spawn();
         }
+    }
+
+    public boolean isValid(@NotNull ItemStack item) {
+        ItemStack[] checkList = this.itemsToCheck.getItems();
+        for (ItemStack checkStack : checkList) {
+            if (item.isSimilar(checkStack)) return whitelist;
+        }
+
+        return !whitelist;
     }
 }
