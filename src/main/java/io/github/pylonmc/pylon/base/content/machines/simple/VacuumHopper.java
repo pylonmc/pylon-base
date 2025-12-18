@@ -14,13 +14,15 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Hopper;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.ClickType;
@@ -28,6 +30,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -42,6 +45,7 @@ import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -66,7 +70,9 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
 
+    public static final UpdateReason HOPPER = new UpdateReason() {};
     public static final UpdateReason VACUUM = new UpdateReason() {};
+
     public static final NamespacedKey INVENTORY_KEY = baseKey("vacuum_hopper_inventory");
     public final VirtualInventory inventory; // todo: when assembly table additions is merged replace set & get with proper serializer
 
@@ -246,12 +252,14 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
 
     @Override
     public void tick(double deltaSeconds) {
-        if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
+        Block block = getBlock();
+        Hopper hopper = (Hopper) block.getBlockData();
+        if (!hopper.isEnabled()) {
             return; // don't vacuum if powered
         }
 
         // loops item entities to add
-        for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
+        for (Entity entity : block.getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }
@@ -267,6 +275,23 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                 new ParticleBuilder(Particle.WITCH)
                         .location(item.getLocation())
                         .spawn();
+            }
+        }
+
+        BlockFace facing = hopper.getFacing();
+        Block other = block.getRelative(facing);
+        BlockState data = other.getState();
+
+        if (data instanceof BlockInventoryHolder holder) {
+            for (int i = 0; i < 5; i++) {
+                ItemStack item = inventory.getItem(i);
+                if (item == null) continue;
+
+                ItemStack singleItem = item.asOne();
+                HashMap<Integer, ItemStack> excess = holder.getInventory().addItem(singleItem);
+                if (excess.isEmpty()) {
+                    inventory.setItem(HOPPER, i, item.subtract());
+                }
             }
         }
     }
