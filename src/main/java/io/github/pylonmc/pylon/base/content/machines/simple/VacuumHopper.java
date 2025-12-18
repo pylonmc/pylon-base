@@ -19,7 +19,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.event.Event;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +40,7 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonNoVanillaContainerBlock, PylonInteractBlock, PylonBreakHandler {
+public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonHopper, PylonNoVanillaContainerBlock, PylonInteractBlock, PylonBreakHandler {
 
     public static class Item extends PylonItem {
         public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
@@ -122,6 +125,24 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
+    public void onHopper(@NotNull InventoryPickupItemEvent event) {
+        org.bukkit.entity.@NotNull Item item = event.getItem();
+        ItemStack stack = item.getItemStack();
+        Outcome outcome = this.addItem(stack);
+        event.setCancelled(true);
+        if (outcome == Outcome.FULLY_ADDED) {
+            new ParticleBuilder(Particle.WITCH)
+                    .location(item.getLocation())
+                    .spawn();
+            item.remove();
+        } else if (outcome == Outcome.PARTIAL_ADDED) {
+            new ParticleBuilder(Particle.WITCH)
+                    .location(item.getLocation())
+                    .spawn();
+        }
+    }
+
+    @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (!event.getAction().isRightClick()
                 || event.getPlayer().isSneaking()
@@ -187,37 +208,64 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
+    public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
+        ItemStack old = event.getItem();
+        Outcome outcome = this.addItem(old);
+        if (outcome == Outcome.FULLY_ADDED) {
+            event.setItem(ItemStack.empty());
+        }
+    }
+
+    @Override
     public void tick(double deltaSeconds) {
         if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
             return; // don't vacuum if powered
         }
 
+        // loops item entities to add
         for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }
 
-            ItemStack stack = item.getItemStack();
-            if (!isValid(stack)) continue;
-
-            int surplus = inventory.addItem(VACUUM, stack);
-            if (surplus == 0) {
+            Outcome outcome = addItem(item.getItemStack());
+            if (outcome == Outcome.FULLY_ADDED) {
                 new ParticleBuilder(Particle.WITCH)
                         .location(item.getLocation())
                         .spawn();
                 item.remove();
                 break;
+            } else if (outcome == Outcome.PARTIAL_ADDED) {
+                new ParticleBuilder(Particle.WITCH)
+                        .location(item.getLocation())
+                        .spawn();
             }
-
-            if (surplus == stack.getAmount()) {
-                continue;
-            }
-
-            stack.setAmount(surplus);
-            new ParticleBuilder(Particle.WITCH)
-                    .location(item.getLocation())
-                    .spawn();
         }
+
+        //todo simulate hopper behaviour
+    }
+
+    public enum Outcome {
+        INVALID,
+        FULLY_ADDED,
+        FAILED_FULL,
+        PARTIAL_ADDED
+    }
+
+    public @NotNull Outcome addItem(@NotNull ItemStack item) {
+        if (!isValid(item)) return Outcome.INVALID;
+
+        int surplus = inventory.addItem(VACUUM, item);
+        if (surplus == 0) {
+            return Outcome.FULLY_ADDED;
+        }
+
+        if (surplus == item.getAmount()) {
+            return Outcome.FAILED_FULL;
+        }
+
+        item.setAmount(surplus);
+        return Outcome.PARTIAL_ADDED;
     }
 
     public boolean isValid(@NotNull ItemStack item) {
