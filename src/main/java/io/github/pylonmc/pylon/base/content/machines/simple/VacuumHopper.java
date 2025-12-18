@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -177,19 +178,18 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                 .addIngredient('x', this.inventory)
                 .addIngredient('$', new SimpleItem(lang -> {
                     ItemStack item = new ItemStack(Material.REDSTONE);
-                    item.setData(DataComponentTypes.ITEM_NAME, Component.text("Settings").color(NamedTextColor.RED));
+                    item.setData(DataComponentTypes.ITEM_NAME, translation("settings"));
                     return item;
                 }, click -> {
                     Window.single()
                             .setGui(createSettingsGui())
-                            .setTitle("Settings")
+                            .setTitle(new AdventureComponentWrapper(translation("settings")))
                             .setViewer(click.getPlayer())
                             .build()
                             .open();
                 }));
     }
 
-    // todo: replace all stuff with translatable components
     private @NotNull Gui.Builder.Normal createSettingsGui() {
         return Gui.normal()
                 .setStructure(
@@ -201,7 +201,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                 .addIngredient('x', itemsToCheck)
                 .addIngredient('$', new SimpleItem(lang -> {
                     ItemStack item = new ItemStack(Material.CHEST);
-                    item.setData(DataComponentTypes.ITEM_NAME, Component.text("Inventory").color(NamedTextColor.LIGHT_PURPLE));
+                    item.setData(DataComponentTypes.ITEM_NAME, translation("inventory"));
                     return item;
                 }, click -> {
                     Window.single()
@@ -227,8 +227,8 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                         ItemStack item = new ItemStack(whitelist ? Material.WHITE_WOOL : Material.BLACK_WOOL);
                         item.setData(
                                 DataComponentTypes.ITEM_NAME,
-                                whitelist ? Component.text("Whitelist").color(NamedTextColor.WHITE)
-                                        : Component.text("Blacklist").color(NamedTextColor.BLACK)
+                                whitelist ? translation("whitelist")
+                                        : translation("blacklist")
                         );
                         return item;
                     }
@@ -269,8 +269,6 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                         .spawn();
             }
         }
-
-        //todo simulate hopper behaviour
     }
 
     public enum Outcome {
@@ -303,5 +301,9 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         }
 
         return !whitelist;
+    }
+
+    private TranslatableComponent translation(String key) {
+        return Component.translatable("pylon.pylonbase.gui.vacuum_hopper." + key);
     }
 }

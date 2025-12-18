@@ -1534,6 +1534,11 @@ gui:
     too_cold: "<red>Temperature too low to cast, needs at least %temperature%"
     not_enough: "<red>Not enough %fluid% to cast (%amount%/%needed%)"
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
+  vacuum_hopper:
+    blacklist: "<black>Blacklist"
+    whitelist: "<white>Whitelist"
+    settings: "<red>Settings"
+    inventory: "<purple>Inventory"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
     color:
