@@ -34,15 +34,12 @@ public class CargoExtractor extends PylonBlock
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
-    public final ItemStack mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":main")
-            .build();
-    public final ItemStack outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":output")
-            .build();
-    public final ItemStack ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":duct")
-            .build();
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":main");
+    public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":output");
+    public final ItemStackBuilder ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":duct");
 
     public static class Item extends PylonItem {
 
@@ -67,12 +64,7 @@ public class CargoExtractor extends PylonBlock
     public CargoExtractor(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        if (!(context instanceof BlockCreateContext.PlayerPlace playerPlaceContext)) {
-            throw new IllegalArgumentException("Cargo extractor can only be placed by player");
-        }
-
-        // TODO add a util function for this because ffs really
-        setFacing(PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace());
+        setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(getFacing())) {
@@ -118,10 +110,7 @@ public class CargoExtractor extends PylonBlock
 
     @Override
     public @NotNull Set<@NotNull ChunkPosition> getChunksOccupied() {
-        Set<ChunkPosition> chunks = new HashSet<>();
-        chunks.add(new ChunkPosition(getBlock()));
-        chunks.add(new ChunkPosition(getTarget()));
-        return chunks;
+        return Set.of(new ChunkPosition(getBlock()), new ChunkPosition(getTarget()));
     }
 
     @Override

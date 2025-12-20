@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -20,7 +21,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
@@ -38,6 +39,13 @@ import java.util.Set;
 public class FluidTank extends PylonBlock
         implements PylonMultiblock, PylonFluidTank, PylonEntityHolderBlock {
 
+    private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
+
+    private final List<FluidTankCasing> casings = new ArrayList<>();
+    private final List<FluidTemperature> allowedTemperatures = new ArrayList<>();
+
+    private int lastDisplayUpdate = -1;
+
     public static class Item extends PylonItem {
 
         private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
@@ -54,13 +62,6 @@ public class FluidTank extends PylonBlock
         }
     }
 
-    private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
-
-    private final List<FluidTankCasing> casings = new ArrayList<>();
-    private final List<FluidTemperature> allowedTemperatures = new ArrayList<>();
-
-    private int lastDisplayUpdate = -1;
-
     @SuppressWarnings("unused")
     public FluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -71,7 +72,7 @@ public class FluidTank extends PylonBlock
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public FluidTank(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
@@ -110,8 +111,8 @@ public class FluidTank extends PylonBlock
     public void onMultiblockRefreshed() {
         FluidTankCasing casingType = casings.getFirst();
         allowedTemperatures.clear();
-        allowedTemperatures.addAll(casingType.getAllowedTemperatures());
-        setCapacity(casings.size() * casingType.getCapacity());
+        allowedTemperatures.addAll(casingType.allowedTemperatures);
+        setCapacity(casings.size() * casingType.capacity);
         setFluid(Math.min(getFluidCapacity(), getFluidAmount()));
 
         int height = casings.size();
@@ -185,20 +186,17 @@ public class FluidTank extends PylonBlock
 
     @Override
     public @NotNull WailaDisplay getWaila(@NotNull Player player) {
-        Component info;
-        if (getFluidType() == null) {
-            info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
-        } else {
-            info = Component.translatable(
-                    "pylon.pylonbase.waila.fluid_tank.filled",
-                    PylonArgument.of("amount", Math.round(getFluidAmount())),
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(getFluidCapacity())
-                            .decimalPlaces(0)
-                            .unitStyle(Style.empty())
-                    ),
-                    PylonArgument.of("fluid", getFluidType().getName())
-            );
-        }
-        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        getFluidAmount(),
+                        getFluidCapacity(),
+                        20,
+                        TextColor.color(200, 255, 255)
+                )),
+                PylonArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                        : getFluidType().getName()
+                )
+        ));
     }
 }

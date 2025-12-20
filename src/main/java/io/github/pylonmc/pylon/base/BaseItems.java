@@ -18,10 +18,9 @@ import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
-import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
-import io.github.pylonmc.pylon.base.content.machines.simple.ImprovedManualCoreDrill;
-import io.github.pylonmc.pylon.base.content.machines.simple.Press;
-import io.github.pylonmc.pylon.base.content.machines.simple.VacuumHopper;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
@@ -755,7 +754,7 @@ public final class BaseItems {
     public static final ItemStack MIXING_POT = ItemStackBuilder.pylon(Material.CAULDRON, BaseKeys.MIXING_POT)
             .build();
     static {
-        PylonItem.register(PylonItem.class, MIXING_POT, BaseKeys.MIXING_POT);
+        PylonItem.register(MixingPot.MixingPotItem.class, MIXING_POT, BaseKeys.MIXING_POT);
         BasePages.SIMPLE_MACHINES.addItem(MIXING_POT);
     }
 
@@ -1184,7 +1183,7 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_VALVE, BaseKeys.FLUID_VALVE);
+        PylonItem.register(FluidValve.Item.class, FLUID_VALVE, BaseKeys.FLUID_VALVE);
         BasePages.FLUID_MACHINES.addItem(FLUID_VALVE);
     }
 
@@ -1192,7 +1191,7 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_FILTER, BaseKeys.FLUID_FILTER);
+        PylonItem.register(FluidFilter.Item.class, FLUID_FILTER, BaseKeys.FLUID_FILTER);
         BasePages.FLUID_MACHINES.addItem(FLUID_FILTER);
     }
 
@@ -1200,7 +1199,7 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_METER, BaseKeys.FLUID_METER);
+        PylonItem.register(FluidFilter.Item.class, FLUID_METER, BaseKeys.FLUID_METER);
         BasePages.FLUID_MACHINES.addItem(FLUID_METER);
     }
 
@@ -1310,7 +1309,7 @@ public final class BaseItems {
     public static final ItemStack FLUID_STRAINER = ItemStackBuilder.pylon(Material.COPPER_GRATE, BaseKeys.FLUID_STRAINER)
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_STRAINER, BaseKeys.FLUID_STRAINER);
+        PylonItem.register(FluidStrainer.Item.class, FLUID_STRAINER, BaseKeys.FLUID_STRAINER);
         BasePages.FLUID_MACHINES.addItem(FLUID_STRAINER);
     }
 

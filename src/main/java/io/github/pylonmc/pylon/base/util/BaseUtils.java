@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -94,11 +95,25 @@ public class BaseUtils {
         return getDisplacement(source, target).normalize();
     }
 
+    public @NotNull Component createProgressBar(double progress, int bars, TextColor color) {
+        int filledBars = (int) Math.round(bars * progress);
+        return Component.translatable("pylon.pylonbase.gui.progress_bar.text").arguments(
+                PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(color)),
+                PylonArgument.of("empty_bars", "|".repeat(bars - filledBars)),
+                PylonArgument.of("progress", UnitFormat.PERCENT.format(progress * 100))
+        );
+    }
+
+    public @NotNull Component createProgressBar(double amount, double max, int bars, TextColor color) {
+        return createProgressBar(amount / max, bars, color);
+    }
+
     public @NotNull Component createFluidAmountBar(double amount, double capacity, int bars, TextColor fluidColor) {
-        int filledBars = (int) Math.round(bars * amount / capacity);
+        int filledBars = Math.max(0, (int) Math.round(bars * amount / capacity));
+        Bukkit.getLogger().severe("bruh " + filledBars);
         return Component.translatable("pylon.pylonbase.gui.fluid_amount_bar.text").arguments(
                 PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(fluidColor)),
-                PylonArgument.of("empty_bars", "|".repeat(bars - filledBars)),
+                PylonArgument.of("empty_bars", Component.text("|".repeat(bars - filledBars))),
                 PylonArgument.of("amount", Math.round(amount)),
                 PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
         );

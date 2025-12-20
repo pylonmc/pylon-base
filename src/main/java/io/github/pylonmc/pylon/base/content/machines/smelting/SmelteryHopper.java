@@ -6,8 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -56,9 +54,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             MeltingRecipe recipe = null;
             for (MeltingRecipe meltingRecipe : MeltingRecipe.RECIPE_TYPE) {
                 if (meltingRecipe.input().contains(item)) {
-                    if (!new PrePylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, meltingRecipe, controller).callEvent()) {
-                        continue;
-                    }
                     recipe = meltingRecipe;
                     break;
                 }
@@ -68,7 +63,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             if (controller.getTemperature() >= recipe.temperature() && fluidAmountAfterAdding <= controller.getCapacity()) {
                 controller.addFluid(recipe.result(), recipe.resultAmount());
                 item.subtract();
-                new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
             }
         }
     }

@@ -15,8 +15,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -114,16 +112,14 @@ public class MagicAltar extends PylonBlock
         }
 
         for (MagicAltarRecipe recipe : MagicAltarRecipe.RECIPE_TYPE.getRecipes()) {
-            if (!recipe.isValidRecipe(ingredients, catalyst)
-                    || !new PrePylonCraftEvent<>(MagicAltarRecipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()
-            ) {
+            if (!recipe.isValidRecipe(ingredients, catalyst)) {
                 continue;
             }
 
             itemDisplay.setItemStack(catalyst.asQuantity(1));
             catalyst.subtract();
             for (Pedestal pedestal : getPedestals()) {
-                pedestal.setLocked(true);
+                pedestal.locked = true;
             }
             startRecipe(recipe, recipe.timeSeconds() * 20);
             break;
@@ -199,10 +195,8 @@ public class MagicAltar extends PylonBlock
     public void onRecipeFinished(@NotNull MagicAltarRecipe recipe) {
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
-            pedestal.setLocked(false);
+            pedestal.locked = false;
         }
-
-        new PylonCraftEvent<>(MagicAltarRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
         getItemDisplay().setItemStack(recipe.result());
 
@@ -218,7 +212,7 @@ public class MagicAltar extends PylonBlock
 
         for (Pedestal pedestal : getPedestals()) {
             if (pedestal != null) {
-                pedestal.setLocked(false);
+                pedestal.locked = false;
             }
         }
 

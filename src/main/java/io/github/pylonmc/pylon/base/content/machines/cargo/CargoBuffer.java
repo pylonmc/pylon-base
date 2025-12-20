@@ -14,12 +14,10 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.logistics.VirtualInventoryLogisticSlot;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -36,21 +34,16 @@ public class CargoBuffer extends PylonBlock
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
-    public final ItemStack mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":main")
-            .build();
-    public final ItemStack side1Stack = ItemStackBuilder.of(Material.BARREL)
-            .addCustomModelDataString(getKey() + ":side1")
-            .build();
-    public final ItemStack side2Stack = ItemStackBuilder.of(Material.BARREL)
-            .addCustomModelDataString(getKey() + ":side2")
-            .build();
-    public final ItemStack inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":input")
-            .build();
-    public final ItemStack outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":output")
-            .build();
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":main");
+    public final ItemStackBuilder side1Stack = ItemStackBuilder.of(Material.BARREL)
+            .addCustomModelDataString(getKey() + ":side1");
+    public final ItemStackBuilder side2Stack = ItemStackBuilder.of(Material.BARREL)
+            .addCustomModelDataString(getKey() + ":side2");
+    public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":input");
+    public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":output");
 
     public static class Item extends PylonItem {
 
@@ -75,11 +68,7 @@ public class CargoBuffer extends PylonBlock
     public CargoBuffer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        if (!(context instanceof BlockCreateContext.PlayerPlace playerPlaceContext)) {
-            throw new IllegalArgumentException("Cargo buffers can only be placed by player");
-        }
-
-        setFacing(PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true));
+        setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing(), "input");
         addCargoLogisticGroup(getFacing().getOppositeFace(), "output");

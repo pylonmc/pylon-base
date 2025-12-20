@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -23,7 +24,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
-import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -94,7 +95,10 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("fluid", getFluid() == null ? Component.translatable("pylon.pylonbase.fluid.none") : getFluid().getName()),
+                    PylonArgument.of("fluid", getFluid() == null
+                            ? Component.translatable("pylon.pylonbase.fluid.none")
+                            : getFluid().getName()
+                    ),
                     PylonArgument.of("amount", Math.round(getAmount())),
                     PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
                     PylonArgument.of("temperatures", Component.join(
@@ -170,21 +174,18 @@ public class PortableFluidTank extends PylonBlock implements PylonFluidTank, Pyl
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
-        Component info;
-        if (getFluidType() == null) {
-            info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
-        } else {
-            info = Component.translatable(
-                    "pylon.pylonbase.waila.fluid_tank.filled",
-                    PylonArgument.of("amount", Math.round(getFluidAmount())),
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)
-                            .decimalPlaces(0)
-                            .unitStyle(Style.empty())
-                    ),
-                    PylonArgument.of("fluid", getFluidType().getName())
-            );
-        }
-        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        getFluidAmount(),
+                        getFluidCapacity(),
+                        20,
+                        TextColor.color(200, 255, 255)
+                )),
+                PylonArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                        : getFluidType().getName()
+                )
+        ));
     }
 
     @Override

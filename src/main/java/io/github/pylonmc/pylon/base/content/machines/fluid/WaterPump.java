@@ -24,6 +24,8 @@ import java.util.Map;
 
 public class WaterPump extends PylonBlock implements PylonFluidBlock {
 
+    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
+
     public static class Item extends PylonItem {
 
         public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
@@ -40,8 +42,6 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock {
         }
     }
 
-    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
-
     @SuppressWarnings("unused")
     public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -57,7 +57,7 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock {
     public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
         return getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER
                 ? Map.of(BaseFluids.WATER, waterPerSecond * PylonConfig.fluidTickInterval / 20.0)
-                : Map.of() ;
+                : Map.of();
     }
 
     @Override

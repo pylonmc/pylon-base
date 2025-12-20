@@ -5,11 +5,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -35,6 +31,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
@@ -44,8 +41,13 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import java.util.List;
 
 
-public class DieselPipeBender extends PylonBlock
-        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<PipeBendingRecipe> {
+public class DieselPipeBender extends PylonBlock implements
+        PylonGuiBlock,
+        PylonFluidBufferBlock,
+        PylonDirectionalBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonRecipeProcessor<PipeBendingRecipe> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
@@ -58,6 +60,7 @@ public class DieselPipeBender extends PylonBlock
     public static class Item extends PylonItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
         public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
@@ -68,36 +71,30 @@ public class DieselPipeBender extends PylonBlock
         public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
                     PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100))
             );
         }
     }
 
-    public ItemStack cubeStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":cube")
-            .build();
-    public ItemStack sideStack = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side")
-            .build();
+    public ItemStackBuilder cubeStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":cube");
+    public ItemStackBuilder sideStack = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side");
+    public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":chimney");
 
     @SuppressWarnings("unused")
     public DieselPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
-        BlockFace facing;
-        if (context instanceof BlockCreateContext.PlayerPlace playerPlaceContext) {
-            facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false);
-        } else {
-            facing = BlockFace.NORTH;
-        }
+        setFacing(context.getFacing());
         addEntity("chimney", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
-                        .addCustomModelDataString(getKey() + ":chimney")
-                        .build()
-                )
+                .itemStack(chimneyStack)
                 .transformation(new TransformBuilder()
-                        .translate(0.4, 0.0, 0.4)
+                        .lookAlong(getFacing())
+                        .translate(0.4, 0.0, -0.4)
                         .scale(0.15))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
@@ -118,7 +115,7 @@ public class DieselPipeBender extends PylonBlock
         addEntity("cube1", new ItemDisplayBuilder()
                 .itemStack(cubeStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0, 0, 0.2)
                         .scale(0.2))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
@@ -126,7 +123,7 @@ public class DieselPipeBender extends PylonBlock
         addEntity("cube2", new ItemDisplayBuilder()
                 .itemStack(cubeStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0.15, 0, -0.2)
                         .scale(0.2))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
@@ -134,7 +131,7 @@ public class DieselPipeBender extends PylonBlock
         addEntity("cube3", new ItemDisplayBuilder()
                 .itemStack(cubeStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(-0.15, 0, -0.2)
                         .scale(0.2))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
@@ -176,8 +173,12 @@ public class DieselPipeBender extends PylonBlock
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         progressRecipe(tickInterval);
+        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+                new Vector3d(0.4, 0.7, 0.4),
+                getFacing()
+        ));
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                .location(getBlock().getLocation().toCenterLocation().add(0.4, 0.7, 0.4))
+                .location(getBlock().getLocation().toCenterLocation().add(smokePosition))
                 .offset(0, 1, 0)
                 .count(0)
                 .extra(0.05)

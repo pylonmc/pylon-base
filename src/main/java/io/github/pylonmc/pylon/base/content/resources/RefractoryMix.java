@@ -23,7 +23,6 @@ public class RefractoryMix extends PylonBlock implements Moldable {
 
     private int moldingClicksRemaining;
 
-
     @SuppressWarnings("unused")
     public RefractoryMix(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);

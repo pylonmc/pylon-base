@@ -6,11 +6,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -38,8 +34,10 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
@@ -48,8 +46,13 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class DieselGrindstone extends PylonBlock
-        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<GrindstoneRecipe> {
+public class DieselGrindstone extends PylonBlock implements
+        PylonGuiBlock,
+        PylonFluidBufferBlock,
+        PylonDirectionalBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonRecipeProcessor<GrindstoneRecipe> {
 
     public static final NamespacedKey STONE_ROTATION_KEY = baseKey("stone_rotation");
 
@@ -64,6 +67,7 @@ public class DieselGrindstone extends PylonBlock
     public static class Item extends PylonItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -72,30 +76,30 @@ public class DieselGrindstone extends PylonBlock
         @Override
         public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond))
+                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
             );
         }
     }
 
-    public ItemStack stoneStack = ItemStackBuilder.of(Material.SMOOTH_STONE)
-            .addCustomModelDataString(getKey() + ":stone")
-            .build();
-    public ItemStack sideStack = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side")
-            .build();
+    public ItemStackBuilder stoneStack = ItemStackBuilder.of(Material.SMOOTH_STONE)
+            .addCustomModelDataString(getKey() + ":stone");
+    public ItemStackBuilder sideStack = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side");
+    public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":chimney");
 
     @SuppressWarnings("unused")
     public DieselGrindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
+        setFacing(context.getFacing());
         addEntity("chimney", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
-                        .addCustomModelDataString(getKey() + ":chimney")
-                        .build()
-                )
+                .itemStack(chimneyStack)
                 .transformation(new TransformBuilder()
-                        .translate(0.4, 0.0, 0.4)
+                        .lookAlong(getFacing())
+                        .translate(0.4, 0.0, -0.4)
                         .scale(0.15))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
@@ -157,8 +161,12 @@ public class DieselGrindstone extends PylonBlock
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         progressRecipe(tickInterval);
+        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+                new Vector3d(0.4, 0.7, 0.4),
+                getFacing()
+        ));
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                .location(getBlock().getLocation().toCenterLocation().add(0.4, 0.7, 0.4))
+                .location(getBlock().getLocation().toCenterLocation().add(smokePosition))
                 .offset(0, 1, 0)
                 .count(0)
                 .extra(0.05)

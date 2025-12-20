@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -33,12 +34,16 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HydraulicRefuelingStation extends PylonBlock implements PylonFluidBlock, PylonInteractBlock {
+public class HydraulicRefuelingStation extends PylonBlock implements
+        PylonFluidBlock,
+        PylonDirectionalBlock,
+        PylonInteractBlock {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
+        setFacing(context.getFacing());
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
         addEntity("casing", new ItemDisplayBuilder()

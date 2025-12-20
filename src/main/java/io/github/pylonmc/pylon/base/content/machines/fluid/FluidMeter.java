@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
@@ -14,7 +13,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -31,13 +29,10 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     public FluidMeter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid valve can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
         setTickInterval(tickInterval);
 
-        addEntity("flow_rate_north", createTextDisplay(player, BlockFace.NORTH));
-        addEntity("flow_rate_south", createTextDisplay(player, BlockFace.SOUTH));
+        addEntity("flow_rate_north", createTextDisplay(BlockFace.WEST));
+        addEntity("flow_rate_south", createTextDisplay(BlockFace.EAST));
 
         removedSinceLastUpdate = 0.0;
         setDisableBlockTextureEntity(true);
@@ -60,23 +55,16 @@ public class FluidMeter extends FluidFilter implements PylonTickingBlock {
     public void tick() {
         Component component = UnitFormat.MILLIBUCKETS_PER_SECOND.format(Math.round(removedSinceLastUpdate / (20 * PylonConfig.fluidTickInterval))).asComponent();
 
-        TextDisplay northDisplay = getHeldEntity(TextDisplay.class, "flow_rate_north");
-        if (northDisplay != null) {
-            northDisplay.text(component);
-        }
-
-        TextDisplay southDisplay = getHeldEntity(TextDisplay.class, "flow_rate_south");
-        if (southDisplay != null) {
-            southDisplay.text(component);
-        }
+        getHeldEntityOrThrow(TextDisplay.class, "flow_rate_north").text(component);
+        getHeldEntityOrThrow(TextDisplay.class, "flow_rate_south").text(component);
 
         removedSinceLastUpdate = 0.0;
     }
 
-    private @NotNull TextDisplay createTextDisplay(@NotNull Player player, @NotNull BlockFace face) {
+    private @NotNull TextDisplay createTextDisplay(@NotNull BlockFace face) {
         return new TextDisplayBuilder()
                 .transformation(new TransformBuilder()
-                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, face, false).getDirection().toVector3d())
+                        .lookAlong(PylonUtils.rotateFaceToReference(getFacing(), face))
                         .translate(new Vector3d(0.0, 0.0, 0.126))
                         .scale(0.3, 0.3, 0.0001)
                 )

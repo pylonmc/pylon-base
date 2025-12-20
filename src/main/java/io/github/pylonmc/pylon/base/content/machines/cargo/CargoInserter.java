@@ -33,15 +33,12 @@ public class CargoInserter extends PylonBlock
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
-    public final ItemStack mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":main")
-            .build();
-    public final ItemStack inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":input")
-            .build();
-    public final ItemStack ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":duct")
-            .build();
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":main");
+    public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":input");
+    public final ItemStackBuilder ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":duct");
 
     public static class Item extends PylonItem {
 
@@ -66,11 +63,7 @@ public class CargoInserter extends PylonBlock
     public CargoInserter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        if (!(context instanceof BlockCreateContext.PlayerPlace playerPlaceContext)) {
-            throw new IllegalArgumentException("Cargo inserter can only be placed by player");
-        }
-
-        setFacing(PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace());
+        setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing().getOppositeFace(), "input");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(getFacing())) {

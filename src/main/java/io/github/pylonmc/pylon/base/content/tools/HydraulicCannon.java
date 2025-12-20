@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,6 +54,12 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        Bukkit.getLogger().severe("a " + getHydraulicFluid() + " " + HYDRAULIC_FLUID_CAPACITY + " " + BaseUtils.createFluidAmountBar(
+                getHydraulicFluid(),
+                HYDRAULIC_FLUID_CAPACITY,
+                20,
+                TextColor.fromHexString("#212d99")
+        ));
         return List.of(
                 PylonArgument.of("damage", UnitFormat.HEARTS.format(projectileDamage)),
                 PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),

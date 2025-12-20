@@ -59,6 +59,7 @@ public class DieselPress extends PylonBlock implements
     public static class Item extends PylonItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
         public final double timePerItem = getSettings().getOrThrow("time-per-item", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
@@ -69,20 +70,20 @@ public class DieselPress extends PylonBlock implements
         public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
                     PylonArgument.of("time-per-item", UnitFormat.SECONDS.format(timePerItem))
             );
         }
     }
 
-    public ItemStack pressStack = ItemStackBuilder.of(Material.COMPOSTER)
-            .addCustomModelDataString(getKey() + ":press")
-            .build();
-    public ItemStack pressLidStack = ItemStackBuilder.of(Material.COMPOSTER)
-            .addCustomModelDataString(getKey() + ":press_lid")
-            .build();
-    public ItemStack sideStack = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side")
-            .build();
+    public ItemStackBuilder pressStack = ItemStackBuilder.of(Material.COMPOSTER)
+            .addCustomModelDataString(getKey() + ":press");
+    public ItemStackBuilder pressLidStack = ItemStackBuilder.of(Material.COMPOSTER)
+            .addCustomModelDataString(getKey() + ":press_lid");
+    public ItemStackBuilder sideStack = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side");
+    public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":chimney");
 
     @SuppressWarnings("unused")
     public DieselPress(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -90,16 +91,9 @@ public class DieselPress extends PylonBlock implements
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.55F);
-        if (context instanceof BlockCreateContext.PlayerPlace playerPlaceContext) {
-            setFacing(PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false));
-        } else {
-            setFacing(BlockFace.NORTH);
-        }
+        setFacing(context.getFacing());
         addEntity("chimney", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
-                        .addCustomModelDataString(getKey() + ":chimney")
-                        .build()
-                )
+                .itemStack(chimneyStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
                         .translate(0.37499, -0.15, 0.0)
@@ -164,9 +158,12 @@ public class DieselPress extends PylonBlock implements
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         progressRecipe(tickInterval);
-        Vector3d translation = PylonUtils.rotateVectorToFace(new Vector3d(0.375, 1.5, 0), getFacing());
+        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+                new Vector3d(0.375, 1.5, 0),
+                getFacing()
+        ));
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                .location(getBlock().getLocation().toCenterLocation().add(Vector.fromJOML(translation)))
+                .location(getBlock().getLocation().toCenterLocation().add(smokePosition))
                 .offset(0, 1, 0)
                 .count(0)
                 .extra(0.05)
