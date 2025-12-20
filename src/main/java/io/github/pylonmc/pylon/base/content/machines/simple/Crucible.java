@@ -24,6 +24,7 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -264,9 +265,16 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("info", getFluidType() == null ?
-                Component.translatable("pylon.pylonbase.waila.crucible.empty") :
-                Component.translatable("pylon.pylonbase.waila.crucible.filled",
+            PylonArgument.of("item_info", this.processingType == null ?
+                Component.translatable("pylon.pylonbase.waila.crucible.item.empty") :
+                Component.translatable("pylon.pylonbase.waila.crucible.item.stored",
+                    PylonArgument.of("type", this.processingType.getData(DataComponentTypes.ITEM_NAME)),
+                    PylonArgument.of("amount", this.amount)
+                )),
+
+            PylonArgument.of("liquid_info", getFluidType() == null ?
+                Component.translatable("pylon.pylonbase.waila.crucible.liquid.empty") :
+                Component.translatable("pylon.pylonbase.waila.crucible.liquid.filled",
                     PylonArgument.of("fluid", getFluidType().getName()),
                     PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1))
                 ))

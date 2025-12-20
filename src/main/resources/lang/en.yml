@@ -530,7 +530,7 @@ item:
     lore: |-
       <arrow> Place items in the crucible and <insn>right click</insn> to melt them
       <arrow> Requires a fire underneath to work
-    waila: "Crucible %info%"
+    waila: "Crucible %item_info% %liquid_info%"
 
   monster_jerky:
     name: "Monster Jerky"
@@ -1327,8 +1327,12 @@ waila:
     empty: "(empty)"
     filled: "| %amount%/%capacity% of %fluid%"
   crucible:
-    empty: "(empty)"
-    filled: "| %amount% of %fluid%"
+    item:
+      empty: "(no items)"
+      stored: "| %type% x%amount% "
+    liquid:
+      empty: "(no liquids)"
+      filled: "| %amount% of %fluid%"
   fluid_strainer:
     straining: " | Straining %item%: %progress%"
   pit_kiln: "Pit Kiln | %time% left"
