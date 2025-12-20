@@ -1189,6 +1189,14 @@ public final class BaseItems {
         BasePages.FLUID_MACHINES.addItem(FLUID_FILTER);
     }
 
+    public static final ItemStack FLUID_LIMITER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_LIMITER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_LIMITER, BaseKeys.FLUID_LIMITER);
+        BasePages.FLUID_MACHINES.addItem(FLUID_LIMITER);
+    }
+
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_METER)
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
