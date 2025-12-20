@@ -34,8 +34,13 @@ public class IntRangeInventory {
     private final ItemStack mainItem;
 
     public IntRangeInventory(ItemStack item, Supplier<@NotNull Integer> maxAmount) {
+        this(item, maxAmount, 0);
+    }
+
+    public IntRangeInventory(ItemStack item, Supplier<@NotNull Integer> maxAmount, int amount) {
         this.mainItem = item;
         this.maxAmount = maxAmount;
+        this.amount = amount;
 
         inventoryDecrease.setPreUpdateHandler(this::handleUpdating);
         inventoryIncrease.setPreUpdateHandler(this::handleUpdating);
@@ -57,11 +62,6 @@ public class IntRangeInventory {
         }
 
         mainItemDisplay.setItem(UpdateReason.SUPPRESSED, 0, makeDisplay());
-    }
-
-    public IntRangeInventory(ItemStack item, Supplier<@NotNull Integer> maxAmount, int amount) {
-        this(item, maxAmount);
-        this.amount = amount;
     }
 
     private void validate() {
