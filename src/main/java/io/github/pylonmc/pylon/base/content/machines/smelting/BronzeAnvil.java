@@ -192,18 +192,22 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     }
 
     public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
+    public static final NamespacedKey STORED_ITEM = baseKey("stored_item");
     @Override
     public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity spawnedEntity) {
-        spawnedEntity
-            .getEntity()
-            .getPersistentDataContainer()
-            .set(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE, getBlockFace());
+        var pdc = spawnedEntity.getEntity().getPersistentDataContainer();
+        PylonUtils.setNullable(pdc, STORED_ITEM, PylonSerializers.ITEM_STACK, getItemDisplay().getItemStack());
+        pdc.set(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE, getBlockFace());
     }
 
     @Override
     public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity entity) {
-        BlockFace face = entity.getEntity().getPersistentDataContainer().get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
+        var pdc = entity.getEntity().getPersistentDataContainer();
+
+        BlockFace face = pdc.get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
+        ItemStack stack = pdc.get(DIRECTION_FALLING, PylonSerializers.ITEM_STACK);
         addEntity("item", new ItemDisplayBuilder()
+                .itemStack(stack)
                 .transformation(new Matrix4f(BASE_TRANSFORM)
                         .rotateLocalY(getItemRotation(face)))
                 .build(getBlock().getLocation().toCenterLocation())
