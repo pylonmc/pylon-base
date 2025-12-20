@@ -53,12 +53,11 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     public final int CAPACITY = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int SMELT_TIME = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
-    private final Stack<ItemStack> contents = new Stack<>();
-    private ItemStack processing = null;
+    private ItemStack processingType = null;
+    private int amount = 0;
 
-    private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
-    private static final PersistentDataType<?, List<ItemStack>> CONTENTS_TYPE = PylonSerializers.LIST.listTypeFrom(PylonSerializers.ITEM_STACK);
     private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
+    private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
 
     public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
     public static final Set<Material> ITEM_BLACKLIST = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
@@ -73,25 +72,35 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        contents.addAll(pdc.get(CONTENTS_KEY, CONTENTS_TYPE));
-        processing = pdc.get(PROCESSING_KEY, PylonSerializers.ITEM_STACK);
+        processingType = pdc.get(PROCESSING_KEY, PylonSerializers.ITEM_STACK);
+        amount = pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER);
     }
 
     //region Inventory handling
     public int spaceAvailable() {
-        return CAPACITY - contents.stream().mapToInt(ItemStack::getAmount).sum() - ((processing == null) ? 0 : processing.getAmount());
+        return CAPACITY - amount;
     }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.addAll(contents);
+        PylonFluidTank.super.onBreak(drops, context);
+        if (processingType == null || amount == 0) return;
+
+        int maxStack = processingType.getMaxStackSize();
+        int cycles = amount / maxStack;
+        int spare = amount % maxStack;
+        for (int i = 0; i < cycles; i++) {
+            drops.add(processingType.asQuantity(maxStack));
+        }
+
+        drops.add(processingType.asQuantity(spare));
     }
     //endregion
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
-        PylonUtils.setNullable(pdc, PROCESSING_KEY, PylonSerializers.ITEM_STACK, processing);
+        PylonUtils.setNullable(pdc, PROCESSING_KEY, PylonSerializers.ITEM_STACK, processingType);
+        pdc.set(AMOUNT_KEY, PylonSerializers.INTEGER, amount);
     }
 
     @Override
@@ -131,9 +140,19 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
             return;
         }
 
-        ItemStack toAdd = item.asQuantity(amount);
-        contents.add(toAdd);
-        item.subtract(amount);
+        if (processingType == null) {
+            this.processingType = item.asOne();
+            this.amount = amount;
+            item.subtract(amount);
+        } else if (processingType.isSimilar(item)) {
+            this.amount += amount;
+            item.subtract(amount);
+        }
+    }
+
+    public void clearInventory() {
+        this.processingType = null;
+        this.amount = 0;
     }
 
     public boolean isValid(ItemStack item) {
@@ -147,10 +166,10 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     }
 
     public boolean tryDoRecipe() {
-        if (processing == null) return false;
+        if (processingType == null) return false;
 
         for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
-            if (recipe.matches(processing)) {
+            if (recipe.matches(processingType)) {
                 if (!new PrePylonCraftEvent<>(CrucibleRecipe.RECIPE_TYPE, recipe, this, null).callEvent()) {
                     continue;
                 }
@@ -187,9 +206,9 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
                 .extra(0.05)
                 .spawn();
 
-        processing.subtract();
-        if (processing.getAmount() == 0) {
-            processing = null;
+        this.amount--;
+        if (this.amount == 0) {
+            clearInventory();
         }
     }
 
@@ -258,11 +277,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded()) return;
-        if (processing == null) {
-            if (!contents.isEmpty()) {
-                processing = contents.pop();
-            }
-        }
 
         tryDoRecipe();
         updateCauldron();
@@ -270,7 +284,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
 
     @Override
     public int getTickInterval() {
-        if (processing == null && contents.isEmpty()) {
+        if (processingType == null) {
             return SMELT_TIME; // minimize ticking when empty
         }
 
