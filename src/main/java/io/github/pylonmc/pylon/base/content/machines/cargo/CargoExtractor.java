@@ -66,7 +66,7 @@ public class CargoExtractor extends PylonBlock
 
         setFacing(context.getFacing());
 
-        addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
+        addCargoLogisticGroup(getFacing(), "output");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(getFacing())) {
             addCargoLogisticGroup(face, "output");
         }
@@ -76,7 +76,7 @@ public class CargoExtractor extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0, 0, 0.4)
+                        .translate(0, 0, -0.4)
                         .scale(0.65, 0.65, 0.2)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -86,7 +86,7 @@ public class CargoExtractor extends PylonBlock
                 .itemStack(outputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0, 0, 0.3)
+                        .translate(0, 0, -0.3)
                         .scale(0.4, 0.4, 0.05)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -96,7 +96,7 @@ public class CargoExtractor extends PylonBlock
                 .itemStack(ductStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0, 0, 0.0625)
+                        .translate(0, 0, -0.0625)
                         .scale(0.35, 0.35, 0.475)
                 )
                 .build(block.getLocation().toCenterLocation())
