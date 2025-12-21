@@ -1,9 +1,11 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid.gui;
 
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import lombok.Getter;
+import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +24,8 @@ public class IntRangeInventory {
     private static final NamespacedKey VARIATION_KEY = baseKey("variation");
     private static final int[] VARIATIONS = {1, 5, 10, 25, 50, 100, 200};
 
-    private int amount = 0;
+    private final TranslatableComponent amountComponent;
+    private int amount;
 
     private final Supplier<@NotNull Integer> maxAmount;
 
@@ -33,13 +36,27 @@ public class IntRangeInventory {
     @Getter
     private final ItemStack mainItem;
 
-    public IntRangeInventory(ItemStack item, Supplier<@NotNull Integer> maxAmount) {
-        this(item, maxAmount, 0);
+    public IntRangeInventory(
+        ItemStack item, 
+        Supplier<@NotNull Integer> maxAmount, 
+        TranslatableComponent incrementComponent,
+        TranslatableComponent decrementComponent,
+        TranslatableComponent amountComponent
+    ) {
+        this(item, maxAmount, 0, incrementComponent, decrementComponent, amountComponent);
     }
 
-    public IntRangeInventory(ItemStack item, Supplier<@NotNull Integer> maxAmount, int amount) {
+    public IntRangeInventory(
+        ItemStack item,
+        Supplier<@NotNull Integer> maxAmount,
+        int amount,
+        TranslatableComponent incrementComponent,
+        TranslatableComponent decrementComponent,
+        TranslatableComponent amountComponent
+    ) {
         this.mainItem = item;
         this.maxAmount = maxAmount;
+        this.amountComponent = amountComponent;
         this.amount = amount;
 
         inventoryDecrease.setPreUpdateHandler(this::handleUpdating);
@@ -50,11 +67,19 @@ public class IntRangeInventory {
         ItemStackBuilder baseDecrement = ItemStackBuilder.of(Material.RED_WOOL);
         for (int var : VARIATIONS) {
             ItemStackBuilder increment = baseIncrement
-                .name("+ " + var)
+                .name(
+                    incrementComponent.arguments(
+                        PylonArgument.of("amount", var)
+                    )
+                )
                 .editPdc(pdc -> pdc.set(VARIATION_KEY, PylonSerializers.INTEGER, var));
 
             ItemStackBuilder decrement = baseDecrement
-                .name("- " + var)
+                .name(
+                    decrementComponent.arguments(
+                        PylonArgument.of("amount", var)
+                    )
+                )
                 .editPdc(pdc -> pdc.set(VARIATION_KEY, PylonSerializers.INTEGER, -var));
 
             inventoryIncrease.addItem(UpdateReason.SUPPRESSED, increment.build());
@@ -96,7 +121,11 @@ public class IntRangeInventory {
     private ItemStack makeDisplay() {
         return ItemStackBuilder.of(mainItem.clone())
             .lore("")
-            .lore("Amount = " + amount)
+            .lore(
+                amountComponent.arguments(
+                    PylonArgument.of("amount", amount)
+                )
+            )
             .build();
     }
 

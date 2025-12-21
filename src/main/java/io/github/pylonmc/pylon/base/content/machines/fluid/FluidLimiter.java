@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -49,7 +50,13 @@ public class FluidLimiter extends PylonBlock implements PylonFluidTank, PylonInt
     @SuppressWarnings("unused")
     public FluidLimiter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        this.regulator = new IntRangeInventory(BaseItems.FLUID_LIMITER, this::getPipeMax);
+        this.regulator = new IntRangeInventory(
+            BaseItems.FLUID_LIMITER,
+            this::getPipeMax,
+            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.add"),
+            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.dec"),
+            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.amount")
+        );
 
         // a bit of a hack - treat capacity as effectively infinite and override
         // fluidAmountRequested to control how much fluid comes in
@@ -86,7 +93,10 @@ public class FluidLimiter extends PylonBlock implements PylonFluidTank, PylonInt
         this.regulator = new IntRangeInventory(
             BaseItems.FLUID_LIMITER,
             this::getPipeMax,
-            pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER)
+            pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER),
+            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.add"),
+            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.dec"),
+            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.amount")
         );
         setDisableBlockTextureEntity(true);
     }

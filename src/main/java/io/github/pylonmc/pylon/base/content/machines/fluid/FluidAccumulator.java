@@ -11,11 +11,11 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -55,7 +55,13 @@ public class FluidAccumulator extends PylonBlock implements PylonFluidTank, Pylo
     @SuppressWarnings("unused")
     public FluidAccumulator(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        this.regulator = new IntRangeInventory(BaseItems.FLUID_ACCUMULATOR, () -> maxAccumulation);
+        this.regulator = new IntRangeInventory(
+            BaseItems.FLUID_ACCUMULATOR,
+            () -> maxAccumulation,
+            Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.add"),
+            Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.dec"),
+            Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.amount")
+        );
         this.outputReady = false;
         setCapacity(maxAccumulation);
 
@@ -90,7 +96,10 @@ public class FluidAccumulator extends PylonBlock implements PylonFluidTank, Pylo
         this.regulator = new IntRangeInventory(
             BaseItems.FLUID_ACCUMULATOR,
             () -> maxAccumulation,
-            pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER)
+            pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER),
+            Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.add"),
+            Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.dec"),
+            Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.amount")
         );
         this.outputReady = pdc.get(OUTPUT_READY_KEY, PylonSerializers.BOOLEAN);
         setCapacity(regulator.getAmount());

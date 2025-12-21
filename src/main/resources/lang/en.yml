@@ -369,6 +369,10 @@ item:
     lore: |-
       <arrow> Limits the speed of fluid transfer
       <arrow> <insn>Right click</insn> to change the fluid transfer limit
+    gui:
+      add: "<green>+ %amount% ml/s"
+      dec: "<red>- %amount% ml/s"
+      amount: "<white>Amount: %amount% ml/s"
 
   fluid_accumulator:
     name: "<white>Fluid Accumulator"
@@ -377,6 +381,10 @@ item:
       <arrow> <insn>Right click</insn> to change the accumulation amount
       <arrow> Give redstone impulse in order to empty the capacitor and stop input, 
       <arrow> useful for changing the accumulation amount
+    gui:
+      add: "<green>+ %amount% ml"
+      dec: "<red>- %amount% ml"
+      amount: "<white>Amount: %amount% ml"
 
   fluid_meter:
     name: "<white>Fluid Meter"
