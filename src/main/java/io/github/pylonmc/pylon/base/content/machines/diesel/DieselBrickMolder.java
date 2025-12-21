@@ -158,7 +158,7 @@ public class DieselBrickMolder extends PylonBlock implements
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         progressRecipe(tickInterval);
         Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
-                new Vector3d(0.4, 0.7, 0.4),
+                new Vector3d(0.4, 0.7, -0.4),
                 getFacing())
         );
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
