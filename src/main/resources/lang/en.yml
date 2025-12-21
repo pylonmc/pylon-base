@@ -364,6 +364,19 @@ item:
     waila: "Fluid Filter (%fluid%)"
     gui: "Fluid Filter"
 
+  fluid_limiter:
+    name: "<white>Fluid Limiter"
+    lore: |-
+      <arrow> Limits the speed of fluid transfer
+      <arrow> <insn>Right click</insn> to change the fluid transfer limit
+
+  fluid_accumulator:
+    name: "<white>Fluid Accumulator"
+    lore: |-
+      <arrow> Accumulates the specified amount of fluid before sending it out
+      <arrow> <insn>Right click</insn> to change the accumulation amount
+    
+
   fluid_meter:
     name: "<white>Fluid Meter"
     lore: |-
