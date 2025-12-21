@@ -1329,6 +1329,31 @@ item:
       <arrow> <attr>Speed:</attr> %speed%
     waila: "Diesel Pipe Bender | %diesel-bar%"
 
+  cargo_duct:
+    name: "<white>Cargo Duct"
+    lore: |-
+      <arrow> Connects cargo blocks together
+      <arrow> Adjacent cargo ducts will automatically connect to each other
+
+  cargo_buffer:
+    name: "<white>Cargo Buffer"
+    lore: |-
+      <arrow> A one-stack item buffer
+      <arrow> Connect using cargo ducts
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  cargo_extractor:
+    name: "<white>Cargo Extractor"
+    lore: |-
+      <arrow> Extracts items from chests, furnaces, machines, and other compatible blocks
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  cargo_inserter:
+    name: "<white>Cargo Inserter"
+    lore: |-
+      <arrow> Inserts items into chests, furnaces, machines, and other compatible blocks
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1439,6 +1464,7 @@ guide:
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
     fluid_machines: "Fluid machines"
     hydraulics: "Hydraulic Machines"
+    cargo: "Cargo"
     diesel_machines: "Diesel Machines"
     smelting: "Smelting"
     machines: "Machines"
