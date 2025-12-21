@@ -119,7 +119,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
         }
 
         Step current = this.getStep();
-        current.removeDisplays().forEach(this::removeEntity);
+        current.removeDisplays().forEach(this::tryRemoveEntity);
 
         Location up = getBlock().getRelative(BlockFace.UP).getLocation()
             .toCenterLocation()
