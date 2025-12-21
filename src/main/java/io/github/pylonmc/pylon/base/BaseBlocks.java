@@ -27,6 +27,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.NICKEL_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.COBALT_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.STEEL_BLOCK, Material.NETHERITE_BLOCK, PylonBlock.class);
+        PylonBlock.register(BaseKeys.CHARCOAL_BLOCK, Material.COAL_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.SPRINKLER, Material.FLOWER_POT, Sprinkler.class);
         PylonBlock.register(BaseKeys.MAGIC_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(BaseKeys.PEDESTAL, Material.STONE_BRICK_WALL, Pedestal.class);
