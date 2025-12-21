@@ -13,18 +13,18 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 
-public final class EnrichedNetherrack extends PylonBlock implements PylonTickingBlock {
+public final class EnrichedSoulSoil extends PylonBlock implements PylonTickingBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
-    public EnrichedNetherrack(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public EnrichedSoulSoil(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
     }
 
     @SuppressWarnings("unused")
-    public EnrichedNetherrack(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public EnrichedSoulSoil(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
