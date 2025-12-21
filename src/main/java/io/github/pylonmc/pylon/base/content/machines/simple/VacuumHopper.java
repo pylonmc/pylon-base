@@ -137,7 +137,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
-    public void onHopper(@NotNull InventoryPickupItemEvent event) {
+    public void onHopperPickUpItem(@NotNull InventoryPickupItemEvent event) {
         org.bukkit.entity.@NotNull Item item = event.getItem();
         ItemStack stack = item.getItemStack();
         Outcome outcome = this.addItem(stack);
