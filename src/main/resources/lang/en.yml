@@ -465,6 +465,12 @@ item:
   gold_sheet:
     name: "Gold Sheet"
 
+  blueprint_workbench:
+    name: "Blueprint Workbench"
+    lore: |-
+      <arrow> Smash stuff together hoping it works, jk, TODO
+
+
   grindstone:
     name: "Grindstone"
     lore: |-
@@ -1480,6 +1486,8 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
+    blueprint-workbench:
+      used-times-lore: "<gray> Use it %times% times"
 
 message:
   fluid_none: "None"
