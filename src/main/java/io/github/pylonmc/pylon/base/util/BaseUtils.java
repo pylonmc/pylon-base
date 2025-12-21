@@ -5,8 +5,8 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -71,7 +71,7 @@ public class BaseUtils {
     }
 
     public @NotNull TextDisplay spawnUnitSquareTextDisplay(@NotNull Location location, @NotNull Color color) {
-        return spawnUnitSquareTextDisplay(location, color, (Consumer<TextDisplay>) display -> {});
+        return spawnUnitSquareTextDisplay(location, color, display -> {});
     }
 
     public @NotNull TextDisplay spawnUnitSquareTextDisplay(@NotNull Location location, @NotNull Color color, Consumer<TextDisplay> initializer) {
@@ -110,10 +110,9 @@ public class BaseUtils {
 
     public @NotNull Component createFluidAmountBar(double amount, double capacity, int bars, TextColor fluidColor) {
         int filledBars = Math.max(0, (int) Math.round(bars * amount / capacity));
-        Bukkit.getLogger().severe("bruh " + filledBars);
         return Component.translatable("pylon.pylonbase.gui.fluid_amount_bar.text").arguments(
                 PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(fluidColor)),
-                PylonArgument.of("empty_bars", Component.text("|".repeat(bars - filledBars))),
+                PylonArgument.of("empty_bars", Component.text("|".repeat(bars - filledBars)).color(NamedTextColor.GRAY)),
                 PylonArgument.of("amount", Math.round(amount)),
                 PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
         );

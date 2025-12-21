@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -62,7 +63,6 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         for (Entity e : block.getWorld().getNearbyEntities(BoundingBox.of(blockAbove))) {
             if (e instanceof Item entity) {
                 items.add(entity);
-                entity.remove();
             }
         }
 
@@ -76,21 +76,24 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                     continue;
                 }
 
-                item.setItemStack(item.getItemStack().asQuantity(recipe.input().getAmount()));
-
-                float adjustedChance = recipe.chance() *
-                        // Each tier is twice as likely to succeed as the previous one
-                        (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
-                if (ThreadLocalRandom.current().nextFloat() > adjustedChance) {
-                    continue;
-                }
-
                 if (player != null) {
                     player.setCooldown(getStack(), cooldownTicks);
                     PylonUtils.damageItem(getStack(), 1, player, slot);
                 } else {
                     PylonUtils.damageItem(getStack(), 1, block.getWorld());
                 }
+
+                float adjustedChance = recipe.chance() *
+                        // Each tier is twice as likely to succeed as the previous one
+                        (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
+                if (ThreadLocalRandom.current().nextFloat() > adjustedChance) {
+                    return true; // recipe attempted but unsuccessful
+                }
+
+                int newAmount = item.getItemStack().getAmount() - recipe.input().getAmount();
+                item.setItemStack(item.getItemStack().asQuantity(newAmount));
+                block.getWorld().dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), recipe.result())
+                        .setVelocity(new Vector(0, 0, 0));
                 block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
 
                 return true;
