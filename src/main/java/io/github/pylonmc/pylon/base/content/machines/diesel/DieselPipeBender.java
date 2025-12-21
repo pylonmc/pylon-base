@@ -79,8 +79,10 @@ public class DieselPipeBender extends PylonBlock implements
 
     public ItemStackBuilder cubeStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":cube");
-    public ItemStackBuilder sideStack = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side");
+    public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side1");
+    public ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side2");
     public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":chimney");
 
@@ -99,14 +101,14 @@ public class DieselPipeBender extends PylonBlock implements
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("side1", new ItemDisplayBuilder()
-                .itemStack(sideStack)
+                .itemStack(sideStack1)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(1.1, 0.8, 0.8))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("side2", new ItemDisplayBuilder()
-                .itemStack(sideStack)
+                .itemStack(sideStack2)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(0.9, 0.8, 1.1))
