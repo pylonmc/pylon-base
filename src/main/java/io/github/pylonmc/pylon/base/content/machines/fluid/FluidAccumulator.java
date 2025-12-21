@@ -131,30 +131,34 @@ public class FluidAccumulator extends PylonBlock implements PylonFluidTank, Pylo
 
     @Override
     public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+        if (isPowered()) return 0.0;
+
         if (getFluidAmount() == 0.0) {
             outputReady = false;
             return PylonFluidTank.super.fluidAmountRequested(fluid, deltaSeconds);
         }
 
-        if (outputReady) {
-            return 0.0;
-        }
+        if (outputReady) return 0.0;
 
         return PylonFluidTank.super.fluidAmountRequested(fluid, deltaSeconds);
     }
 
     @Override
     public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
+        if (isPowered()) return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
+
         if (getFluidSpaceRemaining() == 0.0) {
             outputReady = true;
             return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
         }
 
-        if (outputReady) {
-            return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
-        }
+        if (outputReady) return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
 
         return Map.of();
+    }
+
+    public boolean isPowered() {
+        return getBlock().isBlockIndirectlyPowered();
     }
 
     private void updateAccumulator() {
