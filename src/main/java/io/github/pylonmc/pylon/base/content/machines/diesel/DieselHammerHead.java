@@ -164,8 +164,13 @@ public class DieselHammerHead extends PylonBlock implements
 
     @Override
     public void tick() {
+        double dieselToConsume = dieselPerCraft * getTickInterval() / getProcessTimeTicks();
+        if (fluidAmount(BaseFluids.BIODIESEL) < dieselToConsume) {
+            return;
+        }
+
         if (isProcessing()) {
-            removeFluid(BaseFluids.BIODIESEL, dieselPerCraft * getTickInterval() / getProcessTimeTicks());
+            removeFluid(BaseFluids.BIODIESEL, dieselToConsume);
             Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
                     new Vector3d(0.4, 0.7, -0.4),
                     getFacing().getOppositeFace()
