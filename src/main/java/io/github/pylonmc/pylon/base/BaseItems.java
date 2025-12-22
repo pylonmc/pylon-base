@@ -11,11 +11,7 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselBrickMolder;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselGrindstone;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
+import io.github.pylonmc.pylon.base.content.machines.diesel.*;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
@@ -1844,6 +1840,14 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselBrickMolder.Item.class, DIESEL_BRICK_MOLDER, BaseKeys.DIESEL_BRICK_MOLDER);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_BRICK_MOLDER);
+    }
+
+    public static final ItemStack DIESEL_HAMMER_HEAD = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_HAMMER_HEAD)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GRAY_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselHammerHead.Item.class, DIESEL_HAMMER_HEAD, BaseKeys.DIESEL_HAMMER_HEAD);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_HAMMER_HEAD);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)

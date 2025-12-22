@@ -295,6 +295,7 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_PRESS = baseKey("diesel_press");
     public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
     public static final NamespacedKey DIESEL_BRICK_MOLDER = baseKey("diesel_brick_molder");
+    public static final NamespacedKey DIESEL_HAMMER_HEAD = baseKey("diesel_hammer_head");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

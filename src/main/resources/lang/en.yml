@@ -908,6 +908,7 @@ item:
       <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> with a hammer to insert the hammer
       <arrow> <insn>Right click</insn> again to take out the hammer
+      <arrow> <attr>Speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
       <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Hydraulic Hammer Head | %input-bar% | %output-bar%"
@@ -1397,19 +1398,14 @@ item:
       <arrow> <attr>Molding cycles:</attr> %molding-cycles%
     waila: "Diesel Brick Molder | %diesel-bar%"
 
-  diesel_fired_purification_tower:
-    name: "Diesel-fired Purification Tower"
+  diesel_hammer_head:
+    name: "Diesel Hammer Head"
     lore: |-
-      <star> Multiblock
-      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
-      <arrow> Burns diesel
-      <arrow> <attr>Purification speed:</attr> %purification_speed%
-      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      
-      <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.diesel_fired_purification_tower.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
-      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <arrow> Place above the hammer's base block, leaving a two block gap
+      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-craft% per craft
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Hammer Head | %bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"
@@ -1602,6 +1598,7 @@ message:
 
 gui:
   fluid-selector-title: "Select Fluid"
+  hammer: "Hammer"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"

@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.machines.hydraulics;
+package io.github.pylonmc.pylon.base.content.machines.diesel;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
@@ -11,62 +11,72 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-
-public class HydraulicHammerHead extends PylonBlock implements
+public class DieselHammerHead extends PylonBlock implements
         PylonTickingBlock,
-        PylonInteractBlock,
+        PylonGuiBlock,
         PylonFluidBufferBlock,
         PylonProcessor,
-        PylonDirectionalBlock {
-
-    public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
+        PylonDirectionalBlock,
+        PylonLogisticBlock {
 
     public final int goDownTimeTicks = getSettings().getOrThrow("go-down-time-ticks", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
-    public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
-    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
+    public final double dieselPerCraft = getSettings().getOrThrow("diesel-per-craft", ConfigAdapter.INT);
+    public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+
+    private final VirtualInventory hammerInventory = new VirtualInventory(1);
 
     private final ItemStack emptyHammerTipStack = ItemStackBuilder.of(Material.AIR)
             .addCustomModelDataString(getKey() + ":hammer_tip:empty")
             .build();
+    public final ItemStackBuilder hammerStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":hammer")
+            .name(Component.translatable("pylon.pylonbase.gui.hammer"));
+    public final ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side1");
+    public final ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side2");
+    public final ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":chimney");
 
     public static class Item extends PylonItem {
 
         public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
-        public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
-        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
+        public final double dieselPerCraft = getSettings().getOrThrow("diesel-per-craft", ConfigAdapter.INT);
+        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -76,26 +86,43 @@ public class HydraulicHammerHead extends PylonBlock implements
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
-                    PylonArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerCraft)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    PylonArgument.of("diesel-per-craft", UnitFormat.MILLIBUCKETS.format(dieselPerCraft)),
+                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
             );
         }
     }
 
-    public @Nullable Hammer hammer;
-
     @SuppressWarnings("unused")
-    public HydraulicHammerHead(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public DieselHammerHead(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-
-        hammer = null;
 
         setTickInterval(tickInterval);
         setFacing(context.getFacing());
 
-        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
-        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
 
+        addEntity("chimney", new ItemDisplayBuilder()
+                .itemStack(chimneyStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .translate(0.4, 0.0, -0.4)
+                        .scale(0.15))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("side1", new ItemDisplayBuilder()
+                .itemStack(sideStack1)
+                .transformation(new TransformBuilder()
+                        .translate(0, -0.5, 0)
+                        .scale(1.1, 0.8, 0.8))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("side2", new ItemDisplayBuilder()
+                .itemStack(sideStack2)
+                .transformation(new TransformBuilder()
+                        .translate(0, -0.5, 0)
+                        .scale(0.9, 0.8, 1.1))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
         addEntity("hammer_head", new ItemDisplayBuilder()
                 .itemStack(ItemStackBuilder.of(Material.GRAY_CONCRETE)
                         .addCustomModelDataString(getKey() + ":hammer_head")
@@ -109,75 +136,57 @@ public class HydraulicHammerHead extends PylonBlock implements
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
         );
 
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
+        createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
     }
 
     @SuppressWarnings("unused")
-    public HydraulicHammerHead(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public DieselHammerHead(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        hammer = (Hammer) PylonItem.fromStack(pdc.get(HAMMER_KEY, PylonSerializers.ITEM_STACK));
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        super.write(pdc);
-        PylonUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
+    public void postInitialise() {
+        hammerInventory.setPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        hammerInventory.setPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        createLogisticGroup("hammer", LogisticSlotType.INPUT, hammerInventory);
     }
 
-    @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (!event.getAction().isRightClick() || event.getHand() != EquipmentSlot.HAND || event.getPlayer().isSneaking()) {
+    public void updateHammerTip(ItemStack newItem) {
+        if (!(PylonItem.fromStack(newItem) instanceof Hammer hammer)) {
+            getHammerTip().setItemStack(null);
             return;
         }
-
-        event.setCancelled(true);
-
-        if (hammer != null) {
-            event.getPlayer().give(hammer.getStack());
-            hammer = null;
-        } else {
-            ItemStack stack = event.getPlayer().getInventory().getItem(EquipmentSlot.HAND);
-            if (PylonItem.fromStack(stack.clone()) instanceof Hammer hammer) {
-                this.hammer = hammer;
-                stack.subtract();
-            }
-        }
-
-        getHammerTip().setItemStack(hammer == null
-                ? emptyHammerTipStack
-                : ItemStackBuilder.of(hammer.baseBlock)
-                    .addCustomModelDataString(getKey() + ":hammer_tip:" + hammer.getKey().key())
-                    .build()
+        getHammerTip().setItemStack(ItemStackBuilder.of(hammer.baseBlock)
+                .addCustomModelDataString(getKey() + ":hammer_tip:" + hammer.getKey().key())
+                .build()
         );
     }
 
     @Override
     public void tick() {
         if (isProcessing()) {
-            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerCraft * getTickInterval() / getProcessTimeTicks());
-            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerCraft * getTickInterval() / getProcessTimeTicks());
+            removeFluid(BaseFluids.BIODIESEL, dieselPerCraft * getTickInterval() / getProcessTimeTicks());
+            Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+                    new Vector3d(0.4, 0.7, -0.4),
+                    getFacing()
+            ));
+            new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+                    .location(getBlock().getLocation().toCenterLocation().add(smokePosition))
+                    .offset(0, 1, 0)
+                    .count(0)
+                    .extra(0.05)
+                    .spawn();
             progressProcess(getTickInterval());
             return;
         }
 
-        if (hammer == null) {
+        if (!(PylonItem.fromStack(hammerInventory.getItem(0)) instanceof Hammer hammer)) {
             return;
         }
 
         Block baseBlock = getBlock().getRelative(BlockFace.DOWN, 3);
         if (BlockStorage.isPylonBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
             return;
-        }
-
-        if (hammer.getStack().getAmount() == 0) {
-            this.hammer = null;
-            getHammerTip().setItemStack(hammer == null
-                    ? emptyHammerTipStack
-                    : ItemStackBuilder.of(hammer.baseBlock)
-                    .addCustomModelDataString(getKey() + ":hammer_tip:" + hammer.getKey().key())
-                    .build()
-            );
         }
 
         if (!hammer.tryDoRecipe(baseBlock, null, null)) {
@@ -201,18 +210,31 @@ public class HydraulicHammerHead extends PylonBlock implements
     }
 
     @Override
+    public @NotNull Gui createGui() {
+        return Gui.normal()
+                .setStructure(
+                        "# # # # H # # # #",
+                        "# # # # x # # # #",
+                        "# # # # H # # # #"
+                )
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('H', hammerStack)
+                .addIngredient('x', hammerInventory)
+                .build();
+    }
+
+    @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        if (hammer != null) {
-            drops.add(hammer.getStack());
-        }
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
     }
 
-    public @Nullable ItemDisplay getHammerHead() {
-        return getHeldEntity(ItemDisplay.class, "hammer_head");
+    public @NotNull ItemDisplay getHammerHead() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_head");
     }
 
-    public @Nullable ItemDisplay getHammerTip() {
-        return getHeldEntity(ItemDisplay.class, "hammer_tip");
+    public @NotNull ItemDisplay getHammerTip() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_tip");
     }
 
     public static @NotNull Matrix4f getHeadTransformation(double translationY) {
@@ -232,17 +254,11 @@ public class HydraulicHammerHead extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
-                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
-                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.BIODIESEL),
+                        fluidCapacity(BaseFluids.BIODIESEL),
                         20,
                         TextColor.fromHexString("#212d99")
-                )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
-                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
-                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
-                        20,
-                        TextColor.fromHexString("#48459b")
                 ))
         ));
     }
