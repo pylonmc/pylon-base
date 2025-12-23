@@ -722,6 +722,16 @@ item:
       <star> Smeltery multiblock component
       <arrow> Burns fuel to heat the smeltery
 
+  diesel_smeltery_heater:
+    name: "Diesel Smeltery Heater"
+    lore: |-
+      <star> Smeltery multiblock component
+      <arrow> Burns diesel to heat the smeltery
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+      <arrow> <attr>Temperature:</attr> %temperature%
+    waila: "Diesel Smeltery Heater | %bar%"
+
   smeltery_caster:
     name: "Smeltery Caster"
     lore: |-
@@ -932,6 +942,16 @@ item:
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage% per craft
       <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Hydraulic Table Saw | %input-bar% | %output-bar%"
+
+  hydraulic_cobblestone_miner:
+    name: "Hydraulic Cobblestone Miner"
+    lore: |-
+      <arrow> Mines cobblestone directly in front of it
+      <arrow> Outputs dirty hydraulic fluid
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage% per craft
+      <arrow> <attr>Buffer:</attr> %buffer%
+    waila: "Hydraulic Cobblestone Miner | %input-bar% | %output-bar%"
 
   quartz_dust:
     name: "Quartz Dust"
@@ -1406,6 +1426,51 @@ item:
       <arrow> <attr>Diesel usage:</attr> %diesel-per-craft% per craft
       <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
     waila: "Diesel Hammer Head | %bar%"
+
+  diesel_mixing_attachment:
+    name: "Diesel Mixing Attachment"
+    lore: |-
+      <arrow> Place above the mixer, leaving a one block gap
+      <arrow> <attr>Cooldown time:</attr> %cooldown%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-craft% per craft
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Mixing Attachment | %bar%"
+
+  diesel_cobblestone_miner:
+    name: "Diesel Cobblestone Miner"
+    lore: |-
+      <arrow> Mines cobblestone directly in front of it
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Cobblestone Miner | %bar%"
+
+  diesel_obsidian_miner:
+    name: "Diesel Obsidian Miner"
+    lore: |-
+      <arrow> Mines obsidian directly in front of it
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Obsidian Miner | %bar%"
+
+  diesel_concrete_miner:
+    name: "Diesel Concrete Miner"
+    lore: |-
+      <arrow> Mines concrete (of any colour) directly in front of it
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Concrete Miner | %bar%"
+
+  diesel_furnace:
+    name: "Diesel Furnace"
+    lore: |-
+      <arrow> Smelts items
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Furnace | %bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"

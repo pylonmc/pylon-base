@@ -7,7 +7,6 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseKeys {
     public static final NamespacedKey ROCK_DUST = baseKey("rock_dust");
-    public static final NamespacedKey UNFIRED_BRICK = baseKey("unfired_brick");
 
     public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
 
@@ -284,6 +283,7 @@ public class BaseKeys {
 
     public static final NamespacedKey HYDRAULIC_FARMER = baseKey("hydraulic_farmer");
     public static final NamespacedKey HYDRAULIC_EXCAVATOR = baseKey("hydraulic_excavator");
+    public static final NamespacedKey HYDRAULIC_COBBLESTONE_MINER = baseKey("hydraulic_cobblestone_miner");
 
     public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
@@ -296,6 +296,12 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
     public static final NamespacedKey DIESEL_BRICK_MOLDER = baseKey("diesel_brick_molder");
     public static final NamespacedKey DIESEL_HAMMER_HEAD = baseKey("diesel_hammer_head");
+    public static final NamespacedKey DIESEL_MIXING_ATTACHMENT = baseKey("diesel_mixing_attachment");
+    public static final NamespacedKey DIESEL_SMELTERY_HEATER = baseKey("diesel_smeltery_heater");
+    public static final NamespacedKey DIESEL_FURNACE = baseKey("diesel_furnace");
+    public static final NamespacedKey DIESEL_COBBLESTONE_MINER = baseKey("diesel_cobblestone_miner");
+    public static final NamespacedKey DIESEL_OBSIDIAN_MINER = baseKey("diesel_obsidian_miner");
+    public static final NamespacedKey DIESEL_CONCRETE_MINER = baseKey("diesel_concrete_miner");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

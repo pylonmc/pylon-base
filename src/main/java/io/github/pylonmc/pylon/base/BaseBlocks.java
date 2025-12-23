@@ -80,6 +80,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.SMELTERY_HOPPER, Material.HOPPER, SmelteryHopper.class);
         PylonBlock.register(BaseKeys.SMELTERY_CASTER, Material.BRICKS, SmelteryCaster.class);
         PylonBlock.register(BaseKeys.SMELTERY_BURNER, Material.FURNACE, SmelteryBurner.class);
+        PylonBlock.register(BaseKeys.DIESEL_SMELTERY_HEATER, Material.FURNACE, DieselSmelteryHeater.class);
         PylonBlock.register(BaseKeys.PIT_KILN, Material.DECORATED_POT, PitKiln.class);
         PylonBlock.register(BaseKeys.FLUID_STRAINER, Material.COPPER_GRATE, FluidStrainer.class);
         PylonBlock.register(BaseKeys.EXPLOSIVE_TARGET, Material.TARGET, ExplosiveTarget.class);
@@ -119,12 +120,18 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_REFUELING_STATION, Material.WAXED_CUT_COPPER_SLAB, HydraulicRefuelingStation.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_FARMER, Material.WAXED_EXPOSED_COPPER_BULB, HydraulicFarmer.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_EXCAVATOR, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicExcavator.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_COBBLESTONE_MINER, Material.WAXED_EXPOSED_CUT_COPPER, HydraulicMiner.class);
         PylonBlock.register(BaseKeys.DIESEL_PIPE_BENDER, Material.IRON_BLOCK, DieselPipeBender.class);
         PylonBlock.register(BaseKeys.DIESEL_TABLE_SAW, Material.IRON_BLOCK, DieselTableSaw.class);
         PylonBlock.register(BaseKeys.DIESEL_PRESS, Material.IRON_BLOCK, DieselPress.class);
         PylonBlock.register(BaseKeys.DIESEL_GRINDSTONE, Material.IRON_BLOCK, DieselGrindstone.class);
         PylonBlock.register(BaseKeys.DIESEL_BRICK_MOLDER, Material.IRON_BLOCK, DieselBrickMolder.class);
         PylonBlock.register(BaseKeys.DIESEL_HAMMER_HEAD, Material.IRON_BLOCK, DieselHammerHead.class);
+        PylonBlock.register(BaseKeys.DIESEL_MIXING_ATTACHMENT, Material.IRON_BLOCK, DieselMixingAttachment.class);
+        PylonBlock.register(BaseKeys.DIESEL_FURNACE, Material.FURNACE, DieselFurnace.class);
+        PylonBlock.register(BaseKeys.DIESEL_COBBLESTONE_MINER, Material.IRON_BLOCK, DieselMiner.class);
+        PylonBlock.register(BaseKeys.DIESEL_OBSIDIAN_MINER, Material.IRON_BLOCK, DieselMiner.class);
+        PylonBlock.register(BaseKeys.DIESEL_CONCRETE_MINER, Material.IRON_BLOCK, DieselMiner.class);
         PylonBlock.register(BaseKeys.CARGO_DUCT, Material.STRUCTURE_VOID, CargoDuct.class);
         PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
         PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);

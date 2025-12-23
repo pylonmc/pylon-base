@@ -1,0 +1,7 @@
+diesel-per-second: 20
+diesel-buffer: 200
+tick-interval: 10
+ticks-per-block: 40
+blocks:
+  - cobblestone
+top-material: cobblestone

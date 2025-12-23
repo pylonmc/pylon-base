@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
+import io.github.pylonmc.pylon.base.content.machines.smelting.DieselSmelteryHeater;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
@@ -1793,6 +1794,13 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
     }
 
+    public static final ItemStack HYDRAULIC_COBBLESTONE_MINER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CUT_COPPER, BaseKeys.HYDRAULIC_COBBLESTONE_MINER)
+            .build();
+    static {
+        PylonItem.register(HydraulicMiner.Item.class, HYDRAULIC_COBBLESTONE_MINER, BaseKeys.HYDRAULIC_COBBLESTONE_MINER);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_COBBLESTONE_MINER);
+    }
+
     public static final ItemStack SOULBOUND_RUNE = ItemStackBuilder.pylon(Material.FIREWORK_STAR, BaseKeys.SOULBOUND_RUNE)
             .set(DataComponentTypes.FIREWORK_EXPLOSION, FireworkEffect.builder()
                     .withColor(Color.PURPLE)
@@ -1848,6 +1856,52 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselHammerHead.Item.class, DIESEL_HAMMER_HEAD, BaseKeys.DIESEL_HAMMER_HEAD);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_HAMMER_HEAD);
+    }
+
+    public static final ItemStack DIESEL_MIXING_ATTACHMENT = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_MIXING_ATTACHMENT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_GRAY_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselMixingAttachment.Item.class, DIESEL_MIXING_ATTACHMENT, BaseKeys.DIESEL_MIXING_ATTACHMENT);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_MIXING_ATTACHMENT);
+    }
+
+    public static final ItemStack DIESEL_FURNACE = ItemStackBuilder.pylon(Material.FURNACE, BaseKeys.DIESEL_FURNACE)
+            .build();
+    static {
+        PylonItem.register(DieselFurnace.Item.class, DIESEL_FURNACE, BaseKeys.DIESEL_FURNACE);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_FURNACE);
+    }
+
+    public static final ItemStack DIESEL_SMELTERY_HEATER = ItemStackBuilder.pylon(Material.FURNACE, BaseKeys.DIESEL_SMELTERY_HEATER)
+            .build();
+    static {
+        PylonItem.register(DieselSmelteryHeater.Item.class, DIESEL_SMELTERY_HEATER, BaseKeys.DIESEL_SMELTERY_HEATER);
+        BasePages.SMELTING.addItem(DIESEL_SMELTERY_HEATER);
+    }
+
+    public static final ItemStack DIESEL_COBBLESTONE_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_COBBLESTONE_MINER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.COBBLESTONE.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselMiner.Item.class, DIESEL_COBBLESTONE_MINER, BaseKeys.DIESEL_COBBLESTONE_MINER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_COBBLESTONE_MINER);
+    }
+
+    public static final ItemStack DIESEL_OBSIDIAN_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_OBSIDIAN_MINER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.OBSIDIAN.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselMiner.Item.class, DIESEL_OBSIDIAN_MINER, BaseKeys.DIESEL_OBSIDIAN_MINER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_OBSIDIAN_MINER);
+    }
+
+    public static final ItemStack DIESEL_CONCRETE_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_CONCRETE_MINER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselMiner.Item.class, DIESEL_CONCRETE_MINER, BaseKeys.DIESEL_CONCRETE_MINER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_CONCRETE_MINER);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
