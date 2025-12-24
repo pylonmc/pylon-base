@@ -1365,7 +1365,6 @@ item:
       <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
       <arrow> Cannot excavate harder blocks such as stone
       <arrow> Outputs dirty hydraulic fluid
-      <arrow> <insn>Right click</insn> to start digging
       <arrow> <attr>Radius:</attr> %radius%
       <arrow> <attr>Depth:</attr> %depth%
       <arrow> <attr>Time per block:</attr> %time-per-block%
@@ -1471,6 +1470,29 @@ item:
       <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
       <arrow> <attr>Speed:</attr> %speed%
     waila: "Diesel Furnace | %bar%"
+
+  diesel_excavator:
+    name: "Diesel Excavator"
+    lore: |-
+      <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
+      <arrow> Cannot excavate harder blocks such as stone
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Depth:</attr> %depth%
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-second%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Excavator | %bar%"
+
+  diesel_chopper:
+    name: "Diesel Chopper"
+    lore: |-
+      <arrow> Chops logs in a radius above it
+      <arrow> <attr>Radius:</attr> %radius%
+      <arrow> <attr>Height:</attr> %height%
+      <arrow> <attr>Time per block:</attr> %time-per-block%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-second%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Chopper | %bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"

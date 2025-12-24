@@ -1904,6 +1904,22 @@ public final class BaseItems {
         BasePages.DIESEL_MACHINES.addItem(DIESEL_CONCRETE_MINER);
     }
 
+    public static final ItemStack DIESEL_EXCAVATOR = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_EXCAVATOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.YELLOW_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselExcavator.Item.class, DIESEL_EXCAVATOR, BaseKeys.DIESEL_EXCAVATOR);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_EXCAVATOR);
+    }
+
+    public static final ItemStack DIESEL_CHOPPER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_CHOPPER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselChopper.Item.class, DIESEL_CHOPPER, BaseKeys.DIESEL_CHOPPER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_CHOPPER);
+    }
+
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
             .set(DataComponentTypes.ITEM_MODEL, Material.GRAY_CONCRETE.getKey())
             .build();

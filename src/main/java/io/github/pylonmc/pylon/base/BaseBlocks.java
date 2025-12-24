@@ -132,6 +132,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.DIESEL_COBBLESTONE_MINER, Material.IRON_BLOCK, DieselMiner.class);
         PylonBlock.register(BaseKeys.DIESEL_OBSIDIAN_MINER, Material.IRON_BLOCK, DieselMiner.class);
         PylonBlock.register(BaseKeys.DIESEL_CONCRETE_MINER, Material.IRON_BLOCK, DieselMiner.class);
+        PylonBlock.register(BaseKeys.DIESEL_EXCAVATOR, Material.IRON_BLOCK, DieselExcavator.class);
+        PylonBlock.register(BaseKeys.DIESEL_CHOPPER, Material.IRON_BLOCK, DieselChopper.class);
         PylonBlock.register(BaseKeys.CARGO_DUCT, Material.STRUCTURE_VOID, CargoDuct.class);
         PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
         PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);

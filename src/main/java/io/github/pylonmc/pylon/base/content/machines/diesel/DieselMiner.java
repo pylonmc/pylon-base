@@ -238,13 +238,8 @@ public class DieselMiner extends PylonBlock implements
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
-                .setStructure(
-                        "# # # # O # # # #",
-                        "# # # # o # # # #",
-                        "# # # # O # # # #"
-                )
+                .setStructure("# # # # o # # # #")
                 .addIngredient('#', GuiItems.background())
-                .addIngredient('O', GuiItems.output())
                 .addIngredient('o', outputInventory)
                 .build();
     }
