@@ -1686,6 +1686,7 @@ message:
 gui:
   fluid-selector-title: "Select Fluid"
   hammer: "Hammer"
+  pickaxe: "Pickaxe"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"

@@ -22,14 +22,27 @@ import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.Tool;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.keys.BlockTypeKeys;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Registry;
+import org.bukkit.Tag;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockType;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.components.ToolComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -56,9 +69,9 @@ public class DieselMiner extends PylonBlock implements
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final int ticksPerBlock = getSettings().getOrThrow("ticks-per-block", ConfigAdapter.INT);
-    public final List<Material> blocks = getSettings().getOrThrow("blocks", ConfigAdapter.LIST.from(ConfigAdapter.MATERIAL));
     public final Material topMaterial = getSettings().getOrThrow("top-material", ConfigAdapter.MATERIAL);
 
+    private final VirtualInventory pickaxeInventory = new VirtualInventory(1);
     private final VirtualInventory outputInventory = new VirtualInventory(1);
 
     public static class Item extends PylonItem {
@@ -81,6 +94,8 @@ public class DieselMiner extends PylonBlock implements
         }
     }
 
+    public final ItemStackBuilder pickaxeStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":pickaxe")
+            .name(Component.translatable("pylon.pylonbase.gui.pickaxe"));
     public ItemStackBuilder drillStack = ItemStackBuilder.of(Material.YELLOW_CONCRETE)
             .addCustomModelDataString(getKey() + ":drill");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
@@ -185,13 +200,38 @@ public class DieselMiner extends PylonBlock implements
         }
 
         Block toDrill = getBlock().getRelative(getFacing());
+        ItemStack stack = pickaxeInventory.getItem(0);
+        // https://minecraft.wiki/w/Breaking#Calculation (continued below the subsequent if block)
+        //TypedKey<BlockType> blockTypeTypedKey = RegistryKey.BLOCK.typedKey(toDrill.getType().asBlockType().key());
+        //Tool tool = stack.getData(DataComponentTypes.TOOL);
+        //Float toolSpeed = null;
+        //for (Tool.Rule rule : tool.rules()) {
+        //    if (!rule.blocks().contains(blockTypeTypedKey)) {
+        //        continue;
+        //    }
+
+        //    toolSpeed = rule.speed();
+
+        //    break;
+        //}
+
         if (BlockStorage.isPylonBlock(toDrill)
-                || !blocks.contains(toDrill.getType())
+                || !Tag.MINEABLE_PICKAXE.getValues().contains(toDrill.getType())
                 || !outputInventory.canHold(new ItemStack(toDrill.getType()))
+                || stack == null
         ) {
             return;
         }
 
+        //float speedMultiplier = toolSpeed;
+        //for (ItemAttributeModifiers.Entry entry : stack.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS).modifiers()) {
+        //    if (entry.attribute().equals(Attribute.MINING_EFFICIENCY)) {
+        //        speedMultiplier *= (float) entry.modifier().getAmount();
+        //    }
+        //}
+        //float damage = speedMultiplier / toDrill.getDestroySpeed()
+
+        float speed = toDrill.getDestroySpeed(stack);
         startProcess(ticksPerBlock);
     }
 
@@ -199,7 +239,7 @@ public class DieselMiner extends PylonBlock implements
     public void onProcessFinished() {
         Block toDrill = getBlock().getRelative(getFacing());
         if (BlockStorage.isPylonBlock(toDrill)
-                || !blocks.contains(toDrill.getType())
+                || !Tag.MINEABLE_PICKAXE.getValues().contains(toDrill.getType())
                 || !new BlockBreakBlockEvent(toDrill, getBlock(), new ArrayList<>()).callEvent()
         ) {
             return;
@@ -228,7 +268,7 @@ public class DieselMiner extends PylonBlock implements
     @Override
     public void onMultiblockRefreshed() {
         Block toDrill = getBlock().getRelative(getFacing());
-        if (isProcessing() && (BlockStorage.isPylonBlock(toDrill) || !blocks.contains(toDrill.getType()))) {
+        if (isProcessing() && (BlockStorage.isPylonBlock(toDrill) || !Tag.MINEABLE_PICKAXE.getValues().contains(toDrill.getType()))) {
             stopProcess();
             return;
         }
@@ -238,9 +278,16 @@ public class DieselMiner extends PylonBlock implements
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
-                .setStructure("# # # # o # # # #")
+                .setStructure(
+                        "# # H # # # O # #",
+                        "# # h # # # o # #",
+                        "# # H # # # O # #"
+                )
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('o', outputInventory)
+                .addIngredient('O', GuiItems.output())
+                .addIngredient('h', pickaxeInventory)
+                .addIngredient('H', pickaxeInventory)
                 .build();
     }
 
