@@ -86,6 +86,14 @@ public final class BaseItems {
         BasePages.RESOURCES.addItem(CARBON);
     }
 
+
+    public static final ItemStack CHARCOAL_BLOCK = ItemStackBuilder.pylon(Material.COAL_BLOCK, BaseKeys.CHARCOAL_BLOCK)
+        .build();
+    static {
+        PylonItem.register(PylonItem.class, CHARCOAL_BLOCK, BaseKeys.CHARCOAL_BLOCK);
+        BasePages.RESOURCES.addItem(CHARCOAL_BLOCK);
+    }
+
     public static final ItemStack SULFUR = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.SULFUR)
             .set(DataComponentTypes.ITEM_MODEL, Material.YELLOW_DYE.getKey())
             .build();

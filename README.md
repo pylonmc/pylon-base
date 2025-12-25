@@ -10,6 +10,9 @@ Pylon uses an addon system, meaning anyone can add content to Pylon by writing a
 Join our Discord: https://discord.gg/4tMAnBAacW  
 Visit our website: https://pylonmc.github.io/
 
+## Warning
+PYLON IS CURRENTLY EXPERIMENTAL. ONLY RUN IT ON A TEST SERVER THAT YOU ARE WILLING TO DELETE. THE NEXT PYLON VERSION WILL PROBABLY NOT BE COMPATIBLE WITH THE PREVIOUS ONE. IF YOU INSTALL PYLON SOMEWHERE YOU SHOULDN'T AND END UP LOSING DATA, WE WILL POINT AND LAUGH AT YOU.
+
 ## Pylon in pictures
 <img width="250" alt="using-smeltery" src="https://github.com/user-attachments/assets/b8a7ba3c-9103-46a5-ab43-f31de08dd492" /> 
 <img width="250" alt="using-magic-altar" src="https://github.com/user-attachments/assets/fd1d4ed9-3f1e-491a-ac73-2be9bb172e53" />
