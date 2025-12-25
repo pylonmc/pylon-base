@@ -21,36 +21,25 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public abstract class Excavator extends PylonBlock implements PylonMultiblock {
+public abstract class Miner extends PylonBlock implements PylonMultiblock, PylonProcessor {
 
-    public static final NamespacedKey WORKING_KEY = baseKey("working");
     public static final NamespacedKey INDEX_KEY = baseKey("index");
+    public static final NamespacedKey BLOCK_POSITIONS_KEY = baseKey("block_positions");
+    public static final NamespacedKey CHUNK_POSITIONS_KEY = baseKey("chunk_positions");
 
     public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
-    public final int depth = getSettings().getOrThrow("depth", ConfigAdapter.INT);
 
-    protected final List<BlockPosition> blockPositions = new ArrayList<>();
-    protected final Set<ChunkPosition> chunkPositions = new HashSet<>();
-    protected boolean working;
+    protected final List<BlockPosition> blockPositions;
+    protected final Set<ChunkPosition> chunkPositions;
     protected int index;
 
     @SuppressWarnings("unused")
-    public Excavator(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public Miner(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        working = true;
         index = 0;
-    }
-
-    @SuppressWarnings({"DataFlowIssue", "unused"})
-    public Excavator(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
-        super(block, pdc);
-        working = pdc.get(WORKING_KEY, PylonSerializers.BOOLEAN);
-        index = pdc.get(INDEX_KEY, PylonSerializers.INTEGER);
-    }
-
-    @Override
-    public void postInitialise() {
-        for (int y = 0; y >= -depth; y--) {
+        blockPositions = new ArrayList<>();
+        chunkPositions = new HashSet<>();
+        for (int y = radius; y >= -radius; y--) {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     BlockPosition blockPosition = new BlockPosition(getBlock().getRelative(x, y, z));
@@ -61,45 +50,47 @@ public abstract class Excavator extends PylonBlock implements PylonMultiblock {
         }
     }
 
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(WORKING_KEY, PylonSerializers.BOOLEAN, working);
-        pdc.set(INDEX_KEY, PylonSerializers.INTEGER, index);
+    @SuppressWarnings({"DataFlowIssue", "unused"})
+    public Miner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+        super(block, pdc);
+        index = pdc.get(INDEX_KEY, PylonSerializers.INTEGER);
+        blockPositions = pdc.get(BLOCK_POSITIONS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.BLOCK_POSITION));
+        chunkPositions = pdc.get(CHUNK_POSITIONS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.CHUNK_POSITION));
     }
 
-    protected boolean tickExcavator() {
-        if (!working) {
-            return false;
-        }
+    @Override
+    public void write(@NotNull PersistentDataContainer pdc) {
+        pdc.set(INDEX_KEY, PylonSerializers.INTEGER, index);
+        pdc.set(BLOCK_POSITIONS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.BLOCK_POSITION), blockPositions);
+        pdc.set(CHUNK_POSITIONS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.CHUNK_POSITION), chunkPositions);
+    }
 
-        if (index >= blockPositions.size()) {
-            working = false;
-            index = 0;
-            return false;
-        }
-
+    private boolean checkBlocks() {
         while (index < blockPositions.size() - 1) {
-            index++;
             BlockPosition position = blockPositions.get(index);
-            if (position.getChunk().isLoaded() && breakBlock(position.getBlock())) {
-                return true;
+            if (!position.getChunk().isLoaded()) {
+                index++;
+                continue;
             }
-        }
 
-        // Finished excavating; move back to first position and do one more pass in case
-        // something has changed in the meantime
-        working = false;
+            Integer breakTicks = getBreakTicks(position.getBlock());
+            if (breakTicks == null) {
+                index++;
+                continue;
+            }
+
+            startProcess(breakTicks);
+            return false;
+        }
         index = 0;
-        while (index < blockPositions.size() - 1) {
-            index++;
-            BlockPosition position = blockPositions.get(index);
-            if (position.getChunk().isLoaded() && breakBlock(position.getBlock())) {
-                working = true;
-                break;
-            }
-        }
+        return true;
+    }
 
-        return false;
+    protected void updateMiner() {
+        if (checkBlocks()) {
+            // Finished mining; do one more pass in case something has changed in the meantime
+            checkBlocks();
+        }
     }
 
     @Override
@@ -117,13 +108,13 @@ public abstract class Excavator extends PylonBlock implements PylonMultiblock {
         Vector relative = getBlock().getLocation().subtract(otherBlock.getLocation()).toVector();
         return Math.abs(relative.getBlockX()) <= radius
                 && Math.abs(relative.getBlockZ()) <= radius
-                && relative.getBlockY() >= 0 && relative.getBlockY() <= depth;
+                && Math.abs(relative.getBlockY()) <= radius;
     }
 
     @Override
     public void onMultiblockRefreshed() {
-        working = true;
+        updateMiner();
     }
 
-    abstract protected boolean breakBlock(Block block);
+    abstract protected Integer getBreakTicks(@NotNull Block block);
 }

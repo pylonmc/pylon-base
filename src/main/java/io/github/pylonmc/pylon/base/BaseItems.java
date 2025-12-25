@@ -1780,11 +1780,11 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_REFUELING_STATION);
     }
 
-    public static final ItemStack HYDRAULIC_EXCAVATOR = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CHISELED_COPPER, BaseKeys.HYDRAULIC_EXCAVATOR)
+    public static final ItemStack HYDRAULIC_MINER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CHISELED_COPPER, BaseKeys.HYDRAULIC_MINER)
             .build();
     static {
-        PylonItem.register(HydraulicExcavator.Item.class, HYDRAULIC_EXCAVATOR, BaseKeys.HYDRAULIC_EXCAVATOR);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_EXCAVATOR);
+        PylonItem.register(HydraulicMiner.Item.class, HYDRAULIC_MINER, BaseKeys.HYDRAULIC_MINER);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_MINER);
     }
 
     public static final ItemStack HYDRAULIC_FARMER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_COPPER_BULB, BaseKeys.HYDRAULIC_FARMER)
@@ -1794,11 +1794,11 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
     }
 
-    public static final ItemStack HYDRAULIC_COBBLESTONE_MINER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CUT_COPPER, BaseKeys.HYDRAULIC_COBBLESTONE_MINER)
+    public static final ItemStack HYDRAULIC_BREAKER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CUT_COPPER, BaseKeys.HYDRAULIC_BREAKER)
             .build();
     static {
-        PylonItem.register(HydraulicMiner.Item.class, HYDRAULIC_COBBLESTONE_MINER, BaseKeys.HYDRAULIC_COBBLESTONE_MINER);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_COBBLESTONE_MINER);
+        PylonItem.register(HydraulicBreaker.Item.class, HYDRAULIC_BREAKER, BaseKeys.HYDRAULIC_BREAKER);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_BREAKER);
     }
 
     public static final ItemStack SOULBOUND_RUNE = ItemStackBuilder.pylon(Material.FIREWORK_STAR, BaseKeys.SOULBOUND_RUNE)
@@ -1880,44 +1880,19 @@ public final class BaseItems {
         BasePages.SMELTING.addItem(DIESEL_SMELTERY_HEATER);
     }
 
-    public static final ItemStack DIESEL_COBBLESTONE_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_COBBLESTONE_MINER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.COBBLESTONE.getKey())
+    public static final ItemStack DIESEL_BREAKER = ItemStackBuilder.pylon(Material.DROPPER, BaseKeys.DIESEL_BREAKER)
             .build();
     static {
-        PylonItem.register(DieselMiner.Item.class, DIESEL_COBBLESTONE_MINER, BaseKeys.DIESEL_COBBLESTONE_MINER);
-        BasePages.DIESEL_MACHINES.addItem(DIESEL_COBBLESTONE_MINER);
+        PylonItem.register(DieselBreaker.Item.class, DIESEL_BREAKER, BaseKeys.DIESEL_BREAKER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_BREAKER);
     }
 
-    public static final ItemStack DIESEL_OBSIDIAN_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_OBSIDIAN_MINER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.OBSIDIAN.getKey())
-            .build();
-    static {
-        PylonItem.register(DieselMiner.Item.class, DIESEL_OBSIDIAN_MINER, BaseKeys.DIESEL_OBSIDIAN_MINER);
-        BasePages.DIESEL_MACHINES.addItem(DIESEL_OBSIDIAN_MINER);
-    }
-
-    public static final ItemStack DIESEL_CONCRETE_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_CONCRETE_MINER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
-            .build();
-    static {
-        PylonItem.register(DieselMiner.Item.class, DIESEL_CONCRETE_MINER, BaseKeys.DIESEL_CONCRETE_MINER);
-        BasePages.DIESEL_MACHINES.addItem(DIESEL_CONCRETE_MINER);
-    }
-
-    public static final ItemStack DIESEL_EXCAVATOR = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_EXCAVATOR)
+    public static final ItemStack DIESEL_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_MINER)
             .set(DataComponentTypes.ITEM_MODEL, Material.YELLOW_TERRACOTTA.getKey())
             .build();
     static {
-        PylonItem.register(DieselExcavator.Item.class, DIESEL_EXCAVATOR, BaseKeys.DIESEL_EXCAVATOR);
-        BasePages.DIESEL_MACHINES.addItem(DIESEL_EXCAVATOR);
-    }
-
-    public static final ItemStack DIESEL_CHOPPER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_CHOPPER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.BROWN_TERRACOTTA.getKey())
-            .build();
-    static {
-        PylonItem.register(DieselChopper.Item.class, DIESEL_CHOPPER, BaseKeys.DIESEL_CHOPPER);
-        BasePages.DIESEL_MACHINES.addItem(DIESEL_CHOPPER);
+        PylonItem.register(DieselMiner.Item.class, DIESEL_MINER, BaseKeys.DIESEL_MINER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_MINER);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)

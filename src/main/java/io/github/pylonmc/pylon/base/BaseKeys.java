@@ -282,8 +282,8 @@ public class BaseKeys {
     public static final NamespacedKey HYDRAULIC_REFUELING_STATION = baseKey("hydraulic_refueling_station");
 
     public static final NamespacedKey HYDRAULIC_FARMER = baseKey("hydraulic_farmer");
-    public static final NamespacedKey HYDRAULIC_EXCAVATOR = baseKey("hydraulic_excavator");
-    public static final NamespacedKey HYDRAULIC_COBBLESTONE_MINER = baseKey("hydraulic_cobblestone_miner");
+    public static final NamespacedKey HYDRAULIC_MINER = baseKey("hydraulic_miner");
+    public static final NamespacedKey HYDRAULIC_BREAKER = baseKey("hydraulic_breaker");
 
     public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
@@ -299,11 +299,8 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_MIXING_ATTACHMENT = baseKey("diesel_mixing_attachment");
     public static final NamespacedKey DIESEL_SMELTERY_HEATER = baseKey("diesel_smeltery_heater");
     public static final NamespacedKey DIESEL_FURNACE = baseKey("diesel_furnace");
-    public static final NamespacedKey DIESEL_COBBLESTONE_MINER = baseKey("diesel_cobblestone_miner");
-    public static final NamespacedKey DIESEL_OBSIDIAN_MINER = baseKey("diesel_obsidian_miner");
-    public static final NamespacedKey DIESEL_CONCRETE_MINER = baseKey("diesel_concrete_miner");
-    public static final NamespacedKey DIESEL_EXCAVATOR = baseKey("diesel_excavator");
-    public static final NamespacedKey DIESEL_CHOPPER = baseKey("diesel_chopper");
+    public static final NamespacedKey DIESEL_BREAKER = baseKey("diesel_breaker");
+    public static final NamespacedKey DIESEL_MINER = baseKey("diesel_miner");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

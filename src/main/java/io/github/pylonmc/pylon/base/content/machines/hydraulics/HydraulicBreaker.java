@@ -1,12 +1,11 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -18,12 +17,14 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -35,85 +36,85 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicMiner extends Miner implements
-        PylonTickingBlock,
+public class HydraulicBreaker extends PylonBlock implements
+        PylonFluidBufferBlock,
         PylonDirectionalBlock,
+        PylonTickingBlock,
+        PylonMultiblock,
         PylonInteractBlock,
-        PylonFluidBufferBlock {
+        PylonProcessor {
 
     public static NamespacedKey TOOL_KEY = baseKey("tool");
 
+    public final double hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.DOUBLE);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
-    public final int hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.INT);
-    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
     public static class Item extends PylonItem {
 
-        public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
-        public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
-        public final int hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.INT);
+        public final double hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.DOUBLE);
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
+        public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            int diameter = 2 * radius + 1;
+        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
-                    PylonArgument.of("mining-area", diameter + "x" + diameter + "x" + diameter),
                     PylonArgument.of("hydraulic-fluid-per-block", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerBlock)),
                     PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
 
-    public ItemStackBuilder topStack = ItemStackBuilder.of(Material.YELLOW_TERRACOTTA)
+    public ItemStackBuilder topStack = ItemStackBuilder.of(Material.BLUE_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":top");
+    public ItemStackBuilder drillStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":drill");
 
     public ItemStack tool;
 
     @SuppressWarnings("unused")
-    public HydraulicMiner(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public HydraulicBreaker(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-
         setTickInterval(tickInterval);
-        setFacing(context.getFacing());
-
-        addEntity("top1", new ItemDisplayBuilder()
+        createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false);
+        setFacing(context.getFacing().getOppositeFace());
+        addEntity("top", new ItemDisplayBuilder()
                 .itemStack(topStack)
                 .transformation(new TransformBuilder()
-                        .scale(0.6, 0.199, 0.6))
+                        .scale(0.7, 0.2, 0.7))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
-        addEntity("top2", new ItemDisplayBuilder()
-                .itemStack(topStack)
+        addEntity("drill", new ItemDisplayBuilder()
+                .itemStack(drillStack)
                 .transformation(new TransformBuilder()
-                        .scale(0.6, 0.2, 0.6)
-                        .rotate(0, Math.PI / 4, 0))
+                        .lookAlong(getFacing())
+                        .translate(0, -0.5, 0.5)
+                        .scale(0.6, 0.6, 0.2)
+                        .rotate(0, 0, Math.PI / 4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
-
-        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
-        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
-
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
-
         tool = null;
     }
 
     @SuppressWarnings("unused")
-    public HydraulicMiner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public HydraulicBreaker(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         tool = pdc.get(TOOL_KEY, PylonSerializers.ITEM_STACK);
     }
@@ -125,8 +126,7 @@ public class HydraulicMiner extends Miner implements
 
     @Override
     public void postInitialise() {
-        super.postInitialise();
-        updateMiner();
+        tryStartDrilling();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class HydraulicMiner extends Miner implements
         if (newStack != null) {
             tool = newStack.clone();
             newStack.setAmount(0);
-            updateMiner();
+            tryStartDrilling();
         }
     }
 
@@ -170,6 +170,74 @@ public class HydraulicMiner extends Miner implements
         }
 
         progressProcess(tickInterval);
+        Block drilling = getBlock().getRelative(getFacing());
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.6, 0))
+                .data(drilling.getBlockData())
+                .spawn();
+    }
+
+    public void tryStartDrilling() {
+        if (isProcessing()) {
+            return;
+        }
+
+        Block toDrill = getBlock().getRelative(getFacing());
+        if (tool == null
+                || toDrill.getType().isAir()
+                || BlockStorage.isPylonBlock(toDrill)
+                || !toDrill.isPreferredTool(tool)
+        ) {
+            return;
+        }
+
+        startProcess((int) Math.round(PylonUtils.getBlockBreakTicks(tool, toDrill) / speed));
+    }
+
+    @Override
+    public void onProcessFinished() {
+        Block toDrill = getBlock().getRelative(getFacing());
+        if (tool == null
+                || toDrill.getType().isAir()
+                || BlockStorage.isPylonBlock(toDrill)
+                || !toDrill.isPreferredTool(tool)
+                || !new BlockBreakBlockEvent(toDrill, getBlock(), new ArrayList<>()).callEvent()
+        ) {
+            return;
+        }
+
+        toDrill.breakNaturally();
+        tool.setData(DataComponentTypes.DAMAGE, tool.getData(DataComponentTypes.DAMAGE) + 1);
+        if (Objects.equals(tool.getData(DataComponentTypes.DAMAGE), tool.getData(DataComponentTypes.MAX_DAMAGE))) {
+            tool = null;
+        }
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerBlock);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerBlock);
+    }
+
+    @Override
+    public @NotNull Set<ChunkPosition> getChunksOccupied() {
+        return Set.of(new ChunkPosition(getBlock().getRelative(getFacing()).getChunk()));
+    }
+
+    @Override
+    public boolean checkFormed() {
+        return true;
+    }
+
+    @Override
+    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
+        return getBlock().getRelative(getFacing()).equals(otherBlock);
+    }
+
+    @Override
+    public void onMultiblockRefreshed() {
+        if (isProcessing()) {
+            stopProcess();
+            return;
+        }
+        tryStartDrilling();
     }
 
     @Override
@@ -188,40 +256,5 @@ public class HydraulicMiner extends Miner implements
                         TextColor.fromHexString("#48459b")
                 ))
         ));
-    }
-
-    @Override
-    public void onProcessFinished() {
-        Block block = blockPositions.get(index).getBlock();
-        List<ItemStack> drops = block.getDrops().stream().toList();
-        if (tool == null
-                || block.getType().isAir()
-                || BlockStorage.isPylonBlock(block)
-                || !block.isPreferredTool(tool)
-                || !new BlockBreakBlockEvent(block, getBlock(), drops).callEvent()
-        ) {
-            return;
-        }
-
-        block.breakNaturally();
-        tool.setData(DataComponentTypes.DAMAGE, tool.getData(DataComponentTypes.DAMAGE) + 1);
-        if (Objects.equals(tool.getData(DataComponentTypes.DAMAGE), tool.getData(DataComponentTypes.MAX_DAMAGE))) {
-            tool = null;
-        }
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerBlock);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerBlock);
-        updateMiner();
-    }
-
-    @Override
-    protected Integer getBreakTicks(@NotNull Block block) {
-        if (tool == null
-                || block.getType().isAir()
-                || BlockStorage.isPylonBlock(block)
-                || !block.isPreferredTool(tool)
-        ) {
-            return null;
-        }
-        return (int) Math.round(PylonUtils.getBlockBreakTicks(tool, block) / speed);
     }
 }

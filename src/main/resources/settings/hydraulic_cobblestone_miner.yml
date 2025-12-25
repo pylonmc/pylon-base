@@ -1,7 +1,0 @@
-hydraulic-fluid-usage: 40
-buffer: 500
-tick-interval: 10
-ticks-per-block: 60
-blocks:
-  - cobblestone
-top-material: cobblestone
