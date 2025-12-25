@@ -301,6 +301,8 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_FURNACE = baseKey("diesel_furnace");
     public static final NamespacedKey DIESEL_BREAKER = baseKey("diesel_breaker");
     public static final NamespacedKey DIESEL_MINER = baseKey("diesel_miner");
+    public static final NamespacedKey FERMENTER = baseKey("fermenter");
+    public static final NamespacedKey BIOREFINERY = baseKey("biorefinery");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

@@ -94,9 +94,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
 
         components.put(new Vector3i(0, -2, 3), new VanillaMultiblockComponent(Material.CAULDRON));
         components.put(new Vector3i(1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH));
-        components.put(new Vector3i(1, -1, 3), new PylonMultiblockComponent(BaseKeys.FLUID_TANK_CASING_COPPER));
         components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH));
-        components.put(new Vector3i(-1, -1, 3), new PylonMultiblockComponent(BaseKeys.FLUID_TANK_CASING_COPPER));
 
         components.put(new Vector3i(0, -2, 4), new VanillaMultiblockComponent(Material.CHEST));
 

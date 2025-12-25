@@ -1895,6 +1895,22 @@ public final class BaseItems {
         BasePages.DIESEL_MACHINES.addItem(DIESEL_MINER);
     }
 
+    public static final ItemStack FERMENTER = ItemStackBuilder.pylon(Material.GREEN_TERRACOTTA, BaseKeys.FERMENTER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PISTON.getKey())
+            .build();
+    static {
+        PylonItem.register(Fermenter.Item.class, FERMENTER, BaseKeys.FERMENTER);
+        BasePages.DIESEL_PRODUCTION.addItem(FERMENTER);
+    }
+
+    public static final ItemStack BIOREFINERY = ItemStackBuilder.pylon(Material.BLACK_TERRACOTTA, BaseKeys.BIOREFINERY)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PISTON.getKey())
+            .build();
+    static {
+        PylonItem.register(Biorefinery.Item.class, BIOREFINERY, BaseKeys.BIOREFINERY);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY);
+    }
+
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
             .set(DataComponentTypes.ITEM_MODEL, Material.GRAY_CONCRETE.getKey())
             .build();

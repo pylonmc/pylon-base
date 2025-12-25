@@ -1210,12 +1210,14 @@ item:
     name: "Hydraulic Core Drill Input Hatch"
     lore: |-
       <star> Hydraulic Core Drill multiblock component
+      <arrow> <light_purple>Requires a fluid tank casing to be placed directly above
     waila: "Hydraulic Core Drill Input Hatch | %bars%"
 
   hydraulic_core_drill_output_hatch:
     name: "Hydraulic Core Drill Output Hatch"
     lore: |-
       <star> Hydraulic Core Drill multiblock component
+      <arrow> <light_purple>Requires a fluid tank casing to be placed directly above
     waila: "Hydraulic Core Drill Output Hatch | %bars%"
 
   shallow_core_chunk:
@@ -1463,6 +1465,22 @@ item:
       <arrow> <attr>Diesel usage:</attr> %diesel-per-block% per block
       <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
     waila: "Diesel Miner | %bar%"
+
+  fermenter:
+    name: "Fermenter"
+    lore: |-
+      <arrow> Ferments sugarcane into ethanol
+      <arrow> <attr>Ethanol per sugarcane:</attr> %ethanol-per-sugarcane%
+      <arrow> <attr>Fermentation time:</attr> %fermentation-time%
+      <arrow> <attr>Sugarcane capacity:</attr> %sugarcane-capacity%
+      <arrow> <attr>Ethanol buffer:</attr> %ethanol-buffer%
+    waila: "Fermenter | %sugarcane-bar% %sugarcane-amount% sugarcane | %ethanol-bar%"
+
+  biorefinery:
+    name: "Biorefinery"
+    lore: |-
+      <arrow> Refines ethanol and plant oil into biodiesel
+    waila: "Diesel Miner | %hydraulic-fluid-bar% | %dirty-hydraulic-fluid-bar% | %ethanol-bar% | %plant-oil-bar% | %biodiesel-bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"

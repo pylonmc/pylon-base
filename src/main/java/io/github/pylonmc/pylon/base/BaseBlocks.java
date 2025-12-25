@@ -57,6 +57,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_BRONZE, Material.ORANGE_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_IGNEOUS_COMPOSITE, Material.BLACK_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_STEEL, Material.GRAY_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.HYDRAULIC_MINER, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicMiner.class);
         PylonBlock.register(BaseKeys.FLUID_VALVE, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(BaseKeys.WATER_PUMP, Material.BLUE_TERRACOTTA, WaterPump.class);
         PylonBlock.register(BaseKeys.FLUID_FILTER, Material.STRUCTURE_VOID, FluidFilter.class);
@@ -131,6 +132,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.DIESEL_FURNACE, Material.FURNACE, DieselFurnace.class);
         PylonBlock.register(BaseKeys.DIESEL_BREAKER, Material.DROPPER, DieselBreaker.class);
         PylonBlock.register(BaseKeys.DIESEL_MINER, Material.IRON_BLOCK, DieselMiner.class);
+        PylonBlock.register(BaseKeys.FERMENTER, Material.GREEN_TERRACOTTA, Fermenter.class);
+        PylonBlock.register(BaseKeys.BIOREFINERY, Material.BLACK_TERRACOTTA, Biorefinery.class);
         PylonBlock.register(BaseKeys.CARGO_DUCT, Material.STRUCTURE_VOID, CargoDuct.class);
         PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
         PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);

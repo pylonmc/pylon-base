@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankCasing;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Settings;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -21,15 +20,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
 
-    private final double buffer = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER)
-            .getOrThrow("capacity", ConfigAdapter.DOUBLE);
-
     @SuppressWarnings("unused")
     public HydraulicCoreDrillInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         createFluidBuffer(
                 BaseFluids.HYDRAULIC_FLUID,
-                buffer,
+                0,
                 true,
                 false
         );
@@ -48,7 +44,8 @@ public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
 
     @Override
     public void onMultiblockFormed() {
-        setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, buffer);
+        FluidTankCasing casing = BlockStorage.getAs(FluidTankCasing.class, getBlock().getRelative(BlockFace.UP));
+        setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, casing.capacity);
     }
 
     @Override

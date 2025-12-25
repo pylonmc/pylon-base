@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankCasing;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
@@ -41,7 +42,7 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
     @Override
     public boolean checkFormed() {
         PylonBlock aboveBlock = BlockStorage.get(getBlock().getRelative(BlockFace.UP));
-        return aboveBlock != null && aboveBlock.getKey().equals(BaseKeys.FLUID_TANK_CASING_COPPER);
+        return aboveBlock instanceof FluidTankCasing;
     }
 
     @Override
@@ -53,7 +54,6 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
     public void onMultiblockRefreshed() {
         Waila.addWailaOverride(new BlockPosition(getBlock().getRelative(BlockFace.UP)), this::getWaila);
     }
-
 
     @Override
     public boolean setFluid(@NotNull PylonFluid fluid, double amount) {
