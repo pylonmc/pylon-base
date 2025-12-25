@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -42,8 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
-
+public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler {
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BLOOMERY).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float HEAT_CHANCE = Settings.get(BaseKeys.BLOOMERY).getOrThrow("heat-chance", ConfigAdapter.FLOAT);
 
@@ -66,15 +66,18 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
     }
 
     @Override
-    public @NotNull ItemStack getDropItem(@NotNull BlockBreakContext context) {
-        return getItemDisplay().getItemStack();
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        ItemStack stack = getItemDisplay().getItemStack();
+        if (!stack.isEmpty()) {
+            drops.add(stack);
+        }
     }
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) return;
-        event.setCancelled(true);
         if (!isFormedAndFullyLoaded()) return;
+        event.setCancelled(true);
         ItemStack placedItem = event.getItem();
 
         ItemDisplay itemDisplay = getItemDisplay();

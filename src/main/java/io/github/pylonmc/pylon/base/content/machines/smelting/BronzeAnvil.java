@@ -40,8 +40,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static  final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
-    public static  final int TOLERANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tolerance", ConfigAdapter.INT);
+    public static final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
+    public static final int TOLERANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tolerance", ConfigAdapter.INT);
     public static final Sound HAMMER_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.hammer", ConfigAdapter.SOUND);
     public static final Sound TONGS_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.tongs", ConfigAdapter.SOUND);
 
@@ -123,7 +123,8 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         int temperature = bloom.getTemperature();
         int workingChange = ThreadLocalRandom.current().nextInt(-1, 2);
         if (temperature == 0) {
-            workingChange = 0;
+            player.swingHand(EquipmentSlot.HAND);
+            return;
         } else if (PylonUtils.isPylonSimilar(item, BaseItems.TONGS)) {
             workingChange -= temperature;
             getBlock().getWorld().playSound(TONGS_SOUND, player);
@@ -138,9 +139,6 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         }
 
         event.setCancelled(true);
-        player.swingHand(EquipmentSlot.HAND);
-        if (temperature == 0) return;
-
         int working = bloom.getWorking();
         int newWorking = working + workingChange;
         Location centerLoc = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
