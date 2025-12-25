@@ -78,9 +78,4 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     public @NotNull Material getMaterial() {
         return Material.COPPER_INGOT;
     }
-
-    // TODO remove and replace caller with runTaskLater for consistency
-    public static void runSyncTimer(@NotNull Consumer<BukkitTask> task, long delay, long period) {
-        Bukkit.getScheduler().runTaskTimer(instance, task, delay, period);
-    }
 }

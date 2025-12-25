@@ -13,6 +13,7 @@ public class BaseKeys {
 
     public static final NamespacedKey COAL_DUST = baseKey("coal_dust");
     public static final NamespacedKey CARBON = baseKey("carbon");
+    public static final NamespacedKey CHARCOAL_BLOCK = baseKey("charcoal_block");
 
     public static final NamespacedKey SULFUR = baseKey("sulfur");
 
