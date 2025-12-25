@@ -180,7 +180,7 @@ public class HydraulicHammerHead extends PylonBlock implements
             );
         }
 
-        if (!hammer.tryDoRecipe(baseBlock, null, null)) {
+        if (!hammer.tryDoRecipe(baseBlock, null, null, BlockFace.UP)) {
             return;
         }
 

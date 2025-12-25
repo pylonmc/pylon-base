@@ -38,8 +38,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Hammer extends PylonItem implements PylonBlockInteractor {
-
-
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
     public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
@@ -49,13 +47,15 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         super(stack);
     }
 
-    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot) {
+    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot, @NotNull BlockFace clickedFace) {
         if (baseBlock != block.getType()) {
             if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
                 player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
             }
             return false;
         }
+
+        if (clickedFace != BlockFace.UP) return false;
 
         Block blockAbove = block.getRelative(BlockFace.UP);
 
@@ -108,12 +108,12 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         event.setUseInteractedBlock(Event.Result.DENY);
 
         Player player = event.getPlayer();
-        if (player.hasCooldown(getStack()) || event.getBlockFace() != BlockFace.UP) return;
+        if (player.hasCooldown(getStack())) return;
 
         Block clickedBlock = event.getClickedBlock();
         Preconditions.checkState(clickedBlock != null);
 
-        tryDoRecipe(clickedBlock, player, event.getHand());
+        tryDoRecipe(clickedBlock, player, event.getHand(), event.getBlockFace());
     }
 
     private static Material getBaseBlock(@NotNull NamespacedKey key) {

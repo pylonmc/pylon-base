@@ -1,12 +1,15 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.content.components.EnrichedSoulSoil;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -141,27 +144,29 @@ public final class MixingPot extends PylonBlock implements
     }
 
     public boolean tryDoRecipe() {
-        if (getFluidType() == null || (getFire().getType() != Material.FIRE && getFire().getType() != Material.SOUL_FIRE)) {
-            return false;
-        }
+        if (getFluidType() == null) return false;
+
+        Material fireType = getFire().getType();
+        boolean isFire = fireType == Material.FIRE || fireType == Material.SOUL_FIRE;
+        if (!isFire) return false;
+
+        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
+        boolean isEnrichedFire = ignitedBlock != null
+                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_SOUL_SOIL);
 
         List<Item> items = getBlock()
                 .getLocation()
                 .toCenterLocation()
-                .getNearbyEntities(0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
+                .getNearbyEntitiesByType(Item.class, 0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
                 .stream()
-                .filter(Item.class::isInstance)
-                .map(Item.class::cast)
                 .toList();
 
         List<ItemStack> stacks = items.stream()
                 .map(Item::getItemStack)
                 .toList();
 
-        boolean isEnriched = BlockStorage.getAs(EnrichedSoulSoil.class, getIgnitedBlock()) != null;
-
         for (MixingPotRecipe recipe : MixingPotRecipe.RECIPE_TYPE.getRecipes()) {
-            if (!recipe.matches(stacks, isEnriched, getFluidType(), getFluidAmount())) {
+            if (!recipe.matches(stacks, isEnrichedFire, getFluidType(), getFluidAmount())) {
                 continue;
             }
 
