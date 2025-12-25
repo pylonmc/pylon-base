@@ -42,8 +42,8 @@ public class SoulboundRune extends Rune {
         ItemStack soulboundItem = ItemStackBuilder.of(target.asQuantity(consume))
                 .lore(GlobalTranslator.render(TOOLTIP, event.getPlayer().locale()))
                 .build();
-        soulboundItem.editMeta(meta -> {
-            meta.getPersistentDataContainer().set(SOULBOUND_KEY, PylonSerializers.UUID, event.getPlayer().getUniqueId());
+        soulboundItem.editPersistentDataContainer(pdc -> {
+            pdc.set(SOULBOUND_KEY, PylonSerializers.UUID, event.getPlayer().getUniqueId());
         });
 
         // (N)Either left runes or targets
