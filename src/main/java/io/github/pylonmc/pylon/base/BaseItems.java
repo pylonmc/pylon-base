@@ -11,7 +11,11 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselBrickMolder;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselGrindstone;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
@@ -1817,6 +1821,38 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselPipeBender.Item.class, DIESEL_PIPE_BENDER, BaseKeys.DIESEL_PIPE_BENDER);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_PIPE_BENDER);
+    }
+
+    public static final ItemStack DIESEL_TABLE_SAW = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_TABLE_SAW)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_BARS.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselTableSaw.Item.class, DIESEL_TABLE_SAW, BaseKeys.DIESEL_TABLE_SAW);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_TABLE_SAW);
+    }
+
+    public static final ItemStack DIESEL_PRESS = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_PRESS)
+            .set(DataComponentTypes.ITEM_MODEL, Material.COMPOSTER.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselPress.Item.class, DIESEL_PRESS, BaseKeys.DIESEL_PRESS);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_PRESS);
+    }
+
+    public static final ItemStack DIESEL_GRINDSTONE = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_GRINDSTONE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SMOOTH_STONE_SLAB.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselGrindstone.Item.class, DIESEL_GRINDSTONE, BaseKeys.DIESEL_GRINDSTONE);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_GRINDSTONE);
+    }
+
+    public static final ItemStack DIESEL_BRICK_MOLDER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_BRICK_MOLDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.OAK_PLANKS.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselBrickMolder.Item.class, DIESEL_BRICK_MOLDER, BaseKeys.DIESEL_BRICK_MOLDER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_BRICK_MOLDER);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)

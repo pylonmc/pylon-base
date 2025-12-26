@@ -1324,10 +1324,41 @@ item:
     name: "Diesel Pipe Bender"
     lore: |-
       <arrow> Efficiently bends materials into pipes
-      <arrow> <insn>Right click</insn> to insert an item
       <arrow> <attr>Diesel usage:</attr> %diesel-usage%
       <arrow> <attr>Speed:</attr> %speed%
     waila: "Diesel Pipe Bender | %diesel-bar%"
+
+  diesel_table_saw:
+    name: "Diesel Table Saw"
+    lore: |-
+      <arrow> Efficiently cuts logs into planks, and planks into sticks
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Table Saw | %diesel-bar%"
+
+  diesel_press:
+    name: "Diesel Press"
+    lore: |-
+      <arrow> Presses plants into plant oil
+      <arrow> Throw plants in and <insn>right click</insn> to press them into plant oil
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Time per item:</attr> %time-per-item%
+    waila: "Diesel Press | %diesel-bar% | %plant-oil-bar%"
+
+  diesel_grindstone:
+    name: "Diesel Grindstone"
+    lore: |-
+      <arrow> Grinds items
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+    waila: "Diesel Grindstone | %diesel-bar%"
+
+  diesel_brick_molder:
+    name: "Diesel Brick Molder"
+    lore: |-
+      <arrow> Molds materials into bricks
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Molding cycles:</attr> %molding-cycles%
+    waila: "Diesel Brick Molder | %diesel-bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"
@@ -1480,6 +1511,7 @@ guide:
     melting: "<attr>Temperature:</attr> %temperature%"
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
+    molding: "<attr>Molding cycles:</attr> %molding-cycles%"
 
 message:
   fluid_none: "None"

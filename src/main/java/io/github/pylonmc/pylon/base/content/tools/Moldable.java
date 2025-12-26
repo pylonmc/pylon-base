@@ -26,7 +26,7 @@ public interface Moldable extends Keyed {
     default int totalMoldingClicks() {
         for (MoldingRecipe recipe : MoldingRecipe.RECIPE_TYPE) {
             if (recipe.isInput(moldingInputStack())) {
-                return recipe.moldClicks();
+                return recipe.moldingCycles();
             }
         }
         throw new IllegalStateException("Moldable item " + getKey() + " does not have an associated molding recipe");
