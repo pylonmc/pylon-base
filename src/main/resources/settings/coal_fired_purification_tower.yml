@@ -1,8 +1,4 @@
 purification-speed: 50 # mb/s
 purification-efficiency: 0.93
-hydraulic-fluid-buffer: 80 # mb
+buffer: 200 # mb
 tick-interval: 20
-
-fuels: # values in seconds
-  coal: 15
-  charcoal: 10

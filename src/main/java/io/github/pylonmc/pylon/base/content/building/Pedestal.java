@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -30,8 +29,7 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
     private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
     private static final NamespacedKey LOCKED_KEY = baseKey("locked");
     private double rotation;
-    @Setter
-    private boolean locked;
+    public boolean locked;
 
     @SuppressWarnings("unused")
     public Pedestal(@NotNull Block block, @NotNull BlockCreateContext context) {

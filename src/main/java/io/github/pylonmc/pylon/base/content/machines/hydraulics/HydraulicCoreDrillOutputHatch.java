@@ -2,27 +2,34 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
 
-    private final double capacity = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
+    private final double buffer = Settings.get(BaseKeys.FLUID_TANK_CASING_COPPER)
+            .getOrThrow("capacity", ConfigAdapter.DOUBLE);
 
     @SuppressWarnings("unused")
     public HydraulicCoreDrillOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         createFluidBuffer(
                 BaseFluids.DIRTY_HYDRAULIC_FLUID,
-                capacity,
+                buffer,
                 false,
                 true
         );
@@ -41,7 +48,7 @@ public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
 
     @Override
     public void onMultiblockFormed() {
-        setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, capacity);
+        setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer);
     }
 
     @Override
@@ -50,5 +57,17 @@ public class HydraulicCoreDrillOutputHatch extends HydraulicCoreDrillHatch {
             setFluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
             setFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, 0);
         }
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                ))
+        ));
     }
 }

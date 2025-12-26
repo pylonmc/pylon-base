@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -32,7 +31,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock, PylonProcessor {
 
-    public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(baseKey("smeltery_burner_fuels"));
+    public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
 
     static {
@@ -61,7 +60,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         fuel = null;
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public SmelteryBurner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
@@ -101,7 +100,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null || !controller.isRunning()) {
             return;
@@ -110,7 +109,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         progressProcess(getTickInterval());
 
         if (fuel != null) {
-            controller.heatAsymptotically(deltaSeconds, fuel.temperature);
+            controller.heatAsymptotically(getTickInterval() / 20.0, fuel.temperature);
             return;
         }
 
