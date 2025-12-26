@@ -262,8 +262,6 @@ public class BaseKeys {
     public static final NamespacedKey IMPROVED_MANUAL_CORE_DRILL = baseKey("improved_manual_core_drill");
 
     public static final NamespacedKey HYDRAULIC_CORE_DRILL = baseKey("hydraulic_core_drill");
-    public static final NamespacedKey HYDRAULIC_CORE_DRILL_INPUT_HATCH = baseKey("hydraulic_core_drill_input_hatch");
-    public static final NamespacedKey HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = baseKey("hydraulic_core_drill_output_hatch");
 
     public static final NamespacedKey SHALLOW_CORE_CHUNK = baseKey("shallow_core_chunk");
     public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");

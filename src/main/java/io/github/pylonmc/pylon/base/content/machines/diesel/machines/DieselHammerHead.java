@@ -1,16 +1,14 @@
-package io.github.pylonmc.pylon.base.content.machines.diesel;
+package io.github.pylonmc.pylon.base.content.machines.diesel.machines;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
+import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -19,9 +17,12 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -37,23 +38,33 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 
 
-public class DieselMixingAttachment extends PylonBlock implements
+public class DieselHammerHead extends PylonBlock implements
         PylonTickingBlock,
+        PylonGuiBlock,
         PylonFluidBufferBlock,
         PylonProcessor,
-        PylonDirectionalBlock {
+        PylonDirectionalBlock,
+        PylonLogisticBlock {
 
-    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
-    public final int downAnimationTimeTicks = getSettings().getOrThrow("down-animation-time-ticks", ConfigAdapter.INT);
-    public final int upAnimationTimeTicks = getSettings().getOrThrow("up-animation-time-ticks", ConfigAdapter.INT);
+    public final int goDownTimeTicks = getSettings().getOrThrow("go-down-time-ticks", ConfigAdapter.INT);
+    public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
     public final double dieselPerCraft = getSettings().getOrThrow("diesel-per-craft", ConfigAdapter.INT);
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
+    private final VirtualInventory hammerInventory = new VirtualInventory(1);
+
+    private final ItemStack emptyHammerTipStack = ItemStackBuilder.of(Material.AIR)
+            .addCustomModelDataString(getKey() + ":hammer_tip:empty")
+            .build();
+    public final ItemStackBuilder hammerStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":hammer")
+            .name(Component.translatable("pylon.pylonbase.gui.hammer"));
     public final ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
     public final ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
@@ -63,7 +74,7 @@ public class DieselMixingAttachment extends PylonBlock implements
 
     public static class Item extends PylonItem {
 
-        public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+        public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
         public final double dieselPerCraft = getSettings().getOrThrow("diesel-per-craft", ConfigAdapter.INT);
         public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.INT);
 
@@ -74,7 +85,7 @@ public class DieselMixingAttachment extends PylonBlock implements
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),
+                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
                     PylonArgument.of("diesel-per-craft", UnitFormat.MILLIBUCKETS.format(dieselPerCraft)),
                     PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
             );
@@ -82,7 +93,7 @@ public class DieselMixingAttachment extends PylonBlock implements
     }
 
     @SuppressWarnings("unused")
-    public DieselMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public DieselHammerHead(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         setTickInterval(tickInterval);
@@ -112,11 +123,16 @@ public class DieselMixingAttachment extends PylonBlock implements
                         .scale(0.9, 0.8, 1.1))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
-        addEntity("mixing_attachment_shaft", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
-                        .addCustomModelDataString(getKey() + ":mixing_attachment_shaft")
+        addEntity("hammer_head", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.GRAY_CONCRETE)
+                        .addCustomModelDataString(getKey() + ":hammer_head")
                 )
-                .transformation(getShaftTransformation(0.7))
+                .transformation(getHeadTransformation(0.7))
+                .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
+        );
+        addEntity("hammer_tip", new ItemDisplayBuilder()
+                .itemStack(emptyHammerTipStack)
+                .transformation(getTipTransformation(-0.3))
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
         );
 
@@ -124,8 +140,26 @@ public class DieselMixingAttachment extends PylonBlock implements
     }
 
     @SuppressWarnings("unused")
-    public DieselMixingAttachment(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public DieselHammerHead(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        hammerInventory.setPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        hammerInventory.setPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        createLogisticGroup("hammer", LogisticSlotType.INPUT, hammerInventory);
+    }
+
+    public void updateHammerTip(ItemStack newItem) {
+        if (!(PylonItem.fromStack(newItem) instanceof Hammer hammer)) {
+            getHammerTip().setItemStack(null);
+            return;
+        }
+        getHammerTip().setItemStack(ItemStackBuilder.of(hammer.baseBlock)
+                .addCustomModelDataString(getKey() + ":hammer_tip:" + hammer.getKey().key())
+                .build()
+        );
     }
 
     @Override
@@ -151,32 +185,75 @@ public class DieselMixingAttachment extends PylonBlock implements
             return;
         }
 
-        MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN, 2));
-        if (mixingPot == null || !mixingPot.tryDoRecipe()) {
+        if (!(PylonItem.fromStack(hammerInventory.getItem(0)) instanceof Hammer hammer)) {
             return;
         }
 
-        BaseUtils.animate(getMixingAttachmentShaft(), downAnimationTimeTicks, getShaftTransformation(0.2));
-        Bukkit.getScheduler().runTaskLater(
-                PylonBase.getInstance(),
-                () -> {
-                    BaseUtils.animate(getMixingAttachmentShaft(), upAnimationTimeTicks, getShaftTransformation(0.7));
-                    startProcess(cooldownTicks);
+        Block baseBlock = getBlock().getRelative(BlockFace.DOWN, 3);
+        if (BlockStorage.isPylonBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
+            return;
+        }
 
-                },
-                downAnimationTimeTicks
-        );
+        if (!hammer.tryDoRecipe(baseBlock, null, null, BlockFace.UP)) {
+            return;
+        }
+
+        BaseUtils.animate(getHammerHead(), goDownTimeTicks, getHeadTransformation(-0.5));
+        BaseUtils.animate(getHammerTip(), goDownTimeTicks, getTipTransformation(-1.5));
+
+        Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+            BaseUtils.animate(getHammerHead(), (int)(hammer.cooldownTicks / speed) - goDownTimeTicks, getHeadTransformation(0.7));
+            BaseUtils.animate(getHammerTip(), (int)(hammer.cooldownTicks / speed) - goDownTimeTicks, getTipTransformation(-0.3));
+
+            new ParticleBuilder(Particle.BLOCK)
+                    .data(baseBlock.getBlockData())
+                    .count(20)
+                    .location(baseBlock.getLocation().toCenterLocation().add(0, 0.6, 0))
+                    .spawn();
+            startProcess((int)(hammer.cooldownTicks / speed));
+        }, goDownTimeTicks);
     }
 
-    private static @NotNull Matrix4f getShaftTransformation(double yTranslation) {
+    @Override
+    public @NotNull Gui createGui() {
+        return Gui.normal()
+                .setStructure(
+                        "# # # # H # # # #",
+                        "# # # # x # # # #",
+                        "# # # # H # # # #"
+                )
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('H', hammerStack)
+                .addIngredient('x', hammerInventory)
+                .build();
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    public @NotNull ItemDisplay getHammerHead() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_head");
+    }
+
+    public @NotNull ItemDisplay getHammerTip() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "hammer_tip");
+    }
+
+    public static @NotNull Matrix4f getHeadTransformation(double translationY) {
         return new TransformBuilder()
-                .translate(0, yTranslation, 0)
-                .scale(0.2, 1.5, 0.2)
+                .translate(0, translationY, 0)
+                .scale(0.3, 2.0, 0.3)
                 .buildForItemDisplay();
     }
 
-    public @Nullable ItemDisplay getMixingAttachmentShaft() {
-        return getHeldEntity(ItemDisplay.class, "mixing_attachment_shaft");
+    public static @NotNull Matrix4f getTipTransformation(double translationY) {
+        return new TransformBuilder()
+                .translate(0, translationY, 0)
+                .scale(0.6, 0.1, 0.6)
+                .buildForItemDisplay();
     }
 
     @Override

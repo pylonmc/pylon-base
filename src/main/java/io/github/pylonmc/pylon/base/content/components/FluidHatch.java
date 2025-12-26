@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -21,6 +22,7 @@ import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.waila.Waila;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -39,7 +41,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidHatch extends PylonBlock implements
+public abstract class FluidHatch extends PylonBlock implements
         PylonFluidBufferBlock,
         PylonSimpleMultiblock,
         PylonDirectionalBlock {
@@ -66,7 +68,7 @@ public class FluidHatch extends PylonBlock implements
     public FluidHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         fluid = null;
-
+        setFacing(context.getFacing());
         addEntity("fluid", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder().scale(0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
@@ -126,19 +128,29 @@ public class FluidHatch extends PylonBlock implements
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
-        double amount = fluid == null ? 0 : fluidAmount(fluid);
-        double capacity = fluid == null ? 1 : fluidCapacity(fluid);
+        Component info;
+        if (!isFormedAndFullyLoaded()) {
+            info = Component.translatable("pylon.pylonbase.message.fluid_hatch.no_casing");
+        } else if (fluid == null) {
+            info = Component.translatable("pylon.pylonbase.message.fluid_hatch.no_multiblock");
+        } else {
+            info = Component.translatable("pylon.pylonbase.message.fluid_hatch.working")
+                    .arguments(
+                            PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                                    fluidAmount(fluid),
+                                    fluidCapacity(fluid),
+                                    20,
+                                    TextColor.color(200, 255, 255)
+                            )),
+                            PylonArgument.of("fluid", fluid.getName())
+                    );
+        }
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
-                        amount,
-                        capacity,
-                        20,
-                        TextColor.color(200, 255, 255)
-                ))
+                PylonArgument.of("info", info)
         ));
     }
 
-    public void setFluid(PylonFluid fluid) {
+    public void setFluidType(PylonFluid fluid) {
         if (this.fluid != null) {
             deleteFluidBuffer(this.fluid);
         }
@@ -152,5 +164,11 @@ public class FluidHatch extends PylonBlock implements
 
     public @NotNull ItemDisplay getFluidDisplay() {
         return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
+    }
+
+    @Override
+    public void postBreak(@NotNull BlockBreakContext context) {
+        PylonFluidBufferBlock.super.postBreak(context);
+        Waila.removeWailaOverride(getBlock().getRelative(BlockFace.UP));
     }
 }

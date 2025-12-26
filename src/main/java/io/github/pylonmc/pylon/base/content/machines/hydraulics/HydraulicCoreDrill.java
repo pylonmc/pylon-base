@@ -91,8 +91,8 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         components.put(new Vector3i(1, -2, 2), new VanillaMultiblockComponent(Material.IRON_BARS));
 
         components.put(new Vector3i(0, -2, 3), new VanillaMultiblockComponent(Material.CAULDRON));
-        components.put(new Vector3i(1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH));
-        components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH));
+        components.put(new Vector3i(1, -2, 3), new PylonMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
+        components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
 
         components.put(new Vector3i(0, -2, 4), new VanillaMultiblockComponent(Material.CHEST));
 
@@ -137,6 +137,29 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         );
     }
 
+    @Override
+    public void onMultiblockFormed() {
+        super.onMultiblockFormed();
+        FluidInputHatch inputHatch = getInputHatch();
+        FluidOutputHatch outputHatch = getOutputHatch();
+        Preconditions.checkState(inputHatch != null && outputHatch != null);
+        inputHatch.setFluidType(BaseFluids.HYDRAULIC_FLUID);
+        outputHatch.setFluidType(BaseFluids.DIRTY_HYDRAULIC_FLUID);
+    }
+
+    @Override
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        super.onMultiblockUnformed(partUnloaded);
+        FluidInputHatch inputHatch = getInputHatch();
+        if (inputHatch != null) {
+            inputHatch.setFluidType(null);
+        }
+        FluidOutputHatch outputHatch = getOutputHatch();
+        if (outputHatch != null) {
+            outputHatch.setFluidType(null);
+        }
+    }
+
     public @Nullable FluidInputHatch getInputHatch() {
         Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()));
         Location inputHatchLocation = getBlock().getLocation().add(relativeLocation);
@@ -144,7 +167,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     }
 
     public @Nullable FluidOutputHatch getOutputHatch() {
-        Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()));
+        Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing()));
         Location inputHatchLocation = getBlock().getLocation().add(relativeLocation);
         return BlockStorage.getAs(FluidOutputHatch.class, inputHatchLocation);
     }

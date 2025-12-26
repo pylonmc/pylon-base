@@ -1205,9 +1205,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name/></yellow>
       <diamond> 1x <yellow>Cauldron</yellow>
       <diamond> 1x <yellow>Chest</yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_output_hatch.name/></yellow>
-      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_tank_casing_copper.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
 
@@ -1216,14 +1215,16 @@ item:
     lore: |-
       <star> Multiblock component
       <arrow> Acts as a fluid input for multiblock machines
-    waila: "Fluid Input Hatch | %bars%"
+      <arrow> Requires a fluid casing above
+    waila: "Fluid Input Hatch | %info%"
 
   fluid_output_hatch:
     name: "Fluid Output Hatch"
     lore: |-
       <star> Multiblock component
       <arrow> Acts as a fluid output for multiblock machines
-    waila: "Fluid Output Hatch | %bars%"
+      <arrow> Requires a fluid casing above
+    waila: "Fluid Output Hatch | %info%"
 
   shallow_core_chunk:
     name: "Shallow Core Chunk"
@@ -1621,6 +1622,7 @@ guide:
     hydraulics: "Hydraulic Machines"
     cargo: "Cargo"
     diesel_machines: "Diesel Machines"
+    diesel_production: "Diesel Production"
     smelting: "Smelting"
     machines: "Machines"
     building: "Building"
@@ -1641,6 +1643,10 @@ message:
   fluid_selector:
     current_fluid: "<white>Current fluid: %fluid%"
     clear: "<white>Clear"
+  fluid_hatch:
+    no_casing: "<red>No casing"
+    no_multiblock: "<red>No multiblock"
+    working: "%bars% (%fluid%)"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points (%total% points total)"

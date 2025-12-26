@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.machines.diesel;
+package io.github.pylonmc.pylon.base.content.machines.diesel.production;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonPiston;

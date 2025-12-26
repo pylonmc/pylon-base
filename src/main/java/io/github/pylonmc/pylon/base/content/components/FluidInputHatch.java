@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class FluidInputHatch extends FluidHatch {
     public FluidInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        createFluidPoint(FluidPointType.INPUT, BlockFace.SOUTH, context, true);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, true);
     }
 
     public FluidInputHatch(@NotNull Block block, @NotNull PersistentDataContainer pdc) {

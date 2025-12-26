@@ -1,13 +1,15 @@
-package io.github.pylonmc.pylon.base.content.machines.diesel;
+package io.github.pylonmc.pylon.base.content.machines.diesel.machines;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -15,8 +17,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
-import io.github.pylonmc.pylon.core.recipe.vanilla.FurnaceRecipeType;
-import io.github.pylonmc.pylon.core.recipe.vanilla.FurnaceRecipeWrapper;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -28,9 +28,8 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockCookEvent;
-import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
@@ -43,20 +42,18 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import java.util.List;
 
 
-public class DieselFurnace extends PylonBlock implements
+public class DieselTableSaw extends PylonBlock implements
         PylonGuiBlock,
         PylonFluidBufferBlock,
         PylonDirectionalBlock,
         PylonTickingBlock,
         PylonLogisticBlock,
-        PylonFurnace,
-        PylonRecipeProcessor<FurnaceRecipeWrapper> {
+        PylonRecipeProcessor<TableSawRecipe> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
-    public final int recipeTime = (int) Math.round(20 * 8 / speed);
 
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
@@ -89,10 +86,10 @@ public class DieselFurnace extends PylonBlock implements
     }
 
     @SuppressWarnings("unused")
-    public DieselFurnace(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public DieselTableSaw(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
-        createFluidPoint(FluidPointType.INPUT, BlockFace.UP);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
         setFacing(context.getFacing());
         addEntity("chimney", new ItemDisplayBuilder()
                 .itemStack(chimneyStack)
@@ -105,26 +102,36 @@ public class DieselFurnace extends PylonBlock implements
         addEntity("side1", new ItemDisplayBuilder()
                 .itemStack(sideStack1)
                 .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(0, -0.5, -0.1)
-                        .scale(0.8, 0.8, 0.9))
+                        .translate(0, -0.5, 0)
+                        .scale(1.1, 0.8, 0.8))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("side2", new ItemDisplayBuilder()
                 .itemStack(sideStack2)
                 .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
                         .translate(0, -0.5, 0)
-                        .scale(1.1, 0.8, 0.8))
+                        .scale(0.9, 0.8, 1.1))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
+        addEntity("item", new ItemDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .scale(0.3))
+                .build(block.getLocation().toCenterLocation().add(0, 0.65, 0))
+        );
+        addEntity("saw", new BlockDisplayBuilder()
+                .blockData(Material.IRON_BARS.createBlockData("[east=true,west=true]"))
+                .transformation(new TransformBuilder()
+                        .rotate(0, PylonUtils.faceToYaw(getFacing()), 0)
+                        .scale(0.6, 0.4, 0.4))
+                .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))
+        );
         createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
-        setRecipeType(FurnaceRecipeType.INSTANCE);
+        setRecipeType(TableSawRecipe.RECIPE_TYPE);
         setRecipeProgressItem(new ProgressItem(GuiItems.background()));
     }
 
     @SuppressWarnings("unused")
-    public DieselFurnace(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public DieselTableSaw(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -164,6 +171,11 @@ public class DieselFurnace extends PylonBlock implements
                 .count(0)
                 .extra(0.05)
                 .spawn();
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                .data(getCurrentRecipe().particleData())
+                .spawn();
         progressRecipe(tickInterval);
     }
 
@@ -177,14 +189,19 @@ public class DieselFurnace extends PylonBlock implements
             return;
         }
 
-        for (FurnaceRecipeWrapper recipe : FurnaceRecipeType.INSTANCE) {
-            if (!recipe.isInput(stack) || !outputInventory.canHold(recipe.getRecipe().getResult())) {
+        for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
+            double dieselAmount = dieselPerSecond * recipe.timeTicks() / 20.0;
+            if (fluidAmount(BaseFluids.BIODIESEL) < dieselAmount
+                    || !recipe.input().isSimilar(stack)
+                    || !outputInventory.canHold(recipe.result())
+            ) {
                 continue;
             }
 
-            startRecipe(recipe, recipeTime);
+            startRecipe(recipe, recipe.timeTicks());
             getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
-            inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.getRecipe().getInput().getAmount()));
+            getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
+            inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
             break;
         }
     }
@@ -209,7 +226,7 @@ public class DieselFurnace extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                PylonArgument.of("diesel-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,
@@ -219,18 +236,9 @@ public class DieselFurnace extends PylonBlock implements
     }
 
     @Override
-    public void onEndSmelting(@NotNull BlockCookEvent event) {
-        event.setCancelled(true);
-    }
-
-    @Override
-    public void onFuelBurn(@NotNull FurnaceBurnEvent event) {
-        event.setCancelled(true);
-    }
-
-    @Override
-    public void onRecipeFinished(@NotNull FurnaceRecipeWrapper recipe) {
+    public void onRecipeFinished(@NotNull TableSawRecipe recipe) {
         getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
-        outputInventory.addItem(null, recipe.getRecipe().getResult().clone());
+        getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
+        outputInventory.addItem(null, recipe.result().clone());
     }
 }

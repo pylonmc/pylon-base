@@ -1355,30 +1355,6 @@ pylonbase:hydraulic_core_drill:
   result: pylonbase:hydraulic_core_drill
   category: building
 
-pylonbase:hydraulic_core_drill_input_hatch:
-  pattern:
-    - "T T"
-    - "PO "
-    - "T T"
-  key:
-    T: minecraft:terracotta
-    P: pylonbase:fluid_pipe_bronze
-    O: pylonbase:backflow_valve
-  result: pylonbase:hydraulic_core_drill_input_hatch
-  category: building
-
-pylonbase:hydraulic_core_drill_output_hatch:
-  pattern:
-    - "T T"
-    - " OP"
-    - "T T"
-  key:
-    T: minecraft:terracotta
-    P: pylonbase:fluid_pipe_bronze
-    O: pylonbase:backflow_valve
-  result: pylonbase:hydraulic_core_drill_output_hatch
-  category: building
-
 pylonbase:climbing_pick:
   pattern:
     - "H H"
