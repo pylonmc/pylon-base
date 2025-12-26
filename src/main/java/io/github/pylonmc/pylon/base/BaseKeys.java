@@ -185,6 +185,9 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_TANK_CASING_IGNEOUS_COMPOSITE = baseKey("fluid_tank_casing_igneous_composite");
     public static final NamespacedKey FLUID_TANK_CASING_STEEL = baseKey("fluid_tank_casing_steel");
 
+    public static final NamespacedKey FLUID_INPUT_HATCH = baseKey("fluid_input_hatch");
+    public static final NamespacedKey FLUID_OUTPUT_HATCH = baseKey("fluid_output_hatch");
+
     public static final NamespacedKey WATER_PUMP = baseKey("water_pump");
 
     public static final NamespacedKey FLUID_VALVE = baseKey("fluid_valve");

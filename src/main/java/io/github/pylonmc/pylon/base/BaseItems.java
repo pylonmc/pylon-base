@@ -1093,6 +1093,20 @@ public final class BaseItems {
         BasePages.FLUID_PIPES_AND_TANKS.addItem(FLUID_TANK_CASING_STEEL);
     }
 
+    public static final ItemStack FLUID_OUTPUT_HATCH = ItemStackBuilder.pylon(Material.ORANGE_TERRACOTTA, BaseKeys.FLUID_OUTPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_OUTPUT_HATCH, BaseKeys.FLUID_OUTPUT_HATCH);
+        BasePages.COMPONENTS.addItem(FLUID_OUTPUT_HATCH);
+    }
+
+    public static final ItemStack FLUID_INPUT_HATCH = ItemStackBuilder.pylon(Material.LIGHT_BLUE_TERRACOTTA, BaseKeys.FLUID_INPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_INPUT_HATCH, BaseKeys.FLUID_INPUT_HATCH);
+        BasePages.COMPONENTS.addItem(FLUID_INPUT_HATCH);
+    }
+
     public static final ItemStack ROTOR = ItemStackBuilder.pylon(Material.IRON_TRAPDOOR, BaseKeys.ROTOR)
             .build();
     static {
@@ -1661,20 +1675,6 @@ public final class BaseItems {
     static {
         PylonItem.register(HydraulicCoreDrill.Item.class, HYDRAULIC_CORE_DRILL, BaseKeys.HYDRAULIC_CORE_DRILL);
         BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL);
-    }
-
-    public static final ItemStack HYDRAULIC_CORE_DRILL_INPUT_HATCH = ItemStackBuilder.pylon(Material.LIGHT_BLUE_TERRACOTTA, BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, HYDRAULIC_CORE_DRILL_INPUT_HATCH, BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL_INPUT_HATCH);
-    }
-
-    public static final ItemStack HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = ItemStackBuilder.pylon(Material.ORANGE_TERRACOTTA, BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
     }
 
     public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylon(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)

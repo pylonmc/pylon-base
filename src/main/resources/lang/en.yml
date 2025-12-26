@@ -1211,19 +1211,19 @@ item:
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
 
-  hydraulic_core_drill_input_hatch:
-    name: "Hydraulic Core Drill Input Hatch"
+  fluid_input_hatch:
+    name: "Fluid Input Hatch"
     lore: |-
-      <star> Hydraulic Core Drill multiblock component
-      <arrow> <light_purple>Requires a fluid tank casing to be placed directly above
-    waila: "Hydraulic Core Drill Input Hatch | %bars%"
+      <star> Multiblock component
+      <arrow> Acts as a fluid input for multiblock machines
+    waila: "Fluid Input Hatch | %bars%"
 
-  hydraulic_core_drill_output_hatch:
-    name: "Hydraulic Core Drill Output Hatch"
+  fluid_output_hatch:
+    name: "Fluid Output Hatch"
     lore: |-
-      <star> Hydraulic Core Drill multiblock component
-      <arrow> <light_purple>Requires a fluid tank casing to be placed directly above
-    waila: "Hydraulic Core Drill Output Hatch | %bars%"
+      <star> Multiblock component
+      <arrow> Acts as a fluid output for multiblock machines
+    waila: "Fluid Output Hatch | %bars%"
 
   shallow_core_chunk:
     name: "Shallow Core Chunk"

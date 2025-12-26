@@ -5,6 +5,8 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.content.components.EnrichedSoulSoil;
+import io.github.pylonmc.pylon.base.content.components.FluidInputHatch;
+import io.github.pylonmc.pylon.base.content.components.FluidOutputHatch;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
 import io.github.pylonmc.pylon.base.content.machines.diesel.*;
@@ -58,6 +60,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_BRONZE, Material.ORANGE_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_IGNEOUS_COMPOSITE, Material.BLACK_STAINED_GLASS, FluidTankCasing.class);
         PylonBlock.register(BaseKeys.FLUID_TANK_CASING_STEEL, Material.GRAY_STAINED_GLASS, FluidTankCasing.class);
+        PylonBlock.register(BaseKeys.FLUID_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, FluidOutputHatch.class);
+        PylonBlock.register(BaseKeys.FLUID_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, FluidInputHatch.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_MINER, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicMiner.class);
         PylonBlock.register(BaseKeys.FLUID_VALVE, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(BaseKeys.WATER_PUMP, Material.BLUE_TERRACOTTA, WaterPump.class);
@@ -113,8 +117,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.MANUAL_CORE_DRILL, Material.CHISELED_STONE_BRICKS, ManualCoreDrill.class);
         PylonBlock.register(BaseKeys.IMPROVED_MANUAL_CORE_DRILL, Material.WAXED_OXIDIZED_COPPER, ImprovedManualCoreDrill.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL, Material.WAXED_COPPER_BULB, HydraulicCoreDrill.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH, Material.LIGHT_BLUE_TERRACOTTA, HydraulicCoreDrillInputHatch.class);
-        PylonBlock.register(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, Material.ORANGE_TERRACOTTA, HydraulicCoreDrillOutputHatch.class);
         PylonBlock.register(BaseKeys.VACUUM_HOPPER_1, Material.HOPPER, VacuumHopper.class);
         PylonBlock.register(BaseKeys.VACUUM_HOPPER_2, Material.HOPPER, VacuumHopper.class);
         PylonBlock.register(BaseKeys.VACUUM_HOPPER_3, Material.HOPPER, VacuumHopper.class);
