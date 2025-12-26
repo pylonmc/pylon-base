@@ -194,7 +194,7 @@ public class DieselHammerHead extends PylonBlock implements
             return;
         }
 
-        if (!hammer.tryDoRecipe(baseBlock, null, null)) {
+        if (!hammer.tryDoRecipe(baseBlock, null, null, BlockFace.UP)) {
             return;
         }
 
