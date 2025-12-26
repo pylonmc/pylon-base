@@ -90,6 +90,7 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
         return components;
     }
 
+    @Override
     public void tick(double deltaSeconds) {
         if (!isFormedAndFullyLoaded() || !getBlock().getWorld().isDayTime()) {
             return;

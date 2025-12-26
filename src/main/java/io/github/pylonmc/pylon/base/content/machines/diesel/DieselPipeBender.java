@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -44,7 +45,7 @@ import java.util.List;
 
 
 public class DieselPipeBender extends PylonBlock
-        implements PylonGuiBlock, PylonFluidBufferBlock, PylonLogisticBlock, PylonRecipeProcessor<PipeBendingRecipe> {
+        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<PipeBendingRecipe> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
@@ -151,9 +152,9 @@ public class DieselPipeBender extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        PylonRecipeProcessor.super.tick(deltaSeconds);
+        progressRecipe(tickInterval);
 
-        if (getCurrentRecipe() != null) {
+        if (isProcessingRecipe()) {
             spawnParticles();
             return;
         }
