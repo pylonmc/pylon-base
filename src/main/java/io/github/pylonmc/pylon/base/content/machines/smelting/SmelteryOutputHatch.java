@@ -37,7 +37,7 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
         Pair<PylonFluid, Double> supplied = controller.getBottomFluid();
         return supplied == null
                 ? Map.of()
-                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * PylonConfig.fluidTickInterval/ 20.0));
+                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * PylonConfig.FLUID_TICK_INTERVAL / 20.0));
     }
 
     @Override
