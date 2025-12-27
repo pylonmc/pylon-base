@@ -2,15 +2,12 @@ package io.github.pylonmc.pylon.base.content.machines.diesel;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
-import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -18,6 +15,8 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.recipe.vanilla.FurnaceRecipeType;
+import io.github.pylonmc.pylon.core.recipe.vanilla.FurnaceRecipeWrapper;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -26,12 +25,12 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockCookEvent;
+import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
@@ -43,47 +42,22 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-
-public class DieselGrindstone extends PylonBlock implements
+public class DieselFurnace extends PylonBlock implements
         PylonGuiBlock,
         PylonFluidBufferBlock,
         PylonDirectionalBlock,
         PylonTickingBlock,
         PylonLogisticBlock,
-        PylonRecipeProcessor<GrindstoneRecipe> {
+        PylonFurnace,
+        PylonRecipeProcessor<FurnaceRecipeWrapper> {
 
-    public static final NamespacedKey STONE_ROTATION_KEY = baseKey("stone_rotation");
-
-    public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
+    public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
+    public final int recipeTime = (int) Math.round(20 * 8 / speed);
 
-    private final VirtualInventory inputInventory = new VirtualInventory(1);
-    private final VirtualInventory outputInventory = new VirtualInventory(3);
-    private double stoneRotation;
-
-    public static class Item extends PylonItem {
-
-        public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
-        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
-
-        public Item(@NotNull ItemStack stack) {
-            super(stack);
-        }
-
-        @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-            return List.of(
-                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
-                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
-            );
-        }
-    }
-
-    public ItemStackBuilder stoneStack = ItemStackBuilder.of(Material.SMOOTH_STONE)
-            .addCustomModelDataString(getKey() + ":stone");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
     public ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
@@ -91,11 +65,34 @@ public class DieselGrindstone extends PylonBlock implements
     public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":chimney");
 
+    private final VirtualInventory inputInventory = new VirtualInventory(1);
+    private final VirtualInventory outputInventory = new VirtualInventory(1);
+
+    public static class Item extends PylonItem {
+
+        public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
+        public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
+                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100))
+            );
+        }
+    }
+
     @SuppressWarnings("unused")
-    public DieselGrindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public DieselFurnace(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
-        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP);
         setFacing(context.getFacing());
         addEntity("chimney", new ItemDisplayBuilder()
                 .itemStack(chimneyStack)
@@ -108,38 +105,27 @@ public class DieselGrindstone extends PylonBlock implements
         addEntity("side1", new ItemDisplayBuilder()
                 .itemStack(sideStack1)
                 .transformation(new TransformBuilder()
-                        .translate(0, -0.5, 0)
-                        .scale(1.1, 0.8, 0.8))
+                        .lookAlong(getFacing())
+                        .translate(0, -0.5, -0.1)
+                        .scale(0.8, 0.8, 0.9))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("side2", new ItemDisplayBuilder()
                 .itemStack(sideStack2)
                 .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
                         .translate(0, -0.5, 0)
-                        .scale(0.9, 0.8, 1.1))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        );
-        addEntity("stone", new ItemDisplayBuilder()
-                .itemStack(stoneStack)
-                .transformation(new TransformBuilder()
-                        .scale(0.6, 0.2, 0.6))
+                        .scale(1.1, 0.8, 0.8))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
-        setRecipeType(GrindstoneRecipe.RECIPE_TYPE);
+        setRecipeType(FurnaceRecipeType.INSTANCE);
         setRecipeProgressItem(new ProgressItem(GuiItems.background()));
-        stoneRotation = 0;
     }
 
     @SuppressWarnings("unused")
-    public DieselGrindstone(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public DieselFurnace(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        stoneRotation = pdc.get(STONE_ROTATION_KEY, PylonSerializers.DOUBLE);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(STONE_ROTATION_KEY, PylonSerializers.DOUBLE, stoneRotation);
     }
 
     @Override
@@ -156,13 +142,18 @@ public class DieselGrindstone extends PylonBlock implements
     }
 
     @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    @Override
     public void tick() {
         if (!isProcessingRecipe() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerSecond * tickInterval / 20) {
             return;
         }
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
-        progressRecipe(tickInterval);
         Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
                 new Vector3d(0.4, 0.7, -0.4),
                 getFacing().getOppositeFace()
@@ -173,15 +164,7 @@ public class DieselGrindstone extends PylonBlock implements
                 .count(0)
                 .extra(0.05)
                 .spawn();
-        stoneRotation += Math.PI / 2.2;
-        BaseUtils.animate(
-                getHeldEntityOrThrow(ItemDisplay.class, "stone"),
-                tickInterval,
-                new TransformBuilder()
-                        .scale(0.6, 0.2, 0.6)
-                        .rotate(0, stoneRotation, 0)
-                        .buildForItemDisplay()
-        );
+        progressRecipe(tickInterval);
     }
 
     public void tryStartRecipe() {
@@ -194,52 +177,39 @@ public class DieselGrindstone extends PylonBlock implements
             return;
         }
 
-        recipeLoop:
-        for (GrindstoneRecipe recipe : GrindstoneRecipe.RECIPE_TYPE) {
-            if (!recipe.input().matches(stack)) {
+        for (FurnaceRecipeWrapper recipe : FurnaceRecipeType.INSTANCE) {
+            if (!recipe.isInput(stack) || !outputInventory.canHold(recipe.getRecipe().getResult())) {
                 continue;
             }
 
-            for (ItemStack output : recipe.results().getElements()) {
-                if (!outputInventory.canHold(output)) {
-                    break recipeLoop;
-                }
-            }
-
-            startRecipe(recipe, recipe.cycles() * Grindstone.CYCLE_DURATION_TICKS);
+            startRecipe(recipe, recipeTime);
             getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
-            inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
+            inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.getRecipe().getInput().getAmount()));
             break;
         }
-    }
-
-    @Override
-    public void onRecipeFinished(@NotNull GrindstoneRecipe recipe) {
-        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
-        outputInventory.addItem(null, recipe.results().getRandom());
     }
 
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
-                        "# I # # # O O O #",
-                        "# i # p # o o o #",
-                        "# I # # # O O O #"
+                        "# # I # # # O # #",
+                        "# # i # p # o # #",
+                        "# # I # # # O # #"
                 )
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('I', GuiItems.input())
                 .addIngredient('i', inputInventory)
+                .addIngredient('p', getRecipeProgressItem())
                 .addIngredient('O', GuiItems.output())
                 .addIngredient('o', outputInventory)
-                .addIngredient('p', getRecipeProgressItem())
                 .build();
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("diesel-bar", BaseUtils.createFluidAmountBar(
+                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,
@@ -249,8 +219,18 @@ public class DieselGrindstone extends PylonBlock implements
     }
 
     @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonGuiBlock.super.onBreak(drops, context);
-        PylonFluidBufferBlock.super.onBreak(drops, context);
+    public void onEndSmelting(@NotNull BlockCookEvent event) {
+        event.setCancelled(true);
+    }
+
+    @Override
+    public void onFuelBurn(@NotNull FurnaceBurnEvent event) {
+        event.setCancelled(true);
+    }
+
+    @Override
+    public void onRecipeFinished(@NotNull FurnaceRecipeWrapper recipe) {
+        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+        outputInventory.addItem(null, recipe.getRecipe().getResult().clone());
     }
 }
