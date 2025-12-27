@@ -104,7 +104,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         SmelteryController controller = getController();
         if (controller != null && controller.isRunning()) {
             if (fuel != null) {
-                controller.heatAsymptotically(deltaSeconds, fuel.temperature);
+                controller.heatAsymptotically(fuel.temperature);
             } else {
                 itemLoop:
                 for (int i = 0; i < inventory.getSize(); i++) {
