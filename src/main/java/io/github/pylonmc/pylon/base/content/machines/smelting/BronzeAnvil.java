@@ -99,23 +99,28 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         ItemStack placedItem = event.getItem();
 
         ItemDisplay itemDisplay = getItemDisplay();
-        ItemStack oldStack = itemDisplay.getItemStack();
-        if (oldStack.getType().isAir()) {
-            if (placedItem != null) {
-                itemDisplay.setItemStack(placedItem.asOne());
-                placedItem.subtract();
-                if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
-                    transformForWorking(bloom.getWorking(), false);
-                    bloom.setDisplayGlowOn(itemDisplay);
+
+        if (itemDisplay != null) {
+            ItemStack oldStack = itemDisplay.getItemStack();
+
+            if (oldStack.getType().isAir()) {
+                if (placedItem != null) {
+                    itemDisplay.setItemStack(placedItem.asOne());
+                    placedItem.subtract();
+                    if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
+                        transformForWorking(bloom.getWorking(), false);
+                        bloom.setDisplayGlowOn(itemDisplay);
+                    }
                 }
+            } else {
+                Player player = event.getPlayer();
+                for (ItemStack stack : player.getInventory().addItem(oldStack).values()) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), stack);
+                }
+                itemDisplay.setItemStack(null);
             }
-        } else {
-            Player player = event.getPlayer();
-            for (ItemStack stack : player.getInventory().addItem(oldStack).values()) {
-                player.getWorld().dropItemNaturally(player.getLocation(), stack);
-            }
-            itemDisplay.setItemStack(null);
         }
+
         event.setCancelled(true);
         event.getPlayer().swingHand(EquipmentSlot.HAND);
     }
@@ -178,6 +183,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     public void tick(double deltaSeconds) {
         if (ThreadLocalRandom.current().nextFloat() > COOL_CHANCE) return;
         ItemDisplay itemDisplay = getItemDisplay();
+        if (itemDisplay == null) return;
         if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
         int newTemperature = Math.max(0, bloom.getTemperature() - 1);
         bloom.setTemperature(newTemperature);
@@ -191,12 +197,14 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         itemDisplay.setItemStack(bloom.getStack());
     }
 
-    public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
-    public static final NamespacedKey STORED_ITEM = baseKey("stored_item");
+        public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
+        public static final NamespacedKey STORED_ITEM = baseKey("stored_item");
     @Override
     public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity spawnedEntity) {
         var pdc = spawnedEntity.getEntity().getPersistentDataContainer();
-        PylonUtils.setNullable(pdc, STORED_ITEM, PylonSerializers.ITEM_STACK, getItemDisplay().getItemStack());
+
+        ItemDisplay display = getItemDisplay();
+        PylonUtils.setNullable(pdc, STORED_ITEM, PylonSerializers.ITEM_STACK, display == null ? null : display.getItemStack());
         pdc.set(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE, getBlockFace());
     }
 
@@ -204,8 +212,8 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity entity) {
         var pdc = entity.getEntity().getPersistentDataContainer();
 
+        ItemStack stack = pdc.get(STORED_ITEM, PylonSerializers.ITEM_STACK);
         BlockFace face = pdc.get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
-        ItemStack stack = pdc.get(DIRECTION_FALLING, PylonSerializers.ITEM_STACK);
         addEntity("item", new ItemDisplayBuilder()
                 .itemStack(stack)
                 .transformation(new Matrix4f(BASE_TRANSFORM)
@@ -214,8 +222,8 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         );
     }
 
-    public @NotNull ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    public ItemDisplay getItemDisplay() {
+        return getHeldEntity(ItemDisplay.class, "item");
     }
 
     private void transformForWorking(int working, boolean interpolate) {
@@ -226,10 +234,14 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
                         1,
                         Math.max(0, -working * 0.5f) + 1
                 );
+
+        ItemDisplay display = getItemDisplay();
+        if (display == null) return;
+
         if (interpolate) {
-            BaseUtils.animate(getItemDisplay(), 5, transform);
+            BaseUtils.animate(display, 5, transform);
         } else {
-            getItemDisplay().setTransformationMatrix(transform);
+            display.setTransformationMatrix(transform);
         }
     }
 
