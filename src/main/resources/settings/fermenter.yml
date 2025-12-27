@@ -1,0 +1,4 @@
+tick-interval: 10
+ethanol-per-sugarcane: 200
+sugarcane-capacity: 256
+max-ethanol-output-rate: 65
