@@ -3,30 +3,35 @@ pylonbase:tin_nuggets_from_tin_ingot:
     - pylonbase:tin_ingot
   result:
     pylonbase:tin_nugget: 9
+  category: misc
 
 pylonbase:tin_ingots_from_tin_block:
   ingredients:
     - pylonbase:tin_block
   result:
     pylonbase:tin_ingot: 9
+  category: misc
 
 pylonbase:bronze_nuggets_from_bronze_ingot:
   ingredients:
     - pylonbase:bronze_ingot
   result:
     pylonbase:bronze_nugget: 9
+  category: misc
 
 pylonbase:bronze_ingots_from_bronze_block:
   ingredients:
     - pylonbase:bronze_block
   result:
     pylonbase:bronze_ingot: 9
+  category: misc
 
 pylonbase:steel_nuggets_from_steel_ingot:
   ingredients:
     - pylonbase:steel_ingot
   result:
     pylonbase:steel_nugget: 9
+  category: misc
 
 pylonbase:charcoal_from_charcoal_block:
   ingredients:
@@ -40,30 +45,35 @@ pylonbase:steel_ingots_from_steel_block:
     - pylonbase:steel_block
   result:
     pylonbase:steel_ingot: 9
+  category: misc
 
 pylonbase:nickel_nuggets_from_nickel_ingot:
   ingredients:
     - pylonbase:nickel_ingot
   result:
     pylonbase:nickel_nugget: 9
+  category: misc
 
 pylonbase:nickel_ingots_from_nickel_block:
   ingredients:
     - pylonbase:nickel_block
   result:
     pylonbase:nickel_ingot: 9
+  category: misc
 
 pylonbase:cobalt_nuggets_from_cobalt_ingot:
   ingredients:
     - pylonbase:cobalt_ingot
   result:
     pylonbase:cobalt_nugget: 9
+  category: misc
 
 pylonbase:cobalt_ingots_from_cobalt_block:
   ingredients:
     - pylonbase:cobalt_block
   result:
     pylonbase:cobalt_ingot: 9
+  category: misc
 
 pylonbase:shimmer_dust_1:
   ingredients:
@@ -72,6 +82,7 @@ pylonbase:shimmer_dust_1:
     - minecraft:clay_ball
   result:
     pylonbase:shimmer_dust_1: 1
+  category: misc
 
 pylonbase:medkit:
   ingredients:
@@ -80,6 +91,7 @@ pylonbase:medkit:
     - pylonbase:disinfectant
   result:
     pylonbase:medkit: 1
+  category: equipment
 
 pylonbase:research_pack_1:
   ingredients:
@@ -89,9 +101,11 @@ pylonbase:research_pack_1:
     - pylonbase:sulfur
   result:
     pylonbase:research_pack_1: 1
+  category: equipment
 
 pylonbase:explosive_target_super:
   ingredients:
     - pylonbase:explosive_target: 4
   result:
     pylonbase:explosive_target_super: 1
+  category: redstone
