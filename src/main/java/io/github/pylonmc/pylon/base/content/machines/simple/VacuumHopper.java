@@ -2,12 +2,15 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
@@ -16,10 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
-public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
+public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
     public static class Item extends PylonItem {
         public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
@@ -54,21 +58,44 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock {
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         Hopper hopper = (Hopper) getBlock().getState();
 
-        for (Entity entity : getBlock().getLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
+        for (ItemStack item : hopper.getInventory()) {
+            if (item != null) {
+                drops.add(item);
+            }
+        }
+    }
+
+    @Override
+    public void tick(double deltaSeconds) {
+        Hopper hopper = (Hopper) getBlock().getState();
+        if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
+            return; // don't vacuum if powered
+        }
+
+        for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }
 
-            boolean added = hopper.getInventory().addItem(item.getItemStack()).isEmpty();
-            item.remove();
-
-            if (!added) {
+            ItemStack stack = item.getItemStack();
+            HashMap<Integer, ItemStack> rest = hopper.getInventory().addItem(stack);
+            if (rest.isEmpty()) {
+                new ParticleBuilder(Particle.WITCH)
+                        .location(item.getLocation())
+                        .spawn();
+                item.remove();
                 break;
             }
 
+            int fail = rest.values().stream().findFirst().get().getAmount();
+            if (fail == stack.getAmount()) {
+                continue;
+            }
+
+            stack.setAmount(fail);
             new ParticleBuilder(Particle.WITCH)
                     .location(item.getLocation())
                     .spawn();

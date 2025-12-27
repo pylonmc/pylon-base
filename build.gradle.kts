@@ -21,13 +21,16 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/") {
         name = "papermc"
     }
+    maven("https://jitpack.io") {
+        name = "JitPack"
+    }
     maven("https://repo.xenondevs.xyz/releases")
 }
 
 val coreVersion = project.properties["pylon-core.version"] as String
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
     compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
 
     implementation("org.bstats:bstats-bukkit:2.2.1")
@@ -69,7 +72,7 @@ tasks.runServer {
         github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
     }
     maxHeapSize = "4G"
-    minecraftVersion("1.21.8")
+    minecraftVersion("1.21.10")
 }
 
 tasks.withType<Jar> {
@@ -104,19 +107,6 @@ publishing {
                     connection = "scm:git:git://github.com/pylonmc/pylon-base.git"
                     developerConnection = "scm:git:ssh://github.com:pylonmc/pylon-base.git"
                     url = "https://github.com/pylonmc/pylon-base"
-                }
-                // Bypass maven-publish erroring when using `from(components["java"])`
-                withXml {
-                    val root = asNode()
-                    val dependenciesNode = root.appendNode("dependencies")
-                    val configs = listOf(configurations.compileOnlyApi, configurations.api)
-                    configs.flatMap { it.get().dependencies }.forEach {
-                        val dependencyNode = dependenciesNode.appendNode("dependency")
-                        dependencyNode.appendNode("groupId", it.group)
-                        dependencyNode.appendNode("artifactId", it.name)
-                        dependencyNode.appendNode("version", it.version)
-                        dependencyNode.appendNode("scope", "compile")
-                    }
                 }
             }
         }

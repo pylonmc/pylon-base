@@ -2,11 +2,9 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -28,12 +26,12 @@ public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
                 true,
                 false
         );
-        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(BaseFluids.HYDRAULIC_FLUID.getMaterial())
+        addEntity("fluid", new ItemDisplayBuilder()
+                .itemStack(BaseFluids.HYDRAULIC_FLUID.getItem())
                 .transformation(new TransformBuilder().scale(0))
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
-        ));
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
+        );
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, true);
     }
 
     @SuppressWarnings("unused")
@@ -42,14 +40,15 @@ public class HydraulicCoreDrillInputHatch extends HydraulicCoreDrillHatch {
     }
 
     @Override
-    public boolean checkFormed() {
-        boolean formed = super.checkFormed();
-        if (!formed) {
+    public void onMultiblockFormed() {
+        setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, capacity);
+    }
+
+    @Override
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        if (!partUnloaded) {
             setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, 0);
             setFluid(BaseFluids.HYDRAULIC_FLUID, 0);
-        } else {
-            setFluidCapacity(BaseFluids.HYDRAULIC_FLUID, capacity);
         }
-        return formed;
     }
 }

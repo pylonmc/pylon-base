@@ -4,7 +4,10 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonTool;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.Tool;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -15,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,7 +73,12 @@ public class LumberAxe extends PylonItem implements PylonTool {
                 }
             }
         }
-        player.damageItemStack(tool, 1);
+
+        Tool toolComponent = tool.getData(DataComponentTypes.TOOL);
+        if (toolComponent != null) {
+            PylonUtils.damageItem(tool, toolComponent.damagePerBlock(), player, EquipmentSlot.HAND);
+        }
+
         for (BlockFace face : PylonUtils.IMMEDIATE_FACES) {
             breakAttachedWood(block.getRelative(face), player, tool);
         }

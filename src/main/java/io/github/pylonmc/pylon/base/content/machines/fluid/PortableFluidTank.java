@@ -2,16 +2,14 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.context.BlockItemContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -28,10 +26,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.Style;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -47,8 +47,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class PortableFluidTank extends PylonBlock
-        implements PylonFluidTank, PylonEntityHolderBlock, PylonInteractableBlock {
+public class PortableFluidTank extends PylonBlock implements PylonFluidTank, PylonInteractBlock {
 
     public static class Item extends PylonItem {
         public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
@@ -116,14 +115,16 @@ public class PortableFluidTank extends PylonBlock
             ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
     );
 
+    private int lastDisplayUpdate = -1;
+
     @SuppressWarnings("unused")
     public PortableFluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        addEntity("fluid", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("fluid", new ItemDisplayBuilder()
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
+        );
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.DOWN);
         setCapacity(capacity);
     }
 
@@ -141,27 +142,35 @@ public class PortableFluidTank extends PylonBlock
     @Override
     public void setFluidType(@Nullable PylonFluid fluid) {
         PylonFluidTank.super.setFluidType(fluid);
-        getFluidDisplay().getEntity().setItemStack(fluid == null ? null : new ItemStack(fluid.getMaterial()));
+        getFluidDisplay().setItemStack(fluid == null ? null : fluid.getItem());
     }
 
     @Override
     public boolean setFluid(double amount) {
+        double oldAmount = getFluidAmount();
         boolean result = PylonFluidTank.super.setFluid(amount);
-        float scale = (float) (0.9F * getFluidAmount() / capacity);
-        getFluidDisplay().getEntity().setTransformationMatrix(new TransformBuilder()
-                .translate(0.0, -0.45 + scale / 2, 0.0)
-                .scale(0.9, scale, 0.9)
-                .buildForItemDisplay()
-        );
+        amount = getFluidAmount();
+        if (lastDisplayUpdate == -1 || (result && oldAmount != amount)) {
+            float scale = (float) (0.9F * amount / capacity);
+            ItemDisplay fluidDisplay = getFluidDisplay();
+            fluidDisplay.setInterpolationDelay(Math.min(-3 + (fluidDisplay.getTicksLived() - lastDisplayUpdate), 0));
+            fluidDisplay.setInterpolationDuration(4);
+            fluidDisplay.setTransformationMatrix(new TransformBuilder()
+                    .translate(0.0, -0.45 + scale / 2, 0.0)
+                    .scale(0.9, scale, 0.9)
+                    .buildForItemDisplay()
+            );
+            lastDisplayUpdate = fluidDisplay.getTicksLived();
+        }
         return result;
     }
 
-    public @NotNull SimpleItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "fluid");
+    public @NotNull ItemDisplay getFluidDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         Component info;
         if (getFluidType() == null) {
             info = Component.translatable("pylon.pylonbase.waila.fluid_tank.empty");
@@ -176,11 +185,16 @@ public class PortableFluidTank extends PylonBlock
                     PylonArgument.of("fluid", getFluidType().getName())
             );
         }
-        return new WailaConfig(getDefaultTranslationKey().arguments(PylonArgument.of("info", info)));
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of("info", info)));
     }
 
     @Override
-    public @Nullable ItemStack getItem(@NotNull BlockItemContext context) {
+    public @Nullable ItemStack getDropItem(@NotNull BlockBreakContext context) {
+        return getPickItem();
+    }
+
+    @Override
+    public @Nullable ItemStack getPickItem() {
         // TODO implement clone for PylonItem and just clone it
         ItemStack stack = PylonRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
 
@@ -199,7 +213,7 @@ public class PortableFluidTank extends PylonBlock
 
         ItemStack item = event.getItem();
         EquipmentSlot hand = event.getHand();
-        if (item == null || hand != EquipmentSlot.HAND || PylonItem.isPylonItem(item)) {
+        if (item == null || hand == null || PylonItem.isPylonItem(item)) {
             return;
         }
 
@@ -253,14 +267,23 @@ public class PortableFluidTank extends PylonBlock
             }
         }
 
-        ItemStack finalNewItemStack = newItemStack;
-        if (finalNewItemStack != null) {
-            // This is a hack. When I change the item from within a PlayerInteractEvent, a new event
-            // is fired for the new item stack. No idea why. Nor did the guy from the paper team.
-            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                item.subtract();
-                event.getPlayer().give(finalNewItemStack);
-            }, 0);
+
+        if (newItemStack != null) {
+            event.getPlayer().swingHand(hand);
+            if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                // This is a hack. When I change the item from within a PlayerInteractEvent, a new event
+                // is fired for the new item stack. No idea why. Nor did the guy from the paper team.
+                ItemStack finalNewItemStack = newItemStack;
+                Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+                    item.subtract();
+                    event.getPlayer().give(finalNewItemStack);
+                }, 0);
+            }
         }
+    }
+
+    @Override
+    public @Nullable BlockFace getFacing() {
+        return null;
     }
 }

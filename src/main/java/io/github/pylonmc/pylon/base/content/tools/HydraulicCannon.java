@@ -30,19 +30,21 @@ import static io.github.pylonmc.pylon.core.util.PylonUtils.isPylonSimilar;
 
 public class HydraulicCannon extends PylonItem implements PylonInteractor, HydraulicRefuelable {
 
-    private static final Config settings = getSettings(BaseKeys.HYDRAULIC_CANNON);
-    public static final int COOLDOWN_TICKS = settings.getOrThrow("cooldown-ticks", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_CAPACITY = Settings.get(BaseKeys.PORTABLE_FLUID_TANK_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
     public static final double DIRTY_HYDRAULIC_FLUID_CAPACITY = Settings.get(BaseKeys.PORTABLE_FLUID_TANK_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
-    public static final double HYDRAULIC_FLUID_PER_SHOT = settings.getOrThrow("hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
-    public static final double DIRTY_HYDRAULIC_FLUID_PER_SHOT = settings.getOrThrow("dirty-hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
-    public static final Material PROJECTILE_MATERIAL = settings.getOrThrow("projectile.material", ConfigAdapter.MATERIAL);
-    public static final float PROJECTILE_THICKNESS = settings.getOrThrow("projectile.thickness", ConfigAdapter.FLOAT);
-    public static final float PROJECTILE_LENGTH = settings.getOrThrow("projectile.length", ConfigAdapter.FLOAT);
-    public static final float PROJECTILE_SPEED_BLOCKS_PER_SECOND = settings.getOrThrow("projectile.speed-blocks-per-second", ConfigAdapter.FLOAT);
-    public static final double PROJECTILE_DAMAGE = settings.getOrThrow("projectile.damage", ConfigAdapter.DOUBLE);
-    public static final int PROJECTILE_TICK_INTERVAL = settings.getOrThrow("projectile.tick-interval", ConfigAdapter.INT);
-    public static final int PROJECTILE_LIFETIME_TICKS = settings.getOrThrow("projectile.lifetime-ticks", ConfigAdapter.INT);
+
+
+    private final Config settings = getSettings();
+
+    public final int cooldownTicks = settings.getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+    public final double hydraulicFluidPerShot = settings.getOrThrow("hydraulic-fluid-per-shot", ConfigAdapter.DOUBLE);
+    public final Material projectileMaterial = settings.getOrThrow("projectile.material", ConfigAdapter.MATERIAL);
+    public final float projectileThickness = settings.getOrThrow("projectile.thickness", ConfigAdapter.FLOAT);
+    public final float projectileLength = settings.getOrThrow("projectile.length", ConfigAdapter.FLOAT);
+    public final float projectileSpeedBlocksPerSecond = settings.getOrThrow("projectile.speed-blocks-per-second", ConfigAdapter.FLOAT);
+    public final double projectileDamage = settings.getOrThrow("projectile.damage", ConfigAdapter.DOUBLE);
+    public final int projectileTickInterval = settings.getOrThrow("projectile.tick-interval", ConfigAdapter.INT);
+    public final int projectileLifetimeTicks = settings.getOrThrow("projectile.lifetime-ticks", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public HydraulicCannon(@NotNull ItemStack stack) {
@@ -52,11 +54,11 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(COOLDOWN_TICKS / 20.0)),
-                PylonArgument.of("range", UnitFormat.BLOCKS.format(Math.round(PROJECTILE_SPEED_BLOCKS_PER_SECOND * PROJECTILE_LIFETIME_TICKS / 20.0))),
-                PylonArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(PROJECTILE_SPEED_BLOCKS_PER_SECOND)),
-                PylonArgument.of("hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_PER_SHOT)),
-                PylonArgument.of("dirty-hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(DIRTY_HYDRAULIC_FLUID_PER_SHOT)),
+                PylonArgument.of("damage", UnitFormat.HEARTS.format(projectileDamage)),
+                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),
+                PylonArgument.of("range", UnitFormat.BLOCKS.format(Math.round(projectileSpeedBlocksPerSecond * projectileLifetimeTicks / 20.0))),
+                PylonArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(projectileSpeedBlocksPerSecond)),
+                PylonArgument.of("hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerShot)),
                 PylonArgument.of("hydraulic-fluid", BaseUtils.createFluidAmountBar(
                         getHydraulicFluid(),
                         HYDRAULIC_FLUID_CAPACITY,
@@ -74,7 +76,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        if (getHydraulicFluid() < HYDRAULIC_FLUID_PER_SHOT || getDirtyHydraulicFluidSpace() < DIRTY_HYDRAULIC_FLUID_PER_SHOT) {
+        if (getHydraulicFluid() < hydraulicFluidPerShot || getDirtyHydraulicFluidSpace() < hydraulicFluidPerShot) {
             return;
         }
 
@@ -90,26 +92,26 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
             return;
         }
 
-        setHydraulicFluid(getHydraulicFluid() - HYDRAULIC_FLUID_PER_SHOT);
-        setDirtyHydraulicFluid(getDirtyHydraulicFluid() + DIRTY_HYDRAULIC_FLUID_PER_SHOT);
+        setHydraulicFluid(getHydraulicFluid() - hydraulicFluidPerShot);
+        setDirtyHydraulicFluid(getDirtyHydraulicFluid() + hydraulicFluidPerShot);
 
         Player player = event.getPlayer();
-        player.setCooldown(getStack(), COOLDOWN_TICKS);
+        player.setCooldown(getStack(), cooldownTicks);
         Vector direction = player.getEyeLocation().getDirection();
         Location source = player.getEyeLocation()
                 .subtract(0, 0.5, 0)
                 .add(direction.clone().multiply(1.5));
         DisplayProjectile.spawn(
                 player,
-                PROJECTILE_MATERIAL,
+            projectileMaterial,
                 source,
                 direction,
-                PROJECTILE_THICKNESS,
-                PROJECTILE_LENGTH,
-                PROJECTILE_SPEED_BLOCKS_PER_SECOND,
-                PROJECTILE_DAMAGE,
-                PROJECTILE_TICK_INTERVAL,
-                PROJECTILE_LIFETIME_TICKS
+            projectileThickness,
+            projectileLength,
+            projectileSpeedBlocksPerSecond,
+            projectileDamage,
+            projectileTickInterval,
+            projectileLifetimeTicks
         );
     }
 

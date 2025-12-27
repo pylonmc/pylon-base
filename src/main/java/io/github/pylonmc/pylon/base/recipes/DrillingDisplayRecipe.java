@@ -1,8 +1,8 @@
-package io.github.pylonmc.pylon.base.recipes.display;
+package io.github.pylonmc.pylon.base.recipes;
 
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeInput;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -11,12 +11,25 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-// TODO use DisplayRecipeType
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
+
 public record DrillingDisplayRecipe(
         NamespacedKey key,
         ItemStack drill,
         ItemStack result
 ) implements PylonRecipe {
+
+    public static final RecipeType<DrillingDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("drilling_display")) {
+        @Override
+        protected @NotNull DrillingDisplayRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new DrillingDisplayRecipe(
+                    key,
+                    section.getOrThrow("drill", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK)
+            );
+        }
+    };
 
     @Override
     public @NotNull NamespacedKey getKey() {

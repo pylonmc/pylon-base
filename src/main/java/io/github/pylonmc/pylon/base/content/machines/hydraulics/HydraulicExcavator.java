@@ -5,13 +5,12 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractableBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -33,8 +32,7 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicExcavator extends PylonBlock
-        implements PylonTickingBlock, PylonInteractableBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+public class HydraulicExcavator extends PylonBlock implements PylonTickingBlock, PylonInteractBlock, PylonFluidBufferBlock {
 
     public static class Item extends PylonItem {
 
@@ -48,8 +46,7 @@ public class HydraulicExcavator extends PylonBlock
                     PylonArgument.of("radius", UnitFormat.BLOCKS.format(RADIUS)),
                     PylonArgument.of("depth", UnitFormat.BLOCKS.format(DEPTH)),
                     PylonArgument.of("time-per-block", UnitFormat.SECONDS.format(BLOCK_BREAK_INTERVAL_TICKS / 20.0)),
-                    PylonArgument.of("hydraulic-fluid-consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_INPUT_MB_PER_SECOND)),
-                    PylonArgument.of("dirty-hydraulic-fluid-output", UnitFormat.MILLIBUCKETS_PER_SECOND.format(DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
             );
         }
     }
@@ -61,10 +58,8 @@ public class HydraulicExcavator extends PylonBlock
     public static final int RADIUS = settings.getOrThrow("radius", ConfigAdapter.INT);
     public static final int DEPTH = settings.getOrThrow("depth", ConfigAdapter.INT);
     public static final int BLOCK_BREAK_INTERVAL_TICKS = settings.getOrThrow("block-break-interval-ticks", ConfigAdapter.INT);
-    public static final int HYDRAULIC_FLUID_INPUT_MB_PER_SECOND = settings.getOrThrow("hydraulic-fluid-input-mb-per-second", ConfigAdapter.INT);
-    public static final int DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND = settings.getOrThrow("dirty-hydraulic-fluid-output-mb-per-second", ConfigAdapter.INT);
+    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.DOUBLE);
-    public static final double DIRTY_HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("dirty-hydraulic-fluid-buffer", ConfigAdapter.DOUBLE);
 
     private final List<BlockPosition> blockPositions = new ArrayList<>();
     private boolean working;
@@ -89,11 +84,11 @@ public class HydraulicExcavator extends PylonBlock
 
         setTickInterval(BLOCK_BREAK_INTERVAL_TICKS);
 
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
 
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, DIRTY_HYDRAULIC_FLUID_BUFFER, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
     }
 
     @SuppressWarnings({"DataFlowIssue", "unused"})
@@ -122,11 +117,10 @@ public class HydraulicExcavator extends PylonBlock
             return;
         }
 
-        double hydraulicFluidInput = HYDRAULIC_FLUID_INPUT_MB_PER_SECOND * deltaSeconds;
-        double dirtyHydraulicFluidOutput = DIRTY_HYDRAULIC_FLUID_OUTPUT_MB_PER_SECOND * deltaSeconds;
+        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
 
-        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
-                || fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
         ) {
             return;
         }
@@ -144,8 +138,8 @@ public class HydraulicExcavator extends PylonBlock
             }
         }
 
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidInput);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, dirtyHydraulicFluidOutput);
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
     }
 
     @Override

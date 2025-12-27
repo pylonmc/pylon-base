@@ -58,6 +58,16 @@ pylonbase:steel_block_from_steel_ingots:
   result: pylonbase:steel_block
   category: misc
 
+pylonbase:charcoal_block_from_charcoal:
+  pattern:
+    - "NNN"
+    - "NNN"
+    - "NNN"
+  key:
+    N: minecraft:charcoal
+  result: pylonbase:charcoal_block
+  category: building
+
 pylonbase:nickel_ingot_from_nickel_nuggets:
   pattern:
     - "NNN"
@@ -293,6 +303,18 @@ pylonbase:brick_mold:
   result: pylonbase:brick_mold
   category: equipment
 
+pylonbase:confetti_popper:
+  pattern:
+    - " P "
+    - " G "
+    - " D "
+  key:
+    P: minecraft:paper
+    G: minecraft:gunpowder
+    D: "#paper:dyes_settag"
+  result: pylonbase:confetti_popper
+  category: tools
+
 pylonbase:grindstone:
   pattern:
     - "STS"
@@ -324,7 +346,7 @@ pylonbase:mixing_pot:
   result: pylonbase:mixing_pot
   category: building
 
-pylonbase:enriched_netherrack:
+pylonbase:enriched_soul_soil:
   pattern:
     - " S "
     - "SNS"
@@ -332,7 +354,7 @@ pylonbase:enriched_netherrack:
   key:
     S: pylonbase:shimmer_dust_2
     N: minecraft:netherrack
-  result: pylonbase:enriched_netherrack
+  result: pylonbase:enriched_soul_soil
   category: building
 
 pylonbase:health_talisman_simple:
@@ -1382,7 +1404,7 @@ pylonbase:climbing_pick:
   result: pylonbase:climbing_pick
   category: equipment
 
-pylonbase:hammer_stone:
+pylonbase:stone_hammer:
   pattern:
     - " M "
     - " SM"
@@ -1390,10 +1412,10 @@ pylonbase:hammer_stone:
   key:
     M: minecraft:cobblestone
     S: minecraft:stick
-  result: pylonbase:hammer_stone
+  result: pylonbase:stone_hammer
   category: equipment
 
-pylonbase:hammer_iron:
+pylonbase:iron_hammer:
   pattern:
     - " M "
     - " SM"
@@ -1401,10 +1423,10 @@ pylonbase:hammer_iron:
   key:
     M: minecraft:iron_ingot
     S: minecraft:stick
-  result: pylonbase:hammer_iron
+  result: pylonbase:iron_hammer
   category: equipment
 
-pylonbase:hammer_diamond:
+pylonbase:diamond_hammer:
   pattern:
     - " M "
     - " SM"
@@ -1412,7 +1434,7 @@ pylonbase:hammer_diamond:
   key:
     M: minecraft:diamond
     S: minecraft:stick
-  result: pylonbase:hammer_diamond
+  result: pylonbase:diamond_hammer
   category: equipment
 
 pylonbase:vacuum_hopper_1:
@@ -1497,7 +1519,6 @@ pylonbase:hydraulic_refueling_station:
   result: pylonbase:hydraulic_refueling_station
   category: building
 
-
 pylonbase:reactivated_wither_skull:
   pattern:
     - " N "
@@ -1508,4 +1529,16 @@ pylonbase:reactivated_wither_skull:
     S: minecraft:stick
     R: minecraft:nether_star
   result: pylonbase:reactivated_wither_skull
+  category: equipment
+
+pylonbase:tongs:
+  pattern:
+    - "B B"
+    - "BCB"
+    - " W "
+  key:
+    B: pylonbase:bronze_ingot
+    C: "#minecraft:wool_carpets"
+    W: "#minecraft:wool"
+  result: pylonbase:tongs
   category: equipment

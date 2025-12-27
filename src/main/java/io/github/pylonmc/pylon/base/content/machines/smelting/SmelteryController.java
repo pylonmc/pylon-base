@@ -2,20 +2,18 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleTextDisplay;
 import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformUtil;
-import io.github.pylonmc.pylon.core.event.PylonBlockUnloadEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -28,11 +26,8 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleRBTreeMap;
 import kotlin.Pair;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
-import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,13 +55,10 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryController extends SmelteryComponent
-        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock, PylonEntityHolderBlock {
+        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
 
-    private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
     private static final NamespacedKey RUNNING_KEY = baseKey("running");
-    private static final NamespacedKey HEIGHT_KEY = baseKey("height");
-    private static final NamespacedKey CAPACITY_KEY = baseKey("capacity");
-    private static final NamespacedKey COMPONENTS_KEY = baseKey("components");
+    private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
     private static final NamespacedKey FLUIDS_KEY = baseKey("fluids");
 
     private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
@@ -76,25 +68,19 @@ public final class SmelteryController extends SmelteryComponent
     public static final double COOLING_FACTOR = settings.getOrThrow("cooling-factor", ConfigAdapter.DOUBLE);
     public static final double ROOM_TEMPERATURE = settings.getOrThrow("room-temperature", ConfigAdapter.DOUBLE);
 
-    @Getter
-    @Setter
-    private double temperature;
+    public final int maxHeight = settings.getOrThrow("max-height", ConfigAdapter.INT);
 
-    @Getter
-    @Setter
-    private boolean running;
-
+    private final Set<SmelteryComponent> components = new HashSet<>();
     private final Object2DoubleMap<PylonFluid> fluids = new Object2DoubleRBTreeMap<>(
             Comparator.<PylonFluid, FluidTemperature>comparing(fluid -> fluid.getTag(FluidTemperature.class))
                     .reversed()
                     .thenComparing(fluid -> fluid.getKey().toString())
     );
 
-    @Getter
-    private double capacity;
-
+    @Getter private boolean running;
+    @Getter private double temperature;
+    @Getter private double capacity;
     private int height;
-    private final Set<BlockPosition> components = new HashSet<>();
 
     @SuppressWarnings("unused")
     public SmelteryController(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -102,59 +88,29 @@ public final class SmelteryController extends SmelteryComponent
 
         setTickInterval(TICK_INTERVAL);
 
-        Location location = center.getLocation().add(-1, 0, -1);
-        int counter = 0;
-        for (int x = 0; x < PIXELS_PER_SIDE; x++) {
-            for (int z = 0; z < PIXELS_PER_SIDE; z++) {
-                Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
-                TextDisplay display = BaseUtils.spawnUnitSquareTextDisplay(relative, BaseUtils.METAL_GRAY);
-                display.setTransformationMatrix(
-                        TransformUtil.transformationToMatrix(display.getTransformation())
-                                .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
-                                .rotateLocalX((float) Math.toRadians(-90))
-                                .scaleLocal(1f / RESOLUTION)
-                );
-                display.setBrightness(new Display.Brightness(15, 15));
-                addEntity("pixel_" + counter++, new SimpleTextDisplay(display));
-            }
-        }
-
         temperature = ROOM_TEMPERATURE;
-        running = false;
-        height = 0;
-        capacity = 0;
-        components.add(new BlockPosition(getBlock()));
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
     public SmelteryController(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        temperature = pdc.get(TEMPERATURE_KEY, PylonSerializers.DOUBLE);
         running = pdc.get(RUNNING_KEY, PylonSerializers.BOOLEAN);
-        height = pdc.get(HEIGHT_KEY, PylonSerializers.INTEGER);
-        capacity = pdc.get(CAPACITY_KEY, PylonSerializers.DOUBLE);
-        components.addAll(pdc.get(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION)));
+        temperature = pdc.get(TEMPERATURE_KEY, PylonSerializers.DOUBLE);
         fluids.putAll(pdc.get(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE)));
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
-        pdc.set(HEIGHT_KEY, PylonSerializers.INTEGER, height);
-        pdc.set(CAPACITY_KEY, PylonSerializers.DOUBLE, capacity);
-        pdc.set(COMPONENTS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.BLOCK_POSITION), components);
+        pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), fluids);
     }
 
     @Override
-    public void postBreak() {
-        PylonEntityHolderBlock.super.postBreak();
-        for (BlockPosition pos : components) {
-            if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
-                component.setController(null);
-            }
+    public void postBreak(@NotNull BlockBreakContext context) {
+        for (SmelteryComponent component : components) {
+            component.setController(null);
         }
     }
 
@@ -216,7 +172,7 @@ public final class SmelteryController extends SmelteryComponent
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             if (isFormedAndFullyLoaded()) {
-                running = !running;
+                setRunning(!running);
                 notifyWindows();
             }
         }
@@ -300,56 +256,64 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public boolean checkFormed() {
-        boolean formed = isFormed();
-
-        // set pixels invisible if multiblock not formed, and visible if multiblock formed
-        for (SimpleTextDisplay display : getPixels()) {
-            display.getEntity().text(Component.text(formed ? " " : ""));
-        }
-
-        return formed;
-    }
-
-    private boolean isFormed() {
-        double previousCapacity = capacity;
         height = 0;
-        capacity = 0;
 
-        for (BlockPosition pos : components) {
-            if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
-                component.setController(null);
-            }
+        for (SmelteryComponent component : components) {
+            component.setController(null);
         }
+        components.clear();
 
         // Check floor
-        if (!checkAllComponent(addY(multiblockWithAirPositions, -1))) return false;
+        if (!checkAllComponent(addY(multiblockWithAirPositions, -1))) {
+            return false;
+        }
 
         // Check sides up to world height
-        for (int i = 0; i < getBlock().getWorld().getMaxHeight(); i++) {
-            if (checkAllComponent(addY(multiblockPositions, i))) {
-                height++;
-                capacity += countAir(addY(insidePositions, i)) * 1000L;
+        for (int i = 0; i < maxHeight; i++) {
+            if (checkAllComponent(addY(multiblockPositions, i)) && checkAllAir(addY(insidePositions, i))) {
+                if (++height >= maxHeight) {
+                    break;
+                }
             } else {
                 break;
             }
         }
 
+        return height > 0;
+    }
+
+    @Override
+    public void onMultiblockFormed() {
+        onMultiblockRefreshed();
+    }
+
+    @Override
+    public void onMultiblockRefreshed() {
+        double previousCapacity = capacity;
+        capacity = height * insidePositions.size() * 1000;
+
         if (capacity < previousCapacity) {
-            double ratio = capacity / previousCapacity;
-            for (PylonFluid fluid : fluids.keySet()) {
-                double amount = fluids.getDouble(fluid);
-                if (amount > 0) {
-                    double newAmount = amount * ratio;
-                    if (newAmount == 0) {
-                        fluids.removeDouble(fluid);
-                    } else {
-                        fluids.put(fluid, newAmount);
-                    }
-                }
+            double removeRatio = 1 - (capacity / previousCapacity);
+            for (PylonFluid fluid : new HashSet<>(fluids.keySet())) {
+                removeFluid(fluid, fluids.getDouble(fluid) * removeRatio);
             }
         }
 
-        return height > 0;
+        for (SmelteryComponent component : components) {
+            component.setController(this);
+        }
+    }
+
+    @Override
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        setRunning(false);
+        if (!partUnloaded) {
+            height = 0;
+            capacity = 0;
+            temperature = ROOM_TEMPERATURE;
+            fluids.clear();
+            removePixels();
+        }
     }
 
     @Override
@@ -367,29 +331,25 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     private boolean checkAllComponent(@NotNull List<BlockPosition> positions) {
-        Map<BlockPosition, SmelteryComponent> components = new HashMap<>();
+        Set<SmelteryComponent> components = new HashSet<>();
         for (BlockPosition pos : positions) {
             if (BlockStorage.get(pos) instanceof SmelteryComponent component) {
-                components.put(pos, component);
+                components.add(component);
             } else {
                 return false;
             }
         }
-        for (Map.Entry<BlockPosition, SmelteryComponent> entry : components.entrySet()) {
-            this.components.add(entry.getKey());
-            entry.getValue().setController(this);
-        }
+        this.components.addAll(components);
         return true;
     }
 
-    private static int countAir(@NotNull List<BlockPosition> positions) {
-        int count = 0;
-        for (BlockPosition pos : positions) {
-            if (pos.getBlock().isEmpty()) {
-                count++;
+    private boolean checkAllAir(List<BlockPosition> blockPositions) {
+        for (BlockPosition pos : blockPositions) {
+            if (!pos.getBlock().isEmpty()) {
+                return false;
             }
         }
-        return count;
+        return true;
     }
     // </editor-fold>
 
@@ -443,7 +403,7 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid display" defaultstate="collapsed">
-    private final List<SimpleTextDisplay> pixels = new ArrayList<>();
+    private final List<TextDisplay> pixels = new ArrayList<>();
     private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", ConfigAdapter.INT);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
@@ -457,17 +417,47 @@ public final class SmelteryController extends SmelteryComponent
 
     private double cumulativeSeconds = 0;
 
-    public @NotNull List<SimpleTextDisplay> getPixels() {
-        if (pixels.isEmpty()) {
-            for (int i = 0; i < PIXELS_PER_SIDE * PIXELS_PER_SIDE; i++) {
-                pixels.add(getHeldEntityOrThrow(SimpleTextDisplay.class, "pixel_" + i));
+    public void spawnPixels() {
+        pixels.clear();
+
+        Location location = center.getLocation().add(-1, 0, -1);
+        for (int x = 0; x < PIXELS_PER_SIDE; x++) {
+            for (int z = 0; z < PIXELS_PER_SIDE; z++) {
+                Location relative = location.clone().add((double) x / RESOLUTION, 0, (double) z / RESOLUTION);
+                pixels.add(BaseUtils.spawnUnitSquareTextDisplay(relative, BaseUtils.METAL_GRAY, display -> {
+                    display.setTransformationMatrix(
+                            TransformUtil.transformationToMatrix(display.getTransformation())
+                                    .translateLocal(0, -1, 0) // move the origin so it will be correct after rotation
+                                    .rotateLocalX((float) Math.toRadians(-90))
+                                    .scaleLocal(1f / RESOLUTION)
+                    );
+                    display.setBrightness(new Display.Brightness(15, 15));
+                    display.setTeleportDuration(Math.min(59, TICK_INTERVAL));
+                    display.setPersistent(false); // do not save to world
+                }));
             }
+        }
+    }
+
+    public @NotNull List<TextDisplay> getPixels() {
+        if (pixels.isEmpty()) {
+            spawnPixels();
         }
         return pixels;
     }
 
-    private double lastHeight = 0;
+    public void removePixels() {
+        for (TextDisplay pixel : pixels) {
+            if (pixel.isValid()) {
+                pixel.remove();
+            }
+        }
+        pixels.clear();
+    }
+
     private static final double LIGHTNESS_VARIATION = settings.getOrThrow("display.lightness-variation", ConfigAdapter.DOUBLE);
+    private static final double LIGHTNESS_SPEED = settings.getOrThrow("display.lightness-speed", ConfigAdapter.DOUBLE);
+    private double lastHeight = 0;
 
     private void updateFluidDisplay() {
         HslColor color = HslColor.fromRgb(BaseUtils.colorFromTemperature(temperature));
@@ -475,12 +465,17 @@ public final class SmelteryController extends SmelteryComponent
         if (Double.isNaN(fill) || Double.isInfinite(fill)) {
             fill = 0;
         }
-        double finalHeight = center.getY() + height * fill - 0.01;
+        if (fill <= 0 && lastHeight <= center.getY() - 0.01) {
+            removePixels();
+            return;
+        }
 
-        List<SimpleTextDisplay> pixels = getPixels();
+        double finalHeight = center.getY() + height * fill - 0.01;
+        boolean decreased = lastHeight > finalHeight;
+
+        List<TextDisplay> pixels = getPixels();
         for (int i = 0; i < pixels.size(); i++) {
-            SimpleTextDisplay pixel = pixels.get(i);
-            TextDisplay entity = pixel.getEntity();
+            TextDisplay entity = pixels.get(i);
             if (!entity.isValid()) continue;
 
             int x = i % PIXELS_PER_SIDE;
@@ -488,7 +483,7 @@ public final class SmelteryController extends SmelteryComponent
             double value = noise.noise(
                     x,
                     z,
-                    cumulativeSeconds * 3,
+                    cumulativeSeconds * LIGHTNESS_SPEED,
                     0.01,
                     0.01,
                     true
@@ -500,10 +495,18 @@ public final class SmelteryController extends SmelteryComponent
             );
             entity.setBackgroundColor(newColor.toRgb());
 
+
             if (lastHeight != finalHeight) {
                 Location location = entity.getLocation();
                 location.setY(finalHeight);
-                entity.teleportAsync(location);
+                if (decreased) {
+                    entity.setTeleportDuration(0);
+                }
+                entity.teleportAsync(location).whenComplete((b, t) -> {
+                    if (decreased) {
+                        entity.setTeleportDuration(Math.min(59, TICK_INTERVAL));
+                    }
+                });
             }
         }
         lastHeight = finalHeight;
@@ -546,11 +549,21 @@ public final class SmelteryController extends SmelteryComponent
             }
             temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * deltaSeconds;
             heaters = 0;
-        } else if (height <= 0) { // check height instead because of the brief moment when the multiblock is loaded but not checked yet
-            running = false;
+            updateFluidDisplay();
         }
-        updateFluidDisplay();
         infoItem.notifyWindows();
         contentsItem.notifyWindows();
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+        refreshBlockTextureItem();
+    }
+
+    @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("running", new Pair<>(String.valueOf(isFormedAndFullyLoaded() && running), 2));
+        return properties;
     }
 }

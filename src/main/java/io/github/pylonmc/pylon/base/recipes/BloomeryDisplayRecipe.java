@@ -1,9 +1,10 @@
-package io.github.pylonmc.pylon.base.recipes.display;
+package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeInput;
+import io.github.pylonmc.pylon.core.config.ConfigSection;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -12,13 +13,25 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 
-// TODO use DisplayRecipeType
-public record MoldingDisplayRecipe(
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
+
+public record BloomeryDisplayRecipe(
         NamespacedKey key,
         ItemStack input,
-        ItemStack result,
-        int moldClicks
+        ItemStack result
 ) implements PylonRecipe {
+
+    public static final RecipeType<BloomeryDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("bloomery_display")) {
+        @Override
+        protected @NotNull BloomeryDisplayRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+            return new BloomeryDisplayRecipe(
+                    key,
+                    section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK)
+            );
+        }
+    };
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -41,14 +54,14 @@ public record MoldingDisplayRecipe(
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # # # # # #",
-                        "# # i # m # o # #",
+                        "# # i # b # r # #",
                         "# # # # # # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
                 .addIngredient('i', input)
-                .addIngredient('m', BaseItems.BRICK_MOLD)
-                .addIngredient('o', result)
+                .addIngredient('b', new ItemButton(BaseItems.BLOOMERY))
+                .addIngredient('r', result)
                 .build();
     }
 }

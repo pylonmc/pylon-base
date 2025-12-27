@@ -2,14 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.recipes.StrainingRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -21,18 +20,19 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidStrainer extends PylonBlock
-        implements PylonFluidBlock, PylonTickingBlock, PylonGuiBlock, PylonEntityHolderBlock {
+public class FluidStrainer extends PylonBlock implements PylonFluidBlock, PylonTickingBlock, PylonGuiBlock {
 
     public final double bufferSize = getSettings().getOrThrow("buffer-size", ConfigAdapter.DOUBLE);
 
@@ -52,8 +52,8 @@ public class FluidStrainer extends PylonBlock
 
         setTickInterval(tickInterval);
 
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.DOWN));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.DOWN);
 
         currentRecipe = null;
         buffer = 0;
@@ -117,8 +117,8 @@ public class FluidStrainer extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultTranslationKey().arguments(
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("info", currentRecipe == null ?
                         Component.empty() :
                         Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",
@@ -133,7 +133,7 @@ public class FluidStrainer extends PylonBlock
     @Override
     @NotNull
     public Component getGuiTitle() {
-        return getDefaultTranslationKey();
+        return getDefaultWailaTranslationKey();
     }
 
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);
@@ -160,5 +160,11 @@ public class FluidStrainer extends PylonBlock
             currentRecipe = null;
             passedFluid = 0;
         }
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidBlock.super.onBreak(drops, context);
+        PylonGuiBlock.super.onBreak(drops, context);
     }
 }
