@@ -54,6 +54,9 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     public static final Sound HAMMER_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.hammer", ConfigAdapter.SOUND);
     public static final Sound TONGS_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.tongs", ConfigAdapter.SOUND);
 
+    public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
+    public static final NamespacedKey STORED_ITEM = baseKey("stored_item");
+
     private static final Matrix4f BASE_TRANSFORM = new TransformBuilder()
             .scale(0.3)
             .translate(0, (1 - .5 + 1d / 16) * 3, 0)
@@ -197,8 +200,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
         itemDisplay.setItemStack(bloom.getStack());
     }
 
-        public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
-        public static final NamespacedKey STORED_ITEM = baseKey("stored_item");
+
     @Override
     public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity spawnedEntity) {
         var pdc = spawnedEntity.getEntity().getPersistentDataContainer();
