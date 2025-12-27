@@ -21,7 +21,6 @@ import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -39,9 +38,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
