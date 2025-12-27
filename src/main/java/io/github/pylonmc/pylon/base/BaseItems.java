@@ -1279,7 +1279,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack LOUPE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.LOUPE)
-            .set(DataComponentTypes.ITEM_MODEL, Material.SPYGLASS.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.GLASS_PANE.getKey())
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
