@@ -1283,8 +1283,12 @@ public final class BaseItems {
             .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
-                    .consumeSeconds(3)
+                    .consumeSeconds(Settings.get(BaseKeys.LOUPE).getOrThrow("use-ticks", ConfigAdapter.INT) / 20.0F)
                     .sound(SoundEventKeys.INTENTIONALLY_EMPTY)
+            )
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.LOUPE).getOrThrow("cooldown-ticks", ConfigAdapter.INT))
+                    .cooldownGroup(BaseKeys.LOUPE)
             )
             .build();
     static {

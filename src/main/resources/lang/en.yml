@@ -1491,12 +1491,13 @@ message:
   gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
-    is_other_plugin: "<red>You smug little knave, use vanilla items not plugin ones"
-    is_unbreakable: "<red>As the block is unbreakable, you can't examine it placed down"
-    already_examined: "<red>You cannot find any more interesting things about this item"
-    examining: "<green>You examine the %item% closely...."
-    examine_failed: "<red>Failed to examine the %item%. <gray>(Do you have permission?)"
-    examined: "<green>After examining the %item%, you get a sudden flash of insight!"
+    is_other_plugin: "<red>You smug little knave, examine vanilla objects not plugin ones"
+    is_player: "<red>Examining other players provides no useful information"
+    already_examined: "<red>You've already examined this specific %object%, examine a different one"
+    max_uses: "<red>You cannot find any more interesting things about this object"
+    examining: "<green>You examine the %object% closely...."
+    examine_failed: "<red>Failed to examine the %object%. <gray>(Do you have permission?)"
+    examined: "<green>After examining the %object%, you get a sudden flash of insight!"
   research_pack:
     message: "As you open the research pack, %happening%"
     happening:
