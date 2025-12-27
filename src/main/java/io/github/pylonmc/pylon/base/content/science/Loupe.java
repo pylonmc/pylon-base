@@ -382,8 +382,8 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
         entries.put(type, entries.getOrDefault(type, 0) + 1);
         player.getPersistentDataContainer().set(CONSUMED_KEY, CONSUMED_TYPE, entries);
 
-        long totalPoints = Research.researchPoints(player) + config.points;
-        Research.researchPoints(player, totalPoints);
+        long totalPoints = Research.getResearchPoints(player) + config.points;
+        Research.setResearchPoints(player, totalPoints);
 
         player.sendMessage(Component.translatable(
                 "pylon.pylonbase.message.loupe.examined",
