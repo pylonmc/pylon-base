@@ -17,7 +17,6 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -166,7 +165,7 @@ public class DieselPipeBender extends PylonBlock implements PylonGuiBlock, Pylon
 
             // check output has no item or the same item as the result
             ItemStack outputItem = outputInventory.getItem(0);
-            if (outputItem != null && !PylonUtils.isPylonSimilar(outputItem, recipe.result())) {
+            if (outputItem != null && !outputItem.isSimilar(recipe.result())) {
                 return;
             }
 

@@ -19,7 +19,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -149,7 +148,7 @@ public class HydraulicTableSaw extends PylonBlock implements PylonFluidBufferBlo
             double hydraulicFluidUsed = recipe.timeTicks() * HYDRAULIC_FLUID_USAGE;
             if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
                     || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
-                    || !PylonUtils.isPylonSimilar(stack, recipe.input())
+                    || !stack.isSimilar(recipe.input())
                     || stack.getAmount() < recipe.input().getAmount()
             ) {
                 continue;

@@ -18,7 +18,6 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -106,7 +105,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         ItemStack stack = itemDisplay.getItemStack();
         if (stack.getType().isAir()) return;
 
-        if (PylonUtils.isPylonSimilar(stack, BaseItems.SPONGE_IRON)) {
+        if (stack.isSimilar(BaseItems.SPONGE_IRON)) {
             IronBloom bloom = new IronBloom(BaseItems.IRON_BLOOM.clone());
             bloom.setTemperature(0);
             bloom.setWorking(ThreadLocalRandom.current().nextInt(IronBloom.MIN_WORKING, IronBloom.MAX_WORKING + 1));
@@ -179,7 +178,7 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
             if (items.isEmpty()) return;
             Item gypsum = null;
             for (Item item : items) {
-                if (PylonUtils.isPylonSimilar(item.getItemStack(), BaseItems.GYPSUM_DUST)) {
+                if (item.getItemStack().isSimilar(BaseItems.GYPSUM_DUST)) {
                     gypsum = item;
                     break;
                 }

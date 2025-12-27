@@ -25,7 +25,6 @@ import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.time.Duration;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -112,7 +111,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                     ItemStack item = inventory.getItem(i);
                     if (item == null) continue;
                     for (Fuel fuel : FUELS) {
-                        if (PylonUtils.isPylonSimilar(item, fuel.material)) {
+                        if (item.isSimilar(fuel.material)) {
                             this.fuel = fuel;
                             progressItem.setItemStackBuilder(burningProgressItem);
                             progressItem.setTotalTimeSeconds((int) fuel.burnTimeSeconds);

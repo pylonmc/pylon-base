@@ -18,7 +18,6 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -125,7 +124,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         if (temperature == 0) {
             player.swingHand(EquipmentSlot.HAND);
             return;
-        } else if (PylonUtils.isPylonSimilar(item, BaseItems.TONGS)) {
+        } else if (item.isSimilar(BaseItems.TONGS)) {
             workingChange -= temperature;
             getBlock().getWorld().playSound(TONGS_SOUND, player);
         } else if (PylonItem.fromStack(item) instanceof Hammer hammer) {
@@ -162,7 +161,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         }
         bloom.setWorking(newWorking);
         itemDisplay.setItemStack(bloom.getStack());
-        transformForWorking(newWorking, PylonUtils.isPylonSimilar(item, BaseItems.TONGS));
+        transformForWorking(newWorking, item.isSimilar(BaseItems.TONGS));
     }
 
     @Override

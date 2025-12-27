@@ -151,7 +151,7 @@ public class CoalFiredPurificationTower extends PylonBlock
         if (fuelTicksRemaining == null) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Map.Entry<ItemStack, Integer> fuel : FUELS.entrySet()) {
-                if (item == null || !PylonUtils.isPylonSimilar(item, fuel.getKey())) {
+                if (item == null || !item.isSimilar(fuel.getKey())) {
                     continue;
                 }
 

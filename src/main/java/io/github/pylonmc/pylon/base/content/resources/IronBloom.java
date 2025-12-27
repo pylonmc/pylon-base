@@ -9,7 +9,6 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInventoryTicker;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
@@ -83,8 +82,8 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
 
     @Override
     public void onTick(@NotNull Player player) {
-        if (PylonUtils.isPylonSimilar(player.getInventory().getItemInMainHand(), BaseItems.TONGS) ||
-                PylonUtils.isPylonSimilar(player.getInventory().getItemInOffHand(), BaseItems.TONGS)) {
+        if (player.getInventory().getItemInMainHand().isSimilar(BaseItems.TONGS) ||
+                player.getInventory().getItemInOffHand().isSimilar(BaseItems.TONGS)) {
             return;
         }
         player.damage(UNPROTECTED_DAMAGE, DamageSource.builder(DamageType.HOT_FLOOR).build());
