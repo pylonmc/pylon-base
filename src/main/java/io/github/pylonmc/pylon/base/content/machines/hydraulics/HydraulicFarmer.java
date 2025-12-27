@@ -46,26 +46,27 @@ public class HydraulicFarmer extends PylonBlock implements
         PylonDirectionalBlock {
 
     private static final Set<Material> CROPS_TO_BREAK = EnumSet.of(
-        Material.PUMPKIN,
-        Material.MELON,
-        Material.CARROTS,
-        Material.POTATOES,
-        Material.WHEAT,
-        Material.BEETROOTS,
-        Material.NETHER_WART
+            Material.PUMPKIN,
+            Material.MELON,
+            Material.CARROTS,
+            Material.POTATOES,
+            Material.WHEAT,
+            Material.BEETROOTS,
+            Material.NETHER_WART,
+            Material.SUGAR_CANE
     );
 
     // farmland -> crop item -> block
     private static final Map<Material, Map<Material, Material>> CROP_TO_PLANT = Map.of(
-        Material.FARMLAND, Map.of(
-            Material.CARROT, Material.CARROTS,
-            Material.POTATO, Material.POTATOES,
-            Material.WHEAT_SEEDS, Material.WHEAT,
-            Material.BEETROOT_SEEDS, Material.BEETROOTS,
-            Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
-            Material.MELON_SEEDS, Material.MELON_STEM
-        ),
-        Material.SOUL_SAND, Map.of(Material.NETHER_WART, Material.NETHER_WART)
+            Material.FARMLAND, Map.of(
+                    Material.CARROT, Material.CARROTS,
+                    Material.POTATO, Material.POTATOES,
+                    Material.WHEAT_SEEDS, Material.WHEAT,
+                    Material.BEETROOT_SEEDS, Material.BEETROOTS,
+                    Material.PUMPKIN_SEEDS, Material.PUMPKIN_STEM,
+                    Material.MELON_SEEDS, Material.MELON_STEM
+            ),
+            Material.SOUL_SAND, Map.of(Material.NETHER_WART, Material.NETHER_WART)
     );
 
     public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);

@@ -12,21 +12,21 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-public class ItemInputHatch extends PylonBlock implements PylonGuiBlock, PylonLogisticBlock {
+public class ItemOutputHatch extends PylonBlock implements PylonGuiBlock, PylonLogisticBlock {
 
     public final VirtualInventory inventory = new VirtualInventory(1);
 
-    public ItemInputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public ItemOutputHatch(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
     }
 
-    public ItemInputHatch(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public ItemOutputHatch(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, inventory);
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, inventory);
     }
 
     @Override

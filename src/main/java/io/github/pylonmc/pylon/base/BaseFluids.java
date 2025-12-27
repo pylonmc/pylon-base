@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
+import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
@@ -150,6 +151,16 @@ public final class BaseFluids {
             Material.WHITE_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
 
+    public static final PylonFluid SUGARCANE = new PylonFluid(
+            baseKey("sugarcane"),
+            Material.LIME_CONCRETE
+    ).addTag(FluidTemperature.NORMAL);
+
+    public static final PylonFluid ETHANOL = new PylonFluid(
+            baseKey("ethanol"),
+            Material.LIGHT_GRAY_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
+
     public static final PylonFluid BIODIESEL = new PylonFluid(
             baseKey("biodiesel"),
             Material.YELLOW_CONCRETE
@@ -272,6 +283,12 @@ public final class BaseFluids {
         DIRTY_HYDRAULIC_FLUID.register();
 
         REFLECTOR_FLUID.register();
+
+        SUGARCANE.register();
+
+        PylonGuide.hideFluid(SUGARCANE.getKey());
+
+        ETHANOL.register();
 
         BIODIESEL.register();
     }

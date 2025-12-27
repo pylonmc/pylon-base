@@ -36,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,19 +87,24 @@ public abstract class FluidHatch extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
-        return Map.of(new Vector3i(0, 1, 0), component);
+    public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
+        Map<Vector3i, MultiblockComponent> components = new HashMap<>();
+        components.put(new Vector3i(0, 1, 0), component);
+        return components;
     }
 
     @Override
-    public void onMultiblockFormed() {
-        PylonSimpleMultiblock.super.onMultiblockFormed();
-        FluidTankCasing casing = BlockStorage.getAs(FluidTankCasing.class, getBlock().getRelative(BlockFace.UP));
-        Preconditions.checkState(casing != null);
-        Waila.addWailaOverride(casing.getBlock(), this::getWaila);
-        if (fluid != null) {
-            createFluidBuffer(fluid, casing.capacity, false, true);
+    public boolean checkFormed() {
+        boolean formed = PylonSimpleMultiblock.super.checkFormed();
+        if (formed) {
+            FluidTankCasing casing = BlockStorage.getAs(FluidTankCasing.class, getBlock().getRelative(BlockFace.UP));
+            Preconditions.checkState(casing != null);
+            Waila.addWailaOverride(casing.getBlock(), this::getWaila);
+            if (fluid != null) {
+                setFluidCapacity(fluid, casing.capacity);
+            }
         }
+        return formed;
     }
 
     @Override
@@ -106,7 +112,11 @@ public abstract class FluidHatch extends PylonBlock implements
         PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
         Waila.removeWailaOverride(getBlock().getRelative(BlockFace.UP));
         if (fluid != null) {
-            deleteFluidBuffer(fluid);
+            setFluidCapacity(fluid, 0);
+            getFluidDisplay().setTransformationMatrix(new TransformBuilder()
+                    .scale(0, 0, 0)
+                    .buildForItemDisplay()
+            );
         }
     }
 
@@ -153,12 +163,19 @@ public abstract class FluidHatch extends PylonBlock implements
     public void setFluidType(PylonFluid fluid) {
         if (this.fluid != null) {
             deleteFluidBuffer(this.fluid);
+            getFluidDisplay().setTransformationMatrix(new TransformBuilder()
+                    .scale(0, 0, 0)
+                    .buildForItemDisplay()
+            );
         }
         this.fluid = fluid;
+        if (fluid != null) {
+            createFluidBuffer(fluid, 0, true, true);
+        }
         if (isFormedAndFullyLoaded() && fluid != null) {
             FluidTankCasing casing = BlockStorage.getAs(FluidTankCasing.class, getBlock().getRelative(BlockFace.UP));
             Preconditions.checkState(casing != null);
-            createFluidBuffer(fluid, casing.capacity, true, true);
+            setFluidCapacity(fluid, casing.capacity);
         }
     }
 

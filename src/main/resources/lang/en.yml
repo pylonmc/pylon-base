@@ -1226,6 +1226,20 @@ item:
       <arrow> Requires a fluid casing above
     waila: "Fluid Output Hatch | %info%"
 
+  item_input_hatch:
+    name: "Item Input Hatch"
+    lore: |-
+      <star> Multiblock component
+      <arrow> Acts as an item input for multiblock machines
+    waila: "Item Input Hatch"
+
+  item_output_hatch:
+    name: "Item Output Hatch"
+    lore: |-
+      <star> Multiblock component
+      <arrow> Acts as an item output for multiblock machines
+    waila: "Item Output Hatch"
+
   shallow_core_chunk:
     name: "Shallow Core Chunk"
     lore: |-
@@ -1475,18 +1489,79 @@ item:
   fermenter:
     name: "Fermenter"
     lore: |-
+      <star> Multiblock
       <arrow> Ferments sugarcane into ethanol
+      <arrow> Fermentation speed is proportional to the amount of sugarcane inside
       <arrow> <attr>Ethanol per sugarcane:</attr> %ethanol-per-sugarcane%
-      <arrow> <attr>Fermentation time:</attr> %fermentation-time%
       <arrow> <attr>Sugarcane capacity:</attr> %sugarcane-capacity%
-      <arrow> <attr>Ethanol buffer:</attr> %ethanol-buffer%
-    waila: "Fermenter | %sugarcane-bar% %sugarcane-amount% sugarcane | %ethanol-bar%"
+      <arrow> <attr>Maximum ethanol output rate:</attr> %max-ethanol-output-rate%
+      
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fermenter.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 2x <yellow>Block of Iron</yellow>
+      <diamond> 4x <yellow>Polished Deepslate Wall</yellow>
+      <diamond> 4x <yellow><lang:pylon.pylonbase.item.fermenter_core.name/></yellow>
+      <diamond> 31x <yellow><lang:pylon.pylonbase.item.fermenter_casing.name/></yellow>
+    waila: "Fermenter | %sugarcane-bar% %sugarcane-amount% sugarcane"
+
+  fermenter_core:
+    name: "Fermenter Core"
+    lore: |-
+      <star> Fermenter multiblock component
+
+  fermenter_casing:
+    name: "Fermenter Casing"
+    lore: |-
+      <star> Fermenter multiblock component
 
   biorefinery:
     name: "Biorefinery"
     lore: |-
-      <arrow> Refines ethanol and plant oil into biodiesel
-    waila: "Diesel Miner | %hydraulic-fluid-bar% | %dirty-hydraulic-fluid-bar% | %ethanol-bar% | %plant-oil-bar% | %biodiesel-bar%"
+      <star> Multiblock
+      <arrow> Refines plant oil and ethanol into biodiesel
+      <arrow> Requires fuel to run
+      <arrow> Constantly consumes fuel even if not producing biodiesel
+      <arrow> <attr>Biodiesel production rate:</attr> %biodiesel-per-second%
+      <arrow> <attr>Ethanol per mb of biodiesel:</attr> %ethanol-per-mb-of-biodiesel%
+      <arrow> <attr>Plant oil per mb of biodiesel:</attr> %plant-oil-per-mb-of-biodiesel%
+      
+      <u>Components</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
+      <diamond> 6x <yellow><lang:pylon.pylonbase.item.biorefinery_foundation.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.pylonbase.item.biorefinery_tower_ring.name/></yellow>
+      <diamond> 9x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_ring.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_cap.name/></yellow>
+      <diamond> 24x <yellow><lang:pylon.pylonbase.item.biorefinery_plating.name/></yellow>
+    waila: "Biorefinery | %info%"
+
+  biorefinery_foundation:
+    name: "Biorefinery Foundation"
+    lore: |-
+      <star> Biorefinery multiblock component
+
+  biorefinery_plating:
+    name: "Biorefinery Plating"
+    lore: |-
+      <star> Biorefinery multiblock component
+
+  biorefinery_tower_ring:
+    name: "Biorefinery Tower Ring"
+    lore: |-
+      <star> Biorefinery multiblock component
+
+  biorefinery_smokestack_ring:
+    name: "Biorefinery Smokestack Ring"
+    lore: |-
+      <star> Biorefinery multiblock component
+
+  biorefinery_smokestack_cap:
+    name: "Biorefinery Smokestack Cap"
+    lore: |-
+      <star> Biorefinery multiblock component
 
   cargo_duct:
     name: "<white>Cargo Duct"
@@ -1543,6 +1618,8 @@ fluid:
   dirty_hydraulic_fluid: "<#48459b>Dirty Hydraulic Fluid"
   obscyra: "<#5c4a66>Obscyra"
   reflector_fluid: "<#d1c9ab>Reflector Fluid"
+  sugarcane: "<#a3ed2d>Sugarcane"
+  ethanol: "<#d8d8d8>Ethanol"
   biodiesel: "<#eaa627>Biodiesel"
 
 waila:
@@ -1647,6 +1724,9 @@ message:
     no_casing: "<red>No casing"
     no_multiblock: "<red>No multiblock"
     working: "%bars% (%fluid%)"
+  biorefinery:
+    no_fuel: "<red>No fuel"
+    has_fuel: "%fuel-bar% %remaining-time%"
   hammer_cant_use: "<red>You cannot use this hammer on this block"
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points (%total% points total)"
