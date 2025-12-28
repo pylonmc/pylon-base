@@ -1588,6 +1588,31 @@ item:
       <arrow> Inserts items into chests, furnaces, machines, and other compatible blocks
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
+  cargo_splitter:
+    name: "Cargo Splitter"
+    lore: |-
+      <arrow> Splits items between two outputs according to a configurable ratio
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+    waila: "Cargo Splitter | <#efae15>%left%<white>-<#2386c4>%right% <white>| %side%"
+
+  cargo_merger:
+    name: "Cargo Merger"
+    lore: |-
+      <arrow> Merges incoming items into one output
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  cargo_valve:
+    name: "Cargo Valve"
+    lore: |-
+      <arrow> <insn>Shift right click</insn> a cargo valve to toggle it
+    waila: "Cargo Valve | %status%"
+
+  cargo_filter:
+    name: "Cargo Filter"
+    lore: |-
+      <arrow> Sends items matching the filter left
+      <arrow> Sends items that do not match the filter right
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1629,6 +1654,9 @@ waila:
   fluid_strainer:
     straining: " | Straining %item% | %bars%"
   pit_kiln: "Pit Kiln | %time% left"
+  cargo_splitter:
+    left: "<#efae15>Left"
+    right: "<#2386c4>Right"
 
 research:
   baking: "<#e2b42b>Baking"
@@ -1767,6 +1795,31 @@ gui:
   hammer: "Hammer"
   pickaxe: "Pickaxe"
   tool: "Tool"
+  filtered: "Filtered"
+  unfiltered: "Unfiltered"
+  filter: "Items to filter"
+  left: "Left"
+  right: "Right"
+  left_button:
+    name: "Change ratio left"
+    lore: |-
+      <insn>Left click</insn> to increase
+      <insn>Right click</insn> to decrease
+  right_button:
+    name: "Change ratio right"
+    lore: |-
+      <insn>Left click</insn> to increase
+      <insn>Right click</insn> to decrease
+  whitelist-blacklist-toggle:
+    whitelist:
+      name: "Whitelist mode"
+      lore: |-
+        <arrow> <insn>Click</insn> to toggle
+    blacklist:
+      name: "Blacklist mode"
+      lore: |-
+        <arrow> <insn>Click</insn> to toggle
+  ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
   portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"
@@ -1797,3 +1850,17 @@ gui:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
+  logistic-group-cycle-item:
+    name: "Current inventory: <yellow>%inventory%"
+    lore: |-
+      <arrow> <insn>Click</insn> to cycle
+
+inventory:
+  input: "Input"
+  output: "Output"
+  hammer: "Hammer"
+  tool: "Tool"
+  left: "Left"
+  right: "Right"
+  filtered: "Filtered"
+  unfiltered: "Unfiltered"
