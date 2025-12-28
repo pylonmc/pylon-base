@@ -5,9 +5,7 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.content.components.*;
-import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
-import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
-import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
+import io.github.pylonmc.pylon.base.content.machines.cargo.*;
 import io.github.pylonmc.pylon.base.content.machines.diesel.machines.*;
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Fermenter;
@@ -149,5 +147,9 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
         PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);
         PylonBlock.register(BaseKeys.CARGO_INSERTER, Material.STRUCTURE_VOID, CargoInserter.class);
+        PylonBlock.register(BaseKeys.CARGO_SPLITTER, Material.STRUCTURE_VOID, CargoSplitter.class);
+        PylonBlock.register(BaseKeys.CARGO_MERGER, Material.STRUCTURE_VOID, CargoMerger.class);
+        PylonBlock.register(BaseKeys.CARGO_VALVE, Material.STRUCTURE_VOID, CargoValve.class);
+        PylonBlock.register(BaseKeys.CARGO_FILTER, Material.STRUCTURE_VOID, CargoFilter.class);
     }
 }

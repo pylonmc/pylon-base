@@ -161,6 +161,10 @@ public abstract class FluidHatch extends PylonBlock implements
     }
 
     public void setFluidType(PylonFluid fluid) {
+        if (this.fluid == fluid) {
+            return;
+        }
+        
         if (this.fluid != null) {
             deleteFluidBuffer(this.fluid);
             getFluidDisplay().setTransformationMatrix(new TransformBuilder()
