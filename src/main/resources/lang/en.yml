@@ -1856,6 +1856,7 @@ gui:
       <arrow> <insn>Click</insn> to cycle
 
 inventory:
+  fuel: "Fuel"
   input: "Input"
   output: "Output"
   hammer: "Hammer"
