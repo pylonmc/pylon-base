@@ -5,7 +5,6 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -14,12 +13,10 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonRegisterEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
@@ -34,15 +31,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,8 +45,8 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class Crucible extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
-    public final int CAPACITY = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
-    public final int SMELT_TIME = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
+    public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
+    public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
     private ItemStack processingType = null;
     private int amount = 0;
@@ -79,7 +73,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
 
     //region Inventory handling
     public int spaceAvailable() {
-        return CAPACITY - amount;
+        return capacity - amount;
     }
 
     @Override
@@ -293,16 +287,16 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     @Override
     public int getTickInterval() {
         if (processingType == null) {
-            return SMELT_TIME; // minimize ticking when empty
+            return smeltTime; // minimize ticking when empty
         }
 
         Integer heatFactor = getHeatFactor();
         if (heatFactor == null) {
-            return SMELT_TIME; // probably won't even work be operating in such scenario
+            return smeltTime; // probably won't even work be operating in such scenario
         }
 
         // stronger heat factor -> faster smelting
-        return SMELT_TIME / heatFactor;
+        return smeltTime / heatFactor;
     }
 
     //endregion
