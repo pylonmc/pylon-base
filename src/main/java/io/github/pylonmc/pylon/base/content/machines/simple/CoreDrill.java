@@ -4,6 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -29,7 +30,7 @@ import org.joml.Matrix4f;
 
 import java.util.List;
 
-public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultiblock {
+public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultiblock, PylonProcessor {
 
     public static class Item extends PylonItem {
 
@@ -54,10 +55,9 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
     @Getter protected final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", ConfigAdapter.INT);
     protected final ItemStack output = getSettings().getOrThrow("output", ConfigAdapter.ITEM_STACK);
     protected final Material drillMaterial = getSettings().getOrThrow("drill-material", ConfigAdapter.MATERIAL);
-    @Getter protected boolean cycling;
 
     @SuppressWarnings("unused")
-    public CoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
+    protected CoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         if (context instanceof BlockCreateContext.PlayerPlace playerPlace) {
             setFacing(TransformUtil.yawToFace(playerPlace.getPlayer().getYaw()));
@@ -73,13 +73,18 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
                         .scale(0.3, 2.1, 0.3))
                 .build(getBlock().getLocation().toCenterLocation().subtract(0, 1.5, 0))
         );
-        cycling = false;
     }
 
     @SuppressWarnings("unused")
-    public CoreDrill(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    protected CoreDrill(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        cycling = false;
+    }
+
+    @Override
+    protected void postLoad() {
+        if (isProcessing()) {
+            finishProcess();
+        }
     }
 
     public @Nullable ItemDisplay getDrillDisplay() {
@@ -94,12 +99,11 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
     }
 
     public void cycle() {
-        if (cycling || !isFormedAndFullyLoaded()) {
+        if (isProcessing() || !isFormedAndFullyLoaded()) {
             return;
         }
 
-        cycling = true;
-
+        // Schedule animations - this is easier to do here rather than trying to do it in tick()
         for (int i = 0; i < rotationsPerCycle; i++) {
             for (int j = 0; j < 4; j++) {
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
@@ -115,19 +119,16 @@ public abstract class CoreDrill extends PylonBlock implements PylonSimpleMultibl
                                     .subtract(0, 0.3, 0)
                             )
                             .spawn();
+                    progressProcess(rotationDuration);
                 }, (long) ((i + j/4.0) * rotationDuration));
             }
         }
 
-        Bukkit.getScheduler().runTaskLater(
-                PylonBase.getInstance(),
-                this::finishCycle,
-                getCycleDuration()
-        );
+        startProcess(rotationsPerCycle * rotationDuration);
     }
 
-    protected void finishCycle() {
-        cycling = false;
+    @Override
+    public void onProcessFinished() {
         getBlock().getWorld().dropItemNaturally(
                 getBlock().getRelative(BlockFace.DOWN, 2).getLocation().toCenterLocation(),
                 output

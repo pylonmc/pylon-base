@@ -3,6 +3,6 @@ purification-efficiency: 0.93
 hydraulic-fluid-buffer: 80 # mb
 tick-interval: 20
 
-fuels:
-  coal: 15 # seconds
-  charcoal: 10 # seconds
+fuels: # values in seconds
+  coal: 15
+  charcoal: 10

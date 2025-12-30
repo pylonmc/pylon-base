@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -29,12 +30,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.util.List;
 
-public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock {
+public class HydraulicPipeBender extends PylonBlock
+        implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<PipeBendingRecipe> {
 
     private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PIPE_BENDER);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -55,9 +56,6 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
         }
     }
 
-    private int recipeTicksRemaining;
-    private @Nullable PipeBendingRecipe recipe;
-
     @SuppressWarnings("unused")
     public HydraulicPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
@@ -72,13 +70,12 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
         );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
-        recipe = null;
+        setRecipeType(PipeBendingRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public HydraulicPipeBender(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        recipe = null;
     }
 
     @Override
@@ -92,8 +89,6 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
 
         event.setCancelled(true);
 
-        recipe = null;
-
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
@@ -105,6 +100,7 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
                     oldStack
             );
             itemDisplay.setItemStack(null);
+            stopRecipe();
             return;
         }
 
@@ -117,26 +113,24 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
     }
 
     @Override
+    public void onRecipeFinished(@NotNull PipeBendingRecipe recipe) {
+        getItemDisplay().setItemStack(getItemDisplay().getItemStack().subtract(recipe.input().getAmount()));
+        getBlock().getWorld().dropItemNaturally(
+                getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
+                recipe.result()
+        );
+    }
+
+    @Override
     public void tick(double deltaSeconds) {
-        ItemStack stack = getItemDisplay().getItemStack();
+        progressRecipe(TICK_INTERVAL);
 
-        if (recipe != null) {
+        if (isProcessingRecipe()) {
             spawnParticles();
-
-            if (recipeTicksRemaining > 0) {
-                recipeTicksRemaining -= TICK_INTERVAL;
-                return;
-            }
-
-            getItemDisplay().setItemStack(stack.subtract(recipe.input().getAmount()));
-            getBlock().getWorld().dropItemNaturally(
-                    getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
-                    recipe.result()
-            );
-            recipe = null;
             return;
         }
 
+        ItemStack stack = getItemDisplay().getItemStack();
         for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
             double hydraulicFluidInput = HYDRAULIC_FLUID_USAGE * recipe.timeTicks() / 20.0;
             double dirtyHydraulicFluidOutput = HYDRAULIC_FLUID_USAGE * recipe.timeTicks() / 20.0;
@@ -147,10 +141,8 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
                 continue;
             }
 
-            this.recipe = recipe;
-            recipeTicksRemaining = recipe.timeTicks();
+            startRecipe(recipe, recipe.timeTicks());
             spawnParticles();
-
             break;
         }
     }
@@ -163,7 +155,7 @@ public class HydraulicPipeBender extends PylonBlock implements PylonFluidBufferB
         new ParticleBuilder(Particle.BLOCK)
                 .count(5)
                 .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                .data(recipe.particleData())
+                .data(getCurrentRecipe().particleData())
                 .spawn();
     }
 
