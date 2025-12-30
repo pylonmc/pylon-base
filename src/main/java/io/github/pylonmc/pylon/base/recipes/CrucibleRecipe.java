@@ -15,8 +15,6 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -86,7 +84,7 @@ public record CrucibleRecipe(
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
             for (NamespacedKey key : getHeatedBlocks()) {
-                HEAT_SOURCES.add(BaseUtils.makeItem(key));
+                HEAT_SOURCES.add(BaseUtils.itemFromKey(key));
             }
         }
 

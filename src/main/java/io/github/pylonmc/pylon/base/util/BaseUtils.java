@@ -136,7 +136,7 @@ public class BaseUtils {
         animate(display, 0, duration, matrix);
     }
 
-    public static @NotNull ItemStack makeItem(@NotNull NamespacedKey key) {
+    public static @NotNull ItemStack itemFromKey(@NotNull NamespacedKey key) {
         if (key.getNamespace().equals("minecraft")) {
             return BaseUtils.makeItemVanilla(key);
         } else {
