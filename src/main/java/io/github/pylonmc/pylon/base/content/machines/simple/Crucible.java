@@ -44,7 +44,7 @@ import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class Crucible extends PylonBlock implements PylonMultiblock, PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
+public final class Crucible extends PylonBlock implements PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
@@ -120,10 +120,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
 
         event.setCancelled(true);
 
-        if (!isFormedAndFullyLoaded()) {
-            return;
-        }
-
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
 
         if (!CrucibleRecipe.isValid(item)) {
@@ -196,22 +192,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
             clearInventory();
         }
     }
-
-    @Override
-    public @NotNull Set<@NotNull ChunkPosition> getChunksOccupied() {
-        return Set.of(new ChunkPosition(getBlock()));
-    }
-
-    @Override
-    public boolean checkFormed() {
-        return getHeatFactor() != null;
-    }
-
-    @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.equals(getBelow());
-    }
-
     //region Cauldron logic
 
     @Override
@@ -268,8 +248,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     //region Tick handling
     @Override
     public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded()) return;
-
         tryDoRecipe();
         updateCauldron();
     }
