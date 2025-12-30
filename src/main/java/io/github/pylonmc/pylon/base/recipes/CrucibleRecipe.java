@@ -42,7 +42,7 @@ public record CrucibleRecipe(
         protected @NotNull CrucibleRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             FluidOrItem output = section.getOrThrow("output", ConfigAdapter.FLUID_OR_ITEM);
             if (!(output instanceof FluidOrItem.Fluid fluidOutput)) {
-                throw new IllegalArgumentException("In crucible recipe output must be a fluid.");
+                throw new IllegalArgumentException(key + ": In crucible recipe output must be a fluid.");
             }
 
             return new CrucibleRecipe(
