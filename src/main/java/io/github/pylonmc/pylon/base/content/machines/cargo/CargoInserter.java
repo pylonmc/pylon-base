@@ -9,15 +9,14 @@ import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PylonCargoDuctConnectEvent;
-import io.github.pylonmc.pylon.core.event.PylonCargoDuctDisconnectEvent;
+import io.github.pylonmc.pylon.core.event.PylonCargoConnectEvent;
+import io.github.pylonmc.pylon.core.event.PylonCargoDisconnectEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -79,7 +78,7 @@ public class CargoInserter extends PylonBlock
             throw new IllegalArgumentException("Cargo inserter can only be placed by player");
         }
 
-        facing = playerPlaceContext.getPlayer().getFacing();
+        facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, true).getOppositeFace();
 
         addCargoLogisticGroup(facing.getOppositeFace(), "input");
         for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
@@ -157,26 +156,23 @@ public class CargoInserter extends PylonBlock
     public void setupLogisticGroups() {}
 
     @Override
-    public void onDuctConnected(@NotNull PylonCargoDuctConnectEvent event) {
+    public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
-        BlockPosition ductPosition = new BlockPosition(event.getDuct().getBlock());
-        BlockPosition thisPosition = new BlockPosition(getBlock());
-        BlockFace connectedFace = PylonUtils.vectorToBlockFace(ductPosition.minus(thisPosition).getVector3i());
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
-            if (face != connectedFace) {
+            if (!getBlock().getRelative(face).equals(event.getBlock1().getBlock()) && !getBlock().getRelative(face).equals(event.getBlock2().getBlock())) {
                 removeCargoLogisticGroup(face);
             }
         }
     }
 
     @Override
-    public void onDuctDisconnected(@NotNull PylonCargoDuctDisconnectEvent event) {
+    public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
         List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(facing);
         faces.add(facing.getOppositeFace());
         for (BlockFace face : faces) {
-            addCargoLogisticGroup(face, "input");
+            addCargoLogisticGroup(face, "output");
         }
         for (BlockFace face : faces) {
             if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct) {

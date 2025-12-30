@@ -8,7 +8,7 @@ Pylon uses an addon system, meaning anyone can add content to Pylon by writing a
 
 ## Find out more
 Join our Discord: https://discord.gg/4tMAnBAacW  
-Visit our website: https://pylonmc.github.io/
+Visit our website: https://pylonmc.github.io
 
 ## Warning
 PYLON IS CURRENTLY EXPERIMENTAL. ONLY RUN IT ON A TEST SERVER THAT YOU ARE WILLING TO DELETE. THE NEXT PYLON VERSION WILL PROBABLY NOT BE COMPATIBLE WITH THE PREVIOUS ONE. IF YOU INSTALL PYLON SOMEWHERE YOU SHOULDN'T AND END UP LOSING DATA, WE WILL POINT AND LAUGH AT YOU.
