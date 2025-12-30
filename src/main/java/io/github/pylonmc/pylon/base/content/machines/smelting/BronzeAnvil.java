@@ -166,7 +166,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (ThreadLocalRandom.current().nextFloat() > COOL_CHANCE) return;
         ItemDisplay itemDisplay = getItemDisplay();
         if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;

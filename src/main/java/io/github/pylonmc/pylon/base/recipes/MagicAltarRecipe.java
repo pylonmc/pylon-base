@@ -36,7 +36,7 @@ public record MagicAltarRecipe(
         @NotNull List<RecipeInput.@Nullable Item> inputs,
         @NotNull RecipeInput.Item catalyst,
         @NotNull ItemStack result,
-        double timeSeconds
+        int timeSeconds
 ) implements PylonRecipe {
 
     @Override
@@ -88,7 +88,7 @@ public record MagicAltarRecipe(
                     inputs,
                     catalyst,
                     section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
-                    section.getOrThrow("time-seconds", ConfigAdapter.DOUBLE)
+                    section.getOrThrow("time-seconds", ConfigAdapter.INT)
             );
         }
     };

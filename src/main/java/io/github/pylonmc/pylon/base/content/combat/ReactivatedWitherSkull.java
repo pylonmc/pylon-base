@@ -34,9 +34,15 @@ public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if ((event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) || player.isSneaking()) return;
+        if ((event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
+                || player.isSneaking()
+        ) {
+            return;
+        }
 
-        if (player.getGameMode() != GameMode.CREATIVE) getStack().damage(1, player);
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            getStack().damage(1, player);
+        }
 
         player.setCooldown(getStack(), cooldownTicks);
         Location skullPos = player.getLocation().clone().add(0, playerHeight, 0);

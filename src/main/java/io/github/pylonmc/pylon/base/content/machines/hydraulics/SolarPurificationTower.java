@@ -2,7 +2,9 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
@@ -12,8 +14,11 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -25,11 +30,15 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SolarPurificationTower extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
+public class SolarPurificationTower extends PylonBlock implements
+        PylonSimpleMultiblock,
+        PylonTickingBlock,
+        PylonDirectionalBlock,
+        PylonFluidBufferBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
     public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
-    public final double hydraulicFluidBuffer = getSettings().getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.DOUBLE);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
     public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
     public final int lensLayers = getSettings().getOrThrow("lens-layers", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -38,6 +47,7 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
 
         public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
         public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
         public final double rainSpeedFraction = getSettings().getOrThrow("rain-speed-fraction", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
@@ -49,7 +59,8 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
             return List.of(
                     PylonArgument.of("rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100)),
                     PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
-                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100))
+                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100)),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -58,10 +69,11 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
     public SolarPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
+        setFacing(context.getFacing());
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidBuffer, true, false);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidBuffer, false, true);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -90,7 +102,8 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
         return components;
     }
 
-    public void tick(double deltaSeconds) {
+    @Override
+    public void tick() {
         if (!isFormedAndFullyLoaded() || !getBlock().getWorld().isDayTime()) {
             return;
         }
@@ -98,7 +111,7 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
         double multiplier = getBlock().getWorld().isClearWeather() ? 1.0 : rainSpeedFraction;
         double toPurify = Math.min(
                 // maximum amount of dirty hydraulic fluid that can be purified this tick
-                deltaSeconds * purificationSpeed * multiplier,
+                purificationSpeed * multiplier * getTickInterval() / 20.0,
                 Math.min(
                         // amount of dirty hydraulic fluid available
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
@@ -112,7 +125,20 @@ public class SolarPurificationTower extends PylonBlock implements PylonSimpleMul
     }
 
     @Override
-    public @Nullable BlockFace getFacing() {
-        return PylonFluidBufferBlock.super.getFacing();
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                )),
+                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#212d99")
+                ))
+        ));
     }
 }
