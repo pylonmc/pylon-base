@@ -1488,11 +1488,11 @@ waila:
     filled: "| %bar%/%capacity% of %fluid%"
   crucible:
     item:
-      empty: "(no items)"
-      stored: "| %type% x%amount% "
+      empty: "| Empty |"
+      stored: "| x%amount% %type% |"
     liquid:
-      empty: "(no liquids)"
-      filled: "| %amount% of %fluid%"
+      empty: "Empty"
+      filled: "%bar% (%fluid%)"
   fluid_strainer:
     straining: " | Straining %item% | %bars%"
   pit_kiln: "Pit Kiln | %time% left"

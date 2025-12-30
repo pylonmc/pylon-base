@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -20,6 +21,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -232,7 +234,12 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
                 Component.translatable("pylon.pylonbase.waila.crucible.liquid.empty") :
                 Component.translatable("pylon.pylonbase.waila.crucible.liquid.filled",
                     PylonArgument.of("fluid", getFluidType().getName()),
-                    PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1))
+                    PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                        getFluidAmount(),
+                        getFluidCapacity(),
+                        10,
+                        TextColor.color(200, 255, 255)
+                    ))
                 ))
         ));
     }
