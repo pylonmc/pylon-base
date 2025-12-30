@@ -1,4 +1,4 @@
 rotation-duration-ticks: 20 # must be a multiple of 4
 rotations-per-cycle: 30
 output: "pylonbase:shallow_core_chunk"
-drill-material: black_concrete
+drill-material: gray_concrete

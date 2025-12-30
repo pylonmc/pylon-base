@@ -7,6 +7,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseKeys {
     public static final NamespacedKey ROCK_DUST = baseKey("rock_dust");
+    public static final NamespacedKey UNFIRED_BRICK = baseKey("unfired_brick");
 
     public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
 
@@ -266,10 +267,6 @@ public class BaseKeys {
     public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");
     public static final NamespacedKey INTERMEDIATE_CORE_CHUNK = baseKey("intermediate_core_chunk");
 
-    public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
-    public static final NamespacedKey SIMPLE_BLOCK_DISPLAY = baseKey("simple_block_display");
-    public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
-
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
@@ -295,6 +292,10 @@ public class BaseKeys {
     public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 
     public static final NamespacedKey DIESEL_PIPE_BENDER = baseKey("diesel_pipe_bender");
+    public static final NamespacedKey DIESEL_TABLE_SAW = baseKey("diesel_table_saw");
+    public static final NamespacedKey DIESEL_PRESS = baseKey("diesel_press");
+    public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
+    public static final NamespacedKey DIESEL_BRICK_MOLDER = baseKey("diesel_brick_molder");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

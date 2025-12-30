@@ -70,7 +70,7 @@ public final class FluidSelector {
                             PylonArgument.of(
                                     "fluid",
                                     Component.translatable((fluid == null
-                                            ? "pylon.pylonbase.message.fluid_none"
+                                            ? "pylon.pylonbase.fluid.none"
                                             : "pylon.pylonbase.fluid." + fluid.getKey().getKey()
                                     ))
                             ))

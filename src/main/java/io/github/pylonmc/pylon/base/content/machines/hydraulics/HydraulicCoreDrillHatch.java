@@ -9,7 +9,9 @@ import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import io.github.pylonmc.pylon.core.waila.Waila;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
@@ -46,6 +48,12 @@ public abstract class HydraulicCoreDrillHatch extends PylonBlock
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         return getBlock().getRelative(BlockFace.UP) == otherBlock;
     }
+
+    @Override
+    public void onMultiblockRefreshed() {
+        Waila.addWailaOverride(new BlockPosition(getBlock().getRelative(BlockFace.UP)), this::getWaila);
+    }
+
 
     @Override
     public boolean setFluid(@NotNull PylonFluid fluid, double amount) {

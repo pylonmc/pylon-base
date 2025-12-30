@@ -6,21 +6,18 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PylonCargoDuctConnectEvent;
-import io.github.pylonmc.pylon.core.event.PylonCargoDuctDisconnectEvent;
+import io.github.pylonmc.pylon.core.event.PylonCargoConnectEvent;
+import io.github.pylonmc.pylon.core.event.PylonCargoDisconnectEvent;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -30,27 +27,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
 
 public class CargoInserter extends PylonBlock
         implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
 
-    private static final NamespacedKey FACING_KEY = baseKey("facing");
-
-    private final BlockFace facing;
-
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
-    public final ItemStack mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":main")
-            .build();
-    public final ItemStack inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":input")
-            .build();
-    public final ItemStack ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":duct")
-            .build();
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":main");
+    public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":input");
+    public final ItemStackBuilder ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
+            .addCustomModelDataString(getKey() + ":duct");
 
     public static class Item extends PylonItem {
 
@@ -75,14 +63,10 @@ public class CargoInserter extends PylonBlock
     public CargoInserter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        if (!(context instanceof BlockCreateContext.PlayerPlace playerPlaceContext)) {
-            throw new IllegalArgumentException("Cargo inserter can only be placed by player");
-        }
+        setFacing(context.getFacing());
 
-        facing = playerPlaceContext.getPlayer().getFacing();
-
-        addCargoLogisticGroup(facing.getOppositeFace(), "input");
-        for (BlockFace face : PylonUtils.perpendicularImmediateFaces(facing)) {
+        addCargoLogisticGroup(getFacing(), "input");
+        for (BlockFace face : PylonUtils.perpendicularImmediateFaces(getFacing())) {
             addCargoLogisticGroup(face, "input");
         }
         setCargoTransferRate(transferRate);
@@ -90,8 +74,8 @@ public class CargoInserter extends PylonBlock
         addEntity("main", new ItemDisplayBuilder()
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
-                        .translate(0, 0, 0.4)
+                        .lookAlong(getFacing())
+                        .translate(0, 0, -0.4)
                         .scale(0.65, 0.65, 0.2)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -100,8 +84,8 @@ public class CargoInserter extends PylonBlock
         addEntity("input", new ItemDisplayBuilder()
                 .itemStack(inputStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
-                        .translate(0, 0, 0.3)
+                        .lookAlong(getFacing())
+                        .translate(0, 0, -0.3)
                         .scale(0.4, 0.4, 0.05)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -110,8 +94,8 @@ public class CargoInserter extends PylonBlock
         addEntity("duct", new ItemDisplayBuilder()
                 .itemStack(ductStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
-                        .translate(0, 0, 0.0625)
+                        .lookAlong(getFacing())
+                        .translate(0, 0, -0.0625)
                         .scale(0.35, 0.35, 0.475)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -121,13 +105,6 @@ public class CargoInserter extends PylonBlock
     @SuppressWarnings("unused")
     public CargoInserter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-
-        facing = pdc.get(FACING_KEY, PylonSerializers.BLOCK_FACE);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(FACING_KEY, PylonSerializers.BLOCK_FACE, facing);
     }
 
     @Override
@@ -149,34 +126,23 @@ public class CargoInserter extends PylonBlock
     }
 
     @Override
-    public @Nullable BlockFace getFacing() {
-        return facing;
-    }
-
-    @Override
-    public void setupLogisticGroups() {}
-
-    @Override
-    public void onDuctConnected(@NotNull PylonCargoDuctConnectEvent event) {
+    public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
-        BlockPosition ductPosition = new BlockPosition(event.getDuct().getBlock());
-        BlockPosition thisPosition = new BlockPosition(getBlock());
-        BlockFace connectedFace = PylonUtils.vectorToBlockFace(ductPosition.minus(thisPosition).getVector3i());
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
-            if (face != connectedFace) {
+            if (!getBlock().getRelative(face).equals(event.getBlock1().getBlock()) && !getBlock().getRelative(face).equals(event.getBlock2().getBlock())) {
                 removeCargoLogisticGroup(face);
             }
         }
     }
 
     @Override
-    public void onDuctDisconnected(@NotNull PylonCargoDuctDisconnectEvent event) {
+    public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
-        List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(facing);
-        faces.add(facing.getOppositeFace());
+        List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(getFacing());
+        faces.add(getFacing().getOppositeFace());
         for (BlockFace face : faces) {
-            addCargoLogisticGroup(face, "input");
+            addCargoLogisticGroup(face, "output");
         }
         for (BlockFace face : faces) {
             if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct) {
@@ -194,7 +160,7 @@ public class CargoInserter extends PylonBlock
     }
 
     public @NotNull Block getTarget() {
-        return getBlock().getRelative(facing);
+        return getBlock().getRelative(getFacing());
     }
 
     public @Nullable PylonLogisticBlock getTargetLogisticBlock() {

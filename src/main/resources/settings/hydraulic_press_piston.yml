@@ -1,2 +1,3 @@
 tick-interval: 10
 hydraulic-fluid-per-craft: 80
+buffer: 500

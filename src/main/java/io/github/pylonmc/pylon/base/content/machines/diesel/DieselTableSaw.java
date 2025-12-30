@@ -2,13 +2,14 @@ package io.github.pylonmc.pylon.base.content.machines.diesel;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
+import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -43,18 +44,25 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DieselPipeBender extends PylonBlock implements
+public class DieselTableSaw extends PylonBlock implements
         PylonGuiBlock,
         PylonFluidBufferBlock,
         PylonDirectionalBlock,
         PylonTickingBlock,
         PylonLogisticBlock,
-        PylonRecipeProcessor<PipeBendingRecipe> {
+        PylonRecipeProcessor<TableSawRecipe> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
+
+    public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side1");
+    public ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side2");
+    public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":chimney");
 
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory outputInventory = new VirtualInventory(1);
@@ -70,7 +78,7 @@ public class DieselPipeBender extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
                     PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
@@ -79,17 +87,8 @@ public class DieselPipeBender extends PylonBlock implements
         }
     }
 
-    public ItemStackBuilder cubeStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":cube");
-    public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side1");
-    public ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side2");
-    public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":chimney");
-
     @SuppressWarnings("unused")
-    public DieselPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public DieselTableSaw(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
@@ -116,43 +115,25 @@ public class DieselPipeBender extends PylonBlock implements
                         .scale(0.9, 0.8, 1.1))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
-        addEntity("cube1", new ItemDisplayBuilder()
-                .itemStack(cubeStack)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(0, 0, 0.2)
-                        .scale(0.2))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        );
-        addEntity("cube2", new ItemDisplayBuilder()
-                .itemStack(cubeStack)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(0.15, 0, -0.2)
-                        .scale(0.2))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        );
-        addEntity("cube3", new ItemDisplayBuilder()
-                .itemStack(cubeStack)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(-0.15, 0, -0.2)
-                        .scale(0.2))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        );
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
-                        .lookAlong(new Vector3d(0.0, 1.0, 0.0))
-                        .scale(0.4))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+                        .scale(0.3))
+                .build(block.getLocation().toCenterLocation().add(0, 0.65, 0))
+        );
+        addEntity("saw", new BlockDisplayBuilder()
+                .blockData(Material.IRON_BARS.createBlockData("[east=true,west=true]"))
+                .transformation(new TransformBuilder()
+                        .rotate(0, PylonUtils.faceToYaw(getFacing()), 0)
+                        .scale(0.6, 0.4, 0.4))
+                .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))
         );
         createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
-        setRecipeType(PipeBendingRecipe.RECIPE_TYPE);
+        setRecipeType(TableSawRecipe.RECIPE_TYPE);
         setRecipeProgressItem(new ProgressItem(GuiItems.background()));
     }
 
     @SuppressWarnings("unused")
-    public DieselPipeBender(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public DieselTableSaw(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -170,13 +151,18 @@ public class DieselPipeBender extends PylonBlock implements
     }
 
     @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonGuiBlock.super.onBreak(drops, context);
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    @Override
     public void tick() {
         if (!isProcessingRecipe() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerSecond * tickInterval / 20) {
             return;
         }
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
-        progressRecipe(tickInterval);
         Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
                 new Vector3d(0.4, 0.7, -0.4),
                 getFacing()
@@ -187,6 +173,12 @@ public class DieselPipeBender extends PylonBlock implements
                 .count(0)
                 .extra(0.05)
                 .spawn();
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                .data(getCurrentRecipe().particleData())
+                .spawn();
+        progressRecipe(tickInterval);
     }
 
     public void tryStartRecipe() {
@@ -199,24 +191,21 @@ public class DieselPipeBender extends PylonBlock implements
             return;
         }
 
-        for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
-            if (!recipe.input().matches(stack) || !outputInventory.canHold(recipe.result())) {
+        for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
+            double dieselAmount = dieselPerSecond * recipe.timeTicks() / 20.0;
+            if (fluidAmount(BaseFluids.BIODIESEL) < dieselAmount
+                    || !recipe.input().isSimilar(stack)
+                    || !outputInventory.canHold(recipe.result())
+            ) {
                 continue;
             }
 
-            startRecipe(recipe, (int) Math.round(recipe.timeTicks() / speed));
+            startRecipe(recipe, recipe.timeTicks());
             getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
             getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
             inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
             break;
         }
-    }
-
-    @Override
-    public void onRecipeFinished(@NotNull PipeBendingRecipe recipe) {
-        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
-        getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
-        outputInventory.addItem(new MachineUpdateReason(), recipe.result().clone());
     }
 
     @Override
@@ -237,14 +226,6 @@ public class DieselPipeBender extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of(
-                "input", inputInventory,
-                "output", outputInventory
-        );
-    }
-
-    @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("diesel-bar", BaseUtils.createFluidAmountBar(
@@ -257,8 +238,17 @@ public class DieselPipeBender extends PylonBlock implements
     }
 
     @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonGuiBlock.super.onBreak(drops, context);
-        PylonFluidBufferBlock.super.onBreak(drops, context);
+    public void onRecipeFinished(@NotNull TableSawRecipe recipe) {
+        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+        getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
+        outputInventory.addItem(null, recipe.result().clone());
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "output", outputInventory
+        );
     }
 }

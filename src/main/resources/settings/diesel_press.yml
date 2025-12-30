@@ -1,4 +1,5 @@
 diesel-per-second: 20
 diesel-buffer: 200
+plant-oil-buffer: 1000
 tick-interval: 10
-speed: 1.5
+time-per-item: 1.5

@@ -34,6 +34,15 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHandler {
+    public static HashMap<BlockPosition, Set<Player>> frozenPlayers = new HashMap<>();
+    private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown_millis");
+    private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
+    private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
+    private final long cooldownMillis = getSettings().getOrThrow("cooldown", ConfigAdapter.INT) * 50L;
+    private final int particleCount = getSettings().getOrThrow("particle.count", ConfigAdapter.INT);
+    private final double particleRadius = getSettings().getOrThrow("particle.radius", ConfigAdapter.DOUBLE);
+    private final int particlePeriod = getSettings().getOrThrow("particle.period", ConfigAdapter.INT);
+
     public static class Item extends PylonItem {
         private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
         private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
@@ -52,15 +61,6 @@ public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHa
             );
         }
     }
-
-    public static HashMap<BlockPosition, Set<Player>> frozenPlayers = new HashMap<>();
-    private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown_millis");
-    private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
-    private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
-    private final long cooldownMillis = getSettings().getOrThrow("cooldown", ConfigAdapter.INT) * 50L;
-    private final int particleCount = getSettings().getOrThrow("particle.count", ConfigAdapter.INT);
-    private final double particleRadius = getSettings().getOrThrow("particle.radius", ConfigAdapter.DOUBLE);
-    private final int particlePeriod = getSettings().getOrThrow("particle.period", ConfigAdapter.INT);
 
     public Immobilizer(Block block, BlockCreateContext context) {
         super(block);

@@ -1,3 +1,4 @@
 radius: 4
 tick-interval: 80
 hydraulic-fluid-usage: 80
+buffer: 500

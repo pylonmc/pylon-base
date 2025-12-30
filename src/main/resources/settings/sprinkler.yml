@@ -1,5 +1,6 @@
 tick-interval: 10
 water-per-second: 350
+buffer: 1000
 
 range:
   horizontal: 4
