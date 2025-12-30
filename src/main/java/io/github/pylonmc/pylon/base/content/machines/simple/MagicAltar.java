@@ -119,7 +119,7 @@ public class MagicAltar extends PylonBlock
             itemDisplay.setItemStack(catalyst.asQuantity(1));
             catalyst.subtract();
             for (Pedestal pedestal : getPedestals()) {
-                pedestal.locked = true;
+                pedestal.setLocked(true);
             }
             startRecipe(recipe, recipe.timeSeconds() * 20);
             break;
@@ -195,7 +195,7 @@ public class MagicAltar extends PylonBlock
     public void onRecipeFinished(@NotNull MagicAltarRecipe recipe) {
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
-            pedestal.locked = false;
+            pedestal.setLocked(false);
         }
 
         getItemDisplay().setItemStack(recipe.result());
@@ -212,7 +212,7 @@ public class MagicAltar extends PylonBlock
 
         for (Pedestal pedestal : getPedestals()) {
             if (pedestal != null) {
-                pedestal.locked = false;
+                pedestal.setLocked(false);
             }
         }
 
