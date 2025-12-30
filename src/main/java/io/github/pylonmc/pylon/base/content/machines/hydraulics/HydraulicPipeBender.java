@@ -2,47 +2,59 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.Settings;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.util.List;
 
-public class HydraulicPipeBender extends PylonBlock
-        implements PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<PipeBendingRecipe> {
+public class HydraulicPipeBender extends PylonBlock implements
+        PylonFluidBufferBlock,
+        PylonDirectionalBlock,
+        PylonInteractBlock,
+        PylonTickingBlock,
+        PylonRecipeProcessor<PipeBendingRecipe> {
 
-    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_PIPE_BENDER);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
-    public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
+
+    public ItemStack cubeStack = ItemStackBuilder.of(Material.ORANGE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":cube")
+            .build();
 
     public static class Item extends PylonItem {
+
+        public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -51,7 +63,8 @@ public class HydraulicPipeBender extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -59,17 +72,42 @@ public class HydraulicPipeBender extends PylonBlock
     @SuppressWarnings("unused")
     public HydraulicPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        setTickInterval(TICK_INTERVAL);
+        setTickInterval(tickInterval);
+        setFacing(context.getFacing());
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        addEntity("cube1", new ItemDisplayBuilder()
+                .itemStack(cubeStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .translate(0, 0, 0.2)
+                        .scale(0.25))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("cube2", new ItemDisplayBuilder()
+                .itemStack(cubeStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .translate(0.2, 0, -0.2)
+                        .scale(0.25))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
+        addEntity("cube3", new ItemDisplayBuilder()
+                .itemStack(cubeStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .translate(-0.2, 0, -0.2)
+                        .scale(0.25))
+                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
+        );
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .lookAlong(new Vector3d(0.0, 1.0, 0.0))
                         .scale(0.4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
         setRecipeType(PipeBendingRecipe.RECIPE_TYPE);
     }
 
@@ -122,27 +160,33 @@ public class HydraulicPipeBender extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        progressRecipe(TICK_INTERVAL);
+    public void tick() {
+        double hydraulicFluidToConsume = hydraulicFluidUsage * getTickInterval() / 20.0;
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidToConsume
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidToConsume
+        ) {
+            return;
+        }
 
         if (isProcessingRecipe()) {
-            spawnParticles();
+            new ParticleBuilder(Particle.BLOCK)
+                    .count(5)
+                    .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                    .data(getCurrentRecipe().particleData())
+                    .spawn();
+            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidToConsume);
+            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidToConsume);
+            progressRecipe(tickInterval);
             return;
         }
 
         ItemStack stack = getItemDisplay().getItemStack();
         for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
-            double hydraulicFluidInput = HYDRAULIC_FLUID_USAGE * recipe.timeTicks() / 20.0;
-            double dirtyHydraulicFluidOutput = HYDRAULIC_FLUID_USAGE * recipe.timeTicks() / 20.0;
-            if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidInput
-                    || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < dirtyHydraulicFluidOutput
-                    || !recipe.input().matches(stack)
-            ) {
+            if (!recipe.input().matches(stack)) {
                 continue;
             }
 
             startRecipe(recipe, recipe.timeTicks());
-            spawnParticles();
             break;
         }
     }
@@ -151,16 +195,27 @@ public class HydraulicPipeBender extends PylonBlock
         return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
-    public void spawnParticles() {
-        new ParticleBuilder(Particle.BLOCK)
-                .count(5)
-                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                .data(getCurrentRecipe().particleData())
-                .spawn();
+    @Override
+    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+        drops.add(getItemDisplay().getItemStack());
     }
 
     @Override
-    public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        drops.add(getItemDisplay().getItemStack());
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#212d99")
+                )),
+                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                ))
+        ));
     }
 }

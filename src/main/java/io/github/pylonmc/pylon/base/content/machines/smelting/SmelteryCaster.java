@@ -4,8 +4,6 @@ import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -117,10 +115,6 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             if (recipe == null || controller.getTemperature() < recipe.temperature() || controller.getFluidAmount(bottomFluid) < recipe.input().amountMillibuckets())
                 return;
 
-            if (!new PrePylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller, player).callEvent()) {
-                return;
-            }
-
             ItemStack result = recipe.result();
             if (!inventory.canHold(result)) {
                 return;
@@ -129,7 +123,6 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             inventory.addItem(null, result);
 
             controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
-            new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
@@ -143,7 +136,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null) {
             bottomFluid = null;

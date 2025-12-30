@@ -16,15 +16,12 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -104,15 +101,17 @@ public class Grindstone extends PylonBlock
 
         // drop old item
         if (!oldStack.getType().isAir()) {
-            getBlock().getWorld().dropItem(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), oldStack);
+            getBlock().getWorld().dropItem(
+                    getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
+                    oldStack
+            );
             itemDisplay.setItemStack(null);
             return;
         }
 
         // insert new item
         if (newStack != null) {
-            ItemStack stackToInsert = newStack.clone();
-            itemDisplay.setItemStack(stackToInsert);
+            itemDisplay.setItemStack(newStack.clone());
             newStack.setAmount(0);
         }
     }
@@ -139,11 +138,7 @@ public class Grindstone extends PylonBlock
                 .orElse(null);
     }
 
-    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe, @Nullable Player player) {
-        if (!new PrePylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this, player).callEvent()) {
-            return false;
-        }
-
+    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe) {
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
@@ -169,6 +164,7 @@ public class Grindstone extends PylonBlock
                             .count(10)
                             .location(getBlock().getLocation().toCenterLocation())
                             .spawn();
+
                     progressRecipe(CYCLE_DURATION_TICKS / 4);
                 }, (long) ((i + j/4.0) * CYCLE_DURATION_TICKS));
             }
@@ -183,8 +179,6 @@ public class Grindstone extends PylonBlock
                 getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
                 recipe.results().getRandom()
         );
-
-        new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, recipe, this).callEvent();
     }
 
     public @NotNull ItemDisplay getItemDisplay() {

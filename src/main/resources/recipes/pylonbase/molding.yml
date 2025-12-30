@@ -1,4 +1,5 @@
 pylonbase:unfired_refractory_brick:
   input: pylonbase:refractory_mix
   result: pylonbase:unfired_refractory_brick
-  clicks: 4
+  resultAmount: 1
+  cycles: 6
