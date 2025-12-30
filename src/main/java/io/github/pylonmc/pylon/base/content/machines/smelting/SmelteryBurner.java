@@ -127,7 +127,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             }
         }
         if (fuel != null) {
-            fuelTicksRemaining -= getTickInterval();
+            fuelTicksRemaining -= getTickInterval().get();
             progressItem.setRemainingTimeTicks(fuelTicksRemaining);
             if (fuelTicksRemaining <= 0) {
                 fuel = null;

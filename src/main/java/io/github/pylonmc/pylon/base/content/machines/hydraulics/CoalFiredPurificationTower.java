@@ -169,7 +169,7 @@ public class CoalFiredPurificationTower extends PylonBlock
 
         double toPurify = Math.min(
                 // maximum amount of dirty hydraulic fluid that can be purified this tick
-                PURIFICATION_SPEED * getTickInterval() / 20.0,
+                PURIFICATION_SPEED * getTickInterval().get() / 20.0,
                 Math.min(
                         // amount of dirty hydraulic fluid available
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
@@ -181,7 +181,7 @@ public class CoalFiredPurificationTower extends PylonBlock
         removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
         addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * PURIFICATION_EFFICIENCY);
 
-        fuelTicksRemaining -= getTickInterval();
+        fuelTicksRemaining -= getTickInterval().get();
         progressItem.setRemainingTimeTicks(fuelTicksRemaining);
         if (fuelTicksRemaining <= 0) {
             fuelTicksRemaining = null;

@@ -117,7 +117,7 @@ public class HydraulicExcavator extends PylonBlock implements PylonTickingBlock,
             return;
         }
 
-        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
+        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval().get() / 20.0;
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
                 || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed

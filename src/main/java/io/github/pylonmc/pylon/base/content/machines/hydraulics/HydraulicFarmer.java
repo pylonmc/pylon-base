@@ -93,7 +93,7 @@ public class HydraulicFarmer extends PylonBlock
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
 
-        int seconds = getTickInterval() / 20;
+        int seconds = getTickInterval().get() / 20;
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_USAGE * seconds, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_USAGE * seconds, false, true);
     }
@@ -106,7 +106,7 @@ public class HydraulicFarmer extends PylonBlock
 
     @Override
     public void tick(double deltaSeconds) {
-        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
+        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval().get() / 20.0;
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
                 || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
