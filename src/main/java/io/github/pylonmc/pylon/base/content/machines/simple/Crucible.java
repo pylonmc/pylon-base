@@ -19,7 +19,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
@@ -274,12 +273,8 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
         int heatGenerated();
     }
 
-    public @NotNull Block getBelow() {
-        return getBlock().getRelative(BlockFace.DOWN);
-    }
-
     public Integer getHeatFactor() {
-        Block below = getBelow();
+        Block below = getBlock().getRelative(BlockFace.DOWN);
         var pylonBlock = BlockStorage.get(below);
         if (pylonBlock != null) {
             if (pylonBlock instanceof HeatedBlock heatedBlock) {
