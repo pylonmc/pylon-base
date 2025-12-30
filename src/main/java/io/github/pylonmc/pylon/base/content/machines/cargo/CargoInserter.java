@@ -29,7 +29,7 @@ import java.util.*;
 
 
 public class CargoInserter extends PylonBlock
-        implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock, PylonCulledBlock {
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -108,6 +108,11 @@ public class CargoInserter extends PylonBlock
     }
 
     @Override
+    public void postInitialise() {
+        setDisableBlockTextureEntity(true);
+    }
+
+    @Override
     public @NotNull Set<ChunkPosition> getChunksOccupied() {
         Set<ChunkPosition> chunks = new HashSet<>();
         chunks.add(new ChunkPosition(getBlock()));
@@ -166,5 +171,10 @@ public class CargoInserter extends PylonBlock
     public @Nullable PylonLogisticBlock getTargetLogisticBlock() {
         PylonLogisticBlock block = BlockStorage.getAs(PylonLogisticBlock.class, getTarget());
         return block instanceof PylonCargoBlock ? null : block;
+    }
+
+    @Override
+    public @NotNull Iterable<@NotNull UUID> getCulledEntityIds() {
+        return getHeldEntities().values();
     }
 }

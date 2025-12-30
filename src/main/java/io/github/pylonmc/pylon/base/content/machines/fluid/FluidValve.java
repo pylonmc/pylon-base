@@ -89,7 +89,6 @@ public class FluidValve extends PylonBlock
                 )
                 .build(getBlock().getLocation().toCenterLocation())
         );
-        setDisableBlockTextureEntity(true);
 
         enabled = false;
     }
@@ -98,9 +97,12 @@ public class FluidValve extends PylonBlock
     public FluidValve(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        setDisableBlockTextureEntity(true);
-
         enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
+    }
+
+    @Override
+    public void postInitialise() {
+        setDisableBlockTextureEntity(true);
     }
 
     @Override

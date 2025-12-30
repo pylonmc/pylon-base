@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonCulledBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -29,10 +30,11 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class CargoBuffer extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock, PylonCulledBlock {
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -134,6 +136,13 @@ public class CargoBuffer extends PylonBlock
     }
 
     @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        setDisableBlockTextureEntity(true);
+    }
+
+    @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure("# # # # x # # # #")
@@ -148,8 +157,7 @@ public class CargoBuffer extends PylonBlock
     }
 
     @Override
-    public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+    public @NotNull Iterable<@NotNull UUID> getCulledEntityIds() {
+        return getHeldEntities().values();
     }
 }
