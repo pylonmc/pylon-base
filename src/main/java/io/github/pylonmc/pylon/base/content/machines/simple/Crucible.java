@@ -126,7 +126,7 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
 
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
 
-        if (!isValid(item)) {
+        if (!CrucibleRecipe.isValid(item)) {
             return;
         }
 
@@ -148,16 +148,6 @@ public final class Crucible extends PylonBlock implements PylonMultiblock, Pylon
     public void clearInventory() {
         this.processingType = null;
         this.amount = 0;
-    }
-
-    public boolean isValid(ItemStack item) {
-        for(var entry : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
-            if (entry.matches(item)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public boolean tryDoRecipe() {

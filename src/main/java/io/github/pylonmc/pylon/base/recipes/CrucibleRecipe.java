@@ -93,6 +93,16 @@ public record CrucibleRecipe(
         return HEAT_SOURCES;
     }
 
+    public static boolean isValid(ItemStack item) {
+        for(var entry : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
+            if (entry.matches(item)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public @NotNull Gui display() {
 
