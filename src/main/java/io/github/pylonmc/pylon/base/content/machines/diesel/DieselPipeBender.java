@@ -38,10 +38,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.inventory.event.PlayerUpdateReason;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class DieselPipeBender extends PylonBlock
@@ -210,6 +212,14 @@ public class DieselPipeBender extends PylonBlock
                 .addIngredient('O', GuiItems.output())
                 .addIngredient('o', outputInventory)
                 .build();
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "output", outputInventory
+        );
     }
 
     @Override

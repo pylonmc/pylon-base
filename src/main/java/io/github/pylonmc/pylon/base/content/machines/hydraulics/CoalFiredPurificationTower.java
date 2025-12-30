@@ -34,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.HashMap;
@@ -117,6 +118,11 @@ public class CoalFiredPurificationTower extends PylonBlock
                 .addIngredient('x', inventory)
                 .addIngredient('#', GuiItems.background())
                 .build();
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 
     @Override
