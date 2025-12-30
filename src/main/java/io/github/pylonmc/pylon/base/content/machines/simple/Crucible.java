@@ -164,7 +164,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
     private void doRecipe(@NotNull CrucibleRecipe recipe) {
         if (recipe.output().fluid().equals(getFluidType())) {
-            if (getFluidAmount() == getFluidCapacity()) return; // no need to waste stuff
+            if (getFluidSpaceRemaining() < 1.0e-6) return; // no need to waste stuff
         }
 
         FluidOrItem.Fluid fluid = recipe.output();
