@@ -44,7 +44,6 @@ import java.util.*;
 public class CargoExtractor extends CargoInteractor implements
         PylonCargoBlock,
         PylonTickingBlock,
-        PylonEntityHolderBlock,
         PylonGuiBlock {
 
     public static final NamespacedKey ITEMS_TO_FILTER_KEY = BaseUtils.baseKey("items_to_filter");
@@ -244,7 +243,7 @@ public class CargoExtractor extends CargoInteractor implements
                 continue;
             }
 
-            if ((isWhitelist && !itemsToFilter.contains(slotStack.asOne())) || (!isWhitelist && itemsToFilter.contains(slotStack.asOne()))) {
+            if (isWhitelist != itemsToFilter.contains(slotStack.asOne())) {
                 continue;
             }
 
@@ -256,5 +255,10 @@ public class CargoExtractor extends CargoInteractor implements
             slot.set(slotStack, slot.getAmount() - 1);
             return;
         }
+    }
+
+    @Override
+    public boolean isValidGroup(@NotNull LogisticGroup group) {
+        return group.getSlotType() == LogisticSlotType.BOTH || group.getSlotType() == LogisticSlotType.OUTPUT;
     }
 }

@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
+import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -29,7 +30,6 @@ import java.util.*;
 
 public class CargoInserter extends CargoInteractor implements
         PylonCargoBlock,
-        PylonEntityHolderBlock,
         PylonGuiBlock {
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
@@ -154,11 +154,17 @@ public class CargoInserter extends CargoInteractor implements
 
     @Override
     public void refreshTargetInfo() {
+        super.refreshTargetInfo();
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
             removeCargoLogisticGroup(face);
             if (targetLogisticGroup != null) {
                 addCargoLogisticGroup(face, targetLogisticGroup);
             }
         }
+    }
+
+    @Override
+    public boolean isValidGroup(@NotNull LogisticGroup group) {
+        return group.getSlotType() == LogisticSlotType.BOTH || group.getSlotType() == LogisticSlotType.INPUT;
     }
 }

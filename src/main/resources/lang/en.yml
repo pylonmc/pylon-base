@@ -1819,6 +1819,7 @@ gui:
       name: "Blacklist mode"
       lore: |-
         <arrow> <insn>Click</insn> to toggle
+  no-target-logistic-group: "No inventories available"
   ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
   portable-dustbin: "Portable Dustbin"
   status:

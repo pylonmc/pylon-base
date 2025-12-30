@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -28,11 +29,12 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CargoInteractor extends PylonBlock implements PylonDirectionalBlock, PylonMultiblock {
+public abstract class CargoInteractor extends PylonBlock implements PylonDirectionalBlock, PylonMultiblock {
 
     public static final NamespacedKey TARGET_LOGISTIC_GROUP_KEY = BaseUtils.baseKey("target_logistic_group");
     public static final List<Material> GROUP_MATERIALS = List.of(
@@ -44,17 +46,20 @@ public class CargoInteractor extends PylonBlock implements PylonDirectionalBlock
             Material.PINK_CONCRETE
     );
 
-    public @Nullable String targetLogisticGroup = null;
+    public @Nullable String targetLogisticGroup;
     public final Map<String, LogisticGroup> targetGroups = new HashMap<>();
 
-    public CargoInteractor(@NotNull Block block, @NotNull BlockCreateContext context) {
+    protected CargoInteractor(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setFacing(context.getFacing());
-        refreshTargetInfo();
     }
 
-    public CargoInteractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    protected CargoInteractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
         refreshTargetInfo();
     }
 
@@ -83,6 +88,7 @@ public class CargoInteractor extends PylonBlock implements PylonDirectionalBlock
         } else {
             targetGroups.putAll(PylonUtils.getVanillaLogisticSlots(targetBlock));
         }
+        targetGroups.entrySet().removeIf(pair -> !isValidGroup(pair.getValue()));
 
         // Check target group still exists after refresh
         if (!targetGroups.containsKey(targetLogisticGroup)) {
@@ -97,6 +103,8 @@ public class CargoInteractor extends PylonBlock implements PylonDirectionalBlock
                     .findFirst()
                     .orElse(null);
         }
+
+        Bukkit.getLogger().severe("1 " + targetGroups.size() + " " + targetGroups.keySet());
     }
 
     @Override
@@ -106,22 +114,13 @@ public class CargoInteractor extends PylonBlock implements PylonDirectionalBlock
 
     @Override
     public boolean checkFormed() {
+        refreshTargetInfo();
         return true;
     }
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
         return otherBlock.equals(getTargetBlock());
-    }
-
-    @Override
-    public void onMultiblockFormed() {
-        refreshTargetInfo();
-    }
-
-    @Override
-    public void onMultiblockUnformed(boolean partUnloaded) {
-        refreshTargetInfo();
     }
 
     public class InventoryCycleItem extends AbstractItem {
@@ -185,4 +184,6 @@ public class CargoInteractor extends PylonBlock implements PylonDirectionalBlock
             notifyWindows();
         }
     }
+
+    public abstract boolean isValidGroup(@NotNull LogisticGroup group);
 }
