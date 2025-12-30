@@ -774,6 +774,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack ENRICHED_SOUL_SOIL = ItemStackBuilder.pylon(Material.SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL)
+            .build();
     static {
         PylonItem.register(PylonItem.class, ENRICHED_SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL);
         BasePages.COMPONENTS.addItem(ENRICHED_SOUL_SOIL);

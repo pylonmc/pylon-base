@@ -11,8 +11,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -150,9 +148,6 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
         for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(processingType)) {
-                if (!new PrePylonCraftEvent<>(CrucibleRecipe.RECIPE_TYPE, recipe, this, null).callEvent()) {
-                    continue;
-                }
 
                 doRecipe(recipe);
                 return true;
@@ -171,8 +166,6 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
         setFluidType(fluid.fluid());
         addFluid(fluid.amountMillibuckets());
-
-        new PylonCraftEvent<>(CrucibleRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
         new ParticleBuilder(Particle.SMOKE)
                 .count(20)
@@ -246,7 +239,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
     //region Tick handling
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         tryDoRecipe();
         updateCauldron();
     }
