@@ -342,7 +342,7 @@ pylonbase:crucible:
     - "C C"
     - "CCC"
   key:
-    C: minecraft:brick
+    C: pylonbase:refractory_brick
   result: pylonbase:crucible
   category: building
 
