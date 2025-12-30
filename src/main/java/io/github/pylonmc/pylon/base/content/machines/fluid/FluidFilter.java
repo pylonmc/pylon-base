@@ -101,13 +101,15 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
         );
         createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false, 0.25F);
-        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+    }
+
+    {
         setDisableBlockTextureEntity(true);
     }
 

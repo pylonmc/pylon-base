@@ -66,7 +66,6 @@ public class FluidValve extends PylonBlock implements PylonFluidTank, PylonInter
         );
 
         enabled = false;
-        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
@@ -74,6 +73,9 @@ public class FluidValve extends PylonBlock implements PylonFluidTank, PylonInter
         super(block);
 
         enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
+    }
+
+    {
         setDisableBlockTextureEntity(true);
     }
 
