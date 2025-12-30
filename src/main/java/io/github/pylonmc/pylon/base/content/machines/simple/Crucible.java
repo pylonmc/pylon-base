@@ -174,13 +174,13 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
         new PylonCraftEvent<>(CrucibleRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
-        new ParticleBuilder(Particle.SPLASH)
+        new ParticleBuilder(Particle.SMOKE)
                 .count(20)
                 .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
                 .offset(0.3, 0, 0.3)
                 .spawn();
 
-        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
+        new ParticleBuilder(Particle.ASH)
                 .count(30)
                 .location(getBlock().getLocation().toCenterLocation())
                 .extra(0.05)
