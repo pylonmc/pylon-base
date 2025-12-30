@@ -4,13 +4,17 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
+import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.pylon.core.command.RegistryCommandArgument;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import lombok.experimental.UtilityClass;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +30,13 @@ public class PylonBaseCommand {
                     )
                     .then(Commands.argument("fluid", new RegistryCommandArgument<>(PylonRegistry.FLUIDS))
                             .executes(PylonBaseCommand::fillFluid)
+                    )
+            )
+            .then(Commands.literal("resetloupedata")
+                    .requires(source -> source.getSender().hasPermission("pylonbase.command.reset_loupe"))
+                    .executes(ctx -> resetLoupe(ctx, null))
+                    .then(Commands.argument("player", ArgumentTypes.player())
+                            .executes(ctx -> resetLoupe(ctx, ctx.getArgument("player", PlayerSelectorArgumentResolver.class).resolve(ctx.getSource()).getFirst()))
                     )
             )
             .build();
@@ -50,6 +61,22 @@ public class PylonBaseCommand {
         tank.setFluid(fluid);
         tank.setAmount(tank.getCapacity());
 
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int resetLoupe(CommandContext<CommandSourceStack> ctx, Player target) {
+        CommandSender sender = ctx.getSource().getSender();
+        if (target == null) {
+            if (!(sender instanceof Player player)) {
+                sender.sendRichMessage("<red>You must be a player to use this command");
+                return Command.SINGLE_SUCCESS;
+            }
+            target = player;
+        }
+
+        target.getPersistentDataContainer().remove(Loupe.CONSUMED_KEY);
+        sender.sendRichMessage("<green>Reset loupe data for <target>",
+                Placeholder.unparsed("target", target.getName()));
         return Command.SINGLE_SUCCESS;
     }
 }
