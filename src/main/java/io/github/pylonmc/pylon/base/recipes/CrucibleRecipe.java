@@ -36,6 +36,7 @@ public record CrucibleRecipe(
     @NotNull FluidOrItem.Fluid output
 ) implements PylonRecipe {
 
+    private static Set<NamespacedKey> HEATED_BLOCKS = null;
     private static List<ItemStack> HEAT_SOURCES = null;
 
     public static final RecipeType<CrucibleRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("crucible")) {
@@ -64,33 +65,27 @@ public record CrucibleRecipe(
         return List.of(output);
     }
 
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static final class HeatManager {
-        public static final HeatManager INSTANCE = new HeatManager();
-
-        private Set<NamespacedKey> HEATED_BLOCKS = null;
-        public Set<NamespacedKey> getHeatedBlocks() {
-            if (HEATED_BLOCKS == null) {
-                HEATED_BLOCKS = new HashSet<>();
-                for (Material material : Crucible.VANILLA_BLOCK_HEAT_MAP.keySet())  {
-                    HEATED_BLOCKS.add(material.getKey());
-                }
-
-                for (PylonBlockSchema schema : PylonRegistry.BLOCKS) {
-                    if (Crucible.HeatedBlock.class.isAssignableFrom(schema.getBlockClass())) {
-                        HEATED_BLOCKS.add(schema.getKey());
-                    }
-                }
+    public static Set<NamespacedKey> getHeatedBlocks() {
+        if (HEATED_BLOCKS == null) {
+            HEATED_BLOCKS = new HashSet<>();
+            for (Material material : Crucible.VANILLA_BLOCK_HEAT_MAP.keySet())  {
+                HEATED_BLOCKS.add(material.getKey());
             }
 
-            return HEATED_BLOCKS;
+            for (PylonBlockSchema schema : PylonRegistry.BLOCKS) {
+                if (Crucible.HeatedBlock.class.isAssignableFrom(schema.getBlockClass())) {
+                    HEATED_BLOCKS.add(schema.getKey());
+                }
+            }
         }
+
+        return HEATED_BLOCKS;
     }
 
     public static List<ItemStack> getHeatSources() {
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
-            for (NamespacedKey key : HeatManager.INSTANCE.getHeatedBlocks()) {
+            for (NamespacedKey key : getHeatedBlocks()) {
                 HEAT_SOURCES.add(BaseUtils.makeItem(key));
             }
         }
