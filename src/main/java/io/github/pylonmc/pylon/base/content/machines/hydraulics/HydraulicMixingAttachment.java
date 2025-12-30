@@ -1,21 +1,17 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.simple.MixingPot;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -23,14 +19,14 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
-import lombok.Getter;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -38,23 +34,26 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.List;
-import java.util.Set;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicMixingAttachment extends PylonBlock implements PylonMultiblock, PylonTickingBlock, PylonFluidBufferBlock {
+public class HydraulicMixingAttachment extends PylonBlock implements
+        PylonTickingBlock,
+        PylonFluidBufferBlock,
+        PylonProcessor,
+        PylonDirectionalBlock {
 
-    public static final NamespacedKey COOLDOWN_TIME_REMAINING_KEY = baseKey("cooldown_time_remaining");
-
-    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_MIXING_ATTACHMENT);
-    public static final int COOLDOWN_TICKS = settings.getOrThrow("cooldown-ticks", ConfigAdapter.INT);
-    public static final int DOWN_ANIMATION_TIME_TICKS = settings.getOrThrow("down-animation-time-ticks", ConfigAdapter.INT);
-    public static final int UP_ANIMATION_TIME_TICKS = settings.getOrThrow("up-animation-time-ticks", ConfigAdapter.INT);
-    public static final double HYDRAULIC_FLUID_PER_CRAFT = settings.getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+    public final int downAnimationTimeTicks = getSettings().getOrThrow("down-animation-time-ticks", ConfigAdapter.INT);
+    public final int upAnimationTimeTicks = getSettings().getOrThrow("up-animation-time-ticks", ConfigAdapter.INT);
+    public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
+
+        public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
+        public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -63,21 +62,19 @@ public class HydraulicMixingAttachment extends PylonBlock implements PylonMultib
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("cooldown", UnitFormat.SECONDS.format(COOLDOWN_TICKS / 20.0)),
-                    PylonArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(HYDRAULIC_FLUID_PER_CRAFT))
+                    PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),
+                    PylonArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerCraft)),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
-
-    @Getter private double cooldownTimeRemaining;
 
     @SuppressWarnings("unused")
     public HydraulicMixingAttachment(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        cooldownTimeRemaining = 0.0;
-
-        setTickInterval(TICK_INTERVAL);
+        setTickInterval(tickInterval);
+        setFacing(context.getFacing());
 
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
@@ -90,68 +87,40 @@ public class HydraulicMixingAttachment extends PylonBlock implements PylonMultib
                 .build(getBlock().getLocation().toCenterLocation().add(0, -1, 0))
         );
 
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT * 2, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT * 2, false, true);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
     }
 
     @SuppressWarnings("unused")
     public HydraulicMixingAttachment(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        cooldownTimeRemaining = pdc.get(COOLDOWN_TIME_REMAINING_KEY, PylonSerializers.DOUBLE);
     }
 
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        super.write(pdc);
-        pdc.set(COOLDOWN_TIME_REMAINING_KEY, PylonSerializers.DOUBLE, cooldownTimeRemaining);
-    }
 
     @Override
-    public @NotNull Set<@NotNull ChunkPosition> getChunksOccupied() {
-        return Set.of(new ChunkPosition(getBlock().getChunk()));
-    }
-
-    @Override
-    public boolean checkFormed() {
-        return BlockStorage.get(getBlock().getRelative(BlockFace.DOWN, 2)) instanceof MixingPot;
-    }
-
-    @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock == getBlock().getRelative(BlockFace.DOWN, 2);
-    }
-
-    @Override
-    public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded()) {
-            return;
-        }
-
-        cooldownTimeRemaining = Math.max(0, cooldownTimeRemaining - deltaSeconds);
-
-        if (cooldownTimeRemaining > 1.0e-5) {
+    public void tick() {
+        if (isProcessing()) {
+            progressProcess(getTickInterval());
             return;
         }
 
         MixingPot mixingPot = BlockStorage.getAs(MixingPot.class, getBlock().getRelative(BlockFace.DOWN, 2));
-        Preconditions.checkState(mixingPot != null);
-
-        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
-                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < HYDRAULIC_FLUID_PER_CRAFT
-                || !mixingPot.tryDoRecipe(null)
-        ) {
+        if (mixingPot == null || fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidPerCraft
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidPerCraft
+                || !mixingPot.tryDoRecipe()) {
             return;
         }
 
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_PER_CRAFT);
+        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerCraft);
+        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerCraft);
 
-        cooldownTimeRemaining = COOLDOWN_TICKS / 20.0;
+        startProcess(cooldownTicks);
 
-        BaseUtils.animate(getMixingAttachmentShaft(), DOWN_ANIMATION_TIME_TICKS, getShaftTransformation(0.2));
-        Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(),
-                () -> BaseUtils.animate(getMixingAttachmentShaft(), UP_ANIMATION_TIME_TICKS, getShaftTransformation(0.7)),
-                DOWN_ANIMATION_TIME_TICKS
+        BaseUtils.animate(getMixingAttachmentShaft(), downAnimationTimeTicks, getShaftTransformation(0.2));
+        Bukkit.getScheduler().runTaskLater(
+                PylonBase.getInstance(),
+                () -> BaseUtils.animate(getMixingAttachmentShaft(), upAnimationTimeTicks, getShaftTransformation(0.7)),
+                downAnimationTimeTicks
         );
     }
 
@@ -164,5 +133,23 @@ public class HydraulicMixingAttachment extends PylonBlock implements PylonMultib
 
     public @Nullable ItemDisplay getMixingAttachmentShaft() {
         return getHeldEntity(ItemDisplay.class, "mixing_attachment_shaft");
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#212d99")
+                )),
+                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                ))
+        ));
     }
 }

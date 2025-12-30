@@ -15,8 +15,6 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -114,9 +112,7 @@ public class MagicAltar extends PylonBlock
         }
 
         for (MagicAltarRecipe recipe : MagicAltarRecipe.RECIPE_TYPE.getRecipes()) {
-            if (!recipe.isValidRecipe(ingredients, catalyst)
-                    || !new PrePylonCraftEvent<>(MagicAltarRecipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()
-            ) {
+            if (!recipe.isValidRecipe(ingredients, catalyst)) {
                 continue;
             }
 
@@ -131,7 +127,7 @@ public class MagicAltar extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         progressRecipe(tickInterval);
 
         if (!isProcessingRecipe()) {
@@ -201,8 +197,6 @@ public class MagicAltar extends PylonBlock
             pedestal.getItemDisplay().setItemStack(null);
             pedestal.setLocked(false);
         }
-
-        new PylonCraftEvent<>(MagicAltarRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
         getItemDisplay().setItemStack(recipe.result());
 

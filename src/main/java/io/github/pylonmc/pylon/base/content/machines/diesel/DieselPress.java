@@ -5,11 +5,7 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -44,8 +40,13 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import java.util.List;
 
 
-public class DieselPress extends PylonBlock
-        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<PressRecipe> {
+public class DieselPress extends PylonBlock implements
+        PylonGuiBlock,
+        PylonDirectionalBlock,
+        PylonFluidBufferBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonRecipeProcessor<PressRecipe> {
 
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
@@ -58,6 +59,7 @@ public class DieselPress extends PylonBlock
     public static class Item extends PylonItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
+        public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
         public final double timePerItem = getSettings().getOrThrow("time-per-item", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
@@ -68,20 +70,22 @@ public class DieselPress extends PylonBlock
         public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
                     PylonArgument.of("time-per-item", UnitFormat.SECONDS.format(timePerItem))
             );
         }
     }
 
-    public ItemStack pressStack = ItemStackBuilder.of(Material.COMPOSTER)
-            .addCustomModelDataString(getKey() + ":press")
-            .build();
-    public ItemStack pressLidStack = ItemStackBuilder.of(Material.COMPOSTER)
-            .addCustomModelDataString(getKey() + ":press_lid")
-            .build();
-    public ItemStack sideStack = ItemStackBuilder.of(Material.BRICKS)
-            .addCustomModelDataString(getKey() + ":side")
-            .build();
+    public ItemStackBuilder pressStack = ItemStackBuilder.of(Material.COMPOSTER)
+            .addCustomModelDataString(getKey() + ":press");
+    public ItemStackBuilder pressLidStack = ItemStackBuilder.of(Material.COMPOSTER)
+            .addCustomModelDataString(getKey() + ":press_lid");
+    public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side1");
+    public ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
+            .addCustomModelDataString(getKey() + ":side2");
+    public ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":chimney");
 
     @SuppressWarnings("unused")
     public DieselPress(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -89,32 +93,24 @@ public class DieselPress extends PylonBlock
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.55F);
-        BlockFace facing;
-        if (context instanceof BlockCreateContext.PlayerPlace playerPlaceContext) {
-            facing = PylonUtils.rotateToPlayerFacing(playerPlaceContext.getPlayer(), BlockFace.NORTH, false);
-        } else {
-            facing = BlockFace.NORTH;
-        }
+        setFacing(context.getFacing());
         addEntity("chimney", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
-                        .addCustomModelDataString(getKey() + ":chimney")
-                        .build()
-                )
+                .itemStack(chimneyStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(facing)
+                        .lookAlong(getFacing())
                         .translate(0.37499, -0.15, 0.0)
                         .scale(0.15, 1.7, 0.15))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("side1", new ItemDisplayBuilder()
-                .itemStack(sideStack)
+                .itemStack(sideStack1)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(1.1, 0.8, 0.8))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("side2", new ItemDisplayBuilder()
-                .itemStack(sideStack)
+                .itemStack(sideStack2)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(0.9, 0.8, 1.1))
@@ -157,16 +153,19 @@ public class DieselPress extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isProcessingRecipe() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerSecond * tickInterval / 20) {
             return;
         }
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         progressRecipe(tickInterval);
-        Vector3d translation = PylonUtils.rotateVectorToFace(new Vector3d(0.375, 1.5, 0), getFacing());
+        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+                new Vector3d(0.375, 1.5, 0),
+                getFacing()
+        ));
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
-                .location(getBlock().getLocation().toCenterLocation().add(Vector.fromJOML(translation)))
+                .location(getBlock().getLocation().toCenterLocation().add(smokePosition))
                 .offset(0, 1, 0)
                 .count(0)
                 .extra(0.05)

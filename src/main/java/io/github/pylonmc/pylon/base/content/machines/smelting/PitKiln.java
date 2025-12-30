@@ -165,7 +165,7 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             if (processingTime != null) {
                 processingTime = null;
@@ -178,7 +178,7 @@ public final class PitKiln extends PylonBlock implements
         }
 
         if (processingTime == null) return;
-        processingTime -= deltaSeconds;
+        processingTime -= getTickInterval() / 20.0;
         if (processingTime > 0) return;
 
         processingTime = null;

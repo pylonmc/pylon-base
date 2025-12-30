@@ -1,26 +1,28 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import lombok.Getter;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -37,8 +39,11 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class HydraulicFarmer extends PylonBlock
-        implements PylonEntityHolderBlock, PylonTickingBlock, PylonFluidBufferBlock {
+public class HydraulicFarmer extends PylonBlock implements
+        PylonEntityHolderBlock,
+        PylonTickingBlock,
+        PylonFluidBufferBlock,
+        PylonDirectionalBlock {
 
     private static final Set<Material> CROPS_TO_BREAK = EnumSet.of(
         Material.PUMPKIN,
@@ -63,12 +68,17 @@ public class HydraulicFarmer extends PylonBlock
         Material.SOUL_SAND, Map.of(Material.NETHER_WART, Material.NETHER_WART)
     );
 
-    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_FARMER);
-    public static final int RADIUS = settings.getOrThrow("radius", ConfigAdapter.INT);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final double HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.DOUBLE);
+    public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final double hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.DOUBLE);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
     public static class Item extends PylonItem {
+
+        public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
+        public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+        public final double hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.DOUBLE);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -77,9 +87,10 @@ public class HydraulicFarmer extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("radius", UnitFormat.BLOCKS.format(RADIUS)),
-                    PylonArgument.of("tick-interval", UnitFormat.SECONDS.format(TICK_INTERVAL / 20.0)),
-                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
+                    PylonArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
+                    PylonArgument.of("tick-interval", UnitFormat.SECONDS.format(tickInterval / 20.0)),
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -88,14 +99,15 @@ public class HydraulicFarmer extends PylonBlock
     public HydraulicFarmer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        setTickInterval(TICK_INTERVAL);
+        setTickInterval(tickInterval);
+        setFacing(context.getFacing());
 
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
 
         int seconds = getTickInterval() / 20;
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_USAGE * seconds, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_USAGE * seconds, false, true);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
     }
 
     @SuppressWarnings("unused")
@@ -105,8 +117,8 @@ public class HydraulicFarmer extends PylonBlock
 
 
     @Override
-    public void tick(double deltaSeconds) {
-        double hydraulicFluidUsed = HYDRAULIC_FLUID_USAGE * getTickInterval() / 20.0;
+    public void tick() {
+        double hydraulicFluidUsed = hydraulicFluidUsage * getTickInterval() / 20.0;
 
         if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
                 || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
@@ -217,11 +229,11 @@ public class HydraulicFarmer extends PylonBlock
     }
 
     private List<FarmingTile> getFarmingTiles() {
-        int diameter = 2 * RADIUS + 1;
+        int diameter = 2 * radius + 1;
         ArrayList<FarmingTile> tiles = new ArrayList<>(diameter * diameter);
 
-        for (int x = -RADIUS; x <= RADIUS; x++) {
-            for (int z = -RADIUS; z <= RADIUS; z++) {
+        for (int x = -radius; x <= radius; x++) {
+            for (int z = -radius; z <= radius; z++) {
                 Block cropBlock = getBlock().getRelative(x, 0, z);
 
                 tiles.add(
@@ -271,7 +283,20 @@ public class HydraulicFarmer extends PylonBlock
     }
 
     @Override
-    public @Nullable BlockFace getFacing() {
-        return PylonFluidBufferBlock.super.getFacing();
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#212d99")
+                )),
+                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                ))
+        ));
     }
 }
