@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.IntRangeInventory;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -34,7 +35,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidAccumulator extends PylonBlock implements PylonFluidTank, PylonInteractBlock {
+public class FluidAccumulator extends PylonBlock implements PylonDirectionalBlock, PylonFluidTank, PylonInteractBlock {
 
     public final ItemStack mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
         .addCustomModelDataString(getKey() + ":main")
@@ -72,7 +73,7 @@ public class FluidAccumulator extends PylonBlock implements PylonFluidTank, Pylo
         addEntity("main", new ItemDisplayBuilder()
             .itemStack(mainStack)
             .transformation(new TransformBuilder()
-                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                .lookAlong(getFacing())
                 .scale(0.5, 0.25, 0.5)
             )
             .build(block.getLocation().toCenterLocation())
@@ -80,7 +81,7 @@ public class FluidAccumulator extends PylonBlock implements PylonFluidTank, Pylo
         addEntity("fluid", new ItemDisplayBuilder()
             .itemStack(noFluidStack)
             .transformation(new TransformBuilder()
-                .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
+                .lookAlong(getFacing())
                 .scale(0.3, 0.3, 0.3)
             )
             .build(block.getLocation().toCenterLocation())
@@ -139,29 +140,29 @@ public class FluidAccumulator extends PylonBlock implements PylonFluidTank, Pylo
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         if (isPowered()) return 0.0;
 
         if (getFluidAmount() == 0.0) {
             outputReady = false;
-            return PylonFluidTank.super.fluidAmountRequested(fluid, deltaSeconds);
+            return PylonFluidTank.super.fluidAmountRequested(fluid);
         }
 
         if (outputReady) return 0.0;
 
-        return PylonFluidTank.super.fluidAmountRequested(fluid, deltaSeconds);
+        return PylonFluidTank.super.fluidAmountRequested(fluid);
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
-        if (isPowered()) return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
+        if (isPowered()) return PylonFluidTank.super.getSuppliedFluids();
 
         if (getFluidSpaceRemaining() == 0.0) {
             outputReady = true;
-            return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
+            return PylonFluidTank.super.getSuppliedFluids();
         }
 
-        if (outputReady) return PylonFluidTank.super.getSuppliedFluids(deltaSeconds);
+        if (outputReady) return PylonFluidTank.super.getSuppliedFluids();
 
         return Map.of();
     }
