@@ -7,11 +7,13 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseKeys {
     public static final NamespacedKey ROCK_DUST = baseKey("rock_dust");
+    public static final NamespacedKey UNFIRED_BRICK = baseKey("unfired_brick");
 
     public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
 
     public static final NamespacedKey COAL_DUST = baseKey("coal_dust");
     public static final NamespacedKey CARBON = baseKey("carbon");
+    public static final NamespacedKey CHARCOAL_BLOCK = baseKey("charcoal_block");
 
     public static final NamespacedKey SULFUR = baseKey("sulfur");
 
@@ -54,6 +56,11 @@ public class BaseKeys {
     public static final NamespacedKey BRONZE_INGOT = baseKey("bronze_ingot");
     public static final NamespacedKey BRONZE_NUGGET = baseKey("bronze_nugget");
     public static final NamespacedKey BRONZE_BLOCK = baseKey("bronze_block");
+
+    public static final NamespacedKey SPONGE_IRON = baseKey("sponge_iron");
+    public static final NamespacedKey IRON_BLOOM = baseKey("iron_bloom");
+    public static final NamespacedKey WROUGHT_IRON = baseKey("wrought_iron");
+    public static final NamespacedKey TONGS = baseKey("tongs");
 
     public static final NamespacedKey STEEL_DUST = baseKey("steel_dust");
     public static final NamespacedKey STEEL_INGOT = baseKey("steel_ingot");
@@ -140,7 +147,7 @@ public class BaseKeys {
 
     public static final NamespacedKey ITEM_MAGNET = baseKey("item_magnet");
 
-    public static final NamespacedKey ENRICHED_NETHERRACK = baseKey("enriched_netherrack");
+    public static final NamespacedKey ENRICHED_SOUL_SOIL = baseKey("enriched_soul_soil");
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
     public static final NamespacedKey MAGIC_PEDESTAL = baseKey("magic_pedestal");
@@ -209,6 +216,8 @@ public class BaseKeys {
     public static final NamespacedKey UNFIRED_REFRACTORY_BRICK = baseKey("unfired_refractory_brick");
     public static final NamespacedKey REFRACTORY_BRICK = baseKey("refractory_brick");
     public static final NamespacedKey REFRACTORY_BRICKS = baseKey("refractory_bricks");
+    public static final NamespacedKey BLOOMERY = baseKey("bloomery");
+    public static final NamespacedKey BRONZE_ANVIL = baseKey("bronze_anvil");
     public static final NamespacedKey SMELTERY_CONTROLLER = baseKey("smeltery_controller");
     public static final NamespacedKey SMELTERY_INPUT_HATCH = baseKey("smeltery_input_hatch");
     public static final NamespacedKey SMELTERY_OUTPUT_HATCH = baseKey("smeltery_output_hatch");
@@ -259,10 +268,6 @@ public class BaseKeys {
     public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");
     public static final NamespacedKey INTERMEDIATE_CORE_CHUNK = baseKey("intermediate_core_chunk");
 
-    public static final NamespacedKey SIMPLE_ITEM_DISPLAY = baseKey("simple_item_display");
-    public static final NamespacedKey SIMPLE_BLOCK_DISPLAY = baseKey("simple_block_display");
-    public static final NamespacedKey SIMPLE_TEXT_DISPLAY = baseKey("simple_text_display");
-
     public static final NamespacedKey FIREPROOF_RUNE = baseKey("fireproof_rune");
 
     public static final NamespacedKey CLEANSING_POTION = baseKey("cleansing_potion");
@@ -288,4 +293,13 @@ public class BaseKeys {
     public static final NamespacedKey SOULBOUND_RUNE = baseKey("soulbound_rune");
 
     public static final NamespacedKey DIESEL_PIPE_BENDER = baseKey("diesel_pipe_bender");
+    public static final NamespacedKey DIESEL_TABLE_SAW = baseKey("diesel_table_saw");
+    public static final NamespacedKey DIESEL_PRESS = baseKey("diesel_press");
+    public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
+    public static final NamespacedKey DIESEL_BRICK_MOLDER = baseKey("diesel_brick_molder");
+
+    public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
+    public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");
+    public static final NamespacedKey CARGO_EXTRACTOR = baseKey("cargo_extractor");
+    public static final NamespacedKey CARGO_INSERTER = baseKey("cargo_inserter");
 }

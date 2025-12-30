@@ -2,10 +2,10 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.smelting.BronzeAnvil;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
@@ -37,10 +37,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings("UnstableApiUsage")
 public class Hammer extends PylonItem implements PylonBlockInteractor {
-
-
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
     public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
@@ -50,70 +47,60 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         super(stack);
     }
 
-    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot) {
+    public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot, @NotNull BlockFace clickedFace) {
         if (baseBlock != block.getType()) {
-            if (player != null) {
+            if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
                 player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
             }
             return false;
         }
 
+        if (clickedFace != BlockFace.UP) return false;
+
         Block blockAbove = block.getRelative(BlockFace.UP);
 
-        List<ItemStack> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         for (Entity e : block.getWorld().getNearbyEntities(BoundingBox.of(blockAbove))) {
             if (e instanceof Item entity) {
-                items.add(entity.getItemStack());
-                entity.remove();
+                items.add(entity);
             }
         }
 
-        boolean anyRecipeAttempted = false;
         for (HammerRecipe recipe : HammerRecipe.RECIPE_TYPE) {
-            if (!miningLevel.isAtLeast(recipe.level())) continue;
-
-            if (!recipeMatches(items, recipe)) continue;
-
-            if (!new PrePylonCraftEvent<>(HammerRecipe.RECIPE_TYPE, recipe, null, player).callEvent()) {
+            if (!miningLevel.isAtLeast(recipe.level())) {
                 continue;
             }
 
-            anyRecipeAttempted = true;
-
-            float adjustedChance = recipe.chance() *
-                    // Each tier is twice as likely to succeed as the previous one
-                    (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
-            if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
-
-            for (ItemStack item : items) {
-                if (recipe.input().matches(item)) {
-                    item.subtract(recipe.input().getAmount());
-                    break;
+            for (Item item : items) {
+                if (!recipe.input().matches(item.getItemStack())) {
+                    continue;
                 }
+
+                if (player != null) {
+                    player.setCooldown(getStack(), cooldownTicks);
+                    PylonUtils.damageItem(getStack(), 1, player, slot);
+                } else {
+                    PylonUtils.damageItem(getStack(), 1, block.getWorld());
+                }
+
+                float adjustedChance = recipe.chance() *
+                        // Each tier is twice as likely to succeed as the previous one
+                        (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
+                if (ThreadLocalRandom.current().nextFloat() > adjustedChance) {
+                    return true; // recipe attempted but unsuccessful
+                }
+
+                int newAmount = item.getItemStack().getAmount() - recipe.input().getAmount();
+                item.setItemStack(item.getItemStack().asQuantity(newAmount));
+                block.getWorld().dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), recipe.result())
+                        .setVelocity(new Vector(0, 0, 0));
+                block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
+
+                return true;
             }
-
-            items.removeIf(item -> item.getAmount() <= 0);
-            items.add(recipe.result().clone());
-            new PylonCraftEvent<>(HammerRecipe.RECIPE_TYPE, recipe).callEvent();
-            break;
         }
 
-        if (anyRecipeAttempted) {
-            if (player != null) {
-                player.setCooldown(getStack(), cooldownTicks);
-                PylonUtils.damageItem(getStack(), 1, player, slot);
-            } else {
-                PylonUtils.damageItem(getStack(), 1, block.getWorld());
-            }
-            block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
-        }
-
-        for (ItemStack item : items) {
-            block.getWorld().dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), item)
-                    .setVelocity(new Vector(0, 0, 0));
-        }
-
-        return anyRecipeAttempted;
+        return false;
     }
 
     @Override
@@ -121,12 +108,12 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
         event.setUseInteractedBlock(Event.Result.DENY);
 
         Player player = event.getPlayer();
-        if (player.hasCooldown(getStack()) || event.getBlockFace() != BlockFace.UP) return;
+        if (player.hasCooldown(getStack())) return;
 
         Block clickedBlock = event.getClickedBlock();
         Preconditions.checkState(clickedBlock != null);
 
-        tryDoRecipe(clickedBlock, player, event.getHand());
+        tryDoRecipe(clickedBlock, player, event.getHand(), event.getBlockFace());
     }
 
     private static Material getBaseBlock(@NotNull NamespacedKey key) {
@@ -151,9 +138,5 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                 .filter(item -> fromStack(item) instanceof Hammer hammer
                                 && hammer.miningLevel.isAtLeast(level))
                 .toList();
-    }
-
-    private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
-        return items.stream().anyMatch(recipe.input()::matches);
     }
 }

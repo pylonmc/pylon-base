@@ -2,15 +2,16 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.registry.PylonRegistryKey;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
+import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -22,13 +23,16 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
+public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock, PylonProcessor {
 
-    public static final PylonRegistryKey<Fuel> FUELS_KEY = new PylonRegistryKey<>(baseKey("smeltery_burner_fuels"));
+    public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
 
     static {
@@ -37,10 +41,8 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
 
     private static final NamespacedKey FUEL_KEY = baseKey("fuel");
     private static final PersistentDataType<?, Fuel> FUEL_TYPE = PylonSerializers.KEYED.keyedTypeFrom(Fuel.class, FUELS::getOrThrow);
-    private static final NamespacedKey FUEL_TICKS_REMAINING_KEY = baseKey("seconds_elapsed");
 
     private @Nullable Fuel fuel;
-    private int fuelTicksRemaining;
 
     private final ItemStackBuilder notBurningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
             .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.not_burning"));
@@ -57,21 +59,30 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         setTickInterval(SmelteryController.TICK_INTERVAL);
 
         fuel = null;
-        fuelTicksRemaining = 0;
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public SmelteryBurner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
         fuel = pdc.get(FUEL_KEY, FUEL_TYPE);
-        fuelTicksRemaining = pdc.get(FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         PylonUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
-        pdc.set(FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, fuelTicksRemaining);
+    }
+
+    @Override
+    public void postInitialise() {
+        setProcessProgressItem(progressItem);
+    }
+
+    @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("lit", new Pair<>(fuel != null ? "true" : "false", 2));
+        return properties;
     }
 
     @Override
@@ -90,39 +101,51 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         SmelteryController controller = getController();
-        if (controller != null && controller.isRunning()) {
-            if (fuel != null) {
-                controller.heatAsymptotically(deltaSeconds, fuel.temperature);
-            } else {
-                itemLoop:
-                for (int i = 0; i < inventory.getSize(); i++) {
-                    ItemStack item = inventory.getItem(i);
-                    if (item == null) continue;
-                    for (Fuel fuel : FUELS) {
-                        if (PylonUtils.isPylonSimilar(item, fuel.material)) {
-                            this.fuel = fuel;
-                            progressItem.setItemStackBuilder(burningProgressItem);
-                            progressItem.setTotalTimeSeconds((int) fuel.burnTimeSeconds);
-                            item.subtract();
-                            inventory.setItem(null, i, item);
-                            fuelTicksRemaining = Math.round(fuel.burnTimeSeconds * 20);
-                            break itemLoop;
-                        }
-                    }
-                }
-            }
+        if (controller == null || !controller.isRunning()) {
+            return;
         }
+
+        progressProcess(getTickInterval());
+
         if (fuel != null) {
-            fuelTicksRemaining -= getTickInterval();
-            progressItem.setRemainingTimeTicks(fuelTicksRemaining);
-            if (fuelTicksRemaining <= 0) {
-                fuel = null;
-                progressItem.setItemStackBuilder(notBurningProgressItem);
-                progressItem.setTotalTime(null);
+            controller.heatAsymptotically(getTickInterval() / 20.0, fuel.temperature);
+            return;
+        }
+
+        itemLoop:
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item == null) {
+                continue;
+            }
+
+            for (Fuel fuel : FUELS) {
+                if (!PylonUtils.isPylonSimilar(item, fuel.material)) {
+                    continue;
+                }
+
+                this.fuel = fuel;
+                progressItem.setItemStackBuilder(burningProgressItem);
+                inventory.setItem(null, i, item.subtract());
+                startProcess(Math.round(fuel.burnTimeSeconds * 20));
+                refreshBlockTextureItem();
+                break itemLoop;
             }
         }
+    }
+
+    @Override
+    public void onProcessFinished() {
+        progressItem.setItemStackBuilder(notBurningProgressItem);
+        refreshBlockTextureItem();
+        fuel = null;
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("fuels", inventory);
     }
 
     // TODO display fuels
@@ -156,12 +179,6 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
                 new ItemStack(Material.CHARCOAL),
                 1100,
                 30
-        ));
-        FUELS.register(new Fuel(
-                baseKey("carbon"),
-                BaseItems.CARBON,
-                1600.0,
-                60
         ));
     }
 }

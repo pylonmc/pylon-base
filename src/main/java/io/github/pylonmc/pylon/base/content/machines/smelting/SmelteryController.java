@@ -6,7 +6,9 @@ import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
@@ -45,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -172,7 +175,7 @@ public final class SmelteryController extends SmelteryComponent
         @Override
         public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
             if (isFormedAndFullyLoaded()) {
-                running = !running;
+                setRunning(!running);
                 notifyWindows();
             }
         }
@@ -211,15 +214,20 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of();
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private final BlockPosition center = new BlockPosition(
             getBlock().getRelative(
                     ((Directional) getBlock().getBlockData()).getFacing().getOppositeFace(),
                     2
             )
     );
-    // </editor-fold>
 
-    // <editor-fold desc="Multiblock" defaultstate="collapsed">
     // @formatter:off
     private static final Vector3i[] MULTIBLOCK_DIRECTIONS = new Vector3i[] {
             new Vector3i(-2, 0, -2), new Vector3i(-2, 0, -1), new Vector3i(-2, 0, 0), new Vector3i(-2, 0, 1), new Vector3i(-2, 0, 2),
@@ -306,7 +314,7 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public void onMultiblockUnformed(boolean partUnloaded) {
-        running = false;
+        setRunning(false);
         if (!partUnloaded) {
             height = 0;
             capacity = 0;
@@ -513,7 +521,7 @@ public final class SmelteryController extends SmelteryComponent
     }
     // </editor-fold>
 
-    private void performRecipes(double deltaSeconds) {
+    private void performRecipes() {
         if (fluids.isEmpty()) return;
         recipeLoop:
         for (SmelteryRecipe recipe : SmelteryRecipe.RECIPE_TYPE) {
@@ -524,7 +532,7 @@ public final class SmelteryController extends SmelteryComponent
             }
 
             double highestFluidAmount = getFluidAmount(recipe.getHighestFluid());
-            double consumptionRatio = highestFluidAmount / (deltaSeconds * FLUID_REACTION_PER_SECOND);
+            double consumptionRatio = highestFluidAmount / (FLUID_REACTION_PER_SECOND * getTickInterval() / 20.0);
             double currentTemperature = temperature;
             for (var entry : recipe.getFluidInputs().entrySet()) {
                 PylonFluid fluid = entry.getKey();
@@ -541,17 +549,29 @@ public final class SmelteryController extends SmelteryComponent
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        cumulativeSeconds += deltaSeconds;
+    public void tick() {
+        cumulativeSeconds += getTickInterval() / 20.0;
         if (isFormedAndFullyLoaded()) {
             if (running) {
-                performRecipes(deltaSeconds);
+                performRecipes();
             }
-            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * deltaSeconds;
+            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * getTickInterval() / 20.0;
             heaters = 0;
             updateFluidDisplay();
         }
         infoItem.notifyWindows();
         contentsItem.notifyWindows();
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+        refreshBlockTextureItem();
+    }
+
+    @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("running", new Pair<>(String.valueOf(isFormedAndFullyLoaded() && running), 2));
+        return properties;
     }
 }

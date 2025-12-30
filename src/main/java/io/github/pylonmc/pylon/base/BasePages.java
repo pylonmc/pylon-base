@@ -3,6 +3,8 @@ package io.github.pylonmc.pylon.base;
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.guide.pages.base.SimpleStaticGuidePage;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -21,10 +23,18 @@ public class BasePages {
     public static final SimpleStaticGuidePage FLUID_PIPES_AND_TANKS = new SimpleStaticGuidePage(baseKey("fluid_pipes_and_tanks"), Material.ORANGE_TERRACOTTA);
     public static final SimpleStaticGuidePage FLUID_MACHINES = new SimpleStaticGuidePage(baseKey("fluid_machines"), Material.CAULDRON);
     public static final SimpleStaticGuidePage HYDRAULICS = new SimpleStaticGuidePage(baseKey("hydraulics"), Material.BLUE_CONCRETE_POWDER);
+    public static final SimpleStaticGuidePage CARGO = new SimpleStaticGuidePage(baseKey("cargo"), Material.HOPPER);
     public static final SimpleStaticGuidePage DIESEL_MACHINES = new SimpleStaticGuidePage(baseKey("diesel_machines"), Material.YELLOW_CONCRETE);
     private static final SimpleStaticGuidePage MACHINES = new SimpleStaticGuidePage(baseKey("machines"), Material.BLAST_FURNACE);
 
     public static final SimpleStaticGuidePage BUILDING = new SimpleStaticGuidePage(baseKey("building"), Material.STONE_BRICK_WALL);
+
+    public static final SimpleStaticGuidePage CREATIVE_ITEMS = new SimpleStaticGuidePage(baseKey("creative_items"), Material.BEDROCK) {
+        @Override
+        public boolean shouldDisplay(@NotNull Player player) {
+            return player.hasPermission("pylon.guide.view_admin_pages");
+        }
+    };
 
     static {
         PylonGuide.getRootPage().addPage(SCIENCE);
@@ -40,9 +50,11 @@ public class BasePages {
         MACHINES.addPage(FLUID_PIPES_AND_TANKS);
         MACHINES.addPage(FLUID_MACHINES);
         MACHINES.addPage(HYDRAULICS);
+        MACHINES.addPage(CARGO);
         MACHINES.addPage(DIESEL_MACHINES);
         PylonGuide.getRootPage().addPage(MACHINES);
 
         PylonGuide.getRootPage().addPage(BUILDING);
+        PylonGuide.getRootPage().addPage(CREATIVE_ITEMS);
     }
 }

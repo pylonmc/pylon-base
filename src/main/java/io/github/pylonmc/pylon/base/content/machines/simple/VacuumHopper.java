@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
@@ -68,13 +67,13 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         Hopper hopper = (Hopper) getBlock().getState();
         if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
             return; // don't vacuum if powered
         }
 
-        for (Entity entity : getBlock().getLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
+        for (Entity entity : getBlock().getLocation().toCenterLocation().getNearbyEntities(radius + 0.5, radius + 0.5, radius + 0.5)) {
             if (!(entity instanceof org.bukkit.entity.Item item)) {
                 continue;
             }
