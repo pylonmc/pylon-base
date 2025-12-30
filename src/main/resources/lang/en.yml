@@ -528,7 +528,9 @@ item:
   crucible:
     name: "Crucible"
     lore: |-
-      <arrow> Place items in the crucible and <insn>right click</insn> to melt them
+      <arrow> Place items in the crucible using <insn>right click</insn>
+      <arrow> Can hold only one item type at a time
+      <arrow> The items will melt depending on the heat produced by the blow below the cauldron
       <arrow> Requires a fire underneath to work
     waila: "Crucible %item_info% %liquid_info%"
 
