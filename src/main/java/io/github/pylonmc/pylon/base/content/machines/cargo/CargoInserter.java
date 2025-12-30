@@ -34,7 +34,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class CargoInserter extends PylonBlock
-        implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock, PylonCulledBlock {
+        implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
 
     private static final NamespacedKey FACING_KEY = baseKey("facing");
 
@@ -125,10 +125,6 @@ public class CargoInserter extends PylonBlock
         facing = pdc.get(FACING_KEY, PylonSerializers.BLOCK_FACE);
     }
 
-    {
-        setDisableBlockTextureEntity(true);
-    }
-
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(FACING_KEY, PylonSerializers.BLOCK_FACE, facing);
@@ -204,10 +200,5 @@ public class CargoInserter extends PylonBlock
     public @Nullable PylonLogisticBlock getTargetLogisticBlock() {
         PylonLogisticBlock block = BlockStorage.getAs(PylonLogisticBlock.class, getTarget());
         return block instanceof PylonCargoBlock ? null : block;
-    }
-
-    @Override
-    public @NotNull Iterable<UUID> getCulledEntityIds() {
-        return getHeldEntities().values();
     }
 }

@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonCulledBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
@@ -23,7 +22,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -32,13 +30,12 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
-import java.util.UUID;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class CargoBuffer extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock, PylonCulledBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
 
     private static final NamespacedKey FACE_KEY = baseKey("face");
 
@@ -153,10 +150,6 @@ public class CargoBuffer extends PylonBlock
         facing = pdc.get(FACE_KEY, PylonSerializers.BLOCK_FACE);
     }
 
-    {
-        setDisableBlockTextureEntity(true);
-    }
-
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(FACE_KEY, PylonSerializers.BLOCK_FACE, facing);
@@ -180,10 +173,5 @@ public class CargoBuffer extends PylonBlock
     public void setupLogisticGroups() {
         createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
         createLogisticGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-    }
-
-    @Override
-    public @NotNull Iterable<UUID> getCulledEntityIds() {
-        return getHeldEntities().values();
     }
 }
