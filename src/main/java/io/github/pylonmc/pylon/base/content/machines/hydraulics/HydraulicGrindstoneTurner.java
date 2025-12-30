@@ -88,7 +88,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock implements PylonMultib
         Grindstone grindstone = BlockStorage.getAs(Grindstone.class, getBlock().getRelative(BlockFace.UP));
         Preconditions.checkState(grindstone != null);
 
-        if (grindstone.isRecipeInProgress()) {
+        if (grindstone.isProcessingRecipe()) {
             return;
         }
 

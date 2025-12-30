@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -18,7 +19,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
 import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -39,12 +39,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonBreakHandler {
+public class Grindstone extends PylonBlock
+        implements PylonSimpleMultiblock, PylonInteractBlock, PylonBreakHandler, PylonRecipeProcessor<GrindstoneRecipe> {
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
-            .getOrThrow("cycle-duration-ticks", ConfigAdapter.INT);
-
-    @Getter private boolean recipeInProgress;
+            .getOrThrow("cycle-duration-ticks",ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -64,13 +63,19 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                         .translate(0, 0.8, 0))
                 .build(getBlock().getLocation().toCenterLocation())
         );
-        recipeInProgress = false;
+        setRecipeType(GrindstoneRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        recipeInProgress = false;
+    }
+
+    @Override
+    protected void postLoad() {
+        if (isProcessingRecipe()) {
+            finishRecipe();
+        }
     }
 
     @Override
@@ -118,7 +123,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     public @Nullable GrindstoneRecipe getNextRecipe() {
-        if (recipeInProgress) {
+        if (isProcessingRecipe()) {
             return null;
         }
 
@@ -139,11 +144,7 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return false;
         }
 
-        var itemDisplay = getItemDisplay();
-        if (itemDisplay == null) {
-            return false;
-        }
-
+        ItemDisplay itemDisplay = getItemDisplay();
         ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
             return false;
@@ -151,8 +152,11 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
         itemDisplay.setItemStack(input.subtract(nextRecipe.input().getAmount()));
 
-        recipeInProgress = true;
+        startRecipe(nextRecipe, nextRecipe.timeTicks());
 
+        // Queue up all the animation frames
+        // It's easier to do here instead of in the ticker so we don't have to keep track of the current
+        // cycle and tick within that cycle
         for (int i = 0; i < nextRecipe.cycles(); i++) {
             for (int j = 0; j < 4; j++) {
                 boolean isLast = i == nextRecipe.cycles() - 1 && j == 3;
@@ -165,34 +169,30 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                             .count(10)
                             .location(getBlock().getLocation().toCenterLocation())
                             .spawn();
+                    progressRecipe(CYCLE_DURATION_TICKS / 4);
                 }, (long) ((i + j/4.0) * CYCLE_DURATION_TICKS));
             }
         }
 
-        Bukkit.getScheduler().runTaskLater(
-                PylonBase.getInstance(),
-                () -> {
-                    getBlock().getWorld().dropItemNaturally(
-                            getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
-                            nextRecipe.results().getRandom()
-                    );
-
-                    new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this).callEvent();
-
-                    recipeInProgress = false;
-                },
-                nextRecipe.timeTicks()
-        );
-
         return true;
     }
 
-    public @Nullable ItemDisplay getItemDisplay() {
-        return getHeldEntity(ItemDisplay.class, "item");
+    @Override
+    public void onRecipeFinished(@NotNull GrindstoneRecipe recipe) {
+        getBlock().getWorld().dropItemNaturally(
+                getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
+                recipe.results().getRandom()
+        );
+
+        new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, recipe, this).callEvent();
     }
 
-    public @Nullable ItemDisplay getStoneDisplay() {
-        return getHeldEntity(ItemDisplay.class, "block");
+    public @NotNull ItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    }
+
+    public @NotNull ItemDisplay getStoneDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "block");
     }
 
     public static @NotNull Matrix4f getStoneDisplayMatrix(double translation, double rotation) {

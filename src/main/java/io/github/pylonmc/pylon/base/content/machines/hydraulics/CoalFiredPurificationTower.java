@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -13,7 +14,6 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
@@ -41,11 +41,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
 
 public class CoalFiredPurificationTower extends PylonBlock
-        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
+        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonProcessor, PylonGuiBlock, PylonTickingBlock {
 
     private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
     public static final double PURIFICATION_SPEED = settings.getOrThrow("purification-speed", ConfigAdapter.INT);
@@ -63,10 +61,6 @@ public class CoalFiredPurificationTower extends PylonBlock
             );
         }
     }
-
-    private static final NamespacedKey FUEL_TICKS_REMAINING_KEY = baseKey("fuel_ticks_remaining");
-
-    private @Nullable Integer fuelTicksRemaining;
 
     private final ItemStackBuilder idleProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
             .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.idle"));
@@ -94,10 +88,9 @@ public class CoalFiredPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        fuelTicksRemaining = null;
         setTickInterval(TICK_INTERVAL);
-        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
-        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
     }
@@ -105,13 +98,11 @@ public class CoalFiredPurificationTower extends PylonBlock
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        fuelTicksRemaining = pdc.get(FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER);
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        super.write(pdc);
-        PylonUtils.setNullable(pdc, FUEL_TICKS_REMAINING_KEY, PylonSerializers.INTEGER, fuelTicksRemaining);
+    public void postInitialise() {
+        setProgressItem(progressItem);
     }
 
     @Override
@@ -154,7 +145,9 @@ public class CoalFiredPurificationTower extends PylonBlock
             return;
         }
 
-        if (fuelTicksRemaining == null) {
+        progressProcess(TICK_INTERVAL);
+
+        if (!isProcessing()) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Map.Entry<ItemStack, Integer> fuel : FUELS.entrySet()) {
                 if (item == null || !PylonUtils.isPylonSimilar(item, fuel.getKey())) {
@@ -163,8 +156,7 @@ public class CoalFiredPurificationTower extends PylonBlock
 
                 inventory.setItemAmount(null, 0, item.getAmount() - 1);
                 progressItem.setItemStackBuilder(runningProgressItem);
-                progressItem.setTotalTimeSeconds(FUELS.get(fuel.getKey()));
-                fuelTicksRemaining = fuel.getValue() * 20;
+                startProcess(fuel.getValue() * 20);
                 break;
             }
         }
@@ -186,18 +178,15 @@ public class CoalFiredPurificationTower extends PylonBlock
 
         removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
         addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * PURIFICATION_EFFICIENCY);
+    }
 
-        fuelTicksRemaining -= getTickInterval();
-        progressItem.setRemainingTimeTicks(fuelTicksRemaining);
-        if (fuelTicksRemaining <= 0) {
-            fuelTicksRemaining = null;
-            progressItem.setItemStackBuilder(idleProgressItem);
-            progressItem.setTotalTime(null);
-        }
+    @Override
+    public void onProcessFinished() {
+        progressItem.setItemStackBuilder(idleProgressItem);
     }
 
     public boolean isRunning() {
-        return fuelTicksRemaining != null
+        return isProcessing()
                 // input buffer not empty
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
                 // output buffer not full

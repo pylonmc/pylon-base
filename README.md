@@ -4,14 +4,14 @@ Pylon is an upcoming Minecraft Java plugin that will hugely expand vanilla gamep
 Pylon uses an addon system, meaning anyone can add content to Pylon by writing an addon for it! It also comes with a number of really useful features, such as:
 - First-class translation support, meaning each player can select their own language.
 - Extensive configuration options, including per-machine configuration. 
-- An intuitive and user-friendly guide to help players figure out the plugin.
+- An intuitive and user-friendly guide to help players figure out the plugin
 
 ## Find out more
 Join our Discord: https://discord.gg/4tMAnBAacW  
-Visit our website: https://pylonmc.github.io/
+Visit our website: https://pylonmc.github.io
 
 ## Warning
-PYLON IS CURRENTLY EXPERIMENTAL. ONLY RUN IT ON A TEST SERVER THAT YOU ARE WILLING TO DELETE. THE NEXT PYLON VERSION WILL PROBABLY NOT BE COMPATIBLE WITH THE PREVIOUS ONE. IF YOU INSTALL PYLON SOMEWHERE YOU SHOULDN'T AND END UP LOSING DATA, WE WILL POINT AND LAUGH AT YOU.
+PYLON IS CURRENTLY EXPERIMENTAL. ONLY RUN IT ON A TEST SERVER THAT YOU ARE WILLING TO DELETE. THE NEXT PYLON VERSION WILL PROBABLY NOT BE COMPATIBLE WITH THE PREVIOUS ONE. IF YOU INSTALL PYLON SOMEWHERE YOU SHOULDN'T AND END UP LOSING DATA, WE WILL POINT AND LAUGH AT YOU
 
 ## Pylon in pictures
 <img width="250" alt="using-smeltery" src="https://github.com/user-attachments/assets/b8a7ba3c-9103-46a5-ab43-f31de08dd492" /> 

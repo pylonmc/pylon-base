@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -46,7 +47,7 @@ import java.util.Map;
 
 
 public class DieselPipeBender extends PylonBlock
-        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock {
+        implements PylonGuiBlock, PylonFluidBufferBlock, PylonTickingBlock, PylonLogisticBlock, PylonRecipeProcessor<PipeBendingRecipe> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
@@ -71,8 +72,6 @@ public class DieselPipeBender extends PylonBlock
         }
     }
 
-    private int recipeTicksRemaining;
-    private @Nullable PipeBendingRecipe recipe;
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory outputInventory = new VirtualInventory(1);
     private final ProgressItem progressItem = new ProgressItem(ItemStackBuilder.of(GuiItems.background()));
@@ -119,15 +118,32 @@ public class DieselPipeBender extends PylonBlock
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
-        recipe = null;
-        attachInventoryHandlers();
+        setRecipeType(PipeBendingRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public DieselPipeBender(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        recipe = null;
-        attachInventoryHandlers();
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
+        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
+        setProgressItem(progressItem);
+        inputInventory.setPostUpdateHandler(event -> {
+            // Null check here because I've seen exceptions when the block is loading in but the entity hasn't been
+            // loaded yet (no idea why this handler would fire at that point but oh well)
+            ItemDisplay display = getHeldEntity(ItemDisplay.class, "item");
+            if (display != null) {
+                display.setItemStack(event.getNewItem());
+            }
+        });
+        outputInventory.setPreUpdateHandler(event -> {
+            if (!event.isRemove() && event.getUpdateReason() instanceof PlayerUpdateReason) {
+                event.setCancelled(true);
+            }
+        });
     }
 
     @Override
@@ -137,33 +153,15 @@ public class DieselPipeBender extends PylonBlock
     }
 
     @Override
-    public void setupLogisticGroups() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
-    }
-
-    @Override
     public void tick(double deltaSeconds) {
-        ItemStack stack = inputInventory.getItem(0);
+        progressRecipe(tickInterval);
 
-        if (recipe != null) {
+        if (isProcessingRecipe()) {
             spawnParticles();
-            progressItem.setRemainingTimeTicks(recipeTicksRemaining);
-
-            // tick recipe
-            if (recipeTicksRemaining > 0) {
-                recipeTicksRemaining -= tickInterval;
-                return;
-            }
-
-            // finish recipe
-            outputInventory.addItem(null, recipe.result().clone());
-            progressItem.setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
-            progressItem.setTotalTime(null);
-            recipe = null;
             return;
         }
 
+        ItemStack stack = inputInventory.getItem(0);
         if (stack == null) {
             return;
         }
@@ -187,16 +185,10 @@ public class DieselPipeBender extends PylonBlock
             }
 
             // start recipe
-            this.recipe = recipe;
-            recipeTicksRemaining = (int) Math.round(recipe.timeTicks() * speed);
+            startRecipe(recipe, (int) Math.round(recipe.timeTicks() * speed / tickInterval));
             stack.subtract(recipe.input().getAmount());
             inputInventory.setItem(null, 0, stack);
-
-            progressItem.setItemStackBuilder(
-                    ItemStackBuilder.of(recipe.result().clone()).clearLore()
-            );
-            progressItem.setTotalTimeTicks(recipeTicksRemaining);
-            progressItem.setRemainingTimeTicks(recipeTicksRemaining);
+            progressItem.setItemStackBuilder(ItemStackBuilder.of(recipe.result().clone()).clearLore());
 
             spawnParticles();
             removeFluid(BaseFluids.BIODIESEL, dieselAmount);
@@ -242,20 +234,10 @@ public class DieselPipeBender extends PylonBlock
         ));
     }
 
-    private void attachInventoryHandlers() {
-        inputInventory.setPostUpdateHandler(event -> {
-            // Null check here because I've seen exceptions when the block is loading in but the entity hasn't been
-            // loaded yet (no idea why this handler would fire at that point but oh well)
-            ItemDisplay display = getHeldEntity(ItemDisplay.class, "item");
-            if (display != null) {
-                display.setItemStack(event.getNewItem());
-            }
-        });
-        outputInventory.setPreUpdateHandler(event -> {
-            if (!event.isRemove() && event.getUpdateReason() instanceof PlayerUpdateReason) {
-                event.setCancelled(true);
-            }
-        });
+    @Override
+    public void onRecipeFinished(@NotNull PipeBendingRecipe recipe) {
+        outputInventory.addItem(null, recipe.result().clone());
+        progressItem.setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
     }
 
     public void spawnParticles() {
