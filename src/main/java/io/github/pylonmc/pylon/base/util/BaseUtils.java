@@ -1,38 +1,26 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 @UtilityClass
 public class BaseUtils {
-    private static final Map<Material, Material> BLOCK_ITEM_FALLBACK = Map.of(
-        Material.FIRE, Material.FLINT_AND_STEEL,
-        Material.SOUL_FIRE, Material.FLINT_AND_STEEL
-    );
 
     public static @NotNull NamespacedKey baseKey(@NotNull String key) {
         return new NamespacedKey(PylonBase.getInstance(), key);
@@ -148,48 +136,5 @@ public class BaseUtils {
         if (display == null) return;
 
         animate(display, 0, duration, matrix);
-    }
-
-    public static @NotNull ItemStack itemFromKey(@NotNull NamespacedKey key) {
-        if (key.getNamespace().equals("minecraft")) {
-            return BaseUtils.makeItemVanilla(key);
-        } else {
-            return BaseUtils.makeItemPylon(key);
-        }
-    }
-
-    public static @NotNull ItemStack makeItemVanilla(@NotNull NamespacedKey materialKey) {
-        Material material = Registry.MATERIAL.get(materialKey);
-        if (material == null) {
-            ItemStack stack = new ItemStack(Material.BARRIER);
-            stack.setData(DataComponentTypes.ITEM_NAME, Component.text("ERROR: " + materialKey));
-            return stack;
-        }
-
-
-        if (material.isItem()) {
-            return new ItemStack(material);
-        } else {
-            material = BLOCK_ITEM_FALLBACK.getOrDefault(material, Material.BARRIER);
-        }
-
-        ItemStack stack = new ItemStack(material);
-        stack.setData(DataComponentTypes.ITEM_NAME, Component.translatable(material.translationKey()));
-        return stack;
-    }
-
-    public static @NotNull ItemStack makeItemPylon(@NotNull NamespacedKey blockKey) {
-        PylonItemSchema item = PylonRegistry.ITEMS.get(blockKey);
-        if (item == null) {
-            PylonBlockSchema block = PylonRegistry.BLOCKS.get(blockKey);
-            if (block == null) {
-                throw new UnsupportedOperationException("Can't make pylon item, no block or item available for such key");
-            }
-            ItemStack stack = new ItemStack(Material.BARRIER);
-            stack.setData(DataComponentTypes.ITEM_NAME, Component.text(block.getKey().toString()));
-            return stack;
-        }
-
-        return item.getItemStack();
     }
 }
