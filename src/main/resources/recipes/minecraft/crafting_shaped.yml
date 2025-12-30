@@ -346,6 +346,16 @@ pylonbase:mixing_pot:
   result: pylonbase:mixing_pot
   category: building
 
+pylonbase:crucible:
+  pattern:
+    - "C C"
+    - "C C"
+    - "CCC"
+  key:
+    C: pylonbase:refractory_brick
+  result: pylonbase:crucible
+  category: building
+
 pylonbase:enriched_soul_soil:
   pattern:
     - " S "
@@ -1518,6 +1528,7 @@ pylonbase:hydraulic_refueling_station:
     G: minecraft:glass
   result: pylonbase:hydraulic_refueling_station
   category: building
+
 
 pylonbase:reactivated_wither_skull:
   pattern:
