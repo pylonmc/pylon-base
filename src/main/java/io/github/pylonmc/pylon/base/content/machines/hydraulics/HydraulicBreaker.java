@@ -6,16 +6,19 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -23,7 +26,6 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,13 +37,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicBreaker extends PylonBlock implements
@@ -49,10 +51,9 @@ public class HydraulicBreaker extends PylonBlock implements
         PylonDirectionalBlock,
         PylonTickingBlock,
         PylonMultiblock,
-        PylonInteractBlock,
+        PylonGuiBlock,
+        PylonLogisticBlock,
         PylonProcessor {
-
-    public static NamespacedKey TOOL_KEY = baseKey("tool");
 
     public final double hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.DOUBLE);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
@@ -84,7 +85,7 @@ public class HydraulicBreaker extends PylonBlock implements
     public ItemStackBuilder drillStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":drill");
 
-    public ItemStack tool;
+    public VirtualInventory toolInventory = new VirtualInventory(1);
 
     @SuppressWarnings("unused")
     public HydraulicBreaker(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -110,23 +111,17 @@ public class HydraulicBreaker extends PylonBlock implements
         );
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
-        tool = null;
     }
 
     @SuppressWarnings("unused")
     public HydraulicBreaker(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        tool = pdc.get(TOOL_KEY, PylonSerializers.ITEM_STACK);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(TOOL_KEY, PylonSerializers.ITEM_STACK, tool);
     }
 
     @Override
     public void postInitialise() {
         tryStartDrilling();
+        createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
     }
 
     @Override
@@ -141,12 +136,13 @@ public class HydraulicBreaker extends PylonBlock implements
         event.setCancelled(true);
 
         // drop old item
+        ItemStack tool = toolInventory.getItem(0);
         if (tool != null) {
             getBlock().getWorld().dropItem(
                     getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
                     tool
             );
-            tool = null;
+            toolInventory.setItem(new MachineUpdateReason(), 0, null);
             stopProcess();
             return;
         }
@@ -154,7 +150,7 @@ public class HydraulicBreaker extends PylonBlock implements
         // insert new item
         ItemStack newStack = event.getItem();
         if (newStack != null) {
-            tool = newStack.clone();
+            toolInventory.setItem(new MachineUpdateReason(), 0, newStack.clone());
             newStack.setAmount(0);
             tryStartDrilling();
         }
@@ -178,12 +174,23 @@ public class HydraulicBreaker extends PylonBlock implements
                 .spawn();
     }
 
+    @Override
+    public @NotNull Gui createGui() {
+        // Not actually used, just provided for easy inventory serialization
+        return Gui.normal()
+                .setStructure("# # # # x # # # #")
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('x', toolInventory)
+                .build();
+    }
+
     public void tryStartDrilling() {
         if (isProcessing()) {
             return;
         }
 
         Block toDrill = getBlock().getRelative(getFacing());
+        ItemStack tool = toolInventory.getItem(0);
         if (tool == null
                 || toDrill.getType().isAir()
                 || BlockStorage.isPylonBlock(toDrill)
@@ -198,6 +205,7 @@ public class HydraulicBreaker extends PylonBlock implements
     @Override
     public void onProcessFinished() {
         Block toDrill = getBlock().getRelative(getFacing());
+        ItemStack tool = toolInventory.getItem(0);
         if (tool == null
                 || toDrill.getType().isAir()
                 || BlockStorage.isPylonBlock(toDrill)
@@ -209,8 +217,9 @@ public class HydraulicBreaker extends PylonBlock implements
 
         toDrill.breakNaturally();
         tool.setData(DataComponentTypes.DAMAGE, tool.getData(DataComponentTypes.DAMAGE) + 1);
+        toolInventory.setItem(new MachineUpdateReason(), 0, tool);
         if (Objects.equals(tool.getData(DataComponentTypes.DAMAGE), tool.getData(DataComponentTypes.MAX_DAMAGE))) {
-            tool = null;
+            toolInventory.setItem(new MachineUpdateReason(), 0, null);
         }
         removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerBlock);
         addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerBlock);
@@ -256,5 +265,11 @@ public class HydraulicBreaker extends PylonBlock implements
                         TextColor.fromHexString("#48459b")
                 ))
         ));
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+        PylonGuiBlock.super.onBreak(drops, context);
     }
 }

@@ -9,6 +9,8 @@ import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -40,6 +42,7 @@ public class FluidStrainer extends PylonBlock implements
         PylonDirectionalBlock,
         PylonFluidBlock,
         PylonGuiBlock,
+        PylonLogisticBlock,
         PylonRecipeProcessor<StrainingRecipe> {
 
     private static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
@@ -85,6 +88,11 @@ public class FluidStrainer extends PylonBlock implements
 
         fluidType = null;
         fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("inventory", LogisticGroupType.OUTPUT, inventory);
     }
 
     @Override
