@@ -16,7 +16,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
