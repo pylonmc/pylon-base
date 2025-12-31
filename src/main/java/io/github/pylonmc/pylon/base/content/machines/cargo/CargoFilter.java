@@ -12,7 +12,7 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
@@ -179,9 +179,9 @@ public class CargoFilter extends PylonBlock
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
-        createLogisticGroup("filtered", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(filteredInventory, 0));
-        createLogisticGroup("unfiltered", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(unfilteredInventory, 0));
+        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
+        createLogisticGroup("filtered", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(filteredInventory, 0));
+        createLogisticGroup("unfiltered", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(unfilteredInventory, 0));
         inputInventory.setPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();

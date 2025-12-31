@@ -13,7 +13,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -164,6 +164,6 @@ public class CargoInserter extends CargoInteractor implements
 
     @Override
     public boolean isValidGroup(@NotNull LogisticGroup group) {
-        return group.getSlotType() == LogisticSlotType.BOTH || group.getSlotType() == LogisticSlotType.INPUT;
+        return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.INPUT;
     }
 }

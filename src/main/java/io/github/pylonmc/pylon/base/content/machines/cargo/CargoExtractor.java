@@ -17,7 +17,7 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -165,7 +165,7 @@ public class CargoExtractor extends CargoInteractor implements
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
 
         filterInventory.setPostUpdateHandler(event -> {
             itemsToFilter.clear();
@@ -259,6 +259,6 @@ public class CargoExtractor extends CargoInteractor implements
 
     @Override
     public boolean isValidGroup(@NotNull LogisticGroup group) {
-        return group.getSlotType() == LogisticSlotType.BOTH || group.getSlotType() == LogisticSlotType.OUTPUT;
+        return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.OUTPUT;
     }
 }

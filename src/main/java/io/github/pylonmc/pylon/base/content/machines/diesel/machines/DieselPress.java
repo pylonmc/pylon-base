@@ -15,7 +15,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -144,7 +144,7 @@ public class DieselPress extends PylonBlock implements
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
+        createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
         inputInventory.setPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 tryStartRecipe();

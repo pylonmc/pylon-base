@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.block.Block;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -26,7 +26,7 @@ public class ItemOutputHatch extends PylonBlock implements PylonGuiBlock, PylonL
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, inventory);
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, inventory);
     }
 
     @Override
