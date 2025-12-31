@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
+// TODO make PylonLogisticBlock
 public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
     public static class Item extends PylonItem {

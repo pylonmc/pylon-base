@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -16,6 +17,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -23,7 +26,6 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -34,20 +36,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 import java.util.Objects;
-
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class HydraulicMiner extends Miner implements
         PylonTickingBlock,
         PylonDirectionalBlock,
         PylonInteractBlock,
+        PylonLogisticBlock,
         PylonFluidBufferBlock {
-
-    public static NamespacedKey TOOL_KEY = baseKey("tool");
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
@@ -80,7 +80,7 @@ public class HydraulicMiner extends Miner implements
     public ItemStackBuilder topStack = ItemStackBuilder.of(Material.YELLOW_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":top");
 
-    public ItemStack tool;
+    public VirtualInventory toolInventory = new VirtualInventory(1);
 
     @SuppressWarnings("unused")
     public HydraulicMiner(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -108,25 +108,18 @@ public class HydraulicMiner extends Miner implements
 
         createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
         createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
-
-        tool = null;
     }
 
     @SuppressWarnings("unused")
     public HydraulicMiner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        tool = pdc.get(TOOL_KEY, PylonSerializers.ITEM_STACK);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(TOOL_KEY, PylonSerializers.ITEM_STACK, tool);
     }
 
     @Override
     public void postInitialise() {
         super.postInitialise();
         updateMiner();
+        createLogisticGroup("input", LogisticGroupType.INPUT, toolInventory);
     }
 
     @Override
@@ -141,12 +134,13 @@ public class HydraulicMiner extends Miner implements
         event.setCancelled(true);
 
         // drop old item
+        ItemStack tool = toolInventory.getItem(0);
         if (tool != null) {
             getBlock().getWorld().dropItem(
                     getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
                     tool
             );
-            tool = null;
+            toolInventory.setItem(new MachineUpdateReason(), 0, null);
             stopProcess();
             return;
         }
@@ -154,7 +148,7 @@ public class HydraulicMiner extends Miner implements
         // insert new item
         ItemStack newStack = event.getItem();
         if (newStack != null) {
-            tool = newStack.clone();
+            toolInventory.setItem(new MachineUpdateReason(), 0, newStack.clone());
             newStack.setAmount(0);
             updateMiner();
         }
@@ -194,6 +188,7 @@ public class HydraulicMiner extends Miner implements
     public void onProcessFinished() {
         Block block = blockPositions.get(index).getBlock();
         List<ItemStack> drops = block.getDrops().stream().toList();
+        ItemStack tool = toolInventory.getItem(0);
         if (tool == null
                 || block.getType().isAir()
                 || BlockStorage.isPylonBlock(block)
@@ -205,8 +200,9 @@ public class HydraulicMiner extends Miner implements
 
         block.breakNaturally();
         tool.setData(DataComponentTypes.DAMAGE, tool.getData(DataComponentTypes.DAMAGE) + 1);
+        toolInventory.setItem(new MachineUpdateReason(), 0, tool);
         if (Objects.equals(tool.getData(DataComponentTypes.DAMAGE), tool.getData(DataComponentTypes.MAX_DAMAGE))) {
-            tool = null;
+            toolInventory.setItem(new MachineUpdateReason(), 0, null);
         }
         removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerBlock);
         addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerBlock);
@@ -215,6 +211,7 @@ public class HydraulicMiner extends Miner implements
 
     @Override
     protected Integer getBreakTicks(@NotNull Block block) {
+        ItemStack tool = toolInventory.getItem(0);
         if (tool == null
                 || block.getType().isAir()
                 || BlockStorage.isPylonBlock(block)

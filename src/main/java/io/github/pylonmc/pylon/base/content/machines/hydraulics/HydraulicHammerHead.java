@@ -18,6 +18,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -48,6 +50,7 @@ public class HydraulicHammerHead extends PylonBlock implements
         PylonInteractBlock,
         PylonFluidBufferBlock,
         PylonProcessor,
+        PylonLogisticBlock,
         PylonDirectionalBlock {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
@@ -117,6 +120,11 @@ public class HydraulicHammerHead extends PylonBlock implements
     public HydraulicHammerHead(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         hammer = (Hammer) PylonItem.fromStack(pdc.get(HAMMER_KEY, PylonSerializers.ITEM_STACK));
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("hammer", LogisticGroupType.INPUT, new HammerLogisticSlot());
     }
 
     @Override
@@ -245,5 +253,31 @@ public class HydraulicHammerHead extends PylonBlock implements
                         TextColor.fromHexString("#48459b")
                 ))
         ));
+    }
+
+    private class HammerLogisticSlot implements LogisticSlot {
+        @Override
+        public @Nullable ItemStack getItemStack() {
+            return hammer == null ? null : hammer.getStack();
+        }
+
+        @Override
+        public long getAmount() {
+            return hammer == null ? 0 : hammer.getStack().getAmount();
+        }
+
+        @Override
+        public long getMaxAmount(@NotNull ItemStack stack) {
+            return PylonItem.fromStack(stack) instanceof Hammer ? stack.getMaxStackSize() : 0;
+        }
+
+        @Override
+        public void set(@Nullable ItemStack stack, long amount) {
+            if (stack == null) {
+                hammer = null;
+                return;
+            }
+            hammer = (Hammer) PylonItem.fromStack(stack.asQuantity((int) amount));
+        }
     }
 }

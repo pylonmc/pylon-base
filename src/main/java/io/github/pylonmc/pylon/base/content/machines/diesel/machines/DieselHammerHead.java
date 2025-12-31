@@ -17,7 +17,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -148,7 +148,7 @@ public class DieselHammerHead extends PylonBlock implements
     public void postInitialise() {
         hammerInventory.setPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
         hammerInventory.setPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
-        createLogisticGroup("hammer", LogisticSlotType.INPUT, hammerInventory);
+        createLogisticGroup("hammer", LogisticGroupType.INPUT, hammerInventory);
     }
 
     public void updateHammerTip(ItemStack newItem) {

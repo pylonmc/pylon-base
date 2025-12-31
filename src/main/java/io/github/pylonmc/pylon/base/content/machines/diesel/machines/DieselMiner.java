@@ -15,7 +15,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -25,7 +25,6 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -150,8 +149,8 @@ public class DieselMiner extends Miner implements
     @Override
     public void postInitialise() {
         super.postInitialise();
-        createLogisticGroup("tool", LogisticSlotType.INPUT, toolInventory);
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
+        createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
         outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
         toolInventory.setPostUpdateHandler(event -> {
             stopProcess();

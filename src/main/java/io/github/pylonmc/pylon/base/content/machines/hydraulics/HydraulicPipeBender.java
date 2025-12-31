@@ -16,6 +16,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.format.TextColor;
@@ -41,6 +43,7 @@ public class HydraulicPipeBender extends PylonBlock implements
         PylonDirectionalBlock,
         PylonInteractBlock,
         PylonTickingBlock,
+        PylonLogisticBlock,
         PylonRecipeProcessor<PipeBendingRecipe> {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -114,6 +117,11 @@ public class HydraulicPipeBender extends PylonBlock implements
     @SuppressWarnings("unused")
     public HydraulicPipeBender(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticGroupType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
     }
 
     @Override

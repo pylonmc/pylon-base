@@ -40,7 +40,6 @@ import java.util.Set;
 
 
 public class HydraulicFarmer extends PylonBlock implements
-        PylonEntityHolderBlock,
         PylonTickingBlock,
         PylonFluidBufferBlock,
         PylonDirectionalBlock {
