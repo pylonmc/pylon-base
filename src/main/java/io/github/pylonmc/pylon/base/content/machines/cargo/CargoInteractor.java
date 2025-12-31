@@ -13,12 +13,15 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import lombok.Getter;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -29,7 +32,7 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +49,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
             Material.PINK_CONCRETE
     );
 
-    public @Nullable String targetLogisticGroup;
+    @Setter @Getter protected @Nullable String targetLogisticGroup;
     public final Map<String, LogisticGroup> targetGroups = new HashMap<>();
 
     protected CargoInteractor(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -76,7 +79,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
         Block targetBlock = getTargetBlock();
         if (targetBlock.isEmpty()) {
             // No target any more, so target group becomes null
-            targetLogisticGroup = null;
+            setTargetLogisticGroup(null);
             return;
         }
 
@@ -92,24 +95,29 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
 
         // Check target group still exists after refresh
         if (!targetGroups.containsKey(targetLogisticGroup)) {
-            targetLogisticGroup = null;
+            setTargetLogisticGroup(null);
         }
 
         // Find new logistic group if group does not exist
         if (targetLogisticGroup == null) {
-            targetLogisticGroup = targetGroups.keySet()
+            setTargetLogisticGroup(targetGroups.keySet()
                     .stream()
                     .sorted()
                     .findFirst()
-                    .orElse(null);
+                    .orElse(null)
+            );
         }
-
-        Bukkit.getLogger().severe("1 " + targetGroups.size() + " " + targetGroups.keySet());
     }
 
     @Override
     public @NotNull Set<@NotNull ChunkPosition> getChunksOccupied() {
-        return Set.of(new ChunkPosition(getTargetBlock()));
+        Set<ChunkPosition> chunks = new HashSet<>();
+        chunks.add(new ChunkPosition(getTargetBlock()));
+        // FUCK DOUBLE CHESTS
+        for (BlockFace face : PylonUtils.CARDINAL_FACES) {
+            chunks.add(new ChunkPosition(getTargetBlock().getRelative(face)));
+        }
+        return chunks;
     }
 
     @Override
@@ -120,7 +128,13 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
 
     @Override
     public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.equals(getTargetBlock());
+        Set<Block> blocks = new HashSet<>();
+        blocks.add(getTargetBlock());
+        // FUCK DOUBLE CHESTS
+        for (BlockFace face : PylonUtils.CARDINAL_FACES) {
+            blocks.add(getTargetBlock().getRelative(face));
+        }
+        return blocks.contains(otherBlock);
     }
 
     public class InventoryCycleItem extends AbstractItem {
@@ -132,7 +146,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
             Block block = getTargetBlock();
             if (targetLogisticGroup == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
-                        .name("pylon.pylonbase.gui.no-target-logistic-group");
+                        .name(Component.translatable("pylon.pylonbase.gui.no-target-logistic-group"));
             }
 
             // Find index of current group
@@ -180,7 +194,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
                     .sorted()
                     .toList();
             int index = availableGroups.indexOf(targetLogisticGroup);
-            targetLogisticGroup = availableGroups.get((index + 1) % availableGroups.size());
+            setTargetLogisticGroup(availableGroups.get((index + 1) % availableGroups.size()));
             notifyWindows();
         }
     }

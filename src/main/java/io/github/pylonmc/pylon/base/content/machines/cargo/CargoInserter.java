@@ -153,13 +153,12 @@ public class CargoInserter extends CargoInteractor implements
     }
 
     @Override
-    public void refreshTargetInfo() {
-        super.refreshTargetInfo();
+    public void setTargetLogisticGroup(String targetLogisticGroup) {
+        this.targetLogisticGroup = targetLogisticGroup;
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
             removeCargoLogisticGroup(face);
-            if (targetLogisticGroup != null) {
-                addCargoLogisticGroup(face, targetLogisticGroup);
-            }
+            // Slight hack: Set the logistic group to 'none' (which should not exist)
+            addCargoLogisticGroup(face, targetLogisticGroup == null ? "none" : targetLogisticGroup);
         }
     }
 
