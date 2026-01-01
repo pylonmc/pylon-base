@@ -136,6 +136,7 @@ public class FluidTank extends PylonBlock
         allowedTemperatures.clear();
         if (!partUnloaded) {
             setCapacity(0);
+            setFluid(0);
             setFluidType(null);
         }
     }

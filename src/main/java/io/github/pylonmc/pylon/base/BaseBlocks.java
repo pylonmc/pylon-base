@@ -151,5 +151,10 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CARGO_MERGER, Material.STRUCTURE_VOID, CargoMerger.class);
         PylonBlock.register(BaseKeys.CARGO_VALVE, Material.STRUCTURE_VOID, CargoValve.class);
         PylonBlock.register(BaseKeys.CARGO_FILTER, Material.STRUCTURE_VOID, CargoFilter.class);
+        PylonBlock.register(BaseKeys.CARGO_MONITOR, Material.STRUCTURE_VOID, CargoMonitor.class);
+        PylonBlock.register(BaseKeys.CARGO_METER, Material.STRUCTURE_VOID, CargoMeter.class);
+        PylonBlock.register(BaseKeys.CARGO_GATE, Material.STRUCTURE_VOID, CargoGate.class);
+        PylonBlock.register(BaseKeys.CARGO_ACCUMULATOR, Material.STRUCTURE_VOID, CargoAccumulator.class);
+        PylonBlock.register(BaseKeys.CARGO_FLUID_ACCUMULATOR, Material.STRUCTURE_VOID, CargoFluidAccumulator.class);
     }
 }

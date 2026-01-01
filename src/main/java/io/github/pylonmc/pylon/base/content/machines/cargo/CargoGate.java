@@ -3,10 +3,10 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -19,50 +19,88 @@ import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.BlockDisplay;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.List;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class CargoFilter extends PylonBlock implements
+
+public class CargoGate extends PylonBlock implements
         PylonDirectionalBlock,
         PylonGuiBlock,
         PylonCargoBlock {
 
+    public static final NamespacedKey THRESHOLD_KEY = baseKey("threshold");
+    public static final NamespacedKey ITEMS_REMAINING_KEY = baseKey("items_remaining");
+
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
-    private final VirtualInventory inputInventory = new VirtualInventory(1);
+    public int threshold = 1;
+    public int itemsRemaining = 1;
+
+    private final VirtualInventory outputInventory = new VirtualInventory(1);
     private final VirtualInventory leftInventory = new VirtualInventory(1);
     private final VirtualInventory rightInventory = new VirtualInventory(1);
-    private final VirtualInventory filterInventory = new VirtualInventory(5);
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.PINK_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":vertical");
-    public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":input");
-    public final ItemStackBuilder outputLeftStack = ItemStackBuilder.of(Material.YELLOW_CONCRETE)
-            .addCustomModelDataString(getKey() + ":output_left");
-    public final ItemStackBuilder outputRightStack = ItemStackBuilder.of(Material.LIGHT_BLUE_CONCRETE)
-            .addCustomModelDataString(getKey() + ":output_right");
+    public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":output");
+    public final ItemStackBuilder inputLeftStack = ItemStackBuilder.of(Material.YELLOW_CONCRETE)
+            .addCustomModelDataString(getKey() + ":input_left");
+    public final ItemStackBuilder inputRightStack = ItemStackBuilder.of(Material.LIGHT_BLUE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":input_right");
 
-    public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("pylon.pylonbase.gui.filter"));
-
-    public final ItemStackBuilder leftGuiStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
+    public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
             .name(Component.translatable("pylon.pylonbase.gui.left"));
-    public final ItemStackBuilder rightGuiStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
+    public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
             .name(Component.translatable("pylon.pylonbase.gui.right"));
+    public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
+            .lore(Component.translatable("pylon.pylonbase.gui.threshold_button.lore"));
+
+    public class ThresholdButton extends AbstractItem {
+
+        @Override
+        public ItemProvider getItemProvider() {
+            return thresholdButtonStack
+                .name((Component.translatable("pylon.pylonbase.gui.threshold_button.name").arguments(
+                        PylonArgument.of("threshold", threshold)
+                )));
+        }
+
+        @Override
+        public void handleClick(
+                @NotNull ClickType clickType,
+                @NotNull Player player,
+                @NotNull InventoryClickEvent event
+        ) {
+            if (clickType.isLeftClick()) {
+                threshold += 1;
+            } else {
+                threshold = Math.max(1, threshold - 1);
+            }
+            itemsRemaining = threshold;
+            notifyWindows();
+        }
+    }
 
     public static class Item extends PylonItem {
 
@@ -84,12 +122,12 @@ public class CargoFilter extends PylonBlock implements
     }
 
     @SuppressWarnings("unused")
-    public CargoFilter(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public CargoGate(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         setFacing(context.getFacing());
 
-        addCargoLogisticGroup(getFacing(), "input");
+        addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
         addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
         addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
         setCargoTransferRate(transferRate);
@@ -103,8 +141,8 @@ public class CargoFilter extends PylonBlock implements
                 .build(block.getLocation().toCenterLocation())
         );
 
-        addEntity("comparator", new BlockDisplayBuilder()
-                .blockData(Material.COMPARATOR.createBlockData("[powered=false]"))
+        addEntity("repeater", new BlockDisplayBuilder()
+                .blockData(Material.REPEATER.createBlockData("[powered=false]"))
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
                         .translate(0, 0.6, 0)
@@ -114,17 +152,17 @@ public class CargoFilter extends PylonBlock implements
         );
 
         addEntity("input", new ItemDisplayBuilder()
-                .itemStack(inputStack)
+                .itemStack(outputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0, 0, 0.2)
+                        .translate(0, 0, -0.2)
                         .scale(0.4, 0.4, 0.4)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
 
         addEntity("output_left", new ItemDisplayBuilder()
-                .itemStack(outputLeftStack)
+                .itemStack(inputLeftStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
                         .translate(-0.2, 0, 0)
@@ -134,7 +172,7 @@ public class CargoFilter extends PylonBlock implements
         );
 
         addEntity("output_right", new ItemDisplayBuilder()
-                .itemStack(outputRightStack)
+                .itemStack(inputRightStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
                         .translate(0.2, 0, 0)
@@ -145,39 +183,46 @@ public class CargoFilter extends PylonBlock implements
     }
 
     @SuppressWarnings("unused")
-    public CargoFilter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public CargoGate(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+        threshold = pdc.get(THRESHOLD_KEY, PylonSerializers.INTEGER);
+        itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER);
+    }
+
+    @Override
+    public void write(@NotNull PersistentDataContainer pdc) {
+        pdc.set(THRESHOLD_KEY, PylonSerializers.INTEGER, threshold);
+        pdc.set(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER, itemsRemaining);
     }
 
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
-                        "# L # # I # # R #",
-                        "# l # # i # # r #",
-                        "# L # # I # # R #",
+                        "# L # # O # # R #",
+                        "# l # # o # # r #",
+                        "# L # # O # # R #",
                         "# # # # # # # # #",
-                        "# F f f f f f F #",
+                        "# # # # t # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
-                .addIngredient('L', leftGuiStack)
+                .addIngredient('L', leftStack)
                 .addIngredient('l', leftInventory)
-                .addIngredient('I', GuiItems.input())
-                .addIngredient('i', inputInventory)
-                .addIngredient('R', rightGuiStack)
+                .addIngredient('O', GuiItems.output())
+                .addIngredient('o', outputInventory)
+                .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
-                .addIngredient('f', filterInventory)
-                .addIngredient('F', filterGuiStack)
+                .addIngredient('t', new ThresholdButton())
                 .build();
     }
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
-        createLogisticGroup("left", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(leftInventory, 0));
-        createLogisticGroup("right", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(rightInventory, 0));
-        inputInventory.setPostUpdateHandler(event -> {
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(outputInventory, 0));
+        createLogisticGroup("left", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(leftInventory, 0));
+        createLogisticGroup("right", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(rightInventory, 0));
+        outputInventory.setPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
@@ -192,60 +237,41 @@ public class CargoFilter extends PylonBlock implements
                 doSplit();
             }
         });
-        filterInventory.setPostUpdateHandler(event -> {
-            if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
-                doSplit();
-            }
-        });
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("threshold", threshold),
+                PylonArgument.of("side", itemsRemaining == 0
+                                ? Component.translatable("pylon.pylonbase.waila.cargo_splitter.left")
+                                : Component.translatable("pylon.pylonbase.waila.cargo_splitter.right")
+                )
+        ));
     }
 
     private void doSplit() {
+        getHeldEntityOrThrow(BlockDisplay.class, "repeater")
+                .setBlock(Material.REPEATER.createBlockData("[powered=" + (itemsRemaining == 0 ? "true" : "false") + "]"));
+
+        VirtualInventory inputInventory = itemsRemaining == 0 ? rightInventory : leftInventory;
         ItemStack input = inputInventory.getItem(0);
         if (input == null) {
             return;
         }
 
-        boolean matchesFilter = false;
-        for (ItemStack filterStack : filterInventory.getItems()) {
-            if (input.isSimilar(filterStack)) {
-                matchesFilter = true;
-                break;
+        ItemStack output = outputInventory.getItem(0);
+        if (output == null || (output.isSimilar(input) && output.getAmount() < output.getMaxStackSize())) {
+            if (output == null) {
+                outputInventory.setItem(new MachineUpdateReason(), 0, input.asOne());
+            } else {
+                outputInventory.setItem(new MachineUpdateReason(), 0, output.add());
             }
-        }
-
-        getHeldEntityOrThrow(BlockDisplay.class, "comparator")
-                .setBlock(Material.COMPARATOR.createBlockData("[powered=" + (matchesFilter ? "true" : "false") +"]"));
-
-        if (matchesFilter) {
-            ItemStack filteredStack = leftInventory.getItem(0);
-            if (filteredStack == null
-                    || (filteredStack.isSimilar(input) && filteredStack.getAmount() < filteredStack.getMaxStackSize())
-            ) {
-                if (filteredStack == null) {
-                    leftInventory.setItem(new MachineUpdateReason(), 0, input);
-                    inputInventory.setItem(new MachineUpdateReason(), 0, null);
-                } else {
-                    int newAmount = Math.min(filteredStack.getMaxStackSize(), filteredStack.getAmount() + input.getAmount());
-                    int toSubtract = newAmount - filteredStack.getAmount();
-                    leftInventory.setItem(new MachineUpdateReason(), 0, filteredStack.asQuantity(newAmount));
-                    inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract(toSubtract));
-                }
-            }
-        } else {
-            ItemStack unfilteredStack = rightInventory.getItem(0);
-            if (unfilteredStack == null
-                    || (unfilteredStack.isSimilar(input) && unfilteredStack.getAmount() < unfilteredStack.getMaxStackSize())
-            ) {
-                if (unfilteredStack == null) {
-                    rightInventory.setItem(new MachineUpdateReason(), 0, input);
-                    inputInventory.setItem(new MachineUpdateReason(), 0, null);
-                } else {
-                    int newAmount = Math.min(unfilteredStack.getMaxStackSize(), unfilteredStack.getAmount() + input.getAmount());
-                    int toSubtract = newAmount - unfilteredStack.getAmount();
-                    rightInventory.setItem(new MachineUpdateReason(), 0, unfilteredStack.asQuantity(newAmount));
-                    inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract(toSubtract));
-                }
-            }
+            inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
+            itemsRemaining = itemsRemaining == 0
+                    ? threshold
+                    : itemsRemaining - 1;
+            doSplit();
         }
     }
 }

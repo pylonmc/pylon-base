@@ -21,7 +21,7 @@ public class BasePages {
     public static final SimpleStaticGuidePage SIMPLE_MACHINES = new SimpleStaticGuidePage(baseKey("simple_machines"), Material.SMOOTH_STONE_SLAB);
     public static final SimpleStaticGuidePage SMELTING = new SimpleStaticGuidePage(baseKey("smelting"), Material.DEEPSLATE_TILES);
     public static final SimpleStaticGuidePage FLUID_PIPES_AND_TANKS = new SimpleStaticGuidePage(baseKey("fluid_pipes_and_tanks"), Material.ORANGE_TERRACOTTA);
-    public static final SimpleStaticGuidePage FLUID_MACHINES = new SimpleStaticGuidePage(baseKey("fluid_machines"), Material.CAULDRON);
+    public static final SimpleStaticGuidePage FLUID_MACHINES = new SimpleStaticGuidePage(baseKey("fluid_machines"), Material.LIGHT_BLUE_STAINED_GLASS);
     public static final SimpleStaticGuidePage HYDRAULICS = new SimpleStaticGuidePage(baseKey("hydraulics"), Material.BLUE_CONCRETE_POWDER);
     public static final SimpleStaticGuidePage CARGO = new SimpleStaticGuidePage(baseKey("cargo"), Material.HOPPER);
     public static final SimpleStaticGuidePage DIESEL_MACHINES = new SimpleStaticGuidePage(baseKey("diesel_machines"), Material.YELLOW_CONCRETE);

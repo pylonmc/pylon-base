@@ -3,11 +3,11 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -16,19 +16,25 @@ import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 
 
-public class CargoBuffer extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+public class CargoMonitor extends PylonBlock
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock {
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -44,6 +50,8 @@ public class CargoBuffer extends PylonBlock
             .addCustomModelDataString(getKey() + ":input");
     public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":output");
+    public final ItemStackBuilder projectorStack = ItemStackBuilder.of(Material.PINK_STAINED_GLASS)
+            .addCustomModelDataString(getKey() + ":projector");
 
     public static class Item extends PylonItem {
 
@@ -65,7 +73,7 @@ public class CargoBuffer extends PylonBlock
     }
 
     @SuppressWarnings("unused")
-    public CargoBuffer(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public CargoMonitor(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         setFacing(context.getFacing());
@@ -103,6 +111,38 @@ public class CargoBuffer extends PylonBlock
                 .build(block.getLocation().toCenterLocation())
         );
 
+        addEntity("projector", new ItemDisplayBuilder()
+                .itemStack(projectorStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .translate(0, 0.25, 0)
+                        .rotate(0, Math.PI / 4, 0)
+                        .scale(0.3, 0.3, 0.3)
+                )
+                .build(block.getLocation().toCenterLocation())
+        );
+
+        addEntity("amount", new TextDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .translate(new Vector3d(0.0, 0.62, 0.0))
+                        .scale(0.6, 0.6, 0.6)
+                )
+                .billboard(Display.Billboard.VERTICAL)
+                .backgroundColor(Color.fromARGB(0, 0, 0, 0))
+                .text(Component.text(0))
+                .build(block.getLocation().toCenterLocation())
+        );
+
+        addEntity("item", new ItemDisplayBuilder()
+                .transformation(new TransformBuilder()
+                        .translate(new Vector3d(0.0, 0.53, 0.0))
+                        .scale(0.15, 0.15, 0.15)
+                )
+                .itemStack(new ItemStack(Material.BARRIER))
+                .billboard(Display.Billboard.VERTICAL)
+                .build(block.getLocation().toCenterLocation())
+        );
+
         addEntity("input", new ItemDisplayBuilder()
                 .itemStack(inputStack)
                 .transformation(new TransformBuilder()
@@ -125,8 +165,24 @@ public class CargoBuffer extends PylonBlock
     }
 
     @SuppressWarnings("unused")
-    public CargoBuffer(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public CargoMonitor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        inventory.setPostUpdateHandler(event -> {
+            ItemStack newStack = event.getNewItem();
+            if (newStack != null && !newStack.isEmpty()) {
+                getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(event.getNewItem());
+                getHeldEntityOrThrow(TextDisplay.class, "amount").text(Component.text(event.getNewItem().getAmount()));
+            } else {
+                getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(new ItemStack(Material.BARRIER));
+                getHeldEntityOrThrow(TextDisplay.class, "amount").text(Component.text(0));
+            }
+        });
     }
 
     @Override
@@ -136,11 +192,5 @@ public class CargoBuffer extends PylonBlock
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)
                 .build();
-    }
-
-    @Override
-    public void postInitialise() {
-        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
     }
 }

@@ -41,13 +41,9 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CargoValve extends PylonBlock implements
         PylonDirectionalBlock,
         PylonGuiBlock,
-        PylonCargoBlock,
-        PylonEntityHolderBlock,
-        PylonInteractBlock {
+        PylonCargoBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
-    public static final int BRIGHTNESS_OFF = 6;
-    public static final int BRIGHTNESS_ON = 13;
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -55,14 +51,14 @@ public class CargoValve extends PylonBlock implements
 
     public boolean enabled;
 
-    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
-            .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder sideStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
-            .addCustomModelDataString(getKey() + ":side");
     public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":input");
     public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":output");
+    public final ItemStackBuilder stackOff = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":stack_off");
+    public final ItemStackBuilder stackOn = ItemStackBuilder.of(Material.WHITE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":stack_on");
 
     public static class Item extends PylonItem {
 
@@ -91,33 +87,12 @@ public class CargoValve extends PylonBlock implements
 
         addCargoLogisticGroup(getFacing(), "input");
         addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
-        setCargoTransferRate(transferRate);
 
         addEntity("main", new ItemDisplayBuilder()
-                .itemStack(mainStack)
+                .itemStack(stackOff)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.65)
-                )
-                .build(block.getLocation().toCenterLocation())
-        );
-
-        addEntity("side1", new ItemDisplayBuilder()
-                .itemStack(sideStack)
-                .brightness(BRIGHTNESS_OFF)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .scale(0.7, 0.5, 0.5)
-                )
-                .build(block.getLocation().toCenterLocation())
-        );
-
-        addEntity("side2", new ItemDisplayBuilder()
-                .itemStack(sideStack)
-                .brightness(BRIGHTNESS_OFF)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .scale(0.5, 0.7, 0.5)
+                        .scale(0.5, 0.5, 0.65)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -143,6 +118,7 @@ public class CargoValve extends PylonBlock implements
         );
 
         enabled = false;
+        setCargoTransferRate(0);
     }
 
     @SuppressWarnings("unused")
@@ -179,10 +155,8 @@ public class CargoValve extends PylonBlock implements
             setCargoTransferRate(0);
         }
 
-        getHeldEntityOrThrow(ItemDisplay.class, "side1")
-                .setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
-        getHeldEntityOrThrow(ItemDisplay.class, "side2")
-                .setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
+        getHeldEntityOrThrow(ItemDisplay.class, "main")
+                .setItemStack((enabled ? stackOn : stackOff).build());
     }
 
     @Override

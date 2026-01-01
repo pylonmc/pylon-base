@@ -37,8 +37,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CreativeFluidSource extends PylonBlock implements
         PylonFluidBlock,
         PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonEntityHolderBlock {
+        PylonGuiBlock {
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
@@ -50,7 +49,7 @@ public class CreativeFluidSource extends PylonBlock implements
         setFacing(context.getFacing());
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, true, 0.55F);
         addEntity("fluid-1", new ItemDisplayBuilder()
-                .material(Material.RED_CONCRETE)
+                .material(Material.RED_TERRACOTTA)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(1.1, 0.8, 0.8)
@@ -58,7 +57,7 @@ public class CreativeFluidSource extends PylonBlock implements
                 .build(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("fluid-2", new ItemDisplayBuilder()
-                .material(Material.RED_CONCRETE)
+                .material(Material.RED_TERRACOTTA)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(0.8, 1.1, 0.8)
@@ -66,7 +65,7 @@ public class CreativeFluidSource extends PylonBlock implements
                 .build(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("fluid-3", new ItemDisplayBuilder()
-                .material(Material.RED_CONCRETE)
+                .material(Material.RED_TERRACOTTA)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(0.8, 0.8, 1.1)
@@ -99,7 +98,7 @@ public class CreativeFluidSource extends PylonBlock implements
     public @NotNull Gui createGui() {
         return (FluidSelector.make(() -> fluid, fluid -> {
             this.fluid = fluid;
-            ItemStack stack = fluid == null ? new ItemStack(Material.RED_CONCRETE) : fluid.getItem();
+            ItemStack stack = fluid == null ? new ItemStack(Material.RED_TERRACOTTA) : fluid.getItem();
             getHeldEntityOrThrow(ItemDisplay.class, "fluid-1").setItemStack(stack);
             getHeldEntityOrThrow(ItemDisplay.class, "fluid-2").setItemStack(stack);
             getHeldEntityOrThrow(ItemDisplay.class, "fluid-3").setItemStack(stack);
