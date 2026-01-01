@@ -1,6 +1,6 @@
 purification-speed: 300 # mb/s
 purification-efficiency: 0.96
-hydraulic-fluid-buffer: 1200 # mb
+buffer: 1200 # mb
 rain-speed-fraction: 0.6
 lens-layers: 4
 tick-interval: 40
