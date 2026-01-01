@@ -44,15 +44,21 @@ public class HungerTalisman extends Talisman {
     @Override
     public void removeEffect(@NotNull Player player) {
         super.removeEffect(player);
+        if(!hungerTasks.containsKey(player.getUniqueId())){
+            return;
+        }
         hungerTasks.get(player.getUniqueId()).cancel();
     }
 
     @Override
     public void applyEffect(@NotNull Player player) {
         super.applyEffect(player);
+        if(hungerTasks.containsKey(player.getUniqueId())){
+            hungerTasks.get(player.getUniqueId()).cancel();
+        }
         hungerTasks.put(player.getUniqueId(), Bukkit.getScheduler().runTaskTimer(PylonBase.getInstance(), () -> {
-            player.setSaturation(player.getSaturation() + saturationIncrease);
-            player.setFoodLevel(player.getFoodLevel() + hungerIncrease);
+            player.setFoodLevel(Math.min(player.getFoodLevel() + hungerIncrease, 20));
+            player.setSaturation(Math.min(player.getSaturation() + saturationIncrease, player.getFoodLevel()));
         }, 0, increasePeriod));
     }
 
