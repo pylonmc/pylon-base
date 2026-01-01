@@ -78,6 +78,7 @@ public class Press extends PylonBlock implements
         );
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
+        setRecipeType(PressRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
