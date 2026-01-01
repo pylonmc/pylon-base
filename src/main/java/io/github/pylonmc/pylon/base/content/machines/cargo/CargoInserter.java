@@ -123,7 +123,7 @@ public class CargoInserter extends CargoInteractor implements
     public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
         List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(getFacing());
-        faces.add(getFacing().getOppositeFace());
+        faces.add(getFacing());
         for (BlockFace face : faces) {
             if (targetLogisticGroup != null) {
                 addCargoLogisticGroup(face, targetLogisticGroup);
