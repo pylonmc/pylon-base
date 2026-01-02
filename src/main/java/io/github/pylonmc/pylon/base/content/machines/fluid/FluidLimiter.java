@@ -59,7 +59,7 @@ public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, P
 
         // a bit of a hack - treat capacity as effectively infinite and override
         // fluidAmountRequested to control how much fluid comes in
-        setCapacity(1.0e9);
+        setCapacity(1000);
 
         Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid filter can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
