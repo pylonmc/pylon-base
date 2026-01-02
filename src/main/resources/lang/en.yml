@@ -474,6 +474,17 @@ item:
   gold_sheet:
     name: "Gold Sheet"
 
+  blueprint_workbench:
+    name: "Blueprint Workbench"
+    lore: |-
+      <arrow> Smash stuff together hoping it works, jk, TODO
+
+  assembly_table:
+    name: "Blueprint Workbench"
+    lore: |-
+      <arrow> Smash stuff together hoping it works, jk, TODO
+
+
   grindstone:
     name: "Grindstone"
     lore: |-
@@ -1565,6 +1576,8 @@ guide:
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
     molding: "<attr>Molding cycles:</attr> %molding-cycles%"
+    procedural-crafting:
+      used-times-lore: "<gray> Use it %times% times"
 
 message:
   fluid_selector:
