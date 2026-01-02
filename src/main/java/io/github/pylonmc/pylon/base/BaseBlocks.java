@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.diesel.machines.*;
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
+import io.github.pylonmc.pylon.base.content.machines.diesel.production.BiorefinerySmokestackCap;
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Fermenter;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
@@ -144,7 +145,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.BIOREFINERY_PLATING, Material.GRAY_STAINED_GLASS_PANE, PylonBlock.class);
         PylonBlock.register(BaseKeys.BIOREFINERY_TOWER_RING, Material.IRON_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.BIOREFINERY_SMOKESTACK_RING, Material.POLISHED_DEEPSLATE_WALL, PylonBlock.class);
-        PylonBlock.register(BaseKeys.BIOREFINERY_SMOKESTACK_CAP, Material.FLOWER_POT, PylonBlock.class);
+        PylonBlock.register(BaseKeys.BIOREFINERY_SMOKESTACK_CAP, Material.FLOWER_POT, BiorefinerySmokestackCap.class);
         PylonBlock.register(BaseKeys.CARGO_DUCT, Material.STRUCTURE_VOID, CargoDuct.class);
         PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
         PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);
