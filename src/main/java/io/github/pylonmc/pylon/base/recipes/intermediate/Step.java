@@ -48,7 +48,7 @@ public record Step(
     int uses,
     boolean damageConsume,
     List<String> removeDisplays,
-    List<DisplayData> addDisplays
+    List<ProceduralCraftingDisplayData> addDisplays
 ) {
     public static final ConfigAdapter<Step> ADAPTER = new ConfigAdapter<>() {
         @Override
@@ -64,7 +64,7 @@ public record Step(
                 ConfigAdapter.INT.convert(map.get("uses") != null ? map.get("uses") : 1),
                 ConfigAdapter.BOOLEAN.convert(map.get("damage_consume") == Boolean.TRUE),
                 ConfigAdapter.LIST.from(ConfigAdapter.STRING).convert(map.get("remove_displays") != null ? map.get("remove_displays") : Map.of()),
-                ConfigAdapter.LIST.from(DisplayData.ADAPTER).convert(map.get("add_displays") != null ? map.get("add_displays") : Map.of())
+                ConfigAdapter.LIST.from(ProceduralCraftingDisplayData.ADAPTER).convert(map.get("add_displays") != null ? map.get("add_displays") : Map.of())
             );
         }
     };

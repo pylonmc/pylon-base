@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.recipes.intermediate;
 
-import io.github.pylonmc.pylon.base.recipes.BlueprintWorkbenchRecipe;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.config.adapter.MapConfigAdapter;
 import org.bukkit.Material;
@@ -9,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public record DisplayData(
+public record ProceduralCraftingDisplayData(
     String name,
     Material material,
     double[] position,
@@ -17,14 +16,14 @@ public record DisplayData(
     boolean mirrorX,
     boolean mirrorZ
 ) {
-    public static final ConfigAdapter<DisplayData> ADAPTER = new ConfigAdapter<>() {
+    public static final ConfigAdapter<ProceduralCraftingDisplayData> ADAPTER = new ConfigAdapter<>() {
         @Override
         public @NotNull Type getType() {
-            return DisplayData.class;
+            return ProceduralCraftingDisplayData.class;
         }
 
         @Override
-        public DisplayData convert(@NotNull Object value) {
+        public ProceduralCraftingDisplayData convert(@NotNull Object value) {
             var map = MapConfigAdapter.STRING_TO_ANY.convert(value);
 
             String name = ConfigAdapter.STRING.convert(map.get("name"));
@@ -48,7 +47,7 @@ public record DisplayData(
             boolean mirrorX = ConfigAdapter.BOOLEAN.convert(map.getOrDefault("mirror_x", false));
             boolean mirrorZ = ConfigAdapter.BOOLEAN.convert(map.getOrDefault("mirror_z", false));
 
-            return new DisplayData(
+            return new ProceduralCraftingDisplayData(
                 name,
                 material,
                 position,
