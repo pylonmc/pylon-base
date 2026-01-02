@@ -36,12 +36,10 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, PylonFluidTank, PylonInteractBlock {
 
-    public final ItemStack mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
-        .addCustomModelDataString(getKey() + ":main")
-        .build();
-    public final ItemStack noFluidStack = ItemStackBuilder.of(Material.RED_CONCRETE)
-        .addCustomModelDataString(getKey() + ":fluid:none")
-        .build();
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
+        .addCustomModelDataString(getKey() + ":main");
+    public final ItemStackBuilder noFluidStack = ItemStackBuilder.of(Material.RED_CONCRETE)
+        .addCustomModelDataString(getKey() + ":fluid:none");
 
     public final IntRangeInventory regulator;
 
