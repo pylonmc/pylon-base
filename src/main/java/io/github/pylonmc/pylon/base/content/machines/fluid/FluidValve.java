@@ -47,8 +47,6 @@ public class FluidValve extends PylonBlock
         implements PylonFluidTank, PylonInteractBlock, PylonDirectionalBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
-    public static final int BRIGHTNESS_OFF = 6;
-    public static final int BRIGHTNESS_ON = 13;
 
     private boolean enabled;
 
@@ -70,6 +68,11 @@ public class FluidValve extends PylonBlock
         }
     }
 
+    public final ItemStackBuilder stackOff = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":stack_off");
+    public final ItemStackBuilder stackOn = ItemStackBuilder.of(Material.WHITE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":stack_on");
+
     @SuppressWarnings("unused")
     public FluidValve(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -79,14 +82,10 @@ public class FluidValve extends PylonBlock
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
         addEntity("main", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.WHITE_CONCRETE)
-                        .addCustomModelDataString(getKey() + ":main")
-                        .build()
-                )
-                .brightness(BRIGHTNESS_OFF)
+                .itemStack(stackOff)
                 .transformation(new TransformBuilder()
                         .lookAlong(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.NORTH).getDirection().toVector3d())
-                        .scale(0.25, 0.25, 0.5)
+                        .scale(0.2, 0.2, 0.5)
                 )
                 .build(getBlock().getLocation().toCenterLocation())
         );
@@ -111,7 +110,7 @@ public class FluidValve extends PylonBlock
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND || event.getPlayer().isSneaking()) {
             return;
         }
 
@@ -120,7 +119,7 @@ public class FluidValve extends PylonBlock
         enabled = !enabled;
 
         getHeldEntityOrThrow(ItemDisplay.class, "main")
-                .setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
+                .setItemStack((enabled ? stackOn : stackOff).build());
     }
 
     @Override

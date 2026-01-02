@@ -66,7 +66,7 @@ public final class PitKiln extends PylonBlock implements
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("capacity", CAPACITY),
-                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS))),
+                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS), false)),
                     PylonArgument.of("campfire", MULTIPLIER_CAMPFIRE),
                     PylonArgument.of("soul_campfire", MULTIPLIER_SOUL_CAMPFIRE),
                     PylonArgument.of("fire", MULTIPLIER_FIRE),
@@ -219,7 +219,7 @@ public final class PitKiln extends PylonBlock implements
                     "pylon.pylonbase.waila.pit_kiln",
                     PylonArgument.of(
                             "time",
-                            UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
+                            UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()), false)
                     )
             ));
         }

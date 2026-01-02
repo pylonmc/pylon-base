@@ -78,12 +78,16 @@ public class Press extends PylonBlock implements
         );
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
+        setRecipeType(PressRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+    }
 
+    @Override
+    public void postLoad() {
         if (isProcessingRecipe()) {
             finishRecipe();
         }

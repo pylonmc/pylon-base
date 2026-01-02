@@ -38,7 +38,7 @@ public class CargoMerger extends PylonBlock
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.STRIPPED_WARPED_HYPHAE)
+    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.STRIPPED_WARPED_STEM)
             .addCustomModelDataString(getKey() + ":vertical");
     public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":input");
@@ -79,7 +79,7 @@ public class CargoMerger extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.65)
+                        .scale(0.7)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -87,7 +87,9 @@ public class CargoMerger extends PylonBlock
         addEntity("vertical", new ItemDisplayBuilder()
                 .itemStack(verticalStack)
                 .transformation(new TransformBuilder()
-                        .scale(0.5, 0.7, 0.5)
+                        .lookAlong(getFacing())
+                        .rotate(0, Math.PI / 4, 0)
+                        .scale(0.45, 0.75, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -96,28 +98,17 @@ public class CargoMerger extends PylonBlock
                 .itemStack(outputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0, 0, 0.15)
+                        .translate(0, 0, 0.2)
                         .scale(0.4, 0.4, 0.4)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
 
-        addEntity("input_left", new ItemDisplayBuilder()
+        addEntity("input", new ItemDisplayBuilder()
                 .itemStack(inputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(-0.15, 0, 0)
-                        .scale(0.4, 0.4, 0.4)
-                )
-                .build(block.getLocation().toCenterLocation())
-        );
-
-        addEntity("input_right", new ItemDisplayBuilder()
-                .itemStack(inputStack)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(0.15, 0, 0)
-                        .scale(0.4, 0.4, 0.4)
+                        .scale(0.8, 0.4, 0.4)
                 )
                 .build(block.getLocation().toCenterLocation())
         );

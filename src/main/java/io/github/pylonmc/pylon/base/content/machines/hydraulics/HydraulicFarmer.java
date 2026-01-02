@@ -134,7 +134,7 @@ public class HydraulicFarmer extends PylonBlock implements
 
             if (!CROPS_TO_BREAK.contains(cropType)) continue;
 
-            if (cropBlock.getBlockData() instanceof Ageable ageable) {
+            if (cropBlock.getType() != Material.SUGAR_CANE && cropBlock.getBlockData() instanceof Ageable ageable) {
                 if (ageable.getAge() == ageable.getMaximumAge()) {
                     cropBlock.breakNaturally();
                     removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);

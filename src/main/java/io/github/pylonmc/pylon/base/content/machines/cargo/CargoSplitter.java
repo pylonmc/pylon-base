@@ -67,7 +67,7 @@ public class CargoSplitter extends PylonBlock
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.STRIPPED_CRIMSON_HYPHAE)
+    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.STRIPPED_CRIMSON_STEM)
             .addCustomModelDataString(getKey() + ":vertical");
     public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":input");
@@ -154,7 +154,7 @@ public class CargoSplitter extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.65)
+                        .scale(0.7)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -162,7 +162,9 @@ public class CargoSplitter extends PylonBlock
         addEntity("vertical", new ItemDisplayBuilder()
                 .itemStack(verticalStack)
                 .transformation(new TransformBuilder()
-                        .scale(0.5, 0.7, 0.5)
+                        .lookAlong(getFacing())
+                        .rotate(0, Math.PI / 4, 0)
+                        .scale(0.45, 0.75, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -171,7 +173,7 @@ public class CargoSplitter extends PylonBlock
                 .itemStack(inputStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0, 0, 0.15)
+                        .translate(0, 0, 0.2)
                         .scale(0.4, 0.4, 0.4)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -181,7 +183,7 @@ public class CargoSplitter extends PylonBlock
                 .itemStack(outputLeftStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(-0.15, 0, 0)
+                        .translate(-0.2, 0, 0)
                         .scale(0.4, 0.4, 0.4)
                 )
                 .build(block.getLocation().toCenterLocation())
@@ -191,7 +193,7 @@ public class CargoSplitter extends PylonBlock
                 .itemStack(outputRightStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .translate(0.15, 0, 0)
+                        .translate(0.2, 0, 0)
                         .scale(0.4, 0.4, 0.4)
                 )
                 .build(block.getLocation().toCenterLocation())
