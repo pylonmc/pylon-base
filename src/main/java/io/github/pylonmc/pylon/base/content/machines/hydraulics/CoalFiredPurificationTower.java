@@ -1,7 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -54,7 +56,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
-    public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
+    public static final NamespacedKey FUELS_KEY = baseKey("coal_fired_purification_tower_fuels");
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
 
     // TODO display fuels
@@ -85,6 +87,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
                 baseKey("charcoal"),
                 new ItemStack(Material.CHARCOAL),
                 10
+        ));
+        FUELS.register(new Fuel(
+                baseKey("charcoal_block"),
+                BaseItems.CHARCOAL_BLOCK,
+                90
         ));
     }
 

@@ -1,8 +1,8 @@
-package io.github.pylonmc.pylon.base.content.machines.diesel;
+package io.github.pylonmc.pylon.base.content.machines.diesel.machines;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.recipes.PipeBendingRecipe;
+import io.github.pylonmc.pylon.base.recipes.MoldingRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -41,18 +41,18 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import java.util.List;
 
 
-public class DieselPipeBender extends PylonBlock implements
+public class DieselBrickMolder extends PylonBlock implements
         PylonGuiBlock,
         PylonFluidBufferBlock,
         PylonDirectionalBlock,
         PylonTickingBlock,
         PylonLogisticBlock,
-        PylonRecipeProcessor<PipeBendingRecipe> {
+        PylonRecipeProcessor<MoldingRecipe> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
-    public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
+    public final int ticksPerMoldingCycle = getSettings().getOrThrow("ticks-per-molding-cycle", ConfigAdapter.INT);
 
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory outputInventory = new VirtualInventory(1);
@@ -61,7 +61,8 @@ public class DieselPipeBender extends PylonBlock implements
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
         public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
-        public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
+        public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+        public final int ticksPerMoldingCycle = getSettings().getOrThrow("ticks-per-molding-cycle", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -72,12 +73,12 @@ public class DieselPipeBender extends PylonBlock implements
             return List.of(
                     PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
                     PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100))
+                    PylonArgument.of("molding-cycles", UnitFormat.CYCLES_PER_SECOND.format(20 / (ticksPerMoldingCycle * tickInterval)))
             );
         }
     }
 
-    public ItemStackBuilder cubeStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
+    public ItemStackBuilder plankStack = ItemStackBuilder.of(Material.OAK_PLANKS)
             .addCustomModelDataString(getKey() + ":cube");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
@@ -87,7 +88,7 @@ public class DieselPipeBender extends PylonBlock implements
             .addCustomModelDataString(getKey() + ":chimney");
 
     @SuppressWarnings("unused")
-    public DieselPipeBender(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public DieselBrickMolder(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
         setTickInterval(tickInterval);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.55F);
@@ -114,28 +115,11 @@ public class DieselPipeBender extends PylonBlock implements
                         .scale(0.9, 0.8, 1.1))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
-        addEntity("cube1", new ItemDisplayBuilder()
-                .itemStack(cubeStack)
+        addEntity("plank", new ItemDisplayBuilder()
+                .itemStack(plankStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(0, 0, 0.2)
-                        .scale(0.2))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        );
-        addEntity("cube2", new ItemDisplayBuilder()
-                .itemStack(cubeStack)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(0.15, 0, -0.2)
-                        .scale(0.2))
-                .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
-        );
-        addEntity("cube3", new ItemDisplayBuilder()
-                .itemStack(cubeStack)
-                .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .translate(-0.15, 0, -0.2)
-                        .scale(0.2))
+                        .rotate(0, PylonUtils.faceToYaw(getFacing()), 0)
+                        .scale(0.5, 0.2, 0.5))
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("item", new ItemDisplayBuilder()
@@ -145,12 +129,12 @@ public class DieselPipeBender extends PylonBlock implements
                 .build(block.getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         createFluidBuffer(BaseFluids.BIODIESEL, dieselBuffer, true, false);
-        setRecipeType(PipeBendingRecipe.RECIPE_TYPE);
+        setRecipeType(MoldingRecipe.RECIPE_TYPE);
         setRecipeProgressItem(new ProgressItem(GuiItems.background()));
     }
 
     @SuppressWarnings("unused")
-    public DieselPipeBender(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    public DieselBrickMolder(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
     }
 
@@ -185,6 +169,11 @@ public class DieselPipeBender extends PylonBlock implements
                 .count(0)
                 .extra(0.05)
                 .spawn();
+        new ParticleBuilder(Particle.BLOCK)
+                .count(5)
+                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                .data(getHeldEntityOrThrow(ItemDisplay.class, "item").getItemStack().getType().createBlockData())
+                .spawn();
     }
 
     public void tryStartRecipe() {
@@ -197,12 +186,12 @@ public class DieselPipeBender extends PylonBlock implements
             return;
         }
 
-        for (PipeBendingRecipe recipe : PipeBendingRecipe.RECIPE_TYPE) {
-            if (!recipe.input().matches(stack) || !outputInventory.canHold(recipe.result())) {
+        for (MoldingRecipe recipe : MoldingRecipe.RECIPE_TYPE) {
+            if (!recipe.input().isSimilar(stack) || !outputInventory.canHold(recipe.result())) {
                 continue;
             }
 
-            startRecipe(recipe, (int) Math.round(recipe.timeTicks() / speed));
+            startRecipe(recipe, recipe.moldingCycles() * tickInterval * ticksPerMoldingCycle);
             getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
             getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
             inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
@@ -211,7 +200,7 @@ public class DieselPipeBender extends PylonBlock implements
     }
 
     @Override
-    public void onRecipeFinished(@NotNull PipeBendingRecipe recipe) {
+    public void onRecipeFinished(@NotNull MoldingRecipe recipe) {
         getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
         getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
         outputInventory.addItem(new MachineUpdateReason(), recipe.result().clone());
