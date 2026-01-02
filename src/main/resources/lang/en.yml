@@ -479,6 +479,11 @@ item:
     lore: |-
       <arrow> Smash stuff together hoping it works, jk, TODO
 
+  assembly_table:
+    name: "Blueprint Workbench"
+    lore: |-
+      <arrow> Smash stuff together hoping it works, jk, TODO
+
 
   grindstone:
     name: "Grindstone"
@@ -1571,7 +1576,7 @@ guide:
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
     molding: "<attr>Molding cycles:</attr> %molding-cycles%"
-    blueprint-workbench:
+    procedural-crafting:
       used-times-lore: "<gray> Use it %times% times"
 
 message:

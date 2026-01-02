@@ -165,8 +165,7 @@ public record Step(
     }
 
     public TranslatableComponent getUseTimes(int times) {
-        // todo: maybe generalize key to procedural-crafting as this will be reused for assembly table
-        return Component.translatable("pylon.pylonbase.guide.recipe.blueprint-workbench.used-times-lore")
+        return Component.translatable("pylon.pylonbase.guide.recipe.procedural-crafting.used-times-lore")
             .arguments(
                 PylonArgument.of(
                     "times",
