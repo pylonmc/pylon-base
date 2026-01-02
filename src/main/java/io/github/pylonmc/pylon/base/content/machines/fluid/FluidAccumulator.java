@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.IntRangeInventory;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -15,7 +14,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -44,29 +42,28 @@ public class FluidAccumulator extends PylonBlock implements PylonDirectionalBloc
         .addCustomModelDataString(getKey() + ":fluid:none")
         .build();
 
-    public final int maxAccumulation = getSettings().getOrThrow("accumulation", ConfigAdapter.INT);
+    public final int buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
     public final IntRangeInventory regulator;
 
     // when true, starts the output and stops the input, opposite when false
     private boolean outputReady;
 
-    private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
-    public static final NamespacedKey OUTPUT_READY_KEY = baseKey("real_max_capacity");
+    public static final NamespacedKey AMOUNT_KEY = baseKey("amount");
+    public static final NamespacedKey OUTPUT_READY_KEY = baseKey("output_ready");
 
     @SuppressWarnings("unused")
     public FluidAccumulator(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         this.regulator = new IntRangeInventory(
             BaseItems.FLUID_ACCUMULATOR,
-            () -> maxAccumulation,
+            () -> buffer,
             Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.add"),
             Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.dec"),
             Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.amount")
         );
         this.outputReady = false;
-        setCapacity(maxAccumulation);
+        setCapacity(buffer);
 
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid filter can only be placed by a player");
         Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
 
         // fatty filter for now todo: add a proper unique display
@@ -96,7 +93,7 @@ public class FluidAccumulator extends PylonBlock implements PylonDirectionalBloc
         super(block);
         this.regulator = new IntRangeInventory(
             BaseItems.FLUID_ACCUMULATOR,
-            () -> maxAccumulation,
+            () -> buffer,
             pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER),
             Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.add"),
             Component.translatable("pylon.pylonbase.item.fluid_accumulator.gui.dec"),
@@ -134,14 +131,14 @@ public class FluidAccumulator extends PylonBlock implements PylonDirectionalBloc
             .setGui(regulator.makeGui())
             .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
             .setViewer(event.getPlayer())
-            .addCloseHandler(this::updateAccumulator)
+            .addCloseHandler(() -> setCapacity(regulator.getAmount()))
             .build()
             .open();
     }
 
     @Override
     public double fluidAmountRequested(@NotNull PylonFluid fluid) {
-        if (isPowered()) return 0.0;
+        if (getBlock().isBlockIndirectlyPowered()) return 0.0;
 
         if (getFluidAmount() == 0.0) {
             outputReady = false;
@@ -155,7 +152,7 @@ public class FluidAccumulator extends PylonBlock implements PylonDirectionalBloc
 
     @Override
     public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
-        if (isPowered()) return PylonFluidTank.super.getSuppliedFluids();
+        if (getBlock().isBlockIndirectlyPowered()) return PylonFluidTank.super.getSuppliedFluids();
 
         if (getFluidSpaceRemaining() == 0.0) {
             outputReady = true;
@@ -165,13 +162,5 @@ public class FluidAccumulator extends PylonBlock implements PylonDirectionalBloc
         if (outputReady) return PylonFluidTank.super.getSuppliedFluids();
 
         return Map.of();
-    }
-
-    public boolean isPowered() {
-        return getBlock().isBlockIndirectlyPowered();
-    }
-
-    private void updateAccumulator() {
-        setCapacity(regulator.getAmount());
     }
 }
