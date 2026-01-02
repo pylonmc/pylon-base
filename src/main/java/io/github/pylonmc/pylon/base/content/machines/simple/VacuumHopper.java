@@ -37,6 +37,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.inventory.event.ItemPreUpdateEvent;
 import xyz.xenondevs.invui.inventory.event.UpdateReason;
@@ -47,11 +48,11 @@ import xyz.xenondevs.invui.window.Window;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonHopper, PylonNoVanillaContainerBlock, PylonInteractBlock, PylonBreakHandler {
-
+public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonGuiBlock, PylonHopper, PylonNoVanillaContainerBlock, PylonBreakHandler {
     public static class Item extends PylonItem {
         public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
         public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -91,7 +92,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         super(block, context);
 
         this.inventory = new VirtualInventory(5);
-        this.whitelist = true;
+        this.whitelist = false;
         this.itemsToCheck = new VirtualInventory(9);
         this.itemsToCheck.setPreUpdateHandler(this::preUpdate);
         setTickInterval(tickInterval);
@@ -128,6 +129,14 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+            "inventory", inventory,
+            "do not drop me pls", itemsToCheck
+        );
+    }
+
+    @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         for (ItemStack item : inventory.getItems()) {
             if (item != null) {
@@ -154,26 +163,9 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         }
     }
 
+
     @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (!event.getAction().isRightClick()
-                || event.getPlayer().isSneaking()
-                || event.getHand() != EquipmentSlot.HAND
-                || event.useInteractedBlock() == Event.Result.DENY) {
-            return;
-        }
-
-        event.setCancelled(true);
-
-        Window.single()
-                .setGui(createInventoryGui())
-                .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
-                .setViewer(event.getPlayer())
-                .build()
-                .open();
-    }
-
-    private @NotNull Gui.Builder.Normal createInventoryGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",
@@ -193,7 +185,8 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                             .setViewer(click.getPlayer())
                             .build()
                             .open();
-                }));
+                }))
+                .build();
     }
 
     private @NotNull Gui.Builder.Normal createSettingsGui() {
@@ -209,14 +202,13 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                     ItemStack item = new ItemStack(Material.CHEST);
                     item.setData(DataComponentTypes.ITEM_NAME, translation("inventory"));
                     return item;
-                }, click -> {
-                    Window.single()
-                            .setGui(createInventoryGui())
-                            .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
-                            .setViewer(click.getPlayer())
-                            .build()
-                            .open();
-                }))
+                }, click -> Window.single()
+                        .setGui(createGui())
+                        .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
+                        .setViewer(click.getPlayer())
+                        .build()
+                        .open())
+                )
                 .addIngredient('w', new ControlItem<>() {
                     @Override
                     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
