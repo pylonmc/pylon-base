@@ -5,13 +5,23 @@ import io.github.pylonmc.pylon.base.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.content.components.EnrichedSoulSoil;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselBrickMolder;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselGrindstone;
 import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
+import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
+import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
+import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.*;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
 import org.bukkit.Material;
 
 
@@ -27,6 +37,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.NICKEL_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.COBALT_BLOCK, Material.IRON_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.STEEL_BLOCK, Material.NETHERITE_BLOCK, PylonBlock.class);
+        PylonBlock.register(BaseKeys.CHARCOAL_BLOCK, Material.COAL_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.SPRINKLER, Material.FLOWER_POT, Sprinkler.class);
         PylonBlock.register(BaseKeys.MAGIC_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(BaseKeys.PEDESTAL, Material.STONE_BRICK_WALL, Pedestal.class);
@@ -116,5 +127,13 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_FARMER, Material.WAXED_EXPOSED_COPPER_BULB, HydraulicFarmer.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_EXCAVATOR, Material.WAXED_EXPOSED_CHISELED_COPPER, HydraulicExcavator.class);
         PylonBlock.register(BaseKeys.DIESEL_PIPE_BENDER, Material.IRON_BLOCK, DieselPipeBender.class);
+        PylonBlock.register(BaseKeys.DIESEL_TABLE_SAW, Material.IRON_BLOCK, DieselTableSaw.class);
+        PylonBlock.register(BaseKeys.DIESEL_PRESS, Material.IRON_BLOCK, DieselPress.class);
+        PylonBlock.register(BaseKeys.DIESEL_GRINDSTONE, Material.IRON_BLOCK, DieselGrindstone.class);
+        PylonBlock.register(BaseKeys.DIESEL_BRICK_MOLDER, Material.IRON_BLOCK, DieselBrickMolder.class);
+        PylonBlock.register(BaseKeys.CARGO_DUCT, Material.STRUCTURE_VOID, CargoDuct.class);
+        PylonBlock.register(BaseKeys.CARGO_BUFFER, Material.STRUCTURE_VOID, CargoBuffer.class);
+        PylonBlock.register(BaseKeys.CARGO_EXTRACTOR, Material.STRUCTURE_VOID, CargoExtractor.class);
+        PylonBlock.register(BaseKeys.CARGO_INSERTER, Material.STRUCTURE_VOID, CargoInserter.class);
     }
 }

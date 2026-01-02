@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -11,8 +10,8 @@ import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
@@ -38,8 +37,14 @@ public record StrainingRecipe(
         }
     };
 
-    public static final PersistentDataType<?, StrainingRecipe> DATA_TYPE =
-            PylonSerializers.KEYED.keyedTypeFrom(StrainingRecipe.class, RECIPE_TYPE::getRecipeOrThrow);
+    public static @Nullable StrainingRecipe getRecipeForFluid(PylonFluid fluid) {
+        for (StrainingRecipe recipe : StrainingRecipe.RECIPE_TYPE) {
+            if (recipe.input().fluids().contains(fluid)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
 
     @Override
     public @NotNull NamespacedKey getKey() {

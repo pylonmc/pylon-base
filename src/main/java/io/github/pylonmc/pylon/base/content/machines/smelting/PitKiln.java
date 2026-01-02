@@ -165,7 +165,7 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             if (processingTime != null) {
                 processingTime = null;
@@ -178,7 +178,7 @@ public final class PitKiln extends PylonBlock implements
         }
 
         if (processingTime == null) return;
-        processingTime -= deltaSeconds;
+        processingTime -= getTickInterval() / 20.0;
         if (processingTime > 0) return;
 
         processingTime = null;
@@ -339,7 +339,11 @@ public final class PitKiln extends PylonBlock implements
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
         for (Vector3i coalPosition : COAL_POSITIONS) {
-            components.put(coalPosition, new VanillaMultiblockComponent(Material.COAL_BLOCK));
+            components.put(coalPosition, new MixedMultiblockComponent(
+                    new VanillaMultiblockComponent(Material.COAL_BLOCK),
+                    new PylonMultiblockComponent(BaseKeys.CHARCOAL_BLOCK)
+                )
+            );
         }
         for (Vector3i podzolPosition : TOP_POSITIONS) {
             components.put(podzolPosition, new VanillaMultiblockComponent(Material.COARSE_DIRT, Material.PODZOL));

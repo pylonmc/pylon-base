@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
@@ -26,10 +27,10 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         SmelteryController controller = getController();
         if (controller == null || !fluid.hasTag(FluidTemperature.class)) return 0.0;
-        return Math.min(controller.getCapacity() - controller.getTotalFluid(), flowRate * deltaSeconds);
+        return Math.min(controller.getCapacity() - controller.getTotalFluid(), flowRate * PylonConfig.FLUID_TICK_INTERVAL / 20);
     }
 
     @Override
