@@ -124,6 +124,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
         Location up = getBlock().getRelative(BlockFace.UP).getLocation()
             .toCenterLocation()
             .add(0, -0.495, 0);
+
         current.addDisplays().forEach(data -> {
             String name = data.name();
             double[] positions = data.position();
@@ -154,6 +155,17 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
                     .material(data.material())
                     .transformation(new TransformBuilder()
                         .translate(positions[0], 0, -positions[1])
+                        .scale(scale[0], 0, scale[1])
+                    )
+                    .build(up)
+                );
+            }
+
+            if (data.mirrorX() && data.mirrorZ()) {
+                addEntityIfMissing(name + "$mirror_xz", () -> new BlockDisplayBuilder()
+                    .material(data.material())
+                    .transformation(new TransformBuilder()
+                        .translate(-positions[0], 0, -positions[1])
                         .scale(scale[0], 0, scale[1])
                     )
                     .build(up)
