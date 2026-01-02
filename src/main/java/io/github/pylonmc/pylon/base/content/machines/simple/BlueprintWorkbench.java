@@ -47,8 +47,8 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     public BlueprintWorkbench(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        this.craftInventory.setPreUpdateHandler(this::cancelInput);
-        this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
+        this.craftingInventory.setPreUpdateHandler(this::cancelInput);
+        this.craftingInventory.setPostUpdateHandler(this::updateInputGrid);
 
         this.outputInventory = new VirtualInventory(9);
         this.outputInventory.setPreUpdateHandler(this::cancelOutput);
@@ -63,8 +63,8 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
     public BlueprintWorkbench(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        this.craftInventory.setPreUpdateHandler(this::cancelInput);
-        this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
+        this.craftingInventory.setPreUpdateHandler(this::cancelInput);
+        this.craftingInventory.setPostUpdateHandler(this::updateInputGrid);
 
         this.outputInventory = pdc.get(OUTPUT_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
         this.outputInventory.setPreUpdateHandler(this::cancelOutput);
@@ -88,7 +88,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        for (ItemStack item : craftInventory.getItems()) {
+        for (ItemStack item : craftingInventory.getItems()) {
             if (item != null) {
                 drops.add(item);
             }
@@ -112,7 +112,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
                 "# x x x # y y y #",
                 "# # # # # # # # #"
             )
-            .addIngredient('x', craftInventory)
+            .addIngredient('x', craftingInventory)
             .addIngredient('y', outputInventory)
             .addIngredient('$', stepDisplay)
             .addIngredient('#', GuiItems.background());
@@ -167,12 +167,12 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         this.displayPhase = false;
 
         for (int i = 0; i < 9; i++) {
-            ItemStack stack = this.craftInventory.getUnsafeItem(i);
+            ItemStack stack = this.craftingInventory.getUnsafeItem(i);
             if (stack != null) {
                 stack.subtract();
                 // invui bug? I am not sure
                 if (stack.getAmount() == 0) {
-                    this.craftInventory.setItem(UpdateReason.SUPPRESSED, i, null);
+                    this.craftingInventory.setItem(UpdateReason.SUPPRESSED, i, null);
                 }
             }
         }
@@ -257,7 +257,7 @@ public class BlueprintWorkbench extends ProceduralCraftingTable<BlueprintWorkben
         if (!preserveOffset) {
             this.offset = 1;
         }
-        this.currentRecipe = BlueprintWorkbenchRecipe.findRecipe(craftInventory.getItems(), offset);
+        this.currentRecipe = BlueprintWorkbenchRecipe.findRecipe(craftingInventory.getItems(), offset);
         if (this.currentRecipe == null) {
             this.displayPhase = false;
             this.currentProgress = null;

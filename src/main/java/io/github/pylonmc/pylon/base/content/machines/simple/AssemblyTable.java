@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.recipes.AssemblyTableRecipe;
-import io.github.pylonmc.pylon.base.recipes.BlueprintWorkbenchRecipe;
 import io.github.pylonmc.pylon.base.recipes.intermediate.Step;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -20,7 +19,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
@@ -42,7 +40,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
     public AssemblyTable(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
+        this.craftingInventory.setPostUpdateHandler(this::updateInputGrid);
         this.stepDisplay.setPreUpdateHandler(this::cancelEverything);
 
         updateStep();
@@ -52,7 +50,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
     public AssemblyTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        this.craftInventory.setPostUpdateHandler(this::updateInputGrid);
+        this.craftingInventory.setPostUpdateHandler(this::updateInputGrid);
         this.stepDisplay.setPreUpdateHandler(this::cancelEverything);
     }
 
@@ -81,7 +79,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
         );
 
         List<ItemStack> requiredItems = new ArrayList<>(currentRecipe.ingredients());
-        ItemStack[] unsafeItems = craftInventory.getUnsafeItems();
+        ItemStack[] unsafeItems = craftingInventory.getUnsafeItems();
         for (int i = 0; i < unsafeItems.length; i++) {
             ItemStack item = unsafeItems[i];
             if (item == null) continue;
@@ -95,7 +93,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
 
                 item.subtract(requirement.getAmount());
                 if (item.getAmount() == 0) {
-                    craftInventory.setItem(UpdateReason.SUPPRESSED, i, null);
+                    craftingInventory.setItem(UpdateReason.SUPPRESSED, i, null);
                 }
 
                 iterator.remove();
@@ -131,7 +129,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        for (ItemStack item : craftInventory.getItems()) {
+        for (ItemStack item : craftingInventory.getItems()) {
             if (item != null) {
                 drops.add(item);
             }
@@ -147,7 +145,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
                 "# # # x x x # # #",
                 "# # # # # # # # #"
             )
-            .addIngredient('x', craftInventory)
+            .addIngredient('x', craftingInventory)
             .addIngredient('$', stepDisplay)
             .addIngredient('#', GuiItems.background());
 
@@ -203,7 +201,7 @@ public class AssemblyTable extends ProceduralCraftingTable<AssemblyTableRecipe> 
             this.offset = 1;
         }
 
-        this.currentRecipe = AssemblyTableRecipe.findRecipe(craftInventory.getItems(), offset);
+        this.currentRecipe = AssemblyTableRecipe.findRecipe(craftingInventory.getItems(), offset);
         if (this.currentRecipe == null) {
             this.currentProgress = null;
         } else {

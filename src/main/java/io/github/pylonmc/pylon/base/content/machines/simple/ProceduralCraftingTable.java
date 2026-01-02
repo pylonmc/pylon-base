@@ -35,7 +35,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
     public static final NamespacedKey CURRENT_RECIPE_KEY = baseKey("procedural_crafting_current_recipe");
     public static final NamespacedKey CURRENT_PROGRESS_KEY = baseKey("procedural_crafting_current_step");
 
-    protected final VirtualInventory craftInventory;
+    protected final VirtualInventory craftingInventory;
     protected T currentRecipe;
     protected Step.ActionStep currentProgress;
 
@@ -44,7 +44,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
     public ProceduralCraftingTable(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        this.craftInventory = new VirtualInventory(9);
+        this.craftingInventory = new VirtualInventory(9);
 
         this.currentRecipe = null;
         this.currentProgress = null;
@@ -54,7 +54,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
     public ProceduralCraftingTable(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        this.craftInventory = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
+        this.craftingInventory = pdc.get(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY);
 
         NamespacedKey currentRecipeKey = pdc.get(CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY);
         this.currentRecipe = currentRecipeKey == null ? null : deserializeRecipeKey(currentRecipeKey);
@@ -69,7 +69,7 @@ public abstract class ProceduralCraftingTable<T extends Step.StepsHolder & Pylon
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, craftInventory);
+        pdc.set(CRAFTING_INVENTORY_KEY, PylonSerializers.VIRTUAL_INVENTORY, craftingInventory);
         PylonUtils.setNullable(pdc, CURRENT_RECIPE_KEY, PylonSerializers.NAMESPACED_KEY, currentRecipe == null ? null : currentRecipe.getKey());
         PylonUtils.setNullable(pdc, CURRENT_PROGRESS_KEY, PylonSerializers.LONG, currentProgress == null ? null : currentProgress.toLong());
     }
