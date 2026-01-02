@@ -380,8 +380,7 @@ item:
     lore: |-
       <arrow> Accumulates the specified amount of fluid before sending it out
       <arrow> <insn>Right click</insn> to change the accumulation amount
-      <arrow> Give redstone impulse in order to empty the capacitor and stop input, 
-      <arrow> useful for changing the accumulation amount
+      <arrow> Give redstone impulse in order to make the accumulator output only, useful for changing the accumulation amount without wasting fluid
     gui:
       add: "<green>+ %amount% ml"
       dec: "<red>- %amount% ml"
