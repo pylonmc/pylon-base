@@ -251,7 +251,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         Block block = getBlock();
         Hopper hopper = (Hopper) block.getBlockData();
         if (!hopper.isEnabled()) {

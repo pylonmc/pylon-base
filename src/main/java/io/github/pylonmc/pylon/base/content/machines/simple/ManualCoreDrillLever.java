@@ -45,7 +45,7 @@ public class ManualCoreDrillLever extends PylonBlock implements PylonInteractBlo
                 ManualCoreDrill.class,
                 getBlock().getRelative(blockData.getFacing().getOppositeFace())
         );
-        if (drill == null || drill.isCycling()) {
+        if (drill == null || drill.isProcessing()) {
             return;
         }
 
