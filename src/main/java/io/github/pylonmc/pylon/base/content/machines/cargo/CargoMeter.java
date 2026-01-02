@@ -98,11 +98,11 @@ public class CargoMeter extends PylonBlock implements
                     ),
                     PylonArgument.of(
                             "min-measurement-time",
-                            UnitFormat.formatDuration(getDuration(minNumberOfMeasurements))
+                            UnitFormat.formatDuration(getDuration(minNumberOfMeasurements), true, true)
                     ),
                     PylonArgument.of(
                             "max-measurement-time",
-                            UnitFormat.formatDuration(getDuration(maxNumberOfMeasurements))
+                            UnitFormat.formatDuration(getDuration(maxNumberOfMeasurements), true, true)
                     )
             );
         }
@@ -269,7 +269,7 @@ public class CargoMeter extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements)))
+                PylonArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
         ));
     }
 
@@ -283,7 +283,7 @@ public class CargoMeter extends PylonBlock implements
         public ItemProvider getItemProvider() {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
                     .name(Component.translatable("pylon.pylonbase.gui.fluid_meter.name").arguments(
-                            PylonArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements)))
+                            PylonArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
                     ))
                     .lore(Component.translatable("pylon.pylonbase.gui.fluid_meter.lore"));
         }

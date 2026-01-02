@@ -83,11 +83,11 @@ public class FluidMeter extends PylonBlock implements
                     PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer)),
                     PylonArgument.of(
                             "min-measurement-time",
-                            UnitFormat.formatDuration(getDuration(minNumberOfMeasurements))
+                            UnitFormat.formatDuration(getDuration(minNumberOfMeasurements), true, true)
                     ),
                     PylonArgument.of(
                             "max-measurement-time",
-                            UnitFormat.formatDuration(getDuration(maxNumberOfMeasurements))
+                            UnitFormat.formatDuration(getDuration(maxNumberOfMeasurements), true, true)
                     )
             );
         }
@@ -238,7 +238,7 @@ public class FluidMeter extends PylonBlock implements
                         ? Component.translatable("pylon.pylonbase.fluid.none")
                         : getFluidType().getName()
                 ),
-                PylonArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements)))
+                PylonArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
         ));
     }
 
@@ -252,7 +252,7 @@ public class FluidMeter extends PylonBlock implements
         public ItemProvider getItemProvider() {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
                     .name(Component.translatable("pylon.pylonbase.gui.fluid_meter.name").arguments(
-                            PylonArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements)))
+                            PylonArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
                     ))
                     .lore(Component.translatable("pylon.pylonbase.gui.fluid_meter.lore"));
         }
