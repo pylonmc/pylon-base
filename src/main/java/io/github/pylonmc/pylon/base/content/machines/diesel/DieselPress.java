@@ -164,7 +164,7 @@ public class DieselPress extends PylonBlock implements
         progressRecipe(tickInterval);
         Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
                 new Vector3d(0.375, 1.5, 0),
-                getFacing()
+                getFacing().getOppositeFace()
         ));
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
                 .location(getBlock().getLocation().toCenterLocation().add(smokePosition))
