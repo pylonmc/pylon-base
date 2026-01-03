@@ -214,9 +214,8 @@ public class DieselMiner extends Miner implements
         ItemStack tool = toolInventory.getItem(0);
         List<ItemStack> drops = block.getDrops().stream().toList();
         if (tool == null
-                || block.getType().isAir()
-                || BlockStorage.isPylonBlock(block)
-                || !block.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(block, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(block).size() > 1
                 || !new BlockBreakBlockEvent(block, getBlock(), drops).callEvent()
                 || !outputInventory.canHold(drops)
         ) {
@@ -238,12 +237,11 @@ public class DieselMiner extends Miner implements
     }
 
     @Override
-    protected Integer getBreakTicks(@NotNull Block block) {
+    protected @Nullable Integer getBreakTicks(@NotNull Block block) {
         ItemStack tool = toolInventory.getItem(0);
         if (tool == null
-                || block.getType().isAir()
-                || BlockStorage.isPylonBlock(block)
-                || !block.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(block, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(block).size() > 1
                 || !outputInventory.canHold(block.getDrops().stream().toList())
         ) {
             return null;

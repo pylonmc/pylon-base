@@ -2,10 +2,10 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -80,7 +80,7 @@ public class HydraulicMiner extends Miner implements
     public ItemStackBuilder topStack = ItemStackBuilder.of(Material.YELLOW_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":top");
 
-    public ItemStack tool;
+    public @Nullable ItemStack tool;
 
     @SuppressWarnings("unused")
     public HydraulicMiner(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -195,9 +195,8 @@ public class HydraulicMiner extends Miner implements
         Block block = blockPositions.get(index).getBlock();
         List<ItemStack> drops = block.getDrops().stream().toList();
         if (tool == null
-                || block.getType().isAir()
-                || BlockStorage.isPylonBlock(block)
-                || !block.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(block, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(block).size() > 1
                 || !new BlockBreakBlockEvent(block, getBlock(), drops).callEvent()
         ) {
             return;
@@ -214,11 +213,10 @@ public class HydraulicMiner extends Miner implements
     }
 
     @Override
-    protected Integer getBreakTicks(@NotNull Block block) {
+    protected @Nullable Integer getBreakTicks(@NotNull Block block) {
         if (tool == null
-                || block.getType().isAir()
-                || BlockStorage.isPylonBlock(block)
-                || !block.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(block, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(block).size() > 1
         ) {
             return null;
         }

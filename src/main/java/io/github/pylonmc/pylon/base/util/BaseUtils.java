@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.experimental.UtilityClass;
@@ -10,8 +12,11 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
+import org.bukkit.inventory.BlockInventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -136,5 +141,13 @@ public class BaseUtils {
         if (display == null) return;
 
         animate(display, 0, duration, matrix);
+    }
+
+    public boolean shouldBreakBlockUsingTool(@NotNull Block block, @NotNull ItemStack tool) {
+        return !block.getType().isAir()
+                && !(block.getState() instanceof BlockInventoryHolder)
+                && !BlockStorage.isPylonBlock(block)
+                && block.getType().getHardness() >= 0
+                && block.isPreferredTool(tool);
     }
 }

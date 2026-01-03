@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -84,7 +83,7 @@ public class HydraulicBreaker extends PylonBlock implements
     public ItemStackBuilder drillStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":drill");
 
-    public ItemStack tool;
+    public @Nullable ItemStack tool;
 
     @SuppressWarnings("unused")
     public HydraulicBreaker(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -185,9 +184,8 @@ public class HydraulicBreaker extends PylonBlock implements
 
         Block toDrill = getBlock().getRelative(getFacing());
         if (tool == null
-                || toDrill.getType().isAir()
-                || BlockStorage.isPylonBlock(toDrill)
-                || !toDrill.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(toDrill).size() > 1
         ) {
             return;
         }
@@ -199,9 +197,8 @@ public class HydraulicBreaker extends PylonBlock implements
     public void onProcessFinished() {
         Block toDrill = getBlock().getRelative(getFacing());
         if (tool == null
-                || toDrill.getType().isAir()
-                || BlockStorage.isPylonBlock(toDrill)
-                || !toDrill.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(toDrill).size() > 1
                 || !new BlockBreakBlockEvent(toDrill, getBlock(), new ArrayList<>()).callEvent()
         ) {
             return;

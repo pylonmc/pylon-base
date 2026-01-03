@@ -163,7 +163,7 @@ public class DieselBreaker extends PylonBlock implements
 
     @Override
     public void tick() {
-        if (!isProcessing() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerBlock) {
+        if (!isProcessing()) {
             return;
         }
 
@@ -194,9 +194,8 @@ public class DieselBreaker extends PylonBlock implements
         Block toDrill = getBlock().getRelative(getFacing());
         ItemStack tool = toolInventory.getItem(0);
         if (tool == null
-                || toDrill.getType().isAir()
-                || BlockStorage.isPylonBlock(toDrill)
-                || !toDrill.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(toDrill).size() > 1
                 || !outputInventory.canHold(toDrill.getDrops().stream().toList())
         ) {
             return;
@@ -209,18 +208,18 @@ public class DieselBreaker extends PylonBlock implements
     public void onProcessFinished() {
         Block toDrill = getBlock().getRelative(getFacing());
         ItemStack tool = toolInventory.getItem(0);
+        List<ItemStack> drops = toDrill.getDrops().stream().toList();
         if (tool == null
-                || toDrill.getType().isAir()
-                || BlockStorage.isPylonBlock(toDrill)
-                || !toDrill.isPreferredTool(tool)
-                || !outputInventory.canHold(toDrill.getDrops().stream().toList())
+                || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
+                || PylonMultiblock.loadedMultiblocksWithComponent(toDrill).size() > 1
+                || !outputInventory.canHold(drops)
                 || !new BlockBreakBlockEvent(toDrill, getBlock(), new ArrayList<>()).callEvent()
         ) {
             return;
         }
 
         toDrill.setType(Material.AIR);
-        for (ItemStack drop : toDrill.getDrops()) {
+        for (ItemStack drop : drops) {
             outputInventory.addItem(new MachineUpdateReason(), drop);
         }
         tool.setData(DataComponentTypes.DAMAGE, tool.getData(DataComponentTypes.DAMAGE) + 1);
