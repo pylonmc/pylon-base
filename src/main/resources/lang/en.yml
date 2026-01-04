@@ -1725,6 +1725,7 @@ guide:
     tools: "Tools"
     food: "Food"
     combat: "Combat"
+    talismans: "Talismans"
     armour: "Armour"
     simple_machines: "Simple machines"
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
