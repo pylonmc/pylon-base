@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.AttributeTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class WaterBreathingTalisman extends AttributeTalisman {
-    public static final NamespacedKey WATER_BREATHING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "water_breathing_talisman");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_KEY = BaseUtils.baseKey("water_breathing_talisman");
 
     public WaterBreathingTalisman(@NotNull ItemStack stack) {
         super(stack);

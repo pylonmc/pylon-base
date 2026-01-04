@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.talismans.base;
+package io.github.pylonmc.pylon.base.content.talismans;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class PDCKeyTalisman<P,C> extends Talisman {
+public abstract class PDCKeyTalisman<P, C> extends Talisman {
 
     public PDCKeyTalisman(@NotNull ItemStack stack) {
         super(stack);
@@ -25,6 +25,8 @@ public abstract class PDCKeyTalisman<P,C> extends Talisman {
     }
 
     public abstract @NotNull NamespacedKey getPdcEffectKey();
-    public abstract @NotNull PersistentDataType<P,C> getPdcType();
+
+    public abstract @NotNull PersistentDataType<P, C> getPdcType();
+
     public abstract @NotNull C getPdcValue();
 }

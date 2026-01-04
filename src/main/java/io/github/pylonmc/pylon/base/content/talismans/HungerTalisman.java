@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.Talisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 
 public class HungerTalisman extends Talisman {
-    private static final NamespacedKey HUNGER_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "hunger_talisman");
+    private static final NamespacedKey HUNGER_TALISMAN_KEY = BaseUtils.baseKey("hunger_talisman");
     public final int hungerIncrease = getSettings().getOrThrow("hunger-increase", ConfigAdapter.INT);
     public final float saturationIncrease = getSettings().getOrThrow("saturation-increase", ConfigAdapter.FLOAT);
     public final int increasePeriod = getSettings().getOrThrow("period-ticks", ConfigAdapter.INT);
@@ -44,7 +44,7 @@ public class HungerTalisman extends Talisman {
     @Override
     public void removeEffect(@NotNull Player player) {
         super.removeEffect(player);
-        if(!hungerTasks.containsKey(player.getUniqueId())){
+        if (!hungerTasks.containsKey(player.getUniqueId())) {
             return;
         }
         hungerTasks.get(player.getUniqueId()).cancel();
@@ -53,7 +53,7 @@ public class HungerTalisman extends Talisman {
     @Override
     public void applyEffect(@NotNull Player player) {
         super.applyEffect(player);
-        if(hungerTasks.containsKey(player.getUniqueId())){
+        if (hungerTasks.containsKey(player.getUniqueId())) {
             hungerTasks.get(player.getUniqueId()).cancel();
         }
         hungerTasks.put(player.getUniqueId(), Bukkit.getScheduler().runTaskTimer(PylonBase.getInstance(), () -> {

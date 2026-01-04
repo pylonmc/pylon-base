@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.AttributeTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class LuckTalisman extends AttributeTalisman {
-    public static final NamespacedKey LUCK_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "luck_talisman");
+    public static final NamespacedKey LUCK_TALISMAN_KEY = BaseUtils.baseKey("luck_talisman");
 
     public LuckTalisman(@NotNull ItemStack stack) {
         super(stack);

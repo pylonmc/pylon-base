@@ -1,4 +1,4 @@
-package io.github.pylonmc.pylon.base.content.talismans.base;
+package io.github.pylonmc.pylon.base.content.talismans;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;

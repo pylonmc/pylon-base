@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -23,9 +22,9 @@ import java.util.UUID;
 
 public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
     public final double bonusLevelChance = getSettings().getOrThrow("bonus-level-chance", ConfigAdapter.DOUBLE);
-    public static final NamespacedKey ENCHANTING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "enchanting_talisman");
-    private static final NamespacedKey ENCHANTING_TALISMAN_BONUS_KEY = new NamespacedKey(PylonBase.getInstance(), "enchanting_talisman_bonus");
-    private static final NamespacedKey ENCHANTING_ITEM_UUID_KEY = new NamespacedKey(PylonBase.getInstance(), "enchanting_talisman_uuid");
+    public static final NamespacedKey ENCHANTING_TALISMAN_KEY = BaseUtils.baseKey("enchanting_talisman");
+    private static final NamespacedKey ENCHANTING_TALISMAN_BONUS_KEY = BaseUtils.baseKey("enchanting_talisman_bonus");
+    private static final NamespacedKey ENCHANTING_ITEM_UUID_KEY = BaseUtils.baseKey("enchanting_talisman_uuid");
 
     public EnchantingTalisman(@NotNull ItemStack stack) {
         super(stack);
@@ -67,7 +66,7 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
             }
             UUID itemId;
             String uuidStr = event.getItem().getItemMeta().getPersistentDataContainer().get(ENCHANTING_ITEM_UUID_KEY, PersistentDataType.STRING);
-            if(uuidStr != null) {
+            if (uuidStr != null) {
                 itemId = UUID.fromString(uuidStr);
             } else {
                 itemId = UUID.randomUUID();
@@ -89,21 +88,21 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
         }
 
         @EventHandler
-        public void onEnchant(EnchantItemEvent event){
+        public void onEnchant(EnchantItemEvent event) {
             // recreating the calculation above but only using the information available in EnchantItemEvent to change the level when it is actually applied to the item
             Double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
             if (bonusLevelChance == null) {
                 return;
             }
-            if(!(event.getEnchanter().getOpenInventory() instanceof EnchantmentView etableView)){
+            if (!(event.getEnchanter().getOpenInventory() instanceof EnchantmentView etableView)) {
                 return;
             }
             String itemIdStr = event.getItem().getPersistentDataContainer().get(ENCHANTING_ITEM_UUID_KEY, PersistentDataType.STRING);
-            if(itemIdStr == null){
+            if (itemIdStr == null) {
                 return;
             }
             UUID itemId = UUID.fromString(itemIdStr);
-            for(Enchantment enchant : event.getEnchantsToAdd().keySet()){
+            for (Enchantment enchant : event.getEnchantsToAdd().keySet()) {
                 Random randGen = new Random(etableView.getEnchantmentSeed()
                         ^ itemId.getLeastSignificantBits()
                         ^ itemId.getMostSignificantBits()

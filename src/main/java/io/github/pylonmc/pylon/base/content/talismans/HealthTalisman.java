@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.AttributeTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class HealthTalisman extends AttributeTalisman {
 
-    private static final NamespacedKey HEALTH_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "health_talisman");
+    private static final NamespacedKey HEALTH_TALISMAN_KEY = BaseUtils.baseKey("health_talisman");
 
     public HealthTalisman(@NotNull ItemStack stack) {
         super(stack);

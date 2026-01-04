@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -21,8 +20,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class FarmerTalisman extends PDCKeyTalisman<Float, Float> {
     public float extraCropChance = getSettings().getOrThrow("extra-crop-chance", ConfigAdapter.FLOAT);
-    public static final NamespacedKey FARMER_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman");
-    public static final NamespacedKey FARMER_TALISMAN_CHANCE_KEY = new NamespacedKey(PylonBase.getInstance(), "farmer_talisman_chance");
+    public static final NamespacedKey FARMER_TALISMAN_KEY = BaseUtils.baseKey("farmer_talisman");
+    public static final NamespacedKey FARMER_TALISMAN_CHANCE_KEY = BaseUtils.baseKey("farmer_talisman_chance");
 
     public FarmerTalisman(@NotNull ItemStack stack) {
         super(stack);

@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -22,8 +21,8 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
-    public static final NamespacedKey BARTERING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "bartering_talisman");
-    public static final NamespacedKey BARTERING_TALISMAN_NO_CONSUME_KEY = new NamespacedKey(PylonBase.getInstance(), "bartering_talisman_no_consume_chance");
+    public static final NamespacedKey BARTERING_TALISMAN_KEY = BaseUtils.baseKey("bartering_talisman");
+    public static final NamespacedKey BARTERING_TALISMAN_NO_CONSUME_KEY = BaseUtils.baseKey("bartering_talisman_no_consume_chance");
     public final float chanceToNotConsumeInput = getSettings().getOrThrow("chance-to-not-consume-input", ConfigAdapter.FLOAT);
 
     public BarteringTalisman(@NotNull ItemStack stack) {

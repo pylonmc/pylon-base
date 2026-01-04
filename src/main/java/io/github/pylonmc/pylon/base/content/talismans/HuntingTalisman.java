@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -22,8 +21,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class HuntingTalisman extends PDCKeyTalisman<Double, Double> {
     public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
     public final double chanceForExtraItem = getSettings().getOrThrow("chance-for-extra-item", ConfigAdapter.DOUBLE);
-    public static final NamespacedKey HUNTING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "hunting_talisman");
-    public static final NamespacedKey HUNTING_TALISMAN_BONUS_KEY = new NamespacedKey(PylonBase.getInstance(), "hunting_talisman_bonus");
+    public static final NamespacedKey HUNTING_TALISMAN_KEY = BaseUtils.baseKey("hunting_talisman");
+    public static final NamespacedKey HUNTING_TALISMAN_BONUS_KEY = BaseUtils.baseKey("hunting_talisman_bonus");
 
     public HuntingTalisman(@NotNull ItemStack stack) {
         super(stack);

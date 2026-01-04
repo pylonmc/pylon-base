@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
-import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.content.talismans.base.PDCKeyTalisman;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -19,8 +18,8 @@ import java.util.List;
 
 public class BreedingTalisman extends PDCKeyTalisman<Float, Float> {
     public final float breedingCooldownMultiplier = getSettings().getOrThrow("breeding-cd-multiplier", ConfigAdapter.FLOAT);
-    public static final NamespacedKey BREEDING_TALISMAN_KEY = new NamespacedKey(PylonBase.getInstance(), "breeding_talisman");
-    public static final NamespacedKey BREEDING_TALISMAN_MULTIPLIER_KEY = new NamespacedKey(PylonBase.getInstance(), "breeding_talisman_multiplier");
+    public static final NamespacedKey BREEDING_TALISMAN_KEY = BaseUtils.baseKey("breeding_talisman");
+    public static final NamespacedKey BREEDING_TALISMAN_MULTIPLIER_KEY = BaseUtils.baseKey("breeding_talisman_multiplier");
 
     public BreedingTalisman(@NotNull ItemStack stack) {
         super(stack);
