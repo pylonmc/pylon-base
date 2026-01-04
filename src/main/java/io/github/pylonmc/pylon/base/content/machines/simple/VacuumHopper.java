@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -66,11 +67,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
         }
     }
 
-    public static final UpdateReason HOPPER = new UpdateReason() {};
-    public static final UpdateReason VACUUM = new UpdateReason() {};
-
     public static final NamespacedKey WHITELIST_KEY = baseKey("whitelist");
-
     // if whitelist is true behaves like a whitelist, otherwise like a blacklist
     public boolean whitelist;
 
@@ -274,7 +271,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                 ItemStack singleItem = item.asOne();
                 HashMap<Integer, ItemStack> excess = holder.getInventory().addItem(singleItem);
                 if (excess.isEmpty()) {
-                    inventory.setItem(HOPPER, i, item.subtract());
+                    inventory.setItem(new MachineUpdateReason() , i, item.subtract());
                 }
             }
         }
@@ -290,7 +287,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     public @NotNull Outcome addItem(@NotNull ItemStack item) {
         if (!isValid(item)) return Outcome.INVALID;
 
-        int surplus = getHopperInventory().addItem(VACUUM, item);
+        int surplus = getHopperInventory().addItem(new MachineUpdateReason(), item);
         if (surplus == 0) {
             return Outcome.FULLY_ADDED;
         }
