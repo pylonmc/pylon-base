@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
+import xyz.xenondevs.invui.inventory.ReferencingInventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.inventory.event.ItemPreUpdateEvent;
 import xyz.xenondevs.invui.inventory.event.UpdateReason;
@@ -108,10 +109,12 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        var hopper = (org.bukkit.block.Hopper) getBlock().getState();
+        var hopperInventory = hopper.getInventory();
         var itemsToCheck = new VirtualInventory(9);
         itemsToCheck.setPreUpdateHandler(this::preUpdate);
         return Map.of(
-            "inventory", new VirtualInventory(5),
+            "inventory", ReferencingInventory.fromStorageContents(hopperInventory),
             "items_to_check", itemsToCheck
         );
     }
