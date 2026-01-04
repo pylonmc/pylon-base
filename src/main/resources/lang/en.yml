@@ -1471,43 +1471,43 @@ item:
   farmer_talisman_simple:
     name: "Simple Farming Talisman"
     lore: |-
-      <arrow> Gives you a chance to get an extra drop when breaking a crop
-      <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
       <arrow> Only works while in your inventory
 
   farmer_talisman_advanced:
     name: "Advanced Farming Talisman"
     lore: |-
-      <arrow> Gives you a chance to get an extra drop when breaking a crop
-      <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
       <arrow> Only works while in your inventory
 
   farmer_talisman_ultimate:
     name: "Ultimate Farming Talisman"
     lore: |-
-      <arrow> Gives you a chance to get an extra drop when breaking a crop
-      <arrow> <attr>Chance for extra crop:</attr> %extra_crop_chance%
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
       <arrow> Only works while in your inventory
 
   bartering_talisman_simple:
     name: "Simple Bartering Talisman"
     lore: |-
-      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
-      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+      <arrow> Don't consume items traded to piglins
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
       <arrow> Only works while in your inventory
 
   bartering_talisman_advanced:
     name: "Advanced Bartering Talisman"
     lore: |-
-      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
-      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+      <arrow> Don't consume items traded to piglins
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
       <arrow> Only works while in your inventory
 
   bartering_talisman_ultimate:
     name: "Ultimate Bartering Talisman"
     lore: |-
-      <arrow> Gain a chance to not consume the gold when completing a trade with a piglin
-      <arrow> <attr>Chance to not consume gold:</attr> %chance_to_not_consume_input%
+      <arrow> Don't consume items traded to piglins
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
       <arrow> Only works while in your inventory
 
   water_breathing_talisman_simple:
@@ -1576,43 +1576,43 @@ item:
   enchanting_talisman_simple:
     name: "Simple Enchanting Talisman"
     lore: |-
-      <arrow> Improves your odds of getting higher level enchants from the enchanting table
-      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
       <arrow> Only works while in your inventory
 
   enchanting_talisman_advanced:
     name: "Advanced Enchanting Talisman"
     lore: |-
-      <arrow> Improves your odds of getting higher level enchants from the enchanting table
-      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
       <arrow> Only works while in your inventory
 
   enchanting_talisman_ultimate:
     name: "Ultimate Enchanting Talisman"
     lore: |-
-      <arrow> Improves your odds of getting higher level enchants from the enchanting table
-      <arrow> <attr>Chance of incrementing enchantment level by 1:</attr> %bonus_level_chance%
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
       <arrow> Only works while in your inventory
 
   hunting_talisman_simple:
     name: "Simple Hunting Talisman"
     lore: |-
-      <arrow> Grants you a chance to get an extra item for each drop when you kill a mob
-      <arrow> <attr>Chance for extra item:</attr> %bonus_item_chance%
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
       <arrow> Only works while in your inventory
 
   hunting_talisman_advanced:
     name: "Advanced Hunting Talisman"
     lore: |-
-      <arrow> Grants you a chance to get an extra item for each drop when you kill a mob
-      <arrow> <attr>Chance for extra item:</attr> %bonus_item_chance%
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
       <arrow> Only works while in your inventory
 
   hunting_talisman_ultimate:
     name: "Ultimate Hunting Talisman"
     lore: |-
-      <arrow> Grants you a chance to get an extra item for each drop when you kill a mob
-      <arrow> <attr>Chance for extra item:</attr> %bonus_item_chance%
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
       <arrow> Only works while in your inventory
 
 fluid:
