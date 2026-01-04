@@ -16,11 +16,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BreedingTalisman extends Talisman {
-    public final float breedingCooldownMultiplier = getSettings().getOrThrow("breeding-cd-multiplier", ConfigAdapter.FLOAT);
+    public final float adultChance = getSettings().getOrThrow("adult-chance", ConfigAdapter.FLOAT);
     public static final NamespacedKey BREEDING_TALISMAN_KEY = BaseUtils.baseKey("breeding_talisman");
-    public static final NamespacedKey BREEDING_TALISMAN_MULTIPLIER_KEY = BaseUtils.baseKey("breeding_talisman_multiplier");
+    public static final NamespacedKey BREEDING_TALISMAN_ADULT_CHANCE_KEY = BaseUtils.baseKey("breeding_talisman_adult_chance");
 
     public BreedingTalisman(@NotNull ItemStack stack) {
         super(stack);
@@ -28,7 +29,7 @@ public class BreedingTalisman extends Talisman {
 
     @Override
     public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("cd_multiplier", UnitFormat.PERCENT.format(breedingCooldownMultiplier * 100).decimalPlaces(2)));
+        return List.of(PylonArgument.of("adult_chance", UnitFormat.PERCENT.format(adultChance * 100).decimalPlaces(2)));
     }
 
     @Override
@@ -39,13 +40,13 @@ public class BreedingTalisman extends Talisman {
     @Override
     public void applyEffect(@NotNull Player player) {
         super.applyEffect(player);
-        player.getPersistentDataContainer().set(BREEDING_TALISMAN_MULTIPLIER_KEY, PersistentDataType.FLOAT, breedingCooldownMultiplier);
+        player.getPersistentDataContainer().set(BREEDING_TALISMAN_ADULT_CHANCE_KEY, PersistentDataType.FLOAT, adultChance);
     }
 
     @Override
     public void removeEffect(@NotNull Player player) {
         super.removeEffect(player);
-        player.getPersistentDataContainer().remove(BREEDING_TALISMAN_MULTIPLIER_KEY);
+        player.getPersistentDataContainer().remove(BREEDING_TALISMAN_ADULT_CHANCE_KEY);
     }
 
     public static final class BreedingTalismanListener implements Listener {
@@ -54,15 +55,17 @@ public class BreedingTalisman extends Talisman {
             if (event.getBreeder() == null || event.getBreeder().getType() != EntityType.PLAYER) {
                 return;
             }
-            if (!event.getBreeder().getPersistentDataContainer().has(BREEDING_TALISMAN_MULTIPLIER_KEY)) {
+            Float adultChance = event.getBreeder().getPersistentDataContainer().get(BREEDING_TALISMAN_ADULT_CHANCE_KEY, PersistentDataType.FLOAT);
+            if(adultChance == null){
                 return;
             }
-            if (!(event.getFather() instanceof Animals a1) || !(event.getMother() instanceof Animals a2)) {
+            if(!(event.getEntity() instanceof Animals child)){
                 return;
             }
-            float multiplier = event.getBreeder().getPersistentDataContainer().get(BREEDING_TALISMAN_MULTIPLIER_KEY, PersistentDataType.FLOAT);
-            a1.setLoveModeTicks(Math.round(a1.getLoveModeTicks() * multiplier));
-            a2.setLoveModeTicks(Math.round(a2.getLoveModeTicks() * multiplier));
+            if(ThreadLocalRandom.current().nextFloat() > adultChance){
+                return;
+            }
+            child.setAdult();
         }
     }
 }

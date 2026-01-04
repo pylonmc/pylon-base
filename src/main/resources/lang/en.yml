@@ -1555,22 +1555,22 @@ item:
   breeding_talisman_simple:
     name: "Simple Breeding Talisman"
     lore: |-
-      <arrow> Reduces the cooldown of breeding animals
-      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+      <arrow> Bred children grow up instantly
+      <arrow> <attr>Success rate:</attr> %adult_chance%
       <arrow> Only works while in your inventory
 
   breeding_talisman_advanced:
     name: "Advanced Breeding Talisman"
     lore: |-
-      <arrow> Reduces the cooldown of breeding animals
-      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+      <arrow> Bred children grow up instantly
+      <arrow> <attr>Success rate:</attr> %adult_chance%
       <arrow> Only works while in your inventory
 
   breeding_talisman_ultimate:
     name: "Ultimate Breeding Talisman"
     lore: |-
-      <arrow> Reduces the cooldown of breeding animals
-      <arrow> <attr>Cooldown multiplier:</attr> %cd_multiplier%
+      <arrow> Bred children grow up instantly
+      <arrow> <attr>Success rate:</attr> %adult_chance%
       <arrow> Only works while in your inventory
 
   enchanting_talisman_simple:
