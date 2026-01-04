@@ -44,6 +44,7 @@ public class BasePages {
         PylonGuide.getRootPage().addPage(COMPONENTS);
         PylonGuide.getRootPage().addPage(TOOLS);
         PylonGuide.getRootPage().addPage(COMBAT);
+        PylonGuide.getRootPage().addPage(TALISMANS);
         PylonGuide.getRootPage().addPage(ARMOUR);
         PylonGuide.getRootPage().addPage(FOOD);
 
@@ -58,6 +59,5 @@ public class BasePages {
 
         PylonGuide.getRootPage().addPage(BUILDING);
         PylonGuide.getRootPage().addPage(CREATIVE_ITEMS);
-        PylonGuide.getRootPage().addPage(TALISMANS);
     }
 }
