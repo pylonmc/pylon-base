@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
+public class EnchantingTalisman extends Talisman {
     public final double bonusLevelChance = getSettings().getOrThrow("bonus-level-chance", ConfigAdapter.DOUBLE);
     public static final NamespacedKey ENCHANTING_TALISMAN_KEY = BaseUtils.baseKey("enchanting_talisman");
     private static final NamespacedKey ENCHANTING_TALISMAN_BONUS_KEY = BaseUtils.baseKey("enchanting_talisman_bonus");
@@ -28,21 +29,6 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
 
     public EnchantingTalisman(@NotNull ItemStack stack) {
         super(stack);
-    }
-
-    @Override
-    public @NotNull NamespacedKey getPdcEffectKey() {
-        return ENCHANTING_TALISMAN_BONUS_KEY;
-    }
-
-    @Override
-    public @NotNull PersistentDataType<Double, Double> getPdcType() {
-        return PersistentDataType.DOUBLE;
-    }
-
-    @Override
-    public @NotNull Double getPdcValue() {
-        return bonusLevelChance;
     }
 
     @Override
@@ -55,6 +41,18 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
     @Override
     public NamespacedKey getTalismanKey() {
         return ENCHANTING_TALISMAN_KEY;
+    }
+
+    @Override
+    public void applyEffect(@NotNull Player player) {
+        super.applyEffect(player);
+        player.getPersistentDataContainer().set(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE, bonusLevelChance);
+    }
+
+    @Override
+    public void removeEffect(@NotNull Player player) {
+        super.removeEffect(player);
+        player.getPersistentDataContainer().remove(ENCHANTING_TALISMAN_BONUS_KEY);
     }
 
     public static class EnchantingListener implements Listener {

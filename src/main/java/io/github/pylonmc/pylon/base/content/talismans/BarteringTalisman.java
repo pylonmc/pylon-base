@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDropItemEvent;
@@ -20,28 +21,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
+public class BarteringTalisman extends Talisman {
     public static final NamespacedKey BARTERING_TALISMAN_KEY = BaseUtils.baseKey("bartering_talisman");
     public static final NamespacedKey BARTERING_TALISMAN_NO_CONSUME_KEY = BaseUtils.baseKey("bartering_talisman_no_consume_chance");
     public final float chanceToNotConsumeInput = getSettings().getOrThrow("chance-to-not-consume-input", ConfigAdapter.FLOAT);
 
     public BarteringTalisman(@NotNull ItemStack stack) {
         super(stack);
-    }
-
-    @Override
-    public @NotNull NamespacedKey getPdcEffectKey() {
-        return BARTERING_TALISMAN_NO_CONSUME_KEY;
-    }
-
-    @Override
-    public @NotNull PersistentDataType<Float, Float> getPdcType() {
-        return PersistentDataType.FLOAT;
-    }
-
-    @Override
-    public @NotNull Float getPdcValue() {
-        return chanceToNotConsumeInput;
     }
 
     @Override
@@ -52,6 +38,18 @@ public class BarteringTalisman extends PDCKeyTalisman<Float, Float> {
     @Override
     public NamespacedKey getTalismanKey() {
         return BARTERING_TALISMAN_KEY;
+    }
+
+    @Override
+    public void applyEffect(@NotNull Player player) {
+        super.applyEffect(player);
+        player.getPersistentDataContainer().set(BARTERING_TALISMAN_NO_CONSUME_KEY, PersistentDataType.FLOAT, chanceToNotConsumeInput);
+    }
+
+    @Override
+    public void removeEffect(@NotNull Player player) {
+        super.removeEffect(player);
+        player.getPersistentDataContainer().remove(BARTERING_TALISMAN_NO_CONSUME_KEY);
     }
 
     public static final class BarteringTalismanListener implements Listener {

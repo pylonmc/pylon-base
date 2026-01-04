@@ -18,29 +18,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class HuntingTalisman extends PDCKeyTalisman<Double, Double> {
-    public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
+public class HuntingTalisman extends Talisman {
     public final double chanceForExtraItem = getSettings().getOrThrow("chance-for-extra-item", ConfigAdapter.DOUBLE);
     public static final NamespacedKey HUNTING_TALISMAN_KEY = BaseUtils.baseKey("hunting_talisman");
     public static final NamespacedKey HUNTING_TALISMAN_BONUS_KEY = BaseUtils.baseKey("hunting_talisman_bonus");
 
     public HuntingTalisman(@NotNull ItemStack stack) {
         super(stack);
-    }
-
-    @Override
-    public @NotNull NamespacedKey getPdcEffectKey() {
-        return HUNTING_TALISMAN_BONUS_KEY;
-    }
-
-    @Override
-    public @NotNull PersistentDataType<Double, Double> getPdcType() {
-        return PersistentDataType.DOUBLE;
-    }
-
-    @Override
-    public @NotNull Double getPdcValue() {
-        return chanceForExtraItem;
     }
 
 
@@ -52,13 +36,20 @@ public class HuntingTalisman extends PDCKeyTalisman<Double, Double> {
     }
 
     @Override
-    public int getLevel() {
-        return level;
+    public NamespacedKey getTalismanKey() {
+        return HUNTING_TALISMAN_KEY;
     }
 
     @Override
-    public NamespacedKey getTalismanKey() {
-        return HUNTING_TALISMAN_KEY;
+    public void applyEffect(@NotNull Player player) {
+        super.applyEffect(player);
+        player.getPersistentDataContainer().set(HUNTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE, chanceForExtraItem);
+    }
+
+    @Override
+    public void removeEffect(@NotNull Player player) {
+        super.removeEffect(player);
+        player.getPersistentDataContainer().remove(HUNTING_TALISMAN_BONUS_KEY);
     }
 
     public static final class HuntingTalismanListener implements Listener {

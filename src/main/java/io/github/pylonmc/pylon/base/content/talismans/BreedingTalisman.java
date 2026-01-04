@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
@@ -16,28 +17,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BreedingTalisman extends PDCKeyTalisman<Float, Float> {
+public class BreedingTalisman extends Talisman {
     public final float breedingCooldownMultiplier = getSettings().getOrThrow("breeding-cd-multiplier", ConfigAdapter.FLOAT);
     public static final NamespacedKey BREEDING_TALISMAN_KEY = BaseUtils.baseKey("breeding_talisman");
     public static final NamespacedKey BREEDING_TALISMAN_MULTIPLIER_KEY = BaseUtils.baseKey("breeding_talisman_multiplier");
 
     public BreedingTalisman(@NotNull ItemStack stack) {
         super(stack);
-    }
-
-    @Override
-    public @NotNull NamespacedKey getPdcEffectKey() {
-        return BREEDING_TALISMAN_MULTIPLIER_KEY;
-    }
-
-    @Override
-    public @NotNull PersistentDataType<Float, Float> getPdcType() {
-        return PersistentDataType.FLOAT;
-    }
-
-    @Override
-    public @NotNull Float getPdcValue() {
-        return breedingCooldownMultiplier;
     }
 
     @Override
@@ -48,6 +34,18 @@ public class BreedingTalisman extends PDCKeyTalisman<Float, Float> {
     @Override
     public NamespacedKey getTalismanKey() {
         return BREEDING_TALISMAN_KEY;
+    }
+
+    @Override
+    public void applyEffect(@NotNull Player player) {
+        super.applyEffect(player);
+        player.getPersistentDataContainer().set(BREEDING_TALISMAN_MULTIPLIER_KEY, PersistentDataType.FLOAT, breedingCooldownMultiplier);
+    }
+
+    @Override
+    public void removeEffect(@NotNull Player player) {
+        super.removeEffect(player);
+        player.getPersistentDataContainer().remove(BREEDING_TALISMAN_MULTIPLIER_KEY);
     }
 
     public static final class BreedingTalismanListener implements Listener {
