@@ -49,7 +49,7 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonGuiBlock, PylonHopper, PylonNoVanillaContainerBlock, PylonBreakHandler {
+public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonGuiBlock, PylonBreakHandler {
     public static class Item extends PylonItem {
         public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
         public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -134,25 +134,6 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
-    public void onHopperPickUpItem(@NotNull InventoryPickupItemEvent event) {
-        org.bukkit.entity.@NotNull Item item = event.getItem();
-        ItemStack stack = item.getItemStack();
-        Outcome outcome = this.addItem(stack);
-        event.setCancelled(true);
-        if (outcome == Outcome.FULLY_ADDED) {
-            new ParticleBuilder(Particle.WITCH)
-                    .location(item.getLocation())
-                    .spawn();
-            item.remove();
-        } else if (outcome == Outcome.PARTIAL_ADDED) {
-            new ParticleBuilder(Particle.WITCH)
-                    .location(item.getLocation())
-                    .spawn();
-        }
-    }
-
-
-    @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
@@ -222,15 +203,6 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
-    public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
-        ItemStack old = event.getItem();
-        Outcome outcome = this.addItem(old);
-        if (outcome == Outcome.FULLY_ADDED) {
-            event.setItem(ItemStack.empty());
-        }
-    }
-
-    @Override
     public void tick() {
         Block block = getBlock();
         Hopper hopper = (Hopper) block.getBlockData();
@@ -258,6 +230,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
             }
         }
 
+        /*
         BlockFace facing = hopper.getFacing();
         Block other = block.getRelative(facing);
         BlockState data = other.getState();
@@ -274,7 +247,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                     inventory.setItem(new MachineUpdateReason() , i, item.subtract());
                 }
             }
-        }
+        }*/
     }
 
     public enum Outcome {
