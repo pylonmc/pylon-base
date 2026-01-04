@@ -13,6 +13,7 @@ import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Material;
@@ -72,6 +73,12 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     // if whitelist is true behaves like a whitelist, otherwise like a blacklist
     public boolean whitelist;
 
+    @Getter
+    private final @NotNull Inventory hopperInventory;
+
+    @Getter
+    private final @NotNull Inventory itemsToCheck;
+
     public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
@@ -87,6 +94,14 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     public VacuumHopper(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         this.whitelist = pdc.get(WHITELIST_KEY, PylonSerializers.BOOLEAN);
+    }
+
+    {
+        var hopper = (org.bukkit.block.Hopper) getBlock().getState();
+        var hopperInventoryBukkit = hopper.getInventory();
+        this.itemsToCheck = new VirtualInventory(9);
+        itemsToCheck.setPreUpdateHandler(this::preUpdate);
+        this.hopperInventory = ReferencingInventory.fromStorageContents(hopperInventoryBukkit);
     }
 
     @Override
@@ -109,27 +124,15 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
 
     @Override
     public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        var hopper = (org.bukkit.block.Hopper) getBlock().getState();
-        var hopperInventory = hopper.getInventory();
-        var itemsToCheck = new VirtualInventory(9);
-        itemsToCheck.setPreUpdateHandler(this::preUpdate);
         return Map.of(
-            "inventory", ReferencingInventory.fromStorageContents(hopperInventory),
+            "inventory", hopperInventory,
             "items_to_check", itemsToCheck
         );
     }
 
-    public @NotNull Inventory getItemsToCheck() {
-        return getInventoryOrThrow("items_to_check");
-    }
-
-    public @NotNull Inventory getHopperInventory() {
-        return getInventoryOrThrow("inventory");
-    }
-
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        for (ItemStack item : getHopperInventory().getItems()) {
+        for (ItemStack item : hopperInventory.getItems()) {
             if (item != null) {
                 drops.add(item);
             }
@@ -145,7 +148,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                         "# # # # $ # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
-                .addIngredient('x', getHopperInventory())
+                .addIngredient('x', hopperInventory)
                 .addIngredient('$', new SimpleItem(lang -> {
                     ItemStack item = new ItemStack(Material.REDSTONE);
                     item.setData(DataComponentTypes.ITEM_NAME, translation("settings"));
@@ -169,7 +172,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
                         "# # # # $ # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
-                .addIngredient('x', getItemsToCheck())
+                .addIngredient('x', itemsToCheck)
                 .addIngredient('$', new SimpleItem(lang -> {
                     ItemStack item = new ItemStack(Material.CHEST);
                     item.setData(DataComponentTypes.ITEM_NAME, translation("inventory"));
@@ -263,7 +266,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     public @NotNull Outcome addItem(@NotNull ItemStack item) {
         if (!isValid(item)) return Outcome.INVALID;
 
-        int surplus = getHopperInventory().addItem(new MachineUpdateReason(), item);
+        int surplus = hopperInventory.addItem(new MachineUpdateReason(), item);
         if (surplus == 0) {
             return Outcome.FULLY_ADDED;
         }
@@ -277,7 +280,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     public boolean isValid(@NotNull ItemStack item) {
-        ItemStack[] checkList = this.getItemsToCheck().getItems();
+        ItemStack[] checkList = itemsToCheck.getItems();
         for (ItemStack checkStack : checkList) {
             if (item.isSimilar(checkStack)) return whitelist;
         }
