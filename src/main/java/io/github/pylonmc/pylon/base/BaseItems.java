@@ -49,6 +49,8 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.potion.PotionType;
 
+import java.util.Objects;
+
 @SuppressWarnings({"UnstableApiUsage", "OverlyComplexClass"})
 public final class BaseItems {
 
@@ -1888,7 +1890,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_SIMPLE)
-            .set(DataComponentTypes.ITEM_MODEL, Material.CLAY_BALL.getDefaultData(DataComponentTypes.ITEM_MODEL))
+            .set(DataComponentTypes.ITEM_MODEL, Objects.requireNonNull(Material.GOLDEN_APPLE.getDefaultData(DataComponentTypes.ITEM_MODEL)))
             .build();
     static {
         PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_SIMPLE);
@@ -1896,7 +1898,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack HUNGER_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_ADVANCED)
-            .set(DataComponentTypes.ITEM_MODEL, Material.CLAY_BALL.getDefaultData(DataComponentTypes.ITEM_MODEL))
+            .set(DataComponentTypes.ITEM_MODEL, Objects.requireNonNull(Material.GOLDEN_APPLE.getDefaultData(DataComponentTypes.ITEM_MODEL)))
             .build();
     static {
         PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_ADVANCED);
@@ -1904,7 +1906,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack HUNGER_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_ULTIMATE)
-            .set(DataComponentTypes.ITEM_MODEL, Material.CLAY_BALL.getDefaultData(DataComponentTypes.ITEM_MODEL))
+            .set(DataComponentTypes.ITEM_MODEL, Objects.requireNonNull(Material.GOLDEN_APPLE.getDefaultData(DataComponentTypes.ITEM_MODEL)))
             .build();
     static {
         PylonItem.register(HungerTalisman.class, HUNGER_TALISMAN_ULTIMATE);
