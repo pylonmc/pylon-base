@@ -58,12 +58,15 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
     }
 
     public static class EnchantingListener implements Listener {
+        // This handler handles changing the visually seen enchant options
         @EventHandler
         public void onPreEnchant(PrepareItemEnchantEvent event) {
             Double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
+            // check talisman is equipped
             if (bonusLevelChance == null) {
                 return;
             }
+            // assign the item a uuid if it doesn't already have one, otherwise use its existing one
             UUID itemId;
             String uuidStr = event.getItem().getItemMeta().getPersistentDataContainer().get(ENCHANTING_ITEM_UUID_KEY, PersistentDataType.STRING);
             if (uuidStr != null) {
@@ -75,6 +78,7 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
             // Seed needs to not only be based off the enchantment seed but also the item, so the same enchantments are not always getting the buff
             for (EnchantmentOffer offer : event.getOffers()) {
                 if (offer == null) continue;
+                // generate random seed from etable seed, uuid, and the enchant name
                 Random randGen = new Random(event.getView().getEnchantmentSeed()
                         ^ itemId.getLeastSignificantBits()
                         ^ itemId.getMostSignificantBits()
@@ -83,17 +87,20 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
                 if (randGen.nextDouble() > bonusLevelChance) {
                     return;
                 }
+                // Increase enchant level by 1, respecting max level
                 offer.setEnchantmentLevel(Math.min(offer.getEnchantmentLevel() + 1, offer.getEnchantment().getMaxLevel()));
             }
         }
 
+        // This handler handles changing the actual enchant applied when you select the previously modified offer by recreating the rng calculation
         @EventHandler
         public void onEnchant(EnchantItemEvent event) {
-            // recreating the calculation above but only using the information available in EnchantItemEvent to change the level when it is actually applied to the item
             Double bonusLevelChance = event.getEnchanter().getPersistentDataContainer().get(ENCHANTING_TALISMAN_BONUS_KEY, PersistentDataType.DOUBLE);
+            // is talisman equipped
             if (bonusLevelChance == null) {
                 return;
             }
+            // Get ETable that is open
             if (!(event.getEnchanter().getOpenInventory() instanceof EnchantmentView etableView)) {
                 return;
             }
@@ -103,6 +110,7 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
             }
             UUID itemId = UUID.fromString(itemIdStr);
             for (Enchantment enchant : event.getEnchantsToAdd().keySet()) {
+                // regenerate the seed used to set the offers and check the rng again
                 Random randGen = new Random(etableView.getEnchantmentSeed()
                         ^ itemId.getLeastSignificantBits()
                         ^ itemId.getMostSignificantBits()
@@ -111,7 +119,8 @@ public class EnchantingTalisman extends PDCKeyTalisman<Double, Double> {
                 if (randGen.nextDouble() > bonusLevelChance) {
                     return;
                 }
-                event.getEnchantsToAdd().replace(enchant, event.getEnchantsToAdd().get(enchant) + 1);
+                // if the offer level was increased, then also increase the applied enchant
+                event.getEnchantsToAdd().replace(enchant, Math.min(event.getEnchantsToAdd().get(enchant) + 1, enchant.getMaxLevel()));
             }
         }
     }
