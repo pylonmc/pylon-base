@@ -1534,21 +1534,21 @@ item:
   luck_talisman_simple:
     name: "Simple Luck Talisman"
     lore: |-
-      <arrow> Makes you a much luckier ducky
+      <arrow> Increases your chances of looting higher quality items
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
       <arrow> Only works while in your inventory
 
   luck_talisman_advanced:
     name: "Advanced Luck Talisman"
     lore: |-
-      <arrow> Makes you a much luckier ducky
+      <arrow> Increases your chances of looting higher quality items
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
       <arrow> Only works while in your inventory
 
   luck_talisman_ultimate:
     name: "Ultimate Luck Talisman"
     lore: |-
-      <arrow> Makes you a much luckier ducky
+      <arrow> Increases your chances of looting higher quality items
       <arrow> <attr>Bonus luck:</attr> %bonus_luck%
       <arrow> Only works while in your inventory
 
