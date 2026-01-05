@@ -42,17 +42,18 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.*;
 
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
 
 public class CargoExtractor extends PylonBlock implements
         PylonDirectionalBlock,
         PylonCargoBlock,
-        PylonEntityHolderBlock,
         PylonGuiBlock,
         PylonTickingBlock {
 
-    public static final NamespacedKey TARGET_LOGISTIC_GROUP_KEY = BaseUtils.baseKey("target_logistic_group");
-    public static final NamespacedKey ITEMS_TO_FILTER_KEY = BaseUtils.baseKey("items_to_filter");
-    public static final NamespacedKey IS_WHITELIST_KEY = BaseUtils.baseKey("is_whitelist");
+    public static final NamespacedKey TARGET_LOGISTIC_GROUP_KEY = baseKey("target_logistic_group");
+    public static final NamespacedKey ITEMS_TO_FILTER_KEY = baseKey("items_to_filter");
+    public static final NamespacedKey IS_WHITELIST_KEY = baseKey("is_whitelist");
     public static final List<Material> groupMaterials = List.of(
             Material.LIGHT_BLUE_CONCRETE,
             Material.CYAN_CONCRETE,
