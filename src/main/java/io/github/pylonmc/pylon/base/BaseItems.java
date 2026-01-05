@@ -934,7 +934,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(FluidPipe.class, FLUID_PIPE_CREATIVE, BaseKeys.FLUID_PIPE_CREATIVE);
-        PylonGuide.hideItem(BaseKeys.FLUID_PIPE_CREATIVE);
+        PylonGuide.hideItemUnlessAdmin(BaseKeys.CREATIVE_FLUID_SOURCE);
         BasePages.CREATIVE_ITEMS.addItem(FLUID_PIPE_CREATIVE);
     }
 
@@ -1293,7 +1293,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(FluidVoider.Item.class, CREATIVE_FLUID_VOIDER, BaseKeys.CREATIVE_FLUID_VOIDER);
-        PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_VOIDER);
+        PylonGuide.hideItemUnlessAdmin(BaseKeys.CREATIVE_FLUID_VOIDER);
         BasePages.CREATIVE_ITEMS.addItem(CREATIVE_FLUID_VOIDER);
     }
 
@@ -1301,7 +1301,7 @@ public final class BaseItems {
             .build();
     static {
         PylonItem.register(PylonItem.class, CREATIVE_FLUID_SOURCE, BaseKeys.CREATIVE_FLUID_SOURCE);
-        PylonGuide.hideItem(BaseKeys.CREATIVE_FLUID_SOURCE);
+        PylonGuide.hideItemUnlessAdmin(BaseKeys.CREATIVE_FLUID_SOURCE);
         BasePages.CREATIVE_ITEMS.addItem(CREATIVE_FLUID_SOURCE);
     }
 
@@ -2082,6 +2082,10 @@ public final class BaseItems {
     static {
         PylonItem.register(CargoFluidAccumulator.Item.class, CARGO_FLUID_ACCUMULATOR, BaseKeys.CARGO_FLUID_ACCUMULATOR);
         BasePages.CARGO.addItem(CARGO_FLUID_ACCUMULATOR);
+    }
+
+    static {
+        BasePages.initialise();
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

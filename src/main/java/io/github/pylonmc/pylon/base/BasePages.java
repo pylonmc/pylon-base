@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.guide.pages.base.SimpleStaticGuidePage;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -37,26 +38,26 @@ public class BasePages {
         }
     };
 
-    static {
-        PylonGuide.getRootPage().addPage(Material.BOOK, SCIENCE);
-        PylonGuide.getRootPage().addPage(Material.GUNPOWDER, RESOURCES);
-        PylonGuide.getRootPage().addPage(Material.PAPER, COMPONENTS);
-        PylonGuide.getRootPage().addPage(Material.IRON_PICKAXE, TOOLS);
-        PylonGuide.getRootPage().addPage(Material.IRON_SWORD, COMBAT);
-        PylonGuide.getRootPage().addPage(Material.IRON_CHESTPLATE, ARMOUR);
+    public static void initialise() {
+        PylonGuide.getRootPage().addPage(BaseItems.RESEARCH_PACK_1, SCIENCE);
+        PylonGuide.getRootPage().addPage(BaseItems.SHALLOW_CORE_CHUNK, RESOURCES);
+        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_DRILL_BIT, COMPONENTS);
+        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_PICKAXE, TOOLS);
+        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_SWORD, COMBAT);
+        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_CHESTPLATE, ARMOUR);
         PylonGuide.getRootPage().addPage(Material.APPLE, FOOD);
 
-        MACHINES.addPage(Material.SMOOTH_STONE_SLAB, SIMPLE_MACHINES);
-        MACHINES.addPage(Material.DEEPSLATE_TILES, SMELTING);
-        MACHINES.addPage(Material.ORANGE_TERRACOTTA, FLUID_PIPES_AND_TANKS);
-        MACHINES.addPage(Material.LIGHT_BLUE_STAINED_GLASS, FLUID_MACHINES);
-        MACHINES.addPage(Material.BLUE_CONCRETE_POWDER, HYDRAULICS);
-        MACHINES.addPage(Material.HOPPER, CARGO);
-        MACHINES.addPage(Material.YELLOW_CONCRETE, DIESEL_MACHINES);
-        MACHINES.addPage(Material.YELLOW_CONCRETE_POWDER, DIESEL_PRODUCTION);
-        PylonGuide.getRootPage().addPage(Material.BLAST_FURNACE, MACHINES);
+        MACHINES.addPage(BaseItems.PRESS, SIMPLE_MACHINES);
+        MACHINES.addPage(BaseItems.SMELTERY_CONTROLLER, SMELTING);
+        MACHINES.addPage(BaseItems.FLUID_PIPE_COPPER, FLUID_PIPES_AND_TANKS);
+        MACHINES.addPage(BaseItems.FLUID_METER, FLUID_MACHINES);
+        MACHINES.addPage(BaseItems.HYDRAULIC_PIPE_BENDER, HYDRAULICS);
+        MACHINES.addPage(BaseItems.CARGO_BUFFER, CARGO);
+        MACHINES.addPage(BaseItems.DIESEL_PIPE_BENDER, DIESEL_MACHINES);
+        MACHINES.addPage(BaseItems.BIOREFINERY, DIESEL_PRODUCTION);
+        PylonGuide.getRootPage().addPage(BaseItems.MIXING_POT, MACHINES);
 
-        PylonGuide.getRootPage().addPage(Material.STONE_BRICK_WALL, BUILDING);
-        PylonGuide.getRootPage().addPage(Material.BEDROCK, CREATIVE_ITEMS);
+        PylonGuide.getRootPage().addPage(BaseItems.EXPLOSIVE_TARGET, BUILDING);
+        PylonGuide.getRootPage().addPage(BaseItems.FLUID_PIPE_CREATIVE, CREATIVE_ITEMS);
     }
 }
