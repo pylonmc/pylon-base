@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -148,6 +149,8 @@ public class BaseUtils {
                 && !(block.getState() instanceof BlockInventoryHolder)
                 && !BlockStorage.isPylonBlock(block)
                 && block.getType().getHardness() >= 0
-                && block.isPreferredTool(tool);
+                && block.isPreferredTool(tool)
+                && tool.hasData(DataComponentTypes.TOOL)
+                && tool.hasData(DataComponentTypes.DAMAGE);
     }
 }

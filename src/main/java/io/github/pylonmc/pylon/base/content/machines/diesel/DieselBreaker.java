@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -54,7 +55,6 @@ public class DieselBreaker extends PylonBlock implements
         PylonTickingBlock,
         PylonMultiblock,
         PylonLogisticBlock,
-        PylonNoVanillaContainerBlock,
         PylonProcessor {
 
     public final double dieselPerBlock = getSettings().getOrThrow("diesel-per-block", ConfigAdapter.DOUBLE);
@@ -195,8 +195,8 @@ public class DieselBreaker extends PylonBlock implements
         ItemStack tool = toolInventory.getItem(0);
         if (tool == null
                 || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
-                || PylonMultiblock.loadedMultiblocksWithComponent(toDrill).size() > 1
                 || !outputInventory.canHold(toDrill.getDrops().stream().toList())
+                || fluidAmount(BaseFluids.BIODIESEL) < dieselPerBlock
         ) {
             return;
         }
@@ -211,7 +211,6 @@ public class DieselBreaker extends PylonBlock implements
         List<ItemStack> drops = toDrill.getDrops().stream().toList();
         if (tool == null
                 || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
-                || PylonMultiblock.loadedMultiblocksWithComponent(toDrill).size() > 1
                 || !outputInventory.canHold(drops)
                 || !new BlockBreakBlockEvent(toDrill, getBlock(), new ArrayList<>()).callEvent()
         ) {
@@ -281,6 +280,12 @@ public class DieselBreaker extends PylonBlock implements
                         TextColor.fromHexString("#eaa627")
                 ))
         ));
+    }
+
+    @Override
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
+        PylonFluidBufferBlock.super.onFluidAdded(fluid, amount);
+        tryStartDrilling();
     }
 
     @Override

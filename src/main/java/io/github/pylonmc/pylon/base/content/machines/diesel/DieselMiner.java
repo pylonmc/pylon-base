@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -49,7 +50,6 @@ public class DieselMiner extends Miner implements
         PylonDirectionalBlock,
         PylonFluidBufferBlock,
         PylonGuiBlock,
-        PylonProcessor,
         PylonLogisticBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -215,7 +215,6 @@ public class DieselMiner extends Miner implements
         List<ItemStack> drops = block.getDrops().stream().toList();
         if (tool == null
                 || !BaseUtils.shouldBreakBlockUsingTool(block, tool)
-                || PylonMultiblock.loadedMultiblocksWithComponent(block).size() > 1
                 || !new BlockBreakBlockEvent(block, getBlock(), drops).callEvent()
                 || !outputInventory.canHold(drops)
         ) {
@@ -241,14 +240,19 @@ public class DieselMiner extends Miner implements
         ItemStack tool = toolInventory.getItem(0);
         if (tool == null
                 || !BaseUtils.shouldBreakBlockUsingTool(block, tool)
-                || PylonMultiblock.loadedMultiblocksWithComponent(block).size() > 1
                 || !outputInventory.canHold(block.getDrops().stream().toList())
+                || fluidAmount(BaseFluids.BIODIESEL) < dieselPerBlock
         ) {
             return null;
         }
         return (int) Math.round(PylonUtils.getBlockBreakTicks(tool, block) / speed);
     }
 
+    @Override
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
+        PylonFluidBufferBlock.super.onFluidAdded(fluid, amount);
+        updateMiner();
+    }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
