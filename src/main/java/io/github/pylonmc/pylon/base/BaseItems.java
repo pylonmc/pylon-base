@@ -14,8 +14,6 @@ import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefine
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Fermenter;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.DieselSmelteryHeater;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
@@ -2082,6 +2080,32 @@ public final class BaseItems {
     static {
         PylonItem.register(CargoFluidAccumulator.Item.class, CARGO_FLUID_ACCUMULATOR, BaseKeys.CARGO_FLUID_ACCUMULATOR);
         BasePages.CARGO.addItem(CARGO_FLUID_ACCUMULATOR);
+    }
+
+    public static final ItemStack CARGO_OVERFLOW_GATE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_OVERFLOW_GATE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.CRIMSON_STEM.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoOverflowGate.Item.class, CARGO_OVERFLOW_GATE, BaseKeys.CARGO_OVERFLOW_GATE);
+        BasePages.CARGO.addItem(CARGO_OVERFLOW_GATE);
+    }
+
+    public static final ItemStack CREATIVE_ITEM_SOURCE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_SOURCE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PURPLE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_SOURCE, BaseKeys.CREATIVE_ITEM_SOURCE);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_SOURCE);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_SOURCE);
+    }
+
+    public static final ItemStack CREATIVE_ITEM_VOIDER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_VOIDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PURPLE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_VOIDER, BaseKeys.CREATIVE_ITEM_VOIDER);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_VOIDER);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_VOIDER);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

@@ -330,4 +330,7 @@ public class BaseKeys {
     public static final NamespacedKey CARGO_GATE = baseKey("cargo_gate");
     public static final NamespacedKey CARGO_ACCUMULATOR = baseKey("cargo_accumulator");
     public static final NamespacedKey CARGO_FLUID_ACCUMULATOR = baseKey("cargo_fluid_accumulator");
+    public static final NamespacedKey CARGO_OVERFLOW_GATE = baseKey("cargo_overflow_gate");
+    public static final NamespacedKey CREATIVE_ITEM_SOURCE = baseKey("creative_item_source");
+    public static final NamespacedKey CREATIVE_ITEM_VOIDER = baseKey("creative_item_voider");
 }
