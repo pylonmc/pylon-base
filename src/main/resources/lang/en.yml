@@ -1660,6 +1660,11 @@ item:
       <arrow> Optionally allows prioritization of one side
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
+  creative_item_source:
+    name: "<white>Creative Item Source"
+    lore: |-
+      <arrow> Provides an infinite supply of the item placed inside
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"

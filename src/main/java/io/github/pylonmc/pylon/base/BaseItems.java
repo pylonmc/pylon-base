@@ -2090,6 +2090,15 @@ public final class BaseItems {
         BasePages.CARGO.addItem(CARGO_OVERFLOW_GATE);
     }
 
+    public static final ItemStack CREATIVE_ITEM_SOURCE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_SOURCE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PURPLE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_SOURCE, BaseKeys.CREATIVE_ITEM_SOURCE);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_SOURCE);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_SOURCE);
+    }
+
     // Calling this method forces all the static blocks to run, which initializes our items
     public static void initialize() {
     }
