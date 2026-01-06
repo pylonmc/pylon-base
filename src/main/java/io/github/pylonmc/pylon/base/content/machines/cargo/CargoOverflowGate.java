@@ -19,55 +19,46 @@ import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
-import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.SuppliedItem;
-import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-
-public class CargoSplitter extends PylonBlock
+public class CargoOverflowGate extends PylonBlock
         implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
 
-    public static final NamespacedKey RATIO_LEFT_KEY = baseKey("ratio_left");
-    public static final NamespacedKey RATIO_RIGHT_KEY = baseKey("ratio_right");
-    public static final NamespacedKey IS_LEFT_KEY = baseKey("is_left");
-    public static final NamespacedKey ITEMS_REMAINING_KEY = baseKey("items_remaining");
+    private static final NamespacedKey SIDE_PRIORITY_KEY = baseKey("side_priority");
+    private static final NamespacedKey IS_LEFT_KEY = baseKey("is_left");
+
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
-
-    public int ratioLeft = 1;
-    public int ratioRight = 1;
-    public boolean isLeft = true;
-    public int itemsRemaining = 1;
 
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory leftInventory = new VirtualInventory(1);
     private final VirtualInventory rightInventory = new VirtualInventory(1);
 
+    @Getter
+    private @NotNull SidePriority sidePriority = SidePriority.NONE;
+
+    private boolean isLeft = false;
+
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.STRIPPED_CRIMSON_STEM)
+    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.CRIMSON_STEM)
             .addCustomModelDataString(getKey() + ":vertical");
     public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":input");
@@ -80,45 +71,12 @@ public class CargoSplitter extends PylonBlock
             .name(Component.translatable("pylon.pylonbase.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
             .name(Component.translatable("pylon.pylonbase.gui.right"));
-    public final ItemStackBuilder ratioStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio");
+    public final ItemStackBuilder priorityStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio")
+            .lore(Component.translatable("pylon.pylonbase.gui.side-priority.lore"));
     public final ItemStackBuilder leftButtonStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left_button")
-            .name(Component.translatable("pylon.pylonbase.gui.ratio.left_button.name"))
-            .lore(Component.translatable("pylon.pylonbase.gui.ratio.left_button.lore"));
+            .name(Component.translatable("pylon.pylonbase.gui.side-priority.left-button"));
     public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
-            .name(Component.translatable("pylon.pylonbase.gui.ratio.right_button.name"))
-            .lore(Component.translatable("pylon.pylonbase.gui.ratio.right_button.lore"));
-
-    public static class RatioButton extends ControlItem<Gui> {
-
-        private final ItemStackBuilder stack;
-        private final Supplier<Integer> getRatio;
-        private final Consumer<Integer> setRatio;
-
-        public RatioButton(ItemStackBuilder stack, Supplier<Integer> getRatio, Consumer<Integer> setRatio) {
-            this.stack = stack;
-            this.getRatio = getRatio;
-            this.setRatio = setRatio;
-        }
-
-        @Override
-        public void handleClick(
-                @NotNull ClickType clickType,
-                @NotNull Player player,
-                @NotNull InventoryClickEvent event
-        ) {
-            if (clickType.isLeftClick()) {
-                setRatio.accept(getRatio.get() + 1);
-            } else {
-                setRatio.accept(Math.max(1, getRatio.get() - 1));
-            }
-            getGui().getItem(4, 4).notifyWindows();
-        }
-
-        @Override
-        public ItemProvider getItemProvider(Gui gui) {
-            return stack;
-        }
-    }
+            .name(Component.translatable("pylon.pylonbase.gui.side-priority.right-button"));
 
     public static class Item extends PylonItem {
 
@@ -139,8 +97,23 @@ public class CargoSplitter extends PylonBlock
         }
     }
 
+    public enum SidePriority {
+        LEFT("left"),
+        RIGHT("right"),
+        NONE("none");
+
+        @Getter
+        private final @NotNull Component displayName;
+
+        SidePriority(String name) {
+            this.displayName = Component.translatable("pylon.pylonbase.gui." + name);
+        }
+
+        public static final PersistentDataType<?, SidePriority> PERSISTENT_DATA_TYPE = PylonSerializers.ENUM.enumTypeFrom(SidePriority.class);
+    }
+
     @SuppressWarnings("unused")
-    public CargoSplitter(@NotNull Block block, @NotNull BlockCreateContext context) {
+    public CargoOverflowGate(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
         setFacing(context.getFacing());
@@ -200,21 +173,17 @@ public class CargoSplitter extends PylonBlock
         );
     }
 
-    @SuppressWarnings("unused")
-    public CargoSplitter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
+    @SuppressWarnings({"unused", "DataFlowIssue"})
+    public CargoOverflowGate(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        ratioLeft = pdc.get(RATIO_LEFT_KEY, PylonSerializers.INTEGER);
-        ratioRight = pdc.get(RATIO_RIGHT_KEY, PylonSerializers.INTEGER);
+        sidePriority = pdc.get(SIDE_PRIORITY_KEY, SidePriority.PERSISTENT_DATA_TYPE);
         isLeft = pdc.get(IS_LEFT_KEY, PylonSerializers.BOOLEAN);
-        itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(RATIO_LEFT_KEY, PylonSerializers.INTEGER, ratioLeft);
-        pdc.set(RATIO_RIGHT_KEY, PylonSerializers.INTEGER, ratioRight);
+        pdc.set(SIDE_PRIORITY_KEY, SidePriority.PERSISTENT_DATA_TYPE, sidePriority);
         pdc.set(IS_LEFT_KEY, PylonSerializers.BOOLEAN, isLeft);
-        pdc.set(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER, itemsRemaining);
     }
 
     @Override
@@ -225,7 +194,7 @@ public class CargoSplitter extends PylonBlock
                         "# l # # i # # r #",
                         "# L # # I # # R #",
                         "# # # # # # # # #",
-                        "# # # < a > # # #",
+                        "# # # < p > # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
@@ -235,15 +204,23 @@ public class CargoSplitter extends PylonBlock
                 .addIngredient('i', inputInventory)
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
-                .addIngredient('a', new SuppliedItem(() -> ratioStack.clone()
-                        .name(Component.translatable("pylon.pylonbase.gui.ratio.name").arguments(
-                                PylonArgument.of("left", ratioLeft),
-                                PylonArgument.of("right", ratioRight)
+                .addIngredient('p', new SuppliedItem(() -> priorityStack.clone()
+                        .name(Component.translatable("pylon.pylonbase.gui.side-priority.name").arguments(
+                                PylonArgument.of("priority", sidePriority.getDisplayName())
                         )),
-                        click -> false
+                        click -> {
+                            sidePriority = SidePriority.NONE;
+                            return true;
+                        }
                 ))
-                .addIngredient('<', new RatioButton(leftButtonStack, () -> ratioLeft, amount -> ratioLeft = amount))
-                .addIngredient('>', new RatioButton(rightButtonStack, () -> ratioRight, amount -> ratioRight = amount))
+                .addIngredient('<', new SuppliedItem(() -> leftButtonStack, click -> {
+                    sidePriority = SidePriority.LEFT;
+                    return true;
+                }))
+                .addIngredient('>', new SuppliedItem(() -> rightButtonStack, click -> {
+                    sidePriority = SidePriority.RIGHT;
+                    return true;
+                }))
                 .build();
     }
 
@@ -269,56 +246,34 @@ public class CargoSplitter extends PylonBlock
         });
     }
 
-    @Override
-    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
-        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("left", ratioLeft),
-                PylonArgument.of("right", ratioRight),
-                PylonArgument.of("side", isLeft
-                                ? Component.translatable("pylon.pylonbase.waila.cargo_splitter.left")
-                                : Component.translatable("pylon.pylonbase.waila.cargo_splitter.right")
-                )
-        ));
-    }
-
     private void doSplit() {
         ItemStack input = inputInventory.getItem(0);
-        if (input == null) {
-            return;
-        }
+        if (input == null) return;
 
-        if (isLeft) {
-            ItemStack left = leftInventory.getItem(0);
-            if (left == null || (left.isSimilar(input) && left.getAmount() < left.getMaxStackSize())) {
-                if (left == null) {
-                    leftInventory.setItem(new MachineUpdateReason(), 0, input.asOne());
-                } else {
-                    leftInventory.setItem(new MachineUpdateReason(), 0, left.add());
-                }
-                inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
-                itemsRemaining--;
-                if (itemsRemaining == 0) {
-                    isLeft = !isLeft;
-                    itemsRemaining = ratioRight;
-                }
-                doSplit();
+        isLeft = switch (sidePriority) {
+            case LEFT -> true;
+            case RIGHT -> false;
+            case NONE -> !isLeft;
+        };
+
+        transferToSide(input, true);
+    }
+
+    private void transferToSide(ItemStack input, boolean tryOther) {
+        VirtualInventory targetInventory = isLeft ? leftInventory : rightInventory;
+        ItemStack existing = targetInventory.getItem(0);
+        if (existing == null || (existing.isSimilar(input) && existing.getAmount() < existing.getMaxStackSize())) {
+            if (existing == null) {
+                targetInventory.setItem(new MachineUpdateReason(), 0, input.asOne());
+            } else {
+                targetInventory.setItem(new MachineUpdateReason(), 0, existing.add());
             }
-        } else {
-            ItemStack right = rightInventory.getItem(0);
-            if (right == null || (right.isSimilar(input) && right.getAmount() < right.getMaxStackSize())) {
-                if (right == null) {
-                    rightInventory.setItem(new MachineUpdateReason(), 0, input.asOne());
-                } else {
-                    rightInventory.setItem(new MachineUpdateReason(), 0, right.add());
-                }
-                inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
-                itemsRemaining--;
-                if (itemsRemaining == 0) {
-                    isLeft = !isLeft;
-                    itemsRemaining = ratioLeft;
-                }
-                doSplit();
-            }
+            inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
+            doSplit();
+        } else if (tryOther) {
+            // Try other side
+            isLeft = !isLeft;
+            transferToSide(input, false);
         }
     }
 }

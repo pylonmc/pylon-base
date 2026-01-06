@@ -11,8 +11,6 @@ import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefine
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Fermenter;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.*;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
@@ -156,5 +154,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CARGO_GATE, Material.STRUCTURE_VOID, CargoGate.class);
         PylonBlock.register(BaseKeys.CARGO_ACCUMULATOR, Material.STRUCTURE_VOID, CargoAccumulator.class);
         PylonBlock.register(BaseKeys.CARGO_FLUID_ACCUMULATOR, Material.STRUCTURE_VOID, CargoFluidAccumulator.class);
+        PylonBlock.register(BaseKeys.CARGO_OVERFLOW_GATE, Material.STRUCTURE_VOID, CargoOverflowGate.class);
     }
 }
