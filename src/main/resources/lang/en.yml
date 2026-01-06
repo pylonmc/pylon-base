@@ -1635,5 +1635,10 @@ gui:
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
   progress_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
+  vacuum_hopper:
+    blacklist: "<black>Blacklist"
+    whitelist: "<white>Whitelist"
+    settings: "<red>Settings"
+    inventory: "<purple>Inventory"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
