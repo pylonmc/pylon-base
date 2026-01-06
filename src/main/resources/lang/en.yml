@@ -1611,8 +1611,8 @@ gui:
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"
-    on: "<green>On"
-    off: "<yellow>Off"
+    "on": "<green>On"
+    "off": "<yellow>Off"
     running: "<green>Running"
     not_running: "<yellow>Not running"
     incomplete: "<red>Multiblock incomplete"
