@@ -156,5 +156,6 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CARGO_FLUID_ACCUMULATOR, Material.STRUCTURE_VOID, CargoFluidAccumulator.class);
         PylonBlock.register(BaseKeys.CARGO_OVERFLOW_GATE, Material.STRUCTURE_VOID, CargoOverflowGate.class);
         PylonBlock.register(BaseKeys.CREATIVE_ITEM_SOURCE, Material.STRUCTURE_VOID, CreativeItemSource.class);
+        PylonBlock.register(BaseKeys.CREATIVE_ITEM_VOIDER, Material.STRUCTURE_VOID, CreativeItemVoider.class);
     }
 }

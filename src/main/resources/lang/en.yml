@@ -1665,6 +1665,11 @@ item:
     lore: |-
       <arrow> Provides an infinite supply of the item placed inside
 
+  creative_item_voider:
+    name: "<white>Creative Item Voider"
+    lore: |-
+      <arrow> Destroys any items piped into it
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
