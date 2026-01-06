@@ -1877,12 +1877,17 @@ gui:
         <arrow> <insn>Click</insn> to toggle
   no-target-logistic-group: "No inventories available"
   ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+  ignore-ratio:
+    name: "Ignore Ratio: %state%"
+    lore: |-
+      <arrow> When enabled, the ratio will be ignored and items will be sent to each side equally, falling back to the other if one side is full
+      <arrow> <insn>Click</insn> to toggle
   portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"
-    on: "<green>On"
-    off: "<yellow>Off"
+    "on": "<green>On"
+    "off": "<yellow>Off"
     running: "<green>Running"
     not_running: "<yellow>Not running"
     incomplete: "<red>Multiblock incomplete"

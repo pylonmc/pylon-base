@@ -53,6 +53,7 @@ public class CargoSplitter extends PylonBlock
     public static final NamespacedKey RATIO_RIGHT_KEY = baseKey("ratio_right");
     public static final NamespacedKey IS_LEFT_KEY = baseKey("is_left");
     public static final NamespacedKey ITEMS_REMAINING_KEY = baseKey("items_remaining");
+    public static final NamespacedKey IGNORE_RATIO_KEY = baseKey("ignore_ratio");
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -60,6 +61,7 @@ public class CargoSplitter extends PylonBlock
     public int ratioRight = 1;
     public boolean isLeft = true;
     public int itemsRemaining = 1;
+    public boolean ignoreRatio = false;
 
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory leftInventory = new VirtualInventory(1);
@@ -87,6 +89,15 @@ public class CargoSplitter extends PylonBlock
     public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
             .name(Component.translatable("pylon.pylonbase.gui.right_button.name"))
             .lore(Component.translatable("pylon.pylonbase.gui.right_button.lore"));
+
+    public final ItemStackBuilder ignoreRatioOnStack = ItemStackBuilder.gui(Material.GREEN_CONCRETE, getKey() + "ignore_ratio_on")
+            .name(Component.translatable("pylon.pylonbase.gui.ignore-ratio.name")
+                    .arguments(PylonArgument.of("state", Component.translatable("pylon.pylonbase.gui.status.on"))))
+            .lore(Component.translatable("pylon.pylonbase.gui.ignore-ratio.lore"));
+    public final ItemStackBuilder ignoreRatioOffStack = ItemStackBuilder.gui(Material.RED_CONCRETE, getKey() + "ignore_ratio_off")
+            .name(Component.translatable("pylon.pylonbase.gui.ignore-ratio.name")
+                    .arguments(PylonArgument.of("state", Component.translatable("pylon.pylonbase.gui.status.off"))))
+            .lore(Component.translatable("pylon.pylonbase.gui.ignore-ratio.lore"));
 
     public static class RatioButton extends ControlItem<Gui> {
 
@@ -200,13 +211,14 @@ public class CargoSplitter extends PylonBlock
         );
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public CargoSplitter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         ratioLeft = pdc.get(RATIO_LEFT_KEY, PylonSerializers.INTEGER);
         ratioRight = pdc.get(RATIO_RIGHT_KEY, PylonSerializers.INTEGER);
         isLeft = pdc.get(IS_LEFT_KEY, PylonSerializers.BOOLEAN);
         itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER);
+        ignoreRatio = pdc.get(IGNORE_RATIO_KEY, PylonSerializers.BOOLEAN);
     }
 
     @Override
@@ -215,6 +227,7 @@ public class CargoSplitter extends PylonBlock
         pdc.set(RATIO_RIGHT_KEY, PylonSerializers.INTEGER, ratioRight);
         pdc.set(IS_LEFT_KEY, PylonSerializers.BOOLEAN, isLeft);
         pdc.set(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER, itemsRemaining);
+        pdc.set(IGNORE_RATIO_KEY, PylonSerializers.BOOLEAN, ignoreRatio);
     }
 
     @Override
@@ -226,7 +239,7 @@ public class CargoSplitter extends PylonBlock
                         "# L # # I # # R #",
                         "# # # # # # # # #",
                         "# # # < a > # # #",
-                        "# # # # # # # # #"
+                        "# # # # g # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('L', leftStack)
@@ -244,6 +257,13 @@ public class CargoSplitter extends PylonBlock
                 ))
                 .addIngredient('<', new RatioButton(leftButtonStack, () -> ratioLeft, amount -> ratioLeft = amount))
                 .addIngredient('>', new RatioButton(rightButtonStack, () -> ratioRight, amount -> ratioRight = amount))
+                .addIngredient('g', new SuppliedItem(
+                        () -> ignoreRatio ? ignoreRatioOnStack : ignoreRatioOffStack,
+                        click -> {
+                            ignoreRatio = !ignoreRatio;
+                            return true;
+                        }
+                ))
                 .build();
     }
 
@@ -281,44 +301,34 @@ public class CargoSplitter extends PylonBlock
         ));
     }
 
+    private void splitInv(ItemStack input, boolean tryOther) {
+        int ratio = isLeft ? ratioRight : ratioLeft;
+        VirtualInventory inv = isLeft ? leftInventory : rightInventory;
+        ItemStack item = inv.getItem(0);
+        if (item == null || (item.isSimilar(input) && item.getAmount() < item.getMaxStackSize())) {
+            if (item == null) {
+                inv.setItem(new MachineUpdateReason(), 0, input.asOne());
+            } else {
+                inv.setItem(new MachineUpdateReason(), 0, item.add());
+            }
+            inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
+            itemsRemaining--;
+            if (itemsRemaining == 0) {
+                isLeft = !isLeft;
+                itemsRemaining = ratio;
+            }
+            doSplit();
+        } else if (tryOther) {
+            isLeft = !isLeft;
+            splitInv(input, false);
+        }
+    }
+
     private void doSplit() {
         ItemStack input = inputInventory.getItem(0);
         if (input == null) {
             return;
         }
-
-        if (isLeft) {
-            ItemStack left = leftInventory.getItem(0);
-            if (left == null || (left.isSimilar(input) && left.getAmount() < left.getMaxStackSize())) {
-                if (left == null) {
-                    leftInventory.setItem(new MachineUpdateReason(), 0, input.asOne());
-                } else {
-                    leftInventory.setItem(new MachineUpdateReason(), 0, left.add());
-                }
-                inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
-                itemsRemaining--;
-                if (itemsRemaining == 0) {
-                    isLeft = !isLeft;
-                    itemsRemaining = ratioRight;
-                }
-                doSplit();
-            }
-        } else {
-            ItemStack right = rightInventory.getItem(0);
-            if (right == null || (right.isSimilar(input) && right.getAmount() < right.getMaxStackSize())) {
-                if (right == null) {
-                    rightInventory.setItem(new MachineUpdateReason(), 0, input.asOne());
-                } else {
-                    rightInventory.setItem(new MachineUpdateReason(), 0, right.add());
-                }
-                inputInventory.setItem(new MachineUpdateReason(), 0, input.subtract());
-                itemsRemaining--;
-                if (itemsRemaining == 0) {
-                    isLeft = !isLeft;
-                    itemsRemaining = ratioLeft;
-                }
-                doSplit();
-            }
-        }
+        splitInv(input, ignoreRatio);
     }
 }
