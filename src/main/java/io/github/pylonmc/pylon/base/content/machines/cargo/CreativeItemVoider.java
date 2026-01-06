@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 public class CreativeItemVoider extends PylonBlock
         implements PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
 
-    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.PURPLE_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
     public final ItemStackBuilder inputStack = ItemStackBuilder.of(Material.LIME_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":input");

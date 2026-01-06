@@ -20,17 +20,23 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SuppliedItem;
 
 import java.util.List;
@@ -186,6 +192,23 @@ public class CargoOverflowGate extends PylonBlock
         pdc.set(IS_LEFT_KEY, PylonSerializers.BOOLEAN, isLeft);
     }
 
+    @RequiredArgsConstructor
+    private class PriorityButton extends AbstractItem {
+        private final @NotNull SidePriority setPriority;
+        private final @NotNull ItemStackBuilder item;
+
+        @Override
+        public ItemProvider getItemProvider() {
+            return item;
+        }
+
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            sidePriority = setPriority;
+            getGui().getItem(4, 4).notifyWindows();
+        }
+    }
+
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
@@ -213,14 +236,8 @@ public class CargoOverflowGate extends PylonBlock
                             return true;
                         }
                 ))
-                .addIngredient('<', new SuppliedItem(() -> leftButtonStack, click -> {
-                    sidePriority = SidePriority.LEFT;
-                    return true;
-                }))
-                .addIngredient('>', new SuppliedItem(() -> rightButtonStack, click -> {
-                    sidePriority = SidePriority.RIGHT;
-                    return true;
-                }))
+                .addIngredient('<', new PriorityButton(SidePriority.LEFT, leftButtonStack))
+                .addIngredient('>', new PriorityButton(SidePriority.RIGHT, rightButtonStack))
                 .build();
     }
 
