@@ -193,6 +193,17 @@ pylonbase:bronze_boots:
   result: pylonbase:bronze_boots
   category: equipment
 
+pylonbase:bronze_anvil:
+  pattern:
+    - "BBB"
+    - " b "
+    - "bbb"
+  key:
+    B: pylonbase:bronze_block
+    b: pylonbase:bronze_ingot
+  result: pylonbase:bronze_anvil
+  category: building
+
 pylonbase:watering_can:
   pattern:
     - "  S"

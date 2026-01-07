@@ -173,7 +173,7 @@ item:
       <arrow> <insn>Left click</insn> with a hammer to make the bloom shorter/wider
       <arrow> <insn>Left click</insn> with a <lang:pylon.pylonbase.item.tongs.name/> to make the bloom taller/narrower
       <arrow> The amount of shape change is determined by the temperature
-      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron/> will pop off
+      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron.name/> will pop off
 
   bronze_axe:
     name: "Bronze Axe"
