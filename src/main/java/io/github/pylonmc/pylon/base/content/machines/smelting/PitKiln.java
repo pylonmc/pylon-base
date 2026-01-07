@@ -217,8 +217,8 @@ public final class PitKiln extends PylonBlock implements
                                 "time",
                                 UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
                         )
-                ) :
-                Component.translatable("pylon.pylonbase.waila.pit_kiln.invalid_recipe");
+                )
+                : Component.translatable("pylon.pylonbase.waila.pit_kiln.invalid_recipe");
         return new WailaDisplay(Component.translatable(
                 "pylon.pylonbase.item.pit_kiln.waila",
                 PylonArgument.of("info", status)
