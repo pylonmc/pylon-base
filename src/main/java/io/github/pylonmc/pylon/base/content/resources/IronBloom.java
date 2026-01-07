@@ -9,6 +9,8 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInventoryTicker;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import org.bukkit.NamespacedKey;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
@@ -45,9 +47,19 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
     /**
      * @param temperature the temperature to set, must be between 0 and 12 inclusive.
      */
+    @SuppressWarnings("UnstableApiUsage")
     public void setTemperature(int temperature) {
         Preconditions.checkArgument(temperature >= 0 && temperature <= MAX_TEMPERATURE, "Temperature must be between 0 and 12 inclusive.");
-        getStack().editPersistentDataContainer((pdc) -> pdc.set(TEMPERATURE_KEY, PylonSerializers.INTEGER, temperature));
+        ItemStack stack = getStack();
+        stack.editPersistentDataContainer((pdc) -> pdc.set(TEMPERATURE_KEY, PylonSerializers.INTEGER, temperature));
+        CustomModelData data = stack.getDataOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().build());
+        CustomModelData newData = CustomModelData.customModelData()
+                .addStrings(data.strings())
+                .addFlags(data.flags())
+                .addColors(data.colors())
+                .addFloat(temperature)
+                .build();
+        stack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, newData);
     }
 
     /**
