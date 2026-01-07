@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -68,8 +69,8 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock {
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
-        return voidRate * deltaSeconds;
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
+        return voidRate * PylonConfig.FLUID_TICK_INTERVAL / 20;
     }
 
     @Override

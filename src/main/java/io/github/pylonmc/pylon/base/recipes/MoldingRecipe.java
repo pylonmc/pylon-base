@@ -5,7 +5,16 @@ import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
 import io.github.pylonmc.pylon.core.recipe.*;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
+import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
+import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
+import io.github.pylonmc.pylon.core.recipe.RecipeInput;
+import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +29,7 @@ public record MoldingRecipe(
         NamespacedKey key,
         ItemStack input,
         ItemStack result,
-        int moldClicks
+        int moldingCycles
 ) implements PylonRecipe {
 
     public static final RecipeType<MoldingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("molding")) {
@@ -29,8 +38,9 @@ public record MoldingRecipe(
             return new MoldingRecipe(
                     key,
                     section.getOrThrow("input", ConfigAdapter.ITEM_STACK),
-                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK),
-                    section.getOrThrow("clicks", ConfigAdapter.INT)
+                    section.getOrThrow("result", ConfigAdapter.ITEM_STACK)
+                            .asQuantity(section.getOrThrow("resultAmount", ConfigAdapter.INT)),
+                    section.getOrThrow("cycles", ConfigAdapter.INT)
             );
         }
     };
@@ -61,9 +71,14 @@ public record MoldingRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', ItemButton.from(input))
-                .addIngredient('m', ItemButton.from(BaseItems.BRICK_MOLD))
-                .addIngredient('o', ItemButton.from(result))
+                .addIngredient('i', new ItemButton(input))
+                .addIngredient('m', new ItemButton(ItemStackBuilder.of(BaseItems.BRICK_MOLD)
+                        .clearLore()
+                        .lore(Component.translatable("pylon.pylonbase.guide.recipe.molding")
+                                .arguments(PylonArgument.of("molding-cycles", moldingCycles)))
+                        .build()
+                ))
+                .addIngredient('o', new ItemButton(result))
                 .build();
     }
 }
