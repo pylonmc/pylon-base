@@ -3,11 +3,8 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeInput;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -64,9 +61,9 @@ public record MoldingRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', input)
-                .addIngredient('m', BaseItems.BRICK_MOLD)
-                .addIngredient('o', result)
+                .addIngredient('i', ItemButton.from(input))
+                .addIngredient('m', ItemButton.from(BaseItems.BRICK_MOLD))
+                .addIngredient('o', ItemButton.from(result))
                 .build();
     }
 }

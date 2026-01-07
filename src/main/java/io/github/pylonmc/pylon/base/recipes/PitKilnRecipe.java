@@ -63,7 +63,7 @@ public record PitKilnRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('p', BaseItems.PIT_KILN);
+                .addIngredient('p', ItemButton.from(BaseItems.PIT_KILN));
         for (int i = 0; i < 6; i++) {
             if (i >= input().size()) break;
             gui.addIngredient((char) ('0' + i), ItemButton.from(input.get(i)));
