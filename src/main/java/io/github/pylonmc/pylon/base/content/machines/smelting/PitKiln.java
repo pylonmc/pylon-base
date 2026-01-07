@@ -141,7 +141,7 @@ public final class PitKiln extends PylonBlock implements
     /**
      * Will add 1 of the type specified in the itemstack
      *
-     * @param item          specified itemstack type
+     * @param item specified itemstack type
      * @param directRemoval if item stack passed will be decreased
      */
     public void addItem(ItemStack item, boolean directRemoval) {
