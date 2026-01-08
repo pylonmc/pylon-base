@@ -20,6 +20,7 @@ public class BaseRecipes {
         MixingPotRecipe.RECIPE_TYPE.register();
         MoldingRecipe.RECIPE_TYPE.register();
         PipeBendingRecipe.RECIPE_TYPE.register();
+        ImmerseRecipe.RECIPE_TYPE.register();
         PressRecipe.RECIPE_TYPE.register();
         SmelteryRecipe.RECIPE_TYPE.register();
         PitKilnRecipe.RECIPE_TYPE.register();
