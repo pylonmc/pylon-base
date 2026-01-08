@@ -1595,21 +1595,21 @@ item:
       <arrow> Only works while in your inventory
 
   hunting_talisman_simple:
-    name: "Simple Hunting Talisman"
+    name: "<white>Simple Hunting Talisman"
     lore: |-
       <arrow> Get an extra item for each drop when you kill a mob
       <arrow> <attr>Success rate:</attr> %bonus_item_chance%
       <arrow> Only works while in your inventory
 
   hunting_talisman_advanced:
-    name: "Advanced Hunting Talisman"
+    name: "<white>Advanced Hunting Talisman"
     lore: |-
       <arrow> Get an extra item for each drop when you kill a mob
       <arrow> <attr>Success rate:</attr> %bonus_item_chance%
       <arrow> Only works while in your inventory
 
   hunting_talisman_ultimate:
-    name: "Ultimate Hunting Talisman"
+    name: "<white>Ultimate Hunting Talisman"
     lore: |-
       <arrow> Get an extra item for each drop when you kill a mob
       <arrow> <attr>Success rate:</attr> %bonus_item_chance%
