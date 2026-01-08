@@ -1,2 +1,1 @@
-tick-interval: 20
-buffer-size: 100.0
+buffer: 1000.0

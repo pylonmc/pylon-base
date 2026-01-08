@@ -2,11 +2,7 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
-import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
-import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
-import io.github.pylonmc.pylon.core.recipe.RecipeInput;
-import io.github.pylonmc.pylon.core.recipe.RecipeType;
+import io.github.pylonmc.pylon.core.recipe.*;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +20,7 @@ public record DrillingDisplayRecipe(
         ItemStack result
 ) implements PylonRecipe {
 
-    public static final RecipeType<DrillingDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("drilling_display_recipe")) {
+    public static final RecipeType<DrillingDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("drilling_display")) {
         @Override
         protected @NotNull DrillingDisplayRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             return new DrillingDisplayRecipe(

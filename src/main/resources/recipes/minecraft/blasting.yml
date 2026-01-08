@@ -8,3 +8,9 @@ pylonbase:powerful_water_sponge_blasting:
   result: pylonbase:powerful_water_sponge
   experience: 1.5
   cookingtime: 200
+
+pylonbase:steel_blasting:
+  ingredient: pylonbase:wrought_iron
+  result: pylonbase:steel_ingot
+  experience: 0.7
+  category: misc

@@ -45,7 +45,7 @@ public class ManualCoreDrillLever extends PylonBlock implements PylonInteractBlo
                 ManualCoreDrill.class,
                 getBlock().getRelative(blockData.getFacing().getOppositeFace())
         );
-        if (drill == null || drill.isCycling()) {
+        if (drill == null || drill.isProcessing()) {
             return;
         }
 
@@ -55,10 +55,12 @@ public class ManualCoreDrillLever extends PylonBlock implements PylonInteractBlo
             leverResetTask.cancel();
         }
 
+        scheduleBlockTextureItemRefresh();
         leverResetTask = Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
             if (getBlock().getBlockData() instanceof Switch switchData) {
                 switchData.setPowered(false);
                 getBlock().setBlockData(switchData);
+                refreshBlockTextureItem();
             }
         }, (long) drill.getRotationDuration() * drill.getRotationsPerCycle());
     }

@@ -4,37 +4,47 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.tools.WateringSettings;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFlowerPot;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Config;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 
 public class Sprinkler extends PylonBlock
-        implements PylonFluidBufferBlock, PylonTickingBlock, PylonEntityHolderBlock, PylonFlowerPot {
+        implements PylonFluidBufferBlock, PylonTickingBlock, PylonFlowerPot {
+
+    private static final Config settings = Settings.get(BaseKeys.SPRINKLER);
+    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(settings);
+    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
+    public static final double WATER_PER_SECOND = settings.getOrThrow("water-per-second", ConfigAdapter.INT);
+    public static final double BUFFER = settings.getOrThrow("buffer", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
 
@@ -46,22 +56,18 @@ public class Sprinkler extends PylonBlock
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(BUFFER)),
                     PylonArgument.of("water_consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND))
             );
         }
     }
 
-    private static final Config settings = Settings.get(BaseKeys.SPRINKLER);
-    public static final WateringSettings SETTINGS = WateringSettings.fromConfig(settings);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final double WATER_PER_SECOND = settings.getOrThrow("water-per-second", ConfigAdapter.INT);
-
     @SuppressWarnings("unused")
     public Sprinkler(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.UP, -0.15F));
-        createFluidBuffer(BaseFluids.WATER, WATER_PER_SECOND * 5, true, false);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.UP, -0.15F);
+        createFluidBuffer(BaseFluids.WATER, BUFFER, true, false);
     }
 
     @SuppressWarnings("unused")
@@ -70,16 +76,28 @@ public class Sprinkler extends PylonBlock
     }
 
     @Override
-    public void onFlowerPotManipulated(PlayerFlowerPotManipulateEvent event) {
+    public void onFlowerPotManipulated(@NotNull PlayerFlowerPotManipulateEvent event) {
         event.setCancelled(true);
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * deltaSeconds) {
+    public void tick() {
+        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * PylonConfig.FLUID_TICK_INTERVAL / 20.0) {
             WateringCan.water(getBlock(), SETTINGS);
-            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * deltaSeconds);
+            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * PylonConfig.FLUID_TICK_INTERVAL / 20.0);
         }
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.WATER),
+                        fluidCapacity(BaseFluids.WATER),
+                        20,
+                        NamedTextColor.BLUE
+                ))
+        ));
     }
 
     public static class SprinklerPlaceListener implements Listener {

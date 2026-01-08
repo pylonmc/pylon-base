@@ -3,27 +3,24 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
-import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -38,42 +35,44 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
 
-public final class MixingPot extends PylonBlock
-        implements PylonMultiblock, PylonInteractBlock, PylonEntityHolderBlock, PylonFluidTank, PylonCauldron {
+public final class MixingPot extends PylonBlock implements
+        PylonDirectionalBlock,
+        PylonInteractBlock,
+        PylonFluidTank,
+        PylonCauldron {
+
+    private static final Set<Material> BUCKETS = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
+
+    public static class MixingPotItem extends PylonItem {
+
+        public MixingPotItem(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(1000))
+            );
+        }
+    }
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-
+        setFacing(context.getFacing());
         setCapacity(1000.0);
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
     }
 
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-    }
-
-    @Override
-    public @NotNull Set<ChunkPosition> getChunksOccupied() {
-        return Set.of(new ChunkPosition(getBlock()));
-    }
-
-    @Override
-    public boolean checkFormed() {
-        return getFire().getType() == Material.FIRE;
-    }
-
-    @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock == getFire();
     }
 
     @Override
@@ -112,27 +111,22 @@ public final class MixingPot extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("info", getFluidType() == null ?
-                        Component.translatable("pylon.pylonbase.waila.mixing_pot.empty") :
-                        Component.translatable("pylon.pylonbase.waila.mixing_pot.filled",
-                                PylonArgument.of("fluid", getFluidType().getName()),
-                                PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidAmount()).decimalPlaces(1))
-                        ))
+                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                        getFluidAmount(),
+                        getFluidCapacity(),
+                        20,
+                        TextColor.color(200, 255, 255)
+                )),
+                getFluidType() == null
+                    ? PylonArgument.of("fluid", Component.translatable("pylon.pylonbase.fluid.none"))
+                    : PylonArgument.of("fluid", getFluidType().getName())
         ));
     }
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        // Don't allow fluid to be manually inserted/removed
-        if (event.getItem() != null
-                && Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE).contains(event.getMaterial())
-        ) {
-            event.setCancelled(true);
-            return;
-        }
-
         if (event.getPlayer().isSneaking()
                 || event.getHand() != EquipmentSlot.HAND
                 || event.getAction() != Action.RIGHT_CLICK_BLOCK
@@ -142,40 +136,42 @@ public final class MixingPot extends PylonBlock
 
         event.setCancelled(true);
 
-        if (!isFormedAndFullyLoaded() || getFluidType() == null) {
+        if (event.getItem() != null && BUCKETS.contains(event.getMaterial()) || getFluidType() == null) {
             return;
         }
 
-        tryDoRecipe(event.getPlayer());
+        tryDoRecipe();
     }
 
-    public boolean tryDoRecipe(@Nullable Player player) {
+    public boolean tryDoRecipe() {
+        if (getFluidType() == null) return false;
+
+        Material fireType = getFire().getType();
+        boolean isFire = fireType == Material.FIRE || fireType == Material.SOUL_FIRE;
+        if (!isFire) return false;
+
+        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
+        boolean isEnrichedFire = ignitedBlock != null
+                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_SOUL_SOIL);
+
         List<Item> items = getBlock()
                 .getLocation()
                 .toCenterLocation()
-                .getNearbyEntities(0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
+                .getNearbyEntitiesByType(Item.class, 0.5, 0.8, 0.5) // 0.8 to allow items on top to be used
                 .stream()
-                .filter(Item.class::isInstance)
-                .map(Item.class::cast)
                 .toList();
 
         List<ItemStack> stacks = items.stream()
                 .map(Item::getItemStack)
                 .toList();
 
-        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
-        boolean isEnrichedFire = ignitedBlock != null
-                && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_NETHERRACK);
-
         for (MixingPotRecipe recipe : MixingPotRecipe.RECIPE_TYPE.getRecipes()) {
-            if (recipe.matches(stacks, isEnrichedFire, getFluidType(), getFluidAmount())) {
-                if (!new PrePylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this, player).callEvent()) {
-                    continue;
-                }
-
-                doRecipe(recipe, items);
-                return true;
+            if (!recipe.matches(stacks, isEnrichedFire, getFluidType(), getFluidAmount())) {
+                continue;
             }
+
+            doRecipe(recipe, items);
+            return true;
         }
 
         return false;
@@ -200,11 +196,8 @@ public final class MixingPot extends PylonBlock
                 setFluidType(fluid.fluid());
                 setFluid(fluid.amountMillibuckets());
             }
-            default -> {
-            }
+            default -> {}
         }
-
-        new PylonCraftEvent<>(MixingPotRecipe.RECIPE_TYPE, recipe, this).callEvent();
 
         new ParticleBuilder(Particle.SPLASH)
                 .count(20)

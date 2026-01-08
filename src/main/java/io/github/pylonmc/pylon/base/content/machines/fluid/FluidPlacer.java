@@ -1,19 +1,20 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -21,17 +22,18 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.FluidLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 
-public class FluidPlacer extends PylonBlock
-        implements PylonFluidBufferBlock, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
+public class FluidPlacer extends PylonBlock implements PylonFluidBufferBlock, PylonTickingBlock, PylonInteractBlock {
 
     public static class Item extends PylonItem {
 
@@ -61,7 +63,7 @@ public class FluidPlacer extends PylonBlock
     public FluidPlacer(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
         setTickInterval(tickInterval);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.SOUTH));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.SOUTH, context, true);
         createFluidBuffer(fluid, buffer, true, false);
         Preconditions.checkState(getBlock().getBlockData() instanceof Directional);
         Directional directional = (Directional) getBlock().getBlockData();
@@ -77,17 +79,33 @@ public class FluidPlacer extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        if (fluidAmount(fluid) >= 1000.0 && placeBlock.getType().isAir()) {
-            removeFluid(fluid, 1000.0);
-            if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {
-                placeBlock.getWorld().playSound(placeBlock.getLocation().toCenterLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
-                placeBlock.getWorld().spawnParticle(Particle.SMOKE, placeBlock.getLocation().toCenterLocation(), 10, 0.35, 0.35, 0.35, 0.01);
-            } else {
-                if (new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()) {
-                    placeBlock.setType(material);
-                }
-            }
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        fluidAmount(fluid),
+                        fluidCapacity(fluid),
+                        20,
+                        TextColor.color(200, 255, 255)
+                ))
+        ));
+    }
+
+    @Override
+    public void tick() {
+        if (!(fluidAmount(fluid) >= 1000.0) || !placeBlock.getType().isAir()) {
+            return;
+        }
+
+        removeFluid(fluid, 1000.0);
+
+        if (placeBlock.getWorld().getEnvironment() == World.Environment.NETHER && material == Material.WATER) {
+            placeBlock.getWorld().playSound(placeBlock.getLocation().toCenterLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
+            placeBlock.getWorld().spawnParticle(Particle.SMOKE, placeBlock.getLocation().toCenterLocation(), 10, 0.35, 0.35, 0.35, 0.01);
+            return;
+        }
+
+        if (new FluidLevelChangeEvent(placeBlock, material.createBlockData()).callEvent()) {
+            placeBlock.setType(material);
         }
     }
 

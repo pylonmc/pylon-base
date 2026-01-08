@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -13,7 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
-public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock, PylonVanillaContainerBlock {
+import java.util.List;
+
+public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock, PylonVanillaContainerBlock, PylonBreakHandler {
 
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -32,7 +34,18 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        Hopper hopper = (Hopper) getBlock().getState();
+
+        for (ItemStack item : hopper.getInventory()) {
+            if (item != null) {
+                drops.add(item);
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null) return;
         Hopper hopper = (Hopper) getBlock().getState(false);
@@ -41,9 +54,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             MeltingRecipe recipe = null;
             for (MeltingRecipe meltingRecipe : MeltingRecipe.RECIPE_TYPE) {
                 if (meltingRecipe.input().contains(item)) {
-                    if (!new PrePylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, meltingRecipe, controller).callEvent()) {
-                        continue;
-                    }
                     recipe = meltingRecipe;
                     break;
                 }
@@ -53,7 +63,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             if (controller.getTemperature() >= recipe.temperature() && fluidAmountAfterAdding <= controller.getCapacity()) {
                 controller.addFluid(recipe.result(), recipe.resultAmount());
                 item.subtract();
-                new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
             }
         }
     }

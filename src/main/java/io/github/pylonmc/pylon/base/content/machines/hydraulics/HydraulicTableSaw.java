@@ -2,20 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.TableSawRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -24,11 +17,14 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -40,15 +36,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public class HydraulicTableSaw extends PylonBlock
-        implements PylonEntityHolderBlock, PylonFluidBufferBlock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler {
+public class HydraulicTableSaw extends PylonBlock implements
+        PylonFluidBufferBlock,
+        PylonInteractBlock,
+        PylonTickingBlock,
+        PylonDirectionalBlock,
+        PylonRecipeProcessor<TableSawRecipe>{
 
-    private static final Config settings = Settings.get(BaseKeys.HYDRAULIC_TABLE_SAW);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
-    public static final double HYDRAULIC_FLUID_BUFFER = settings.getOrThrow("hydraulic-fluid-buffer", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
+    public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
     public static class Item extends PylonItem {
+
+        public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -57,20 +59,19 @@ public class HydraulicTableSaw extends PylonBlock
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE))
+                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
 
-    private int recipeTicksRemaining;
-    private @Nullable TableSawRecipe recipe;
-
     @SuppressWarnings("unused")
     public HydraulicTableSaw(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
+        setTickInterval(tickInterval);
+        setFacing(context.getFacing());
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3))
@@ -82,15 +83,14 @@ public class HydraulicTableSaw extends PylonBlock
                         .scale(0.6, 0.4, 0.4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))
         );
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, HYDRAULIC_FLUID_BUFFER, false, true);
-        recipe = null;
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, true, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, false, true);
+        setRecipeType(TableSawRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public HydraulicTableSaw(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        recipe = null;
     }
 
     @Override
@@ -104,8 +104,6 @@ public class HydraulicTableSaw extends PylonBlock
 
         event.setCancelled(true);
 
-        recipe = null;
-
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
@@ -117,6 +115,7 @@ public class HydraulicTableSaw extends PylonBlock
                     oldStack
             );
             itemDisplay.setItemStack(null);
+            stopRecipe();
             return;
         }
 
@@ -129,42 +128,32 @@ public class HydraulicTableSaw extends PylonBlock
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        ItemStack stack = getItemDisplay().getItemStack();
-
-        if (recipe != null) {
-            spawnParticles();
-
-            if (recipeTicksRemaining > 0) {
-                recipeTicksRemaining -= TICK_INTERVAL;
-                return;
-            }
-
-            getItemDisplay().setItemStack(stack.subtract(recipe.input().getAmount()));
-            getBlock().getWorld().dropItemNaturally(
-                    getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
-                    recipe.result()
-            );
-            recipe = null;
+    public void tick() {
+        double hydraulicFluidToConsume = hydraulicFluidUsage * getTickInterval() / 20.0;
+        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidToConsume
+                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidToConsume) {
             return;
         }
 
+        if (isProcessingRecipe()) {
+            new ParticleBuilder(Particle.BLOCK)
+                    .count(5)
+                    .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
+                    .data(getCurrentRecipe().particleData())
+                    .spawn();
+            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidToConsume);
+            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidToConsume);
+            progressRecipe(tickInterval);
+            return;
+        }
+
+        ItemStack stack = getItemDisplay().getItemStack();
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
-            double hydraulicFluidUsed = recipe.timeTicks() * HYDRAULIC_FLUID_USAGE;
-            if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidUsed
-                    || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidUsed
-                    || !PylonUtils.isPylonSimilar(stack, recipe.input())
-                    || stack.getAmount() < recipe.input().getAmount()
-            ) {
+            if (!PylonUtils.isPylonSimilar(stack, recipe.input()) || stack.getAmount() < recipe.input().getAmount()) {
                 continue;
             }
 
-            this.recipe = recipe;
-            recipeTicksRemaining = recipe.timeTicks();
-            spawnParticles();
-            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
-
+            startRecipe(recipe, recipe.timeTicks());
             break;
         }
     }
@@ -174,15 +163,39 @@ public class HydraulicTableSaw extends PylonBlock
     }
 
     public void spawnParticles() {
-        new ParticleBuilder(Particle.BLOCK)
-                .count(5)
-                .location(getBlock().getLocation().toCenterLocation().add(0, 0.75, 0))
-                .data(recipe.particleData())
-                .spawn();
+
     }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidBufferBlock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
+    }
+
+    @Override
+    public void onRecipeFinished(@NotNull TableSawRecipe recipe) {
+        getItemDisplay().setItemStack(getItemDisplay().getItemStack().subtract(recipe.input().getAmount()));
+        getBlock().getWorld().dropItemNaturally(
+                getBlock().getLocation().toCenterLocation().add(0, 0.75, 0),
+                recipe.result()
+        );
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#212d99")
+                )),
+                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                ))
+        ));
     }
 }

@@ -2,12 +2,10 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidPointDirectional;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -19,13 +17,14 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 
 
-public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntityHolderBlock {
+public class WaterPump extends PylonBlock implements PylonFluidBlock {
+
+    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
 
     public static class Item extends PylonItem {
 
@@ -43,12 +42,10 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
         }
     }
 
-    public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
-
     @SuppressWarnings("unused")
     public WaterPump(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.UP));
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.UP);
     }
 
     @SuppressWarnings("unused")
@@ -57,17 +54,12 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock, PylonEntit
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
         return getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER
-                ? Map.of(BaseFluids.WATER, waterPerSecond * deltaSeconds)
-                : Map.of() ;
+                ? Map.of(BaseFluids.WATER, waterPerSecond * PylonConfig.FLUID_TICK_INTERVAL / 20.0)
+                : Map.of();
     }
 
     @Override
     public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {}
-
-    @Override
-    public @Nullable BlockFace getFacing() {
-        return null;
-    }
 }
