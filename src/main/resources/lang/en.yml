@@ -1574,21 +1574,21 @@ item:
       <arrow> Only works while in your inventory
 
   enchanting_talisman_simple:
-    name: "Simple Enchanting Talisman"
+    name: "<white>Simple Enchanting Talisman"
     lore: |-
       <arrow> Increase the level of enchantments in the enchanting table by 1
       <arrow> <attr>Success rate:</attr> %bonus_level_chance%
       <arrow> Only works while in your inventory
 
   enchanting_talisman_advanced:
-    name: "Advanced Enchanting Talisman"
+    name: "<white>Advanced Enchanting Talisman"
     lore: |-
       <arrow> Increase the level of enchantments in the enchanting table by 1
       <arrow> <attr>Success rate:</attr> %bonus_level_chance%
       <arrow> Only works while in your inventory
 
   enchanting_talisman_ultimate:
-    name: "Ultimate Enchanting Talisman"
+    name: "<white>Ultimate Enchanting Talisman"
     lore: |-
       <arrow> Increase the level of enchantments in the enchanting table by 1
       <arrow> <attr>Success rate:</attr> %bonus_level_chance%
