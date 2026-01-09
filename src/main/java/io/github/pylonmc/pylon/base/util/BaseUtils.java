@@ -101,6 +101,12 @@ public class BaseUtils {
         return getDisplacement(source, target).normalize();
     }
 
+    public @NotNull Component createBar(double proportion, int bars, TextColor color) {
+        int filledBars = (int) Math.round(bars * proportion);
+        return Component.text("|".repeat(filledBars)).color(color)
+                .append(Component.text("|".repeat(bars - filledBars)).color(NamedTextColor.GRAY));
+    }
+
     public @NotNull Component createProgressBar(double progress, int bars, TextColor color) {
         int filledBars = (int) Math.round(bars * progress);
         return Component.translatable("pylon.pylonbase.gui.progress_bar.text").arguments(

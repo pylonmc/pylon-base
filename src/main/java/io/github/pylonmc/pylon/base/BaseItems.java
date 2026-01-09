@@ -11,7 +11,9 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
-import io.github.pylonmc.pylon.base.content.machines.diesel.*;
+import io.github.pylonmc.pylon.base.content.machines.diesel.machines.*;
+import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
+import io.github.pylonmc.pylon.base.content.machines.diesel.production.Fermenter;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
@@ -1100,6 +1102,34 @@ public final class BaseItems {
         BasePages.FLUID_PIPES_AND_TANKS.addItem(FLUID_TANK_CASING_STEEL);
     }
 
+    public static final ItemStack FLUID_INPUT_HATCH = ItemStackBuilder.pylon(Material.LIGHT_BLUE_TERRACOTTA, BaseKeys.FLUID_INPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_INPUT_HATCH, BaseKeys.FLUID_INPUT_HATCH);
+        BasePages.COMPONENTS.addItem(FLUID_INPUT_HATCH);
+    }
+
+    public static final ItemStack FLUID_OUTPUT_HATCH = ItemStackBuilder.pylon(Material.ORANGE_TERRACOTTA, BaseKeys.FLUID_OUTPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FLUID_OUTPUT_HATCH, BaseKeys.FLUID_OUTPUT_HATCH);
+        BasePages.COMPONENTS.addItem(FLUID_OUTPUT_HATCH);
+    }
+
+    public static final ItemStack ITEM_INPUT_HATCH = ItemStackBuilder.pylon(Material.GREEN_TERRACOTTA, BaseKeys.ITEM_INPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ITEM_INPUT_HATCH, BaseKeys.ITEM_INPUT_HATCH);
+        BasePages.COMPONENTS.addItem(ITEM_INPUT_HATCH);
+    }
+
+    public static final ItemStack ITEM_OUTPUT_HATCH = ItemStackBuilder.pylon(Material.RED_TERRACOTTA, BaseKeys.ITEM_OUTPUT_HATCH)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, ITEM_OUTPUT_HATCH, BaseKeys.ITEM_OUTPUT_HATCH);
+        BasePages.COMPONENTS.addItem(ITEM_OUTPUT_HATCH);
+    }
+
     public static final ItemStack ROTOR = ItemStackBuilder.pylon(Material.IRON_TRAPDOOR, BaseKeys.ROTOR)
             .build();
     static {
@@ -1670,20 +1700,6 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL);
     }
 
-    public static final ItemStack HYDRAULIC_CORE_DRILL_INPUT_HATCH = ItemStackBuilder.pylon(Material.LIGHT_BLUE_TERRACOTTA, BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, HYDRAULIC_CORE_DRILL_INPUT_HATCH, BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL_INPUT_HATCH);
-    }
-
-    public static final ItemStack HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = ItemStackBuilder.pylon(Material.ORANGE_TERRACOTTA, BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH)
-            .build();
-    static {
-        PylonItem.register(PylonItem.class, HYDRAULIC_CORE_DRILL_OUTPUT_HATCH, BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_CORE_DRILL_OUTPUT_HATCH);
-    }
-
     public static final ItemStack REACTIVATED_WITHER_SKULL = ItemStackBuilder.pylon(Material.WITHER_SKELETON_SKULL, BaseKeys.REACTIVATED_WITHER_SKULL)
             .durability(Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("durability", ConfigAdapter.INT))
             .useCooldown(Settings.get(BaseKeys.REACTIVATED_WITHER_SKULL).getOrThrow("cooldown-ticks", ConfigAdapter.INT), BaseKeys.REACTIVATED_WITHER_SKULL)
@@ -1908,6 +1924,69 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselMiner.Item.class, DIESEL_MINER, BaseKeys.DIESEL_MINER);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_MINER);
+    }
+
+    public static final ItemStack FERMENTER = ItemStackBuilder.pylon(Material.PINK_TERRACOTTA, BaseKeys.FERMENTER)
+            .build();
+    static {
+        PylonItem.register(Fermenter.Item.class, FERMENTER, BaseKeys.FERMENTER);
+        BasePages.DIESEL_PRODUCTION.addItem(FERMENTER);
+    }
+
+    public static final ItemStack FERMENTER_CORE = ItemStackBuilder.pylon(Material.GRAY_STAINED_GLASS, BaseKeys.FERMENTER_CORE)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FERMENTER_CORE, BaseKeys.FERMENTER_CORE);
+        BasePages.DIESEL_PRODUCTION.addItem(FERMENTER_CORE);
+    }
+
+    public static final ItemStack FERMENTER_CASING = ItemStackBuilder.pylon(Material.GRAY_STAINED_GLASS_PANE, BaseKeys.FERMENTER_CASING)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, FERMENTER_CASING, BaseKeys.FERMENTER_CASING);
+        BasePages.DIESEL_PRODUCTION.addItem(FERMENTER_CASING);
+    }
+
+    public static final ItemStack BIOREFINERY = ItemStackBuilder.pylon(Material.PURPLE_TERRACOTTA, BaseKeys.BIOREFINERY)
+            .build();
+    static {
+        PylonItem.register(Biorefinery.Item.class, BIOREFINERY, BaseKeys.BIOREFINERY);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY);
+    }
+
+    public static final ItemStack BIOREFINERY_FOUNDATION = ItemStackBuilder.pylon(Material.LIGHT_GRAY_CONCRETE, BaseKeys.BIOREFINERY_FOUNDATION)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BIOREFINERY_FOUNDATION, BaseKeys.BIOREFINERY_FOUNDATION);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY_FOUNDATION);
+    }
+
+    public static final ItemStack BIOREFINERY_PLATING = ItemStackBuilder.pylon(Material.GRAY_STAINED_GLASS_PANE, BaseKeys.BIOREFINERY_PLATING)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BIOREFINERY_PLATING, BaseKeys.BIOREFINERY_PLATING);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY_PLATING);
+    }
+
+    public static final ItemStack BIOREFINERY_TOWER_RING = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.BIOREFINERY_TOWER_RING)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BIOREFINERY_TOWER_RING, BaseKeys.BIOREFINERY_TOWER_RING);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY_TOWER_RING);
+    }
+
+    public static final ItemStack BIOREFINERY_SMOKESTACK_RING = ItemStackBuilder.pylon(Material.POLISHED_DEEPSLATE_WALL, BaseKeys.BIOREFINERY_SMOKESTACK_RING)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BIOREFINERY_SMOKESTACK_RING, BaseKeys.BIOREFINERY_SMOKESTACK_RING);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY_SMOKESTACK_RING);
+    }
+
+    public static final ItemStack BIOREFINERY_SMOKESTACK_CAP = ItemStackBuilder.pylon(Material.FLOWER_POT, BaseKeys.BIOREFINERY_SMOKESTACK_CAP)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, BIOREFINERY_SMOKESTACK_CAP, BaseKeys.BIOREFINERY_SMOKESTACK_CAP);
+        BasePages.DIESEL_PRODUCTION.addItem(BIOREFINERY_SMOKESTACK_CAP);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)

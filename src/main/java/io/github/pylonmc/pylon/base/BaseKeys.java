@@ -186,6 +186,11 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_TANK_CASING_IGNEOUS_COMPOSITE = baseKey("fluid_tank_casing_igneous_composite");
     public static final NamespacedKey FLUID_TANK_CASING_STEEL = baseKey("fluid_tank_casing_steel");
 
+    public static final NamespacedKey FLUID_INPUT_HATCH = baseKey("fluid_input_hatch");
+    public static final NamespacedKey FLUID_OUTPUT_HATCH = baseKey("fluid_output_hatch");
+    public static final NamespacedKey ITEM_INPUT_HATCH = baseKey("item_input_hatch");
+    public static final NamespacedKey ITEM_OUTPUT_HATCH = baseKey("item_output_hatch");
+
     public static final NamespacedKey WATER_PUMP = baseKey("water_pump");
 
     public static final NamespacedKey FLUID_VALVE = baseKey("fluid_valve");
@@ -260,8 +265,6 @@ public class BaseKeys {
     public static final NamespacedKey IMPROVED_MANUAL_CORE_DRILL = baseKey("improved_manual_core_drill");
 
     public static final NamespacedKey HYDRAULIC_CORE_DRILL = baseKey("hydraulic_core_drill");
-    public static final NamespacedKey HYDRAULIC_CORE_DRILL_INPUT_HATCH = baseKey("hydraulic_core_drill_input_hatch");
-    public static final NamespacedKey HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = baseKey("hydraulic_core_drill_output_hatch");
 
     public static final NamespacedKey SHALLOW_CORE_CHUNK = baseKey("shallow_core_chunk");
     public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");
@@ -303,6 +306,17 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_FURNACE = baseKey("diesel_furnace");
     public static final NamespacedKey DIESEL_BREAKER = baseKey("diesel_breaker");
     public static final NamespacedKey DIESEL_MINER = baseKey("diesel_miner");
+
+    public static final NamespacedKey FERMENTER = baseKey("fermenter");
+    public static final NamespacedKey FERMENTER_CORE = baseKey("fermenter_core");
+    public static final NamespacedKey FERMENTER_CASING = baseKey("fermenter_casing");
+
+    public static final NamespacedKey BIOREFINERY = baseKey("biorefinery");
+    public static final NamespacedKey BIOREFINERY_FOUNDATION = baseKey("biorefinery_foundation");
+    public static final NamespacedKey BIOREFINERY_PLATING = baseKey("biorefinery_plating");
+    public static final NamespacedKey BIOREFINERY_TOWER_RING = baseKey("biorefinery_tower_ring");
+    public static final NamespacedKey BIOREFINERY_SMOKESTACK_RING = baseKey("biorefinery_smokestack_ring");
+    public static final NamespacedKey BIOREFINERY_SMOKESTACK_CAP = baseKey("biorefinery_smokestack_cap");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");

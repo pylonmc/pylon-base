@@ -164,8 +164,6 @@ hydraulic_drilling:
   cost: 40
   unlocks:
   - pylonbase:hydraulic_core_drill
-  - pylonbase:hydraulic_core_drill_input_hatch
-  - pylonbase:hydraulic_core_drill_output_hatch
   - pylonbase:intermediate_core_chunk
 igneous_magic:
   material: obsidian

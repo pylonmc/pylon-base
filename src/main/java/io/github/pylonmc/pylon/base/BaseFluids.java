@@ -1,6 +1,9 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
+import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
+import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
+import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import org.bukkit.Material;
@@ -222,6 +225,20 @@ public final class BaseFluids {
     static {
         REFLECTOR_FLUID.register();
     }
+
+    public static final PylonFluid SUGARCANE = new PylonFluid(
+            baseKey("sugarcane"),
+            Material.LIME_CONCRETE
+    ).addTag(FluidTemperature.NORMAL);
+    static {
+        SUGARCANE.register();
+        PylonGuide.hideFluid(SUGARCANE.getKey());
+    }
+
+    public static final PylonFluid ETHANOL = new PylonFluid(
+            baseKey("ethanol"),
+            Material.LIGHT_GRAY_CONCRETE_POWDER
+    ).addTag(FluidTemperature.NORMAL);
 
     public static final PylonFluid BIODIESEL = new PylonFluid(
             baseKey("biodiesel"),

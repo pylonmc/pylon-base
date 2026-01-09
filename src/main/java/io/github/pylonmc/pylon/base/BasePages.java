@@ -25,6 +25,7 @@ public class BasePages {
     public static final SimpleStaticGuidePage HYDRAULICS = new SimpleStaticGuidePage(baseKey("hydraulics"), Material.BLUE_CONCRETE_POWDER);
     public static final SimpleStaticGuidePage CARGO = new SimpleStaticGuidePage(baseKey("cargo"), Material.HOPPER);
     public static final SimpleStaticGuidePage DIESEL_MACHINES = new SimpleStaticGuidePage(baseKey("diesel_machines"), Material.YELLOW_CONCRETE);
+    public static final SimpleStaticGuidePage DIESEL_PRODUCTION = new SimpleStaticGuidePage(baseKey("diesel_production"), Material.YELLOW_CONCRETE_POWDER);
     private static final SimpleStaticGuidePage MACHINES = new SimpleStaticGuidePage(baseKey("machines"), Material.BLAST_FURNACE);
 
     public static final SimpleStaticGuidePage BUILDING = new SimpleStaticGuidePage(baseKey("building"), Material.STONE_BRICK_WALL);
@@ -55,6 +56,7 @@ public class BasePages {
         MACHINES.addPage(HYDRAULICS);
         MACHINES.addPage(CARGO);
         MACHINES.addPage(DIESEL_MACHINES);
+        MACHINES.addPage(DIESEL_PRODUCTION);
         PylonGuide.getRootPage().addPage(MACHINES);
 
         PylonGuide.getRootPage().addPage(BUILDING);
