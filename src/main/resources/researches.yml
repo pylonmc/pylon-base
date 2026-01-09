@@ -149,7 +149,8 @@ hydraulic_automation:
   - pylonbase:hydraulic_hammer_head
   - pylonbase:hydraulic_pipe_bender
   - pylonbase:hydraulic_table_saw
-  - pylonbase:hydraulic_excavator
+  - pylonbase:hydraulic_miner
+  - pylonbase:hydraulic_breaker
   - pylonbase:hydraulic_farmer
 hydraulic_combat:
   material: iron_horse_armor

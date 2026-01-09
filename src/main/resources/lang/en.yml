@@ -734,6 +734,16 @@ item:
       <star> Smeltery multiblock component
       <arrow> Burns fuel to heat the smeltery
 
+  diesel_smeltery_heater:
+    name: "Diesel Smeltery Heater"
+    lore: |-
+      <star> Smeltery multiblock component
+      <arrow> Burns diesel to heat the smeltery
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+      <arrow> <attr>Temperature:</attr> %temperature%
+    waila: "Diesel Smeltery Heater | %bar%"
+
   smeltery_caster:
     name: "Smeltery Caster"
     lore: |-
@@ -926,6 +936,7 @@ item:
       <arrow> Outputs dirty hydraulic fluid
       <arrow> <insn>Right click</insn> with a hammer to insert the hammer
       <arrow> <insn>Right click</insn> again to take out the hammer
+      <arrow> <attr>Speed:</attr> %speed%
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-craft% per craft
       <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Hydraulic Hammer Head | %input-bar% | %output-bar%"
@@ -949,6 +960,16 @@ item:
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage% per craft
       <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Hydraulic Table Saw | %input-bar% | %output-bar%"
+
+  hydraulic_breaker:
+    name: "Hydraulic Breaker"
+    lore: |-
+      <arrow> Breaks the block directly in front of it using the stored tool
+      <arrow> Only breaks blocks that can be broken by the stored tool
+      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-block% per block
+      <arrow> <attr>Buffer:</attr> %buffer%
+    waila: "Hydraulic Breaker | %input-bar% | %output-bar%"
 
   quartz_dust:
     name: "Quartz Dust"
@@ -1356,19 +1377,17 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
     waila: "Hydraulic Farmer | %input-bar% | %output-bar%"
 
-  hydraulic_excavator:
-    name: "Hydraulic Excavator"
+  hydraulic_miner:
+    name: "Hydraulic Miner"
     lore: |-
-      <arrow> Excavates dirt, sand, gravel, etc in a radius beneath it
-      <arrow> Cannot excavate harder blocks such as stone
+      <arrow> Mines blocks in an area using the stored tool
+      <arrow> Only breaks blocks that can be broken by the stored tool
       <arrow> Outputs dirty hydraulic fluid
-      <arrow> <insn>Right click</insn> to start digging
-      <arrow> <attr>Radius:</attr> %radius%
-      <arrow> <attr>Depth:</attr> %depth%
-      <arrow> <attr>Time per block:</attr> %time-per-block%
-      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
+      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Mining area:</attr> %mining-area%
+      <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-per-block% per block
       <arrow> <attr>Buffer:</attr> %buffer%
-    waila: "Hydraulic Excavator | %input-bar% | %output-bar%"
+    waila: "Hydraulic Miner | %input-bar% | %output-bar%"
 
   diesel_pipe_bender:
     name: "Diesel Pipe Bender"
@@ -1415,19 +1434,53 @@ item:
       <arrow> <attr>Molding cycles:</attr> %molding-cycles%
     waila: "Diesel Brick Molder | %diesel-bar%"
 
-  diesel_fired_purification_tower:
-    name: "Diesel-fired Purification Tower"
+  diesel_hammer_head:
+    name: "Diesel Hammer Head"
     lore: |-
-      <star> Multiblock
-      <arrow> Converts dirty hydraulic fluid back into hydraulic fluid
-      <arrow> Burns diesel
-      <arrow> <attr>Purification speed:</attr> %purification_speed%
-      <arrow> <attr>Purification efficiency:</attr> %purification_efficiency%
-      
-      <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.diesel_fired_purification_tower.name></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
-      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+      <arrow> Place above the hammer's base block, leaving a two block gap
+      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-craft% per craft
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Hammer Head | %bar%"
+
+  diesel_mixing_attachment:
+    name: "Diesel Mixing Attachment"
+    lore: |-
+      <arrow> Place above the mixer, leaving a one block gap
+      <arrow> <attr>Cooldown time:</attr> %cooldown%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-craft% per craft
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Mixing Attachment | %bar%"
+
+  diesel_breaker:
+    name: "Diesel Breaker"
+    lore: |-
+      <arrow> Breaks the block directly in front of it using the stored tool
+      <arrow> Only breaks blocks that can be broken by the stored tool
+      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-block% per block
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Breaker | %bar%"
+
+  diesel_furnace:
+    name: "Diesel Furnace"
+    lore: |-
+      <arrow> Smelts items
+      <arrow> <attr>Diesel usage:</attr> %diesel-usage%
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+      <arrow> <attr>Speed:</attr> %speed%
+    waila: "Diesel Furnace | %bar%"
+
+  diesel_miner:
+    name: "Diesel Miner"
+    lore: |-
+      <arrow> Mines blocks in an area using the stored tool
+      <arrow> Only breaks blocks that can be broken by the stored tool
+      <arrow> <attr>Speed:</attr> %speed%
+      <arrow> <attr>Mining area:</attr> %mining-area%
+      <arrow> <attr>Diesel usage:</attr> %diesel-per-block% per block
+      <arrow> <attr>Diesel buffer:</attr> %diesel-buffer%
+    waila: "Diesel Miner | %bar%"
 
   cargo_duct:
     name: "<white>Cargo Duct"
@@ -1811,6 +1864,9 @@ message:
 
 gui:
   fluid-selector-title: "Select Fluid"
+  hammer: "Hammer"
+  pickaxe: "Pickaxe"
+  tool: "Tool"
   portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"

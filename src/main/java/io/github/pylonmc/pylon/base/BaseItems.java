@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.base.content.machines.diesel.*;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
+import io.github.pylonmc.pylon.base.content.machines.smelting.DieselSmelteryHeater;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
@@ -1794,11 +1795,11 @@ public final class BaseItems {
         BasePages.HYDRAULICS.addItem(HYDRAULIC_REFUELING_STATION);
     }
 
-    public static final ItemStack HYDRAULIC_EXCAVATOR = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CHISELED_COPPER, BaseKeys.HYDRAULIC_EXCAVATOR)
+    public static final ItemStack HYDRAULIC_MINER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CHISELED_COPPER, BaseKeys.HYDRAULIC_MINER)
             .build();
     static {
-        PylonItem.register(HydraulicExcavator.Item.class, HYDRAULIC_EXCAVATOR, BaseKeys.HYDRAULIC_EXCAVATOR);
-        BasePages.HYDRAULICS.addItem(HYDRAULIC_EXCAVATOR);
+        PylonItem.register(HydraulicMiner.Item.class, HYDRAULIC_MINER, BaseKeys.HYDRAULIC_MINER);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_MINER);
     }
 
     public static final ItemStack HYDRAULIC_FARMER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_COPPER_BULB, BaseKeys.HYDRAULIC_FARMER)
@@ -1806,6 +1807,13 @@ public final class BaseItems {
     static {
         PylonItem.register(HydraulicFarmer.Item.class, HYDRAULIC_FARMER, BaseKeys.HYDRAULIC_FARMER);
         BasePages.HYDRAULICS.addItem(HYDRAULIC_FARMER);
+    }
+
+    public static final ItemStack HYDRAULIC_BREAKER = ItemStackBuilder.pylon(Material.WAXED_EXPOSED_CUT_COPPER, BaseKeys.HYDRAULIC_BREAKER)
+            .build();
+    static {
+        PylonItem.register(HydraulicBreaker.Item.class, HYDRAULIC_BREAKER, BaseKeys.HYDRAULIC_BREAKER);
+        BasePages.HYDRAULICS.addItem(HYDRAULIC_BREAKER);
     }
 
     public static final ItemStack SOULBOUND_RUNE = ItemStackBuilder.pylon(Material.FIREWORK_STAR, BaseKeys.SOULBOUND_RUNE)
@@ -1855,6 +1863,51 @@ public final class BaseItems {
     static {
         PylonItem.register(DieselBrickMolder.Item.class, DIESEL_BRICK_MOLDER, BaseKeys.DIESEL_BRICK_MOLDER);
         BasePages.DIESEL_MACHINES.addItem(DIESEL_BRICK_MOLDER);
+    }
+
+    public static final ItemStack DIESEL_HAMMER_HEAD = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_HAMMER_HEAD)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GRAY_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselHammerHead.Item.class, DIESEL_HAMMER_HEAD, BaseKeys.DIESEL_HAMMER_HEAD);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_HAMMER_HEAD);
+    }
+
+    public static final ItemStack DIESEL_MIXING_ATTACHMENT = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_MIXING_ATTACHMENT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_GRAY_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselMixingAttachment.Item.class, DIESEL_MIXING_ATTACHMENT, BaseKeys.DIESEL_MIXING_ATTACHMENT);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_MIXING_ATTACHMENT);
+    }
+
+    public static final ItemStack DIESEL_FURNACE = ItemStackBuilder.pylon(Material.FURNACE, BaseKeys.DIESEL_FURNACE)
+            .build();
+    static {
+        PylonItem.register(DieselFurnace.Item.class, DIESEL_FURNACE, BaseKeys.DIESEL_FURNACE);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_FURNACE);
+    }
+
+    public static final ItemStack DIESEL_SMELTERY_HEATER = ItemStackBuilder.pylon(Material.FURNACE, BaseKeys.DIESEL_SMELTERY_HEATER)
+            .build();
+    static {
+        PylonItem.register(DieselSmelteryHeater.Item.class, DIESEL_SMELTERY_HEATER, BaseKeys.DIESEL_SMELTERY_HEATER);
+        BasePages.SMELTING.addItem(DIESEL_SMELTERY_HEATER);
+    }
+
+    public static final ItemStack DIESEL_BREAKER = ItemStackBuilder.pylon(Material.DROPPER, BaseKeys.DIESEL_BREAKER)
+            .build();
+    static {
+        PylonItem.register(DieselBreaker.Item.class, DIESEL_BREAKER, BaseKeys.DIESEL_BREAKER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_BREAKER);
+    }
+
+    public static final ItemStack DIESEL_MINER = ItemStackBuilder.pylon(Material.IRON_BLOCK, BaseKeys.DIESEL_MINER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.YELLOW_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(DieselMiner.Item.class, DIESEL_MINER, BaseKeys.DIESEL_MINER);
+        BasePages.DIESEL_MACHINES.addItem(DIESEL_MINER);
     }
 
     public static final ItemStack CARGO_DUCT = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_DUCT)
