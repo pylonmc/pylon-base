@@ -573,6 +573,15 @@ item:
       <arrow> <attr>Capacity:</attr> %capacity%
     waila: "Mixing Pot | %bar% (%fluid%)"
 
+  crucible:
+    name: "Crucible"
+    lore: |-
+      <arrow> Place items in the crucible using <insn>right click</insn>
+      <arrow> Can hold only one item type at a time
+      <arrow> The items will melt depending on the heat produced by the block below the cauldron
+      <arrow> Requires a heat source underneath to work
+    waila: "Crucible %item_info% %liquid_info%"
+
   monster_jerky:
     name: "Monster Jerky"
     lore: |-
@@ -1477,6 +1486,13 @@ waila:
   fluid_tank:
     empty: "(empty)"
     filled: "| %bar%/%capacity% of %fluid%"
+  crucible:
+    item:
+      empty: "| No items |"
+      stored: "| x%amount% %type% |"
+    liquid:
+      empty: "No fluid"
+      filled: "%bar% (%fluid%)"
   fluid_strainer:
     straining: " | Straining %item% | %bars%"
   pit_kiln: "Pit Kiln | %time% left"

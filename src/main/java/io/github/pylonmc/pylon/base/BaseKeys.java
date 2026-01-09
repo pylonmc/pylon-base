@@ -157,6 +157,7 @@ public class BaseKeys {
     public static final NamespacedKey GRINDSTONE_HANDLE = baseKey("grindstone_handle");
 
     public static final NamespacedKey MIXING_POT = baseKey("mixing_pot");
+    public static final NamespacedKey CRUCIBLE = baseKey("crucible");
 
     public static final NamespacedKey PRESS = baseKey("press");
 
