@@ -28,6 +28,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,11 @@ public class CreativeFluidSource extends PylonBlock implements
                         : fluid.getName()
                 )
         ));
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of();
     }
 
     @Override

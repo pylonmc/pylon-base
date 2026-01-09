@@ -2,7 +2,6 @@ package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.guide.pages.base.SimpleStaticGuidePage;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +15,7 @@ public class BasePages {
     public static final SimpleStaticGuidePage COMPONENTS = new SimpleStaticGuidePage(baseKey("components"));
     public static final SimpleStaticGuidePage TOOLS = new SimpleStaticGuidePage(baseKey("tools"));
     public static final SimpleStaticGuidePage COMBAT = new SimpleStaticGuidePage(baseKey("combat"));
+    public static final SimpleStaticGuidePage TALISMANS = new SimpleStaticGuidePage(baseKey("talismans"));
     public static final SimpleStaticGuidePage ARMOUR = new SimpleStaticGuidePage(baseKey("armour"));
     public static final SimpleStaticGuidePage FOOD = new SimpleStaticGuidePage(baseKey("food"));
 
@@ -44,6 +44,7 @@ public class BasePages {
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_DRILL_BIT, COMPONENTS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_PICKAXE, TOOLS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_SWORD, COMBAT);
+        PylonGuide.getRootPage().addPage(BaseItems.HEALTH_TALISMAN_ADVANCED, TALISMANS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_CHESTPLATE, ARMOUR);
         PylonGuide.getRootPage().addPage(Material.APPLE, FOOD);
 

@@ -10,7 +10,11 @@ import org.bukkit.block.Block;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+
+import java.util.Map;
+
 
 public class ItemOutputHatch extends PylonBlock implements PylonGuiBlock, PylonLogisticBlock {
 
@@ -36,5 +40,10 @@ public class ItemOutputHatch extends PylonBlock implements PylonGuiBlock, PylonL
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)
                 .build();
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 }

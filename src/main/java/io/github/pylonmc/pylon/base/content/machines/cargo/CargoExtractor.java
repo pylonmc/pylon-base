@@ -34,11 +34,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class CargoExtractor extends CargoInteractor implements
@@ -260,5 +264,10 @@ public class CargoExtractor extends CargoInteractor implements
     @Override
     public boolean isValidGroup(@NotNull LogisticGroup group) {
         return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.OUTPUT;
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("output", outputInventory, "filter", filterInventory);
     }
 }
