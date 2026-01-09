@@ -18,6 +18,7 @@ public class BaseRecipes {
         MagicAltarRecipe.RECIPE_TYPE.register();
         MeltingRecipe.RECIPE_TYPE.register();
         MixingPotRecipe.RECIPE_TYPE.register();
+        CrucibleRecipe.RECIPE_TYPE.register();
         MoldingRecipe.RECIPE_TYPE.register();
         PipeBendingRecipe.RECIPE_TYPE.register();
         PressRecipe.RECIPE_TYPE.register();

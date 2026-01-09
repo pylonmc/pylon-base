@@ -7,6 +7,8 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import io.papermc.paper.persistence.PersistentDataContainerView;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -41,6 +43,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
         return List.of(PylonArgument.of("pickup-distance", UnitFormat.BLOCKS.format(pickupDistance)));
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         if (!event.getAction().isRightClick()) return;
@@ -61,6 +64,15 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
 
             pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
         });
+
+        CustomModelData data = stack.getDataOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().build());
+        CustomModelData newData = CustomModelData.customModelData()
+                .addStrings(data.strings())
+                .addFloats(data.floats())
+                .addColors(data.colors())
+                .addFlag(isEnabled())
+                .build();
+        stack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, newData);
     }
 
     /**

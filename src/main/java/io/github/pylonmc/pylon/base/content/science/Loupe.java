@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.science;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -109,6 +110,11 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
     }
 
     private static boolean processMaterial(Material type, Player player) {
+        if (!type.isItem()) {
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.loupe.invalid_block"));
+            return true;
+        }
+
         var items = player.getPersistentDataContainer().getOrDefault(CONSUMED_KEY, CONSUMED_TYPE, Map.of());
         ItemRarity rarity = type.getDefaultData(DataComponentTypes.RARITY);
         int maxUses = itemConfigs.get(rarity).uses;
@@ -151,12 +157,12 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         // process block aimed at
         Material blockType = toScan.getType();
         BlockType bt = blockType.asBlockType();
-        if (bt == null) return; // shouldn't happen
+        Preconditions.checkNotNull(bt);
 
+        if (!new BlockBreakEvent(toScan, player).callEvent()) return;
         if (addPoints(blockType, Component.translatable(bt.translationKey()), player)) return;
         if (blockType.getHardness() > 0f) { // filter out unbreakable blocks
             toScan.setType(Material.AIR);
-            new BlockBreakEvent(toScan, player).callEvent();
         }
     }
 

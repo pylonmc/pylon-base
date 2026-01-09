@@ -13,7 +13,6 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -178,7 +177,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         if (!isProcessing()) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Fuel fuel : FUELS) {
-                if (item == null || !PylonUtils.isPylonSimilar(item, fuel.stack)) {
+                if (item == null || !item.isSimilar(fuel.stack)) {
                     continue;
                 }
 

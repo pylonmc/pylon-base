@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
 import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
 import io.github.pylonmc.pylon.base.content.talismans.*;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
@@ -17,12 +18,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
@@ -59,6 +58,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new Rune.RuneListener(), this);
         pm.registerEvents(new SoulboundRune.SoulboundRuneListener(), this);
         pm.registerEvents(new Bloomery.CreationListener(), this);
+        pm.registerEvents(new Grindstone.PlaceListener(), this);
 
         new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
 

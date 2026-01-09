@@ -9,24 +9,27 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonFallingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -37,13 +40,18 @@ import org.joml.Matrix4f;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
+import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
+
+public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
     public static final int TOLERANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tolerance", ConfigAdapter.INT);
     public static final Sound HAMMER_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.hammer", ConfigAdapter.SOUND);
     public static final Sound TONGS_SOUND = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("sound.tongs", ConfigAdapter.SOUND);
+
+    public static final NamespacedKey DIRECTION_FALLING = baseKey("direction_falling");
+    public static final NamespacedKey STORED_ITEM = baseKey("stored_item");
 
     private static final Matrix4f BASE_TRANSFORM = new TransformBuilder()
             .scale(0.3)
@@ -57,7 +65,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         BlockFace orientation = ((Directional) block.getBlockData()).getFacing();
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new Matrix4f(BASE_TRANSFORM)
-                        .rotateLocalY(getItemRotation()))
+                        .rotateLocalY(getItemRotation(getBlockFace())))
                 .build(getBlock().getLocation().toCenterLocation())
         );
         setTickInterval(TICK_INTERVAL);
@@ -90,23 +98,28 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         ItemStack placedItem = event.getItem();
 
         ItemDisplay itemDisplay = getItemDisplay();
-        ItemStack oldStack = itemDisplay.getItemStack();
-        if (oldStack.getType().isAir()) {
-            if (placedItem != null) {
-                itemDisplay.setItemStack(placedItem.asOne());
-                placedItem.subtract();
-                if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
-                    transformForWorking(bloom.getWorking(), false);
-                    bloom.setDisplayGlowOn(itemDisplay);
+
+        if (itemDisplay != null) {
+            ItemStack oldStack = itemDisplay.getItemStack();
+
+            if (oldStack.getType().isAir()) {
+                if (placedItem != null) {
+                    itemDisplay.setItemStack(placedItem.asOne());
+                    placedItem.subtract();
+                    if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
+                        transformForWorking(bloom.getWorking(), false);
+                        bloom.setDisplayGlowOn(itemDisplay);
+                    }
                 }
+            } else {
+                Player player = event.getPlayer();
+                for (ItemStack stack : player.getInventory().addItem(oldStack).values()) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), stack);
+                }
+                itemDisplay.setItemStack(null);
             }
-        } else {
-            Player player = event.getPlayer();
-            for (ItemStack stack : player.getInventory().addItem(oldStack).values()) {
-                player.getWorld().dropItemNaturally(player.getLocation(), stack);
-            }
-            itemDisplay.setItemStack(null);
         }
+
         event.setCancelled(true);
         event.getPlayer().swingHand(EquipmentSlot.HAND);
     }
@@ -125,7 +138,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         if (temperature == 0) {
             player.swingHand(EquipmentSlot.HAND);
             return;
-        } else if (PylonUtils.isPylonSimilar(item, BaseItems.TONGS)) {
+        } else if (item.isSimilar(BaseItems.TONGS)) {
             workingChange -= temperature;
             getBlock().getWorld().playSound(TONGS_SOUND, player);
         } else if (PylonItem.fromStack(item) instanceof Hammer hammer) {
@@ -162,13 +175,14 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         }
         bloom.setWorking(newWorking);
         itemDisplay.setItemStack(bloom.getStack());
-        transformForWorking(newWorking, PylonUtils.isPylonSimilar(item, BaseItems.TONGS));
+        transformForWorking(newWorking, item.isSimilar(BaseItems.TONGS));
     }
 
     @Override
     public void tick() {
         if (ThreadLocalRandom.current().nextFloat() > COOL_CHANCE) return;
         ItemDisplay itemDisplay = getItemDisplay();
+        if (itemDisplay == null) return;
         if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
         int newTemperature = Math.max(0, bloom.getTemperature() - 1);
         bloom.setTemperature(newTemperature);
@@ -182,28 +196,59 @@ public final class BronzeAnvil extends PylonBlock implements PylonBreakHandler, 
         itemDisplay.setItemStack(bloom.getStack());
     }
 
-    public @NotNull ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+
+    @Override
+    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity spawnedEntity) {
+        var pdc = spawnedEntity.getEntity().getPersistentDataContainer();
+
+        ItemDisplay display = getItemDisplay();
+        PylonUtils.setNullable(pdc, STORED_ITEM, PylonSerializers.ITEM_STACK, display == null ? null : display.getItemStack());
+        pdc.set(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE, getBlockFace());
+    }
+
+    @Override
+    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity entity) {
+        var pdc = entity.getEntity().getPersistentDataContainer();
+
+        ItemStack stack = pdc.get(STORED_ITEM, PylonSerializers.ITEM_STACK);
+        BlockFace face = pdc.get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
+        addEntity("item", new ItemDisplayBuilder()
+                .itemStack(stack)
+                .transformation(new Matrix4f(BASE_TRANSFORM)
+                        .rotateLocalY(getItemRotation(face)))
+                .build(getBlock().getLocation().toCenterLocation())
+        );
+    }
+
+    public ItemDisplay getItemDisplay() {
+        return getHeldEntity(ItemDisplay.class, "item");
     }
 
     private void transformForWorking(int working, boolean interpolate) {
         Matrix4f transform = new Matrix4f(BASE_TRANSFORM)
-                .rotateLocalY(getItemRotation())
+                .rotateLocalY(getItemRotation(getBlockFace()))
                 .scaleLocal(
                         Math.max(0, working * 0.5f) + 1,
                         1,
                         Math.max(0, -working * 0.5f) + 1
                 );
+
+        ItemDisplay display = getItemDisplay();
+        if (display == null) return;
+
         if (interpolate) {
-            BaseUtils.animate(getItemDisplay(), 5, transform);
+            BaseUtils.animate(display, 5, transform);
         } else {
-            getItemDisplay().setTransformationMatrix(transform);
+            display.setTransformationMatrix(transform);
         }
     }
 
-    private float getItemRotation() {
-        BlockFace orientation = ((Directional) getBlock().getBlockData()).getFacing();
-        return (float) switch (orientation) {
+    private BlockFace getBlockFace() {
+        return ((Directional) getBlock().getBlockData()).getFacing();
+    }
+
+    private static float getItemRotation(BlockFace face) {
+        return (float) switch (face) {
             case NORTH -> 3 * Math.PI / 2;
             case EAST -> Math.PI;
             case SOUTH -> Math.PI / 2;

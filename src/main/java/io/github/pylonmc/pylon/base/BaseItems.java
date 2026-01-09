@@ -11,15 +11,9 @@ import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
 import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselBrickMolder;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselGrindstone;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPipeBender;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselPress;
-import io.github.pylonmc.pylon.base.content.machines.diesel.DieselTableSaw;
+import io.github.pylonmc.pylon.base.content.machines.diesel.*;
 import io.github.pylonmc.pylon.base.content.machines.fluid.*;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.base.content.machines.hydraulics.SolarPurificationTower;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
@@ -769,8 +763,14 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(MIXING_POT);
     }
 
+    public static final ItemStack CRUCIBLE = ItemStackBuilder.pylon(Material.CAULDRON, BaseKeys.CRUCIBLE)
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CRUCIBLE, BaseKeys.CRUCIBLE);
+        BasePages.SIMPLE_MACHINES.addItem(CRUCIBLE);
+    }
+
     public static final ItemStack ENRICHED_SOUL_SOIL = ItemStackBuilder.pylon(Material.SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL)
-            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
             .build();
     static {
         PylonItem.register(PylonItem.class, ENRICHED_SOUL_SOIL, BaseKeys.ENRICHED_SOUL_SOIL);

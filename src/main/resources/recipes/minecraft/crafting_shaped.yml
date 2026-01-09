@@ -203,6 +203,17 @@ pylonbase:bronze_boots:
   result: pylonbase:bronze_boots
   category: equipment
 
+pylonbase:bronze_anvil:
+  pattern:
+    - "BBB"
+    - " b "
+    - "bbb"
+  key:
+    B: pylonbase:bronze_block
+    b: pylonbase:bronze_ingot
+  result: pylonbase:bronze_anvil
+  category: building
+
 pylonbase:watering_can:
   pattern:
     - "  S"
@@ -344,6 +355,16 @@ pylonbase:mixing_pot:
   key:
     F: pylonbase:iron_sheet
   result: pylonbase:mixing_pot
+  category: building
+
+pylonbase:crucible:
+  pattern:
+    - "C C"
+    - "C C"
+    - "CCC"
+  key:
+    C: pylonbase:refractory_brick
+  result: pylonbase:crucible
   category: building
 
 pylonbase:enriched_soul_soil:
@@ -1033,7 +1054,7 @@ pylonbase:explosive_target:
     G: minecraft:gunpowder
     X: minecraft:target
   result: pylonbase:explosive_target
-  category: building
+  category: redstone
 
 pylonbase:immobilizer:
   pattern:
@@ -1086,12 +1107,12 @@ pylonbase:elevator_3:
 
 pylonbase:press:
   pattern:
-    - "BPB"
-    - "B B"
-    - "BBB"
+    - "LPL"
+    - "L L"
+    - "LLL"
   key:
     P: minecraft:piston
-    B: minecraft:brick
+    L: "#minecraft:logs"
   result: pylonbase:press
   category: building
 
@@ -1518,6 +1539,7 @@ pylonbase:hydraulic_refueling_station:
     G: minecraft:glass
   result: pylonbase:hydraulic_refueling_station
   category: building
+
 
 pylonbase:reactivated_wither_skull:
   pattern:
