@@ -1,0 +1,1836 @@
+addon: 基础
+item:
+  bandage:
+    name: 绷带
+    lore: |-
+      <arrow> 修补瘀伤与伤口
+      <arrow> <insn>右键</insn>使用
+      <arrow> <attr>治疗量:</attr> %heal-amount%
+      <arrow> <attr>使用时间:</attr> %consume-seconds%
+  beheading_sword:
+    name: 斩首剑
+    lore: |-
+      <arrow> 以令人不安的精准度斩首你击杀的生物
+      <arrow> 使玩家、苦力怕、猪灵、末影龙、骷髅和僵尸有 %default-chance%% 的几率掉落头颅
+      <arrow> 凋灵骷髅掉落头颅的几率额外增加 %wither-skeleton-chance%%
+  bronze_dust:
+    name: 青铜粉
+  bronze_ingot:
+    name: 青铜锭
+  bronze_nugget:
+    name: 青铜粒
+  bronze_block:
+    name: 青铜块
+  bronze_sheet:
+    name: 青铜板
+  cleansing_potion:
+    name: 净化药水
+    lore: |-
+      <arrow> 立即将僵尸村民变回普通村民
+      <arrow> 同时将其生命值恢复至满
+  climbing_pick:
+    name: 攀爬镐
+    lore: |-
+      <arrow> 在方块上<insn>右键</insn>可抓住它
+      <arrow> 随后<insn>二段跳</insn>可借力推开
+      <arrow> <insn>潜行</insn>可松开
+      <arrow> <attr>跳跃速度:</attr> %jump-speed%
+      <arrow> <attr>钩取范围:</attr> %hook-range%
+  coal_dust:
+    name: 煤粉
+  cobalt_dust:
+    name: 钴粉
+  cobalt_ingot:
+    name: 钴锭
+  cobalt_nugget:
+    name: 钴粒
+  cobalt_block:
+    name: 钴块
+  carbon:
+    name: 碳
+  compressed_obsidian:
+    name: 压缩黑曜石
+  compressed_wood:
+    name: 压缩木头
+  copper_dust:
+    name: 铜粉
+  copper_sheet:
+    name: 铜板
+  covalent_binder:
+    name: 共价粘合剂
+    lore: <arrow> 一种在手心会变形并回弹的胶状物质
+  crushed_raw_copper:
+    name: 粉碎粗铜
+  crushed_raw_gold:
+    name: 粉碎粗金
+  crushed_raw_iron:
+    name: 粉碎粗铁
+  crushed_raw_tin:
+    name: 粉碎粗锡
+  dimensional_barrel:
+    name: 维度桶
+    lore: |-
+      <arrow> 利用额外维度的力量储存更多物品
+      <arrow> <attr>容量:</attr> %size%
+    waila: 维度桶
+  disinfectant:
+    name: <white>消毒剂
+    lore: |-
+      <arrow> 一种化学混合物，使用时可移除所有状态效果
+      <arrow> <insn>右键</insn>使用
+      <arrow> <attr>使用时间:</attr> <unit:seconds>3</unit>
+  dough:
+    name: 面团
+  enriched_soul_soil:
+    name: 富集灵魂土
+    lore: <arrow> 比下界岩燃烧得更旺更亮
+  explosive_target:
+    name: 爆炸靶
+    lore: |-
+      <arrow> 被射中时爆炸
+      <arrow> <attr>爆炸威力:</attr> %explosive-power%
+  explosive_target_fiery:
+    name: 烈焰爆炸靶
+    lore: |-
+      <arrow> 被射中时爆炸并引燃周围
+      <arrow> <attr>爆炸威力:</attr> %explosive-power%
+  explosive_target_super:
+    name: 超级爆炸靶
+    lore: |-
+      <arrow> 被射中时剧烈爆炸
+      <arrow> <attr>爆炸威力:</attr> %explosive-power%
+  explosive_target_super_fiery:
+    name: 超级烈焰爆炸靶
+    lore: |-
+      <arrow> 被射中时剧烈爆炸并引燃周围
+      <arrow> <attr>爆炸威力:</attr> %explosive-power%
+  iron_bloom:
+    name: 铁胚
+  wrought_iron:
+    name: 锻铁
+  tongs:
+    name: 钳子
+    lore: |-
+      <arrow> 用于从熔炉安全地取出铁胚
+      <arrow> 也用于在加工铁胚时使用
+  bloomery:
+    name: 熔炼炉
+    lore: |-
+      <star> 多方块结构
+      <arrow> 用于将海绵铁冶炼成钢的设备
+      <arrow> <insn>在一块煤炭上点火并在其上撒石膏粉</insn>即可生成
+      <arrow> <insn>右键</insn>放入物品
+      <arrow> <insn>手持钳子右键</insn>可安全取出物品
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.bloomery.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.pylonbase.item.refractory_bricks.name/></yellow>
+  bronze_anvil:
+    name: 青铜砧
+    lore: |-
+      <arrow> 用于将铁胚打造成锻铁
+      <arrow> 目标是将胚锤成“正常”形状
+      <arrow> <insn>右键</insn>在铁砧上放置物品
+      <arrow> 用锤子<insn>左键</insn>可使胚变短/变宽
+      <arrow> 用<lang:pylon.pylonbase.item.tongs.name/> <insn>左键</insn>可使胚变高/变窄
+      <arrow> 形状变化幅度由温度决定
+      <arrow> 当温度为0且胚形状足够时，会弹出一块<lang:pylon.pylonbase.item.wrought_iron/>
+  bronze_axe:
+    name: 青铜斧
+  bronze_boots:
+    name: 青铜靴
+  bronze_chestplate:
+    name: 青铜胸甲
+  bronze_helmet:
+    name: 青铜头盔
+  bronze_hoe:
+    name: 青铜锄
+  bronze_leggings:
+    name: 青铜护腿
+  bronze_pickaxe:
+    name: 青铜镐
+  bronze_shovel:
+    name: 青铜铲
+  bronze_sword:
+    name: 青铜剑
+  fiber:
+    name: 纤维
+  flour:
+    name: 面粉
+  fluid_pipe_wood:
+    name: 木质流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_copper:
+    name: 铜质流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_tin:
+    name: 锡质流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_iron:
+    name: 铁质流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_bronze:
+    name: 青铜流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_igneous_composite:
+    name: 火成复合流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_steel:
+    name: 钢质流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  fluid_pipe_creative:
+    name: <#ff00ff>创造模式流体管道
+    lore: |-
+      <arrow> 在连接点、另一根管道或方块上<insn>右键</insn>开始放置
+      <arrow> 只能连接同类型管道
+      <arrow> <attr>流体:</attr> %fluid_per_second%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+  ice_arrow:
+    name: 冰霜箭
+    lore: |-
+      <arrow> 用此箭的冰冷冲击减缓并冻结敌人
+      <arrow> <attr>冻结时长:</attr> %freeze-duration%
+  portable_fluid_tank_wood:
+    name: 木质便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 木质便携流体储罐 %info%
+  portable_fluid_tank_copper:
+    name: 铜质便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 铜质便携流体储罐 %info%
+  portable_fluid_tank_tin:
+    name: 锡质便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 锡质便携流体储罐 %info%
+  portable_fluid_tank_iron:
+    name: 铁质便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 铁质便携流体储罐 %info%
+  portable_fluid_tank_bronze:
+    name: 青铜便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 青铜便携流体储罐 %info%
+  portable_fluid_tank_igneous_composite:
+    name: 火成复合便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 黑曜石便携流体储罐 %info%
+  portable_fluid_tank_steel:
+    name: 钢质便携流体储罐
+    lore: |-
+      <arrow> 可放置并通过管道连接
+      <arrow> 破坏时保留内容物
+      <arrow> <insn>右键</insn>使用桶添加/移除流体（仅限水或岩浆）
+      <arrow> <attr>流体:</attr> %amount%/%capacity% (%fluid%)
+      <arrow> <attr>允许的温度:</attr> %temperatures%
+    waila: 钢质便携流体储罐 %info%
+  fluid_valve:
+    name: <white>流体阀门
+    lore: <arrow> <insn>右键</insn>流体阀门可切换其状态
+    waila: 流体阀门 (%status%)
+  fluid_filter:
+    name: <white>流体过滤器
+    lore: |-
+      <arrow> 仅允许特定流体通过
+      <arrow> <insn>右键</insn>流体过滤器可更改过滤的流体
+      <arrow> <attr>缓冲:</attr> %buffer%
+    waila: 流体过滤器 (%fluid%)
+    gui: 流体过滤器
+  fluid_meter:
+    name: <white>流体计量器
+    lore: |-
+      <arrow> 流体过滤器的变种，可显示流经的流体数量
+      <arrow> <insn>右键</insn>流体计量器可更改过滤的流体
+      <arrow> <attr>缓冲:</attr> %buffer%
+    waila: 流体计量器 (%fluid%)
+    gui: 流体计量器
+  fluid_strainer:
+    name: 流体滤网
+    lore: |-
+      <arrow> 从流体中过滤出物品
+      <arrow> <insn>右键</insn>打开物品栏
+    waila: 流体滤网%info%
+  fluid_voider_1:
+    name: 流体消除器 <light_purple>I
+    lore: |-
+      <arrow> 销毁所有输入其中的流体
+      <arrow> <attr>消除速率:</attr> %void_rate%
+  fluid_voider_2:
+    name: 流体消除器 <light_purple>II
+    lore: |-
+      <arrow> 销毁所有输入其中的流体
+      <arrow> <attr>消除速率:</attr> %void_rate%
+  fluid_voider_3:
+    name: 流体消除器 <light_purple>III
+    lore: |-
+      <arrow> 销毁所有输入其中的流体
+      <arrow> <attr>消除速率:</attr> %void_rate%
+  creative_fluid_voider:
+    name: <#ff00ff>创造模式流体消除器
+    lore: |-
+      <arrow> 销毁所有输入其中的流体
+      <arrow> <attr>消除速率:</attr> %void_rate%
+  creative_fluid_source:
+    name: <#ff00ff>创造模式流体源
+    lore: |-
+      <arrow> 产生几乎无限量的任意流体
+      <arrow> <insn>右键</insn>选择流体
+    waila: 创造模式流体源 | %fluid%
+  iron_dust:
+    name: 铁粉
+  water_placer:
+    name: 水源放置器
+    lore: |-
+      <arrow> 在其前方方块填充水
+      <arrow> 必须供应水才能运作
+      <arrow> <attr>填充间隔:</attr> %fill_interval%
+    waila: 水源放置器 | %bars%
+  lava_placer:
+    name: 岩浆放置器
+    lore: |-
+      <arrow> 在其前方方块填充岩浆
+      <arrow> 必须供应岩浆才能运作
+      <arrow> <attr>填充间隔:</attr> %fill_interval%
+    waila: 岩浆放置器 | %bars%
+  water_drainer:
+    name: 水源抽取器
+    lore: |-
+      <arrow> 从其前方方块抽取水，并使其可供任何连接的管道使用
+      <arrow> <attr>抽取间隔:</attr> %drain_interval%
+      <arrow> <attr>缓冲:</attr> %buffer%
+    waila: 水源抽取器 | %bars%
+  lava_drainer:
+    name: 岩浆抽取器
+    lore: |-
+      <arrow> 从其前方方块抽取岩浆，并使其可供任何连接的管道使用
+      <arrow> <attr>抽取间隔:</attr> %drain_interval%
+      <arrow> <attr>缓冲:</attr> %buffer%
+    waila: 岩浆抽取器 | %bars%
+  elevator_1:
+    name: 电梯 I
+    lore: |-
+      <arrow> <insn>潜行</insn>下降，<insn>跳跃</insn>上升。
+      <arrow> <attr>垂直范围:</attr> %elevator_range%
+  elevator_2:
+    name: 电梯 II
+    lore: |-
+      <arrow> <insn>潜行</insn>下降，<insn>跳跃</insn>上升。
+      <arrow> <attr>垂直范围:</attr> %elevator_range%
+  elevator_3:
+    name: 电梯 III
+    lore: |-
+      <arrow> <insn>潜行</insn>下降，<insn>跳跃</insn>上升。
+      <arrow> <attr>垂直范围:</attr> %elevator_range%
+  gold_dust:
+    name: 金粉
+  gold_sheet:
+    name: 金板
+  grindstone:
+    name: 磨石
+    lore: |-
+      <star> 多方块结构
+      <arrow> 顶部需放置磨石手柄
+      <arrow> <insn>右键</insn>物品可放入其中
+      <arrow> <insn>右键</insn>磨石手柄可进行研磨
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name/></yellow>
+  grindstone_handle:
+    name: 磨石手柄
+    lore: <star> 磨石多方块结构组件
+  diamond_hammer:
+    name: 钻石锤
+    lore: |-
+      <arrow> 对放置在已放好的<white>钻石块</white>上的物品<insn>右键</insn>可使用该锤
+      <arrow> 更高等级的锤成功率更高
+  iron_hammer:
+    name: 铁锤
+    lore: |-
+      <arrow> 对放置在已放好的<white>铁块</white>上的物品<insn>右键</insn>可使用该锤
+      <arrow> 更高等级的锤成功率更高
+  stone_hammer:
+    name: 石锤
+    lore: |-
+      <arrow> 对放置在已放好的<white>石头</white>上的物品<insn>右键</insn>可使用该锤
+      <arrow> 更高等级的锤成功率更高
+  immobilizer:
+    name: 禁锢器
+    lore: |-
+      <arrow> 引导背景微光能量暂时禁锢范围内的玩家
+      <arrow> 由红石信号触发
+      <arrow> <attr>持续时间:</attr> %duration%
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+    waila: 禁锢器
+  iron_sheet:
+    name: 铁板
+  sponge_iron:
+    name: 海绵铁
+  loupe:
+    name: 放大镜
+    lore: |-
+      <arrow> 用放大镜检视物品可获得研究点数
+      <arrow> 物品越稀有，可被检视的次数越多
+      <arrow> <red>被检视的物品将被消耗</red>
+      <arrow> <insn>按住右键</insn>方块或掉落的物品可检视
+  lumber_axe:
+    name: 伐木斧
+    lore: <arrow> 一次性砍倒整棵树
+  magic_altar:
+    name: 魔法祭坛
+    lore: |-
+      <star> 多方块结构
+      <arrow> 用于进行微光仪式的独立结构
+      <arrow> 在基座上放置物品，然后手持催化剂<insn>右键</insn>魔法祭坛以开始仪式
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.magic_altar.name/></yellow>
+      <diamond> 8x <yellow><lang:pylon.pylonbase.item.magic_pedestal.name/></yellow>
+  magic_pedestal:
+    name: 魔法基座
+    lore: |-
+      <star> 魔法祭坛多方块结构组件
+      <arrow> <insn>右键</insn>设置展示的物品
+      <arrow> <insn>潜行右键</insn>旋转物品
+  medkit:
+    name: 医疗包
+    lore: |-
+      <arrow> 使用时移除所有效果并为使用者恢复生命
+      <arrow> <insn>右键</insn>使用
+      <arrow> <attr>治疗量:</attr> %heal-amount%
+      <arrow> <attr>使用时间:</attr> %consume-seconds%
+  mixing_pot:
+    name: 混合锅
+    lore: |-
+      <arrow> 将物品放入锅中并<insn>右键</insn>混合
+      <arrow> 下方需有火焰才能工作
+      <arrow> 某些配方需要下方为<white><lang:pylon.pylonbase.item.enriched_soul_soil.name></white>火焰
+    waila: 混合锅 %info%
+  monster_jerky:
+    name: 怪物肉干
+    lore: |-
+      <arrow> 比腐肉稍微好吃一点——但也只是稍微……
+      <arrow> 可制作成皮革
+  nickel_dust:
+    name: 镍粉
+  nickel_ingot:
+    name: 镍锭
+  nickel_nugget:
+    name: 镍粒
+  nickel_block:
+    name: 镍块
+  obsidian_chip:
+    name: 黑曜石碎片
+  pedestal:
+    name: 展示台
+    lore: |-
+      <arrow> 展示物品
+      <arrow> <insn>右键</insn>设置展示的物品
+      <arrow> <insn>潜行右键</insn>旋转物品
+  pit_kiln:
+    name: 坑窑
+    lore: "<star> 多方块结构\n<arrow> 一种原始且低效的高温冶炼 方法\n<arrow> <insn>右键</insn>放入物品\n<arrow> <insn>破坏</insn>可取回物品\n<arrow> 内部放置 有效配方完成多方块即可开始冶炼过程\n<arrow> <attr>容量:</attr> %capacity% 个物品\n<arrow> <attr>冶炼时间:</attr> %smelting_time%\n\n<u>组件</u>\n<diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name/></yellow>\n<diamond> 8x <yellow>煤炭块</yellow>\n<diamond> 20x <yellow>砂土</yellow>\n<diamond> 1x <yellow>营火</yellow> (%campfire%x <attr>速度</attr>) \n...或 1x <yellow>火</yellow> (%fire%x <attr>速度</attr>) \n...或 1x <yellow>灵魂营火</yellow> (%soul_campfire%x <attr>速度</attr>) \n...或 1x <yellow>灵魂火</yellow> (%soul_fire%x <attr>速度</attr>) \n<diamond> 9x <yellow>灰化土</yellow> (%podzol%x <attr>产量</attr>) \n...或 9x <yellow>砂土</yellow> (%coarse_dirt%x  <attr>产量</attr>) "
+    waila: 坑窑 | %info%
+  portability_catalyst:
+    name: 便携催化剂
+  portable_crafting_table:
+    name: 便携工作台
+    lore: <arrow> <insn>右键</insn>打开合成网格
+  portable_dustbin:
+    name: 便携垃圾桶
+    lore: <arrow> <insn>右键</insn>打开垃圾箱
+  portable_ender_chest:
+    name: 便携末影箱
+    lore: <arrow> <insn>右键</insn>打开末影箱
+  raw_tin:
+    name: 粗锡
+  reactivated_wither_skull:
+    name: <white>重激活的凋灵法杖
+    lore: |-
+      <arrow> <insn>右键</insn>朝你看的方向发射一个凋灵骷髅头
+      <arrow> 骷髅头为 %chargedskulls%
+      <arrow> <attr>骷髅头速度:</attr> %skullspeed%
+    charged:
+      'true': 已充能
+      'false': 未充能
+  hyper_activated_wither_skull:
+    name: <white>超激活凋灵法杖
+    lore: |-
+      <arrow> <insn>右键</insn>朝你看的方向发射一个凋灵骷髅头
+      <arrow> 骷髅头为 %chargedskulls%
+      <arrow> <attr>骷髅头速度:</attr> %skullspeed%
+  recoil_arrow:
+    name: 反冲箭
+    lore: |-
+      <arrow> 发射时将你向后推
+      <arrow> <attr>效率:</attr> <unit:percent>75</unit>
+  refractory_mix:
+    name: 耐火混合料
+    waila: 耐火混合料 (<yellow>%percent%</yellow>)
+  unfired_refractory_brick:
+    name: 未烧制耐火砖
+  refractory_brick:
+    name: 耐火砖
+  refractory_bricks:
+    name: 耐火砖
+    lore: |-
+      <star> 冶炼炉多方块结构组件
+      <star> 熔炼炉多方块结构组件
+      <arrow> 最便宜且最基础的冶炼炉组件
+  research_pack_1:
+    name: 研究包 I
+    lore: |-
+      <arrow> <insn>右键</insn>打开
+      <arrow> <attr>研究点数:</attr> %points%
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+  research_pack_2:
+    name: 研究包 II
+    lore: |-
+      <arrow> <insn>右键</insn>打开
+      <arrow> <attr>研究点数:</attr> %points%
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+  rock_dust:
+    name: 岩石粉
+  shimmer_dust_1:
+    name: 微光粉 I
+    lore: <arrow> 在月光下会异常闪烁
+  shimmer_dust_2:
+    name: 微光粉 II
+    lore: <arrow> 一种花香却粗糙的红金混合粉
+  shimmer_dust_3:
+    name: 微光粉 III
+    lore: <arrow> 某种力量让粉尘颗粒聚在一起； 它们被拉得越远，抗拒力就越强……
+  shimmer_skull:
+    name: <white>微光骷髅头
+    lore: <arrow> 微光粉的注入让凋灵骷髅头产生了 超乎所见的变化……
+  smeltery_burner:
+    name: 冶炼炉燃烧器
+    lore: |-
+      <star> 冶炼炉多方块结构组件
+      <arrow> 燃烧燃料为冶炼炉加热
+  smeltery_caster:
+    name: 冶炼炉铸造器
+    lore: |-
+      <star> 冶炼炉多方块结构组件
+      <arrow> 从冶炼炉中铸造物品
+      <arrow> <insn>右键</insn>打开冶炼炉铸造界面
+  smeltery_controller:
+    name: 冶炼炉控制器
+    lore: |-
+      <star> 多方块结构
+      <arrow> 冶炼炉的核心
+      <arrow> 置于 5x5 冶炼炉组件方阵边缘的中心，并在其下方铺设 5x5 的冶炼炉组件地面，即可构建最小的冶炼炉
+      <arrow> <insn>右键</insn>打开冶炼炉界面
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name/></yellow>
+      <diamond> 1 个或更多 <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name/></yellow>
+      <diamond> 1 个或更多 <yellow><lang:pylon.pylonbase.item.smeltery_output_hatch.name/> Hatch</yellow>
+      <diamond> 1 个或更多 <yellow><lang:pylon.pylonbase.item.smeltery_hopper.name/></yellow>
+      <diamond> 1 个或更多 <yellow><lang:pylon.pylonbase.item.smeltery_caster.name/></yellow>
+      <diamond> 1 个或更多 <yellow><lang:pylon.pylonbase.item.smeltery_burner.name/></yellow>
+      <diamond> 25 个或更多 <yellow><lang:pylon.pylonbase.item.refractory_bricks.name/></yellow>（取决于大小与组件数量）
+  smeltery_hopper:
+    name: 冶炼炉漏斗
+    lore: |-
+      <star> 冶炼炉多方块结构组件
+      <arrow> 作为冶炼炉的物品输入口
+  smeltery_input_hatch:
+    name: 冶炼炉输入舱口
+    lore: |-
+      <star> 冶炼炉多方块结构组件
+      <arrow> 作为冶炼炉的流体输入口
+  smeltery_output_hatch:
+    name: 冶炼炉输出舱口
+    lore: |-
+      <star> 冶炼炉多方块结构组件
+      <arrow> 作为冶炼炉的流体输出口
+  soulbound_rune:
+    name: 灵魂绑定符文
+    lore: |-
+      <arrow> 将你的自我意识连接到物品，使你在死亡时保留该物品
+      <arrow> <insn>将符文与目标物品一起丢下</insn>即可应用符文
+  splint:
+    name: 夹板
+    lore: |-
+      <arrow> 缓解较严重的伤口
+      <arrow> <insn>右键</insn>使用
+      <arrow> <attr>治疗量:</attr> %heal-amount%
+      <arrow> <attr>使用时间:</attr> %consume-seconds%
+  sprinkler:
+    name: 洒水器
+    lore: |-
+      <arrow> 让作物、树苗、甘蔗和仙人掌快速生长
+      <arrow> 需要管道输送水
+      <arrow> <attr>耗水量:</attr> %water_consumption%
+      <arrow> <attr>范围:</attr> %range%
+    waila: 洒水器 | %bars%
+  steel_dust:
+    name: 钢粉
+  steel_ingot:
+    name: 钢锭
+  steel_nugget:
+    name: 钢粒
+  steel_block:
+    name: 钢块
+  steel_sheet:
+    name: 钢板
+  charcoal_block:
+    name: 木炭块
+  sulfur:
+    name: 硫磺
+  tin_dust:
+    name: 锡粉
+  tin_ingot:
+    name: 锡锭
+  tin_nugget:
+    name: 锡粒
+  tin_block:
+    name: 锡块
+  tin_sheet:
+    name: 锡板
+  watering_can:
+    name: 浇水壶
+    lore: |-
+      <arrow> 加速作物、树苗、甘蔗和仙人掌的生长
+      <arrow> <insn>右键</insn>浇灌作物
+      <arrow> <attr>范围:</attr> %range%
+  health_talisman_simple:
+    name: 简易生命护符
+    lore: "<arrow> 在背包中提升你的最大生命值\n<arrow> 不可叠加\n<arrow> <attr>最大生命提升:</attr> %health-boost% "
+  health_talisman_advanced:
+    name: 进阶生命护符
+    lore: "<arrow> 在背包中提升你的最大生命值\n<arrow> 不可叠加\n<arrow> <attr>最大生命提升:</attr> %health-boost% "
+  health_talisman_ultimate:
+    name: 终极治疗护符
+    lore: "<arrow> 在背包中提升你的最大生命值\n<arrow> 不可叠加\n<arrow> <attr>最大生命提升:</attr> %health-boost% "
+  item_magnet:
+    name: 物品磁石
+    lore: |-
+      <arrow> 在一定范围内将物品拉向你
+      <arrow> 右键切换开关
+      <arrow> 不可叠加
+      <arrow> <attr>吸引距离:</attr> %pickup-distance%
+  water_pump:
+    name: 水泵
+    lore: |-
+      <arrow> 无限水源
+      <arrow> 从下方抽水
+      <arrow> <attr>抽水速率:</attr> %water_per_second%
+  press:
+    name: 压榨机
+    lore: |-
+      <arrow> 将植物压榨成植物油
+      <arrow> 投入植物并<insn>右键</insn>压榨成植物油
+      <arrow> <attr>每件耗时:</attr> %time_per_item%
+    waila: 压榨机 (%plant_oil_amount% / %plant_oil_capacity% %plant_oil%)
+  hydraulic_grindstone_turner:
+    name: 液压磨石转轮
+    lore: |-
+      <arrow> 安装在已建好的磨石下方
+      <arrow> 产出脏液压油
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-usage%
+    waila: 液压磨石转轮 | %input-bar% | %output-bar%
+  hydraulic_mixing_attachment:
+    name: 液压搅拌机
+    lore: |-
+      <arrow> 安装在搅拌器上方，留出一格空隙
+      <arrow> 产出脏液压油
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+      <arrow> <attr>每次制作液压油用量:</attr> %hydraulic-fluid-per-craft%
+    waila: 液压搅拌机 | %input-bar% | %output-bar%
+  hydraulic_press_piston:
+    name: 液压压榨活塞
+    lore: |-
+      <arrow> 安装在压榨机上方，留出一格空隙
+      <arrow> 产出脏液压油
+      <arrow> <attr>每次制作液压油用量:</attr> %hydraulic-fluid-per-craft%
+    waila: 液压压榨活塞 | %input-bar% | %output-bar%
+  hydraulic_hammer_head:
+    name: 液压冲锤
+    lore: |-
+      <arrow> 安装在作为锤基座的方块上方，留出两格空隙
+      <arrow> 产出脏液压油
+      <arrow> <insn>右键</insn>持锤放入锤头
+      <arrow> 再次<insn>右键</insn>取出锤头
+      <arrow> <attr>每次制作液压油用量:</attr> %hydraulic-fluid-per-craft%
+    waila: 液压冲锤 | %input-bar% | %output-bar%
+  hydraulic_pipe_bender:
+    name: 液压弯管机
+    lore: |-
+      <arrow> 高效将材料弯成管道
+      <arrow> 产出脏液压油
+      <arrow> <insn>右键</insn>放入物品
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-usage%
+    waila: 液压弯管机 | %input-bar% | %output-bar%
+  hydraulic_table_saw:
+    name: 液压台锯
+    lore: |-
+      <arrow> 高效将原木切成木板，木板切成木棍
+      <arrow> 产出脏液压油
+      <arrow> <insn>右键</insn>放入物品
+      <arrow> <attr>每次制作液压油用量:</attr> %hydraulic-fluid-usage%
+    waila: 液压台锯 | %input-bar% | %output-bar%
+  quartz_dust:
+    name: 石英粉
+  diamond_dust:
+    name: 钻石粉
+  emerald_dust:
+    name: 绿宝石粉
+  solar_lens:
+    name: 太阳透镜
+    lore: <star> 太阳能净化塔多方块结构组件
+  purification_tower_glass:
+    name: 净化塔玻璃
+    lore: <star> 净化塔多方块结构组件
+  purification_tower_cap:
+    name: 净化塔顶盖
+    lore: <star> 净化塔多方块结构组件
+  solar_purification_tower_1:
+    name: 太阳能净化塔 I
+    lore: |-
+      <star> 多方块结构
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 仅在白天工作
+      <arrow> 雨雪天气时以 %rain_speed_percentage% 的速度运行
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 16x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+    waila: 太阳能净化塔 I | %input-bar% | %output-bar%
+  solar_purification_tower_2:
+    name: 太阳能净化塔 II
+    lore: |-
+      <star> 多方块结构
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 仅在白天工作
+      <arrow> 雨雪天气时以 %rain_speed_percentage% 的速度运行
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 48x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+    waila: 太阳能净化塔 II | %input-bar% | %output-bar%
+  solar_purification_tower_3:
+    name: 太阳能净化塔 III
+    lore: |-
+      <star> 多方块结构
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 仅在白天工作
+      <arrow> 雨雪天气时以 %rain_speed_percentage% 的速度运行
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 96x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+    waila: 太阳能净化塔 III | %input-bar% | %output-bar%
+  solar_purification_tower_4:
+    name: 太阳能净化塔 IV
+    lore: |-
+      <star> 多方块结构
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 仅在白天工作
+      <arrow> 雨雪天气时以 %rain_speed_percentage% 的速度运行
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 160x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+    waila: 太阳能净化塔 IV | %input-bar% | %output-bar%
+  solar_purification_tower_5:
+    name: 太阳能净化塔 V
+    lore: |-
+      <star> 多方块结构
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 仅在白天工作
+      <arrow> 雨雪天气时以 %rain_speed_percentage% 的速度运行
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 240x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+    waila: 太阳能净化塔 V | %input-bar% | %output-bar%
+  coal_fired_purification_tower:
+    name: 燃煤净化塔
+    lore: |-
+      <star> 多方块结构
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 燃烧煤炭或木炭
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
+      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+    progress_item:
+      running: <green>运行中
+      idle: <yellow>待机
+    waila: 燃煤净化塔 | %input-bar% | %output-bar%
+  fireproof_rune:
+    name: 防火符文
+    lore: |-
+      <arrow> 使<lang:pylon.pylonbase.item.enriched_soul_soil.name>燃烧如此炽热的相同力场可被逆转以保护物品免于燃烧
+      <arrow> <insn>将符文与目标物品一起丢下</insn>即可应用符文
+  fluid_tank:
+    name: 流体储罐
+    lore: |-
+      <star> 多方块结构
+      <arrow> 在顶部放置流体外壳以增加容量
+      <arrow> 所有外壳必须为同种材料
+      <arrow> <attr>最大高度:</attr> %max-height%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name/></yellow>
+      <diamond> 1 个或更多 <yellow>流体储罐外壳</yellow>
+    waila: 流体储罐 %info%
+  fluid_tank_casing_wood:
+    name: 木质流体储罐外壳
+    lore: |-
+      <star> 多方块结构组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 木质流体储罐外壳 %info%
+  fluid_tank_casing_copper:
+    name: 铜质流体储罐外壳
+    lore: |-
+      <star> 多方块结构组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 铜质流体储罐外壳 %info%
+  fluid_tank_casing_tin:
+    name: 锡质流体储罐外壳
+    lore: |-
+      <star> 流体储罐多方块结构组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 锡质流体储罐外壳 %info%
+  fluid_tank_casing_iron:
+    name: 铁质流体储罐外壳
+    lore: |-
+      <star> 流体储罐组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 铁质流体储罐外壳 %info%
+  fluid_tank_casing_bronze:
+    name: 青铜流体储罐外壳
+    lore: |-
+      <star> 流体储罐多方块结构组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 青铜流体储罐外壳 %info%
+  fluid_tank_casing_igneous_composite:
+    name: 火成复合流体储罐外壳
+    lore: |-
+      <star> 流体储罐多方块结构组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 火成复合流体储罐外壳 %info%
+  fluid_tank_casing_steel:
+    name: 钢质流体储罐外壳
+    lore: |-
+      <star> 流体储罐多方块结构组件
+      <arrow> <attr>容量:</attr> %capacity%
+      <arrow> <attr>耐受温度:</attr> %temperatures%
+    waila: 钢质流体储罐外壳 %info%
+  manual_core_drill_lever:
+    name: 手动岩芯钻杠杆
+    lore: |-
+      <star> 手动岩芯钻多方块结构组件
+      <arrow> <insn>右键</insn>循环切换相连的岩芯钻
+  manual_core_drill:
+    name: 手动岩芯钻
+    lore: |-
+      <star> 多方块结构
+      <arrow> 开采浅层岩芯块
+      <arrow> <attr>循环时间:</attr> %cycle-time%
+      <arrow> <attr>产出:</attr> %cycle-output%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
+      <diamond> 9x <yellow>圆石墙</yellow>
+  improved_manual_core_drill:
+    name: 改进型手动岩芯钻
+    lore: |-
+      <star> 多方块结构
+      <arrow> 开采地下岩芯块
+      <arrow> <attr>循环时间:</attr> %cycle-time%
+      <arrow> <attr>产出:</attr> %cycle-output%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
+      <diamond> 9x <yellow>抛光深板岩墙</yellow>
+  hydraulic_core_drill:
+    name: 液压岩芯钻
+    lore: |-
+      <star> 多方块结构
+      <arrow> 消耗液压油开采中层岩芯块
+      <arrow> 产出脏液压油
+      <arrow> <attr>循环时间:</attr> %cycle-time%
+      <arrow> <attr>产出:</attr> %cycle-output%
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-usage%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name/></yellow>
+      <diamond> 1x <yellow>炼药锅</yellow>
+      <diamond> 1x <yellow>箱子</yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill_output_hatch.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_tank_casing_copper.name/></yellow>
+      <diamond> 6x <yellow>铁栅栏</yellow>
+      <diamond> 12x <yellow>磨制深板岩墙</yellow>
+  hydraulic_core_drill_input_hatch:
+    name: 液压岩芯钻输入舱口
+    lore: <star> 液压岩芯钻多方块结构组件
+    waila: 液压岩芯钻输入舱口 | %bars%
+  hydraulic_core_drill_output_hatch:
+    name: 液压岩芯钻输出舱口
+    lore: <star> 液压岩芯钻多方块结构组件
+    waila: 液压岩芯钻输出舱口 | %bars%
+  shallow_core_chunk:
+    name: 浅层岩芯块
+    lore: <arrow> 来自地表下方的矿物块
+  subsurface_core_chunk:
+    name: 地下岩芯块
+    lore: <arrow> 来自地表之下的矿物块
+  intermediate_core_chunk:
+    name: 中层岩芯块
+    lore: <arrow> 来自地表多层之下的矿物块
+  igneous_composite:
+    name: 火成复合材料
+    lore: |-
+      <arrow> 一种坚硬耐用的材料，由目前超出我们理解的力量维系在一起
+      <arrow> 可承受极高温度
+      <arrow> 免疫凋灵
+  rotor:
+    name: 转子
+  hydraulic_motor:
+    name: 液压马达
+  backflow_valve:
+    name: 防回流阀
+  analogue_display:
+    name: 模拟显示器
+  filter_mesh:
+    name: 滤网
+  nozzle:
+    name: 喷嘴
+  abyssal_catalyst:
+    name: 深渊催化剂
+  axle:
+    name: 车轴
+  sawblade:
+    name: 锯片
+  weighted_shaft:
+    name: 配重轴
+  copper_drill_bit:
+    name: 铜钻头
+  bronze_drill_bit:
+    name: 青铜钻头
+  gypsum:
+    name: 石膏
+  gypsum_dust:
+    name: 石膏粉
+  brick_mold:
+    name: 砖模具
+    lore: |-
+      <arrow> <insn>右键</insn>方块可将其塑形
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+  confetti_popper:
+    name: 彩纸炮
+    lore: <arrow> <insn>按住右键</insn>可喷出一些彩纸！
+  vacuum_hopper_1:
+    name: 真空漏斗 <yellow>I
+    lore: |-
+      <arrow> 在半径内吸取物品
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>间隔:</attr> %tick_interval%
+  vacuum_hopper_2:
+    name: 真空漏斗 <yellow>II
+    lore: |-
+      <arrow> 在半径内吸取物品
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>间隔:</attr> %tick_interval%
+  vacuum_hopper_3:
+    name: 真空漏斗 <yellow>III
+    lore: |-
+      <arrow> 在半径内吸取物品
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>间隔:</attr> %tick_interval%
+  vacuum_hopper_4:
+    name: 真空漏斗 <yellow>IV
+    lore: |-
+      <arrow> 在半径内吸取物品
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>间隔:</attr> %tick_interval%
+  hydraulic_cannon_chamber:
+    name: 液压炮储罐
+  hydraulic_cannon:
+    name: 液压炮
+    lore: |-
+      <arrow> 使用液压油发射锡弹
+      <arrow> 使用<white>液压补给站</white>补充燃料
+      <arrow> <insn>右键</insn>发射
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+      <arrow> <attr>伤害:</attr> %damage%
+      <arrow> <attr>射程:</attr> %range%
+      <arrow> <attr>弹速:</attr> %speed%
+      <arrow> <attr>每次射击液压油消耗:</attr> %hydraulic-fluid-per-shot%
+      <arrow> <attr>液压油:</attr> %hydraulic-fluid%
+      <arrow> <attr>脏液压油:</attr> %dirty-hydraulic-fluid%
+  tin_projectile:
+    name: 锡弹
+  hydraulic_refueling_station:
+    name: 液压油装填站
+    lore: |-
+      <arrow> 为物品补充液压油
+      <arrow> <insn>右键</insn>放入要补充的物品
+    waila: 液压油装填站 %extra%
+  hydraulic_farmer:
+    name: 液压收割机
+    lore: |-
+      <arrow> 在半径内收割作物，并使用上方容器内的种子重新种植
+      <arrow> 产出脏液压油
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>耕种间隔:</attr> %tick-interval%
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-usage%
+    waila: 液压收割机 | %input-bar% | %output-bar%
+  hydraulic_excavator:
+    name: 液压挖掘机
+    lore: |-
+      <arrow> 挖掘其下方半径内的泥土、沙子、砾石等
+      <arrow> 无法挖掘石头等较硬方块
+      <arrow> 产出脏液压油
+      <arrow> <insn>右键</insn>开始挖掘
+      <arrow> <attr>半径:</attr> %radius%
+      <arrow> <attr>深度:</attr> %depth%
+      <arrow> <attr>每格用时:</attr> %time-per-block%
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-usage%
+    waila: 液压挖掘机 | %input-bar% | %output-bar%
+  diesel_pipe_bender:
+    name: 柴油弯管机
+    lore: |-
+      <arrow> 高效将材料弯成管道
+      <arrow> <insn>右键</insn>放入物品
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>速度:</attr> %speed%
+    waila: 柴油弯管机 | %diesel-bar%
+  cargo_duct:
+    name: <white>货运管道
+    lore: |-
+      <arrow> 将货运方块连接在一起
+      <arrow> 相邻的货运导管会自动互相连接
+  cargo_buffer:
+    name: <white>货运缓存
+    lore: |-
+      <arrow> 单组物品缓存
+      <arrow> 使用货运导管连接
+      <arrow> <attr>传输速率:</attr> %transfer- rate%
+  cargo_extractor:
+    name: <white>货运输入器
+    lore: |-
+      <arrow> 从箱子、熔炉、机器及其他兼容方块中输入物品
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+  cargo_inserter:
+    name: <white>货运输出器
+    lore: |-
+      <arrow> 向箱子、熔炉、机器及其他兼容方块中输出物品
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+  diesel_table_saw:
+    name: 柴油台锯
+    lore: |-
+      <arrow> 高效将原木切割为木板，并将木板切割为木棍
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+      <arrow> <attr>速度:</attr> %speed%
+    waila: 柴油台锯 | %diesel-bar%
+  diesel_press:
+    name: 柴油压榨机
+    lore: |-
+      <arrow> 将植物压榨成植物油
+      <arrow> 投入植物并<insn>右键</insn>将其压榨成植物油
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+      <arrow> <attr>每件用时:</attr> %time-per-item%
+    waila: 柴油压榨机 | %diesel-bar% | %plant-oil-bar%
+  diesel_grindstone:
+    name: 柴油磨石
+    lore: |-
+      <arrow> 研磨物品
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+    waila: 柴油磨石 | %diesel-bar%
+  diesel_brick_molder:
+    name: 柴油砖成型机
+    lore: |-
+      <arrow> 将材料成型为砖块
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+      <arrow> <attr>成型周期:</attr> %molding-cycles%
+    waila: 柴油砖成型机 | %diesel-bar%
+  diesel_fired_purification_tower:
+    name: 柴油净化塔
+    lore: |-
+      <star> 多方块
+      <arrow> 将脏液压油转化回液压油
+      <arrow> 燃烧柴油
+      <arrow> <attr>净化速度:</attr> %purification_speed%
+      <arrow> <attr>净化效率:</attr> %purification_efficiency%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.diesel_fired_purification_tower.name></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name></yellow>
+      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name></yellow>
+  diesel_smeltery_heater:
+    name: 柴油冶炼炉加热器
+    lore: |-
+      <star> 冶炼炉多方块组件
+      <arrow> 燃烧柴油为冶炼炉加热
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+      <arrow> <attr>温度:</attr> %temperature%
+    waila: 柴油冶炼炉加热器 | %bar%
+  hydraulic_breaker:
+    name: 液压破坏器
+    lore: |-
+      <arrow> 使用储存的工具直接破坏前方的方块
+      <arrow> 仅能破坏储存工具可破坏的方块
+      <arrow> <attr>速度:</attr> %speed%
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-per-block% 每块
+      <arrow> <attr>缓存:</attr> %buffer%
+    waila: 液压破坏器 | %input-bar% | %output-bar%
+  fluid_input_hatch:
+    name: 流体输入舱口
+    lore: |-
+      <star> 多方块组件
+      <arrow> 作为多方块机器的流体输入端
+      <arrow> 上方需要流体外壳
+    waila: 流体输入舱口 | %info%
+  fluid_output_hatch:
+    name: 流体输出舱口
+    lore: |-
+      <star> 多方块组件
+      <arrow> 作为多方块机器的流体输出端
+      <arrow> 上方需要流体外壳
+    waila: 流体输出舱口 | %info%
+  item_input_hatch:
+    name: 物品输入舱口
+    lore: |-
+      <star> 多方块组件
+      <arrow> 作为多方块机器的物品输入端
+    waila: 物品输入舱口
+  item_output_hatch:
+    name: 物品输出舱口
+    lore: |-
+      <star> 多方块组件
+      <arrow> 作为多方块机器的物品输出端
+    waila: 物品输出舱口
+  hydraulic_miner:
+    name: 液压采矿机
+    lore: |-
+      <arrow> 使用储存的工具在区域内挖掘方块
+      <arrow> 仅能破坏储存工具可破坏的方块
+      <arrow> 产出脏液压油
+      <arrow> <attr>速度:</attr> %speed%
+      <arrow> <attr>挖掘范围:</attr> %mining-area%
+      <arrow> <attr>液压油用量:</attr> %hydraulic-fluid-per-block% 每块
+      <arrow> <attr>缓存:</attr> %buffer%
+    waila: 液压采矿机 | %input-bar% | %output-bar%
+  diesel_hammer_head:
+    name: 柴油冲锤
+    lore: |-
+      <arrow> 放置在锤子基座方块上方，留出两格空隙
+      <arrow> <attr>速度:</attr> %speed%
+      <arrow> <attr>每次制作柴油用量:</attr> %diesel-per-craft% 每次制作
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+    waila: 柴油冲锤 | %bar%
+  diesel_mixing_attachment:
+    name: 柴油搅拌器
+    lore: |-
+      <arrow> 放置在混合锅上方，留出一格空隙
+      <arrow> <attr>冷却时间:</attr> %cooldown%
+      <arrow> <attr>每次制作柴油用量:</attr> %diesel-per-craft% 每次制作
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+    waila: 柴油搅拌附件 | %bar%
+  diesel_breaker:
+    name: 柴油破坏器
+    lore: |-
+      <arrow> 使用储存的工具直接破坏前方的方块
+      <arrow> 仅能破坏储存工具可破坏的方块
+      <arrow> <attr>速度:</attr> %speed%
+      <arrow> <attr>每方块柴油用量:</attr> %diesel-per-block% 每块
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+    waila: 柴油破坏器 | %bar%
+  diesel_furnace:
+    name: 柴油熔炉
+    lore: |-
+      <arrow> 熔炼物品
+      <arrow> <attr>柴油用量:</attr> %diesel-usage%
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+      <arrow> <attr>速度:</attr> %speed%
+    waila: 柴油熔炉 | %bar%
+  diesel_miner:
+    name: 柴油采矿机
+    lore: |-
+      <arrow> 使用储存的工具在区域内挖掘方块
+      <arrow> 仅能破坏储存工具可破坏的方块
+      <arrow> <attr>速度:</attr> %speed%
+      <arrow> <attr>挖掘范围:</attr> %mining-area%
+      <arrow> <attr>每方块柴油用量:</attr> %diesel-per-block% 每块
+      <arrow> <attr>柴油缓存:</attr> %diesel-buffer%
+    waila: 柴油采矿机 | %bar%
+  fermenter:
+    name: 发酵器
+    lore: |-
+      <star> 多方块
+      <arrow> 将甘蔗发酵为乙醇
+      <arrow> 发酵速度与内部甘蔗数量成正比
+      <arrow> <attr>每甘蔗产乙醇:</attr> %ethanol-per-sugarcane%
+      <arrow> <attr>甘蔗容量:</attr> %sugarcane-capacity%
+      <arrow> <attr>最大乙醇产出速率:</attr> %max-ethanol-output-rate%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fermenter.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 2x <yellow>Block of Iron</yellow>
+      <diamond> 4x <yellow>Polished Deepslate Wall</yellow>
+      <diamond> 4x <yellow><lang:pylon.pylonbase.item.fermenter_core.name/></yellow>
+      <diamond> 31x <yellow><lang:pylon.pylonbase.item.fermenter_casing.name/></yellow>
+    waila: 发酵器 | %sugarcane-bar% %sugarcane-amount% 甘蔗
+  fermenter_core:
+    name: 发酵器核心
+    lore: <star> 发酵器多方块组件
+  fermenter_casing:
+    name: 发酵器外壳
+    lore: <star> 发酵器多方块组件
+  biorefinery:
+    name: 生物精炼厂
+    lore: |-
+      <star> 多方块
+      <arrow> 将植物油和乙醇精炼为生物柴油
+      <arrow> 需要燃料运行
+      <arrow> 即使不生产生物柴油也会持续消耗燃料
+      <arrow> <attr>生物柴油生产率:</attr> %biodiesel-per-second%
+      <arrow> <attr>每毫桶生物柴油所需乙醇:</attr> %ethanol-per-mb-of-biodiesel%
+      <arrow> <attr>每毫桶生物柴油所需植物油:</attr> %plant-oil-per-mb-of-biodiesel%
+
+      <u>组件</u>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
+      <diamond> 6x <yellow><lang:pylon.pylonbase.item.biorefinery_foundation.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.pylonbase.item.biorefinery_tower_ring.name/></yellow>
+      <diamond> 9x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_ring.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_cap.name/></yellow>
+      <diamond> 24x <yellow><lang:pylon.pylonbase.item.biorefinery_plating.name/></yellow>
+    waila: 生物精炼厂 | %info%
+  biorefinery_foundation:
+    name: 生物精炼厂地基
+    lore: <star> 生物精炼厂多方块组件
+  biorefinery_plating:
+    name: 生物精炼厂护板
+    lore: <star> 生物精炼厂多方块组件
+  biorefinery_tower_ring:
+    name: 生物精炼厂塔环
+    lore: <star> 生物精炼厂多方块组件
+  biorefinery_smokestack_ring:
+    name: 生物精炼厂烟囱环
+    lore: <star> 生物精炼厂多方块组件
+  biorefinery_smokestack_cap:
+    name: 生物精炼厂烟囱帽
+    lore: <star> 生物精炼厂多方块组件
+  cargo_splitter:
+    name: <white>货运分流器
+    lore: |-
+      <arrow> 按可配置比例将物品分配到两个输出端
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+    waila: 货运分流器 | <#efae15>%left%<white>-<#2386c4>%right% <white>| %side%
+  cargo_merger:
+    name: <white>货运合并器
+    lore: |-
+      <arrow> 将输入的物品合并到一个输出端
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+  cargo_valve:
+    name: <white>货运阀门
+    lore: <arrow> <insn>潜行右键</insn>货运阀门可切换其状态
+    waila: 货运阀门 | %status%
+  cargo_filter:
+    name: <white>货运过滤器
+    lore: |-
+      <arrow> 将符合过滤条件的物品送往左侧
+      <arrow> 不符合过滤条件的物品送往右侧
+  crucible:
+    name: 坩埚
+    lore: |-
+      <arrow> 使用<insn>右键</insn>将物品放入坩埚
+      <arrow> 一次只能容纳一种物品类型
+      <arrow> 物品会根据下方方块产生的热量熔化
+      <arrow> 需要在下方有热源才能工作
+    waila: 坩埚 %item_info% %liquid_info%
+  cargo_monitor:
+    name: <white>货运监视器
+    lore: |-
+      <arrow> 显示内容的全息图
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+  cargo_meter:
+    name: <white>货运计量器
+    lore: |-
+      <arrow> 测量并显示通过的物品数量
+      <arrow> <attr>测量范围:</attr> %min-measurement-time% 至 %max-measurement-time%
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+    waila: 货运计量器 | %duration%
+  cargo_gate:
+    name: <white>货运闸门
+    lore: |-
+      <arrow> 等待左侧达到一定数量的物品后，从右侧发送一个物品
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+    waila: 货运闸门 | <light_purple>%threshold% <white>| %side%
+  cargo_accumulator:
+    name: <white>货运累积器
+    lore: |-
+      <arrow> 等待一定数量的物品到达后一次性全部送出
+      <arrow> 输出仍有物品时新物品无法进入
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+    waila: 货运累积器 | <light_purple>%threshold%
+  cargo_fluid_accumulator:
+    name: <white>货运流体累积器
+    lore: |-
+      <arrow> 等待一定数量的物品与流体到达后一次性全部送出
+      <arrow> 输出仍有物品或流体时新物品或流体无法进入
+      <arrow> <attr>传输速率:</attr> %transfer-rate%
+      <arrow> <attr>流体缓存:</attr> %fluid-buffer%
+    waila: 货运流体累积器 | <light_purple>%item-threshold%</light_purple> <white>| <light_purple>%fluid-threshold%</light_purple> <white>| %bars%
+  hunger_talisman_simple:
+    name: 简易饥饿护符
+    lore: |-
+      <arrow> 每 %period% 增加你的饱食度与饥饿值
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>饱食度增加:</attr> %saturation_increase%
+      <arrow> <attr>饥饿值增加:</attr> %hunger_increase%
+  hunger_talisman_advanced:
+    name: 高级饥饿护符
+    lore: |-
+      <arrow> 每 %period% 增加你的饱食度与饥饿值
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>饱食度增加:</attr> %saturation_increase%
+      <arrow> <attr>饥饿值增加:</attr> %hunger_increase%
+  hunger_talisman_ultimate:
+    name: 终极饥饿护符
+    lore: |-
+      <arrow> 每 %period% 增加你的饱食度与饥饿值
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>饱食度增加:</attr> %saturation_increase%
+      <arrow> <attr>饥饿值增加:</attr> %hunger_increase%
+  farmer_talisman_simple:
+    name: 简易农耕护符
+    lore: |-
+      <arrow> 收获作物时有几率获得额外掉落
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %extra_crop_chance%
+  farmer_talisman_advanced:
+    name: 高级农耕护符
+    lore: |-
+      <arrow> 收获作物时有几率获得额外掉落
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %extra_crop_chance%
+  farmer_talisman_ultimate:
+    name: 终极农耕护符
+    lore: |-
+      <arrow> 收获作物时有几率获得额外掉落
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %extra_crop_chance%
+  bartering_talisman_simple:
+    name: 简易交易护符
+    lore: |-
+      <arrow> 与猪灵交易时不消耗物品
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %chance_to_not_consume_input%
+  bartering_talisman_advanced:
+    name: 高级交易护符
+    lore: |-
+      <arrow> 与猪灵交易时不消耗物品
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %chance_to_not_consume_input%
+  bartering_talisman_ultimate:
+    name: 终极交易护符
+    lore: |-
+      <arrow> 与猪灵交易时不消耗物品
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %chance_to_not_consume_input%
+  water_breathing_talisman_simple:
+    name: <white>简易水下呼吸护符
+    lore: |-
+      <arrow> 让你在水下呼吸更久
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>额外氧气:</attr> %bonus_oxygen%
+  water_breathing_talisman_advanced:
+    name: <white>高级水下呼吸护符
+    lore: |-
+      <arrow> 让你在水下呼吸更久
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>额外氧气:</attr> %bonus_oxygen%
+  water_breathing_talisman_ultimate:
+    name: <white>终极水下呼吸护符
+    lore: |-
+      <arrow> 让你在水下呼吸更久
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>额外氧气:</attr> %bonus_oxygen%
+  luck_talisman_simple:
+    name: 简易幸运护符
+    lore: |-
+      <arrow> 提高获得高品质战利品的几率
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>额外幸运值:</attr> %bonus_luck%
+  luck_talisman_advanced:
+    name: 高级幸运护符
+    lore: |-
+      <arrow> 提高获得高品质战利品的几率
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>额外幸运值:</attr> %bonus_luck%
+  luck_talisman_ultimate:
+    name: 终极幸运护符
+    lore: |-
+      <arrow> 提高获得高品质战利品的几率
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>额外幸运值:</attr> %bonus_luck%
+  breeding_talisman_simple:
+    name: 简易繁殖护符
+    lore: |-
+      <arrow> 繁殖出的幼崽会立即长大
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %adult_chance%
+  breeding_talisman_advanced:
+    name: 高级繁殖护符
+    lore: |-
+      <arrow> 繁殖出的幼崽会立即长大
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %adult_chance%
+  breeding_talisman_ultimate:
+    name: 终极繁殖护符
+    lore: |-
+      <arrow> 繁殖出的幼崽会立即长大
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %adult_chance%
+  enchanting_talisman_simple:
+    name: <white>简易附魔护符
+    lore: |-
+      <arrow> 在附魔台中使附魔等级+1
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %bonus_level_chance%
+  enchanting_talisman_advanced:
+    name: <white>高级附魔护符
+    lore: |-
+      <arrow> 在附魔台中使附魔等级+1
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %bonus_level_chance%
+  enchanting_talisman_ultimate:
+    name: <white>终极附魔护符
+    lore: |-
+      <arrow> 在附魔台中使附魔等级+1
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %bonus_level_chance%
+  hunting_talisman_simple:
+    name: <white>简易狩猎护符
+    lore: |-
+      <arrow> 击杀生物时每种掉落都有几率获得额外物品
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %bonus_item_chance%
+  hunting_talisman_advanced:
+    name: <white>高级狩猎护符
+    lore: |-
+      <arrow> 击杀生物时每种掉落都有几率获得额外物品
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %bonus_item_chance%
+  hunting_talisman_ultimate:
+    name: <white>终极狩猎护符
+    lore: |-
+      <arrow> 击杀生物时每种掉落都有几率获得额外物品
+      <arrow> 仅在物品栏中时生效
+      <arrow> <attr>成功率:</attr> %bonus_item_chance%
+fluid:
+  bronze: <#8d6f64>青铜
+  cobalt: <gray>钴
+  copper: <#b5591b>铜
+  gold: <gold>金
+  iron: <gray>铁
+  lava: <#fc4e03>岩浆
+  mercury: <#dedede>水银
+  nickel: <gray>镍
+  none: 无
+  slurry: <gray>浆体
+  slurry_coal: <gray>煤浆
+  slurry_carbon: <gray>碳浆
+  slurry_sponge_iron: <gray>海绵铁浆
+  slurry_redstone: <red>红石浆
+  slurry_raw_copper: <#b5591b>粗铜浆
+  slurry_raw_gold: <gold>粗金浆
+  slurry_raw_iron: <gray>粗铁浆
+  slurry_raw_tin: <gray>粗锡浆
+  steel: <gray>钢
+  sulfur: <yellow>硫磺
+  tin: <gray>锡
+  water: <blue>水
+  plant_oil: <#c4b352>植物油
+  hydraulic_fluid: <#212d99>液压油
+  dirty_hydraulic_fluid: <#212d99>液压油 <#48459b>(脏)
+  obscyra: <#5c4a66>奥布西拉
+  reflector_fluid: <#d1c9ab>反射液
+  biodiesel: <#eaa627>生物柴油
+  castable:
+    display-text: <arrow> <gray>可铸造成 <white>%result%
+  sugarcane: <#a3ed2d>甘蔗
+  ethanol: <#d8d8d8>乙醇
+waila:
+  pit_kiln: 坑窑 | 剩余 %time%
+  mixing_pot:
+    empty: (空)
+    filled: '| %amount% 的 %fluid%'
+  fluid_tank:
+    empty: (空)
+    filled: '| %amount%/%capacity% 的 %fluid%'
+  fluid_strainer:
+    straining: ' | 过滤 %item%: %progress%'
+  cargo_splitter:
+    left: <#efae15>左
+    right: <#2386c4>右
+  crucible:
+    item:
+      empty: '| 无物品 |'
+      stored: '| x%amount% %type% |'
+    liquid:
+      empty: 无流体
+      filled: '%bar% (%fluid%)'
+research:
+  baking: <#e2b42b>烘焙
+  vitality_1: <#87dd87>活力 I
+  vitality_2: <#6ae26a>活力 II
+  first_aid: <#ef524a>急救
+  food_preservation: <#483b29>食物保存
+  french_revolution: <gradient:#0055a4:white:#ef4135>法国大革命
+  shimmer_manipulation: <#efd44a>微光操控
+  deforestation: <#d67d2a>砍伐森林
+  rituals: <#5b0baa>仪式
+  elevation: <#db79e0>升高
+  medicine: <#cc2e2e>医学
+  better_hammers: <#77d17e>更好的锤子
+  fletching: <#d66db8>箭羽制作
+  irrigation: <#77a7d1>灌溉
+  portable_workstations: <#9b816c>便携式工作站
+  primitive_alloying: <#d93802>原始合金
+  showing_off: <rainbow>炫耀
+  explosive_targets: <#ef8c4a>爆炸箭术
+  igneous_magic: <#45336d>火成魔法
+  forbidden_medicine: <#cc2e2e>禁忌医学
+  scientific_revolution_1: <#fc0505>科学革命 I
+  scientific_revolution_2: <#5bfc05>科学革命 II
+  high_temperature_materials: <#ce6625>高温材料
+  high_temperature_smelting: <#ff6b0f>高温冶炼
+  molding: <#7a5742>成型
+  improved_drilling_techniques: <#4f4641>改进的钻孔技术
+  pressing: <#dbe047>压榨
+  bronze_equipment: <#bc7f4d>青铜装备
+  fireproofing: <#ad2e2e>防火
+  hydraulic_automation: <#446be2>液压自动化
+  hydraulic_combat: <#5297ff>液压战斗
+  hydraulic_purification: <#2e7df4>液压净化
+  large_scale_hydraulic_purification: <#77a9f4>大规模液压净化
+  hydraulic_drilling: <#96d4e0>液压钻孔
+  steel: <#444444>钢
+  magnetism: <#144cbc>磁力
+  immobilization: <#b75984>禁锢
+  fluid_voiding_1: <#2a3360>流体消除 I
+  fluid_voiding_2: <#2a3360>流体消除 II
+  flow_control: <#2a47d6>流量控制
+  pumps: <#54abbc>泵
+  fluid_handling_1: <#58e2d2>流体处理 I
+  fluid_handling_2: <#58e2d2>流体处理 II
+  fluid_handling_3: <#58e2d2>流体处理 III
+  fluid_storage: <#88ccbb>流体存储
+  simple_components: <#c1c1c1>简单组件
+  straining: <#c99fa1>过滤
+  climbing_equipment: <#a6b579>攀岩装备
+  vacuum_hoppers: <#54536d>真空漏斗
+  advanced_vacuum_hoppers: <#54536d>高级真空漏斗
+  reactivated_skulls: <#000000>重新激活的凋灵骷髅头
+  soul_attachment: <dark_purple>灵魂附着
+  diet: <green>强力饮食
+  farming_aids: <green>农耕升级
+  negotiation_tactics: <#ffde59>谈判策略
+  optimal_breathing: <#5f26b6>优化呼吸
+  lucky_ducky: <#ffde59>幸运小鸭
+  advanced_breeding: <#e4080a>高级繁殖
+  portable_enchanting_books: <#060270>便携附魔书
+  lucky_hunting_charms: <#bfd641>幸运狩猎符咒
+guide:
+  page:
+    science: 科学
+    resources: 资源
+    components: 组件
+    tools: 工具
+    food: 食物
+    combat: 战斗
+    armour: 护甲
+    simple_machines: 简单机械
+    fluid_pipes_and_tanks: 流体管道与储罐
+    fluid_machines: 流体机械
+    hydraulics: 液压机械
+    cargo: 货运
+    diesel_machines: 柴油机械
+    smelting: 冶炼
+    machines: 机器
+    building: 建筑
+    creative_items: 创造物品
+    magic: 魔法
+    diesel_production: 柴油生产
+    talismans: 护符
+  recipe:
+    press: <attr>压榨时间:</attr> %time%
+    magic-altar: <attr>仪式时间:</attr> %time%
+    melting: <attr>温度:</attr> %temperature%
+    casting: <attr>温度:</attr> %temperature%
+    drilling: <attr>循环时间:</attr> %time%
+    grindstone:
+      time: <attr>研磨时间:</attr> %time%
+      chance: <attr>几率:</attr> %chance%
+    molding: <attr>成型周期:</attr> %molding-cycles%
+    hammer: <attr>几率:</attr> %chance%
+message:
+  fluid_none: 无
+  hammer_cant_use: <red>你不能在此方块上使用此锤
+  sprinkler_too_close: <red>你不能在彼此 %radius% 格内 放置洒水器
+  gained_research_points: <green>+%points% 研究点数 (总计 %total% 点)
+  fluid_selector:
+    current_fluid: '<white>当前流体: %fluid%'
+    clear: <white>清空
+  loupe:
+    nothing: <red>你看着自己的手，没什么特别的
+    already_examined: <red>你无法再发现此物品的更多 有趣之处
+    is_pylon: <red>造好这个后，你想不出还能发现 什么有趣的事
+    examined: <green>当你检视 %item% 时，突然灵光一闪
+    is_other_plugin: <red>你这自鸣得意的小滑头，用原版物品别用插件的
+    invalid_block: <red>任你怎么尝试，都无法从这方块中获取任何信息
+  research_pack:
+    message: 当你打开研究包时，%happening%
+    happening:
+      '0': 里面的东西出乎意料地没有在你面前爆炸
+      '1': 你发现包里形成了一种看似有生命的胶状 物质
+      '2': 一种奇怪发光的液体溢了出来
+      '3': 满怀期待的你失望地发现什么都没发生
+  item_magnet:
+    enabled: 物品磁石 <gray>已</gray> <green>开启
+    disabled: 物品磁石 <gray>已</gray> <red>关闭
+  valve:
+    enabled: 开启
+    disabled: 关闭
+  elevator:
+    none_within_range:
+      above: <red>你上方范围内没有电梯
+      below: <red>你下方范围内没有电梯
+  hydraulic_status:
+    not_enough_hydraulic_fluid: <red>液压油不足
+    dirty_hydraulic_fluid_buffer_full: <red>脏液压油缓存已满
+    working: <green>工作中
+    idle: <yellow>待机
+    missing_grindstone: <red>缺少磨石
+    missing_mixing_pot: <red>缺少混合锅
+    missing_press: <red>缺少压榨机
+    missing_hammer: <red>缺少锤子
+    missing_base: <red>缺少基座
+    no_fuel: <red>无燃料
+    incomplete: <red>未完成
+    working_with_reduced_efficiency: <green>以降低的效率工作中
+    no_sunlight: <red>无阳光
+  fireproof_result:
+    tooltip: <red><bold>防火
+    success: <red>你的物品已防火
+  hydraulic_refueling_station:
+    extra: '<gray>[<white>输入: %hydraulic-fluid-bar%<gray>] <white>- <gray>[<white>输出: %dirty-hydraulic-fluid-bar%<gray>]'
+  soulbound_rune:
+    tooltip: <dark_purple>灵魂绑定
+    soulbind-message: <dark_purple>你的灵魂已与物品链接
+  fluid_hatch:
+    no_casing: <red>无外壳
+    no_multiblock: <red>无多方块
+    working: '%bars% (%fluid%)'
+  biorefinery:
+    no_fuel: <red>无燃料
+    has_fuel: '%fuel-bar% %remaining-time%'
+gui:
+  fluid-selector-title: 选择流体
+  portable-dustbin: 便携垃圾桶
+  status:
+    name: 状态
+    toggle: <insn>点击</insn>切换
+    'true': <green>开
+    'false': <yellow>关
+    running: <green>运行中
+    not_running: <yellow>未运行
+    incomplete: <red>多方块未完成
+    on: <green>开
+    off: <yellow>关
+  smeltery:
+    height: <attr>高度:</attr> %height%
+    capacity: <attr>容量:</attr> %capacity%
+    temperature: <attr>温度:</attr> %temperature%
+    contents:
+      name: 内容物
+      fluid: '%amount% 的 %fluid%'
+      empty: 空
+  smeltery_burner:
+    burning: <green>燃烧中
+    not_burning: <yellow>未燃烧
+  smeltery_caster:
+    cast: 铸造
+    cannot_cast: <red>无法铸造
+    too_cold: <red>温度过低无法铸造，至少需要 %temperature%
+    not_enough: <red>%fluid% 不足无法铸造 (%amount%/%needed%)
+    click_to_cast: <insn>点击</insn>铸造 (%amount%/%needed%)
+  fluid_amount_bar:
+    text: '%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%'
+    color:
+      hydraulic_fluid: <#212d99>|
+      dirty_hydraulic_fluid: <#48459b>|
+  progress_bar:
+    text: '%filled_bars%<dark_gray>%empty_bars% <gray>%progress%'
+  hammer: 锤子
+  pickaxe: 镐
+  tool: 工具
+  filtered: 已过滤
+  unfiltered: 未过滤
+  filter: 要过滤的物品
+  left: 左
+  right: 右
+  no-target-logistic-group: 没有可用的物品槽
+  ratio: '比例: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>左<white>-<#2386c4>右<white>)'
+  left_button:
+    name: 增加左侧比例
+    lore: |-
+      <insn>左键</insn>增加
+      <insn>右键</insn>减少
+  right_button:
+    name: 增加右侧比例
+    lore: |-
+      <insn>左键</insn>增加
+      <insn>右键</insn>减少
+  whitelist-blacklist-toggle:
+    whitelist:
+      name: 白名单模式
+      lore: <arrow> <insn>点击</insn>切换
+    blacklist:
+      name: 黑名单模式
+      lore: <arrow> <insn>点击</insn>切换
+  logistic-group-cycle-item:
+    name: '当前物品槽: <yellow>%inventory%'
+    lore: <arrow> <insn>点击</insn>切换
+  threshold_button:
+    name: '阈值: <light_purple>%threshold%'
+    lore: |-
+      <arrow> <insn>左键</insn>增加
+      <arrow> <insn>右键</insn>减少
+  item_threshold_button:
+    name: '物品阈值: <light_purple>%threshold%'
+    lore: |-
+      <arrow> <insn>左键</insn>增加
+      <arrow> <insn>右键</insn>减少
+  fluid_threshold_button:
+    name: '流体阈值: <light_purple>%threshold%'
+    lore: |-
+      <arrow> <insn>左键</insn>增加 <unit:milli:buckets>10</unit>
+      <arrow> <insn>右键</insn>减少 <unit:milli:buckets>10</unit>
+      <arrow> <insn>潜行左键</insn>增加 <unit:milli:buckets>100</unit>
+      <arrow> <insn>潜行右键</insn>减少 <unit:milli:buckets>100</unit>
+  fluid_meter:
+    name: <attr>测量时长:</attr> %measurement-duration%
+    lore: |-
+      <arrow> <insn>左键</insn>增加
+      <arrow> <insn>右键</insn>减少
+      <arrow> <insn>潜行左键</insn>增加 <yellow>(10倍)</yellow>
+      <arrow> <insn>潜行右键</insn>减少 <yellow>(10倍)</yellow>
+inventory:
+  fuel: 燃料
+  input: 输入
+  output: 输出
+  inventory: 物品栏
+  hammer: 锤子
+  tool: 工具
+  left: 左
+  right: 右
+  filtered: 已过滤
+  unfiltered: 未过滤
+
