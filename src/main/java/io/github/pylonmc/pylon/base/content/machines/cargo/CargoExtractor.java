@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -17,8 +16,8 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlot;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -34,37 +33,25 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-
-public class CargoExtractor extends PylonBlock implements
-        PylonDirectionalBlock,
+public class CargoExtractor extends CargoInteractor implements
         PylonCargoBlock,
-        PylonGuiBlock,
-        PylonTickingBlock {
+        PylonTickingBlock,
+        PylonGuiBlock {
 
-    public static final NamespacedKey TARGET_LOGISTIC_GROUP_KEY = baseKey("target_logistic_group");
-    public static final NamespacedKey ITEMS_TO_FILTER_KEY = baseKey("items_to_filter");
-    public static final NamespacedKey IS_WHITELIST_KEY = baseKey("is_whitelist");
-    public static final List<Material> groupMaterials = List.of(
-            Material.LIGHT_BLUE_CONCRETE,
-            Material.CYAN_CONCRETE,
-            Material.BLUE_CONCRETE,
-            Material.PURPLE_CONCRETE,
-            Material.MAGENTA_CONCRETE,
-            Material.PINK_CONCRETE
-    );
+    public static final NamespacedKey ITEMS_TO_FILTER_KEY = BaseUtils.baseKey("items_to_filter");
+    public static final NamespacedKey IS_WHITELIST_KEY = BaseUtils.baseKey("is_whitelist");
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -81,7 +68,6 @@ public class CargoExtractor extends PylonBlock implements
     private final VirtualInventory outputInventory = new VirtualInventory(1);
     private final VirtualInventory filterInventory = new VirtualInventory(5);
 
-    public @Nullable String targetLogisticGroup = null;
     public Set<ItemStack> itemsToFilter = new HashSet<>();
     public boolean isWhitelist = false;
 
@@ -124,60 +110,10 @@ public class CargoExtractor extends PylonBlock implements
         }
     }
 
-    public class InventoryCycleItem extends AbstractItem {
-
-        @Override
-        public ItemProvider getItemProvider() {
-            PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
-            if (targetLogisticGroup == null || logisticBlock == null) {
-                return ItemStackBuilder.of(Material.BARRIER)
-                        .name("pylon.pylonbase.gui.no-target-logistic-group");
-            }
-
-            List<String> availableGroups = getAvailableLogisticGroups();
-            availableGroups.sort(String::compareTo);
-
-            int index = availableGroups.indexOf(targetLogisticGroup);
-            Preconditions.checkState(index != -1);
-            Material material = groupMaterials.get(index % groupMaterials.size());
-
-            PylonBlock pylonBlock = BlockStorage.get(logisticBlock.getBlock());
-            Preconditions.checkState(pylonBlock != null);
-
-            ItemStackBuilder builder = ItemStackBuilder.gui(material, "logistic-group:" + index)
-                    .name(Component.translatable("pylon.pylonbase.gui.logistic-group-cycle-item.name")
-                            .arguments(PylonArgument.of(
-                                    "inventory",
-                                    Component.translatable("pylon." + pylonBlock.getKey().getNamespace() + ".inventory." + targetLogisticGroup)
-                            ))
-                    );
-            if (availableGroups.size() > 1) {
-                builder.lore(Component.translatable("pylon.pylonbase.gui.logistic-group-cycle-item.lore"));
-            }
-            return builder;
-        }
-
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
-            if (targetLogisticGroup == null || logisticBlock == null) {
-                return;
-            }
-
-            List<String> availableGroups = getAvailableLogisticGroups();
-            availableGroups.sort(String::compareTo);
-
-            int index = availableGroups.indexOf(targetLogisticGroup);
-            targetLogisticGroup = availableGroups.get((index + 1) % availableGroups.size());
-            notifyWindows();
-        }
-    }
-
     @SuppressWarnings("unused")
     public CargoExtractor(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        setFacing(context.getFacing());
         setTickInterval(transferRate * 20);
 
         addCargoLogisticGroup(getFacing(), "output");
@@ -220,21 +156,20 @@ public class CargoExtractor extends PylonBlock implements
     @SuppressWarnings("unused")
     public CargoExtractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        targetLogisticGroup = pdc.get(TARGET_LOGISTIC_GROUP_KEY, PylonSerializers.STRING);
         itemsToFilter = pdc.get(ITEMS_TO_FILTER_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK));
         isWhitelist = pdc.get(IS_WHITELIST_KEY, PylonSerializers.BOOLEAN);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, TARGET_LOGISTIC_GROUP_KEY, PylonSerializers.STRING, targetLogisticGroup);
+        super.write(pdc);
         pdc.set(ITEMS_TO_FILTER_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK), itemsToFilter);
         pdc.set(IS_WHITELIST_KEY, PylonSerializers.BOOLEAN, isWhitelist);
     }
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
 
         filterInventory.setPostUpdateHandler(event -> {
             itemsToFilter.clear();
@@ -272,12 +207,6 @@ public class CargoExtractor extends PylonBlock implements
         }
     }
 
-    public @Nullable PylonLogisticBlock getTargetLogisticBlock() {
-        Block block = getBlock().getRelative(getFacing().getOppositeFace());
-        PylonLogisticBlock pylonBlock = BlockStorage.getAs(PylonLogisticBlock.class, block);
-        return pylonBlock instanceof PylonCargoBlock ? null : pylonBlock;
-    }
-
     @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
@@ -301,20 +230,11 @@ public class CargoExtractor extends PylonBlock implements
 
     @Override
     public void tick() {
-        PylonLogisticBlock target = getTargetLogisticBlock();
-        if (target == null) {
+        if (targetLogisticGroup == null) {
             return;
         }
 
-        if (targetLogisticGroup == null || target.getLogisticGroup(targetLogisticGroup) == null) {
-            List<String> availableLogisticGroups = getAvailableLogisticGroups();
-            if (availableLogisticGroups.isEmpty()) {
-                return;
-            }
-            targetLogisticGroup = availableLogisticGroups.getFirst();
-        }
-
-        LogisticGroup group = target.getLogisticGroup(targetLogisticGroup);
+        LogisticGroup group = targetGroups.get(targetLogisticGroup);
         Preconditions.checkState(group != null);
         ItemStack output = outputInventory.getItem(0);
         if (output != null && output.getAmount() == output.getMaxStackSize()) {
@@ -327,7 +247,7 @@ public class CargoExtractor extends PylonBlock implements
                 continue;
             }
 
-            if ((isWhitelist && !itemsToFilter.contains(slotStack.asOne())) || (!isWhitelist && itemsToFilter.contains(slotStack.asOne()))) {
+            if (isWhitelist != itemsToFilter.contains(slotStack.asOne())) {
                 continue;
             }
 
@@ -341,20 +261,13 @@ public class CargoExtractor extends PylonBlock implements
         }
     }
 
-    private @NotNull List<String> getAvailableLogisticGroups() {
-        PylonLogisticBlock target = getTargetLogisticBlock();
-        if (target == null) {
-            return List.of();
-        }
+    @Override
+    public boolean isValidGroup(@NotNull LogisticGroup group) {
+        return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.OUTPUT;
+    }
 
-        List<String> availableLogisticGroups = new ArrayList<>();
-        for (Map.Entry<String, LogisticGroup> entry : target.getLogisticGroups().entrySet()) {
-            if (entry.getValue().getSlotType() == LogisticSlotType.BOTH
-                    || entry.getValue().getSlotType() == LogisticSlotType.OUTPUT
-            ) {
-                availableLogisticGroups.add(entry.getKey());
-            }
-        }
-        return availableLogisticGroups;
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("output", outputInventory, "filter", filterInventory);
     }
 }

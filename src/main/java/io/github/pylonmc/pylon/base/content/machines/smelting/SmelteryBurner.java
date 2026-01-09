@@ -2,11 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -30,7 +32,11 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class SmelteryBurner extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock, PylonProcessor {
+public final class SmelteryBurner extends SmelteryComponent implements
+        PylonGuiBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonProcessor {
 
     public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
@@ -76,6 +82,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
     @Override
     public void postInitialise() {
         setProcessProgressItem(progressItem);
+        createLogisticGroup("fuel", LogisticGroupType.INPUT, inventory);
     }
 
     @Override

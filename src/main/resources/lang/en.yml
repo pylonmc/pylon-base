@@ -1602,26 +1602,26 @@ item:
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
   cargo_splitter:
-    name: "Cargo Splitter"
+    name: "<white>Cargo Splitter"
     lore: |-
       <arrow> Splits items between two outputs according to a configurable ratio
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
     waila: "Cargo Splitter | <#efae15>%left%<white>-<#2386c4>%right% <white>| %side%"
 
   cargo_merger:
-    name: "Cargo Merger"
+    name: "<white>Cargo Merger"
     lore: |-
       <arrow> Merges incoming items into one output
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
   cargo_valve:
-    name: "Cargo Valve"
+    name: "<white>Cargo Valve"
     lore: |-
       <arrow> <insn>Shift right click</insn> a cargo valve to toggle it
     waila: "Cargo Valve | %status%"
 
   cargo_filter:
-    name: "Cargo Filter"
+    name: "<white>Cargo Filter"
     lore: |-
       <arrow> Sends items matching the filter left
       <arrow> Sends items that do not match the filter right
@@ -2023,6 +2023,7 @@ gui:
       name: "Blacklist mode"
       lore: |-
         <arrow> <insn>Click</insn> to toggle
+  no-target-logistic-group: "No inventories available"
   ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
   portable-dustbin: "Portable Dustbin"
   status:
@@ -2060,8 +2061,10 @@ gui:
       <arrow> <insn>Click</insn> to cycle
 
 inventory:
+  fuel: "Fuel"
   input: "Input"
   output: "Output"
+  inventory: "Inventory"
   hammer: "Hammer"
   tool: "Tool"
   left: "Left"

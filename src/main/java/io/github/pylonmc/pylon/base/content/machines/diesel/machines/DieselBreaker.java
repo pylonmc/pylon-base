@@ -16,7 +16,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -27,7 +27,6 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -40,10 +39,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -153,8 +154,8 @@ public class DieselBreaker extends PylonBlock implements
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("tool", LogisticSlotType.INPUT, toolInventory);
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
+        createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
         outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
         toolInventory.setPostUpdateHandler(event -> tryStartDrilling());
         outputInventory.setPostUpdateHandler(event -> tryStartDrilling());
@@ -292,5 +293,13 @@ public class DieselBreaker extends PylonBlock implements
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonGuiBlock.super.onBreak(drops, context);
         PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "tool", toolInventory,
+                "output", outputInventory
+        );
     }
 }

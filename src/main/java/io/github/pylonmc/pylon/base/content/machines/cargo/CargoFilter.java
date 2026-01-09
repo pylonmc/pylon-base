@@ -12,8 +12,8 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
-import io.github.pylonmc.pylon.core.logistics.VirtualInventoryLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -26,13 +26,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoFilter extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock{
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -58,6 +60,16 @@ public class CargoFilter extends PylonBlock
             .name(Component.translatable("pylon.pylonbase.gui.unfiltered"));
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
             .name(Component.translatable("pylon.pylonbase.gui.filter"));
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "filtered", filteredInventory,
+                "unfiltered", unfilteredInventory,
+                "filter", filterInventory
+        );
+    }
 
     public static class Item extends PylonItem {
 
@@ -179,9 +191,9 @@ public class CargoFilter extends PylonBlock
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
-        createLogisticGroup("filtered", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(filteredInventory, 0));
-        createLogisticGroup("unfiltered", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(unfilteredInventory, 0));
+        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
+        createLogisticGroup("filtered", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(filteredInventory, 0));
+        createLogisticGroup("unfiltered", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(unfilteredInventory, 0));
         inputInventory.setPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();

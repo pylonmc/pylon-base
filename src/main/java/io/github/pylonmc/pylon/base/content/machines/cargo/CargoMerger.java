@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -12,8 +11,8 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
-import io.github.pylonmc.pylon.core.logistics.VirtualInventoryLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -24,13 +23,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoMerger extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock{
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -139,7 +140,12 @@ public class CargoMerger extends PylonBlock
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 }

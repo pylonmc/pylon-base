@@ -14,6 +14,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
@@ -49,6 +50,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         PylonDirectionalBlock,
         PylonProcessor,
         PylonGuiBlock,
+        PylonLogisticBlock,
         PylonTickingBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
@@ -137,6 +139,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("fuel",  LogisticGroupType.INPUT, inventory);
     }
 
     @Override

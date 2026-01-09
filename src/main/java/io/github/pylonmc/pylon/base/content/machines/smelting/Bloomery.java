@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -18,6 +19,8 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,7 +45,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler {
+public final class Bloomery extends PylonBlock implements
+        PylonSimpleMultiblock,
+        PylonInteractBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonBreakHandler {
+
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BLOOMERY).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float HEAT_CHANCE = Settings.get(BaseKeys.BLOOMERY).getOrThrow("heat-chance", ConfigAdapter.FLOAT);
 
@@ -51,17 +60,24 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
         super(block, context);
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
+                        .lookAlong(context.getFacing())
                         .scale(0.3)
                         .translate(0, (1 - .5 + 1d / 16) * 3, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation())
         );
         setTickInterval(TICK_INTERVAL);
+        setMultiblockDirection(context.getFacing());
     }
 
     @SuppressWarnings("unused")
     public Bloomery(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+       createLogisticGroup("inventory", LogisticGroupType.BOTH, new BloomeryLogisticSlot(getItemDisplay()));
     }
 
     @Override
@@ -187,6 +203,18 @@ public final class Bloomery extends PylonBlock implements PylonSimpleMultiblock,
             gypsum.remove();
             BlockStorage.placeBlock(against, BaseKeys.BLOOMERY);
             fire.setType(Material.AIR);
+        }
+    }
+
+    static class BloomeryLogisticSlot extends ItemDisplayLogisticSlot {
+
+        public BloomeryLogisticSlot(@NotNull ItemDisplay display) {
+            super(display);
+        }
+
+        @Override
+        public long getMaxAmount(@NotNull ItemStack stack) {
+            return 1;
         }
     }
 }

@@ -11,6 +11,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFallingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -20,6 +21,8 @@ import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
@@ -43,7 +46,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, PylonBreakHandler, PylonEntityHolderBlock, PylonTickingBlock, PylonInteractBlock {
+public final class BronzeAnvil extends PylonBlock implements
+        PylonBreakHandler,
+        PylonEntityHolderBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock,
+        PylonInteractBlock,
+        PylonFallingBlock {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
@@ -75,6 +84,11 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     @SuppressWarnings("unused")
     public BronzeAnvil(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("inventory", LogisticGroupType.BOTH, new BronzeAnvilLogisticSLot(getItemDisplay()));
     }
 
     @Override
@@ -199,7 +213,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
 
 
     @Override
-    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity spawnedEntity) {
+    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlock.PylonFallingBlockEntity spawnedEntity) {
         var pdc = spawnedEntity.getEntity().getPersistentDataContainer();
 
         ItemDisplay display = getItemDisplay();
@@ -208,7 +222,7 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
     }
 
     @Override
-    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlockEntity entity) {
+    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlock.PylonFallingBlockEntity entity) {
         var pdc = entity.getEntity().getPersistentDataContainer();
 
         ItemStack stack = pdc.get(STORED_ITEM, PylonSerializers.ITEM_STACK);
@@ -256,5 +270,17 @@ public final class BronzeAnvil extends PylonBlock implements PylonFallingBlock, 
             case WEST -> 0;
             default -> 0;
         };
+    }
+
+    static class BronzeAnvilLogisticSLot extends ItemDisplayLogisticSlot {
+
+        public BronzeAnvilLogisticSLot(@NotNull ItemDisplay display) {
+            super(display);
+        }
+
+        @Override
+        public long getMaxAmount(@NotNull ItemStack stack) {
+            return 1;
+        }
     }
 }

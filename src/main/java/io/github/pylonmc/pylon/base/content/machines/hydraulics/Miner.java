@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -119,5 +120,5 @@ public abstract class Miner extends PylonBlock implements PylonMultiblock, Pylon
         updateMiner();
     }
 
-    abstract protected Integer getBreakTicks(@NotNull Block block);
+    protected abstract @Nullable Integer getBreakTicks(@NotNull Block block);
 }

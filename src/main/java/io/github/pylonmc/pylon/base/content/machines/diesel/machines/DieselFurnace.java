@@ -14,7 +14,7 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticSlotType;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.recipe.vanilla.FurnaceRecipeType;
 import io.github.pylonmc.pylon.core.recipe.vanilla.FurnaceRecipeWrapper;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
@@ -38,9 +38,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class DieselFurnace extends PylonBlock implements
@@ -130,8 +132,8 @@ public class DieselFurnace extends PylonBlock implements
 
     @Override
     public void postInitialise() {
-        createLogisticGroup("input", LogisticSlotType.INPUT, inputInventory);
-        createLogisticGroup("output", LogisticSlotType.OUTPUT, outputInventory);
+        createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
         outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
         outputInventory.setPostUpdateHandler(event -> tryStartRecipe());
         inputInventory.setPostUpdateHandler(event -> {
@@ -232,5 +234,10 @@ public class DieselFurnace extends PylonBlock implements
     public void onRecipeFinished(@NotNull FurnaceRecipeWrapper recipe) {
         getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
         outputInventory.addItem(null, recipe.getRecipe().getResult().clone());
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("input", inputInventory, "output", outputInventory);
     }
 }
