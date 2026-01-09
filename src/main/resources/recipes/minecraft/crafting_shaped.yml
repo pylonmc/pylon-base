@@ -1564,3 +1564,96 @@ pylonbase:tongs:
     W: "#minecraft:wool"
   result: pylonbase:tongs
   category: equipment
+
+pylonbase:breeding_talisman_simple:
+  pattern:
+    - "LLL"
+    - "LHW"
+    - "WWW"
+  key:
+    L: minecraft:leather
+    H: minecraft:iron_hoe
+    W: minecraft:wheat
+  result: pylonbase:breeding_talisman_simple
+  category: equipment
+
+pylonbase:hunger_talisman_simple:
+  pattern:
+    - "AAA"
+    - "AGA"
+    - "AAA"
+  key:
+    A: minecraft:apple
+    G: minecraft:golden_apple
+  result: pylonbase:hunger_talisman_simple
+  category: equipment
+
+pylonbase:luck_talisman_simple:
+  pattern:
+    - "GGG"
+    - "GDR"
+    - "RRR"
+  key:
+    G: minecraft:gold_ingot
+    R: minecraft:redstone
+    D: minecraft:diamond
+  result: pylonbase:luck_talisman_simple
+  category: equipment
+
+pylonbase:hunting_talisman_simple:
+  pattern:
+    - "GGG"
+    - "GSR"
+    - "RRR"
+  key:
+    G: minecraft:gunpowder
+    S: minecraft:iron_sword
+    R: minecraft:rotten_flesh
+  result: pylonbase:hunting_talisman_simple
+  category: equipment
+
+pylonbase:enchanting_talisman_simple:
+  pattern:
+    - "LLL"
+    - "LBL"
+    - "LLL"
+  key:
+    L: minecraft:lapis_lazuli
+    B: minecraft:bookshelf
+  result: pylonbase:enchanting_talisman_simple
+  category: equipment
+
+pylonbase:bartering_talisman_simple:
+  pattern:
+    - "GGG"
+    - "GNQ"
+    - "QQQ"
+  key:
+    G: minecraft:gold_ingot
+    N: minecraft:nether_bricks
+    Q: minecraft:quartz
+  result: pylonbase:bartering_talisman_simple
+  category: equipment
+
+pylonbase:water_breathing_talisman_simple:
+  pattern:
+    - "KKK"
+    - "KBK"
+    - "KKK"
+  key:
+    K: minecraft:kelp
+    B: minecraft:water_bucket
+  result: pylonbase:water_breathing_talisman_simple
+  category: equipment
+
+pylonbase:farmer_talisman_simple:
+  pattern:
+    - "WBW"
+    - "BHB"
+    - "WBW"
+  key:
+    W: minecraft:wheat
+    B: minecraft:hay_block
+    H: minecraft:iron_hoe
+  result: pylonbase:farmer_talisman_simple
+  category: equipment

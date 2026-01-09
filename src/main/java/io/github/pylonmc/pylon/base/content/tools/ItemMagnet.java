@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -31,7 +32,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
     @Getter
     private final double attractForce = getSettings().getOrThrow("attract-force", ConfigAdapter.DOUBLE);
 
-    private static final NamespacedKey ENABLED_KEY = new NamespacedKey(PylonBase.getInstance(), "item_magnet_toggler");
+    private static final NamespacedKey ENABLED_KEY = BaseUtils.baseKey("item_magnet_toggler");
 
     public ItemMagnet(@NotNull ItemStack stack) {
         super(stack);
@@ -76,6 +77,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
 
     /**
      * Checks if an item magnet is enabled
+     *
      * @return true is enabled else otherwise
      */
     public boolean isEnabled() {
@@ -101,8 +103,8 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
                     if (!itemMagnet.isEnabled()) continue;
 
                     Collection<Item> nearbyItems = player.getLocation().getNearbyEntitiesByType(
-                        Item.class,
-                        itemMagnet.getPickupDistance()
+                            Item.class,
+                            itemMagnet.getPickupDistance()
                     );
 
 

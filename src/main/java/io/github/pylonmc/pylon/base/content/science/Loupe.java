@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.science;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.Settings;
@@ -38,7 +38,7 @@ import java.util.*;
 @SuppressWarnings("UnstableApiUsage")
 public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable {
 
-    private static final NamespacedKey CONSUMED_KEY = new NamespacedKey(PylonBase.getInstance(), "consumed");
+    private static final NamespacedKey CONSUMED_KEY = BaseUtils.baseKey("consumed");
     private static final PersistentDataType<PersistentDataContainer, Map<Material, Integer>> CONSUMED_TYPE =
             PylonSerializers.MAP.mapTypeFrom(
                     PylonSerializers.KEYED.keyedTypeFrom(Material.class, Registry.MATERIAL::getOrThrow),
@@ -142,7 +142,7 @@ public class Loupe extends PylonItem implements PylonInteractor, PylonConsumable
         org.bukkit.entity.Item entityItem = hasValidItem(toScan, items);
         if (entityItem != null) {
             ItemStack stack = entityItem.getItemStack();
-            if(addPoints(stack.getType(), stack.effectiveName(), player)) return;
+            if (addPoints(stack.getType(), stack.effectiveName(), player)) return;
 
             if (stack.getAmount() == 1) {
                 entityItem.remove();

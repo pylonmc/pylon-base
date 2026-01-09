@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
 import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
+import io.github.pylonmc.pylon.base.content.talismans.*;
 import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
@@ -61,7 +61,13 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new Grindstone.PlaceListener(), this);
 
         new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
-        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, BaseConfig.HEALTH_TALISMAN_CHECK_INTERVAL);
+
+        pm.registerEvents(new HungerTalisman.JoinListener(), this);
+        pm.registerEvents(new FarmerTalisman.FarmerTalismanListener(), this);
+        pm.registerEvents(new BarteringTalisman.BarteringTalismanListener(), this);
+        pm.registerEvents(new BreedingTalisman.BreedingTalismanListener(), this);
+        pm.registerEvents(new EnchantingTalisman.EnchantingListener(), this);
+        pm.registerEvents(new HuntingTalisman.HuntingTalismanListener(), this);
     }
 
     @Override

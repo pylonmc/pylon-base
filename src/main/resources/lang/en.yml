@@ -846,23 +846,26 @@ item:
   health_talisman_simple:
     name: "Simple Health Talisman"
     lore: |-
-      <arrow> Increases your maximum health while in your inventory
+      <arrow> Increases your maximum health
       <arrow> Does not stack
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Max health increase:</attr> %health-boost%
 
   health_talisman_advanced:
     name: "Advanced Health Talisman"
     lore: |-
-      <arrow> Increases your maximum health while in your inventory
+      <arrow> Increases your maximum health
       <arrow> Does not stack
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Max health increase:</attr> %health-boost%
 
   health_talisman_ultimate:
     name: "Ultimate Healing Talisman"
     lore: |-
-      <arrow> Increases your maximum health while in your inventory
+      <arrow> Increases your maximum health
       <arrow> Does not stack
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Max health increase:</attr> %health-boost%
 
   item_magnet:
     name: "Item Magnet"
@@ -1451,6 +1454,177 @@ item:
       <arrow> Inserts items into chests, furnaces, machines, and other compatible blocks
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
+  hunger_talisman_simple:
+    name: "Simple Hunger Talisman"
+    lore: |-
+      <arrow> Increases your saturation and hunger every %period%
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_advanced:
+    name: "Advanced Hunger Talisman"
+    lore: |-
+      <arrow> Increases your saturation and hunger every %period%
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_ultimate:
+    name: "Ultimate Hunger Talisman"
+    lore: |-
+      <arrow> Increases your saturation and hunger every %period%
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  farmer_talisman_simple:
+    name: "Simple Farming Talisman"
+    lore: |-
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
+
+  farmer_talisman_advanced:
+    name: "Advanced Farming Talisman"
+    lore: |-
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
+
+  farmer_talisman_ultimate:
+    name: "Ultimate Farming Talisman"
+    lore: |-
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
+
+  bartering_talisman_simple:
+    name: "Simple Bartering Talisman"
+    lore: |-
+      <arrow> Don't consume items traded to piglins
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
+
+  bartering_talisman_advanced:
+    name: "Advanced Bartering Talisman"
+    lore: |-
+      <arrow> Don't consume items traded to piglins
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
+
+  bartering_talisman_ultimate:
+    name: "Ultimate Bartering Talisman"
+    lore: |-
+      <arrow> Don't consume items traded to piglins
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
+
+  water_breathing_talisman_simple:
+    name: "<white>Simple Water Breathing Talisman"
+    lore: |-
+      <arrow> Allows you to breathe longer underwater
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+
+  water_breathing_talisman_advanced:
+    name: "<white>Advanced Water Breathing Talisman"
+    lore: |-
+      <arrow> Allows you to breathe longer underwater
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+
+  water_breathing_talisman_ultimate:
+    name: "<white>Ultimate Water Breathing Talisman"
+    lore: |-
+      <arrow> Allows you to breathe longer underwater
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Additional oxygen:</attr> %bonus_oxygen%
+
+  luck_talisman_simple:
+    name: "Simple Luck Talisman"
+    lore: |-
+      <arrow> Increases your chances of looting higher quality items
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_advanced:
+    name: "Advanced Luck Talisman"
+    lore: |-
+      <arrow> Increases your chances of looting higher quality items
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_ultimate:
+    name: "Ultimate Luck Talisman"
+    lore: |-
+      <arrow> Increases your chances of looting higher quality items
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  breeding_talisman_simple:
+    name: "Simple Breeding Talisman"
+    lore: |-
+      <arrow> Bred children grow up instantly
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %adult_chance%
+
+  breeding_talisman_advanced:
+    name: "Advanced Breeding Talisman"
+    lore: |-
+      <arrow> Bred children grow up instantly
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %adult_chance%
+
+  breeding_talisman_ultimate:
+    name: "Ultimate Breeding Talisman"
+    lore: |-
+      <arrow> Bred children grow up instantly
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %adult_chance%
+
+  enchanting_talisman_simple:
+    name: "<white>Simple Enchanting Talisman"
+    lore: |-
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
+
+  enchanting_talisman_advanced:
+    name: "<white>Advanced Enchanting Talisman"
+    lore: |-
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
+
+  enchanting_talisman_ultimate:
+    name: "<white>Ultimate Enchanting Talisman"
+    lore: |-
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
+
+  hunting_talisman_simple:
+    name: "<white>Simple Hunting Talisman"
+    lore: |-
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
+
+  hunting_talisman_advanced:
+    name: "<white>Advanced Hunting Talisman"
+    lore: |-
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
+
+  hunting_talisman_ultimate:
+    name: "<white>Ultimate Hunting Talisman"
+    lore: |-
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -1553,6 +1727,14 @@ research:
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
   reactivated_skulls: "<gray>Reactivated wither skulls"
   soul_attachment: "<dark_purple>Soul attachment"
+  diet: "<green>Strong diet"
+  farming_aids: "<green>Farming upgrades"
+  negotiation_tactics: "<#ffde59>Negotiation tactics"
+  optimal_breathing: "<#5f26b6>Optimized breathing"
+  lucky_ducky: "<#ffde59>Lucky ducky"
+  advanced_breeding: "<#e4080a>Advanced breeding"
+  portable_enchanting_books: "<#060270>Portable enchanting books"
+  lucky_hunting_charms: "<#bfd641>Lucky hunting charms"
 
 guide:
   page:
@@ -1562,6 +1744,7 @@ guide:
     tools: "Tools"
     food: "Food"
     combat: "Combat"
+    talismans: "Talismans"
     armour: "Armour"
     simple_machines: "Simple machines"
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
