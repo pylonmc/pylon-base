@@ -2,19 +2,18 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.simple.Crucible;
-import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.FluidButton;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
+import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.PylonRecipe;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -85,7 +84,7 @@ public record CrucibleRecipe(
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
             for (NamespacedKey key : getHeatedBlocks()) {
-                HEAT_SOURCES.add(PylonUtils.itemFromKey(key));
+                HEAT_SOURCES.add(ItemTypeWrapper.of(key).createItemStack());
             }
         }
 
