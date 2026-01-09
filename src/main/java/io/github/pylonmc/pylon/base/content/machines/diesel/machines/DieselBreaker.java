@@ -12,6 +12,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -38,10 +39,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -53,7 +56,6 @@ public class DieselBreaker extends PylonBlock implements
         PylonTickingBlock,
         PylonMultiblock,
         PylonLogisticBlock,
-        PylonNoVanillaContainerBlock,
         PylonProcessor {
 
     public final double dieselPerBlock = getSettings().getOrThrow("diesel-per-block", ConfigAdapter.DOUBLE);
@@ -162,7 +164,7 @@ public class DieselBreaker extends PylonBlock implements
 
     @Override
     public void tick() {
-        if (!isProcessing() || fluidAmount(BaseFluids.BIODIESEL) < dieselPerBlock) {
+        if (!isProcessing()) {
             return;
         }
 
@@ -193,10 +195,9 @@ public class DieselBreaker extends PylonBlock implements
         Block toDrill = getBlock().getRelative(getFacing());
         ItemStack tool = toolInventory.getItem(0);
         if (tool == null
-                || toDrill.getType().isAir()
-                || BlockStorage.isPylonBlock(toDrill)
-                || !toDrill.isPreferredTool(tool)
+                || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
                 || !outputInventory.canHold(toDrill.getDrops().stream().toList())
+                || fluidAmount(BaseFluids.BIODIESEL) < dieselPerBlock
         ) {
             return;
         }
@@ -208,18 +209,17 @@ public class DieselBreaker extends PylonBlock implements
     public void onProcessFinished() {
         Block toDrill = getBlock().getRelative(getFacing());
         ItemStack tool = toolInventory.getItem(0);
+        List<ItemStack> drops = toDrill.getDrops().stream().toList();
         if (tool == null
-                || toDrill.getType().isAir()
-                || BlockStorage.isPylonBlock(toDrill)
-                || !toDrill.isPreferredTool(tool)
-                || !outputInventory.canHold(toDrill.getDrops().stream().toList())
+                || !BaseUtils.shouldBreakBlockUsingTool(toDrill, tool)
+                || !outputInventory.canHold(drops)
                 || !new BlockBreakBlockEvent(toDrill, getBlock(), new ArrayList<>()).callEvent()
         ) {
             return;
         }
 
         toDrill.setType(Material.AIR);
-        for (ItemStack drop : toDrill.getDrops()) {
+        for (ItemStack drop : drops) {
             outputInventory.addItem(new MachineUpdateReason(), drop);
         }
         tool.setData(DataComponentTypes.DAMAGE, tool.getData(DataComponentTypes.DAMAGE) + 1);
@@ -284,8 +284,22 @@ public class DieselBreaker extends PylonBlock implements
     }
 
     @Override
+    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
+        PylonFluidBufferBlock.super.onFluidAdded(fluid, amount);
+        tryStartDrilling();
+    }
+
+    @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonGuiBlock.super.onBreak(drops, context);
         PylonFluidBufferBlock.super.onBreak(drops, context);
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "tool", toolInventory,
+                "output", outputInventory
+        );
     }
 }

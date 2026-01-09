@@ -24,9 +24,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
+
+import java.util.Map;
 
 public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock, PylonLogisticBlock {
 
@@ -132,6 +135,11 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
             return Component.translatable("pylon.pylonbase.gui.smeltery_caster." + subkey, args);
         }
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("output", inventory);
     }
 
     @Override

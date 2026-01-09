@@ -89,7 +89,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
         if (targetLogisticBlock != null) {
             targetGroups.putAll(targetLogisticBlock.getLogisticGroups());
         } else {
-            targetGroups.putAll(PylonUtils.getVanillaLogisticSlots(targetBlock));
+            targetGroups.putAll(LogisticGroup.getVanillaLogisticSlots(targetBlock));
         }
         targetGroups.entrySet().removeIf(pair -> !isValidGroup(pair.getValue()));
 

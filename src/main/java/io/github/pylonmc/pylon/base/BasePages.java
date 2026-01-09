@@ -15,6 +15,7 @@ public class BasePages {
     public static final SimpleStaticGuidePage COMPONENTS = new SimpleStaticGuidePage(baseKey("components"));
     public static final SimpleStaticGuidePage TOOLS = new SimpleStaticGuidePage(baseKey("tools"));
     public static final SimpleStaticGuidePage COMBAT = new SimpleStaticGuidePage(baseKey("combat"));
+    public static final SimpleStaticGuidePage TALISMANS = new SimpleStaticGuidePage(baseKey("talismans"), Material.TOTEM_OF_UNDYING);
     public static final SimpleStaticGuidePage ARMOUR = new SimpleStaticGuidePage(baseKey("armour"));
     public static final SimpleStaticGuidePage FOOD = new SimpleStaticGuidePage(baseKey("food"));
 
@@ -43,6 +44,7 @@ public class BasePages {
         PylonGuide.getRootPage().addPage(Material.PAPER, COMPONENTS);
         PylonGuide.getRootPage().addPage(Material.IRON_PICKAXE, TOOLS);
         PylonGuide.getRootPage().addPage(Material.IRON_SWORD, COMBAT);
+        PylonGuide.getRootPage().addPage(Material.TOTEM_OF_UNDYING, TALISMANS);
         PylonGuide.getRootPage().addPage(Material.IRON_CHESTPLATE, ARMOUR);
         PylonGuide.getRootPage().addPage(Material.APPLE, FOOD);
 

@@ -133,6 +133,7 @@ public class Fermenter extends PylonBlock implements
                 Location location = getBlock().getLocation().add(relative);
                 Waila.addWailaOverride(location.getBlock(), this::getWaila);
             }
+            getHeldEntityOrThrow(ItemDisplay.class, "sugarcane").setItemStack(BaseFluids.SUGARCANE.getItem());
         }
         return formed;
     }
@@ -149,6 +150,7 @@ public class Fermenter extends PylonBlock implements
             Location location = getBlock().getLocation().add(relative);
             Waila.removeWailaOverride(location.getBlock());
         }
+        getHeldEntityOrThrow(ItemDisplay.class, "sugarcane").setItemStack(null);
     }
 
     @Override
@@ -202,7 +204,7 @@ public class Fermenter extends PylonBlock implements
         double sugarcaneProportion = fluidAmount(BaseFluids.SUGARCANE) / fluidCapacity(BaseFluids.SUGARCANE);
         int sugarcaneAmount = sugarcaneProportion < 1.0e-3
                 ? 0
-                : (int) (sugarcaneProportion * sugarcaneCapacity) + 1;
+                : Math.min(sugarcaneCapacity, (int) (sugarcaneProportion * sugarcaneCapacity) + 1);
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 PylonArgument.of("sugarcane-bar", BaseUtils.createBar(
                         sugarcaneProportion,

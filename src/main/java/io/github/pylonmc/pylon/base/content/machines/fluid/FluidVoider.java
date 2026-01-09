@@ -70,7 +70,7 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock {
 
     @Override
     public double fluidAmountRequested(@NotNull PylonFluid fluid) {
-        return voidRate * PylonConfig.fluidTickInterval / 20;
+        return voidRate * PylonConfig.FLUID_TICK_INTERVAL / 20;
     }
 
     @Override

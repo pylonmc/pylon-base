@@ -15,7 +15,6 @@ import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,8 +24,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-import static io.github.pylonmc.pylon.core.util.PylonUtils.isPylonSimilar;
 
 
 public class HydraulicCannon extends PylonItem implements PylonInteractor, HydraulicRefuelable {
@@ -83,7 +80,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
         boolean projectileFound = false;
         for (ItemStack stack : event.getPlayer().getInventory()) {
-            if (isPylonSimilar(stack, BaseItems.TIN_PROJECTILE)) {
+            if (BaseItems.TIN_PROJECTILE.isSimilar(stack)) {
                 stack.subtract();
                 projectileFound = true;
                 break;

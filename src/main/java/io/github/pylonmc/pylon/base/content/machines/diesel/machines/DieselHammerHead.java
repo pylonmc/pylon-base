@@ -39,9 +39,11 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class DieselHammerHead extends PylonBlock implements
@@ -266,5 +268,10 @@ public class DieselHammerHead extends PylonBlock implements
                         TextColor.fromHexString("#eaa627")
                 ))
         ));
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("hammer", hammerInventory);
     }
 }
