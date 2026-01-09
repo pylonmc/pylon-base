@@ -196,6 +196,8 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_VALVE = baseKey("fluid_valve");
     public static final NamespacedKey FLUID_METER = baseKey("fluid_meter");
     public static final NamespacedKey FLUID_FILTER = baseKey("fluid_filter");
+    public static final NamespacedKey FLUID_LIMITER = baseKey("fluid_limiter");
+    public static final NamespacedKey FLUID_ACCUMULATOR = baseKey("fluid_accumulator");
 
     public static final NamespacedKey WATER_PLACER = baseKey("water_placer");
     public static final NamespacedKey LAVA_PLACER = baseKey("lava_placer");
