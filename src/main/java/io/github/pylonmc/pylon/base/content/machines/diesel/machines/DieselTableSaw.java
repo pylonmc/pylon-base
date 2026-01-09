@@ -37,9 +37,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class DieselTableSaw extends PylonBlock implements
@@ -240,5 +242,13 @@ public class DieselTableSaw extends PylonBlock implements
         getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
         getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(null);
         outputInventory.addItem(null, recipe.result().clone());
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "output", outputInventory
+        );
     }
 }

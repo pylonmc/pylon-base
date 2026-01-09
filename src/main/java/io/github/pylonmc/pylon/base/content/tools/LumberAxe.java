@@ -7,7 +7,6 @@ import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Tool;
 import org.bukkit.Effect;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;

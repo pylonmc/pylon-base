@@ -1,10 +1,6 @@
 package io.github.pylonmc.pylon.base.content.tools.base;
 
-import io.github.pylonmc.pylon.core.item.base.PylonArrow;
-import io.github.pylonmc.pylon.core.item.base.PylonBow;
-import io.github.pylonmc.pylon.core.item.base.PylonBucket;
-import io.github.pylonmc.pylon.core.item.base.PylonTool;
-import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
+import io.github.pylonmc.pylon.core.item.base.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

@@ -8,7 +8,6 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -19,6 +18,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.event.entity.EntityCompostItemEvent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
@@ -78,6 +78,7 @@ public class Press extends PylonBlock implements
         );
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
+        setRecipeType(PressRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
