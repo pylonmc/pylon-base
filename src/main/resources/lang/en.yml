@@ -368,11 +368,11 @@ item:
   fluid_meter:
     name: "<white>Fluid Meter"
     lore: |-
-      <arrow> A variant of the fluid filter which displays the amount of fluid passing through
-      <arrow> <insn>Right click</insn> a fluid meter to change the filtered fluid
+      <arrow> Measures and displays how much fluid is passing through
+      <arrow> <insn>Right click</insn> a fluid meter to configure the measurement time
       <arrow> <attr>Buffer:</attr> %buffer%
-    waila: "Fluid Meter | %bars% (%fluid%)"
-    gui: "Fluid Meter"
+      <arrow> <attr>Measurement range:</attr> %min-measurement-time% to %max-measurement-time%
+    waila: "Fluid Meter | %bars% (%fluid%) | %duration%"
 
   fluid_strainer:
     name: "Fluid Strainer"
@@ -1586,7 +1586,6 @@ item:
     name: "<white>Cargo Buffer"
     lore: |-
       <arrow> A one-stack item buffer
-      <arrow> Connect using cargo ducts
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
   cargo_extractor:
@@ -1618,6 +1617,7 @@ item:
     name: "<white>Cargo Valve"
     lore: |-
       <arrow> <insn>Shift right click</insn> a cargo valve to toggle it
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
     waila: "Cargo Valve | %status%"
 
   cargo_filter:
@@ -1625,6 +1625,45 @@ item:
     lore: |-
       <arrow> Sends items matching the filter left
       <arrow> Sends items that do not match the filter right
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  cargo_monitor:
+    name: "<white>Cargo Monitor"
+    lore: |-
+      <arrow> Displays a hologram of its contents
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  cargo_meter:
+    name: "<white>Cargo Meter"
+    lore: |-
+      <arrow> Measures and displays how many items are passing through
+      <arrow> <attr>Measurement range:</attr> %min-measurement-time% to %max-measurement-time%
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+    waila: "Cargo Meter | %duration%"
+
+  cargo_gate:
+    name: "<white>Cargo Gate"
+    lore: |-
+      <arrow> Waits for a certain number of items to come from the left before sending on one item from the right
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+    waila: "Cargo Gate | <light_purple>%threshold% <white>| %side%"
+
+  cargo_accumulator:
+    name: "<white>Cargo Accumulator"
+    lore: |-
+      <arrow> Waits for a certain number of items to arrive before sending them all onwards at once
+      <arrow> New items cannot enter while there are still items in the output
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+    waila: "Cargo Accumulator | <light_purple>%threshold%"
+
+  cargo_fluid_accumulator:
+    name: "<white>Cargo Fluid Accumulator"
+    lore: |-
+      <arrow> Waits for a certain amount of items AND fluid to arrive before sending the items and fluid onwards all on at once
+      <arrow> New items or fluid cannot enter while there are still items in the output
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+      <arrow> <attr>Fluid buffer:</attr> %fluid-buffer%
+    waila: "Cargo Fluid Accumulator | <light_purple>%item-threshold%</light_purple> <white>| <light_purple>%fluid-threshold%</light_purple> <white>| %bars%"
 
   hunger_talisman_simple:
     name: "Simple Hunger Talisman"
@@ -2007,13 +2046,30 @@ gui:
   left_button:
     name: "Change ratio left"
     lore: |-
-      <insn>Left click</insn> to increase
-      <insn>Right click</insn> to decrease
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
   right_button:
     name: "Change ratio right"
     lore: |-
-      <insn>Left click</insn> to increase
-      <insn>Right click</insn> to decrease
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+  threshold_button:
+    name: "Threshold: <light_purple>%threshold%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+  item_threshold_button:
+    name: "Item Threshold: <light_purple>%threshold%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+  fluid_threshold_button:
+    name: "Fluid Threshold: <light_purple>%threshold%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase by <unit:milli:buckets>10</unit>
+      <arrow> <insn>Right click</insn> to decrease by <unit:milli:buckets>10</unit>
+      <arrow> <insn>Shift left click</insn> to increase by <unit:milli:buckets>100</unit>
+      <arrow> <insn>Shift right click</insn> to decrease by <unit:milli:buckets>100</unit>
   whitelist-blacklist-toggle:
     whitelist:
       name: "Whitelist mode"
@@ -2059,6 +2115,13 @@ gui:
     name: "Current inventory: <yellow>%inventory%"
     lore: |-
       <arrow> <insn>Click</insn> to cycle
+  fluid_meter:
+    name: "<attr>Measurement duration:</attr> %measurement-duration%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
 
 inventory:
   fuel: "Fuel"

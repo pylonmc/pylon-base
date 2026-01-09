@@ -84,7 +84,10 @@ public class Press extends PylonBlock implements
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+    }
 
+    @Override
+    public void postLoad() {
         if (isProcessingRecipe()) {
             finishRecipe();
         }

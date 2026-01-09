@@ -1236,10 +1236,10 @@ public final class BaseItems {
     }
 
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_METER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_BLUE_STAINED_GLASS.getKey())
             .build();
     static {
-        PylonItem.register(FluidFilter.Item.class, FLUID_METER, BaseKeys.FLUID_METER);
+        PylonItem.register(FluidMeter.Item.class, FLUID_METER, BaseKeys.FLUID_METER);
         BasePages.FLUID_MACHINES.addItem(FLUID_METER);
     }
 
@@ -2020,7 +2020,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack CARGO_SPLITTER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_SPLITTER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.STRIPPED_CRIMSON_HYPHAE.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.STRIPPED_CRIMSON_STEM.getKey())
             .build();
     static {
         PylonItem.register(CargoSplitter.Item.class, CARGO_SPLITTER, BaseKeys.CARGO_SPLITTER);
@@ -2028,7 +2028,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack CARGO_MERGER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_MERGER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.STRIPPED_WARPED_HYPHAE.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.STRIPPED_WARPED_STEM.getKey())
             .build();
     static {
         PylonItem.register(CargoSplitter.Item.class, CARGO_MERGER, BaseKeys.CARGO_MERGER);
@@ -2044,11 +2044,51 @@ public final class BaseItems {
     }
 
     public static final ItemStack CARGO_FILTER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_FILTER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.COMPARATOR.getKey())
             .build();
     static {
         PylonItem.register(CargoValve.Item.class, CARGO_FILTER, BaseKeys.CARGO_FILTER);
         BasePages.CARGO.addItem(CARGO_FILTER);
+    }
+
+    public static final ItemStack CARGO_MONITOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_MONITOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_STAINED_GLASS.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoMonitor.Item.class, CARGO_MONITOR, BaseKeys.CARGO_MONITOR);
+        BasePages.CARGO.addItem(CARGO_MONITOR);
+    }
+
+    public static final ItemStack CARGO_METER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_METER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_BLUE_STAINED_GLASS.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoMeter.Item.class, CARGO_METER, BaseKeys.CARGO_METER);
+        BasePages.CARGO.addItem(CARGO_METER);
+    }
+
+    public static final ItemStack CARGO_GATE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_GATE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.REPEATER.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoGate.Item.class, CARGO_GATE, BaseKeys.CARGO_GATE);
+        BasePages.CARGO.addItem(CARGO_GATE);
+    }
+
+    public static final ItemStack CARGO_ACCUMULATOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_ACCUMULATOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.REDSTONE_LAMP.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoAccumulator.Item.class, CARGO_ACCUMULATOR, BaseKeys.CARGO_ACCUMULATOR);
+        BasePages.CARGO.addItem(CARGO_ACCUMULATOR);
+    }
+
+    public static final ItemStack CARGO_FLUID_ACCUMULATOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_FLUID_ACCUMULATOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.NOTE_BLOCK.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoFluidAccumulator.Item.class, CARGO_FLUID_ACCUMULATOR, BaseKeys.CARGO_FLUID_ACCUMULATOR);
+        BasePages.CARGO.addItem(CARGO_FLUID_ACCUMULATOR);
     }
 
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_SIMPLE)

@@ -107,7 +107,7 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.HYDRAULIC_HAMMER_HEAD, Material.STONE_BRICKS, HydraulicHammerHead.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_PIPE_BENDER, Material.WAXED_CHISELED_COPPER, HydraulicPipeBender.class);
         PylonBlock.register(BaseKeys.HYDRAULIC_TABLE_SAW, Material.WAXED_CUT_COPPER, HydraulicTableSaw.class);
-        PylonBlock.register(BaseKeys.SOLAR_LENS, Material.GLASS_PANE, PylonBlock.class);
+        PylonBlock.register(BaseKeys.SOLAR_LENS, Material.GLASS_PANE, SolarLens.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_GLASS, Material.LIGHT_GRAY_STAINED_GLASS, PylonBlock.class);
         PylonBlock.register(BaseKeys.PURIFICATION_TOWER_CAP, Material.QUARTZ_SLAB, PylonBlock.class);
         PylonBlock.register(BaseKeys.SOLAR_PURIFICATION_TOWER_1, Material.WAXED_COPPER_BLOCK, SolarPurificationTower.class);
@@ -155,5 +155,10 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CARGO_MERGER, Material.STRUCTURE_VOID, CargoMerger.class);
         PylonBlock.register(BaseKeys.CARGO_VALVE, Material.STRUCTURE_VOID, CargoValve.class);
         PylonBlock.register(BaseKeys.CARGO_FILTER, Material.STRUCTURE_VOID, CargoFilter.class);
+        PylonBlock.register(BaseKeys.CARGO_MONITOR, Material.STRUCTURE_VOID, CargoMonitor.class);
+        PylonBlock.register(BaseKeys.CARGO_METER, Material.STRUCTURE_VOID, CargoMeter.class);
+        PylonBlock.register(BaseKeys.CARGO_GATE, Material.STRUCTURE_VOID, CargoGate.class);
+        PylonBlock.register(BaseKeys.CARGO_ACCUMULATOR, Material.STRUCTURE_VOID, CargoAccumulator.class);
+        PylonBlock.register(BaseKeys.CARGO_FLUID_ACCUMULATOR, Material.STRUCTURE_VOID, CargoFluidAccumulator.class);
     }
 }

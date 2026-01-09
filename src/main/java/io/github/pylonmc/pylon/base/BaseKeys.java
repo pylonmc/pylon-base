@@ -326,6 +326,11 @@ public class BaseKeys {
     public static final NamespacedKey CARGO_MERGER = baseKey("cargo_merger");
     public static final NamespacedKey CARGO_VALVE = baseKey("cargo_valve");
     public static final NamespacedKey CARGO_FILTER = baseKey("cargo_filter");
+    public static final NamespacedKey CARGO_MONITOR = baseKey("cargo_monitor");
+    public static final NamespacedKey CARGO_METER = baseKey("cargo_meter");
+    public static final NamespacedKey CARGO_GATE = baseKey("cargo_gate");
+    public static final NamespacedKey CARGO_ACCUMULATOR = baseKey("cargo_accumulator");
+    public static final NamespacedKey CARGO_FLUID_ACCUMULATOR = baseKey("cargo_fluid_accumulator");
 
     public static final NamespacedKey HUNGER_TALISMAN_SIMPLE = baseKey("hunger_talisman_simple");
     public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");

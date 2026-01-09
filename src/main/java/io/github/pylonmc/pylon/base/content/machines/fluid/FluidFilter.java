@@ -66,7 +66,7 @@ public class FluidFilter extends PylonBlock
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
-    public final ItemStack noFluidStack = ItemStackBuilder.of(Material.RED_CONCRETE)
+    public final ItemStack noFluidStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":fluid:none")
             .build();
 
@@ -84,15 +84,23 @@ public class FluidFilter extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.25, 0.25, 0.5)
+                        .scale(0.35, 0.35, 0.5)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
-        addEntity("fluid", new ItemDisplayBuilder()
+        addEntity("fluid1", new ItemDisplayBuilder()
                 .itemStack(noFluidStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.2, 0.3, 0.45)
+                        .scale(0.3, 0.4, 0.45)
+                )
+                .build(block.getLocation().toCenterLocation())
+        );
+        addEntity("fluid2", new ItemDisplayBuilder()
+                .itemStack(noFluidStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .scale(0.4, 0.3, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -129,18 +137,16 @@ public class FluidFilter extends PylonBlock
         ));
     }
 
-    private @NotNull ItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
-    }
-
     @Override
     public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
-        return fluid == this.fluid;
+        return fluid.equals(this.fluid);
     }
 
     public void setFluid(PylonFluid fluid) {
         this.fluid = fluid;
-        getFluidDisplay().setItemStack(fluid == null ? noFluidStack : fluid.getItem());
+        ItemStack stack = fluid == null ? noFluidStack : fluid.getItem();
+        getHeldEntityOrThrow(ItemDisplay.class, "fluid1").setItemStack(stack);
+        getHeldEntityOrThrow(ItemDisplay.class, "fluid2").setItemStack(stack);
     }
 
     @Override
