@@ -23,6 +23,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.Map;
@@ -109,7 +110,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         progressProcess(getTickInterval());
 
         if (fuel != null) {
-            controller.heatAsymptotically(getTickInterval() / 20.0, fuel.temperature);
+            controller.heatAsymptotically(fuel.temperature);
             return;
         }
 
@@ -121,7 +122,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             }
 
             for (Fuel fuel : FUELS) {
-                if (!PylonUtils.isPylonSimilar(item, fuel.material)) {
+                if (!item.isSimilar(fuel.material)) {
                     continue;
                 }
 
@@ -140,6 +141,11 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         progressItem.setItemStackBuilder(notBurningProgressItem);
         refreshBlockTextureItem();
         fuel = null;
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("fuels", inventory);
     }
 
     // TODO display fuels

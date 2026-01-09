@@ -30,7 +30,7 @@ public final class SmelteryInputHatch extends SmelteryComponent implements Pylon
     public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         SmelteryController controller = getController();
         if (controller == null || !fluid.hasTag(FluidTemperature.class)) return 0.0;
-        return Math.min(controller.getCapacity() - controller.getTotalFluid(), flowRate * PylonConfig.fluidTickInterval / 20);
+        return Math.min(controller.getCapacity() - controller.getTotalFluid(), flowRate * PylonConfig.FLUID_TICK_INTERVAL / 20);
     }
 
     @Override

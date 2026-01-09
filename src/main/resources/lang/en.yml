@@ -26,7 +26,7 @@ item:
     name: "Bronze Nugget"
 
   bronze_block:
-    name: "Bronze Block"
+    name: "Block of Bronze"
 
   bronze_sheet:
     name: "Bronze Sheet"
@@ -59,7 +59,7 @@ item:
     name: "Cobalt Nugget"
 
   cobalt_block:
-    name: "Cobalt Block"
+    name: "Block of Cobalt"
 
   carbon:
     name: "Carbon"
@@ -173,7 +173,7 @@ item:
       <arrow> <insn>Left click</insn> with a hammer to make the bloom shorter/wider
       <arrow> <insn>Left click</insn> with a <lang:pylon.pylonbase.item.tongs.name/> to make the bloom taller/narrower
       <arrow> The amount of shape change is determined by the temperature
-      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron/> will pop off
+      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron.name/> will pop off
 
   bronze_axe:
     name: "Bronze Axe"
@@ -494,19 +494,19 @@ item:
     name: "Diamond Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of diamond</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
+      <arrow> Higher tier hammers are twice as likely to succeed than the tier below them for a given recipe
 
   iron_hammer:
     name: "Iron Hammer"
     lore: |-
       <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>block of iron</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
+      <arrow> Higher tier hammers are twice as likely to succeed than the tier below them for a given recipe
 
   stone_hammer:
     name: "Stone Hammer"
     lore: |-
-      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone</white> to use the hammer on it
-      <arrow> Higher tier hammers are more likely to succeed
+      <arrow> <insn>Right click</insn> an item dropped on top of a placed <white>stone block</white> to use the hammer on it
+      <arrow> Higher tier hammers are twice as likely to succeed than the tier below them for a given recipe
 
   immobilizer:
     name: "Immobilizer"
@@ -527,9 +527,9 @@ item:
   loupe:
     name: "Loupe"
     lore: |-
-      <arrow> Examining items with the loupe yields research points
-      <arrow> The rarer the item, the more times it can be examined
-      <arrow> <red>The examined item will be consumed</red>
+      <arrow> Examining items/blocks with the loupe yields research points
+      <arrow> The rarer the item/block, the more times it can be examined
+      <arrow> <red>The examined item/block will be consumed</red>
       <arrow> <insn>Hold right click</insn> on a block or dropped item to examine it
 
   lumber_axe:
@@ -573,6 +573,15 @@ item:
       <arrow> <attr>Capacity:</attr> %capacity%
     waila: "Mixing Pot | %bar% (%fluid%)"
 
+  crucible:
+    name: "Crucible"
+    lore: |-
+      <arrow> Place items in the crucible using <insn>right click</insn>
+      <arrow> Can hold only one item type at a time
+      <arrow> The items will melt depending on the heat produced by the block below the cauldron
+      <arrow> Requires a heat source underneath to work
+    waila: "Crucible %item_info% %liquid_info%"
+
   monster_jerky:
     name: "Monster Jerky"
     lore: |-
@@ -589,7 +598,7 @@ item:
     name: "Nickel Nugget"
 
   nickel_block:
-    name: "Nickel Block"
+    name: "Block of Nickel"
 
   obsidian_chip:
     name: "Obsidian Chip"
@@ -621,7 +630,8 @@ item:
       ...or 1x <yellow>Soul Campfire</yellow> (%soul_campfire%x <attr>speed</attr>) 
       ...or 1x <yellow>Soul Fire</yellow> (%soul_fire%x <attr>speed</attr>) 
       <diamond> 9x <yellow>Podzol</yellow> (%podzol%x <attr>yield</attr>) 
-      ...or 9x <yellow>Coarse Dirt</yellow> (%coarse_dirt%x <attr>yield</attr>) 
+      ...or 9x <yellow>Coarse Dirt</yellow> (%coarse_dirt%x <attr>yield</attr>)
+    waila: "Pit Kiln | %info%"
 
   portability_catalyst:
     name: "Portability Catalyst"
@@ -810,7 +820,7 @@ item:
     name: "Steel Nugget"
 
   steel_block:
-    name: "Steel Block"
+    name: "Block of Steel"
 
   steel_sheet:
     name: "Steel Sheet"
@@ -831,7 +841,7 @@ item:
     name: "Tin Nugget"
 
   tin_block:
-    name: "Tin Block"
+    name: "Block of Tin"
 
   tin_sheet:
     name: "Tin Sheet"
@@ -846,31 +856,34 @@ item:
   health_talisman_simple:
     name: "Simple Health Talisman"
     lore: |-
-      <arrow> Increases your maximum health while in your inventory
+      <arrow> Increases your maximum health
       <arrow> Does not stack
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Max health increase:</attr> %health-boost%
 
   health_talisman_advanced:
     name: "Advanced Health Talisman"
     lore: |-
-      <arrow> Increases your maximum health while in your inventory
+      <arrow> Increases your maximum health
       <arrow> Does not stack
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Max health increase:</attr> %health-boost%
 
   health_talisman_ultimate:
     name: "Ultimate Healing Talisman"
     lore: |-
-      <arrow> Increases your maximum health while in your inventory
+      <arrow> Increases your maximum health
       <arrow> Does not stack
-      <arrow> <attr>Max health increase:</attr> %health-boost% 
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Max health increase:</attr> %health-boost%
 
   item_magnet:
     name: "Item Magnet"
     lore: |-
-      <arrow> Pulls item towards you in a range
-      <arrow> Right click to toggle
+      <arrow> Pulls items towards you in a range
+      <arrow> <insn>Right click</insn> to toggle
       <arrow> Does not stack
-      <arrow> <attr>Pulls distance:</attr> %pickup-distance%
+      <arrow> <attr>Pull distance:</attr> %pickup-distance%
 
   water_pump:
     name: "Water Pump"
@@ -1613,17 +1626,188 @@ item:
       <arrow> Sends items matching the filter left
       <arrow> Sends items that do not match the filter right
 
+  hunger_talisman_simple:
+    name: "Simple Hunger Talisman"
+    lore: |-
+      <arrow> Increases your saturation and hunger every %period%
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_advanced:
+    name: "Advanced Hunger Talisman"
+    lore: |-
+      <arrow> Increases your saturation and hunger every %period%
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  hunger_talisman_ultimate:
+    name: "Ultimate Hunger Talisman"
+    lore: |-
+      <arrow> Increases your saturation and hunger every %period%
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Saturation increase:</attr> %saturation_increase%
+      <arrow> <attr>Hunger increase:</attr> %hunger_increase%
+
+  farmer_talisman_simple:
+    name: "Simple Farming Talisman"
+    lore: |-
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
+
+  farmer_talisman_advanced:
+    name: "Advanced Farming Talisman"
+    lore: |-
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
+
+  farmer_talisman_ultimate:
+    name: "Ultimate Farming Talisman"
+    lore: |-
+      <arrow> Get an extra drop when breaking a crop
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %extra_crop_chance%
+
+  bartering_talisman_simple:
+    name: "Simple Bartering Talisman"
+    lore: |-
+      <arrow> Don't consume items traded to piglins
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
+
+  bartering_talisman_advanced:
+    name: "Advanced Bartering Talisman"
+    lore: |-
+      <arrow> Don't consume items traded to piglins
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
+
+  bartering_talisman_ultimate:
+    name: "Ultimate Bartering Talisman"
+    lore: |-
+      <arrow> Don't consume items traded to piglins
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %chance_to_not_consume_input%
+
+  water_breathing_talisman_simple:
+    name: "<white>Simple Water Breathing Talisman"
+    lore: |-
+      <arrow> Allows you to breathe longer underwater
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+
+  water_breathing_talisman_advanced:
+    name: "<white>Advanced Water Breathing Talisman"
+    lore: |-
+      <arrow> Allows you to breathe longer underwater
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus oxygen:</attr> %bonus_oxygen%
+
+  water_breathing_talisman_ultimate:
+    name: "<white>Ultimate Water Breathing Talisman"
+    lore: |-
+      <arrow> Allows you to breathe longer underwater
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Additional oxygen:</attr> %bonus_oxygen%
+
+  luck_talisman_simple:
+    name: "Simple Luck Talisman"
+    lore: |-
+      <arrow> Increases your chances of looting higher quality items
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_advanced:
+    name: "Advanced Luck Talisman"
+    lore: |-
+      <arrow> Increases your chances of looting higher quality items
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  luck_talisman_ultimate:
+    name: "Ultimate Luck Talisman"
+    lore: |-
+      <arrow> Increases your chances of looting higher quality items
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Bonus luck:</attr> %bonus_luck%
+
+  breeding_talisman_simple:
+    name: "Simple Breeding Talisman"
+    lore: |-
+      <arrow> Bred children grow up instantly
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %adult_chance%
+
+  breeding_talisman_advanced:
+    name: "Advanced Breeding Talisman"
+    lore: |-
+      <arrow> Bred children grow up instantly
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %adult_chance%
+
+  breeding_talisman_ultimate:
+    name: "Ultimate Breeding Talisman"
+    lore: |-
+      <arrow> Bred children grow up instantly
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %adult_chance%
+
+  enchanting_talisman_simple:
+    name: "<white>Simple Enchanting Talisman"
+    lore: |-
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
+
+  enchanting_talisman_advanced:
+    name: "<white>Advanced Enchanting Talisman"
+    lore: |-
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
+
+  enchanting_talisman_ultimate:
+    name: "<white>Ultimate Enchanting Talisman"
+    lore: |-
+      <arrow> Increase the level of enchantments in the enchanting table by 1
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_level_chance%
+
+  hunting_talisman_simple:
+    name: "<white>Simple Hunting Talisman"
+    lore: |-
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
+
+  hunting_talisman_advanced:
+    name: "<white>Advanced Hunting Talisman"
+    lore: |-
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
+
+  hunting_talisman_ultimate:
+    name: "<white>Ultimate Hunting Talisman"
+    lore: |-
+      <arrow> Get an extra item for each drop when you kill a mob
+      <arrow> Only works while in your inventory
+      <arrow> <attr>Success rate:</attr> %bonus_item_chance%
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
-  bronze: "<#8d6f64>Bronze"
-  cobalt: "<gray>Cobalt"
-  copper: "<#b5591b>Copper"
-  gold: "<gold>Gold"
-  iron: "<gray>Iron"
+  bronze: "<#8d6f64>Liquid Bronze"
+  cobalt: "<gray>Liquid Cobalt"
+  copper: "<#b5591b>Liquid Copper"
+  gold: "<gold>Liquid Gold"
+  iron: "<gray>Liquid Iron"
   lava: "<#fc4e03>Lava"
   mercury: "<#dedede>Mercury"
-  nickel: "<gray>Nickel"
+  nickel: "<gray>Liquid Nickel"
   none: "None"
   slurry: "<gray>Slurry"
   slurry_coal: "<gray>Coal Slurry"
@@ -1651,12 +1835,21 @@ waila:
   fluid_tank:
     empty: "(empty)"
     filled: "| %bar%/%capacity% of %fluid%"
+  crucible:
+    item:
+      empty: "| No items |"
+      stored: "| x%amount% %type% |"
+    liquid:
+      empty: "No fluid"
+      filled: "%bar% (%fluid%)"
   fluid_strainer:
     straining: " | Straining %item% | %bars%"
-  pit_kiln: "Pit Kiln | %time% left"
   cargo_splitter:
     left: "<#efae15>Left"
     right: "<#2386c4>Right"
+  pit_kiln:
+    invalid_recipe: "<red>Invalid recipe"
+    smelting: "<green>%time% remaining"
 
 research:
   baking: "<#e2b42b>Baking"
@@ -1709,8 +1902,16 @@ research:
   climbing_equipment: "<#a6b579>Climbing equipment"
   vacuum_hoppers: "<#54536d>Vacuum hoppers"
   advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
-  reactivated_skulls: "<#000000>Reactivated wither skulls"
+  reactivated_skulls: "<gray>Reactivated wither skulls"
   soul_attachment: "<dark_purple>Soul attachment"
+  diet: "<green>Strong diet"
+  farming_aids: "<green>Farming upgrades"
+  negotiation_tactics: "<#ffde59>Negotiation tactics"
+  optimal_breathing: "<#5f26b6>Optimized breathing"
+  lucky_ducky: "<#ffde59>Lucky ducky"
+  advanced_breeding: "<#e4080a>Advanced breeding"
+  portable_enchanting_books: "<#060270>Portable enchanting books"
+  lucky_hunting_charms: "<#bfd641>Lucky hunting charms"
 
 guide:
   page:
@@ -1720,6 +1921,7 @@ guide:
     tools: "Tools"
     food: "Food"
     combat: "Combat"
+    talismans: "Talismans"
     armour: "Armour"
     simple_machines: "Simple machines"
     fluid_pipes_and_tanks: "Fluid pipes and tanks"
@@ -1743,6 +1945,7 @@ guide:
     casting: "<attr>Temperature:</attr> %temperature%"
     drilling: "<attr>Cycle time:</attr> %time%"
     molding: "<attr>Molding cycles:</attr> %molding-cycles%"
+    hammer: "<attr>Chance:</attr> %chance%"
 
 message:
   fluid_selector:
@@ -1760,6 +1963,7 @@ message:
   gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
     nothing: "<red>You look at your hand. It is not very interesting"
+    invalid_block: "<red>Try as you may, you cannot glean any information from this block"
     already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
     examined: "<green>As you examine the %item%, you get a sudden flash of insight"
@@ -1824,8 +2028,8 @@ gui:
   status:
     name: "Status"
     toggle: "<insn>Click</insn> to toggle"
-    on: "<green>On"
-    off: "<yellow>Off"
+    "on": "<green>On"
+    "off": "<yellow>Off"
     running: "<green>Running"
     not_running: "<yellow>Not running"
     incomplete: "<red>Multiblock incomplete"
