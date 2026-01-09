@@ -28,9 +28,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoFilter extends PylonBlock implements
@@ -63,6 +65,16 @@ public class CargoFilter extends PylonBlock implements
             .name(Component.translatable("pylon.pylonbase.gui.left"));
     public final ItemStackBuilder rightGuiStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
             .name(Component.translatable("pylon.pylonbase.gui.right"));
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "left", leftInventory,
+                "right", rightInventory,
+                "filter", filterInventory
+        );
+    }
 
     public static class Item extends PylonItem {
 

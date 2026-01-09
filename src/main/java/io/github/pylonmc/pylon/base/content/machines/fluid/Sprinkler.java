@@ -82,9 +82,9 @@ public class Sprinkler extends PylonBlock
 
     @Override
     public void tick() {
-        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * PylonConfig.fluidTickInterval / 20.0) {
+        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * PylonConfig.FLUID_TICK_INTERVAL / 20.0) {
             WateringCan.water(getBlock(), SETTINGS);
-            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * PylonConfig.fluidTickInterval / 20.0);
+            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * PylonConfig.FLUID_TICK_INTERVAL / 20.0);
         }
     }
 
