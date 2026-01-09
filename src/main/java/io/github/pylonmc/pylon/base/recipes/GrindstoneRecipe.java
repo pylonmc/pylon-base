@@ -94,6 +94,7 @@ public record GrindstoneRecipe(
                                 ))
                 ));
 
+        float totalWeight = results.stream().map(WeightedSet.Element::weight).reduce(0f, Float::sum);
         int i = 1;
         for (WeightedSet.Element<ItemStack> element : results) {
             ItemStack stack = element.element().clone();
@@ -101,12 +102,13 @@ public record GrindstoneRecipe(
             if (lore == null) {
                 lore = new ArrayList<>();
             }
+            float normalizedWeight = element.weight() / totalWeight;
             lore.add(Component.empty());
             lore.add(Component.translatable(
                     "pylon.pylonbase.guide.recipe.grindstone.chance",
                     PylonArgument.of(
                             "chance",
-                            UnitFormat.PERCENT.format(Math.round(element.weight() * 100)))
+                            UnitFormat.PERCENT.format(Math.round(normalizedWeight * 100)).decimalPlaces(2))
             ));
             stack.lore(lore);
             gui.addIngredient((char) ('0' + i), ItemButton.from(stack));

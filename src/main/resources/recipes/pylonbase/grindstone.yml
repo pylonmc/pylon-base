@@ -56,6 +56,12 @@ pylonbase:rock_dust:
   cycles: 2
   particle-data: minecraft:cobblestone
 
+pylonbase:sand:
+  input: minecraft:gravel
+  results: minecraft:sand
+  cycles: 2
+  particle-data: minecraft:sand
+
 pylonbase:coal_dust:
   input: "#minecraft:coals"
   results: pylonbase:coal_dust

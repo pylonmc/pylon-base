@@ -15,7 +15,10 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.block.Action;
@@ -119,7 +122,7 @@ public class MagicAltar extends PylonBlock
             itemDisplay.setItemStack(catalyst.asQuantity(1));
             catalyst.subtract();
             for (Pedestal pedestal : getPedestals()) {
-                pedestal.locked = true;
+                pedestal.setLocked(true);
             }
             startRecipe(recipe, recipe.timeSeconds() * 20);
             break;
@@ -195,7 +198,7 @@ public class MagicAltar extends PylonBlock
     public void onRecipeFinished(@NotNull MagicAltarRecipe recipe) {
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
-            pedestal.locked = false;
+            pedestal.setLocked(false);
         }
 
         getItemDisplay().setItemStack(recipe.result());
@@ -212,7 +215,7 @@ public class MagicAltar extends PylonBlock
 
         for (Pedestal pedestal : getPedestals()) {
             if (pedestal != null) {
-                pedestal.locked = false;
+                pedestal.setLocked(false);
             }
         }
 

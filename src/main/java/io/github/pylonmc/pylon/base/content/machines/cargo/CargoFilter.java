@@ -26,13 +26,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoFilter extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock{
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -58,6 +60,16 @@ public class CargoFilter extends PylonBlock
             .name(Component.translatable("pylon.pylonbase.gui.unfiltered"));
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
             .name(Component.translatable("pylon.pylonbase.gui.filter"));
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "filtered", filteredInventory,
+                "unfiltered", unfilteredInventory,
+                "filter", filterInventory
+        );
+    }
 
     public static class Item extends PylonItem {
 

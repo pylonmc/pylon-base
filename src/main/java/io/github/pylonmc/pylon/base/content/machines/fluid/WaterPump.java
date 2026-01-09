@@ -56,7 +56,7 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock {
     @Override
     public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
         return getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER
-                ? Map.of(BaseFluids.WATER, waterPerSecond * PylonConfig.fluidTickInterval / 20.0)
+                ? Map.of(BaseFluids.WATER, waterPerSecond * PylonConfig.FLUID_TICK_INTERVAL / 20.0)
                 : Map.of();
     }
 

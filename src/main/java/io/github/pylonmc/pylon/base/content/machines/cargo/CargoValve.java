@@ -31,9 +31,11 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -41,9 +43,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CargoValve extends PylonBlock implements
         PylonDirectionalBlock,
         PylonGuiBlock,
-        PylonCargoBlock,
-        PylonEntityHolderBlock,
-        PylonInteractBlock {
+        PylonCargoBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
     public static final int BRIGHTNESS_OFF = 6;
@@ -207,5 +207,10 @@ public class CargoValve extends PylonBlock implements
                         "pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled")
                 ))
         ));
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 }
