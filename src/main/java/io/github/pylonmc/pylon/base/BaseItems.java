@@ -8,9 +8,7 @@ import io.github.pylonmc.pylon.base.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.base.content.combat.IceArrow;
 import io.github.pylonmc.pylon.base.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.base.content.combat.RecoilArrow;
-import io.github.pylonmc.pylon.base.content.machines.cargo.CargoBuffer;
-import io.github.pylonmc.pylon.base.content.machines.cargo.CargoExtractor;
-import io.github.pylonmc.pylon.base.content.machines.cargo.CargoInserter;
+import io.github.pylonmc.pylon.base.content.machines.cargo.*;
 import io.github.pylonmc.pylon.base.content.machines.diesel.machines.*;
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
 import io.github.pylonmc.pylon.base.content.machines.diesel.production.Fermenter;
@@ -2019,6 +2017,38 @@ public final class BaseItems {
     static {
         PylonItem.register(CargoInserter.Item.class, CARGO_INSERTER, BaseKeys.CARGO_INSERTER);
         BasePages.CARGO.addItem(CARGO_INSERTER);
+    }
+
+    public static final ItemStack CARGO_SPLITTER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_SPLITTER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.STRIPPED_CRIMSON_HYPHAE.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoSplitter.Item.class, CARGO_SPLITTER, BaseKeys.CARGO_SPLITTER);
+        BasePages.CARGO.addItem(CARGO_SPLITTER);
+    }
+
+    public static final ItemStack CARGO_MERGER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_MERGER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.STRIPPED_WARPED_HYPHAE.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoSplitter.Item.class, CARGO_MERGER, BaseKeys.CARGO_MERGER);
+        BasePages.CARGO.addItem(CARGO_MERGER);
+    }
+
+    public static final ItemStack CARGO_VALVE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_VALVE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoValve.Item.class, CARGO_VALVE, BaseKeys.CARGO_VALVE);
+        BasePages.CARGO.addItem(CARGO_VALVE);
+    }
+
+    public static final ItemStack CARGO_FILTER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_FILTER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoValve.Item.class, CARGO_FILTER, BaseKeys.CARGO_FILTER);
+        BasePages.CARGO.addItem(CARGO_FILTER);
     }
 
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_SIMPLE)
