@@ -110,7 +110,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
         progressProcess(getTickInterval());
 
         if (fuel != null) {
-            controller.heatAsymptotically(getTickInterval() / 20.0, fuel.temperature);
+            controller.heatAsymptotically(fuel.temperature);
             return;
         }
 
@@ -122,7 +122,7 @@ public final class SmelteryBurner extends SmelteryComponent implements PylonGuiB
             }
 
             for (Fuel fuel : FUELS) {
-                if (!PylonUtils.isPylonSimilar(item, fuel.material)) {
+                if (!item.isSimilar(fuel.material)) {
                     continue;
                 }
 

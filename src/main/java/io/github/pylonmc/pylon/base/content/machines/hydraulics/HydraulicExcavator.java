@@ -146,13 +146,12 @@ public class HydraulicExcavator extends PylonBlock implements
                 Block block = position.getBlock();
                 if (Tag.MINEABLE_SHOVEL.isTagged(block.getType())) {
                     block.breakNaturally();
+                    removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
+                    addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
                     break;
                 }
             }
         }
-
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidUsed);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidUsed);
     }
 
     @Override

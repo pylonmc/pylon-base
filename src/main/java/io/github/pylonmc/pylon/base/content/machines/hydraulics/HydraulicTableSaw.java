@@ -9,13 +9,12 @@ import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.format.TextColor;
@@ -77,8 +76,8 @@ public class HydraulicTableSaw extends PylonBlock implements
                         .scale(0.3))
                 .build(block.getLocation().toCenterLocation().add(0, 0.65, 0))
         );
-        addEntity("saw", new BlockDisplayBuilder()
-                .blockData(Material.IRON_BARS.createBlockData("[east=true,west=true]"))
+        addEntity("saw", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.gui(Material.IRON_BARS, "saw_blade"))
                 .transformation(new TransformBuilder()
                         .scale(0.6, 0.4, 0.4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))
@@ -149,7 +148,7 @@ public class HydraulicTableSaw extends PylonBlock implements
 
         ItemStack stack = getItemDisplay().getItemStack();
         for (TableSawRecipe recipe : TableSawRecipe.RECIPE_TYPE) {
-            if (!PylonUtils.isPylonSimilar(stack, recipe.input()) || stack.getAmount() < recipe.input().getAmount()) {
+            if (!stack.isSimilar(recipe.input()) || stack.getAmount() < recipe.input().getAmount()) {
                 continue;
             }
 
@@ -160,10 +159,6 @@ public class HydraulicTableSaw extends PylonBlock implements
 
     public ItemDisplay getItemDisplay() {
         return getHeldEntityOrThrow(ItemDisplay.class, "item");
-    }
-
-    public void spawnParticles() {
-
     }
 
     @Override
