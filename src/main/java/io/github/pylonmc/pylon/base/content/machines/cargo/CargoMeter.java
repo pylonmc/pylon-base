@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -45,6 +46,7 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoMeter extends PylonBlock implements
@@ -113,7 +115,7 @@ public class CargoMeter extends PylonBlock implements
         super(block, context);
 
         setFacing(context.getFacing());
-        setTickInterval(PylonConfig.cargoTickInterval);
+        setTickInterval(PylonConfig.CARGO_TICK_INTERVAL);
 
         addCargoLogisticGroup(getFacing(), "input");
         addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
@@ -273,8 +275,13 @@ public class CargoMeter extends PylonBlock implements
         ));
     }
 
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
+    }
+
     public static Duration getDuration(int numberOfMeasurements) {
-        return Duration.ofMillis((long) numberOfMeasurements * PylonConfig.cargoTickInterval * 50);
+        return Duration.ofMillis((long) numberOfMeasurements * PylonConfig.CARGO_TICK_INTERVAL * 50);
     }
 
     public class MeasurementDurationItem extends AbstractItem {

@@ -37,6 +37,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -264,6 +265,11 @@ public class CargoFluidAccumulator extends PylonBlock implements
                         TextColor.color(200, 255, 255)
                 ))
         ));
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("input", inputInventory, "output", outputInventory);
     }
 
     private void doTransfer() {

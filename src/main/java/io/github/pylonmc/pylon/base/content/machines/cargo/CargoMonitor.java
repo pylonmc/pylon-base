@@ -28,9 +28,11 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoMonitor extends PylonBlock
@@ -192,5 +194,10 @@ public class CargoMonitor extends PylonBlock
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)
                 .build();
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 }

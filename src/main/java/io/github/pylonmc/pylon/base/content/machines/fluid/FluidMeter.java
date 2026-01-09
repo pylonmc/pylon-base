@@ -24,7 +24,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -42,12 +41,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class FluidMeter extends PylonBlock implements
@@ -106,7 +107,7 @@ public class FluidMeter extends PylonBlock implements
 
         setFacing(context.getFacing());
         setCapacity(buffer);
-        setTickInterval(PylonConfig.fluidTickInterval);
+        setTickInterval(PylonConfig.FLUID_TICK_INTERVAL);
 
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
@@ -243,7 +244,7 @@ public class FluidMeter extends PylonBlock implements
     }
 
     public static Duration getDuration(int numberOfMeasurements) {
-        return Duration.ofMillis((long) numberOfMeasurements * PylonConfig.fluidTickInterval * 50);
+        return Duration.ofMillis((long) numberOfMeasurements * PylonConfig.FLUID_TICK_INTERVAL * 50);
     }
 
     public class MeasurementDurationItem extends AbstractItem {
@@ -270,5 +271,10 @@ public class FluidMeter extends PylonBlock implements
             numberOfMeasurements = Math.clamp(newValue, minNumberOfMeasurements, maxNumberOfMeasurements);
             notifyWindows();
         }
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of();
     }
 }
