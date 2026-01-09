@@ -3,15 +3,9 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.waila.Waila;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -21,6 +15,8 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
+import io.github.pylonmc.pylon.core.waila.Waila;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -214,16 +210,19 @@ public final class PitKiln extends PylonBlock implements
     }
 
     private WailaDisplay getComponentWaila(@NotNull Player player) {
-        if (processingTime != null) {
-            return new WailaDisplay(Component.translatable(
-                    "pylon.pylonbase.waila.pit_kiln",
-                    PylonArgument.of(
-                            "time",
-                            UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
-                    )
-            ));
-        }
-        return new WailaDisplay(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+        Component status = processingTime != null
+                ? Component.translatable(
+                        "pylon.pylonbase.waila.pit_kiln.smelting",
+                        PylonArgument.of(
+                                "time",
+                                UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
+                        )
+                )
+                : Component.translatable("pylon.pylonbase.waila.pit_kiln.invalid_recipe");
+        return new WailaDisplay(Component.translatable(
+                "pylon.pylonbase.item.pit_kiln.waila",
+                PylonArgument.of("info", status)
+        ));
     }
 
     @Override

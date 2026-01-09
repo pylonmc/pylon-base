@@ -36,12 +36,15 @@ public class BasePages {
         }
     };
 
+    public static final SimpleStaticGuidePage TALISMANS = new SimpleStaticGuidePage(baseKey("talismans"), Material.TOTEM_OF_UNDYING);
+
     static {
         PylonGuide.getRootPage().addPage(SCIENCE);
         PylonGuide.getRootPage().addPage(RESOURCES);
         PylonGuide.getRootPage().addPage(COMPONENTS);
         PylonGuide.getRootPage().addPage(TOOLS);
         PylonGuide.getRootPage().addPage(COMBAT);
+        PylonGuide.getRootPage().addPage(TALISMANS);
         PylonGuide.getRootPage().addPage(ARMOUR);
         PylonGuide.getRootPage().addPage(FOOD);
 
