@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankEntityDisplayer;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -38,12 +39,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class Crucible extends PylonBlock implements PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
+public final class Crucible extends PylonBlock implements
+    PylonInteractBlock,
+    FluidTankEntityDisplayer,
+    PylonCauldron,
+    PylonBreakHandler,
+    PylonTickingBlock {
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
@@ -59,6 +66,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        createFluidDisplayer();
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         setCapacity(1000.0);
     }
@@ -77,7 +85,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidTank.super.onBreak(drops, context);
+        FluidTankEntityDisplayer.super.onBreak(drops, context);
         if (processingType == null || amount == 0) return;
 
         int maxStack = processingType.getMaxStackSize();
@@ -186,7 +194,6 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
             clearInventory();
         }
     }
-    //region Cauldron logic
 
     @Override
     public void onLevelChange(@NotNull CauldronLevelChangeEvent event) {
@@ -194,31 +201,14 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidAdded(fluid, amount);
-        updateCauldron();
+    public Vector3d translationOffset() {
+        return new Vector3d(0, -0.2, 0);
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidRemoved(fluid, amount);
-        updateCauldron();
+    public double maxScale() {
+        return 0.65;
     }
-
-    private void updateCauldron() {
-        int level = (int) getFluidAmount() / 333;
-        if (level > 0 && getBlock().getType() == Material.CAULDRON) {
-            getBlock().setType(Material.WATER_CAULDRON);
-        } else if (level == 0) {
-            getBlock().setType(Material.CAULDRON);
-        }
-        if (getBlock().getBlockData() instanceof Levelled levelled) {
-            levelled.setLevel(level);
-            getBlock().setBlockData(levelled);
-        }
-    }
-
-    //endregion
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
@@ -248,7 +238,6 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     @Override
     public void tick() {
         tryDoRecipe();
-        updateCauldron();
     }
 
     @Override
