@@ -30,10 +30,11 @@ public final class EnrichedSoulSoil extends PylonBlock implements PylonTickingBl
 
     @Override
     public void tick() {
-        if (getBlock().getRelative(BlockFace.UP).getType() == Material.FIRE) {
-            new ParticleBuilder(Particle.LAVA)
+        if (getBlock().getRelative(BlockFace.UP).getType() == Material.SOUL_FIRE) {
+            new ParticleBuilder(Particle.SOUL_FIRE_FLAME)
                     .location(getBlock().getLocation().toCenterLocation())
                     .count(3)
+                    .extra(0.2)
                     .spawn();
         }
     }
