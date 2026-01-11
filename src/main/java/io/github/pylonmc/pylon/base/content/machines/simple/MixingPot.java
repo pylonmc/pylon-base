@@ -49,8 +49,6 @@ public final class MixingPot extends PylonBlock implements
 
     private static final Set<Material> BUCKETS = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
 
-    private BlockFace dropFace;
-
     public static class MixingPotItem extends PylonItem {
 
         public MixingPotItem(@NotNull ItemStack stack) {
@@ -130,7 +128,6 @@ public final class MixingPot extends PylonBlock implements
             return;
         }
 
-        dropFace = event.getBlockFace();
         tryDoRecipe();
     }
 
@@ -185,9 +182,7 @@ public final class MixingPot extends PylonBlock implements
                     getBlock().getLocation().toCenterLocation(),
                     item.item(),
                     (itemEdit) -> {
-                        if (dropFace == null) dropFace = getFacing();
-
-                        itemEdit.setVelocity(dropFace.getDirection().multiply(0.5));
+                        itemEdit.setVelocity(BlockFace.UP.getDirection().multiply(0.3));
                     }
                 );
             }

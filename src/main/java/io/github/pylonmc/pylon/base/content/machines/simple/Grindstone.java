@@ -25,7 +25,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.EventHandler;
@@ -53,8 +52,6 @@ public class Grindstone extends PylonBlock implements
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
             .getOrThrow("cycle-duration-ticks",ConfigAdapter.INT);
-
-    private @NotNull BlockFace dropFace = getMultiblockDirection() != null ? getMultiblockDirection() : BlockFace.NORTH;
 
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -157,15 +154,11 @@ public class Grindstone extends PylonBlock implements
                 .orElse(null);
     }
 
-    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe, BlockFace direction) {
+    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe) {
         ItemDisplay itemDisplay = getItemDisplay();
         ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
             return false;
-        }
-
-        if (direction != null) {
-            dropFace = direction;
         }
 
         itemDisplay.setItemStack(input.subtract(nextRecipe.input().getAmount()));
@@ -196,16 +189,11 @@ public class Grindstone extends PylonBlock implements
         return true;
     }
 
-    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe) {
-        return tryStartRecipe(nextRecipe, null);
-    }
-
     @Override
     public void onRecipeFinished(@NotNull GrindstoneRecipe recipe) {
         getBlock().getWorld().dropItemNaturally(
                 getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
-                recipe.results().getRandom() ,
-                (item) -> item.setVelocity(dropFace.getDirection().multiply(0.5))
+                recipe.results().getRandom()
         );
     }
 

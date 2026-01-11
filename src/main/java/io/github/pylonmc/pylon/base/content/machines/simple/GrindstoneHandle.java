@@ -40,7 +40,7 @@ public class GrindstoneHandle extends PylonBlock implements PylonInteractBlock {
         if (BlockStorage.get(getBlock().getRelative(BlockFace.DOWN)) instanceof Grindstone grindstone) {
             GrindstoneRecipe nextRecipe = grindstone.getNextRecipe();
             if (nextRecipe != null) {
-                grindstone.tryStartRecipe(nextRecipe, event.getBlockFace());
+                grindstone.tryStartRecipe(nextRecipe);
             }
         }
     }
