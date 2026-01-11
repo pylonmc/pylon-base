@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,12 +23,14 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
+import java.time.Duration;
 import java.util.List;
 
 public abstract class CoreDrill extends PylonBlock
@@ -136,5 +139,15 @@ public abstract class CoreDrill extends PylonBlock
 
     public int getCycleDuration() {
         return rotationsPerCycle * rotationDuration;
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        int timeLeft = getProcessTicksRemaining() != null ? getProcessTicksRemaining() : getCycleDuration();
+        timeLeft /= 20;
+
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+            PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft), true, true))
+        ));
     }
 }
