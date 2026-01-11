@@ -129,7 +129,8 @@ public abstract class CoreDrill extends PylonBlock
     public void onProcessFinished() {
         getBlock().getWorld().dropItemNaturally(
                 getBlock().getRelative(BlockFace.DOWN, 2).getLocation().toCenterLocation(),
-                output
+                output,
+                (item) -> item.setVelocity(getFacing().getDirection().multiply(0.5))
         );
     }
 
