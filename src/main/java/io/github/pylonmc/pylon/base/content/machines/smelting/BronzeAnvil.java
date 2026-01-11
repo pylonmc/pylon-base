@@ -132,6 +132,14 @@ public final class BronzeAnvil extends PylonBlock implements
                     player.getWorld().dropItemNaturally(player.getLocation(), stack);
                 }
                 itemDisplay.setItemStack(null);
+
+                ItemDisplay display = getItemDisplay();
+                if (display != null) {
+                    Matrix4f transform = new Matrix4f(BASE_TRANSFORM)
+                        .rotateLocalY(getItemRotation(getBlockFace()))
+                        .scaleLocal(1, 1, 1);
+                    display.setTransformationMatrix(transform);
+                }
             }
         }
 
