@@ -17,6 +17,7 @@ import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -143,11 +144,16 @@ public abstract class CoreDrill extends PylonBlock
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
-        int timeLeft = getProcessTicksRemaining() != null ? getProcessTicksRemaining() : getCycleDuration();
-        timeLeft /= 20;
-
+        String wailaFormat = "pylon." + getKey().getNamespace() + ".item." + getKey().getKey() + ".waila_format";
+        Integer timeLeft = getProcessTicksRemaining();
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft), true, true))
+            PylonArgument.of("duration_if_any",
+                timeLeft == null
+                    ? Component.empty()
+                    : Component.translatable(wailaFormat).arguments(
+                        PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft / 20), true, true))
+                    )
+            )
         ));
     }
 }
