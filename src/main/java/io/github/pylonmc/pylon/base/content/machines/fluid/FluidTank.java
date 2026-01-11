@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 public class FluidTank extends PylonBlock
-        implements PylonMultiblock, PylonFluidTank, PylonDirectionalBlock {
+        implements PylonMultiblock, FluidTankEntityDisplayer, PylonDirectionalBlock {
 
     private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
@@ -158,33 +158,8 @@ public class FluidTank extends PylonBlock
     }
 
     @Override
-    public void setFluidType(@Nullable PylonFluid fluid) {
-        PylonFluidTank.super.setFluidType(fluid);
-        getFluidDisplay().setItemStack(fluid == null ? null : fluid.getItem());
-    }
-
-    @Override
-    public boolean setFluid(double amount) {
-        double oldAmount = getFluidAmount();
-        boolean result = PylonFluidTank.super.setFluid(amount);
-        amount = getFluidAmount();
-        if (lastDisplayUpdate == -1 || (result && oldAmount != amount)) {
-            float scale = (float) ((casings.size() - 0.1) * amount / getFluidCapacity());
-            ItemDisplay fluidDisplay = getFluidDisplay();
-            fluidDisplay.setInterpolationDelay(Math.min(-3 + (fluidDisplay.getTicksLived() - lastDisplayUpdate), 0));
-            fluidDisplay.setInterpolationDuration(4);
-            fluidDisplay.setTransformationMatrix(new TransformBuilder()
-                    .translate(0.0, -0.45 + scale / 2, 0.0)
-                    .scale(0.9, scale, 0.9)
-                    .buildForItemDisplay()
-            );
-            lastDisplayUpdate = fluidDisplay.getTicksLived();
-        }
-        return result;
-    }
-
-    public @NotNull ItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
+    public double maxScale() {
+        return casings.size() - 0.1;
     }
 
     @Override
