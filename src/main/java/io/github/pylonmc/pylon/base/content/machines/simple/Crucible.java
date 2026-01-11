@@ -155,6 +155,7 @@ public final class Crucible extends PylonBlock implements
 
     public boolean tryDoRecipe() {
         if (processingType == null) return false;
+        if (getHeatFactor() == null) return false;
 
         for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(processingType)) {
