@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankEntityDisplayer;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -35,6 +36,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.Set;
@@ -42,10 +44,12 @@ import java.util.Set;
 public final class MixingPot extends PylonBlock implements
         PylonDirectionalBlock,
         PylonInteractBlock,
-        PylonFluidTank,
+        FluidTankEntityDisplayer,
         PylonCauldron {
 
     private static final Set<Material> BUCKETS = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
+
+    private BlockFace dropFace;
 
     public static class MixingPotItem extends PylonItem {
 
@@ -64,6 +68,7 @@ public final class MixingPot extends PylonBlock implements
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        createFluidDisplayer();
         setFacing(context.getFacing());
         setCapacity(1000.0);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
@@ -86,28 +91,13 @@ public final class MixingPot extends PylonBlock implements
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidAdded(fluid, amount);
-        updateCauldron();
+    public Vector3d translationOffset() {
+        return new Vector3d(0, -0.2, 0);
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidRemoved(fluid, amount);
-        updateCauldron();
-    }
-
-    private void updateCauldron() {
-        int level = (int) getFluidAmount() / 333;
-        if (level > 0 && getBlock().getType() == Material.CAULDRON) {
-            getBlock().setType(Material.WATER_CAULDRON);
-        } else if (level == 0) {
-            getBlock().setType(Material.CAULDRON);
-        }
-        if (getBlock().getBlockData() instanceof Levelled levelled) {
-            levelled.setLevel(level);
-            getBlock().setBlockData(levelled);
-        }
+    public double maxScale() {
+        return 0.65;
     }
 
     @Override
@@ -140,6 +130,7 @@ public final class MixingPot extends PylonBlock implements
             return;
         }
 
+        dropFace = event.getBlockFace();
         tryDoRecipe();
     }
 
@@ -190,7 +181,15 @@ public final class MixingPot extends PylonBlock implements
         switch (recipe.output()) {
             case FluidOrItem.Item item -> {
                 removeFluid(recipe.inputFluid().amountMillibuckets());
-                getBlock().getWorld().dropItemNaturally(getBlock().getLocation().toCenterLocation(), item.item());
+                getBlock().getWorld().dropItemNaturally(
+                    getBlock().getLocation().toCenterLocation(),
+                    item.item(),
+                    (itemEdit) -> {
+                        if (dropFace == null) dropFace = getFacing();
+
+                        itemEdit.setVelocity(dropFace.getDirection().multiply(0.5));
+                    }
+                );
             }
             case FluidOrItem.Fluid fluid -> {
                 setFluidType(fluid.fluid());
