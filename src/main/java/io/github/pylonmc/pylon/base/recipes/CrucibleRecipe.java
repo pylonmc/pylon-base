@@ -15,6 +15,8 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +26,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -80,11 +83,42 @@ public record CrucibleRecipe(
         return HEATED_BLOCKS;
     }
 
+
+    private static final Map<Material, Material> BLOCK_ITEM_FALLBACK = Map.of(
+        Material.FIRE, Material.FLINT_AND_STEEL,
+        Material.SOUL_FIRE, Material.FLINT_AND_STEEL
+    );
+
+    private static ItemStack itemFromKey(NamespacedKey key) {
+        ItemTypeWrapper wrapper = ItemTypeWrapper.of(key);
+
+        if (!(wrapper instanceof ItemTypeWrapper.Vanilla vanilla)) {
+            return wrapper.createItemStack();
+        }
+
+        Material mat = vanilla.material();
+        if (mat.isItem()) {
+            return vanilla.createItemStack();
+        }
+
+        Material fallback = BLOCK_ITEM_FALLBACK.getOrDefault(mat, Material.BARRIER);
+        ItemStack stack = new ItemStack(fallback);
+
+        if (fallback == Material.BARRIER) {
+            stack.setData(
+                DataComponentTypes.ITEM_NAME,
+                Component.text("ERROR: " + mat)
+            );
+        }
+
+        return stack;
+    }
+
     public static List<ItemStack> getHeatSources() {
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
             for (NamespacedKey key : getHeatedBlocks()) {
-                HEAT_SOURCES.add(ItemTypeWrapper.of(key).createItemStack());
+                HEAT_SOURCES.add(itemFromKey(key));
             }
         }
 
