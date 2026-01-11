@@ -28,6 +28,8 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        if (!event.getAction().isRightClick()) return;
+
         long originalPoints = Research.getResearchPoints(player);
         Research.setResearchPoints(player, originalPoints + points);
 
