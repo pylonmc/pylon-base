@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.simple.Crucible;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -84,41 +85,11 @@ public record CrucibleRecipe(
     }
 
 
-    private static final Map<Material, Material> BLOCK_ITEM_FALLBACK = Map.of(
-        Material.FIRE, Material.FLINT_AND_STEEL,
-        Material.SOUL_FIRE, Material.FLINT_AND_STEEL
-    );
-
-    private static ItemStack itemFromKey(NamespacedKey key) {
-        ItemTypeWrapper wrapper = ItemTypeWrapper.of(key);
-
-        if (!(wrapper instanceof ItemTypeWrapper.Vanilla vanilla)) {
-            return wrapper.createItemStack();
-        }
-
-        Material mat = vanilla.material();
-        if (mat.isItem()) {
-            return vanilla.createItemStack();
-        }
-
-        Material fallback = BLOCK_ITEM_FALLBACK.getOrDefault(mat, Material.BARRIER);
-        ItemStack stack = new ItemStack(fallback);
-
-        if (fallback == Material.BARRIER) {
-            stack.setData(
-                DataComponentTypes.ITEM_NAME,
-                Component.text("ERROR: " + mat)
-            );
-        }
-
-        return stack;
-    }
-
     public static List<ItemStack> getHeatSources() {
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
             for (NamespacedKey key : getHeatedBlocks()) {
-                HEAT_SOURCES.add(itemFromKey(key));
+                HEAT_SOURCES.add(BaseUtils.itemFromKey(key));
             }
         }
 
