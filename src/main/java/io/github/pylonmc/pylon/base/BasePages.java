@@ -41,9 +41,9 @@ public class BasePages {
     public static void initialise() {
         PylonGuide.getRootPage().addPage(BaseItems.LOUPE, SCIENCE);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_INGOT, RESOURCES);
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_DRILL_BIT, COMPONENTS);
+        PylonGuide.getRootPage().addPage(BaseItems.COPPER_DRILL_BIT, COMPONENTS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_PICKAXE, TOOLS);
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_SWORD, COMBAT);
+        PylonGuide.getRootPage().addPage(BaseItems.BEHEADING_SWORD, COMBAT);
         PylonGuide.getRootPage().addPage(BaseItems.HEALTH_TALISMAN_SIMPLE, TALISMANS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_CHESTPLATE, ARMOUR);
         PylonGuide.getRootPage().addPage(Material.APPLE, FOOD);
