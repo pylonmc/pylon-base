@@ -39,7 +39,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
@@ -49,6 +48,7 @@ import java.util.Map;
 public class DieselHammerHead extends PylonBlock implements
         PylonTickingBlock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonFluidBufferBlock,
         PylonProcessor,
         PylonDirectionalBlock,
@@ -232,7 +232,7 @@ public class DieselHammerHead extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonGuiBlock.super.onBreak(drops, context);
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
         PylonFluidBufferBlock.super.onBreak(drops, context);
     }
 
@@ -271,7 +271,7 @@ public class DieselHammerHead extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("hammer", hammerInventory);
     }
 }

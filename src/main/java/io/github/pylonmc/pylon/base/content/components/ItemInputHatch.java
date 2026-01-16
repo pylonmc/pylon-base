@@ -3,6 +3,7 @@ package io.github.pylonmc.pylon.base.content.components;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -16,7 +17,7 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import java.util.Map;
 
 
-public class ItemInputHatch extends PylonBlock implements PylonGuiBlock, PylonLogisticBlock {
+public class ItemInputHatch extends PylonBlock implements PylonGuiBlock, PylonLogisticBlock, PylonVirtualInventoryBlock {
 
     public final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -43,7 +44,7 @@ public class ItemInputHatch extends PylonBlock implements PylonGuiBlock, PylonLo
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("inventory", inventory);
     }
 }

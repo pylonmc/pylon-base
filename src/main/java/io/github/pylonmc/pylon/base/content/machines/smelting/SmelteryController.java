@@ -47,7 +47,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -219,10 +218,6 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
-    }
     // </editor-fold>
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">

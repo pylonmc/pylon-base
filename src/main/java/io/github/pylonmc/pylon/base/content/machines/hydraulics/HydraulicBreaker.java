@@ -38,7 +38,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.ArrayList;
@@ -54,6 +53,7 @@ public class HydraulicBreaker extends PylonBlock implements
         PylonTickingBlock,
         PylonMultiblock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonLogisticBlock,
         PylonProcessor {
 
@@ -279,11 +279,11 @@ public class HydraulicBreaker extends PylonBlock implements
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonFluidBufferBlock.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("tool", toolInventory);
     }
 }

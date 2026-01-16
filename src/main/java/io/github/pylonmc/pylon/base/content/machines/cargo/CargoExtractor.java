@@ -34,7 +34,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -48,7 +47,8 @@ import java.util.Set;
 public class CargoExtractor extends CargoInteractor implements
         PylonCargoBlock,
         PylonTickingBlock,
-        PylonGuiBlock {
+        PylonGuiBlock,
+        PylonVirtualInventoryBlock {
 
     public static final NamespacedKey ITEMS_TO_FILTER_KEY = BaseUtils.baseKey("items_to_filter");
     public static final NamespacedKey IS_WHITELIST_KEY = BaseUtils.baseKey("is_whitelist");
@@ -267,7 +267,7 @@ public class CargoExtractor extends CargoInteractor implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("output", outputInventory, "filter", filterInventory);
     }
 }

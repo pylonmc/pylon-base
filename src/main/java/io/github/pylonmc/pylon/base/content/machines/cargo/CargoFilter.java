@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
@@ -28,7 +28,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
@@ -38,6 +37,7 @@ import java.util.Map;
 public class CargoFilter extends PylonBlock implements
         PylonDirectionalBlock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonCargoBlock {
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
@@ -67,7 +67,7 @@ public class CargoFilter extends PylonBlock implements
             .name(Component.translatable("pylon.pylonbase.gui.right"));
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of(
                 "input", inputInventory,
                 "left", leftInventory,

@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -18,7 +19,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
-import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -35,7 +35,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
@@ -47,6 +46,7 @@ public class FluidStrainer extends PylonBlock implements
         PylonDirectionalBlock,
         PylonFluidBlock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonLogisticBlock,
         PylonRecipeProcessor<StrainingRecipe> {
 
@@ -179,8 +179,8 @@ public class FluidStrainer extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
+        return Map.of("inventory", inventory);
     }
 
     @Override
@@ -191,6 +191,6 @@ public class FluidStrainer extends PylonBlock implements
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonFluidBlock.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
     }
 }
