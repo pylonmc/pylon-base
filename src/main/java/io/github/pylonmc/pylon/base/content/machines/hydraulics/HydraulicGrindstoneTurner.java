@@ -73,11 +73,7 @@ public class HydraulicGrindstoneTurner extends PylonBlock implements
     @Override
     public void tick() {
         Grindstone grindstone = BlockStorage.getAs(Grindstone.class, getBlock().getRelative(BlockFace.UP));
-        if (grindstone == null) {
-            return;
-        }
-
-        if (grindstone.isProcessingRecipe()) {
+        if (grindstone == null || grindstone.isProcessingRecipe() || !grindstone.isFormedAndFullyLoaded()) {
             return;
         }
 
