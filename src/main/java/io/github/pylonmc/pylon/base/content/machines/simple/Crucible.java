@@ -43,7 +43,11 @@ import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class Crucible extends PylonBlock implements PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
+public final class Crucible extends PylonBlock implements
+        PylonInteractBlock,
+        PylonFluidTank,
+        PylonCauldron,
+        PylonTickingBlock {
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
@@ -145,11 +149,12 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     }
 
     public boolean tryDoRecipe() {
-        if (processingType == null) return false;
+        if (processingType == null) {
+            return false;
+        }
 
         for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(processingType)) {
-
                 doRecipe(recipe);
                 return true;
             }
@@ -159,8 +164,12 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     }
 
     private void doRecipe(@NotNull CrucibleRecipe recipe) {
-        if (recipe.output().fluid().equals(getFluidType())) {
-            if (getFluidSpaceRemaining() < 1.0e-6) return; // no need to waste stuff
+        if (getFluidType() != null && !recipe.output().fluid().equals(getFluidType())) {
+            return;
+        }
+
+        if (getFluidSpaceRemaining() < recipe.output().amountMillibuckets()) {
+            return;
         }
 
         FluidOrItem.Fluid fluid = recipe.output();
@@ -168,20 +177,19 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
         setFluidType(fluid.fluid());
         addFluid(fluid.amountMillibuckets());
 
-        new ParticleBuilder(Particle.SMOKE)
+        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
                 .count(20)
-                .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
-                .offset(0.3, 0, 0.3)
+                .extra(0.05)
+                .location(getBlock().getLocation().toCenterLocation())
                 .spawn();
 
-        new ParticleBuilder(Particle.ASH)
-                .count(30)
+        new ParticleBuilder(Particle.LAVA)
+                .count(10)
                 .location(getBlock().getLocation().toCenterLocation())
-                .extra(0.05)
                 .spawn();
 
         this.amount--;
-        if (this.amount == 0) {
+        if (amount == 0) {
             clearInventory();
         }
     }
@@ -220,13 +228,13 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     //endregion
 
     @Override
-    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("item_info", this.processingType == null ?
+            PylonArgument.of("item_info", processingType == null ?
                 Component.translatable("pylon.pylonbase.waila.crucible.item.empty") :
                 Component.translatable("pylon.pylonbase.waila.crucible.item.stored",
-                    PylonArgument.of("type", this.processingType.getData(DataComponentTypes.ITEM_NAME)),
-                    PylonArgument.of("amount", this.amount)
+                    PylonArgument.of("type", processingType.getData(DataComponentTypes.ITEM_NAME)),
+                    PylonArgument.of("amount", amount)
                 )),
 
             PylonArgument.of("liquid_info", getFluidType() == null ?
