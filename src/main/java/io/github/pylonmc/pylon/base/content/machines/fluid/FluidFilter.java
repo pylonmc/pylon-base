@@ -150,7 +150,7 @@ public class FluidFilter extends PylonBlock
     }
 
     @Override
-    public @NotNull Gui createGui() {
+    public @NotNull Gui getGui() {
         return (FluidSelector.make(() -> fluid, this::setFluid));
     }
 

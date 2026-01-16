@@ -55,7 +55,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     private final CastItem castItem = new CastItem();
 
     @Override
-    public @NotNull Gui createGui() {
+    public @NotNull Gui getGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",

@@ -93,7 +93,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
     }
 
     @Override
-    public @NotNull Gui createGui() {
+    public @NotNull Gui getGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",

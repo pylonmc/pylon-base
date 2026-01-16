@@ -162,7 +162,7 @@ public class CargoValve extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui createGui() {
+    public @NotNull Gui getGui() {
         return Gui.normal()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())

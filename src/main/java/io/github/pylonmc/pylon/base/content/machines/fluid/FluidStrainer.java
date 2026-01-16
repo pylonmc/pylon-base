@@ -170,7 +170,7 @@ public class FluidStrainer extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui createGui() {
+    public @NotNull Gui getGui() {
         return Gui.normal()
                 .setStructure("# # . . . . . # #")
                 .addIngredient('.', inventory)

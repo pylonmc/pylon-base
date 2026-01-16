@@ -183,7 +183,7 @@ public class FluidMeter extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui createGui() {
+    public @NotNull Gui getGui() {
         return Gui.normal()
                 .setStructure("# # # # m # # # #")
                 .addIngredient('#', GuiItems.background())
