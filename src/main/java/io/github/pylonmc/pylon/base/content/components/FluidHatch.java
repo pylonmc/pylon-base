@@ -25,11 +25,13 @@ import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -125,9 +127,10 @@ public abstract class FluidHatch extends PylonBlock implements
         boolean result = PylonFluidBufferBlock.super.setFluid(fluid, amount);
         float scale = (float) (0.9 * fluidAmount(fluid) / fluidCapacity(fluid));
         if (scale < 1.0e-9) {
-            scale = 0.0F;
+            getFluidDisplay().setItemStack(null);
+        } else {
+            getFluidDisplay().setItemStack(fluid.getItem());
         }
-        getFluidDisplay().setItemStack(fluid.getItem());
         getFluidDisplay().setTransformationMatrix(new TransformBuilder()
                 .translate(0.0, -0.45 + scale / 2, 0.0)
                 .scale(0.9, scale, 0.9)
