@@ -7,6 +7,7 @@ import kotlin.Pair;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.MultipleFacing;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +27,7 @@ public class SolarLens extends PylonBlock {
     @Override
     public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
         Map<String, Pair<String, Integer>> properties = super.getBlockTextureProperties();
-        Set<BlockFace> faces = ((Directional) getBlock().getState()).getFaces();
+        Set<BlockFace> faces = ((MultipleFacing) getBlock().getBlockData()).getFaces();
         for (BlockFace face : PylonUtils.CARDINAL_FACES) {
             properties.put(face.name(), new Pair<>(faces.contains(face) ? "true" : "false", 2));
         }
