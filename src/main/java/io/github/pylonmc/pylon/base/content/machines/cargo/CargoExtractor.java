@@ -208,7 +208,7 @@ public class CargoExtractor extends CargoInteractor implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # O # # # #",

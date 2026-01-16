@@ -161,7 +161,7 @@ public class CargoAccumulator extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# I i i i i i I #",

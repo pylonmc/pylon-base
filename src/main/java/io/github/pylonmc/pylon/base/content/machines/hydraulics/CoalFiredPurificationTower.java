@@ -146,7 +146,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",

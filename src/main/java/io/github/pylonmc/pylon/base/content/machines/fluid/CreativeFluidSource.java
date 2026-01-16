@@ -92,7 +92,7 @@ public class CreativeFluidSource extends PylonBlock implements
     public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {}
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return (FluidSelector.make(() -> fluid, fluid -> {
             this.fluid = fluid;
             ItemStack stack = fluid == null ? new ItemStack(Material.RED_TERRACOTTA) : fluid.getItem();

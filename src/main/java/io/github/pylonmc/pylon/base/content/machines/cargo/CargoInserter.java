@@ -144,7 +144,7 @@ public class CargoInserter extends CargoInteractor implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure("# # # # i # # # #")
                 .addIngredient('#', GuiItems.background())

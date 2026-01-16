@@ -193,7 +193,7 @@ public class DieselMiner extends Miner implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # T # O O O # #",

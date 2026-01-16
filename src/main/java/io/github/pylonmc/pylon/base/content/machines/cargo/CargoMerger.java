@@ -124,7 +124,7 @@ public class CargoMerger extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())

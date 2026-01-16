@@ -174,7 +174,7 @@ public class HydraulicBreaker extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         // Not actually used, just provided for easy inventory serialization
         return Gui.normal()
                 .setStructure("# # # # x # # # #")

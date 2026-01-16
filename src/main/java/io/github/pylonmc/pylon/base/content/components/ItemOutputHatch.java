@@ -35,7 +35,7 @@ public class ItemOutputHatch extends PylonBlock implements PylonGuiBlock, PylonL
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())

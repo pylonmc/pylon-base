@@ -126,7 +126,7 @@ public final class SmelteryController extends SmelteryComponent
     private final Item contentsItem = new ContentsItem();
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",

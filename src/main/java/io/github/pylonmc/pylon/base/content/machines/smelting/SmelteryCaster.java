@@ -59,7 +59,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
     private final CastItem castItem = new CastItem();
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# # # # # # # # #",

@@ -227,7 +227,7 @@ public class CargoSplitter extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Gui getGui() {
+    public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
                         "# L # # I # # R #",
