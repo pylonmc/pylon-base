@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
@@ -19,6 +20,8 @@ import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.PotionContents;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -34,9 +37,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class MixingPot extends PylonBlock implements
@@ -44,8 +49,6 @@ public final class MixingPot extends PylonBlock implements
         PylonInteractBlock,
         PylonFluidTank,
         PylonCauldron {
-
-    private static final Set<Material> BUCKETS = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
 
     public static class MixingPotItem extends PylonItem {
 
@@ -134,9 +137,8 @@ public final class MixingPot extends PylonBlock implements
             return;
         }
 
-        event.setCancelled(true);
-
-        if (event.getItem() != null && BUCKETS.contains(event.getMaterial()) || getFluidType() == null) {
+        if (event.getItem() != null && BaseUtils.handleFluidTankRightClick(this, event)) {
+            updateCauldron();
             return;
         }
 

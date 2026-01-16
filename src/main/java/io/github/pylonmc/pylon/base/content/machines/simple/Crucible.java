@@ -54,7 +54,6 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
 
     public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
-    public static final Set<Material> ITEM_BLACKLIST = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
 
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -105,8 +104,8 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // Don't allow fluid to be manually inserted/removed
-        if (event.getItem() != null && ITEM_BLACKLIST.contains(event.getMaterial())) {
-            event.setCancelled(true);
+        if (BaseUtils.handleFluidTankRightClick(this, event)) {
+            updateCauldron();
             return;
         }
 
@@ -237,7 +236,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
                     PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
-                        10,
+                        20,
                         TextColor.color(200, 255, 255)
                     ))
                 ))

@@ -4,7 +4,6 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -128,6 +127,7 @@ public class FluidTank extends PylonBlock
                 casing.setShape(FluidTankCasing.Shape.MIDDLE);
             }
             Waila.addWailaOverride(new BlockPosition(casing.getBlock()), this::getWaila);
+            casing.tank = this;
         }
     }
 
