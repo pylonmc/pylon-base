@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.building;
 
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTargetBlock;
@@ -8,6 +9,7 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.papermc.paper.event.block.TargetHitEvent;
+import org.bukkit.GameRule;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -47,12 +49,20 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
 
     @Override
     public void onHit(@NotNull TargetHitEvent event) {
-        event.setCancelled(true);
-        if (!Objects.requireNonNull(event.getHitBlock()).getWorld().createExplosion(event.getHitBlock().getLocation(),
-                (float) explosivePower,
-                createsFire)) {
+        Block hitBlock = event.getHitBlock();
+        Preconditions.checkState(hitBlock != null);
+
+        Boolean tntExplodes = hitBlock.getWorld().getGameRuleValue(GameRule.TNT_EXPLODES);
+        if (tntExplodes != null && !tntExplodes) {
             return;
         }
+
+        event.setCancelled(true);
+
+        if (!hitBlock.getWorld().createExplosion(hitBlock.getLocation(), (float) explosivePower, createsFire)) {
+            return;
+        }
+
         BlockStorage.breakBlock(getBlock());
     }
 }
