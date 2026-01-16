@@ -794,30 +794,6 @@ public final class BaseItems {
         BasePages.BUILDING.addItem(IGNEOUS_COMPOSITE);
     }
 
-    public static final ItemStack HEALTH_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_SIMPLE)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
-    static {
-        PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_SIMPLE);
-        BasePages.COMBAT.addItem(HEALTH_TALISMAN_SIMPLE);
-    }
-
-    public static final ItemStack HEALTH_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_ADVANCED)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
-    static {
-        PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ADVANCED);
-        BasePages.COMBAT.addItem(HEALTH_TALISMAN_ADVANCED);
-    }
-
-    public static final ItemStack HEALTH_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_ULTIMATE)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build();
-    static {
-        PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ULTIMATE);
-        BasePages.COMBAT.addItem(HEALTH_TALISMAN_ULTIMATE);
-    }
-
     public static final ItemStack BEHEADING_SWORD = ItemStackBuilder.pylon(Material.DIAMOND_SWORD, BaseKeys.BEHEADING_SWORD)
             .durability(Settings.get(BaseKeys.BEHEADING_SWORD).getOrThrow("durability", ConfigAdapter.INT)) // todo: weapon stats?
             .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true)
@@ -2089,6 +2065,30 @@ public final class BaseItems {
     static {
         PylonItem.register(CargoFluidAccumulator.Item.class, CARGO_FLUID_ACCUMULATOR, BaseKeys.CARGO_FLUID_ACCUMULATOR);
         BasePages.CARGO.addItem(CARGO_FLUID_ACCUMULATOR);
+    }
+
+    public static final ItemStack HEALTH_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_SIMPLE)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+    static {
+        PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_SIMPLE);
+        BasePages.TALISMANS.addItem(HEALTH_TALISMAN_SIMPLE);
+    }
+
+    public static final ItemStack HEALTH_TALISMAN_ADVANCED = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_ADVANCED)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+    static {
+        PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ADVANCED);
+        BasePages.TALISMANS.addItem(HEALTH_TALISMAN_ADVANCED);
+    }
+
+    public static final ItemStack HEALTH_TALISMAN_ULTIMATE = ItemStackBuilder.pylon(Material.AMETHYST_SHARD, BaseKeys.HEALTH_TALISMAN_ULTIMATE)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+    static {
+        PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ULTIMATE);
+        BasePages.TALISMANS.addItem(HEALTH_TALISMAN_ULTIMATE);
     }
 
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_SIMPLE)
