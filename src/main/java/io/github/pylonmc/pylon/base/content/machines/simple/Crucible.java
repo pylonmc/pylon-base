@@ -47,6 +47,7 @@ public final class Crucible extends PylonBlock implements
         PylonInteractBlock,
         PylonFluidTank,
         PylonCauldron,
+        PylonDirectionalBlock,
         PylonTickingBlock {
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
@@ -64,6 +65,7 @@ public final class Crucible extends PylonBlock implements
         super(block);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         setCapacity(1000.0);
+        setFacing(context.getFacing());
     }
 
     @SuppressWarnings("unused")
