@@ -34,7 +34,7 @@ public final class EnrichedSoulSoil extends PylonBlock implements PylonTickingBl
             new ParticleBuilder(Particle.SOUL_FIRE_FLAME)
                     .location(getBlock().getLocation().toCenterLocation())
                     .count(3)
-                    .extra(0.2)
+                    .extra(0.1)
                     .spawn();
         }
     }

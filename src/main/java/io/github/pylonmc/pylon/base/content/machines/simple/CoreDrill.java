@@ -151,7 +151,7 @@ public abstract class CoreDrill extends PylonBlock
                 timeLeft == null
                     ? Component.empty()
                     : Component.translatable(wailaFormat).arguments(
-                        PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft / 20), true, true))
+                        PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft / 20), true))
                     )
             )
         ));
