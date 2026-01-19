@@ -64,9 +64,11 @@ jobs:
           cd pylon
           ./gradlew
           cd pylon-core
+          git remote add origin https://github.com/pylonmc/pylon-core
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
           cd ../pylon-base
+          git remote add origin https://github.com/pylonmc/pylon-base
           git fetch origin ${{ github.sha }}
           git checkout ${{ github.sha }}
 
