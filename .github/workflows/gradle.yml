@@ -60,7 +60,7 @@ jobs:
 
       - name: Clone master project
         run: |
-          git clone https://github.com/pylonmc/pylon.git
+          git clone https://github.com/pylonmc/pylon
           cd pylon
           ./gradlew
           cd pylon-core
