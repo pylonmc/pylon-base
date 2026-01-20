@@ -66,10 +66,10 @@ jobs:
           cd pylon
           ./gradlew
           cd pylon-core
-          git fetch --all
+          git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
           cd ../pylon-base
-          git fetch --all
+          git fetch origin ${{ github.sha }}
           git checkout ${{ github.sha }}
 
       - name: Build with Gradle Wrapper
