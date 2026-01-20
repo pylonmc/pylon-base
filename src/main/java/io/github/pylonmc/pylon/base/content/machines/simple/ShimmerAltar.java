@@ -4,7 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
-import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
+import io.github.pylonmc.pylon.base.recipes.ShimmerAltarRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
@@ -33,19 +33,19 @@ import org.joml.Vector3i;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class MagicAltar extends PylonBlock
-        implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<MagicAltarRecipe> {
+public class ShimmerAltar extends PylonBlock
+        implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<ShimmerAltarRecipe> {
 
     public static final int PEDESTAL_COUNT = 8;
 
     private static final Random random = new Random();
 
-    private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.MAGIC_PEDESTAL);
+    private static final MultiblockComponent SHIMMER_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.SHIMMER_PEDESTAL);
 
     private final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
-    public MagicAltar(Block block, BlockCreateContext context) {
+    public ShimmerAltar(Block block, BlockCreateContext context) {
         super(block);
 
         setTickInterval(tickInterval);
@@ -59,11 +59,11 @@ public class MagicAltar extends PylonBlock
                 .build(getBlock().getLocation().toCenterLocation())
         );
 
-        setRecipeType(MagicAltarRecipe.RECIPE_TYPE);
+        setRecipeType(ShimmerAltarRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
-    public MagicAltar(Block block, PersistentDataContainer pdc) {
+    public ShimmerAltar(Block block, PersistentDataContainer pdc) {
         super(block);
     }
 
@@ -71,14 +71,14 @@ public class MagicAltar extends PylonBlock
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         // use linked to retain order of pedestals - important for recipes
         Map<Vector3i, MultiblockComponent> map = new LinkedHashMap<>();
-        map.put(new Vector3i(3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(2, 0, 2), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(0, 0, 3), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(-2, 0, 2), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(-3, 0, 0), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(-2, 0, -2), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(0, 0, -3), MAGIC_PEDESTAL_COMPONENT);
-        map.put(new Vector3i(2, 0, -2), MAGIC_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(3, 0, 0), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(2, 0, 2), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(0, 0, 3), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(-2, 0, 2), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(-3, 0, 0), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(-2, 0, -2), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(0, 0, -3), SHIMMER_PEDESTAL_COMPONENT);
+        map.put(new Vector3i(2, 0, -2), SHIMMER_PEDESTAL_COMPONENT);
         return map;
     }
 
@@ -114,7 +114,7 @@ public class MagicAltar extends PylonBlock
             ingredients.add(pedestal.getItemDisplay().getItemStack());
         }
 
-        for (MagicAltarRecipe recipe : MagicAltarRecipe.RECIPE_TYPE.getRecipes()) {
+        for (ShimmerAltarRecipe recipe : ShimmerAltarRecipe.RECIPE_TYPE.getRecipes()) {
             if (!recipe.isValidRecipe(ingredients, catalyst)) {
                 continue;
             }
@@ -195,7 +195,7 @@ public class MagicAltar extends PylonBlock
     }
 
     @Override
-    public void onRecipeFinished(@NotNull MagicAltarRecipe recipe) {
+    public void onRecipeFinished(@NotNull ShimmerAltarRecipe recipe) {
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
             pedestal.setLocked(false);

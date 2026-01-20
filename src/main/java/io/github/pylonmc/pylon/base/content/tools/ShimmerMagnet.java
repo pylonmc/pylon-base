@@ -1,6 +1,5 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -26,15 +25,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-public class ItemMagnet extends PylonItem implements PylonInteractor {
+public class ShimmerMagnet extends PylonItem implements PylonInteractor {
     @Getter
     private final double pickupDistance = getSettings().getOrThrow("pickup-distance", ConfigAdapter.DOUBLE);
     @Getter
     private final double attractForce = getSettings().getOrThrow("attract-force", ConfigAdapter.DOUBLE);
 
-    private static final NamespacedKey ENABLED_KEY = BaseUtils.baseKey("item_magnet_toggler");
+    private static final NamespacedKey ENABLED_KEY = BaseUtils.baseKey("shimmer_magnet_toggler");
 
-    public ItemMagnet(@NotNull ItemStack stack) {
+    public ShimmerMagnet(@NotNull ItemStack stack) {
         super(stack);
     }
 
@@ -60,7 +59,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
             }
 
             String targetKey = enabled ? "enabled" : "disabled";
-            player.sendMessage(Component.translatable("pylon.pylonbase.message.item_magnet." + targetKey));
+            player.sendMessage(Component.translatable("pylon.pylonbase.message.shimmer_magnet." + targetKey));
 
             pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
         });
@@ -76,7 +75,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
     }
 
     /**
-     * Checks if an item magnet is enabled
+     * Checks if a shimmer magnet is enabled
      *
      * @return true is enabled else otherwise
      */
@@ -98,13 +97,13 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
                 Vector playerPosition = player.getLocation().toVector();
                 for (var stack : player.getInventory()) {
                     PylonItem pylonItem = fromStack(stack);
-                    if (!(pylonItem instanceof ItemMagnet itemMagnet)) continue;
+                    if (!(pylonItem instanceof ShimmerMagnet shimmerMagnet)) continue;
 
-                    if (!itemMagnet.isEnabled()) continue;
+                    if (!shimmerMagnet.isEnabled()) continue;
 
                     Collection<Item> nearbyItems = player.getLocation().getNearbyEntitiesByType(
                             Item.class,
-                            itemMagnet.getPickupDistance()
+                            shimmerMagnet.getPickupDistance()
                     );
 
 
@@ -116,7 +115,7 @@ public class ItemMagnet extends PylonItem implements PylonInteractor {
                         // it is near enough
                         if (direction.distanceSquared(playerPosition) < 0.25) continue;
 
-                        Vector toMove = direction.multiply(itemMagnet.getAttractForce());
+                        Vector toMove = direction.multiply(shimmerMagnet.getAttractForce());
                         item.setVelocity(toMove);
                     }
 

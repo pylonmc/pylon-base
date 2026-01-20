@@ -316,13 +316,14 @@ pylonbase:brick_mold:
 
 pylonbase:confetti_popper:
   pattern:
-    - " P "
-    - " G "
-    - " D "
+    - "IPI"
+    - "IGI"
+    - "IDI"
   key:
     P: minecraft:paper
     G: minecraft:gunpowder
     D: "#paper:dyes_settag"
+    I: pylonbase:iron_sheet
   result: pylonbase:confetti_popper
   category: tools
 
@@ -399,7 +400,7 @@ pylonbase:pedestal:
   result: pylonbase:pedestal
   category: building
 
-pylonbase:magic_pedestal:
+pylonbase:shimmer_pedestal:
   pattern:
     - "C C"
     - " P "
@@ -407,10 +408,10 @@ pylonbase:magic_pedestal:
   key:
     P: pylonbase:pedestal
     C: pylonbase:covalent_binder
-  result: pylonbase:magic_pedestal
+  result: pylonbase:shimmer_pedestal
   category: building
 
-pylonbase:magic_altar:
+pylonbase:shimmer_altar:
   pattern:
     - " I "
     - "DPD"
@@ -420,7 +421,7 @@ pylonbase:magic_altar:
     S: minecraft:smooth_stone_slab
     D: pylonbase:shimmer_dust_2
     I: pylonbase:diamond_dust
-  result: pylonbase:magic_altar
+  result: pylonbase:shimmer_altar
   category: building
 
 pylonbase:fluid_pipe_wood:
@@ -1609,7 +1610,7 @@ pylonbase:water_breathing_talisman_simple:
   result: pylonbase:water_breathing_talisman_simple
   category: equipment
 
-pylonbase:farmer_talisman_simple:
+pylonbase:farming_talisman_simple:
   pattern:
     - "WBW"
     - "BHB"
@@ -1618,5 +1619,5 @@ pylonbase:farmer_talisman_simple:
     W: minecraft:wheat
     B: minecraft:hay_block
     H: minecraft:iron_hoe
-  result: pylonbase:farmer_talisman_simple
+  result: pylonbase:farming_talisman_simple
   category: equipment

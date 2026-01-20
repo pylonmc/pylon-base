@@ -1,232 +1,93 @@
 baking:
-  material: yellow_dye
-  cost: 1
+  item: pylonbase:dough
+  cost: 2
   unlocks:
   - pylonbase:flour
   - pylonbase:dough
-better_hammers:
-  material: stone_pickaxe
-  cost: 15
-  unlocks:
-  - pylonbase:iron_hammer
-  - pylonbase:diamond_hammer
-bronze_equipment:
-  material: brick
-  cost: 10
-  unlocks:
-  - pylonbase:bronze_sword
-  - pylonbase:bronze_axe
-  - pylonbase:bronze_pickaxe
-  - pylonbase:bronze_shovel
-  - pylonbase:bronze_hoe
-  - pylonbase:bronze_boots
-  - pylonbase:bronze_leggings
-  - pylonbase:bronze_chestplate
-  - pylonbase:bronze_helmet
-climbing_equipment:
-  material: iron_hoe
+  - pylonbase:monster_jerky
+
+showing_off:
+  item: stone_brick_wall
   cost: 2
   unlocks:
-  - pylonbase:climbing_pick
-deforestation:
-  material: wooden_axe
-  cost: 30
-  unlocks:
-  - pylonbase:lumber_axe
-explosive_targets:
-  material: arrow
-  cost: 8
-  unlocks:
-  - pylonbase:explosive_target
-  - pylonbase:explosive_target_fiery
-  - pylonbase:explosive_target_super
-  - pylonbase:explosive_target_super_fiery
-fireproofing:
-  material: fire_charge
-  cost: 25
-  unlocks:
-  - pylonbase:fireproof_rune
-first_aid:
-  material: cobweb
-  cost: 5
-  unlocks:
-  - pylonbase:bandage
-  - pylonbase:splint
-fletching:
-  material: arrow
-  cost: 4
-  unlocks:
-  - pylonbase:recoil_arrow
-  - pylonbase:ice_arrow
-flow_control:
-  material: white_concrete
-  cost: 12
-  unlocks:
-  - pylonbase:fluid_valve
-  - pylonbase:fluid_filter
-  - pylonbase:fluid_meter
-fluid_handling_1:
-  material: orange_terracotta
-  cost: 15
-  unlocks:
-  - pylonbase:fluid_pipe_bronze
-  - pylonbase:portable_fluid_tank_bronze
-  - pylonbase:fluid_tank_casing_bronze
-fluid_handling_2:
-  material: black_terracotta
-  cost: 30
-  unlocks:
-  - pylonbase:fluid_pipe_igneous_composite
-  - pylonbase:portable_fluid_tank_igneous_composite
-  - pylonbase:fluid_tank_casing_igneous_composite
-fluid_handling_3:
-  material: gray_concrete
-  cost: 45
-  unlocks:
-  - pylonbase:fluid_pipe_steel
-  - pylonbase:portable_fluid_tank_steel
-  - pylonbase:fluid_tank_casing_steel
-fluid_storage:
-  material: gray_terracotta
+    - pylonbase:pedestal
+    - pylonbase:confetti_popper
+
+talismans_1:
+  item: pylonbase:health_talisman_simple
   cost: 10
   unlocks:
-  - pylonbase:fluid_tank
-  - pylonbase:fluid_tank_casing_wood
-  - pylonbase:fluid_tank_casing_copper
-  - pylonbase:fluid_tank_casing_tin
-  - pylonbase:fluid_tank_casing_iron
-fluid_voiding_1:
-  material: black_terracotta
-  cost: 20
-  unlocks:
-  - pylonbase:fluid_voider_1
-fluid_voiding_2:
-  material: black_terracotta
-  cost: 20
-  unlocks:
-  - pylonbase:fluid_voider_2
-  - pylonbase:fluid_voider_3
-food_preservation:
-  material: rotten_flesh
-  cost: 3
-  unlocks:
-  - pylonbase:monster_jerky
-forbidden_medicine:
-  material: nether_wart
-  cost: 18
-  unlocks:
-  - pylonbase:cleansing_potion
-french_revolution:
-  material: diamond_sword
+    - pylonbase:health_talisman_simple
+    - pylonbase:hunger_talisman_simple
+    - pylonbase:farming_talisman_simple
+    - pylonbase:bartering_talisman_simple
+    - pylonbase:water_breathing_talisman_simple
+    - pylonbase:luck_talisman_simple
+    - pylonbase:breeding_talisman_simple
+    - pylonbase:enchanting_talisman_simple
+    - pylonbase:hunting_talisman_simple
+
+talismans_2:
+  item: pylonbase:health_talisman_simple
   cost: 25
   unlocks:
-  - pylonbase:beheading_sword
-high_temperature_materials:
-  material: deepslate_tiles
-  cost: 35
+    - pylonbase:health_talisman_advanced
+    - pylonbase:hunger_talisman_advanced
+    - pylonbase:farming_talisman_advanced
+    - pylonbase:bartering_talisman_advanced
+    - pylonbase:water_breathing_talisman_advanced
+    - pylonbase:luck_talisman_advanced
+    - pylonbase:breeding_talisman_advanced
+    - pylonbase:enchanting_talisman_advanced
+    - pylonbase:hunting_talisman_advanced
+
+talismans_3:
+  item: pylonbase:health_talisman_simple
+  cost: 60
   unlocks:
-  - pylonbase:refractory_mix
-  - pylonbase:unfired_refractory_brick
-  - pylonbase:refractory_brick
-  - pylonbase:refractory_bricks
-high_temperature_smelting:
-  material: blast_furnace
-  cost: 50
+    - pylonbase:health_talisman_ultimate
+    - pylonbase:hunger_talisman_ultimate
+    - pylonbase:farming_talisman_ultimate
+    - pylonbase:bartering_talisman_ultimate
+    - pylonbase:water_breathing_talisman_ultimate
+    - pylonbase:luck_talisman_ultimate
+    - pylonbase:breeding_talisman_ultimate
+    - pylonbase:water_breathing_talisman_ultimate
+    - pylonbase:enchanting_talisman_ultimate
+    - pylonbase:hunting_talisman_ultimate
+
+drilling_1:
+  item: pylonbase:subsurface_core_chunk
+  cost: 5
   unlocks:
-  - pylonbase:smeltery_controller
-  - pylonbase:smeltery_burner
-  - pylonbase:smeltery_caster
-  - pylonbase:smeltery_hopper
-  - pylonbase:smeltery_input_hatch
-  - pylonbase:smeltery_output_hatch
-hydraulic_automation:
-  material: waxed_chiseled_copper
-  cost: 22
-  unlocks:
-  - pylonbase:hydraulic_grindstone_turner
-  - pylonbase:hydraulic_mixing_attachment
-  - pylonbase:hydraulic_press_piston
-  - pylonbase:hydraulic_hammer_head
-  - pylonbase:hydraulic_pipe_bender
-  - pylonbase:hydraulic_table_saw
-  - pylonbase:hydraulic_miner
-  - pylonbase:hydraulic_breaker
-  - pylonbase:hydraulic_farmer
-hydraulic_combat:
-  material: iron_horse_armor
-  cost: 8
-  unlocks:
-  - pylonbase:hydraulic_refueling_station
-  - pylonbase:hydraulic_cannon
-  - pylonbase:tin_projectile
-hydraulic_drilling:
-  material: waxed_copper_bulb
+    - pylonbase:improved_manual_core_drill
+    - pylonbase:subsurface_core_chunk
+
+drilling_2:
+  item: pylonbase:subsurface_core_chunk
   cost: 40
   unlocks:
-  - pylonbase:hydraulic_core_drill
-  - pylonbase:intermediate_core_chunk
-igneous_magic:
-  material: obsidian
-  cost: 18
+    - pylonbase:hydraulic_core_drill
+    - pylonbase:intermediate_core_chunk
+    - pylonbase:gypsum
+    - pylonbase:gypsum_dust
+
+drilling_3:
+  item: pylonbase:subsurface_core_chunk
+  cost: 100
   unlocks:
-  - pylonbase:obsidian_chip
-  - pylonbase:igneous_composite
-immobilization:
-  material: piston
-  cost: 30
-  unlocks:
-  - pylonbase:immobilizer
-improved_drilling_techniques:
-  material: iron_pickaxe
-  cost: 15
-  unlocks:
-  - pylonbase:improved_manual_core_drill
-  - pylonbase:subsurface_core_chunk
-irrigation:
-  material: bucket
-  cost: 8
-  unlocks:
-  - pylonbase:watering_can
-  - pylonbase:sprinkler
-magnetism:
-  material: iron_ingot
-  cost: 50
-  unlocks:
-  - pylonbase:nickel_dust
-  - pylonbase:nickel_ingot
-  - pylonbase:nickel_nugget
-  - pylonbase:nickel_block
-  - pylonbase:cobalt_dust
-  - pylonbase:cobalt_block
-  - pylonbase:cobalt_ingot
-  - pylonbase:cobalt_nugget
-medicine:
-  material: brewer_pottery_sherd
-  cost: 10
-  unlocks:
-  - pylonbase:disinfectant
-  - pylonbase:medkit
-molding:
-  material: oak_fence_gate
+    - pylonbase:nickel_dust
+    - pylonbase:nickel_ingot
+    - pylonbase:nickel_nugget
+    - pylonbase:nickel_block
+    - pylonbase:cobalt_dust
+    - pylonbase:cobalt_block
+    - pylonbase:cobalt_ingot
+    - pylonbase:cobalt_nugget
+
+smelting_1:
+  item: pylonbase:smeltery_controller
   cost: 5
-  unlocks:
-  - pylonbase:brick_mold
-portable_workstations:
-  material: crafting_table
-  cost: 20
-  unlocks:
-  - pylonbase:portability_catalyst
-  - pylonbase:portable_crafting_table
-  - pylonbase:portable_dustbin
-  - pylonbase:portable_ender_chest
-pressing:
-  material: composter
-  cost: 12
-  unlocks:
-  - pylonbase:press
-primitive_alloying:
-  material: iron_ingot
-  cost: 10
   unlocks:
   - pylonbase:pit_kiln
   - pylonbase:carbon
@@ -236,54 +97,353 @@ primitive_alloying:
   - pylonbase:bronze_sheet
   - pylonbase:bronze_nugget
   - pylonbase:bronze_block
-pumps:
-  material: light_blue_terracotta
-  cost: 12
+
+smelting_2:
+  item: pylonbase:smeltery_controller
+  cost: 35
   unlocks:
-  - pylonbase:water_pump
-  - pylonbase:water_placer
-  - pylonbase:water_drainer
-  - pylonbase:lava_placer
-  - pylonbase:lava_drainer
-reactivated_skulls:
-  material: wither_skeleton_skull
+    - pylonbase:brick_mold
+    - pylonbase:refractory_mix
+    - pylonbase:unfired_refractory_brick
+    - pylonbase:refractory_brick
+    - pylonbase:refractory_bricks
+    - pylonbase:crucible
+    - pylonbase:bloomery
+    - pylonbase:tongs
+    - pylonbase:bronze_anvil
+    - pylonbase:sponge_iron
+    - pylonbase:iron_bloom
+    - pylonbase:wrought_iron
+    - pylonbase:steel_dust
+    - pylonbase:steel_ingot
+    - pylonbase:steel_nugget
+    - pylonbase:steel_block
+    - pylonbase:steel_sheet
+
+smelting_3:
+  item: pylonbase:smeltery_controller
+  cost: 50
+  unlocks:
+    - pylonbase:smeltery_controller
+    - pylonbase:smeltery_burner
+    - pylonbase:diesel_smeltery_heater
+    - pylonbase:smeltery_caster
+    - pylonbase:smeltery_hopper
+    - pylonbase:smeltery_input_hatch
+    - pylonbase:smeltery_output_hatch
+
+pressing:
+  item: pylonbase:press
+  cost: 10
+  unlocks:
+    - pylonbase:press
+
+pumps:
+  item: pylonbase:water_pump
+  cost: 5
+  unlocks:
+    - pylonbase:water_pump
+    - pylonbase:water_placer
+    - pylonbase:water_drainer
+    - pylonbase:lava_placer
+    - pylonbase:lava_drainer
+
+irrigation:
+  item: pylonbase:watering_can
+  cost: 5
+  unlocks:
+    - pylonbase:watering_can
+    - pylonbase:sprinkler
+
+fluid_handling_1:
+  item: pylonbase:fluid_pipe_copper
   cost: 15
   unlocks:
-  - pylonbase:reactivated_wither_skull
-  - pylonbase:hyper_activated_wither_skull
+    - pylonbase:fluid_pipe_copper
+    - pylonbase:portable_fluid_tank_copper
+    - pylonbase:fluid_pipe_tin
+    - pylonbase:portable_fluid_tank_tin
+    - pylonbase:fluid_pipe_iron
+    - pylonbase:portable_fluid_tank_iron
+
+fluid_handling_2:
+  item: pylonbase:fluid_pipe_copper
+  cost: 15
+  unlocks:
+    - pylonbase:fluid_pipe_bronze
+    - pylonbase:portable_fluid_tank_bronze
+    - pylonbase:fluid_tank
+    - pylonbase:fluid_tank_casing_wood
+    - pylonbase:fluid_tank_casing_copper
+    - pylonbase:fluid_tank_casing_tin
+    - pylonbase:fluid_tank_casing_iron
+    - pylonbase:fluid_tank_casing_bronze
+
+fluid_handling_3:
+  item: pylonbase:fluid_pipe_copper
+  cost: 30
+  unlocks:
+    - pylonbase:fluid_pipe_igneous_composite
+    - pylonbase:portable_fluid_tank_igneous_composite
+    - pylonbase:fluid_tank_casing_igneous_composite
+
+fluid_handling_4:
+  item: pylonbase:fluid_pipe_copper
+  cost: 60
+  unlocks:
+    - pylonbase:fluid_pipe_steel
+    - pylonbase:portable_fluid_tank_steel
+    - pylonbase:fluid_tank_casing_steel
+
+fluid_machines_1:
+  item: pylonbase:fluid_filter
+  cost: 10
+  unlocks:
+    - pylonbase:fluid_valve
+    - pylonbase:fluid_voider_1
+
+fluid_machines_2:
+  item: pylonbase:fluid_filter
+  cost: 10
+  unlocks:
+    - pylonbase:fluid_filter
+    - pylonbase:fluid_voider_2
+
+fluid_machines_3:
+  item: pylonbase:fluid_filter
+  cost: 10
+  unlocks:
+    - pylonbase:fluid_meter
+    - pylonbase:fluid_voider_3
+
+bronze_equipment:
+  item: pylonbase:bronze_pickaxe
+  cost: 10
+  unlocks:
+    - pylonbase:bronze_sword
+    - pylonbase:bronze_axe
+    - pylonbase:bronze_pickaxe
+    - pylonbase:bronze_shovel
+    - pylonbase:bronze_hoe
+    - pylonbase:bronze_boots
+    - pylonbase:bronze_leggings
+    - pylonbase:bronze_chestplate
+    - pylonbase:bronze_helmet
+
+improved_hammers:
+  item: pylonbase:iron_hammer
+  cost: 10
+  unlocks:
+    - pylonbase:iron_hammer
+    - pylonbase:diamond_hammer
+
+elevators:
+  item: pylonbase:elevator_1
+  cost: 10
+  unlocks:
+    - pylonbase:elevator_1
+    - pylonbase:elevator_2
+    - pylonbase:elevator_3
+
+climbing_equipment:
+  item: pylonbase:climbing_pick
+  cost: 5
+  unlocks:
+    - pylonbase:climbing_pick
+
+medicine_1:
+  item: pylonbase:medkit
+  cost: 5
+  unlocks:
+    - pylonbase:bandage
+    - pylonbase:splint
+
+medicine_2:
+  item: pylonbase:medkit
+  cost: 10
+  unlocks:
+    - pylonbase:disinfectant
+    - pylonbase:medkit
+
+medicine_3:
+  item: pylonbase:medkit
+  cost: 25
+  unlocks:
+    - pylonbase:cleansing_potion
+
+hydraulic_machines:
+  item: pylonbase:hydraulic_table_saw
+  cost: 20
+  unlocks:
+    - pylonbase:hydraulic_grindstone_turner
+    - pylonbase:hydraulic_mixing_attachment
+    - pylonbase:hydraulic_press_piston
+    - pylonbase:hydraulic_hammer_head
+    - pylonbase:hydraulic_pipe_bender
+    - pylonbase:hydraulic_table_saw
+    - pylonbase:hydraulic_miner
+    - pylonbase:hydraulic_breaker
+    - pylonbase:hydraulic_farmer
+    - pylonbase:hydraulic_refueling_station
+
+hydraulic_purification_1:
+  item: pylonbase:solar_purification_tower_1
+  cost: 10
+  unlocks:
+    - pylonbase:solar_purification_tower_1
+    - pylonbase:solar_purification_tower_2
+    - pylonbase:solar_purification_tower_3
+    - pylonbase:purification_tower_glass
+    - pylonbase:purification_tower_cap
+    - pylonbase:solar_lens
+
+hydraulic_purification_2:
+  item: pylonbase:solar_purification_tower_1
+  cost: 15
+  unlocks:
+    - pylonbase:coal_fired_purification_tower
+    - pylonbase:solar_purification_tower_3
+
+hydraulic_purification_3:
+  item: pylonbase:solar_purification_tower_1
+  cost: 20
+  unlocks:
+    - pylonbase:solar_purification_tower_4
+    - pylonbase:solar_purification_tower_5
+
+hydraulic_combat:
+  item: pylonbase:hydraulic_cannon
+  cost: 10
+  unlocks:
+    - pylonbase:hydraulic_cannon
+    - pylonbase:tin_projectile
+
+vacuum_hoppers_1:
+  item: pylonbase:vacuum_hopper_1
+  cost: 5
+  unlocks:
+    - pylonbase:vacuum_hopper_1
+    - pylonbase:vacuum_hopper_2
+
+vacuum_hoppers_2:
+  item: pylonbase:vacuum_hopper_1
+  cost: 15
+  unlocks:
+    - pylonbase:vacuum_hopper_3
+    - pylonbase:vacuum_hopper_4
+
+cargo_1:
+  item: pylonbase:cargo_buffer
+  cost: 30
+  unlocks:
+    - pylonbase:cargo_duct
+    - pylonbase:cargo_extractor
+    - pylonbase:cargo_inserter
+    - pylonbase:cargo_valve
+    - pylonbase:cargo_buffer
+
+cargo_2:
+  item: pylonbase:cargo_buffer
+  cost: 20
+  unlocks:
+    - pylonbase:cargo_monitor
+    - pylonbase:cargo_meter
+    - pylonbase:cargo_splitter
+    - pylonbase:cargo_merger
+    - pylonbase:cargo_filter
+
+cargo_3:
+  item: pylonbase:cargo_buffer
+  cost: 20
+  unlocks:
+    - pylonbase:cargo_gate
+    - pylonbase:cargo_accumulator
+    - pylonbase:cargo_fluid_accumulator
+
+diesel_machines:
+  item: pylonbase:diesel_pipe_bender
+  cost: 60
+  unlocks:
+    - pylonbase:diesel_grindstone
+    - pylonbase:diesel_mixing_attachment
+    - pylonbase:diesel_press
+    - pylonbase:diesel_hammer_head
+    - pylonbase:diesel_pipe_bender
+    - pylonbase:diesel_table_saw
+    - pylonbase:diesel_miner
+    - pylonbase:diesel_breaker
+    - pylonbase:diesel_furnace
+    - pylonbase:diesel_brick_molder
+
+diesel_production:
+  item: pylonbase:biorefinery
+  cost: 40
+  unlocks:
+    - pylonbase:fermenter
+    - pylonbase:fermenter_core
+    - pylonbase:fermenter_casing
+    - pylonbase:biorefinery
+    - pylonbase:biorefinery_foundation
+    - pylonbase:biorefinery_plating
+    - pylonbase:biorefinery_tower_ring
+    - pylonbase:biorefinery_smokestack_ring
+    - pylonbase:biorefinery_smokestack_cap
+
+igneous_magic:
+  item: pylonbase:igneous_composite
+  cost: 20
+  unlocks:
+  - pylonbase:obsidian_chip
+  - pylonbase:igneous_composite
+
+portable_workstations:
+  item: pylonbase:portable_crafting_table
+  cost: 20
+  unlocks:
+  - pylonbase:portability_catalyst
+  - pylonbase:portable_crafting_table
+  - pylonbase:portable_dustbin
+  - pylonbase:portable_ender_chest
+
 scientific_revolution_1:
-  material: red_banner
+  item: pylonbase:research_pack_1
   cost: 10
   unlocks:
   - pylonbase:research_pack_1
+
 scientific_revolution_2:
-  material: lime_banner
+  item: pylonbase:research_pack_1
   cost: 40
   unlocks:
   - pylonbase:research_pack_2
-shimmer_manipulation:
-  material: sugar
-  cost: 7
+
+shimmer_magic_1:
+  item: pylonbase:shimmer_dust_1
+  cost: 5
   unlocks:
+  - pylonbase:shimmer_dust_1
   - pylonbase:shimmer_dust_2
-  - pylonbase:covalent_binder
   - pylonbase:enriched_soul_soil
-rituals:
-  material: wither_skeleton_skull
-  cost: 20
+
+shimmer_magic_2:
+  item: pylonbase:shimmer_dust_1
+  cost: 10
   unlocks:
-    - pylonbase:magic_pedestal
-    - pylonbase:magic_altar
+  - pylonbase:covalent_binder
+  - pylonbase:shimmer_pedestal
+  - pylonbase:shimmer_altar
+  - pylonbase:shimmer_magnet
+
+shimmer_magic_3:
+  item: pylonbase:shimmer_dust_1
+  cost: 10
+  unlocks:
     - pylonbase:shimmer_dust_3
     - pylonbase:shimmer_skull
-showing_off:
-  material: stone_brick_wall
-  cost: 2
-  unlocks:
-  - pylonbase:pedestal
+
 simple_components:
-  material: iron_trapdoor
-  cost: 8
+  item: pylonbase:bronze_drill_bit
+  cost: 10
   unlocks:
   - pylonbase:rotor
   - pylonbase:backflow_valve
@@ -294,128 +454,61 @@ simple_components:
   - pylonbase:axle
   - pylonbase:sawblade
   - pylonbase:weighted_shaft
+  - pylonbase:copper_drill_bit
   - pylonbase:bronze_drill_bit
   - pylonbase:hydraulic_motor
   - pylonbase:hydraulic_cannon_chamber
-steel:
-  material: netherite_ingot
-  cost: 50
-  unlocks:
-  - pylonbase:steel_dust
-  - pylonbase:steel_ingot
-  - pylonbase:steel_nugget
-  - pylonbase:steel_block
-  - pylonbase:steel_sheet
+  - pylonbase:fluid_input_hatch
+  - pylonbase:fluid_output_hatch
+  - pylonbase:item_input_hatch
+  - pylonbase:item_output_hatch
+
 straining:
-  material: white_concrete
-  cost: 32
-  unlocks:
-  - pylonbase:fluid_strainer
-vacuum_hoppers:
-  material: hopper
-  cost: 8
-  unlocks:
-  - pylonbase:vacuum_hopper_1
-  - pylonbase:vacuum_hopper_2
-advanced_vacuum_hoppers:
-  material: hopper
-  cost: 18
-  unlocks:
-  - pylonbase:vacuum_hopper_3
-  - pylonbase:vacuum_hopper_4
-vitality_1:
-  material: amethyst_shard
-  cost: 15
-  unlocks:
-  - pylonbase:health_talisman_simple
-  - pylonbase:health_talisman_advanced
-vitality_2:
-  material: budding_amethyst
-  cost: 35
-  unlocks:
-  - pylonbase:health_talisman_ultimate
-elevation:
-  material: quartz_slab
-  cost: 10
-  unlocks:
-  - pylonbase:elevator_1
-  - pylonbase:elevator_2
-  - pylonbase:elevator_3
-hydraulic_purification:
-  material: waxed_copper_block
-  cost: 15
-  unlocks:
-  - pylonbase:solar_purification_tower_1
-  - pylonbase:solar_purification_tower_2
-  - pylonbase:solar_purification_tower_3
-  - pylonbase:coal_fired_purification_tower
-  - pylonbase:purification_tower_glass
-  - pylonbase:purification_tower_cap
-  - pylonbase:solar_lens
-large_scale_hydraulic_purification:
-  material: waxed_copper_block
-  cost: 25
-  unlocks:
-  - pylonbase:solar_purification_tower_4
-  - pylonbase:solar_purification_tower_5
-soul_attachment:
-  material: amethyst_shard
+  item: pylonbase:fluid_strainer
   cost: 20
   unlocks:
-  - pylonbase:soulbound_rune
-diet:
-  material: cooked_beef
-  cost: 15
+  - pylonbase:fluid_strainer
+
+fletching:
+  item: pylonbase:recoil_arrow
+  cost: 10
   unlocks:
-    - pylonbase:hunger_talisman_simple
-    - pylonbase:hunger_talisman_advanced
-    - pylonbase:hunger_talisman_ultimate
-farming_aids:
-  material: bowl
-  cost: 15
+    - pylonbase:recoil_arrow
+    - pylonbase:ice_arrow
+
+combat_engineering:
+  item: pylonbase:explosive_target
+  cost: 10
   unlocks:
-    - pylonbase:farmer_talisman_simple
-    - pylonbase:farmer_talisman_advanced
-    - pylonbase:farmer_talisman_ultimate
-negotation_tactics:
-  material: gold_ingot
-  cost: 15
+    - pylonbase:explosive_target
+    - pylonbase:explosive_target_fiery
+    - pylonbase:explosive_target_super
+    - pylonbase:explosive_target_super_fiery
+    - pylonbase:immobilizer
+
+deforestation:
+  item: pylonbase:lumber_axe
+  cost: 30
   unlocks:
-    - pylonbase:bartering_talisman_simple
-    - pylonbase:bartering_talisman_advanced
-    - pylonbase:bartering_talisman_ultimate
-optimal_breathing:
-  material: nautilus_shell
-  cost: 15
+    - pylonbase:lumber_axe
+
+french_revolution:
+  item: pylonbase:beheading_sword
+  cost: 40
   unlocks:
-    - pylonbase:water_breathing_talisman_simple
-    - pylonbase:water_breathing_talisman_advanced
-    - pylonbase:water_breathing_talisman_ultimate
-lucky_ducky:
-  material: big_dripleaf
-  cost: 15
+    - pylonbase:beheading_sword
+
+runes:
+  item: fire_charge
+  cost: 30
   unlocks:
-    - pylonbase:luck_talisman_simple
-    - pylonbase:luck_talisman_advanced
-    - pylonbase:luck_talisman_ultimate
-advanced_breeding:
-  material: apple
-  cost: 15
+    - pylonbase:fireproof_rune
+    - pylonbase:soulbound_rune
+
+wither_reactivation:
+  item: pylonbase:reactivated_wither_skull
+  cost: 40
   unlocks:
-    - pylonbase:breeding_talisman_simple
-    - pylonbase:breeding_talisman_advanced
-    - pylonbase:breeding_talisman_ultimate
-portable_enchanting_books:
-  material: lapis_lazuli
-  cost: 15
-  unlocks:
-    - pylonbase:enchanting_talisman_simple
-    - pylonbase:enchanting_talisman_advanced
-    - pylonbase:enchanting_talisman_ultimate
-lucky_hunting_charms:
-  material: turtle_scute
-  cost: 15
-  unlocks:
-    - pylonbase:hunting_talisman_simple
-    - pylonbase:hunting_talisman_advanced
-    - pylonbase:hunting_talisman_ultimate
+    - pylonbase:reactivated_wither_skull
+    - pylonbase:hyper_activated_wither_skull
+

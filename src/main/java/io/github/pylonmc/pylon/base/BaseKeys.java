@@ -144,13 +144,13 @@ public class BaseKeys {
     public static final NamespacedKey HEALTH_TALISMAN_ADVANCED = baseKey("health_talisman_advanced");
     public static final NamespacedKey HEALTH_TALISMAN_ULTIMATE = baseKey("health_talisman_ultimate");
 
-    public static final NamespacedKey ITEM_MAGNET = baseKey("item_magnet");
+    public static final NamespacedKey SHIMMER_MAGNET = baseKey("shimmer_magnet");
 
     public static final NamespacedKey ENRICHED_SOUL_SOIL = baseKey("enriched_soul_soil");
 
     public static final NamespacedKey PEDESTAL = baseKey("pedestal");
-    public static final NamespacedKey MAGIC_PEDESTAL = baseKey("magic_pedestal");
-    public static final NamespacedKey MAGIC_ALTAR = baseKey("magic_altar");
+    public static final NamespacedKey SHIMMER_PEDESTAL = baseKey("shimmer_pedestal");
+    public static final NamespacedKey SHIMMER_ALTAR = baseKey("shimmer_altar");
 
     public static final NamespacedKey GRINDSTONE = baseKey("grindstone");
     public static final NamespacedKey GRINDSTONE_HANDLE = baseKey("grindstone_handle");
@@ -336,9 +336,9 @@ public class BaseKeys {
     public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");
     public static final NamespacedKey HUNGER_TALISMAN_ULTIMATE = baseKey("hunger_talisman_ultimate");
 
-    public static final NamespacedKey FARMER_TALISMAN_SIMPLE = baseKey("farmer_talisman_simple");
-    public static final NamespacedKey FARMER_TALISMAN_ADVANCED = baseKey("farmer_talisman_advanced");
-    public static final NamespacedKey FARMER_TALISMAN_ULTIMATE = baseKey("farmer_talisman_ultimate");
+    public static final NamespacedKey FARMING_TALISMAN_SIMPLE = baseKey("farming_talisman_simple");
+    public static final NamespacedKey FARMING_TALISMAN_ADVANCED = baseKey("farming_talisman_advanced");
+    public static final NamespacedKey FARMING_TALISMAN_ULTIMATE = baseKey("farming_talisman_ultimate");
 
     public static final NamespacedKey BARTERING_TALISMAN_SIMPLE = baseKey("bartering_talisman_simple");
     public static final NamespacedKey BARTERING_TALISMAN_ADVANCED = baseKey("bartering_talisman_advanced");

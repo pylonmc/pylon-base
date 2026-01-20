@@ -38,9 +38,9 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.STEEL_BLOCK, Material.NETHERITE_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.CHARCOAL_BLOCK, Material.COAL_BLOCK, PylonBlock.class);
         PylonBlock.register(BaseKeys.SPRINKLER, Material.FLOWER_POT, Sprinkler.class);
-        PylonBlock.register(BaseKeys.MAGIC_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
+        PylonBlock.register(BaseKeys.SHIMMER_PEDESTAL, Material.MOSSY_STONE_BRICK_WALL, Pedestal.class);
         PylonBlock.register(BaseKeys.PEDESTAL, Material.STONE_BRICK_WALL, Pedestal.class);
-        PylonBlock.register(BaseKeys.MAGIC_ALTAR, Material.SMOOTH_STONE_SLAB, MagicAltar.class);
+        PylonBlock.register(BaseKeys.SHIMMER_ALTAR, Material.SMOOTH_STONE_SLAB, ShimmerAltar.class);
         PylonBlock.register(BaseKeys.GRINDSTONE, Material.SMOOTH_STONE_SLAB, Grindstone.class);
         PylonBlock.register(BaseKeys.GRINDSTONE_HANDLE, Material.OAK_FENCE, GrindstoneHandle.class);
         PylonBlock.register(BaseKeys.ENRICHED_SOUL_SOIL, Material.SOUL_SOIL, EnrichedSoulSoil.class);

@@ -238,14 +238,14 @@ pylonbase:water_breathing_talisman_advanced:
   output:
     pylonbase:water_breathing_talisman_advanced: 1
 
-pylonbase:farmer_talisman_advanced:
+pylonbase:farming_talisman_advanced:
   input-items:
-    - pylonbase:farmer_talisman_simple: 1
+    - pylonbase:farming_talisman_simple: 1
     - pylonbase:shimmer_dust_2: 2
   input-fluid:
     pylonbase:plant_oil: 1000
   output:
-    pylonbase:farmer_talisman_advanced: 1
+    pylonbase:farming_talisman_advanced: 1
 
 pylonbase:breeding_talisman_ultimate:
   input-items:
@@ -324,13 +324,13 @@ pylonbase:water_breathing_talisman_ultimate:
     pylonbase:water_breathing_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:farmer_talisman_ultimate:
+pylonbase:farming_talisman_ultimate:
   input-items:
-    - pylonbase:farmer_talisman_advanced: 1
+    - pylonbase:farming_talisman_advanced: 1
     - pylonbase:shimmer_skull: 1
     - pylonbase:shimmer_dust_3: 4
   input-fluid:
     pylonbase:gold: 500
   output:
-    pylonbase:farmer_talisman_ultimate: 1
+    pylonbase:farming_talisman_ultimate: 1
   requires-enriched-fire: true

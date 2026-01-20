@@ -15,7 +15,7 @@ public class BaseRecipes {
         BloomeryDisplayRecipe.RECIPE_TYPE.register();
         GrindstoneRecipe.RECIPE_TYPE.register();
         HammerRecipe.RECIPE_TYPE.register();
-        MagicAltarRecipe.RECIPE_TYPE.register();
+        ShimmerAltarRecipe.RECIPE_TYPE.register();
         MeltingRecipe.RECIPE_TYPE.register();
         MixingPotRecipe.RECIPE_TYPE.register();
         CrucibleRecipe.RECIPE_TYPE.register();
