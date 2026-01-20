@@ -29,7 +29,8 @@ jobs:
           BRANCHNAME=$(echo "$prefixrm" | cut -d']' -f1)
           git clone https://github.com/pylonmc/pylon-core
           cd pylon-core
-          echo "CORECOMMIT=$(git rev-parse origin/$(echo "$BRANCHNAME"))" >> $GITHUB_ENV
+          git fetch --all
+          echo "CORECOMMIT=$(git rev-parse $(echo "$BRANCHNAME"))" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
 
@@ -45,7 +46,8 @@ jobs:
         run: |
           git clone https://github.com/pylonmc/pylon-core
           cd pylon-core
-          echo "CORECOMMIT=$(git rev-parse origin/master)" >> $GITHUB_ENV
+          git fetch --all
+          echo "CORECOMMIT=$(git rev-parse master)" >> $GITHUB_ENV
           cd ..
           rm -rf pylon-core
 
