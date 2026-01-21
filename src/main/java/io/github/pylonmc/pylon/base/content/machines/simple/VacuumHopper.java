@@ -93,7 +93,7 @@ public class VacuumHopper extends PylonBlock implements
     }
 
     {
-        var hopper = (org.bukkit.block.Hopper) getBlock().getState();
+        var hopper = (org.bukkit.block.Hopper) getBlock().getState(false);
         this.hopperInventory = ReferencingInventory.fromStorageContents(hopper.getInventory());
     }
 
