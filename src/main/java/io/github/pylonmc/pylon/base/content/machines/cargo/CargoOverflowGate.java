@@ -1,5 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
@@ -38,7 +39,7 @@ import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
-import xyz.xenondevs.invui.item.impl.SuppliedItem;
+import xyz.xenondevs.invui.item.impl.CycleItem;
 
 import java.util.List;
 import java.util.Map;
@@ -79,12 +80,6 @@ public class CargoOverflowGate extends PylonBlock
             .name(Component.translatable("pylon.pylonbase.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
             .name(Component.translatable("pylon.pylonbase.gui.right"));
-    public final ItemStackBuilder priorityStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio")
-            .lore(Component.translatable("pylon.pylonbase.gui.side-priority.lore"));
-    public final ItemStackBuilder leftButtonStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left_button")
-            .name(Component.translatable("pylon.pylonbase.gui.side-priority.left-button"));
-    public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
-            .name(Component.translatable("pylon.pylonbase.gui.side-priority.right-button"));
 
     public static class Item extends PylonItem {
 
@@ -106,15 +101,17 @@ public class CargoOverflowGate extends PylonBlock
     }
 
     public enum SidePriority {
+        NONE("none"),
         LEFT("left"),
-        RIGHT("right"),
-        NONE("none");
+        RIGHT("right");
 
         @Getter
-        private final @NotNull Component displayName;
+        private final @NotNull ItemStackBuilder priorityStack;
 
         SidePriority(String name) {
-            this.displayName = Component.translatable("pylon.pylonbase.gui." + name);
+            priorityStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, BaseItems.CARGO_OVERFLOW_GATE + ":priority:" + name)
+                    .name(Component.translatable("pylon.pylonbase.gui.side-priority.name", PylonArgument.of("priority", Component.translatable("pylon.pylonbase.gui." + name))))
+                    .lore(Component.translatable("pylon.pylonbase.gui.side-priority.lore"));
         }
 
         public static final PersistentDataType<?, SidePriority> PERSISTENT_DATA_TYPE = PylonSerializers.ENUM.enumTypeFrom(SidePriority.class);
@@ -228,7 +225,7 @@ public class CargoOverflowGate extends PylonBlock
                         "# l # # i # # r #",
                         "# L # # I # # R #",
                         "# # # # # # # # #",
-                        "# # # < p > # # #",
+                        "# # # # p # # # #",
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.background())
@@ -238,17 +235,10 @@ public class CargoOverflowGate extends PylonBlock
                 .addIngredient('i', inputInventory)
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
-                .addIngredient('p', new SuppliedItem(() -> priorityStack.clone()
-                        .name(Component.translatable("pylon.pylonbase.gui.side-priority.name").arguments(
-                                PylonArgument.of("priority", sidePriority.getDisplayName())
-                        )),
-                        click -> {
-                            sidePriority = SidePriority.NONE;
-                            return true;
-                        }
+                .addIngredient('p', CycleItem.withStateChangeHandler(
+                        (unused, state) -> sidePriority = SidePriority.values()[state],
+                        SidePriority.NONE.getPriorityStack(), SidePriority.LEFT.getPriorityStack(), SidePriority.RIGHT.getPriorityStack()
                 ))
-                .addIngredient('<', new PriorityButton(SidePriority.LEFT, leftButtonStack))
-                .addIngredient('>', new PriorityButton(SidePriority.RIGHT, rightButtonStack))
                 .build();
     }
 

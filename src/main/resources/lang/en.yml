@@ -1668,7 +1668,7 @@ item:
   cargo_overflow_gate:
     name: "<white>Cargo Overflow Gate"
     lore: |-
-      <arrow> Like the <lang:pylon.pylonbase.item.cargo_splitter.name/>, but without a ratio setting
+      <arrow> Splits items evenly between two outputs
       <arrow> If one side is full, all items go to the other side
       <arrow> Optionally allows prioritization of one side
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
@@ -2065,10 +2065,8 @@ gui:
   side-priority:
     name: "Priority: <light_purple>%priority%"
     lore: |-
-      <arrow> The <lang:pylon.pylonbase.item.cargo_overflow_gate.name/> will prefer this side when sending items
-      <arrow> <insn>Left click</insn> to reset priority to none
-    left-button: "Set priority to left"
-    right-button: "Set priority to right"
+      <arrow> The <lang:pylon.pylonbase.item.cargo_overflow_gate.name/> will always send items to this side unless it's full
+      <arrow> <insn>Left click</insn> to cycle priority
   threshold_button:
     name: "Threshold: <light_purple>%threshold%"
     lore: |-
