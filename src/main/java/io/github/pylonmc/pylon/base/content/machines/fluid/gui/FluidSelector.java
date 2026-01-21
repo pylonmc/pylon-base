@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.ItemProvider;
@@ -63,13 +64,13 @@ public final class FluidSelector {
         @Override
         public @NotNull ItemProvider getItemProvider() {
             PylonFluid fluid = getFluid.get();
-            return ItemStackBuilder.of(fluid == null ? Material.BARRIER : fluid.getMaterial())
+            return ItemStackBuilder.of(fluid == null ? new ItemStack(Material.BARRIER) : fluid.getItem())
                     .name(Component.translatable(
                             "pylon.pylonbase.message.fluid_selector.current_fluid",
                             PylonArgument.of(
                                     "fluid",
                                     Component.translatable((fluid == null
-                                            ? "pylon.pylonbase.message.fluid_none"
+                                            ? "pylon.pylonbase.fluid.none"
                                             : "pylon.pylonbase.fluid." + fluid.getKey().getKey()
                                     ))
                             ))
@@ -98,7 +99,7 @@ public final class FluidSelector {
                 return ItemStackBuilder.of(Material.BARRIER)
                         .name(Component.translatable("pylon.pylonbase.message.fluid_selector.clear"));
             }
-            return ItemStackBuilder.of(itemFluid.getMaterial())
+            return ItemStackBuilder.of(itemFluid.getItem())
                     .name(Component.translatable("pylon.pylonbase.fluid." + itemFluid.getKey().getKey()));
         }
 

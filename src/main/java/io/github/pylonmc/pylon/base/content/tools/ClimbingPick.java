@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
@@ -25,7 +26,7 @@ import java.util.List;
 import static java.lang.Math.pow;
 
 public class ClimbingPick extends PylonItem implements PylonInteractor {
-    private static final NamespacedKey HOOKED_KEY = new NamespacedKey(PylonBase.getInstance(), "climbing_pick_hooked");
+    private static final NamespacedKey HOOKED_KEY = BaseUtils.baseKey("climbing_pick_hooked");
     private final double jumpSpeed = getSettings().getOrThrow("jump-speed", ConfigAdapter.DOUBLE);
     private final double hookRange = getSettings().getOrThrow("hook-range", ConfigAdapter.DOUBLE);
     private final double hookRangeSquared = pow(hookRange, 2);
@@ -37,7 +38,8 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
         event.setCancelled(true);
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getPlayer().getPersistentDataContainer().has(HOOKED_KEY)) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getPlayer().getPersistentDataContainer().has(HOOKED_KEY))
+            return;
         double distSquared = event.getClickedBlock().getLocation().clone().subtract(event.getPlayer().getEyeLocation()).toVector().toVector3f().lengthSquared();
         if (distSquared < hookRangeSquared) {
             PlayerJumpListener listener = new PlayerJumpListener(event.getPlayer(), (float) jumpSpeed);

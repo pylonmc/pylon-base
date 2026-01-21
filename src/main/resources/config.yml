@@ -1,1 +1,4 @@
 rune-check-range: 1.75
+# This number multiplied by the inventory ticker base rate in the core config.yml equals the update rate for talismans
+# eg if this is 4 and the inventory ticker base rate is 10, then talismans update every 40 ticks
+default-talisman-tick-interval: 4

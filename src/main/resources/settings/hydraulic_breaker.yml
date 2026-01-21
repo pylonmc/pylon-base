@@ -1,0 +1,4 @@
+tick-interval: 10
+speed: 0.6
+hydraulic-fluid-per-block: 45
+buffer: 500

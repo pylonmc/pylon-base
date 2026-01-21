@@ -1,14 +1,19 @@
 package io.github.pylonmc.pylon.base.content.building;
 
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -25,22 +30,26 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
 
-public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, PylonInteractBlock {
+public class Pedestal extends PylonBlock implements
+        PylonEntityHolderBlock,
+        PylonInteractBlock,
+        PylonBreakHandler,
+        PylonLogisticBlock {
 
     private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
     private static final NamespacedKey LOCKED_KEY = baseKey("locked");
     private double rotation;
-    @Setter
+    @Getter @Setter
     private boolean locked;
 
     @SuppressWarnings("unused")
     public Pedestal(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
 
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(transformBuilder().buildForItemDisplay())
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
 
         rotation = 0;
         locked = false;
@@ -53,7 +62,12 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
         rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
         locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
     }
-    
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("inventory", LogisticGroupType.BOTH, new ItemDisplayLogisticSlot(getItemDisplay()));
+    }
+
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
@@ -96,12 +110,11 @@ public class Pedestal extends PylonBlock implements PylonEntityHolderBlock, Pylo
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonEntityHolderBlock.super.onBreak(drops, context);
         drops.add(getItemDisplay().getItemStack());
     }
 
     public ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
     }
 
     public TransformBuilder transformBuilder() {

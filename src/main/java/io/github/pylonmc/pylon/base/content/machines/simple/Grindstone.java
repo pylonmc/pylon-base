@@ -3,10 +3,13 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -14,15 +17,18 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import lombok.Getter;
+import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Slab;
 import org.bukkit.entity.ItemDisplay;
-import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -35,41 +41,54 @@ import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 
-public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, PylonInteractBlock {
-
-    private static final Random random = new Random();
+public class Grindstone extends PylonBlock implements
+        PylonSimpleMultiblock,
+        PylonInteractBlock,
+        PylonBreakHandler,
+        PylonLogisticBlock,
+        PylonRecipeProcessor<GrindstoneRecipe> {
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
-            .getOrThrow("cycle-duration-ticks", ConfigAdapter.INT);
-
-    @Getter private boolean recipeInProgress;
+            .getOrThrow("cycle-duration-ticks",ConfigAdapter.INT);
 
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .scale(0.3)
                         .translate(0, 0.15, 0)
                         .rotate(Math.PI / 2, 0, 0))
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
-        addEntity("block", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.SMOOTH_STONE_SLAB)
+        );
+        addEntity("block", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.SMOOTH_STONE_SLAB)
+                        .addCustomModelDataString(getKey() + ":block")
+                )
                 .transformation(new TransformBuilder()
                         .translate(0, 0.8, 0))
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
-        recipeInProgress = false;
+        );
+        setRecipeType(GrindstoneRecipe.RECIPE_TYPE);
     }
 
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        recipeInProgress = false;
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticGroupType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
+    }
+
+    @Override
+    protected void postLoad() {
+        if (isProcessingRecipe()) {
+            finishRecipe();
+        }
     }
 
     @Override
@@ -92,37 +111,38 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
             return;
         }
 
-        ItemDisplay itemDisplay = getItemDisplay().getEntity();
+        ItemDisplay itemDisplay = getItemDisplay();
         ItemStack oldStack = itemDisplay.getItemStack();
         ItemStack newStack = event.getItem();
 
         // drop old item
         if (!oldStack.getType().isAir()) {
-            getBlock().getWorld().dropItem(getBlock().getLocation().toCenterLocation().add(0, 0.25, 0), oldStack);
+            getBlock().getWorld().dropItem(
+                    getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
+                    oldStack
+            );
             itemDisplay.setItemStack(null);
             return;
         }
 
         // insert new item
         if (newStack != null) {
-            ItemStack stackToInsert = newStack.clone();
-            itemDisplay.setItemStack(stackToInsert);
+            itemDisplay.setItemStack(newStack.clone());
             newStack.setAmount(0);
         }
     }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonSimpleMultiblock.super.onBreak(drops, context);
-        drops.add(getItemDisplay().getEntity().getItemStack());
+        drops.add(getItemDisplay().getItemStack());
     }
 
     public @Nullable GrindstoneRecipe getNextRecipe() {
-        if (recipeInProgress) {
+        if (isProcessingRecipe()) {
             return null;
         }
 
-        ItemStack input = getItemDisplay().getEntity().getItemStack();
+        ItemStack input = getItemDisplay().getItemStack();
         if (input.getType().isAir()) {
             return null;
         }
@@ -134,62 +154,55 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 .orElse(null);
     }
 
-    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe, @Nullable Player player) {
-        if (!new PrePylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this, player).callEvent()) {
-            return false;
-        }
-
-        ItemStack input = getItemDisplay().getEntity().getItemStack();
+    public boolean tryStartRecipe(@NotNull GrindstoneRecipe nextRecipe) {
+        ItemDisplay itemDisplay = getItemDisplay();
+        ItemStack input = itemDisplay.getItemStack();
         if (input.getType().isAir()) {
             return false;
         }
 
-        getItemDisplay().getEntity().setItemStack(input.subtract(nextRecipe.input().getAmount()));
+        itemDisplay.setItemStack(input.subtract(nextRecipe.input().getAmount()));
 
-        recipeInProgress = true;
+        startRecipe(nextRecipe, nextRecipe.timeTicks());
 
+        // Queue up all the animation frames
+        // It's easier to do here instead of in the ticker so we don't have to keep track of the current
+        // cycle and tick within that cycle
         for (int i = 0; i < nextRecipe.cycles(); i++) {
             for (int j = 0; j < 4; j++) {
                 boolean isLast = i == nextRecipe.cycles() - 1 && j == 3;
                 double translation = isLast ? 0.8 : 0.5;
                 double rotation = (j / 4.0) * 2.0 * Math.PI;
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                    getStoneDisplay().setTransform(
-                            CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation)
-                    );
+                    BaseUtils.animate(getStoneDisplay(), CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation));
                     new ParticleBuilder(Particle.BLOCK)
                             .data(nextRecipe.particleBlockData())
                             .count(10)
                             .location(getBlock().getLocation().toCenterLocation())
                             .spawn();
+
+                    progressRecipe(CYCLE_DURATION_TICKS / 4);
                 }, (long) ((i + j/4.0) * CYCLE_DURATION_TICKS));
             }
         }
 
-        Bukkit.getScheduler().runTaskLater(
-                PylonBase.getInstance(),
-                () -> {
-                    getBlock().getWorld().dropItemNaturally(
-                            getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
-                            nextRecipe.results().getRandom()
-                    );
-
-                    new PylonCraftEvent<>(GrindstoneRecipe.RECIPE_TYPE, nextRecipe, this).callEvent();
-
-                    recipeInProgress = false;
-                },
-                nextRecipe.timeTicks()
-        );
-
         return true;
     }
 
-    public SimpleItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "item");
+    @Override
+    public void onRecipeFinished(@NotNull GrindstoneRecipe recipe) {
+        getBlock().getWorld().dropItemNaturally(
+                getBlock().getLocation().toCenterLocation().add(0, 0.25, 0),
+                recipe.results().getRandom()
+        );
     }
 
-    public SimpleItemDisplay getStoneDisplay() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "block");
+    public @NotNull ItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    }
+
+    public @NotNull ItemDisplay getStoneDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "block");
     }
 
     public static @NotNull Matrix4f getStoneDisplayMatrix(double translation, double rotation) {
@@ -197,5 +210,21 @@ public class Grindstone extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 .translate(0, translation, 0)
                 .rotate(0, rotation, 0)
                 .buildForItemDisplay();
+    }
+
+    public static final class PlaceListener implements Listener {
+        @EventHandler
+        private void onPlace(PrePylonBlockPlaceEvent e) {
+            if (!e.getBlockSchema().getKey().equals(BaseKeys.GRINDSTONE)) return;
+            Slab slab = (Slab) e.getBlock().getBlockData();
+            switch (slab.getType()) {
+                case TOP -> {
+                    slab.setType(Slab.Type.BOTTOM);
+                    e.getBlock().setBlockData(slab);
+                }
+                case BOTTOM -> { /* Allow */ }
+                case DOUBLE -> e.setCancelled(true);
+            }
+        }
     }
 }

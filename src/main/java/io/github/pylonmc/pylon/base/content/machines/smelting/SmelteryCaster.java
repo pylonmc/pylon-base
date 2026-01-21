@@ -2,13 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import kotlin.Pair;
@@ -24,11 +24,14 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
-public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock {
+import java.util.Map;
+
+public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock, PylonLogisticBlock {
 
     private @Nullable PylonFluid bottomFluid = null;
 
@@ -41,6 +44,11 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     @SuppressWarnings("unused")
     public SmelteryCaster(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, inventory);
     }
 
     private final VirtualInventory inventory = new VirtualInventory(1);
@@ -114,15 +122,14 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
             if (recipe == null || controller.getTemperature() < recipe.temperature() || controller.getFluidAmount(bottomFluid) < recipe.input().amountMillibuckets())
                 return;
 
-            if (!new PrePylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller, player).callEvent()) {
+            ItemStack result = recipe.result();
+            if (!inventory.canHold(result)) {
                 return;
             }
 
-            ItemStack result = recipe.result();
             inventory.addItem(null, result);
-            controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
 
-            new PylonCraftEvent<>(CastingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
+            controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
@@ -131,7 +138,12 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("output", inventory);
+    }
+
+    @Override
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null) {
             bottomFluid = null;

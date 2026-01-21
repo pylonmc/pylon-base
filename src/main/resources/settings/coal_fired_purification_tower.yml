@@ -1,7 +1,4 @@
-fluid-mb-per-second: 50
-fluid-buffer-mb: 80
+purification-speed: 50 # mb/s
+purification-efficiency: 0.93
+buffer: 200 # mb
 tick-interval: 20
-
-fuels:
-  coal: 15
-  charcoal: 10

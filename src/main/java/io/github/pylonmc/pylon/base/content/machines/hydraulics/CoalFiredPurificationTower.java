@@ -1,42 +1,42 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.ConfigSection;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,35 +44,71 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CoalFiredPurificationTower extends PylonBlock
-        implements PylonFluidBufferBlock, PylonSimpleMultiblock, PylonTickingBlock, PylonGuiBlock {
+public class CoalFiredPurificationTower extends PylonBlock implements
+        PylonFluidBufferBlock,
+        PylonSimpleMultiblock,
+        PylonDirectionalBlock,
+        PylonProcessor,
+        PylonGuiBlock,
+        PylonLogisticBlock,
+        PylonTickingBlock {
 
-    private static final Config settings = Settings.get(BaseKeys.COAL_FIRED_PURIFICATION_TOWER);
-    public static final double FLUID_MB_PER_SECOND = settings.getOrThrow("fluid-mb-per-second", ConfigAdapter.INT);
-    public static final double FLUID_BUFFER = settings.getOrThrow("fluid-buffer-mb", ConfigAdapter.INT);
-    public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final Map<ItemStack, Integer> FUELS = new HashMap<>();
+    public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
+    public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
+    public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
-    static {
-        ConfigSection config = settings.getSectionOrThrow("fuels");
-        for (String key : config.getKeys()) {
-            FUELS.put(
-                    ItemTypeWrapper.of(NamespacedKey.fromString(key)).createItemStack(),
-                    config.getOrThrow(key, ConfigAdapter.INT)
-            );
+    public static final NamespacedKey FUELS_KEY = baseKey("coal_fired_purification_tower_fuels");
+    public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
+
+    // TODO display fuels
+    public record Fuel(
+            @NotNull NamespacedKey key,
+            @NotNull ItemStack stack,
+            int burnTimeSeconds
+    ) implements Keyed {
+        @Override
+        public @NotNull NamespacedKey getKey() {
+            return key;
         }
     }
 
-    private static final NamespacedKey FUEL_KEY = baseKey("fuel");
-    private static final NamespacedKey FUEL_SECONDS_ELAPSED_KEY = baseKey("fuel_seconds_elapsed");
+    static {
+        PylonRegistry.addRegistry(FUELS);
+        FUELS.register(new Fuel(
+                baseKey("coal"),
+                new ItemStack(Material.COAL),
+                15
+        ));
+        FUELS.register(new Fuel(
+                baseKey("coal_block"),
+                new ItemStack(Material.COAL_BLOCK),
+                135
+        ));
+        FUELS.register(new Fuel(
+                baseKey("charcoal"),
+                new ItemStack(Material.CHARCOAL),
+                10
+        ));
+        FUELS.register(new Fuel(
+                baseKey("charcoal_block"),
+                BaseItems.CHARCOAL_BLOCK,
+                90
+        ));
+    }
 
-    private @Nullable ItemStack fuel;
-    private double fuelSecondsElapsed;
+    private final ItemStackBuilder idleProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
+            .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.idle"));
+    private final ItemStackBuilder runningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
+            .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.running"));
 
     private final VirtualInventory inventory = new VirtualInventory(1);
-    private final FuelProgressItem progressItem = new FuelProgressItem();
 
     public static class Item extends PylonItem {
+
+        public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
+        public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
+        public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -80,56 +116,34 @@ public class CoalFiredPurificationTower extends PylonBlock
 
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
-                    "fluid_mb_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(FLUID_MB_PER_SECOND)
-            ));
-        }
-    }
-
-    private class FuelProgressItem extends ProgressItem {
-        public FuelProgressItem() {
-            super(Material.BLAZE_POWDER, true);
-        }
-
-        @Override
-        protected void completeItem(@NotNull ItemStackBuilder builder) {
-            builder.name(Component.translatable(
-                    "pylon.pylonbase.item.coal_fired_purification_tower.progress_item." + (isRunning() ? "running" : "idle"))
+            return List.of(
+                    PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
+                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100)),
+                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
-        }
-
-        @Override
-        public @Nullable Duration getTotalTime() {
-            return fuel == null
-                    ? null
-                    : Duration.ofSeconds(FUELS.get(fuel));
         }
     }
 
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
-        fuel = null;
-        fuelSecondsElapsed = 0.0;
-        setTickInterval(TICK_INTERVAL);
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, FLUID_BUFFER, true, false);
-        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, FLUID_BUFFER, false, true);
+        setTickInterval(tickInterval);
+        setFacing(context.getFacing());
+        setProcessProgressItem(new ProgressItem(GuiItems.background()));
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        createFluidBuffer(BaseFluids.DIRTY_HYDRAULIC_FLUID, buffer, true, false);
+        createFluidBuffer(BaseFluids.HYDRAULIC_FLUID, buffer, false, true);
     }
 
     @SuppressWarnings("unused")
     public CoalFiredPurificationTower(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        fuel = pdc.get(FUEL_KEY, PylonSerializers.ITEM_STACK);
-        fuelSecondsElapsed = pdc.get(FUEL_SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE);
     }
 
     @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        super.write(pdc);
-        PylonUtils.setNullable(pdc, FUEL_KEY, PylonSerializers.ITEM_STACK, fuel);
-        pdc.set(FUEL_SECONDS_ELAPSED_KEY, PylonSerializers.DOUBLE, fuelSecondsElapsed);
+    public void postInitialise() {
+        createLogisticGroup("fuel",  LogisticGroupType.INPUT, inventory);
     }
 
     @Override
@@ -141,10 +155,15 @@ public class CoalFiredPurificationTower extends PylonBlock
                         "# # # # x # # # #",
                         "# # # # # # # # #"
                 )
-                .addIngredient('f', progressItem)
+                .addIngredient('f', getProcessProgressItem())
                 .addIngredient('x', inventory)
                 .addIngredient('#', GuiItems.background())
                 .build();
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 
     @Override
@@ -161,21 +180,24 @@ public class CoalFiredPurificationTower extends PylonBlock
         return components;
     }
 
-    public void tick(double deltaSeconds) {
+    @Override
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             return;
         }
 
-        if (fuel == null) {
+        progressProcess(tickInterval);
+
+        if (!isProcessing()) {
             ItemStack item = inventory.getUnsafeItem(0);
-            for (Map.Entry<ItemStack, Integer> fuel : FUELS.entrySet()) {
-                if (item == null || !PylonUtils.isPylonSimilar(item, fuel.getKey())) {
+            for (Fuel fuel : FUELS) {
+                if (item == null || !item.isSimilar(fuel.stack)) {
                     continue;
                 }
 
                 inventory.setItemAmount(null, 0, item.getAmount() - 1);
-                this.fuel = fuel.getKey();
-                fuelSecondsElapsed = 0.0;
+                getProcessProgressItem().setItemStackBuilder(runningProgressItem);
+                startProcess(fuel.burnTimeSeconds * 20);
                 break;
             }
         }
@@ -185,24 +207,54 @@ public class CoalFiredPurificationTower extends PylonBlock
         }
 
         double toPurify = Math.min(
-                deltaSeconds * FLUID_MB_PER_SECOND,
-                Math.min(fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID), fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID))
+                // maximum amount of dirty hydraulic fluid that can be purified this tick
+                purificationSpeed * getTickInterval() / 20.0,
+                Math.min(
+                        // amount of dirty hydraulic fluid available
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        // how much dirty hydraulic fluid can be converted without overflowing the hydraulic fluid buffer
+                        fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) / purificationEfficiency
+                )
         );
-        removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
-        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify);
 
-        fuelSecondsElapsed += deltaSeconds;
-        progressItem.setProgress(fuelSecondsElapsed / FUELS.get(fuel));
-        if (fuelSecondsElapsed >= FUELS.get(fuel)) {
-            fuel = null;
-            progressItem.notifyWindows();
-        }
+        removeFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, toPurify);
+        addFluid(BaseFluids.HYDRAULIC_FLUID, toPurify * purificationEfficiency);
+    }
+
+    @Override
+    public void onProcessFinished() {
+        getProcessProgressItem().setItemStackBuilder(idleProgressItem);
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#48459b")
+                )),
+                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.HYDRAULIC_FLUID),
+                        fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
+                        20,
+                        TextColor.fromHexString("#212d99")
+                ))
+        ));
     }
 
     public boolean isRunning() {
-        return fuel != null
+        return isProcessing()
+                // input buffer not empty
                 && fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID) > 1.0e-3
-                // enough space in output buffer for another tick worth of purification
-                && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) >= FLUID_MB_PER_SECOND * TICK_INTERVAL / 20.0;
+                // output buffer not full
+                && fluidSpaceRemaining(BaseFluids.HYDRAULIC_FLUID) > 1.0e-3;
+    }
+
+    @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonFluidBufferBlock.super.onBreak(drops, context);
+        PylonGuiBlock.super.onBreak(drops, context);
     }
 }

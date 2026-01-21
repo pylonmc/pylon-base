@@ -1,11 +1,15 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.command.PylonBaseCommand;
-import io.github.pylonmc.pylon.base.content.magic.base.Rune;
-import io.github.pylonmc.pylon.base.content.tools.HealthTalisman;
-import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.building.IgneousCompositeListener;
+import io.github.pylonmc.pylon.base.content.building.Immobilizer;
 import io.github.pylonmc.pylon.base.content.machines.fluid.Sprinkler;
+import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
+import io.github.pylonmc.pylon.base.content.machines.smelting.Bloomery;
+import io.github.pylonmc.pylon.base.content.talismans.*;
+import io.github.pylonmc.pylon.base.content.tools.ItemMagnet;
+import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
+import io.github.pylonmc.pylon.base.content.tools.base.Rune;
 import io.github.pylonmc.pylon.core.addon.PylonAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
@@ -14,14 +18,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 import java.util.Set;
-import java.util.function.Consumer;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PylonBase extends JavaPlugin implements PylonAddon {
 
     private static final int BSTATS_ID = 27323;
@@ -46,9 +47,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         BaseItems.initialize();
         BaseBlocks.initialize();
-        BaseEntities.initialize();
         BaseFluids.initialize();
-        BaseResearches.initialize();
         BaseRecipes.initialize();
 
         PluginManager pm = Bukkit.getPluginManager();
@@ -57,7 +56,18 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
         pm.registerEvents(new IgneousCompositeListener(), this);
         pm.registerEvents(new Immobilizer.FreezeListener(), this);
         pm.registerEvents(new Rune.RuneListener(), this);
-        new HealthTalisman.HealthTalismanTicker().runTaskTimer(this, 0, 40);
+        pm.registerEvents(new SoulboundRune.SoulboundRuneListener(), this);
+        pm.registerEvents(new Bloomery.CreationListener(), this);
+        pm.registerEvents(new Grindstone.PlaceListener(), this);
+
+        new ItemMagnet.Ticker().runTaskTimer(this, 0, 10);
+
+        pm.registerEvents(new HungerTalisman.JoinListener(), this);
+        pm.registerEvents(new FarmerTalisman.FarmerTalismanListener(), this);
+        pm.registerEvents(new BarteringTalisman.BarteringTalismanListener(), this);
+        pm.registerEvents(new BreedingTalisman.BreedingTalismanListener(), this);
+        pm.registerEvents(new EnchantingTalisman.EnchantingListener(), this);
+        pm.registerEvents(new HuntingTalisman.HuntingTalismanListener(), this);
     }
 
     @Override
@@ -73,10 +83,5 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
     @Override
     public @NotNull Material getMaterial() {
         return Material.COPPER_INGOT;
-    }
-
-    // TODO remove and replace caller with runTaskLater for consistency
-    public static void runSyncTimer(@NotNull Consumer<BukkitTask> task, long delay, long period) {
-        Bukkit.getScheduler().runTaskTimer(instance, task, delay, period);
     }
 }

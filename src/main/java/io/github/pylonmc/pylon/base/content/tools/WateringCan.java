@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
 import io.github.pylonmc.pylon.core.item.base.PylonBucket;
+import io.github.pylonmc.pylon.core.item.base.PylonDispensable;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -12,6 +13,7 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class WateringCan extends PylonItem implements PylonBlockInteractor, PylonBucket {
+public class WateringCan extends PylonItem implements PylonBlockInteractor, PylonBucket, PylonDispensable {
 
     public final WateringSettings settings = WateringSettings.fromConfig(getSettings());
 
@@ -188,6 +190,11 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor, Pylo
     }
 
     private static void playSound(Block block, WateringSettings settings) {
-        block.getLocation().getWorld().playSound(block.getLocation(), settings.sound(), 0.3F, 1.0F);
+        block.getWorld().playSound(settings.sound().create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
+    }
+
+    @Override
+    public void onDispense(@NotNull BlockDispenseEvent event) {
+        event.setCancelled(true);
     }
 }

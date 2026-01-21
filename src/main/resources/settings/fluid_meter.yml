@@ -1,1 +1,3 @@
-tick-interval: 10
+buffer: 1000
+min-number-of-measurements: 1
+max-number-of-measurements: 120

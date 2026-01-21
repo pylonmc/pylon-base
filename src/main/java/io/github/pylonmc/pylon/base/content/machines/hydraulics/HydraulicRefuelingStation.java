@@ -1,22 +1,27 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
+import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -35,30 +40,36 @@ import java.util.List;
 import java.util.Map;
 
 
-public class HydraulicRefuelingStation extends PylonBlock
-        implements PylonFluidBlock, PylonEntityHolderBlock, PylonInteractBlock {
+public class HydraulicRefuelingStation extends PylonBlock implements
+        PylonFluidBlock,
+        PylonDirectionalBlock,
+        PylonLogisticBlock,
+        PylonInteractBlock {
 
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
 
-        addEntity("input", FluidPointInteraction.make(context, FluidPointType.INPUT, BlockFace.NORTH));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.SOUTH));
-        addEntity("casing", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.ORANGE_STAINED_GLASS)
+        setFacing(context.getFacing());
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false);
+        addEntity("casing", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.ORANGE_STAINED_GLASS)
+                        .addCustomModelDataString(getKey() + ":casing")
+                )
                 .transformation(new TransformBuilder()
                         .translate(0, 0.1, 0)
                         .scale(0.7)
                 )
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
-        addEntity("item", new SimpleItemDisplay(new ItemDisplayBuilder()
+        );
+        addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
                         .translate(0, 0.25, 0)
                         .scale(0.4)
                 )
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
+        );
     }
 
     @SuppressWarnings("unused")
@@ -67,12 +78,21 @@ public class HydraulicRefuelingStation extends PylonBlock
     }
 
     @Override
+    public void postInitialise() {
+        createLogisticGroup(
+                "tool",
+                LogisticGroupType.BOTH,
+                new RefuelingStationLogisticSlot(getHeldEntityOrThrow(ItemDisplay.class, "item"))
+        );
+    }
+
+    @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (event.getHand() != EquipmentSlot.HAND || !event.getAction().isRightClick()) {
             return;
         }
 
-        ItemDisplay itemDisplay = getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity();
+        ItemDisplay itemDisplay = getHeldEntityOrThrow(ItemDisplay.class, "item");
         ItemStack toInsert = event.getPlayer().getInventory().getItem(EquipmentSlot.HAND);
 
         if (!itemDisplay.getItemStack().isEmpty()) {
@@ -90,9 +110,7 @@ public class HydraulicRefuelingStation extends PylonBlock
     }
 
     public @Nullable HydraulicRefuelable getHeldRefuelableItem() {
-        ItemStack stack = getHeldEntityOrThrow(SimpleItemDisplay.class, "item")
-                .getEntity()
-                .getItemStack();
+        ItemStack stack = getHeldEntityOrThrow(ItemDisplay.class, "item").getItemStack();
         if (PylonItem.fromStack(stack) instanceof HydraulicRefuelable refuelable) {
             return refuelable;
         }
@@ -100,10 +118,10 @@ public class HydraulicRefuelingStation extends PylonBlock
     }
 
     @Override
-    public @Nullable WailaConfig getWaila(@NotNull Player player) {
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
-            return new WailaConfig(
+            return new WailaDisplay(
                     getDefaultWailaTranslationKey().arguments(PylonArgument.of("extra", "")
                     ));
         }
@@ -119,7 +137,7 @@ public class HydraulicRefuelingStation extends PylonBlock
                 20,
                 TextColor.fromHexString("#48459b")
         );
-        return new WailaConfig(
+        return new WailaDisplay(
                 getDefaultWailaTranslationKey().arguments(
                         PylonArgument.of(
                                 "extra",
@@ -133,7 +151,7 @@ public class HydraulicRefuelingStation extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids(double deltaSeconds) {
+    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
         HydraulicRefuelable refuelable = getHeldRefuelableItem();
         if (refuelable == null) {
             return Map.of();
@@ -142,7 +160,7 @@ public class HydraulicRefuelingStation extends PylonBlock
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         if (!fluid.equals(BaseFluids.HYDRAULIC_FLUID)) {
             return 0.0;
         }
@@ -160,7 +178,7 @@ public class HydraulicRefuelingStation extends PylonBlock
 
         // Itemdisplay's item has to be set again after it's been edited for some unknown reason
         ItemStack stack = ((PylonItem) refuelable).getStack();
-        getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity().setItemStack(stack);
+        getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
     }
 
     @Override
@@ -170,14 +188,29 @@ public class HydraulicRefuelingStation extends PylonBlock
 
         // Itemdisplay's item has to be set again after it's been edited for some unknown reason
         ItemStack stack = ((PylonItem) refuelable).getStack();
-        getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity().setItemStack(stack);
+        getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(stack);
     }
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        ItemStack stack = getHeldEntityOrThrow(SimpleItemDisplay.class, "item").getEntity().getItemStack();
+        ItemStack stack = getHeldEntityOrThrow(ItemDisplay.class, "item").getItemStack();
         if (!stack.isEmpty()) {
             drops.add(stack);
+        }
+    }
+
+    private static class RefuelingStationLogisticSlot extends ItemDisplayLogisticSlot {
+
+        public RefuelingStationLogisticSlot(@NotNull ItemDisplay display) {
+            super(display);
+        }
+
+
+        @Override
+        public long getMaxAmount(@NotNull ItemStack stack) {
+            return PylonItem.fromStack(stack) instanceof HydraulicRefuelable
+                    ? super.getMaxAmount(stack)
+                    : 0;
         }
     }
 }

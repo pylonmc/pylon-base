@@ -3,32 +3,30 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.base.entities.SimpleItemDisplay;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.content.fluid.FluidPointInteraction;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import lombok.Getter;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import io.papermc.paper.event.entity.EntityCompostItemEvent;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -41,8 +39,12 @@ import org.joml.Matrix4f;
 import java.util.List;
 
 
-public class Press extends PylonBlock
-        implements PylonInteractBlock, PylonFluidBufferBlock, PylonEntityHolderBlock {
+public class Press extends PylonBlock implements
+        PylonInteractBlock,
+        PylonFluidBufferBlock,
+        PylonComposter,
+        PylonDirectionalBlock,
+        PylonRecipeProcessor<PressRecipe> {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
@@ -57,40 +59,49 @@ public class Press extends PylonBlock
 
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
-                    "time_per_item", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0)
-            ));
+            return List.of(
+                    PylonArgument.of("time-per-item", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0)),
+                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB))
+            );
         }
     }
-
-    // Not worth the effort to persist across unloads
-    @Getter private @Nullable PressRecipe currentRecipe;
 
     @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-
-        addEntity("press_cover", new SimpleItemDisplay(new ItemDisplayBuilder()
-                .material(Material.SPRUCE_PLANKS)
+        setFacing(context.getFacing());
+        addEntity("press_cover", new ItemDisplayBuilder()
+                .itemStack(ItemStackBuilder.of(Material.SPRUCE_PLANKS)
+                        .addCustomModelDataString(getKey() + ":press_cover"))
                 .transformation(getCoverTransform(0.4))
                 .build(getBlock().getLocation().toCenterLocation())
-        ));
-        addEntity("output", FluidPointInteraction.make(context, FluidPointType.OUTPUT, BlockFace.NORTH));
-
+        );
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         createFluidBuffer(BaseFluids.PLANT_OIL, CAPACITY_MB, false, true);
+        setRecipeType(PressRecipe.RECIPE_TYPE);
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public Press(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
     }
 
     @Override
-    public @NotNull WailaConfig getWaila(@NotNull Player player) {
-        return new WailaConfig(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("plant_oil_amount", UnitFormat.MILLIBUCKETS.format(Math.round(fluidAmount(BaseFluids.PLANT_OIL)))),
-                PylonArgument.of("plant_oil_capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB)),
-                PylonArgument.of("plant_oil", BaseFluids.PLANT_OIL.getName())
+    public void postLoad() {
+        if (isProcessingRecipe()) {
+            finishRecipe();
+        }
+    }
+
+    @Override
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                        fluidAmount(BaseFluids.PLANT_OIL),
+                        fluidCapacity(BaseFluids.PLANT_OIL),
+                        20,
+                        TextColor.fromHexString("#c4b352")
+                ))
         ));
     }
 
@@ -102,15 +113,16 @@ public class Press extends PylonBlock
 
         event.setCancelled(true);
 
-        if (currentRecipe != null) {
-            return;
-        }
-
-        tryStartRecipe(event.getPlayer());
+        tryStartRecipe();
     }
 
-    public boolean tryStartRecipe(@Nullable Player player) {
-        if (currentRecipe != null) {
+    @Override
+    public void onCompostByEntity(EntityCompostItemEvent event) {
+        event.setCancelled(true);
+    }
+
+    public boolean tryStartRecipe() {
+        if (isProcessingRecipe()) {
             return false;
         }
 
@@ -129,41 +141,36 @@ public class Press extends PylonBlock
 
         for (PressRecipe recipe : PressRecipe.RECIPE_TYPE.getRecipes()) {
             for (ItemStack stack : stacks) {
-                if (recipe.input().contains(stack)) {
-                    double availableSpace = CAPACITY_MB - fluidAmount(BaseFluids.PLANT_OIL);
-                    if (recipe.oilAmount() > availableSpace
-                            || !new PrePylonCraftEvent<>(PressRecipe.RECIPE_TYPE, recipe, this, player).callEvent()
-                    ) {
-                        continue;
-                    }
-
-                    stack.subtract();
-                    startRecipe(recipe);
-                    return true;
+                if (!recipe.input().contains(stack)
+                        || recipe.oilAmount() > fluidSpaceRemaining(BaseFluids.PLANT_OIL)) {
+                    continue;
                 }
+
+                stack.subtract();
+                startRecipe(recipe, TIME_PER_ITEM_TICKS);
+                BaseUtils.animate(getCover(), TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
+                Bukkit.getScheduler().runTaskLater(
+                        PylonBase.getInstance(),
+                        () -> {
+                            BaseUtils.animate(getCover(), RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
+                            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), this::finishRecipe, RETURN_TO_START_TIME_TICKS);
+                        },
+                        TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS
+                );
+                return true;
             }
         }
 
         return false;
     }
 
-    public void startRecipe(PressRecipe recipe) {
-        this.currentRecipe = recipe;
-        getCover().setTransform(TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS, getCoverTransform(0.0));
-
-        Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            getCover().setTransform(RETURN_TO_START_TIME_TICKS, getCoverTransform(0.4));
-
-            Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-                addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount());
-                new PylonCraftEvent<>(PressRecipe.RECIPE_TYPE, recipe, this).callEvent();
-                this.currentRecipe = null;
-            }, RETURN_TO_START_TIME_TICKS);
-        }, TIME_PER_ITEM_TICKS - RETURN_TO_START_TIME_TICKS);
+    @Override
+    public void onRecipeFinished(@NotNull PressRecipe recipe) {
+        addFluid(BaseFluids.PLANT_OIL, recipe.oilAmount());
     }
 
-    public @NotNull SimpleItemDisplay getCover() {
-        return getHeldEntityOrThrow(SimpleItemDisplay.class, "press_cover");
+    public @Nullable ItemDisplay getCover() {
+        return getHeldEntity(ItemDisplay.class, "press_cover");
     }
 
     public static @NotNull Matrix4f getCoverTransform(double translation) {
@@ -172,6 +179,4 @@ public class Press extends PylonBlock
                 .scale(0.9, 0.1, 0.9)
                 .buildForItemDisplay();
     }
-
-
 }

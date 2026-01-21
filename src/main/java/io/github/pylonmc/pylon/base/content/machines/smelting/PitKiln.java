@@ -3,13 +3,9 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.block.waila.Waila;
-import io.github.pylonmc.pylon.core.block.waila.WailaConfig;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -19,12 +15,15 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
+import io.github.pylonmc.pylon.core.waila.Waila;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -39,7 +38,7 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class PitKiln extends PylonBlock implements
-        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock {
+        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler, PylonVanillaContainerBlock {
 
     public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
@@ -63,7 +62,7 @@ public final class PitKiln extends PylonBlock implements
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
                     PylonArgument.of("capacity", CAPACITY),
-                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS))),
+                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS), false)),
                     PylonArgument.of("campfire", MULTIPLIER_CAMPFIRE),
                     PylonArgument.of("soul_campfire", MULTIPLIER_SOUL_CAMPFIRE),
                     PylonArgument.of("fire", MULTIPLIER_FIRE),
@@ -113,8 +112,7 @@ public final class PitKiln extends PylonBlock implements
     }
 
     @Override
-    public void postBreak() {
-        PylonSimpleMultiblock.super.postBreak();
+    public void postBreak(@NotNull BlockBreakContext context) {
         removeWailas();
     }
 
@@ -129,24 +127,41 @@ public final class PitKiln extends PylonBlock implements
         //noinspection DataFlowIssue
         player.swingHand(event.getHand());
 
-        int currentAmount = 0;
-        for (ItemStack contentItem : contents) {
-            currentAmount += contentItem.getAmount();
-        }
-        if (currentAmount >= CAPACITY) return;
+        addItem(item, true);
+    }
 
-        item.subtract();
+    public int countItems() {
+        int amount = 0;
+        for (ItemStack item : contents) {
+            amount += item.getAmount();
+        }
+        return amount;
+    }
+
+    /**
+     * Will add 1 of the type specified in the itemstack
+     *
+     * @param item specified itemstack type
+     * @param directRemoval if item stack passed will be decreased
+     */
+    public void addItem(ItemStack item, boolean directRemoval) {
+        if (countItems() >= CAPACITY) return;
+
         for (ItemStack contentItem : contents) {
             if (contentItem.isSimilar(item)) {
                 contentItem.add();
+                if (directRemoval) item.subtract();
                 return;
             }
         }
+
         contents.add(item.asOne());
+
+        if (directRemoval) item.subtract();
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         if (!isFormedAndFullyLoaded()) {
             if (processingTime != null) {
                 processingTime = null;
@@ -159,20 +174,23 @@ public final class PitKiln extends PylonBlock implements
         }
 
         if (processingTime == null) return;
-        processingTime -= deltaSeconds;
+        processingTime -= getTickInterval() / 20.0;
         if (processingTime > 0) return;
 
         processingTime = null;
-        double multiplier = 0;
+        double calcMultiplier = 0;
         for (Vector3i top : TOP_POSITIONS) {
             Block topBlock = getBlock().getRelative(top.x(), top.y(), top.z());
-            multiplier = switch (topBlock.getType()) {
+            calcMultiplier += switch (topBlock.getType()) {
                 case PODZOL -> MULTIPLIER_PODZOL;
                 case COARSE_DIRT -> MULTIPLIER_DIRT;
                 default -> throw new AssertionError();
             };
             topBlock.setType(Material.COARSE_DIRT);
         }
+
+        double multiplier = calcMultiplier / TOP_POSITIONS.size();
+
         outputLoop:
         for (ItemStack outputItem : processing) {
             int addAmount = (int) Math.floor(outputItem.getAmount() * multiplier);
@@ -191,30 +209,35 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
-    private WailaConfig getComponentWaila(@NotNull Player player) {
-        if (processingTime != null) {
-            return new WailaConfig(Component.translatable(
-                    "pylon.pylonbase.waila.pit_kiln",
-                    PylonArgument.of(
-                            "time",
-                            UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()))
-                    )
-            ));
-        }
-        return new WailaConfig(Component.translatable("pylon.pylonbase.item.pit_kiln.name"));
+    private WailaDisplay getComponentWaila(@NotNull Player player) {
+        Component status = processingTime != null
+                ? Component.translatable(
+                        "pylon.pylonbase.waila.pit_kiln.smelting",
+                        PylonArgument.of(
+                                "time",
+                                UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()), false)
+                        )
+                )
+                : Component.translatable("pylon.pylonbase.waila.pit_kiln.invalid_recipe");
+        return new WailaDisplay(Component.translatable(
+                "pylon.pylonbase.item.pit_kiln.waila",
+                PylonArgument.of("info", status)
+        ));
     }
 
     @Override
-    public boolean checkFormed() {
-        if (!PylonSimpleMultiblock.super.checkFormed()) {
-            removeWailas();
-            return false;
-        }
+    public void onMultiblockFormed() {
+        PylonSimpleMultiblock.super.onMultiblockFormed();
         for (Vector3i relative : getComponents().keySet()) {
             BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
             Waila.addWailaOverride(block, this::getComponentWaila);
         }
-        return true;
+    }
+
+    @Override
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
+        removeWailas();
     }
 
     private void removeWailas() {
@@ -273,6 +296,18 @@ public final class PitKiln extends PylonBlock implements
         }
     }
 
+    @Override
+    public void onItemMoveTo(@NotNull InventoryMoveItemEvent event) {
+        if (countItems() >= CAPACITY) {
+            event.setCancelled(true);
+            return;
+        }
+
+        ItemStack stack = event.getItem().clone();
+        event.setItem(ItemStack.empty());
+        this.addItem(stack, false);
+    }
+
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
     private static final List<Vector3i> COAL_POSITIONS = List.of(
             new Vector3i(-1, 0, -1),
@@ -303,7 +338,11 @@ public final class PitKiln extends PylonBlock implements
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
         for (Vector3i coalPosition : COAL_POSITIONS) {
-            components.put(coalPosition, new VanillaMultiblockComponent(Material.COAL_BLOCK));
+            components.put(coalPosition, new MixedMultiblockComponent(
+                    new VanillaMultiblockComponent(Material.COAL_BLOCK),
+                    new PylonMultiblockComponent(BaseKeys.CHARCOAL_BLOCK)
+                )
+            );
         }
         for (Vector3i podzolPosition : TOP_POSITIONS) {
             components.put(podzolPosition, new VanillaMultiblockComponent(Material.COARSE_DIRT, Material.PODZOL));
@@ -330,8 +369,11 @@ public final class PitKiln extends PylonBlock implements
         components.put(new Vector3i(0, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
         components.put(new Vector3i(1, -1, 1), new VanillaMultiblockComponent(Material.COARSE_DIRT));
 
-        components.put(FIRE_POSITION, new VanillaMultiblockComponent(
-                Material.CAMPFIRE, Material.SOUL_CAMPFIRE, Material.FIRE, Material.SOUL_FIRE
+        components.put(FIRE_POSITION, new VanillaBlockdataMultiblockComponent(
+                Material.CAMPFIRE.createBlockData("[lit=true]"),
+                Material.SOUL_CAMPFIRE.createBlockData("[lit=true]"),
+                Material.FIRE.createBlockData(),
+                Material.SOUL_FIRE.createBlockData()
         ));
         return components;
     }

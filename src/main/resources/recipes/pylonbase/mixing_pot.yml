@@ -16,6 +16,22 @@ pylonbase:slurry:
   output:
     pylonbase:slurry: 1000
 
+pylonbase:slurry_sponge_iron_from_iron:
+  input-items:
+    - pylonbase:carbon
+  input-fluid:
+    pylonbase:slurry_raw_iron: 1000
+  output:
+    pylonbase:slurry_sponge_iron: 1000
+
+pylonbase:slurry_sponge_iron_from_carbon:
+  input-items:
+    - pylonbase:crushed_raw_iron
+  input-fluid:
+    pylonbase:slurry_carbon: 1000
+  output:
+    pylonbase:slurry_sponge_iron: 1000
+
 pylonbase:hydraulic_fluid:
   input-items:
     - pylonbase:shimmer_dust_1
@@ -158,3 +174,163 @@ pylonbase:solar_lens:
     pylonbase:reflector_fluid: 250
   output:
     pylonbase:solar_lens: 1
+
+pylonbase:breeding_talisman_advanced:
+  input-items:
+    - pylonbase:breeding_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:breeding_talisman_advanced: 1
+
+pylonbase:hunger_talisman_advanced:
+  input-items:
+    - pylonbase:hunger_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:hunger_talisman_advanced: 1
+
+pylonbase:luck_talisman_advanced:
+  input-items:
+    - pylonbase:luck_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:luck_talisman_advanced: 1
+
+pylonbase:hunting_talisman_advanced:
+  input-items:
+    - pylonbase:hunting_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:hunting_talisman_advanced: 1
+
+pylonbase:enchanting_talisman_advanced:
+  input-items:
+    - pylonbase:enchanting_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:enchanting_talisman_advanced: 1
+
+pylonbase:bartering_talisman_advanced:
+  input-items:
+    - pylonbase:bartering_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:bartering_talisman_advanced: 1
+
+pylonbase:water_breathing_talisman_advanced:
+  input-items:
+    - pylonbase:water_breathing_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:water_breathing_talisman_advanced: 1
+
+pylonbase:farmer_talisman_advanced:
+  input-items:
+    - pylonbase:farmer_talisman_simple: 1
+    - pylonbase:shimmer_dust_2: 2
+  input-fluid:
+    pylonbase:plant_oil: 1000
+  output:
+    pylonbase:farmer_talisman_advanced: 1
+
+pylonbase:breeding_talisman_ultimate:
+  input-items:
+    - pylonbase:breeding_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:breeding_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:hunger_talisman_ultimate:
+  input-items:
+    - pylonbase:hunger_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:hunger_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:luck_talisman_ultimate:
+  input-items:
+    - pylonbase:luck_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:luck_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:hunting_talisman_ultimate:
+  input-items:
+    - pylonbase:hunting_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:hunting_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:enchanting_talisman_ultimate:
+  input-items:
+    - pylonbase:enchanting_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:enchanting_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:bartering_talisman_ultimate:
+  input-items:
+    - pylonbase:bartering_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:bartering_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:water_breathing_talisman_ultimate:
+  input-items:
+    - pylonbase:water_breathing_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:water_breathing_talisman_ultimate: 1
+  requires-enriched-fire: true
+
+pylonbase:farmer_talisman_ultimate:
+  input-items:
+    - pylonbase:farmer_talisman_advanced: 1
+    - pylonbase:shimmer_skull: 1
+    - pylonbase:shimmer_dust_3: 4
+  input-fluid:
+    pylonbase:gold: 500
+  output:
+    pylonbase:farmer_talisman_ultimate: 1
+  requires-enriched-fire: true
