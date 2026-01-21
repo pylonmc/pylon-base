@@ -2100,7 +2100,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack CREATIVE_ITEM_SOURCE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_SOURCE)
-            .set(DataComponentTypes.ITEM_MODEL, Material.PURPLE_CONCRETE.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CREATIVE_ITEM_SOURCE, BaseKeys.CREATIVE_ITEM_SOURCE);
@@ -2109,7 +2109,7 @@ public final class BaseItems {
     }
 
     public static final ItemStack CREATIVE_ITEM_VOIDER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_VOIDER)
-            .set(DataComponentTypes.ITEM_MODEL, Material.PURPLE_CONCRETE.getKey())
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
             .build();
     static {
         PylonItem.register(PylonItem.class, CREATIVE_ITEM_VOIDER, BaseKeys.CREATIVE_ITEM_VOIDER);

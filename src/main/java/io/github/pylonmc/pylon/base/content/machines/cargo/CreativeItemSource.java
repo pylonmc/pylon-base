@@ -14,13 +14,18 @@ import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+
+import java.util.Map;
 
 
 public class CreativeItemSource extends PylonBlock
@@ -28,7 +33,7 @@ public class CreativeItemSource extends PylonBlock
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
-    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.PURPLE_CONCRETE)
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.PINK_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":main");
     public final ItemStackBuilder side1Stack = ItemStackBuilder.of(Material.BEDROCK)
             .addCustomModelDataString(getKey() + ":side1");
@@ -87,10 +92,10 @@ public class CreativeItemSource extends PylonBlock
 
         addEntity("item", new ItemDisplayBuilder()
                 .transformation(new TransformBuilder()
-                        .lookAlong(getFacing())
-                        .rotate(Math.PI / 2, 0, 0)
-                        .scale(0.3)
-                        .translate(0, 0.5 / 0.3, 0))
+                        .translate(new Vector3d(0.0, 0.53, 0.0))
+                        .scale(0.15, 0.15, 0.15)
+                )
+                .billboard(Display.Billboard.VERTICAL)
                 .build(block.getLocation().toCenterLocation())
         );
     }
@@ -98,6 +103,11 @@ public class CreativeItemSource extends PylonBlock
     @SuppressWarnings("unused")
     public CreativeItemSource(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of("inventory", inventory);
     }
 
     private class InfiniteLogisticSlot implements LogisticSlot {

@@ -1674,12 +1674,12 @@ item:
       <arrow> <attr>Transfer rate:</attr> %transfer-rate%
 
   creative_item_source:
-    name: "<white>Creative Item Source"
+    name: "<#ff00ff>Creative Item Source"
     lore: |-
       <arrow> Provides an infinite supply of the item placed inside
 
   creative_item_voider:
-    name: "<white>Creative Item Voider"
+    name: "<#ff00ff>Creative Item Voider"
     lore: |-
       <arrow> Destroys any items piped into it
 
