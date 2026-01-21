@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
@@ -12,8 +13,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -32,7 +33,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.HashMap;
@@ -48,6 +48,8 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         PylonDirectionalBlock,
         PylonProcessor,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
+        PylonLogisticBlock,
         PylonTickingBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
@@ -55,7 +57,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
-    public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
+    public static final NamespacedKey FUELS_KEY = baseKey("coal_fired_purification_tower_fuels");
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
 
     // TODO display fuels
@@ -86,6 +88,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
                 baseKey("charcoal"),
                 new ItemStack(Material.CHARCOAL),
                 10
+        ));
+        FUELS.register(new Fuel(
+                baseKey("charcoal_block"),
+                BaseItems.CHARCOAL_BLOCK,
+                90
         ));
     }
 
@@ -134,6 +141,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     }
 
     @Override
+    public void postInitialise() {
+        createLogisticGroup("fuel",  LogisticGroupType.INPUT, inventory);
+    }
+
+    @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
@@ -149,7 +161,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("inventory", inventory);
     }
 
@@ -178,7 +190,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         if (!isProcessing()) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Fuel fuel : FUELS) {
-                if (item == null || !PylonUtils.isPylonSimilar(item, fuel.stack)) {
+                if (item == null || !item.isSimilar(fuel.stack)) {
                     continue;
                 }
 
@@ -242,6 +254,6 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonFluidBufferBlock.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
     }
 }

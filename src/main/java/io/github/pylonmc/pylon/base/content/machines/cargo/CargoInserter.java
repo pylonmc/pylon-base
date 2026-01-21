@@ -1,7 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -14,22 +13,24 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.*;
 
 
-public class CargoInserter extends PylonBlock
-        implements PylonMultiblock, PylonDirectionalBlock, PylonCargoBlock, PylonEntityHolderBlock {
+public class CargoInserter extends CargoInteractor implements
+        PylonCargoBlock,
+        PylonGuiBlock {
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -108,24 +109,6 @@ public class CargoInserter extends PylonBlock
     }
 
     @Override
-    public @NotNull Set<ChunkPosition> getChunksOccupied() {
-        Set<ChunkPosition> chunks = new HashSet<>();
-        chunks.add(new ChunkPosition(getBlock()));
-        chunks.add(new ChunkPosition(getTarget()));
-        return chunks;
-    }
-
-    @Override
-    public boolean checkFormed() {
-        return getTargetLogisticBlock() != null;
-    }
-
-    @Override
-    public boolean isPartOfMultiblock(@NotNull Block otherBlock) {
-        return otherBlock.equals(getTarget());
-    }
-
-    @Override
     public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
@@ -140,9 +123,13 @@ public class CargoInserter extends PylonBlock
     public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
         List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(getFacing());
-        faces.add(getFacing().getOppositeFace());
+        faces.add(getFacing());
         for (BlockFace face : faces) {
-            addCargoLogisticGroup(face, "output");
+            if (targetLogisticGroup != null) {
+                addCargoLogisticGroup(face, targetLogisticGroup);
+            } else {
+                addCargoLogisticGroup(face, "placeholder_unused_kind_of_a_hack");
+            }
         }
         for (BlockFace face : faces) {
             if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct) {
@@ -153,18 +140,30 @@ public class CargoInserter extends PylonBlock
 
     @Override
     public @NotNull Map<String, LogisticGroup> getLogisticGroups() {
-        PylonLogisticBlock logisticBlock = getTargetLogisticBlock();
-        return logisticBlock != null
-                ? logisticBlock.getLogisticGroups()
-                : Collections.emptyMap();
+        return targetGroups;
     }
 
-    public @NotNull Block getTarget() {
-        return getBlock().getRelative(getFacing());
+    @Override
+    public @NotNull Gui createGui() {
+        return Gui.normal()
+                .setStructure("# # # # i # # # #")
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('i', new InventoryCycleItem())
+                .build();
     }
 
-    public @Nullable PylonLogisticBlock getTargetLogisticBlock() {
-        PylonLogisticBlock block = BlockStorage.getAs(PylonLogisticBlock.class, getTarget());
-        return block instanceof PylonCargoBlock ? null : block;
+    @Override
+    public void setTargetLogisticGroup(String targetLogisticGroup) {
+        this.targetLogisticGroup = targetLogisticGroup;
+        for (BlockFace face : getCargoLogisticGroups().keySet()) {
+            removeCargoLogisticGroup(face);
+            // Slight hack: Set the logistic group to 'none' (which should not exist)
+            addCargoLogisticGroup(face, targetLogisticGroup == null ? "none" : targetLogisticGroup);
+        }
+    }
+
+    @Override
+    public boolean isValidGroup(@NotNull LogisticGroup group) {
+        return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.INPUT;
     }
 }

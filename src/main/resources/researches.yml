@@ -149,7 +149,8 @@ hydraulic_automation:
   - pylonbase:hydraulic_hammer_head
   - pylonbase:hydraulic_pipe_bender
   - pylonbase:hydraulic_table_saw
-  - pylonbase:hydraulic_excavator
+  - pylonbase:hydraulic_miner
+  - pylonbase:hydraulic_breaker
   - pylonbase:hydraulic_farmer
 hydraulic_combat:
   material: iron_horse_armor
@@ -163,8 +164,6 @@ hydraulic_drilling:
   cost: 40
   unlocks:
   - pylonbase:hydraulic_core_drill
-  - pylonbase:hydraulic_core_drill_input_hatch
-  - pylonbase:hydraulic_core_drill_output_hatch
   - pylonbase:intermediate_core_chunk
 igneous_magic:
   material: obsidian
@@ -364,3 +363,59 @@ soul_attachment:
   cost: 20
   unlocks:
   - pylonbase:soulbound_rune
+diet:
+  material: cooked_beef
+  cost: 15
+  unlocks:
+    - pylonbase:hunger_talisman_simple
+    - pylonbase:hunger_talisman_advanced
+    - pylonbase:hunger_talisman_ultimate
+farming_aids:
+  material: bowl
+  cost: 15
+  unlocks:
+    - pylonbase:farmer_talisman_simple
+    - pylonbase:farmer_talisman_advanced
+    - pylonbase:farmer_talisman_ultimate
+negotation_tactics:
+  material: gold_ingot
+  cost: 15
+  unlocks:
+    - pylonbase:bartering_talisman_simple
+    - pylonbase:bartering_talisman_advanced
+    - pylonbase:bartering_talisman_ultimate
+optimal_breathing:
+  material: nautilus_shell
+  cost: 15
+  unlocks:
+    - pylonbase:water_breathing_talisman_simple
+    - pylonbase:water_breathing_talisman_advanced
+    - pylonbase:water_breathing_talisman_ultimate
+lucky_ducky:
+  material: big_dripleaf
+  cost: 15
+  unlocks:
+    - pylonbase:luck_talisman_simple
+    - pylonbase:luck_talisman_advanced
+    - pylonbase:luck_talisman_ultimate
+advanced_breeding:
+  material: apple
+  cost: 15
+  unlocks:
+    - pylonbase:breeding_talisman_simple
+    - pylonbase:breeding_talisman_advanced
+    - pylonbase:breeding_talisman_ultimate
+portable_enchanting_books:
+  material: lapis_lazuli
+  cost: 15
+  unlocks:
+    - pylonbase:enchanting_talisman_simple
+    - pylonbase:enchanting_talisman_advanced
+    - pylonbase:enchanting_talisman_ultimate
+lucky_hunting_charms:
+  material: turtle_scute
+  cost: 15
+  unlocks:
+    - pylonbase:hunting_talisman_simple
+    - pylonbase:hunting_talisman_advanced
+    - pylonbase:hunting_talisman_ultimate

@@ -1,13 +1,18 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -16,6 +21,7 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -37,6 +43,7 @@ import java.util.Map;
 public class HydraulicRefuelingStation extends PylonBlock implements
         PylonFluidBlock,
         PylonDirectionalBlock,
+        PylonLogisticBlock,
         PylonInteractBlock {
 
     @SuppressWarnings("unused")
@@ -68,6 +75,15 @@ public class HydraulicRefuelingStation extends PylonBlock implements
     @SuppressWarnings("unused")
     public HydraulicRefuelingStation(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup(
+                "tool",
+                LogisticGroupType.BOTH,
+                new RefuelingStationLogisticSlot(getHeldEntityOrThrow(ItemDisplay.class, "item"))
+        );
     }
 
     @Override
@@ -180,6 +196,21 @@ public class HydraulicRefuelingStation extends PylonBlock implements
         ItemStack stack = getHeldEntityOrThrow(ItemDisplay.class, "item").getItemStack();
         if (!stack.isEmpty()) {
             drops.add(stack);
+        }
+    }
+
+    private static class RefuelingStationLogisticSlot extends ItemDisplayLogisticSlot {
+
+        public RefuelingStationLogisticSlot(@NotNull ItemDisplay display) {
+            super(display);
+        }
+
+
+        @Override
+        public long getMaxAmount(@NotNull ItemStack stack) {
+            return PylonItem.fromStack(stack) instanceof HydraulicRefuelable
+                    ? super.getMaxAmount(stack)
+                    : 0;
         }
     }
 }

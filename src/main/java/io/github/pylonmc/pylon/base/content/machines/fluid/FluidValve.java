@@ -7,17 +7,17 @@ import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -46,8 +46,6 @@ public class FluidValve extends PylonBlock
         implements PylonFluidTank, PylonInteractBlock, PylonDirectionalBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
-    public static final int BRIGHTNESS_OFF = 6;
-    public static final int BRIGHTNESS_ON = 13;
 
     private boolean enabled;
 
@@ -69,6 +67,11 @@ public class FluidValve extends PylonBlock
         }
     }
 
+    public final ItemStackBuilder stackOff = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":stack_off");
+    public final ItemStackBuilder stackOn = ItemStackBuilder.of(Material.WHITE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":stack_on");
+
     @SuppressWarnings("unused")
     public FluidValve(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
@@ -78,14 +81,10 @@ public class FluidValve extends PylonBlock
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
         addEntity("main", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.of(Material.WHITE_CONCRETE)
-                        .addCustomModelDataString(getKey() + ":main")
-                        .build()
-                )
-                .brightness(BRIGHTNESS_OFF)
+                .itemStack(stackOff)
                 .transformation(new TransformBuilder()
                         .lookAlong(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.NORTH).getDirection().toVector3d())
-                        .scale(0.25, 0.25, 0.5)
+                        .scale(0.2, 0.2, 0.5)
                 )
                 .build(getBlock().getLocation().toCenterLocation())
         );
@@ -110,7 +109,7 @@ public class FluidValve extends PylonBlock
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND || event.getPlayer().isSneaking()) {
             return;
         }
 
@@ -119,7 +118,7 @@ public class FluidValve extends PylonBlock
         enabled = !enabled;
 
         getHeldEntityOrThrow(ItemDisplay.class, "main")
-                .setBrightness(new Display.Brightness(0, enabled ? BRIGHTNESS_ON : BRIGHTNESS_OFF));
+                .setItemStack((enabled ? stackOn : stackOff).build());
     }
 
     @Override

@@ -203,6 +203,17 @@ pylonbase:bronze_boots:
   result: pylonbase:bronze_boots
   category: equipment
 
+pylonbase:bronze_anvil:
+  pattern:
+    - "BBB"
+    - " b "
+    - "bbb"
+  key:
+    B: pylonbase:bronze_block
+    b: pylonbase:bronze_ingot
+  result: pylonbase:bronze_anvil
+  category: building
+
 pylonbase:watering_can:
   pattern:
     - "  S"
@@ -344,6 +355,16 @@ pylonbase:mixing_pot:
   key:
     F: pylonbase:iron_sheet
   result: pylonbase:mixing_pot
+  category: building
+
+pylonbase:crucible:
+  pattern:
+    - "C C"
+    - "C C"
+    - "CCC"
+  key:
+    C: pylonbase:refractory_brick
+  result: pylonbase:crucible
   category: building
 
 pylonbase:enriched_soul_soil:
@@ -1033,7 +1054,7 @@ pylonbase:explosive_target:
     G: minecraft:gunpowder
     X: minecraft:target
   result: pylonbase:explosive_target
-  category: building
+  category: redstone
 
 pylonbase:immobilizer:
   pattern:
@@ -1086,12 +1107,12 @@ pylonbase:elevator_3:
 
 pylonbase:press:
   pattern:
-    - "BPB"
-    - "B B"
-    - "BBB"
+    - "LPL"
+    - "L L"
+    - "LLL"
   key:
     P: minecraft:piston
-    B: minecraft:brick
+    L: "#minecraft:logs"
   result: pylonbase:press
   category: building
 
@@ -1184,19 +1205,6 @@ pylonbase:hydraulic_farmer:
     P: pylonbase:fluid_pipe_bronze
     H: pylonbase:bronze_hoe
   result: pylonbase:hydraulic_farmer
-  category: building
-
-pylonbase:hydraulic_excavator:
-  pattern:
-    - "BBB"
-    - "PEP"
-    - "BDB"
-  key:
-    B: pylonbase:bronze_sheet
-    E: pylonbase:hydraulic_motor
-    P: pylonbase:fluid_pipe_bronze
-    D: pylonbase:bronze_drill_bit
-  result: pylonbase:hydraulic_excavator
   category: building
 
 pylonbase:purification_tower_glass:
@@ -1368,30 +1376,6 @@ pylonbase:hydraulic_core_drill:
   result: pylonbase:hydraulic_core_drill
   category: building
 
-pylonbase:hydraulic_core_drill_input_hatch:
-  pattern:
-    - "T T"
-    - "PO "
-    - "T T"
-  key:
-    T: minecraft:terracotta
-    P: pylonbase:fluid_pipe_bronze
-    O: pylonbase:backflow_valve
-  result: pylonbase:hydraulic_core_drill_input_hatch
-  category: building
-
-pylonbase:hydraulic_core_drill_output_hatch:
-  pattern:
-    - "T T"
-    - " OP"
-    - "T T"
-  key:
-    T: minecraft:terracotta
-    P: pylonbase:fluid_pipe_bronze
-    O: pylonbase:backflow_valve
-  result: pylonbase:hydraulic_core_drill_output_hatch
-  category: building
-
 pylonbase:climbing_pick:
   pattern:
     - "H H"
@@ -1519,6 +1503,7 @@ pylonbase:hydraulic_refueling_station:
   result: pylonbase:hydraulic_refueling_station
   category: building
 
+
 pylonbase:reactivated_wither_skull:
   pattern:
     - " N "
@@ -1541,4 +1526,97 @@ pylonbase:tongs:
     C: "#minecraft:wool_carpets"
     W: "#minecraft:wool"
   result: pylonbase:tongs
+  category: equipment
+
+pylonbase:breeding_talisman_simple:
+  pattern:
+    - "LLL"
+    - "LHW"
+    - "WWW"
+  key:
+    L: minecraft:leather
+    H: minecraft:iron_hoe
+    W: minecraft:wheat
+  result: pylonbase:breeding_talisman_simple
+  category: equipment
+
+pylonbase:hunger_talisman_simple:
+  pattern:
+    - "AAA"
+    - "AGA"
+    - "AAA"
+  key:
+    A: minecraft:apple
+    G: minecraft:golden_apple
+  result: pylonbase:hunger_talisman_simple
+  category: equipment
+
+pylonbase:luck_talisman_simple:
+  pattern:
+    - "GGG"
+    - "GDR"
+    - "RRR"
+  key:
+    G: minecraft:gold_ingot
+    R: minecraft:redstone
+    D: minecraft:diamond
+  result: pylonbase:luck_talisman_simple
+  category: equipment
+
+pylonbase:hunting_talisman_simple:
+  pattern:
+    - "GGG"
+    - "GSR"
+    - "RRR"
+  key:
+    G: minecraft:gunpowder
+    S: minecraft:iron_sword
+    R: minecraft:rotten_flesh
+  result: pylonbase:hunting_talisman_simple
+  category: equipment
+
+pylonbase:enchanting_talisman_simple:
+  pattern:
+    - "LLL"
+    - "LBL"
+    - "LLL"
+  key:
+    L: minecraft:lapis_lazuli
+    B: minecraft:bookshelf
+  result: pylonbase:enchanting_talisman_simple
+  category: equipment
+
+pylonbase:bartering_talisman_simple:
+  pattern:
+    - "GGG"
+    - "GNQ"
+    - "QQQ"
+  key:
+    G: minecraft:gold_ingot
+    N: minecraft:nether_bricks
+    Q: minecraft:quartz
+  result: pylonbase:bartering_talisman_simple
+  category: equipment
+
+pylonbase:water_breathing_talisman_simple:
+  pattern:
+    - "KKK"
+    - "KBK"
+    - "KKK"
+  key:
+    K: minecraft:kelp
+    B: minecraft:water_bucket
+  result: pylonbase:water_breathing_talisman_simple
+  category: equipment
+
+pylonbase:farmer_talisman_simple:
+  pattern:
+    - "WBW"
+    - "BHB"
+    - "WBW"
+  key:
+    W: minecraft:wheat
+    B: minecraft:hay_block
+    H: minecraft:iron_hoe
+  result: pylonbase:farmer_talisman_simple
   category: equipment

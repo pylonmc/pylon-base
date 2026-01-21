@@ -1,8 +1,11 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -10,8 +13,11 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
+import org.bukkit.inventory.BlockInventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -95,6 +101,12 @@ public class BaseUtils {
         return getDisplacement(source, target).normalize();
     }
 
+    public @NotNull Component createBar(double proportion, int bars, TextColor color) {
+        int filledBars = (int) Math.round(bars * proportion);
+        return Component.text("|".repeat(filledBars)).color(color)
+                .append(Component.text("|".repeat(bars - filledBars)).color(NamedTextColor.GRAY));
+    }
+
     public @NotNull Component createProgressBar(double progress, int bars, TextColor color) {
         int filledBars = (int) Math.round(bars * progress);
         return Component.translatable("pylon.pylonbase.gui.progress_bar.text").arguments(
@@ -136,5 +148,15 @@ public class BaseUtils {
         if (display == null) return;
 
         animate(display, 0, duration, matrix);
+    }
+
+    public boolean shouldBreakBlockUsingTool(@NotNull Block block, @NotNull ItemStack tool) {
+        return !block.getType().isAir()
+                && !(block.getState() instanceof BlockInventoryHolder)
+                && !BlockStorage.isPylonBlock(block)
+                && block.getType().getHardness() >= 0
+                && block.isPreferredTool(tool)
+                && tool.hasData(DataComponentTypes.TOOL)
+                && tool.hasData(DataComponentTypes.DAMAGE);
     }
 }

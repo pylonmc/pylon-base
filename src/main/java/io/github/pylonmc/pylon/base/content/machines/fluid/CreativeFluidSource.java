@@ -3,10 +3,8 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
@@ -28,9 +26,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 
-import java.util.List;
 import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -38,8 +34,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CreativeFluidSource extends PylonBlock implements
         PylonFluidBlock,
         PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonEntityHolderBlock {
+        PylonGuiBlock {
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
@@ -51,7 +46,7 @@ public class CreativeFluidSource extends PylonBlock implements
         setFacing(context.getFacing());
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, true, 0.55F);
         addEntity("fluid-1", new ItemDisplayBuilder()
-                .material(Material.RED_CONCRETE)
+                .material(Material.RED_TERRACOTTA)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(1.1, 0.8, 0.8)
@@ -59,7 +54,7 @@ public class CreativeFluidSource extends PylonBlock implements
                 .build(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("fluid-2", new ItemDisplayBuilder()
-                .material(Material.RED_CONCRETE)
+                .material(Material.RED_TERRACOTTA)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(0.8, 1.1, 0.8)
@@ -67,7 +62,7 @@ public class CreativeFluidSource extends PylonBlock implements
                 .build(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
         );
         addEntity("fluid-3", new ItemDisplayBuilder()
-                .material(Material.RED_CONCRETE)
+                .material(Material.RED_TERRACOTTA)
                 .transformation(new TransformBuilder()
                         .translate(0, -0.5, 0)
                         .scale(0.8, 0.8, 1.1)
@@ -100,7 +95,7 @@ public class CreativeFluidSource extends PylonBlock implements
     public @NotNull Gui createGui() {
         return (FluidSelector.make(() -> fluid, fluid -> {
             this.fluid = fluid;
-            ItemStack stack = fluid == null ? new ItemStack(Material.RED_CONCRETE) : fluid.getItem();
+            ItemStack stack = fluid == null ? new ItemStack(Material.RED_TERRACOTTA) : fluid.getItem();
             getHeldEntityOrThrow(ItemDisplay.class, "fluid-1").setItemStack(stack);
             getHeldEntityOrThrow(ItemDisplay.class, "fluid-2").setItemStack(stack);
             getHeldEntityOrThrow(ItemDisplay.class, "fluid-3").setItemStack(stack);
@@ -115,16 +110,5 @@ public class CreativeFluidSource extends PylonBlock implements
                         : fluid.getName()
                 )
         ));
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
-    }
-
-    @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidBlock.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
     }
 }

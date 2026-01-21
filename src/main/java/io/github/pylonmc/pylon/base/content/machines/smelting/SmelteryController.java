@@ -47,12 +47,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -66,7 +66,7 @@ public final class SmelteryController extends SmelteryComponent
 
     private static final Config settings = Settings.get(BaseKeys.SMELTERY_CONTROLLER);
     public static final int TICK_INTERVAL = settings.getOrThrow("tick-interval", ConfigAdapter.INT);
-    public static final double FLUID_REACTION_PER_SECOND = settings.getOrThrow("fluid-reaction-per-second", ConfigAdapter.DOUBLE);
+    public static final double FLUID_REACTION_PER_TICK = settings.getOrThrow("fluid-reaction-per-tick", ConfigAdapter.DOUBLE);
     public static final double HEATING_FACTOR = settings.getOrThrow("heating-factor", ConfigAdapter.DOUBLE);
     public static final double COOLING_FACTOR = settings.getOrThrow("cooling-factor", ConfigAdapter.DOUBLE);
     public static final double ROOM_TEMPERATURE = settings.getOrThrow("room-temperature", ConfigAdapter.DOUBLE);
@@ -80,9 +80,12 @@ public final class SmelteryController extends SmelteryComponent
                     .thenComparing(fluid -> fluid.getKey().toString())
     );
 
-    @Getter private boolean running;
-    @Getter private double temperature;
-    @Getter private double capacity;
+    @Getter
+    private boolean running;
+    @Getter
+    private double temperature;
+    @Getter
+    private double capacity;
     private int height;
 
     @SuppressWarnings("unused")
@@ -105,6 +108,7 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
+        applyHeat();
         pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
         pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
         pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), fluids);
@@ -214,10 +218,6 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
-    }
     // </editor-fold>
 
     // <editor-fold desc="Multiblock" defaultstate="collapsed">
@@ -297,13 +297,12 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public void onMultiblockRefreshed() {
-        double previousCapacity = capacity;
         capacity = height * insidePositions.size() * 1000;
-
-        if (capacity < previousCapacity) {
-            double removeRatio = 1 - (capacity / previousCapacity);
-            for (PylonFluid fluid : new HashSet<>(fluids.keySet())) {
-                removeFluid(fluid, fluids.getDouble(fluid) * removeRatio);
+        double totalFluid = getTotalFluid();
+        if (totalFluid > capacity) {
+            double ratio = capacity / totalFluid;
+            for (PylonFluid fluid : fluids.keySet()) {
+                fluids.computeDouble(fluid, (key, value) -> value * ratio);
             }
         }
 
@@ -405,8 +404,23 @@ public final class SmelteryController extends SmelteryComponent
 
     // <editor-fold desc="Heating" defaultstate="collapsed">
     private int heaters = 0;
-    public void heatAsymptotically(double dt, double target) {
-        temperature += (target - temperature) * HEATING_FACTOR * dt * ++heaters;
+    private double avgTarget = -1;
+
+    public void heatAsymptotically(double target) {
+        if (avgTarget == -1) {
+            avgTarget = target;
+            heaters = 1;
+        } else {
+            avgTarget += (target - avgTarget) / ++heaters;
+        }
+    }
+
+    private void applyHeat() {
+        if (temperature < avgTarget) {
+            temperature += (avgTarget - temperature) * HEATING_FACTOR;
+        }
+        avgTarget = -1;
+        heaters = 0;
     }
     // </editor-fold>
 
@@ -415,17 +429,13 @@ public final class SmelteryController extends SmelteryComponent
     private static final int RESOLUTION = Settings.get(BaseKeys.SMELTERY_CONTROLLER).getOrThrow("display.resolution", ConfigAdapter.INT);
     private static final int PIXELS_PER_SIDE = 3 * RESOLUTION;
 
-    private final SimplexOctaveGenerator noise = new SimplexOctaveGenerator(
-            getBlock().getWorld().getSeed(), 4
-    );
+    private static final SimplexOctaveGenerator LAVA_NOISE = new SimplexOctaveGenerator(ThreadLocalRandom.current().nextLong(), 4);
 
-    {
-        noise.setScale(1 / 16.0);
+    static {
+        LAVA_NOISE.setScale(1 / 16.0);
     }
 
-    private double cumulativeSeconds = 0;
-
-    public void spawnPixels() {
+    private void spawnPixels() {
         pixels.clear();
 
         Location location = center.getLocation().add(-1, 0, -1);
@@ -447,14 +457,14 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
-    public @NotNull List<TextDisplay> getPixels() {
+    private @NotNull List<TextDisplay> getPixels() {
         if (pixels.isEmpty()) {
             spawnPixels();
         }
         return pixels;
     }
 
-    public void removePixels() {
+    private void removePixels() {
         for (TextDisplay pixel : pixels) {
             if (pixel.isValid()) {
                 pixel.remove();
@@ -488,10 +498,10 @@ public final class SmelteryController extends SmelteryComponent
 
             int x = i % PIXELS_PER_SIDE;
             int z = (i / PIXELS_PER_SIDE) % PIXELS_PER_SIDE;
-            double value = noise.noise(
+            double value = LAVA_NOISE.noise(
                     x,
                     z,
-                    cumulativeSeconds * LIGHTNESS_SPEED,
+                    (System.currentTimeMillis() / 1000.0) * LIGHTNESS_SPEED,
                     0.01,
                     0.01,
                     true
@@ -532,7 +542,7 @@ public final class SmelteryController extends SmelteryComponent
             }
 
             double highestFluidAmount = getFluidAmount(recipe.getHighestFluid());
-            double consumptionRatio = highestFluidAmount / (FLUID_REACTION_PER_SECOND * getTickInterval() / 20.0);
+            double consumptionRatio = highestFluidAmount / FLUID_REACTION_PER_TICK;
             double currentTemperature = temperature;
             for (var entry : recipe.getFluidInputs().entrySet()) {
                 PylonFluid fluid = entry.getKey();
@@ -550,13 +560,12 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public void tick() {
-        cumulativeSeconds += getTickInterval() / 20.0;
         if (isFormedAndFullyLoaded()) {
             if (running) {
+                applyHeat();
                 performRecipes();
             }
-            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR * getTickInterval() / 20.0;
-            heaters = 0;
+            temperature -= (temperature - ROOM_TEMPERATURE) * COOLING_FACTOR;
             updateFluidDisplay();
         }
         infoItem.notifyWindows();
