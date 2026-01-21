@@ -77,7 +77,7 @@ public class DieselSmelteryHeater extends SmelteryComponent implements
         }
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
-        controller.heatAsymptotically(tickInterval / 20.0, temperature);
+        controller.heatAsymptotically(temperature);
     }
 
     @Override

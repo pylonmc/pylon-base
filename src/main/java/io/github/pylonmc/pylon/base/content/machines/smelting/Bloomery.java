@@ -21,8 +21,6 @@ import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
-import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -41,7 +39,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.List;
@@ -124,7 +121,7 @@ public final class Bloomery extends PylonBlock implements
         ItemStack stack = itemDisplay.getItemStack();
         if (stack.getType().isAir()) return;
 
-        if (PylonUtils.isPylonSimilar(stack, BaseItems.SPONGE_IRON)) {
+        if (stack.isSimilar(BaseItems.SPONGE_IRON)) {
             IronBloom bloom = new IronBloom(BaseItems.IRON_BLOOM.clone());
             bloom.setTemperature(0);
             bloom.setWorking(ThreadLocalRandom.current().nextInt(IronBloom.MIN_WORKING, IronBloom.MAX_WORKING + 1));
@@ -197,7 +194,7 @@ public final class Bloomery extends PylonBlock implements
             if (items.isEmpty()) return;
             Item gypsum = null;
             for (Item item : items) {
-                if (PylonUtils.isPylonSimilar(item.getItemStack(), BaseItems.GYPSUM_DUST)) {
+                if (item.getItemStack().isSimilar(BaseItems.GYPSUM_DUST)) {
                     gypsum = item;
                     break;
                 }

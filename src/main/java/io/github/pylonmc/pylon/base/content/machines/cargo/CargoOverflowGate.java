@@ -34,12 +34,14 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.SuppliedItem;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -190,6 +192,15 @@ public class CargoOverflowGate extends PylonBlock
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(SIDE_PRIORITY_KEY, SidePriority.PERSISTENT_DATA_TYPE, sidePriority);
         pdc.set(IS_LEFT_KEY, PylonSerializers.BOOLEAN, isLeft);
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of(
+                "input", inputInventory,
+                "left", leftInventory,
+                "right", rightInventory
+        );
     }
 
     @RequiredArgsConstructor
