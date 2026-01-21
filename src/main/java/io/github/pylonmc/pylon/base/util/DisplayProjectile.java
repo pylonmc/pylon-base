@@ -1,58 +1,48 @@
 package io.github.pylonmc.pylon.base.util;
 
-import io.github.pylonmc.pylon.base.PylonBase;
+import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.core.entity.PylonEntity;
-import io.github.pylonmc.pylon.core.entity.display.BlockDisplayBuilder;
+import io.github.pylonmc.pylon.core.entity.base.PylonTickingEntity;
+import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
-import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.Optional;
 
 
-public final class DisplayProjectile {
+public final class DisplayProjectile extends PylonEntity<ItemDisplay> implements PylonTickingEntity {
     private final Player player;
     private final float thickness;
     private final double damage;
-    private final int tickInterval;
     private final Vector locationStep;
-    private final BlockDisplay projectile;
-
+    private int remainingLifetimeTicks;
 
     public DisplayProjectile(
-        Player player,
-        Material material,
-        Location source,
-        Vector direction,
-        float thickness,
-        float length,
-        float speedBlockPerSecond,
-        double damage,
-        int tickInterval,
-        int lifetimeTicks
+            Player player,
+            Material material,
+            Location source,
+            @NotNull Vector direction,
+            float thickness,
+            float length,
+            float speedBlockPerSecond,
+            double damage,
+            int tickInterval,
+            int remainingLifetimeTicks
     ) {
-        this.player = player;
-        this.thickness = thickness;
-        this.damage = damage;
-        this.tickInterval = tickInterval;
-        this.locationStep = direction.clone().multiply(speedBlockPerSecond * tickInterval / 20.0);
-        this.projectile = new BlockDisplayBuilder()
+        super(BaseKeys.DISPLAY_PROJECTILE, new ItemDisplayBuilder()
             .transformation(new LineBuilder()
                 .from(new Vector3d(0, 0, 0))
                 .to(direction.clone().multiply(length).toVector3d())
@@ -60,83 +50,66 @@ public final class DisplayProjectile {
                 .build()
             )
             .material(material)
-            .build(source);
-        this.projectile.setPersistent(false);
-
-        new Task(tickInterval, lifetimeTicks).start();
+            .build(source)
+        );
+        this.player = player;
+        this.thickness = thickness;
+        this.damage = damage;
+        this.locationStep = direction.clone().multiply(speedBlockPerSecond * tickInterval / 20.0);
+        this.remainingLifetimeTicks = remainingLifetimeTicks;
+        setTickInterval(tickInterval);
+        getEntity().setPersistent(false);
     }
 
-    private class Task extends BukkitRunnable {
-        private final int tickInterval;
-        private final int lifetimeTicks;
-        private int livedTicks;
+    @Override
+    public void tick() {
+        ItemDisplay entity = getEntity();
 
-        public Task(int tickInterval, int lifetimeTicks) {
-            this.tickInterval = tickInterval;
-            this.lifetimeTicks = lifetimeTicks;
+        if (remainingLifetimeTicks <= 0) {
+            entity.remove();
+            return;
         }
 
+        remainingLifetimeTicks -= getTickInterval();
 
-        @Override
-        public void run() {
-            if (livedTicks >= lifetimeTicks) {
-                projectile.remove();
-                cancel();
-                return;
-            }
-            livedTicks += tickInterval;
+        entity.setTeleportDuration(getTickInterval());
 
-            if (projectile.isDead()) {
-                cancel();
-                return;
-            }
-
-            projectile.setTeleportDuration(tickInterval);
-
-            Location teleportTo = projectile.getLocation().add(locationStep);
-            if (!teleportTo.getBlock().isPassable()) {
-                teleportTo.getWorld().spawnParticle(
+        Location teleportTo = entity.getLocation().add(locationStep);
+        if (!teleportTo.getBlock().isPassable()) {
+            teleportTo.getWorld().spawnParticle(
                     Particle.CRIT,
                     teleportTo,
                     15
-                );
-                projectile.remove();
-                cancel();
-                return;
-            }
+            );
+            entity.remove();
+            return;
+        }
+        getEntity().teleport(teleportTo);
 
-            projectile.teleport(teleportTo);
+        List<Entity> nearbyEntities = getEntity().getNearbyEntities(thickness * 1.5, thickness * 1.5, thickness * 1.5);
+        if (nearbyEntities.isEmpty()) {
+            return;
+        }
 
-            List<Entity> nearbyEntities = projectile.getNearbyEntities(thickness * 1.5, thickness * 1.5, thickness * 1.5);
-            if (nearbyEntities.isEmpty()) {
-                return;
-            }
-
-            Optional<Damageable> hitEntity = nearbyEntities.stream()
+        Optional<Damageable> maybeHitEntity = nearbyEntities.stream()
                 .filter(Damageable.class::isInstance)
                 .map(Damageable.class::cast)
                 .findFirst();
-            hitEntity.ifPresent(entity -> {
-                EntityDamageEvent event = new EntityDamageEvent(
-                    entity,
+        maybeHitEntity.ifPresent(hitEntity -> {
+            EntityDamageEvent event = new EntityDamageEvent(
+                    hitEntity,
                     EntityDamageEvent.DamageCause.ENTITY_ATTACK,
                     DamageSource.builder(DamageType.ARROW)
-                        .withCausingEntity(player)
-                        .withDirectEntity(entity)
-                        .build(),
+                            .withCausingEntity(player)
+                            .withDirectEntity(hitEntity)
+                            .build(),
                     damage
-                );
-                if (event.callEvent()) {
-                    entity.damage(damage);
-                    entity.setVelocity(locationStep.clone().normalize().multiply(0.2));
-                }
-                projectile.remove();
-                Task.this.cancel();
-            });
-        }
-
-        public void start() {
-            this.runTaskTimer(PylonBase.getInstance(), tickInterval, tickInterval);
-        }
+            );
+            if (event.callEvent()) {
+                hitEntity.damage(damage);
+                hitEntity.setVelocity(locationStep.clone().normalize().multiply(0.2));
+            }
+            entity.remove();
+        });
     }
 }

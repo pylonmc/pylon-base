@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.config.Config;
 import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
+import io.github.pylonmc.pylon.core.entity.EntityStorage;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
@@ -99,18 +100,18 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
         Location source = player.getEyeLocation()
                 .subtract(0, 0.5, 0)
                 .add(direction.clone().multiply(1.5));
-        new DisplayProjectile(
+        EntityStorage.add(new DisplayProjectile(
                 player,
-            projectileMaterial,
+                projectileMaterial,
                 source,
                 direction,
-            projectileThickness,
-            projectileLength,
-            projectileSpeedBlocksPerSecond,
-            projectileDamage,
-            projectileTickInterval,
-            projectileLifetimeTicks
-        );
+                projectileThickness,
+                projectileLength,
+                projectileSpeedBlocksPerSecond,
+                projectileDamage,
+                projectileTickInterval,
+                projectileLifetimeTicks
+        ));
     }
 
     @Override
