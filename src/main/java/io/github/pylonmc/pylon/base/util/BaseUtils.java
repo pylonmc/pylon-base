@@ -168,6 +168,11 @@ public class BaseUtils {
         Material.SOUL_FIRE, Material.FLINT_AND_STEEL
     );
 
+    /**
+     * Returns an item representing the key.
+     *
+     * If no representative item exists (e.g. fire) a fallback for that item will be used (if one exists)
+     */
     public static ItemStack itemFromKey(NamespacedKey key) {
         ItemTypeWrapper wrapper = ItemTypeWrapper.of(key);
 

@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankEntityDisplayer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankWithDisplayEntity;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -18,7 +18,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
@@ -29,7 +28,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
@@ -46,11 +44,11 @@ import java.util.*;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class Crucible extends PylonBlock implements
-    PylonInteractBlock,
-    FluidTankEntityDisplayer,
-    PylonCauldron,
-    PylonBreakHandler,
-    PylonTickingBlock {
+        PylonInteractBlock,
+        FluidTankWithDisplayEntity,
+        PylonCauldron,
+        PylonTickingBlock {
+
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
@@ -66,7 +64,7 @@ public final class Crucible extends PylonBlock implements
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        createFluidDisplayer();
+        createFluidDisplay();
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         setCapacity(1000.0);
     }
@@ -85,7 +83,7 @@ public final class Crucible extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        FluidTankEntityDisplayer.super.onBreak(drops, context);
+        FluidTankWithDisplayEntity.super.onBreak(drops, context);
         if (processingType == null || amount == 0) return;
 
         int maxStack = processingType.getMaxStackSize();
@@ -191,7 +189,7 @@ public final class Crucible extends PylonBlock implements
                 .spawn();
 
         this.amount--;
-        if (this.amount == 0) {
+        if (amount == 0) {
             clearInventory();
         }
     }
@@ -202,23 +200,23 @@ public final class Crucible extends PylonBlock implements
     }
 
     @Override
-    public Vector3d translationOffset() {
+    public Vector3d fluidDisplayTranslation() {
         return new Vector3d(0, -0.2, 0);
     }
 
     @Override
-    public double maxScale() {
-        return 0.65;
+    public Vector3d fluidDisplayScale() {
+        return new Vector3d(0.9, 0.65, 0.9);
     }
 
     @Override
-    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("item_info", this.processingType == null ?
+            PylonArgument.of("item_info", processingType == null ?
                 Component.translatable("pylon.pylonbase.waila.crucible.item.empty") :
                 Component.translatable("pylon.pylonbase.waila.crucible.item.stored",
-                    PylonArgument.of("type", this.processingType.getData(DataComponentTypes.ITEM_NAME)),
-                    PylonArgument.of("amount", this.amount)
+                    PylonArgument.of("type", processingType.getData(DataComponentTypes.ITEM_NAME)),
+                    PylonArgument.of("amount", amount)
                 )),
 
             PylonArgument.of("liquid_info", getFluidType() == null ?
@@ -263,7 +261,7 @@ public final class Crucible extends PylonBlock implements
         int heatGenerated();
     }
 
-    public Integer getHeatFactor() {
+    public @Nullable Integer getHeatFactor() {
         Block below = getBlock().getRelative(BlockFace.DOWN);
         var pylonBlock = BlockStorage.get(below);
         if (pylonBlock != null) {

@@ -2,14 +2,13 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankEntityDisplayer;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankWithDisplayEntity;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCauldron;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
@@ -26,7 +25,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -44,7 +42,7 @@ import java.util.Set;
 public final class MixingPot extends PylonBlock implements
         PylonDirectionalBlock,
         PylonInteractBlock,
-        FluidTankEntityDisplayer,
+        FluidTankWithDisplayEntity,
         PylonCauldron {
 
     private static final Set<Material> BUCKETS = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
@@ -66,7 +64,7 @@ public final class MixingPot extends PylonBlock implements
     @SuppressWarnings("unused")
     public MixingPot(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        createFluidDisplayer();
+        createFluidDisplay();
         setFacing(context.getFacing());
         setCapacity(1000.0);
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false);
@@ -89,13 +87,13 @@ public final class MixingPot extends PylonBlock implements
     }
 
     @Override
-    public Vector3d translationOffset() {
+    public @NotNull Vector3d fluidDisplayTranslation() {
         return new Vector3d(0, -0.2, 0);
     }
 
     @Override
-    public double maxScale() {
-        return 0.65;
+    public @NotNull Vector3d fluidDisplayScale() {
+        return new Vector3d(0.9, 0.65, 0.9);
     }
 
     @Override
