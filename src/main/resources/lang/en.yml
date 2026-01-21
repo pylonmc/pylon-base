@@ -2110,10 +2110,8 @@ gui:
   progress_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
   vacuum_hopper:
-    blacklist: "<black>Blacklist"
+    blacklist: "<white>Blacklist"
     whitelist: "<white>Whitelist"
-    settings: "<red>Settings"
-    inventory: "<purple>Inventory"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
   logistic-group-cycle-item:
