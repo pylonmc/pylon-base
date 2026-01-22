@@ -1213,6 +1213,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name/></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Cobblestone Wall</yellow>
+    waila: "Manual Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   improved_manual_core_drill:
     name: "Improved Manual Core Drill"
@@ -1226,6 +1228,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name/></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
+    waila: "Improved Manual Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   hydraulic_core_drill:
     name: "Hydraulic Core Drill"
@@ -1245,6 +1249,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
+    waila: "Hydraulic Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   fluid_input_hatch:
     name: "Fluid Input Hatch"

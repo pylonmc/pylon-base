@@ -4,13 +4,10 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
-import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
@@ -25,27 +22,24 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class FluidTank extends PylonBlock
-        implements PylonMultiblock, PylonFluidTank, PylonDirectionalBlock {
+        implements PylonMultiblock, FluidTankWithDisplayEntity, PylonDirectionalBlock {
 
     private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
     private final List<FluidTankCasing> casings = new ArrayList<>();
     private final List<FluidTemperature> allowedTemperatures = new ArrayList<>();
-
-    private int lastDisplayUpdate = -1;
 
     public static class Item extends PylonItem {
 
@@ -158,33 +152,8 @@ public class FluidTank extends PylonBlock
     }
 
     @Override
-    public void setFluidType(@Nullable PylonFluid fluid) {
-        PylonFluidTank.super.setFluidType(fluid);
-        getFluidDisplay().setItemStack(fluid == null ? null : fluid.getItem());
-    }
-
-    @Override
-    public boolean setFluid(double amount) {
-        double oldAmount = getFluidAmount();
-        boolean result = PylonFluidTank.super.setFluid(amount);
-        amount = getFluidAmount();
-        if (lastDisplayUpdate == -1 || (result && oldAmount != amount)) {
-            float scale = (float) ((casings.size() - 0.1) * amount / getFluidCapacity());
-            ItemDisplay fluidDisplay = getFluidDisplay();
-            fluidDisplay.setInterpolationDelay(Math.min(-3 + (fluidDisplay.getTicksLived() - lastDisplayUpdate), 0));
-            fluidDisplay.setInterpolationDuration(4);
-            fluidDisplay.setTransformationMatrix(new TransformBuilder()
-                    .translate(0.0, -0.45 + scale / 2, 0.0)
-                    .scale(0.9, scale, 0.9)
-                    .buildForItemDisplay()
-            );
-            lastDisplayUpdate = fluidDisplay.getTicksLived();
-        }
-        return result;
-    }
-
-    public @NotNull ItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
+    public Vector3d fluidDisplayScale() {
+        return new Vector3d(0.9, casings.size() - 0.1, 0.9);
     }
 
     @Override

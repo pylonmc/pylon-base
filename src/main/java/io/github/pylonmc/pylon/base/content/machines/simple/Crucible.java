@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankWithDisplayEntity;
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
@@ -17,7 +18,6 @@ import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.recipe.FluidOrItem;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
@@ -28,7 +28,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
@@ -38,12 +37,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class Crucible extends PylonBlock implements PylonInteractBlock, PylonFluidTank, PylonCauldron, PylonBreakHandler, PylonTickingBlock {
+public final class Crucible extends PylonBlock implements
+        PylonInteractBlock,
+        FluidTankWithDisplayEntity,
+        PylonCauldron,
+        PylonTickingBlock {
+
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
 
@@ -59,6 +64,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
+        createFluidDisplay();
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         setCapacity(1000.0);
     }
@@ -77,7 +83,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidTank.super.onBreak(drops, context);
+        FluidTankWithDisplayEntity.super.onBreak(drops, context);
         if (processingType == null || amount == 0) return;
 
         int maxStack = processingType.getMaxStackSize();
@@ -147,6 +153,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
 
     public boolean tryDoRecipe() {
         if (processingType == null) return false;
+        if (getHeatFactor() == null) return false;
 
         for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(processingType)) {
@@ -182,11 +189,10 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
                 .spawn();
 
         this.amount--;
-        if (this.amount == 0) {
+        if (amount == 0) {
             clearInventory();
         }
     }
-    //region Cauldron logic
 
     @Override
     public void onLevelChange(@NotNull CauldronLevelChangeEvent event) {
@@ -194,40 +200,23 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidAdded(fluid, amount);
-        updateCauldron();
+    public Vector3d fluidDisplayTranslation() {
+        return new Vector3d(0, -0.2, 0);
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidRemoved(fluid, amount);
-        updateCauldron();
+    public Vector3d fluidDisplayScale() {
+        return new Vector3d(0.9, 0.65, 0.9);
     }
-
-    private void updateCauldron() {
-        int level = (int) getFluidAmount() / 333;
-        if (level > 0 && getBlock().getType() == Material.CAULDRON) {
-            getBlock().setType(Material.WATER_CAULDRON);
-        } else if (level == 0) {
-            getBlock().setType(Material.CAULDRON);
-        }
-        if (getBlock().getBlockData() instanceof Levelled levelled) {
-            levelled.setLevel(level);
-            getBlock().setBlockData(levelled);
-        }
-    }
-
-    //endregion
 
     @Override
-    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+    public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("item_info", this.processingType == null ?
+            PylonArgument.of("item_info", processingType == null ?
                 Component.translatable("pylon.pylonbase.waila.crucible.item.empty") :
                 Component.translatable("pylon.pylonbase.waila.crucible.item.stored",
-                    PylonArgument.of("type", this.processingType.getData(DataComponentTypes.ITEM_NAME)),
-                    PylonArgument.of("amount", this.amount)
+                    PylonArgument.of("type", processingType.getData(DataComponentTypes.ITEM_NAME)),
+                    PylonArgument.of("amount", amount)
                 )),
 
             PylonArgument.of("liquid_info", getFluidType() == null ?
@@ -248,7 +237,6 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
     @Override
     public void tick() {
         tryDoRecipe();
-        updateCauldron();
     }
 
     @Override
@@ -273,7 +261,7 @@ public final class Crucible extends PylonBlock implements PylonInteractBlock, Py
         int heatGenerated();
     }
 
-    public Integer getHeatFactor() {
+    public @Nullable Integer getHeatFactor() {
         Block below = getBlock().getRelative(BlockFace.DOWN);
         var pylonBlock = BlockStorage.get(below);
         if (pylonBlock != null) {

@@ -15,19 +15,23 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
+import java.time.Duration;
 import java.util.List;
 
 public abstract class CoreDrill extends PylonBlock
@@ -129,11 +133,27 @@ public abstract class CoreDrill extends PylonBlock
     public void onProcessFinished() {
         getBlock().getWorld().dropItemNaturally(
                 getBlock().getRelative(BlockFace.DOWN, 2).getLocation().toCenterLocation(),
-                output
+                output,
+                (item) -> item.setVelocity(getFacing().getDirection().multiply(0.3))
         );
     }
 
     public int getCycleDuration() {
         return rotationsPerCycle * rotationDuration;
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        String wailaFormat = "pylon." + getKey().getNamespace() + ".item." + getKey().getKey() + ".waila_format";
+        Integer timeLeft = getProcessTicksRemaining();
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+            PylonArgument.of("duration_if_any",
+                timeLeft == null
+                    ? Component.empty()
+                    : Component.translatable(wailaFormat).arguments(
+                        PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft / 20), true))
+                    )
+            )
+        ));
     }
 }

@@ -91,7 +91,9 @@ public final class Bloomery extends PylonBlock implements
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) return;
-        if (!isFormedAndFullyLoaded()) return;
+        Player player = event.getPlayer();
+        if (player.isSneaking() || !isFormedAndFullyLoaded()) return;
+
         event.setCancelled(true);
         ItemStack placedItem = event.getItem();
 
@@ -106,7 +108,6 @@ public final class Bloomery extends PylonBlock implements
                 placedItem.subtract();
             }
         } else {
-            Player player = event.getPlayer();
             for (ItemStack stack : player.getInventory().addItem(oldStack).values()) {
                 player.getWorld().dropItemNaturally(player.getLocation(), stack);
             }

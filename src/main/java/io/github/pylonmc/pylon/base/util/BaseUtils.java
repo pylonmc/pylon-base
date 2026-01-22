@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import lombok.experimental.UtilityClass;
@@ -14,6 +15,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -25,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 @UtilityClass
@@ -160,5 +163,40 @@ public class BaseUtils {
                 && block.isPreferredTool(tool)
                 && tool.hasData(DataComponentTypes.TOOL)
                 && tool.hasData(DataComponentTypes.DAMAGE);
+    }
+
+    private static final Map<Material, Material> BLOCK_ITEM_FALLBACK = Map.of(
+        Material.FIRE, Material.FLINT_AND_STEEL,
+        Material.SOUL_FIRE, Material.FLINT_AND_STEEL
+    );
+
+    /**
+     * Returns an item representing the key.
+     *
+     * If no representative item exists (e.g. fire) a fallback for that item will be used (if one exists)
+     */
+    public static ItemStack itemFromKey(NamespacedKey key) {
+        ItemTypeWrapper wrapper = ItemTypeWrapper.of(key);
+
+        if (!(wrapper instanceof ItemTypeWrapper.Vanilla vanilla)) {
+            return wrapper.createItemStack();
+        }
+
+        Material mat = vanilla.material();
+        if (mat.isItem()) {
+            return vanilla.createItemStack();
+        }
+
+        Material fallback = BLOCK_ITEM_FALLBACK.getOrDefault(mat, Material.BARRIER);
+        ItemStack stack = new ItemStack(fallback);
+
+        if (fallback == Material.BARRIER) {
+            stack.setData(
+                DataComponentTypes.ITEM_NAME,
+                Component.text("ERROR: " + mat)
+            );
+        }
+
+        return stack;
     }
 }
