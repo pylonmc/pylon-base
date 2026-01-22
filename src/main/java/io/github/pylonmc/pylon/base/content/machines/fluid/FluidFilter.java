@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -33,10 +32,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 
 import java.util.List;
-import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
@@ -84,7 +81,7 @@ public class FluidFilter extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.35, 0.35, 0.5)
+                        .scale(0.25, 0.25, 0.5)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -92,7 +89,7 @@ public class FluidFilter extends PylonBlock
                 .itemStack(noFluidStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.3, 0.4, 0.45)
+                        .scale(0.2, 0.3, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -100,7 +97,7 @@ public class FluidFilter extends PylonBlock
                 .itemStack(noFluidStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.4, 0.3, 0.45)
+                        .scale(0.3, 0.2, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -157,16 +154,5 @@ public class FluidFilter extends PylonBlock
     @Override
     public @NotNull Component getGuiTitle() {
         return Component.translatable("pylon.pylonbase.item.fluid_filter.gui");
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
-    }
-
-    @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidTank.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
     }
 }

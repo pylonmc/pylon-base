@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
-import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
-import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.pylon.core.recipe.IngredientCalculator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,6 +22,7 @@ public final class BaseFluids {
     ).addTag(FluidTemperature.NORMAL);
     static {
         WATER.register();
+        IngredientCalculator.addBaseIngredient(WATER);
     }
 
     public static final PylonFluid LAVA = new PylonFluid(
@@ -31,6 +31,7 @@ public final class BaseFluids {
     ).addTag(FluidTemperature.HOT);
     static {
         LAVA.register();
+        IngredientCalculator.addBaseIngredient(LAVA);
     }
 
     public static final PylonFluid PLANT_OIL = new PylonFluid(
@@ -39,6 +40,7 @@ public final class BaseFluids {
     ).addTag(FluidTemperature.NORMAL);
     static {
         PLANT_OIL.register();
+        IngredientCalculator.addBaseIngredient(PLANT_OIL);
     }
 
     public static final PylonFluid HYDRAULIC_FLUID = new PylonFluid(
@@ -79,6 +81,9 @@ public final class BaseFluids {
             baseKey("ethanol"),
             Material.LIGHT_GRAY_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
+    static {
+        ETHANOL.register();
+    }
 
     public static final PylonFluid BIODIESEL = new PylonFluid(
             baseKey("biodiesel"),

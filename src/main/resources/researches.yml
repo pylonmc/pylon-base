@@ -207,6 +207,7 @@ fluid_machines_2:
   cost: 10
   unlocks:
     - pylonbase:fluid_filter
+    - pylonbase:fluid_limiter
     - pylonbase:fluid_voider_2
 
 fluid_machines_3:
@@ -214,6 +215,7 @@ fluid_machines_3:
   cost: 10
   unlocks:
     - pylonbase:fluid_meter
+    - pylonbase:fluid_accumulator
     - pylonbase:fluid_voider_3
 
 bronze_equipment:
@@ -351,6 +353,7 @@ cargo_2:
     - pylonbase:cargo_splitter
     - pylonbase:cargo_merger
     - pylonbase:cargo_filter
+    - pylonbase:cargo_overflow_gate
 
 cargo_3:
   item: pylonbase:cargo_buffer

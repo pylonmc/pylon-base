@@ -37,16 +37,16 @@ public class ManualCoreDrillLever extends PylonBlock implements PylonInteractBlo
             throw new IllegalStateException("Block data is not switch");
         }
 
-        if (blockData.isPowered()) {
-            event.setCancelled(true);
-        }
-
         ManualCoreDrill drill = BlockStorage.getAs(
                 ManualCoreDrill.class,
                 getBlock().getRelative(blockData.getFacing().getOppositeFace())
         );
         if (drill == null || drill.isProcessing()) {
             return;
+        }
+
+        if (blockData.isPowered()) {
+            event.setCancelled(true);
         }
 
         drill.cycle();

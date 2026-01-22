@@ -36,7 +36,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
@@ -45,6 +44,7 @@ import java.util.Map;
 
 public class DieselBrickMolder extends PylonBlock implements
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonFluidBufferBlock,
         PylonDirectionalBlock,
         PylonTickingBlock,
@@ -239,12 +239,12 @@ public class DieselBrickMolder extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonGuiBlock.super.onBreak(drops, context);
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
         PylonFluidBufferBlock.super.onBreak(drops, context);
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of(
                 "input", inputInventory,
                 "output", outputInventory

@@ -7,6 +7,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -37,7 +38,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -52,6 +52,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CargoFluidAccumulator extends PylonBlock implements
         PylonDirectionalBlock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonCargoBlock,
         PylonFluidTank {
 
@@ -81,12 +82,6 @@ public class CargoFluidAccumulator extends PylonBlock implements
             .lore(Component.translatable("pylon.pylonbase.gui.item_threshold_button.lore"));
     public final ItemStackBuilder fluidThresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "fluid_threshold_button")
             .lore(Component.translatable("pylon.pylonbase.gui.fluid_threshold_button.lore"));
-
-    @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonGuiBlock.super.onBreak(drops, context);
-        PylonFluidTank.super.onBreak(drops, context);
-    }
 
     public static class Item extends PylonItem {
 
@@ -185,6 +180,12 @@ public class CargoFluidAccumulator extends PylonBlock implements
     }
 
     @Override
+    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
+        PylonFluidTank.super.onBreak(drops, context);
+    }
+
+    @Override
     public double fluidAmountRequested(@NotNull PylonFluid fluid) {
         return Math.max(
                 0,
@@ -268,7 +269,7 @@ public class CargoFluidAccumulator extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("input", inputInventory, "output", outputInventory);
     }
 

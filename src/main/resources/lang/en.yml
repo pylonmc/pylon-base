@@ -365,6 +365,29 @@ item:
     waila: "Fluid Filter | %bars% (%fluid%)"
     gui: "Fluid Filter"
 
+  fluid_limiter:
+    name: "<white>Fluid Limiter"
+    lore: |-
+      <arrow> Limits the speed of fluid transfer
+      <arrow> <insn>Right click</insn> to change the fluid transfer limit
+      <arrow> <attr>Min amount:</attr> %min-amount%
+      <arrow> <attr>Max amount:</attr> %max-amount%
+    gui:
+      add: "<green>+ %amount% ml/s"
+      dec: "<red>- %amount% ml/s"
+      amount: "<white>Amount: %amount% ml/s"
+    waila: "Fluid Limiter | %bars% (%fluid%)"
+
+  fluid_accumulator:
+    name: "<white>Fluid Accumulator"
+    lore: |-
+      <arrow> Accumulates the specified amount of fluid before releasing it all at once
+      <arrow> Power with redstone to flush all fluid to the output and prevent more fluid from being inputted
+      <arrow> <insn>Right click</insn> to change the accumulation amount
+      <arrow> <attr>Min amount:</attr> %min-amount%
+      <arrow> <attr>Max amount:</attr> %max-amount%
+    waila: "Fluid Accumulator | %bars% (%fluid%)"
+
   fluid_meter:
     name: "<white>Fluid Meter"
     lore: |-
@@ -383,19 +406,19 @@ item:
     waila: "Fluid Strainer%info%"
 
   fluid_voider_1:
-    name: "Fluid Voider <light_purple>I"
+    name: "<white>Fluid Voider <light_purple>I"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
   fluid_voider_2:
-    name: "Fluid Voider <light_purple>II"
+    name: "<white>Fluid Voider <light_purple>II"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
   fluid_voider_3:
-    name: "Fluid Voider <light_purple>III"
+    name: "<white>Fluid Voider <light_purple>III"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
@@ -1190,6 +1213,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name/></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Cobblestone Wall</yellow>
+    waila: "Manual Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   improved_manual_core_drill:
     name: "Improved Manual Core Drill"
@@ -1203,6 +1228,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name/></yellow>
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
+    waila: "Improved Manual Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   hydraulic_core_drill:
     name: "Hydraulic Core Drill"
@@ -1222,6 +1249,8 @@ item:
       <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
+    waila: "Hydraulic Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   fluid_input_hatch:
     name: "Fluid Input Hatch"
@@ -1665,6 +1694,24 @@ item:
       <arrow> <attr>Fluid buffer:</attr> %fluid-buffer%
     waila: "Cargo Fluid Accumulator | <light_purple>%item-threshold%</light_purple> <white>| <light_purple>%fluid-threshold%</light_purple> <white>| %bars%"
 
+  cargo_overflow_gate:
+    name: "<white>Cargo Overflow Gate"
+    lore: |-
+      <arrow> Splits items evenly between two outputs
+      <arrow> If one side is full, all items go to the other side
+      <arrow> Optionally allows prioritization of one side
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  creative_item_source:
+    name: "<#ff00ff>Creative Item Source"
+    lore: |-
+      <arrow> Provides an infinite supply of the item placed inside
+
+  creative_item_voider:
+    name: "<#ff00ff>Creative Item Voider"
+    lore: |-
+      <arrow> Destroys any items piped into it
+
   hunger_talisman_simple:
     name: "Simple Hunger Talisman"
     lore: |-
@@ -1954,31 +2001,31 @@ research:
 
 guide:
   page:
-    science: "Science"
-    resources_metals: "Metals"
-    resources_core_chunks: "Core Chunks"
-    resources_magic: "Magic"
-    resources_miscellaneous: "Miscellaneous"
-    resources: "Resources"
-    components: "Components"
-    tools: "Tools"
-    food: "Food"
-    combat: "Combat"
-    talismans: "Talismans"
-    armour: "Armour"
-    machines_simple_machines: "Simple machines"
-    machines_fluid_pipes_and_tanks: "Fluid Pipes and Tanks"
-    machines_fluid_machines: "Fluid Machines"
-    machines_hydraulic_machines: "Hydraulic Machines"
-    machines_hydraulic_purification: "Hydraulic Purification"
-    machines_cargo: "Cargo"
-    machines_diesel_machines: "Diesel Machines"
-    machines_diesel_production: "Diesel Production"
-    machines_smelting: "Smelting"
-    machines: "Machines"
-    building: "Building"
-    creative_items: "Creative Items <#ff0000>(admin only)</#ff0000>"
-    magic: "Magic"
+    science: "<white>Science"
+    resources_metals: "<white>Metals"
+    resources_core_chunks: "<white>Core Chunks"
+    resources_magic: "<white>Magic"
+    resources_miscellaneous: "<white>Miscellaneous"
+    resources: "<white>Resources"
+    components: "<white>Components"
+    tools: "<white>Tools"
+    food: "<white>Food"
+    combat: "<white>Combat"
+    talismans: "<white>Talismans"
+    armour: "<white>Armour"
+    machines_simple_machines: "<white>Simple machines"
+    machines_fluid_pipes_and_tanks: "<white>Fluid Pipes and Tanks"
+    machines_fluid_machines: "<white>Fluid Machines"
+    machines_hydraulic_machines: "<white>Hydraulic Machines"
+    machines_hydraulic_purification: "<white>Hydraulic Purification"
+    machines_cargo: "<white>Cargo"
+    machines_diesel_machines: "<white>Diesel Machines"
+    machines_diesel_production: "<white>Diesel Production"
+    machines_smelting: "<white>Smelting"
+    machines: "<white>Machines"
+    building: "<white>Building"
+    creative_items: "<light_purple>Creative Items <#ff0000>(admin only)</#ff0000>"
+    magic: "<white>Magic"
   recipe:
     grindstone:
       time: "<attr>Grinding time:</attr> %time%"
@@ -2006,12 +2053,14 @@ message:
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
-    nothing: "<red>You look at your hand. It is not very interesting"
-    invalid_block: "<red>Try as you may, you cannot glean any information from this block"
-    already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
-    examined: "<green>As you examine the %item%, you get a sudden flash of insight"
-    is_other_plugin: "<red>You smug little knave, use vanilla items not plugin ones"
+    is_other_plugin: "<red>You smug little knave, examine vanilla objects not plugin ones"
+    is_player: "<red>Examining other players provides no useful information"
+    already_examined: "<red>You've already examined this specific %object%, examine a different one"
+    max_uses: "<red>You cannot find any more interesting things about this object"
+    examining: "<green>You examine the %object% closely...."
+    examine_failed: "<red>Failed to examine the %object%. <gray>(Do you have permission?)"
+    examined: "<green>After examining the %object%, you get a sudden flash of insight!"
   research_pack:
     message: "As you open the research pack, %happening%"
     happening:
@@ -2048,16 +2097,12 @@ gui:
   filter: "Items to filter"
   left: "Left"
   right: "Right"
-  left_button:
-    name: "Change ratio left"
+  none: "None"
+  side-priority:
+    name: "Priority: <light_purple>%priority%"
     lore: |-
-      <arrow> <insn>Left click</insn> to increase
-      <arrow> <insn>Right click</insn> to decrease
-  right_button:
-    name: "Change ratio right"
-    lore: |-
-      <arrow> <insn>Left click</insn> to increase
-      <arrow> <insn>Right click</insn> to decrease
+      <arrow> The <lang:pylon.pylonbase.item.cargo_overflow_gate.name/> will always send items to this side unless it's full
+      <arrow> <insn>Left click</insn> to cycle priority
   threshold_button:
     name: "Threshold: <light_purple>%threshold%"
     lore: |-
@@ -2085,7 +2130,18 @@ gui:
       lore: |-
         <arrow> <insn>Click</insn> to toggle
   no-target-logistic-group: "No inventories available"
-  ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+  ratio:
+    name: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+    left_button:
+      name: "Change ratio left"
+      lore: |-
+        <arrow> <insn>Left click</insn> to increase
+        <arrow> <insn>Right click</insn> to decrease
+    right_button:
+      name: "Change ratio right"
+      lore: |-
+        <arrow> <insn>Left click</insn> to increase
+        <arrow> <insn>Right click</insn> to decrease
   portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"
@@ -2114,6 +2170,9 @@ gui:
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
   progress_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
+  vacuum_hopper:
+    blacklist: "<white>Blacklist"
+    whitelist: "<white>Whitelist"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
   logistic-group-cycle-item:
@@ -2122,6 +2181,20 @@ gui:
       <arrow> <insn>Click</insn> to cycle
   fluid_meter:
     name: "<attr>Measurement duration:</attr> %measurement-duration%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
+  fluid_accumulator:
+    name: "<attr>Amount:</attr> %amount%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
+  fluid_limiter:
+    name: "<attr>Max flow rate:</attr> %max-flow-rate%"
     lore: |-
       <arrow> <insn>Left click</insn> to increase
       <arrow> <insn>Right click</insn> to decrease

@@ -69,6 +69,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.FLUID_VALVE, Material.STRUCTURE_VOID, FluidValve.class);
         PylonBlock.register(BaseKeys.WATER_PUMP, Material.BLUE_TERRACOTTA, WaterPump.class);
         PylonBlock.register(BaseKeys.FLUID_FILTER, Material.STRUCTURE_VOID, FluidFilter.class);
+        PylonBlock.register(BaseKeys.FLUID_LIMITER, Material.STRUCTURE_VOID, FluidLimiter.class);
+        PylonBlock.register(BaseKeys.FLUID_ACCUMULATOR, Material.STRUCTURE_VOID, FluidAccumulator.class);
         PylonBlock.register(BaseKeys.FLUID_METER, Material.STRUCTURE_VOID, FluidMeter.class);
         PylonBlock.register(BaseKeys.WATER_PLACER, Material.DISPENSER, FluidPlacer.class);
         PylonBlock.register(BaseKeys.LAVA_PLACER, Material.DISPENSER, FluidPlacer.class);
@@ -160,5 +162,8 @@ public final class BaseBlocks {
         PylonBlock.register(BaseKeys.CARGO_GATE, Material.STRUCTURE_VOID, CargoGate.class);
         PylonBlock.register(BaseKeys.CARGO_ACCUMULATOR, Material.STRUCTURE_VOID, CargoAccumulator.class);
         PylonBlock.register(BaseKeys.CARGO_FLUID_ACCUMULATOR, Material.STRUCTURE_VOID, CargoFluidAccumulator.class);
+        PylonBlock.register(BaseKeys.CARGO_OVERFLOW_GATE, Material.STRUCTURE_VOID, CargoOverflowGate.class);
+        PylonBlock.register(BaseKeys.CREATIVE_ITEM_SOURCE, Material.STRUCTURE_VOID, CreativeItemSource.class);
+        PylonBlock.register(BaseKeys.CREATIVE_ITEM_VOIDER, Material.STRUCTURE_VOID, CreativeItemVoider.class);
     }
 }

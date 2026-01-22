@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
@@ -25,7 +26,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.Map;
@@ -34,6 +34,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryBurner extends SmelteryComponent implements
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonTickingBlock,
         PylonLogisticBlock,
         PylonProcessor {
@@ -151,7 +152,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("fuels", inventory);
     }
 

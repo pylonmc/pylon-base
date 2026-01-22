@@ -17,6 +17,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.ArrayList;
@@ -54,6 +55,14 @@ public record GrindstoneRecipe(
                     section.getOrThrow("cycles", ConfigAdapter.INT),
                     section.getOrThrow("particle-data", ConfigAdapter.BLOCK_DATA)
             );
+        }
+
+        @Override
+        public void addRecipe(@NonNull GrindstoneRecipe recipe) {
+            super.addRecipe(recipe);
+            if (recipe.results.size() > 1) {
+                IngredientCalculator.addBaseRecipe(recipe);
+            }
         }
     };
 

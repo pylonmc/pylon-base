@@ -47,6 +47,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         BaseItems.initialize();
         BaseBlocks.initialize();
+        BaseEntities.initialize();
         BaseFluids.initialize();
         BaseRecipes.initialize();
 

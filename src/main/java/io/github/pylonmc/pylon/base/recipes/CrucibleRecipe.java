@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.simple.Crucible;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlockSchema;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -15,6 +16,8 @@ import io.github.pylonmc.pylon.core.recipe.RecipeInput;
 import io.github.pylonmc.pylon.core.recipe.RecipeType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +27,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -80,11 +84,12 @@ public record CrucibleRecipe(
         return HEATED_BLOCKS;
     }
 
+
     public static List<ItemStack> getHeatSources() {
         if (HEAT_SOURCES == null) {
             HEAT_SOURCES = new ArrayList<>();
             for (NamespacedKey key : getHeatedBlocks()) {
-                HEAT_SOURCES.add(ItemTypeWrapper.of(key).createItemStack());
+                HEAT_SOURCES.add(BaseUtils.itemFromKey(key));
             }
         }
 

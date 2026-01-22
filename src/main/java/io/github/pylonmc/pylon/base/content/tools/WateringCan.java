@@ -63,8 +63,8 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor, Pylo
     public static void water(@NotNull Block center, @NotNull WateringSettings settings) {
         boolean wasAnyTickAttempted = false;
         int horizontalRange = settings.horizontalRange();
-        for (int x = -horizontalRange; x < horizontalRange; x++) {
-            for (int z = -horizontalRange; z < horizontalRange; z++) {
+        for (int x = -horizontalRange; x <= horizontalRange; x++) {
+            for (int z = -horizontalRange; z <= horizontalRange; z++) {
                 Block block = center.getRelative(x, 0, z);
 
                 // Search down (for a maximum of RANGE blocks) to find the first solid block

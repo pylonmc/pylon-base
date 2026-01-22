@@ -132,6 +132,14 @@ public final class BronzeAnvil extends PylonBlock implements
                     player.getWorld().dropItemNaturally(player.getLocation(), stack);
                 }
                 itemDisplay.setItemStack(null);
+
+                ItemDisplay display = getItemDisplay();
+                if (display != null) {
+                    Matrix4f transform = new Matrix4f(BASE_TRANSFORM)
+                        .rotateLocalY(getItemRotation(getBlockFace()))
+                        .scaleLocal(1, 1, 1);
+                    display.setTransformationMatrix(transform);
+                }
             }
         }
 
@@ -171,14 +179,15 @@ public final class BronzeAnvil extends PylonBlock implements
         int newWorking = working + workingChange;
         Location centerLoc = getBlock().getRelative(BlockFace.UP).getLocation().toCenterLocation();
         if (Math.abs(newWorking) > IronBloom.MAX_WORKING) {
-            new ParticleBuilder(Particle.ITEM)
-                    .location(centerLoc)
-                    .receivers(32, true)
-                    .offset(0.03, 0.01, 0.03)
-                    .data(bloom.getStack())
-                    .count(8)
-                    .spawn();
-            itemDisplay.setItemStack(null);
+            bloom.setWorking(
+                Math.max(
+                    - IronBloom.MAX_WORKING,
+                    Math.min(
+                        newWorking,
+                        IronBloom.MAX_WORKING
+                    )
+                )
+            );
             return;
         } else {
             new ParticleBuilder(Particle.LAVA).location(centerLoc)

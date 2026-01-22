@@ -132,7 +132,12 @@ public record ShimmerAltarRecipe(
 
     @Override
     public @NotNull List<RecipeInput> getInputs() {
-        List<RecipeInput> inputResult = new ArrayList<>(inputs);
+        List<RecipeInput> inputResult = new ArrayList<>();
+        for (RecipeInput.Item input : inputs) {
+            if (input != null) {
+                inputResult.add(input);
+            }
+        }
         inputResult.add(catalyst);
         return inputResult;
     }

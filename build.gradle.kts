@@ -24,13 +24,19 @@ repositories {
     maven("https://jitpack.io") {
         name = "JitPack"
     }
-    maven("https://repo.xenondevs.xyz/releases")
+    maven("https://repo.xenondevs.xyz/releases") {
+        name = "InvUI"
+    }
+    maven("https://maven.pvphub.me/tofaa") {
+        name = "EntityLib"
+    }
 }
 
 val coreVersion = project.properties["pylon-core.version"] as String
+val minecraftVersion = project.properties["minecraft.version"] as String
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
     compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
 
     implementation("org.bstats:bstats-bukkit:2.2.1")
@@ -62,7 +68,7 @@ bukkit {
     name = "PylonBase"
     main = "io.github.pylonmc.pylon.base.PylonBase"
     version = project.version.toString()
-    apiVersion = "1.21"
+    apiVersion = minecraftVersion
     depend = listOf("PylonCore")
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 }
@@ -72,7 +78,7 @@ tasks.runServer {
         github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
     }
     maxHeapSize = "4G"
-    minecraftVersion("1.21.10")
+    minecraftVersion(minecraftVersion)
 }
 
 tasks.withType<Jar> {

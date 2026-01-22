@@ -834,6 +834,31 @@ pylonbase:fluid_filter:
   result: pylonbase:fluid_filter
   category: building
 
+pylonbase:fluid_limiter:
+  pattern:
+    - " C "
+    - "PBP"
+    - "   "
+  key:
+    C: minecraft:comparator
+    P: pylonbase:fluid_pipe_tin
+    B: pylonbase:backflow_valve
+  result: pylonbase:fluid_limiter
+  category: building
+
+pylonbase:fluid_accumulator:
+  pattern:
+    - " C "
+    - "PTP"
+    - "BCB"
+  key:
+    C: minecraft:comparator
+    P: pylonbase:fluid_pipe_tin
+    B: pylonbase:backflow_valve
+    T: pylonbase:portable_fluid_tank_iron
+  result: pylonbase:fluid_accumulator
+  category: building
+
 pylonbase:fluid_meter:
   pattern:
     - " A "
