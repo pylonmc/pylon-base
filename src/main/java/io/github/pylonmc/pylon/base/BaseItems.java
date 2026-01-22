@@ -2116,6 +2116,32 @@ public final class BaseItems {
         BasePages.CARGO.addItem(CARGO_FLUID_ACCUMULATOR);
     }
 
+    public static final ItemStack CARGO_OVERFLOW_GATE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_OVERFLOW_GATE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.CRIMSON_STEM.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoOverflowGate.Item.class, CARGO_OVERFLOW_GATE, BaseKeys.CARGO_OVERFLOW_GATE);
+        BasePages.CARGO.addItem(CARGO_OVERFLOW_GATE);
+    }
+
+    public static final ItemStack CREATIVE_ITEM_SOURCE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_SOURCE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_SOURCE, BaseKeys.CREATIVE_ITEM_SOURCE);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_SOURCE);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_SOURCE);
+    }
+
+    public static final ItemStack CREATIVE_ITEM_VOIDER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_VOIDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_VOIDER, BaseKeys.CREATIVE_ITEM_VOIDER);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_VOIDER);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_VOIDER);
+    }
+
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_SIMPLE)
             .set(DataComponentTypes.ITEM_MODEL, Objects.requireNonNull(Material.GOLDEN_APPLE.getDefaultData(DataComponentTypes.ITEM_MODEL)))
             .build();

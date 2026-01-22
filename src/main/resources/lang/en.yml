@@ -1694,6 +1694,24 @@ item:
       <arrow> <attr>Fluid buffer:</attr> %fluid-buffer%
     waila: "Cargo Fluid Accumulator | <light_purple>%item-threshold%</light_purple> <white>| <light_purple>%fluid-threshold%</light_purple> <white>| %bars%"
 
+  cargo_overflow_gate:
+    name: "<white>Cargo Overflow Gate"
+    lore: |-
+      <arrow> Splits items evenly between two outputs
+      <arrow> If one side is full, all items go to the other side
+      <arrow> Optionally allows prioritization of one side
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  creative_item_source:
+    name: "<#ff00ff>Creative Item Source"
+    lore: |-
+      <arrow> Provides an infinite supply of the item placed inside
+
+  creative_item_voider:
+    name: "<#ff00ff>Creative Item Voider"
+    lore: |-
+      <arrow> Destroys any items piped into it
+
   hunger_talisman_simple:
     name: "Simple Hunger Talisman"
     lore: |-
@@ -2074,16 +2092,12 @@ gui:
   filter: "Items to filter"
   left: "Left"
   right: "Right"
-  left_button:
-    name: "Change ratio left"
+  none: "None"
+  side-priority:
+    name: "Priority: <light_purple>%priority%"
     lore: |-
-      <arrow> <insn>Left click</insn> to increase
-      <arrow> <insn>Right click</insn> to decrease
-  right_button:
-    name: "Change ratio right"
-    lore: |-
-      <arrow> <insn>Left click</insn> to increase
-      <arrow> <insn>Right click</insn> to decrease
+      <arrow> The <lang:pylon.pylonbase.item.cargo_overflow_gate.name/> will always send items to this side unless it's full
+      <arrow> <insn>Left click</insn> to cycle priority
   threshold_button:
     name: "Threshold: <light_purple>%threshold%"
     lore: |-
@@ -2111,7 +2125,18 @@ gui:
       lore: |-
         <arrow> <insn>Click</insn> to toggle
   no-target-logistic-group: "No inventories available"
-  ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+  ratio:
+    name: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+    left_button:
+      name: "Change ratio left"
+      lore: |-
+        <arrow> <insn>Left click</insn> to increase
+        <arrow> <insn>Right click</insn> to decrease
+    right_button:
+      name: "Change ratio right"
+      lore: |-
+        <arrow> <insn>Left click</insn> to increase
+        <arrow> <insn>Right click</insn> to decrease
   portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"
