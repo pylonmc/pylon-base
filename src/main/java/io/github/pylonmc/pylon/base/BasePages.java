@@ -39,12 +39,12 @@ public class BasePages {
     };
 
     public static void initialise() {
-        PylonGuide.getRootPage().addPage(BaseItems.RESEARCH_PACK_1, SCIENCE);
-        PylonGuide.getRootPage().addPage(BaseItems.SHALLOW_CORE_CHUNK, RESOURCES);
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_DRILL_BIT, COMPONENTS);
+        PylonGuide.getRootPage().addPage(BaseItems.LOUPE, SCIENCE);
+        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_INGOT, RESOURCES);
+        PylonGuide.getRootPage().addPage(BaseItems.COPPER_DRILL_BIT, COMPONENTS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_PICKAXE, TOOLS);
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_SWORD, COMBAT);
-        PylonGuide.getRootPage().addPage(BaseItems.HEALTH_TALISMAN_ADVANCED, TALISMANS);
+        PylonGuide.getRootPage().addPage(BaseItems.BEHEADING_SWORD, COMBAT);
+        PylonGuide.getRootPage().addPage(BaseItems.HEALTH_TALISMAN_SIMPLE, TALISMANS);
         PylonGuide.getRootPage().addPage(BaseItems.BRONZE_CHESTPLATE, ARMOUR);
         PylonGuide.getRootPage().addPage(Material.APPLE, FOOD);
 
@@ -58,7 +58,7 @@ public class BasePages {
         MACHINES.addPage(BaseItems.BIOREFINERY, DIESEL_PRODUCTION);
         PylonGuide.getRootPage().addPage(BaseItems.MIXING_POT, MACHINES);
 
-        PylonGuide.getRootPage().addPage(BaseItems.EXPLOSIVE_TARGET, BUILDING);
+        PylonGuide.getRootPage().addPage(BaseItems.ELEVATOR_1, BUILDING);
         PylonGuide.getRootPage().addPage(BaseItems.FLUID_PIPE_CREATIVE, CREATIVE_ITEMS);
     }
 }

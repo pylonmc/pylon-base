@@ -59,9 +59,9 @@ public record BloomeryDisplayRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('i', input)
+                .addIngredient('i', new ItemButton(input))
                 .addIngredient('b', new ItemButton(BaseItems.BLOOMERY))
-                .addIngredient('r', result)
+                .addIngredient('r', new ItemButton(result))
                 .build();
     }
 }

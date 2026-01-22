@@ -25,7 +25,8 @@ import java.util.List;
 public class DieselSmelteryHeater extends SmelteryComponent implements
         PylonFluidBufferBlock,
         PylonDirectionalBlock,
-        PylonTickingBlock {
+        PylonTickingBlock,
+        PylonNoVanillaContainerBlock {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);

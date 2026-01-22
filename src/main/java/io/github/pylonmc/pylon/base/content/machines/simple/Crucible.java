@@ -46,6 +46,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public final class Crucible extends PylonBlock implements
         PylonInteractBlock,
         FluidTankWithDisplayEntity,
+        PylonDirectionalBlock,
         PylonCauldron,
         PylonTickingBlock {
 
@@ -59,7 +60,6 @@ public final class Crucible extends PylonBlock implements
     private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
 
     public static final Map<Material, Integer> VANILLA_BLOCK_HEAT_MAP = Settings.get(BaseKeys.CRUCIBLE).getOrThrow("vanilla-block-heat-map", ConfigAdapter.MAP.from(ConfigAdapter.MATERIAL, ConfigAdapter.INT));
-    public static final Set<Material> ITEM_BLACKLIST = Set.of(Material.BUCKET, Material.WATER_BUCKET, Material.LAVA_BUCKET, Material.GLASS_BOTTLE);
 
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -67,6 +67,7 @@ public final class Crucible extends PylonBlock implements
         createFluidDisplay();
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.NORTH, context, false);
         setCapacity(1000.0);
+        setFacing(context.getFacing());
     }
 
     @SuppressWarnings("unused")
@@ -111,8 +112,8 @@ public final class Crucible extends PylonBlock implements
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // Don't allow fluid to be manually inserted/removed
-        if (event.getItem() != null && ITEM_BLACKLIST.contains(event.getMaterial())) {
-            event.setCancelled(true);
+        if (BaseUtils.handleFluidTankRightClick(this, event)) {
+            updateCauldron();
             return;
         }
 
@@ -152,12 +153,12 @@ public final class Crucible extends PylonBlock implements
     }
 
     public boolean tryDoRecipe() {
-        if (processingType == null) return false;
-        if (getHeatFactor() == null) return false;
+        if (processingType == null || getHeatFactor() == null) {
+            return false;
+        }
 
         for (CrucibleRecipe recipe : CrucibleRecipe.RECIPE_TYPE.getRecipes()) {
             if (recipe.matches(processingType)) {
-
                 doRecipe(recipe);
                 return true;
             }
@@ -167,8 +168,12 @@ public final class Crucible extends PylonBlock implements
     }
 
     private void doRecipe(@NotNull CrucibleRecipe recipe) {
-        if (recipe.output().fluid().equals(getFluidType())) {
-            if (getFluidSpaceRemaining() < 1.0e-6) return; // no need to waste stuff
+        if (getFluidType() != null && !recipe.output().fluid().equals(getFluidType())) {
+            return;
+        }
+
+        if (getFluidSpaceRemaining() < recipe.output().amountMillibuckets()) {
+            return;
         }
 
         FluidOrItem.Fluid fluid = recipe.output();
@@ -176,16 +181,15 @@ public final class Crucible extends PylonBlock implements
         setFluidType(fluid.fluid());
         addFluid(fluid.amountMillibuckets());
 
-        new ParticleBuilder(Particle.SMOKE)
+        new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
                 .count(20)
-                .location(getBlock().getLocation().toCenterLocation().add(0, 0.5, 0))
-                .offset(0.3, 0, 0.3)
+                .extra(0.05)
+                .location(getBlock().getLocation().toCenterLocation())
                 .spawn();
 
-        new ParticleBuilder(Particle.ASH)
-                .count(30)
+        new ParticleBuilder(Particle.LAVA)
+                .count(10)
                 .location(getBlock().getLocation().toCenterLocation())
-                .extra(0.05)
                 .spawn();
 
         this.amount--;
@@ -226,7 +230,7 @@ public final class Crucible extends PylonBlock implements
                     PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
-                        10,
+                        20,
                         TextColor.color(200, 255, 255)
                     ))
                 ))

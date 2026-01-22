@@ -50,6 +50,9 @@ public class HydraulicTableSaw extends PylonBlock implements
     public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
+    public final ItemStackBuilder sawItem = ItemStackBuilder.of(Material.IRON_BARS)
+            .addCustomModelDataString(getKey() + ":saw");
+
     public static class Item extends PylonItem {
 
         public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
@@ -81,7 +84,7 @@ public class HydraulicTableSaw extends PylonBlock implements
                 .build(block.getLocation().toCenterLocation().add(0, 0.65, 0))
         );
         addEntity("saw", new ItemDisplayBuilder()
-                .itemStack(ItemStackBuilder.gui(Material.IRON_BARS, "saw_blade"))
+                .itemStack(sawItem)
                 .transformation(new TransformBuilder()
                         .scale(0.6, 0.4, 0.4))
                 .build(block.getLocation().toCenterLocation().add(0, 0.7, 0))

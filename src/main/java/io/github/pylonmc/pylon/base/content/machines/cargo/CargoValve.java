@@ -15,6 +15,7 @@ import io.github.pylonmc.pylon.core.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -187,5 +188,12 @@ public class CargoValve extends PylonBlock implements
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("inventory", inventory);
+    }
+
+    @Override
+    public @NotNull Map<String, Pair<String, Integer>> getBlockTextureProperties() {
+        var properties = super.getBlockTextureProperties();
+        properties.put("enabled", new Pair<>(enabled ? "true" : "false", 2));
+        return properties;
     }
 }

@@ -1,27 +1,37 @@
 package io.github.pylonmc.pylon.base.util;
 
+import com.google.common.base.Preconditions;
+import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
+import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.ItemTypeWrapper;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.PotionContents;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.BlockInventoryHolder;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -198,5 +208,116 @@ public class BaseUtils {
         }
 
         return stack;
+    }
+
+    /**
+     * Handles players right clicking with bottles, water buckets, etc
+     * Returns true if the function attempted to process the item used (i.e. if it's a water bucket, bottle, etc)
+     */
+    public boolean handleFluidTankRightClick(@NotNull PylonFluidTank tank, @NotNull PlayerInteractEvent event) {
+        if (!event.getAction().isRightClick()) {
+            return false;
+        }
+
+        ItemStack item = event.getItem();
+        EquipmentSlot hand = event.getHand();
+        if (item == null || hand == null || PylonItem.isPylonItem(item)) {
+            return false;
+        }
+
+        ItemStack newItemStack = null;
+
+        // Inserting water
+        if (item.getType() == Material.WATER_BUCKET && tank.isAllowedFluid(BaseFluids.WATER)) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            if (BaseFluids.WATER.equals(tank.getFluidType()) && tank.getFluidSpaceRemaining() >= 1000.0) {
+                tank.setFluid(tank.getFluidAmount() + 1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+
+            if (tank.getFluidType() == null) {
+                tank.setFluidType(BaseFluids.WATER);
+                tank.setFluid(1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+        }
+
+        // Inserting lava
+        if (item.getType() == Material.LAVA_BUCKET && tank.isAllowedFluid(BaseFluids.LAVA)) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            if (BaseFluids.LAVA.equals(tank.getFluidType()) && tank.getFluidSpaceRemaining() >= 1000.0) {
+                tank.addFluid(1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+
+            if (tank.getFluidType() == null) {
+                tank.setFluidType(BaseFluids.LAVA);
+                tank.setFluid(1000.0);
+                newItemStack = new ItemStack(Material.BUCKET);
+            }
+        }
+
+        if (item.getType() == Material.BUCKET) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            // Taking water
+            if (BaseFluids.WATER.equals(tank.getFluidType()) && tank.getFluidAmount() >= 1000.0) {
+                tank.removeFluid(1000.0);
+                newItemStack = new ItemStack(Material.WATER_BUCKET);
+            }
+
+            // Taking lava
+            if (BaseFluids.LAVA.equals(tank.getFluidType()) && tank.getFluidAmount() >= 1000.0) {
+                tank.removeFluid(1000.0);
+                newItemStack = new ItemStack(Material.LAVA_BUCKET);
+            }
+        }
+
+        if (item.getType() == Material.GLASS_BOTTLE) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            // Taking water
+            if (BaseFluids.WATER.equals(tank.getFluidType()) && tank.getFluidAmount() >= 333.332) {
+                tank.setFluid(Math.max(0.0, tank.getFluidAmount() - 333.333));
+                newItemStack = new ItemStack(Material.POTION);
+                newItemStack.setData(DataComponentTypes.POTION_CONTENTS, PotionContents.potionContents().potion(PotionType.WATER));
+            }
+        }
+
+        if (item.getType() == Material.POTION
+                && item.hasData(DataComponentTypes.POTION_CONTENTS)
+                && item.getData(DataComponentTypes.POTION_CONTENTS).potion() == PotionType.WATER
+        ) {
+            event.setUseItemInHand(Event.Result.DENY);
+
+            // Adding water
+            if (BaseFluids.WATER.equals(tank.getFluidType()) && tank.getFluidSpaceRemaining() >= 333.332) {
+                tank.setFluid(Math.min(tank.getFluidCapacity(), tank.getFluidAmount() + 333.333));
+                newItemStack = new ItemStack(Material.GLASS_BOTTLE);
+            }
+
+            if (tank.getFluidType() == null) {
+                tank.setFluidType(BaseFluids.WATER);
+                tank.setFluid(333.333);
+                newItemStack = new ItemStack(Material.GLASS_BOTTLE);
+            }
+        }
+
+        if (newItemStack != null) {
+            event.getPlayer().swingHand(hand);
+            if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                // This is a hack. When I change the item from within a PlayerInteractEvent, a new event
+                // is fired for the new item stack. No idea why. Nor did the guy from the paper team.
+                ItemStack finalNewItemStack = newItemStack;
+                Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
+                    item.subtract();
+                    event.getPlayer().give(finalNewItemStack);
+                }, 0);
+            }
+            return true;
+        }
+        return false;
     }
 }

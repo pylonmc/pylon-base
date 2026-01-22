@@ -1,6 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
@@ -13,6 +15,7 @@ import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FluidTankCasing extends PylonBlock {
+public class FluidTankCasing extends PylonBlock implements PylonInteractBlock {
 
     public final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
     public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
@@ -29,6 +32,7 @@ public class FluidTankCasing extends PylonBlock {
             ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
     );
     public Shape shape = Shape.SINGLE;
+    public FluidTank tank;
 
     public static class Item extends PylonItem {
 
@@ -69,6 +73,13 @@ public class FluidTankCasing extends PylonBlock {
         var properties = super.getBlockTextureProperties();
         properties.put("shape", new Pair<>(shape.name().toLowerCase(), Shape.values().length));
         return properties;
+    }
+
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        if (tank != null) {
+            BaseUtils.handleFluidTankRightClick(tank, event);
+        }
     }
 
     public void setShape(@NotNull Shape shape) {

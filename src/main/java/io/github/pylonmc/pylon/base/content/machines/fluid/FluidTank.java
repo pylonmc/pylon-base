@@ -122,6 +122,7 @@ public class FluidTank extends PylonBlock
                 casing.setShape(FluidTankCasing.Shape.MIDDLE);
             }
             Waila.addWailaOverride(new BlockPosition(casing.getBlock()), this::getWaila);
+            casing.tank = this;
         }
     }
 

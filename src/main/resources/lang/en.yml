@@ -406,19 +406,19 @@ item:
     waila: "Fluid Strainer%info%"
 
   fluid_voider_1:
-    name: "Fluid Voider <light_purple>I"
+    name: "<white>Fluid Voider <light_purple>I"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
   fluid_voider_2:
-    name: "Fluid Voider <light_purple>II"
+    name: "<white>Fluid Voider <light_purple>II"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
   fluid_voider_3:
-    name: "Fluid Voider <light_purple>III"
+    name: "<white>Fluid Voider <light_purple>III"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
@@ -2001,26 +2001,26 @@ research:
 
 guide:
   page:
-    science: "Science"
-    resources: "Resources"
-    components: "Components"
-    tools: "Tools"
-    food: "Food"
-    combat: "Combat"
-    talismans: "Talismans"
-    armour: "Armour"
-    simple_machines: "Simple machines"
-    fluid_pipes_and_tanks: "Fluid pipes and tanks"
-    fluid_machines: "Fluid machines"
-    hydraulics: "Hydraulic Machines"
-    cargo: "Cargo"
-    diesel_machines: "Diesel Machines"
-    diesel_production: "Diesel Production"
-    smelting: "Smelting"
-    machines: "Machines"
-    building: "Building"
-    creative_items: "Creative Items <#ff0000>(admin only)</#ff0000>"
-    magic: "Magic"
+    science: "<white>Science"
+    resources: "<white>Resources"
+    components: "<white>Components"
+    tools: "<white>Tools"
+    food: "<white>Food"
+    combat: "<white>Combat"
+    talismans: "<white>Talismans"
+    armour: "<white>Armour"
+    simple_machines: "<white>Simple machines"
+    fluid_pipes_and_tanks: "<white>Fluid pipes and tanks"
+    fluid_machines: "<white>Fluid machines"
+    hydraulics: "<white>Hydraulic Machines"
+    cargo: "<white>Cargo"
+    diesel_machines: "<white>Diesel Machines"
+    diesel_production: "<white>Diesel Production"
+    smelting: "<white>Smelting"
+    machines: "<white>Machines"
+    building: "<white>Building"
+    creative_items: "<white>Creative Items <#ff0000>(admin only)</#ff0000>"
+    magic: "<white>Magic"
   recipe:
     grindstone:
       time: "<attr>Grinding time:</attr> %time%"
