@@ -370,21 +370,23 @@ item:
     lore: |-
       <arrow> Limits the speed of fluid transfer
       <arrow> <insn>Right click</insn> to change the fluid transfer limit
+      <arrow> <attr>Min amount:</attr> %min-amount%
+      <arrow> <attr>Max amount:</attr> %max-amount%
     gui:
       add: "<green>+ %amount% ml/s"
       dec: "<red>- %amount% ml/s"
       amount: "<white>Amount: %amount% ml/s"
+    waila: "Fluid Limiter | %bars% (%fluid%)"
 
   fluid_accumulator:
     name: "<white>Fluid Accumulator"
     lore: |-
-      <arrow> Accumulates the specified amount of fluid before sending it out
+      <arrow> Accumulates the specified amount of fluid before releasing it all at once
+      <arrow> Power with redstone to flush all fluid to the output and prevent more fluid from being inputted
       <arrow> <insn>Right click</insn> to change the accumulation amount
-      <arrow> Give redstone impulse in order to make the accumulator output only, useful for changing the accumulation amount without wasting fluid
-    gui:
-      add: "<green>+ %amount% ml"
-      dec: "<red>- %amount% ml"
-      amount: "<white>Amount: %amount% ml"
+      <arrow> <attr>Min amount:</attr> %min-amount%
+      <arrow> <attr>Max amount:</attr> %max-amount%
+    waila: "Fluid Accumulator | %bars% (%fluid%)"
 
   fluid_meter:
     name: "<white>Fluid Meter"
@@ -2138,6 +2140,20 @@ gui:
       <arrow> <insn>Click</insn> to cycle
   fluid_meter:
     name: "<attr>Measurement duration:</attr> %measurement-duration%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
+  fluid_accumulator:
+    name: "<attr>Amount:</attr> %amount%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
+  fluid_limiter:
+    name: "<attr>Max flow rate:</attr> %max-flow-rate%"
     lore: |-
       <arrow> <insn>Left click</insn> to increase
       <arrow> <insn>Right click</insn> to decrease

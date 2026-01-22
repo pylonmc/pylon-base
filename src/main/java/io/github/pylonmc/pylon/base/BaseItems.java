@@ -1239,7 +1239,7 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_LIMITER, BaseKeys.FLUID_LIMITER);
+        PylonItem.register(FluidLimiter.Item.class, FLUID_LIMITER, BaseKeys.FLUID_LIMITER);
         BasePages.FLUID_MACHINES.addItem(FLUID_LIMITER);
     }
 
@@ -1247,7 +1247,7 @@ public final class BaseItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
             .build();
     static {
-        PylonItem.register(PylonItem.class, FLUID_ACCUMULATOR, BaseKeys.FLUID_ACCUMULATOR);
+        PylonItem.register(FluidAccumulator.Item.class, FLUID_ACCUMULATOR, BaseKeys.FLUID_ACCUMULATOR);
         BasePages.FLUID_MACHINES.addItem(FLUID_ACCUMULATOR);
     }
 

@@ -81,7 +81,7 @@ public class FluidFilter extends PylonBlock
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.35, 0.35, 0.5)
+                        .scale(0.25, 0.25, 0.5)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -89,7 +89,7 @@ public class FluidFilter extends PylonBlock
                 .itemStack(noFluidStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.3, 0.4, 0.45)
+                        .scale(0.2, 0.3, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -97,7 +97,7 @@ public class FluidFilter extends PylonBlock
                 .itemStack(noFluidStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
-                        .scale(0.4, 0.3, 0.45)
+                        .scale(0.3, 0.2, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );

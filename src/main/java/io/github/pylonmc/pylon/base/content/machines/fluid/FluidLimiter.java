@@ -1,108 +1,140 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.content.machines.fluid.gui.IntRangeInventory;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.pylon.core.i18n.PylonArgument;
+import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
-import xyz.xenondevs.invui.window.Window;
+import org.jetbrains.annotations.Nullable;
+import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.impl.AbstractItem;
+
+import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, PylonFluidTank, PylonInteractBlock {
+public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, PylonFluidTank, PylonGuiBlock {
+
+    private static final NamespacedKey MAX_FLOW_RATE_KEY = baseKey("amount");
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
-        .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder noFluidStack = ItemStackBuilder.of(Material.RED_CONCRETE)
-        .addCustomModelDataString(getKey() + ":fluid:none");
+            .addCustomModelDataString(getKey() + ":main");
+    public final ItemStackBuilder verticalStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":vertical");
 
-    public final IntRangeInventory regulator;
+    public final int buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
+    public final int minAmount = getSettings().getOrThrow("min-amount", ConfigAdapter.INT);
+    public final int maxAmount = getSettings().getOrThrow("max-amount", ConfigAdapter.INT);
 
-    private static final NamespacedKey AMOUNT_KEY = baseKey("amount");
-    public static final NamespacedKey REAL_MAX_CAPACITY = baseKey("real_max_capacity");
+    public int maxFlowRate;
 
     @SuppressWarnings("unused")
     public FluidLimiter(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block);
-        this.regulator = new IntRangeInventory(
-            BaseItems.FLUID_LIMITER,
-            this::getPipeMax,
-            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.add"),
-            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.dec"),
-            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.amount")
-        );
 
-        // a bit of a hack - treat capacity as effectively infinite and override
-        // fluidAmountRequested to control how much fluid comes in
-        setCapacity(1000);
+        setCapacity(buffer);
+        setFacing(context.getFacing());
 
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid filter can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
-        // fatty filter for now todo: add a proper unique display
         addEntity("main", new ItemDisplayBuilder()
-            .itemStack(mainStack)
-            .transformation(new TransformBuilder()
-                .lookAlong(getFacing())
-                .scale(0.4, 0.25, 0.5)
-            )
-            .build(block.getLocation().toCenterLocation())
+                .itemStack(mainStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .scale(0.25, 0.25, 0.5)
+                )
+                .build(block.getLocation().toCenterLocation())
         );
-        addEntity("fluid", new ItemDisplayBuilder()
-            .itemStack(noFluidStack)
-            .transformation(new TransformBuilder()
-                .lookAlong(getFacing())
-                .scale(0.2, 0.3, 0.45)
-            )
-            .build(block.getLocation().toCenterLocation())
+        addEntity("vertical", new ItemDisplayBuilder()
+                .itemStack(verticalStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .scale(0.2, 0.3, 0.45)
+                )
+                .build(block.getLocation().toCenterLocation())
         );
-        createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false, 0.25F);
-        createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false, 0.25F);
+
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
         setDisableBlockTextureEntity(true);
+
+        maxFlowRate = minAmount;
     }
 
     @SuppressWarnings("unused")
     public FluidLimiter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        this.regulator = new IntRangeInventory(
-            BaseItems.FLUID_LIMITER,
-            this::getPipeMax,
-            pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER),
-            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.add"),
-            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.dec"),
-            Component.translatable("pylon.pylonbase.item.fluid_limiter.gui.amount")
-        );
+
         setDisableBlockTextureEntity(true);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(AMOUNT_KEY, PylonSerializers.INTEGER, regulator.getAmount());
+        pdc.set(MAX_FLOW_RATE_KEY, PylonSerializers.INTEGER, maxFlowRate);
+    }
+
+    public static class Item extends PylonItem {
+
+        public final int minAmount = getSettings().getOrThrow("min-amount", ConfigAdapter.INT);
+        public final int maxAmount = getSettings().getOrThrow("max-amount", ConfigAdapter.INT);
+
+        public Item(@NotNull ItemStack stack) {
+            super(stack);
+        }
+
+        @Override
+        public @NotNull List<PylonArgument> getPlaceholders() {
+            return List.of(
+                    PylonArgument.of(
+                            "min-amount",
+                            UnitFormat.MILLIBUCKETS.format(minAmount)
+                    ),
+                    PylonArgument.of(
+                            "max-amount",
+                            UnitFormat.MILLIBUCKETS.format(maxAmount)
+                    )
+            );
+        }
+    }
+
+    @Override
+    public @Nullable WailaDisplay getWaila(@NotNull Player player) {
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        getFluidAmount(),
+                        getFluidCapacity(),
+                        20,
+                        TextColor.color(200, 255, 255)
+                )),
+                PylonArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                        : getFluidType().getName()
+                )
+        ));
     }
 
     @Override
@@ -111,47 +143,40 @@ public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, P
     }
 
     @Override
-    public void onInteract(PlayerInteractEvent event) {
-        if (!event.getAction().isRightClick()
-            || event.getPlayer().isSneaking()
-            || event.getHand() != EquipmentSlot.HAND
-            || event.useInteractedBlock() == Event.Result.DENY) {
-            return;
+    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
+        return Math.min(maxFlowRate, PylonFluidTank.super.fluidAmountRequested(fluid));
+    }
+
+    @Override
+    public @NotNull Gui createGui() {
+        return Gui.normal()
+                .setStructure("# # # # m # # # #")
+                .addIngredient('#', GuiItems.background())
+                .addIngredient('m', new MaxFlowRateItem())
+                .build();
+    }
+
+    public class MaxFlowRateItem extends AbstractItem {
+
+        @Override
+        public ItemProvider getItemProvider() {
+            return ItemStackBuilder.of(Material.WHITE_CONCRETE)
+                    .name(Component.translatable("pylon.pylonbase.gui.fluid_accumulator.name").arguments(
+                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS_PER_SECOND.format(maxFlowRate))
+                    ))
+                    .lore(Component.translatable("pylon.pylonbase.gui.fluid_accumulator.lore"));
         }
 
-        event.setUseInteractedBlock(Event.Result.DENY);
-        event.setUseItemInHand(Event.Result.DENY);
-
-        Window.single()
-            .setGui(regulator.makeGui())
-            .setTitle(new AdventureComponentWrapper(getNameTranslationKey()))
-            .setViewer(event.getPlayer())
-            .addCloseHandler(this::updateFluidPerSecond)
-            .build()
-            .open();
-    }
-
-    private void updateFluidPerSecond() {
-        var output = getFluidPointDisplayOrThrow(FluidPointType.OUTPUT);
-        var segment = output.getPoint().getSegment();
-        FluidManager.setFluidPerSecond(segment, regulator.getAmount());
-    }
-
-    private int getPipeMax() {
-        return Double.valueOf(getPipeMaxDouble()).intValue();
-    }
-
-    private double getPipeMaxDouble() {
-        var output = getFluidPointDisplayOrThrow(FluidPointType.OUTPUT);
-
-        PersistentDataContainer pdc = output.getEntity().getPersistentDataContainer();
-        Double realCapacity = pdc.get(REAL_MAX_CAPACITY, PylonSerializers.DOUBLE);
-        if (realCapacity == null) {
-            double original = FluidManager.getFluidPerSecond(output.getPoint().getSegment());
-            pdc.set(REAL_MAX_CAPACITY, PersistentDataType.DOUBLE, original);
-            return original;
-        } else {
-            return realCapacity;
+        @Override
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+            int delta = clickType.isShiftClick() ? 100 : 10;
+            if (clickType.isLeftClick()) {
+                maxFlowRate += delta;
+            } else if (clickType.isRightClick()) {
+                maxFlowRate -= delta;
+            }
+            maxFlowRate = Math.clamp(maxFlowRate, minAmount, maxAmount);
+            notifyWindows();
         }
     }
 }
