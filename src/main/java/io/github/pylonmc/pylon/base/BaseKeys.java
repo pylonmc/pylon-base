@@ -363,4 +363,6 @@ public class BaseKeys {
     public static final NamespacedKey HUNTING_TALISMAN_SIMPLE = baseKey("hunting_talisman_simple");
     public static final NamespacedKey HUNTING_TALISMAN_ADVANCED = baseKey("hunting_talisman_advanced");
     public static final NamespacedKey HUNTING_TALISMAN_ULTIMATE = baseKey("hunting_talisman_ultimate");
+
+    public static final NamespacedKey DISPLAY_PROJECTILE = baseKey("display_projectile");
 }

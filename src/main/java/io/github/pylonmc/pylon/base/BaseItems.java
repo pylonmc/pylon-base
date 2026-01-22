@@ -1778,8 +1778,14 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
-    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylon(Material.IRON_HORSE_ARMOR, BaseKeys.HYDRAULIC_CANNON)
-            .useCooldown(Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT), BaseKeys.HYDRAULIC_CANNON)
+    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HYDRAULIC_CANNON)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_HORSE_ARMOR.getKey())
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
+                    .useCooldown(
+                            Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20.0F
+                    )
+                    .cooldownGroup(BaseKeys.HYDRAULIC_CANNON.key())
+                    .build())
             .editPdc(pdc -> {
                 pdc.set(BaseFluids.HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
                 pdc.set(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
