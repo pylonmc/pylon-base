@@ -35,6 +35,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.SoundEventKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.key.Key;
 import org.bukkit.*;
@@ -1314,14 +1315,16 @@ public final class BaseItems {
 
     public static final ItemStack LOUPE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.LOUPE)
             .set(DataComponentTypes.ITEM_MODEL, Material.GLASS_PANE.getKey())
-            .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
-                    .consumeSeconds(3)
-                    .sound(Registry.SOUNDS.getKey(Sound.BLOCK_AMETHYST_CLUSTER_HIT))
+                    .consumeSeconds(Settings.get(BaseKeys.LOUPE).getOrThrow("use-ticks", ConfigAdapter.INT) / 20.0F)
+                    .sound(SoundEventKeys.INTENTIONALLY_EMPTY)
             )
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(1)
-                    .cooldownGroup(BaseKeys.LOUPE.key()))
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.LOUPE).getOrThrow("cooldown-ticks", ConfigAdapter.INT))
+                    .cooldownGroup(BaseKeys.LOUPE)
+            )
             .build();
     static {
         PylonItem.register(Loupe.class, LOUPE);

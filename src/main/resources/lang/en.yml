@@ -2001,12 +2001,14 @@ message:
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
-    nothing: "<red>You look at your hand. It is not very interesting"
-    invalid_block: "<red>Try as you may, you cannot glean any information from this block"
-    already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
-    examined: "<green>As you examine the %item%, you get a sudden flash of insight"
-    is_other_plugin: "<red>You smug little knave, use vanilla items not plugin ones"
+    is_other_plugin: "<red>You smug little knave, examine vanilla objects not plugin ones"
+    is_player: "<red>Examining other players provides no useful information"
+    already_examined: "<red>You've already examined this specific %object%, examine a different one"
+    max_uses: "<red>You cannot find any more interesting things about this object"
+    examining: "<green>You examine the %object% closely...."
+    examine_failed: "<red>Failed to examine the %object%. <gray>(Do you have permission?)"
+    examined: "<green>After examining the %object%, you get a sudden flash of insight!"
   research_pack:
     message: "As you open the research pack, %happening%"
     happening:
