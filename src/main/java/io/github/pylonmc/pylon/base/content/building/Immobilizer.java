@@ -9,6 +9,7 @@ import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -26,6 +27,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +36,15 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHandler {
+    public static HashMap<BlockPosition, Set<Player>> frozenPlayers = new HashMap<>();
+    private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown_millis");
+    private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
+    private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
+    private final long cooldownMillis = getSettings().getOrThrow("cooldown", ConfigAdapter.INT) * 50L;
+    private final int particleCount = getSettings().getOrThrow("particle.count", ConfigAdapter.INT);
+    private final double particleRadius = getSettings().getOrThrow("particle.radius", ConfigAdapter.DOUBLE);
+    private final int particlePeriod = getSettings().getOrThrow("particle.period", ConfigAdapter.INT);
+
     public static class Item extends PylonItem {
         private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
         private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
@@ -46,21 +57,12 @@ public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHa
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("duration", duration),
-                    PylonArgument.of("radius", radius),
-                    PylonArgument.of("cooldown", cooldown)
+                    PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(duration / 20))),
+                    PylonArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
+                    PylonArgument.of("cooldown", UnitFormat.formatDuration(Duration.ofMillis(cooldown * 50L)))
             );
         }
     }
-
-    public static HashMap<BlockPosition, Set<Player>> frozenPlayers = new HashMap<>();
-    private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown_millis");
-    private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
-    private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
-    private final long cooldownMillis = getSettings().getOrThrow("cooldown", ConfigAdapter.INT) * 50L;
-    private final int particleCount = getSettings().getOrThrow("particle.count", ConfigAdapter.INT);
-    private final double particleRadius = getSettings().getOrThrow("particle.radius", ConfigAdapter.DOUBLE);
-    private final int particlePeriod = getSettings().getOrThrow("particle.period", ConfigAdapter.INT);
 
     public Immobilizer(Block block, BlockCreateContext context) {
         super(block);

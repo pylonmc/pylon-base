@@ -10,7 +10,6 @@ import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
@@ -21,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+// TODO make PylonLogisticBlock
 public class VacuumHopper extends PylonBlock implements PylonTickingBlock, PylonBreakHandler {
 
     public static class Item extends PylonItem {
@@ -69,7 +68,7 @@ public class VacuumHopper extends PylonBlock implements PylonTickingBlock, Pylon
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         Hopper hopper = (Hopper) getBlock().getState();
         if (!((org.bukkit.block.data.type.Hopper) getBlock().getBlockData()).isEnabled()) {
             return; // don't vacuum if powered

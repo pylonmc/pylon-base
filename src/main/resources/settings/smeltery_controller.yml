@@ -1,12 +1,12 @@
 tick-interval: 20
-fluid-reaction-per-second: 100.0
+fluid-reaction-per-tick: 100.0
 display:
   resolution: 8 # pixels per block; defines the resolution of the fluid display
   lightness-variation: 0.3 # defines the lightness variation of the fluid display; 0.0 is no variation, 1.0 is full variation
   lightness-speed: 1 # defines the speed of the lightness variation; 0.0 is no speed, 1.0 is full speed
 
 room-temperature: 20.0 # °C; defines the temperature of the environment around the smeltery
-heating-factor: 0.05 # unitless; defines how much the smeltery heats up per second when heated
-cooling-factor: 0.02 # unitless; defines how much the smeltery cools down per second when not heated
+heating-factor: 0.05 # unitless; defines how much the smeltery heats up per tick when under the target temperature
+cooling-factor: 0.02 # unitless; defines how much the smeltery cools down per tick when above the target temperature
 
 max-height: 16 # blocks; defines the maximum height of the smeltery

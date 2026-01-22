@@ -1,0 +1,53 @@
+pylonbase:sulfur:
+  input:
+    pylonbase:sulfur: 144
+  result: pylonbase:sulfur
+  temperature: 112.8
+
+pylonbase:copper_ingot:
+  input:
+    pylonbase:copper: 144
+  result: minecraft:copper_ingot
+  temperature: 1083
+
+pylonbase:gold_ingot:
+  input:
+    pylonbase:gold: 144
+  result: minecraft:gold_ingot
+  temperature: 1064
+
+pylonbase:iron_ingot:
+  input:
+    pylonbase:iron: 144
+  result: minecraft:iron_ingot
+  temperature: 1538
+
+pylonbase:tin_ingot:
+  input:
+    pylonbase:tin: 144
+  result: pylonbase:tin_ingot
+  temperature: 231.9
+
+pylonbase:cobalt_ingot:
+  input:
+    pylonbase:cobalt: 144
+  result: pylonbase:cobalt_ingot
+  temperature: 1495
+
+pylonbase:nickel_ingot:
+  input:
+    pylonbase:nickel: 144
+  result: pylonbase:nickel_ingot
+  temperature: 1455
+
+pylonbase:bronze_ingot:
+  input:
+    pylonbase:bronze: 144
+  result: pylonbase:bronze_ingot
+  temperature: 950
+
+pylonbase:steel_ingot:
+  input:
+    pylonbase:steel: 144
+  result: pylonbase:steel_ingot
+  temperature: 1410

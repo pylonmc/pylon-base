@@ -6,12 +6,8 @@ import io.github.pylonmc.pylon.base.content.machines.smelting.BronzeAnvil;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
 import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.PylonItemSchema;
 import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
 import io.github.pylonmc.pylon.core.util.MiningLevel;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.RandomizedSound;
@@ -31,7 +27,6 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,60 +56,45 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
         Block blockAbove = block.getRelative(BlockFace.UP);
 
-        List<ItemStack> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         for (Entity e : block.getWorld().getNearbyEntities(BoundingBox.of(blockAbove))) {
             if (e instanceof Item entity) {
-                items.add(entity.getItemStack());
-                entity.remove();
+                items.add(entity);
             }
         }
 
-        boolean anyRecipeAttempted = false;
         for (HammerRecipe recipe : HammerRecipe.RECIPE_TYPE) {
-            if (!miningLevel.isAtLeast(recipe.level())) continue;
-
-            if (!recipeMatches(items, recipe)) continue;
-
-            if (!new PrePylonCraftEvent<>(HammerRecipe.RECIPE_TYPE, recipe, null, player).callEvent()) {
+            if (!miningLevel.isAtLeast(recipe.level())) {
                 continue;
             }
 
-            anyRecipeAttempted = true;
-
-            float adjustedChance = recipe.chance() *
-                    // Each tier is twice as likely to succeed as the previous one
-                    (1 << miningLevel.getNumericalLevel() - recipe.level().getNumericalLevel());
-            if (ThreadLocalRandom.current().nextFloat() > adjustedChance) continue;
-
-            for (ItemStack item : items) {
-                if (recipe.input().matches(item)) {
-                    item.subtract(recipe.input().getAmount());
-                    break;
+            for (Item item : items) {
+                if (!recipe.input().matches(item.getItemStack())) {
+                    continue;
                 }
+
+                if (player != null) {
+                    player.setCooldown(getStack(), cooldownTicks);
+                    PylonUtils.damageItem(getStack(), 1, player, slot);
+                } else {
+                    PylonUtils.damageItem(getStack(), 1, block.getWorld());
+                }
+
+                if (ThreadLocalRandom.current().nextFloat() > recipe.getChanceFor(miningLevel)) {
+                    return true; // recipe attempted but unsuccessful
+                }
+
+                int newAmount = item.getItemStack().getAmount() - recipe.input().getAmount();
+                item.setItemStack(item.getItemStack().asQuantity(newAmount));
+                block.getWorld().dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), recipe.result())
+                        .setVelocity(new Vector(0, 0, 0));
+                block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
+
+                return true;
             }
-
-            items.removeIf(item -> item.getAmount() <= 0);
-            items.add(recipe.result().clone());
-            new PylonCraftEvent<>(HammerRecipe.RECIPE_TYPE, recipe).callEvent();
-            break;
         }
 
-        if (anyRecipeAttempted) {
-            if (player != null) {
-                player.setCooldown(getStack(), cooldownTicks);
-                PylonUtils.damageItem(getStack(), 1, player, slot);
-            } else {
-                PylonUtils.damageItem(getStack(), 1, block.getWorld());
-            }
-            block.getWorld().playSound(sound.create(), block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5);
-        }
-
-        for (ItemStack item : items) {
-            block.getWorld().dropItem(blockAbove.getLocation().add(0.5, 0.1, 0.5), item)
-                    .setVelocity(new Vector(0, 0, 0));
-        }
-
-        return anyRecipeAttempted;
+        return false;
     }
 
     @Override
@@ -144,17 +124,5 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
                 BaseKeys.IRON_HAMMER, MiningLevel.IRON,
                 BaseKeys.DIAMOND_HAMMER, MiningLevel.DIAMOND
         ).get(key);
-    }
-
-    public static @NotNull @Unmodifiable List<ItemStack> hammersWithMiningLevelAtLeast(@NotNull MiningLevel level) {
-        return PylonRegistry.ITEMS.getValues().stream()
-                .map(PylonItemSchema::getItemStack)
-                .filter(item -> fromStack(item) instanceof Hammer hammer
-                                && hammer.miningLevel.isAtLeast(level))
-                .toList();
-    }
-
-    private static boolean recipeMatches(List<ItemStack> items, @NotNull HammerRecipe recipe) {
-        return items.stream().anyMatch(recipe.input()::matches);
     }
 }

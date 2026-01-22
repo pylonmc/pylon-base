@@ -1,3 +1,5 @@
 tick-interval: 10
 go-down-time-ticks: 1
 hydraulic-fluid-per-craft: 80
+speed: 0.5
+buffer: 500

@@ -1,29 +1,27 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
+import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.FluidManager;
 import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.fluid.VirtualFluidPoint;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -35,13 +33,18 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.Inventory;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiBlock {
+public class FluidFilter extends PylonBlock
+        implements PylonFluidTank, PylonDirectionalBlock, PylonGuiBlock {
+
+    public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
     public static class Item extends PylonItem {
 
@@ -61,10 +64,9 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
-    public final ItemStack mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
-            .addCustomModelDataString(getKey() + ":main")
-            .build();
-    public final ItemStack noFluidStack = ItemStackBuilder.of(Material.RED_CONCRETE)
+    public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":main");
+    public final ItemStack noFluidStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":fluid:none")
             .build();
 
@@ -76,31 +78,34 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
 
         fluid = null;
 
-        // a bit of a hack - treat capacity as effectively infinite and override
-        // fluidAmountRequested to control how much fluid comes in
-        setCapacity(1.0e9);
-
-        Preconditions.checkState(context instanceof BlockCreateContext.PlayerPlace, "Fluid filter can only be placed by a player");
-        Player player = ((BlockCreateContext.PlayerPlace) context).getPlayer();
-
+        setCapacity(buffer);
+        setFacing(context.getFacing());
         addEntity("main", new ItemDisplayBuilder()
                 .itemStack(mainStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                        .scale(0.25, 0.25, 0.5)
+                        .lookAlong(getFacing())
+                        .scale(0.35, 0.35, 0.5)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
-        addEntity("fluid", new ItemDisplayBuilder()
+        addEntity("fluid1", new ItemDisplayBuilder()
                 .itemStack(noFluidStack)
                 .transformation(new TransformBuilder()
-                        .lookAlong(PylonUtils.rotateToPlayerFacing(player, BlockFace.EAST, false).getDirection().toVector3d())
-                        .scale(0.2, 0.3, 0.45)
+                        .lookAlong(getFacing())
+                        .scale(0.3, 0.4, 0.45)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
-        createFluidPoint(FluidPointType.INPUT, BlockFace.EAST, context, false, 0.25F);
-        createFluidPoint(FluidPointType.OUTPUT, BlockFace.WEST, context, false, 0.25F);
+        addEntity("fluid2", new ItemDisplayBuilder()
+                .itemStack(noFluidStack)
+                .transformation(new TransformBuilder()
+                        .lookAlong(getFacing())
+                        .scale(0.4, 0.3, 0.45)
+                )
+                .build(block.getLocation().toCenterLocation())
+        );
+        createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
+        createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
         setDisableBlockTextureEntity(true);
     }
 
@@ -118,43 +123,30 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
-        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(PylonArgument.of(
-                "fluid",
-                fluid == null ? Component.translatable("pylon.pylonbase.fluid.none") : fluid.getName()
-        )));
-    }
-
-    private @NotNull ItemDisplay getFluidDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "fluid");
+        return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
+                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                        getFluidAmount(),
+                        getFluidCapacity(),
+                        20,
+                        TextColor.color(200, 255, 255)
+                )),
+                PylonArgument.of("fluid", fluid == null
+                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                        : fluid.getName()
+                )
+        ));
     }
 
     @Override
     public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
-        return true;
-    }
-
-    @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid, double deltaSeconds) {
-        if (fluid != this.fluid) {
-            return 0.0;
-        }
-
-        // Make sure the filter always has enough fluid for one tick's worth of output
-        // somewhat hacky
-        VirtualFluidPoint output = getFluidPointDisplayOrThrow(FluidPointType.OUTPUT).getPoint();
-        VirtualFluidPoint input = getFluidPointDisplayOrThrow(FluidPointType.INPUT).getPoint();
-        double outputFluidPerSecond = FluidManager.getFluidPerSecond(output.getSegment());
-        double inputFluidPerSecond = FluidManager.getFluidPerSecond(input.getSegment());
-        return Math.max(0.0, Math.min(outputFluidPerSecond, inputFluidPerSecond)
-                * PylonConfig.getFluidTickInterval()
-                * deltaSeconds
-                - getFluidAmount()
-        );
+        return fluid.equals(this.fluid);
     }
 
     public void setFluid(PylonFluid fluid) {
         this.fluid = fluid;
-        getFluidDisplay().setItemStack(fluid == null ? noFluidStack : fluid.getItem());
+        ItemStack stack = fluid == null ? noFluidStack : fluid.getItem();
+        getHeldEntityOrThrow(ItemDisplay.class, "fluid1").setItemStack(stack);
+        getHeldEntityOrThrow(ItemDisplay.class, "fluid2").setItemStack(stack);
     }
 
     @Override
@@ -165,6 +157,11 @@ public class FluidFilter extends PylonBlock implements PylonFluidTank, PylonGuiB
     @Override
     public @NotNull Component getGuiTitle() {
         return Component.translatable("pylon.pylonbase.item.fluid_filter.gui");
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+        return Map.of();
     }
 
     @Override

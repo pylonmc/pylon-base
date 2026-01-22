@@ -1,23 +1,24 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.recipes.MagicAltarRecipe;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.block.Action;
@@ -27,24 +28,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
-
-public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, PylonTickingBlock, PylonInteractBlock {
+public class MagicAltar extends PylonBlock
+        implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<MagicAltarRecipe> {
 
     public static final int PEDESTAL_COUNT = 8;
 
-    private static final NamespacedKey PROCESSING_RECIPE = baseKey("processing_recipe");
-    private static final NamespacedKey REMAINING_TIME_SECONDS = baseKey("remaining_time_seconds");
     private static final Random random = new Random();
-
-    private @Nullable NamespacedKey processingRecipe;
-    private double remainingTimeSeconds;
 
     private static final MultiblockComponent MAGIC_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.MAGIC_PEDESTAL);
 
@@ -64,20 +58,13 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
                 )
                 .build(getBlock().getLocation().toCenterLocation())
         );
+
+        setRecipeType(MagicAltarRecipe.RECIPE_TYPE);
     }
 
-    @SuppressWarnings({"unused", "DataFlowIssue"})
+    @SuppressWarnings("unused")
     public MagicAltar(Block block, PersistentDataContainer pdc) {
         super(block);
-
-        processingRecipe = pdc.get(PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY);
-        remainingTimeSeconds = pdc.get(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE);
-    }
-
-    @Override
-    public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, PROCESSING_RECIPE, PylonSerializers.NAMESPACED_KEY, processingRecipe);
-        pdc.set(REMAINING_TIME_SECONDS, PylonSerializers.DOUBLE, remainingTimeSeconds);
     }
 
     @Override
@@ -97,101 +84,63 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     @Override
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getPlayer().isSneaking()) {
-            return;
-        }
-
-        if (event.getHand() != EquipmentSlot.HAND || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+        if (event.getPlayer().isSneaking()
+                || event.getHand() != EquipmentSlot.HAND
+                || event.getAction() != Action.RIGHT_CLICK_BLOCK
+        ) {
             return;
         }
 
         event.setCancelled(true);
 
-        ItemDisplay itemDisplay = getItemDisplay();
-
         // drop item if not processing and an item is already on the altar
+        ItemDisplay itemDisplay = getItemDisplay();
         ItemStack displayItem = itemDisplay.getItemStack();
-        if (processingRecipe == null && !displayItem.getType().isAir()) {
+        if (!isProcessingRecipe() && !displayItem.getType().isAir()) {
             Location location = itemDisplay.getLocation().add(0, 0.5, 0);
             location.getWorld().dropItemNaturally(location, displayItem);
             itemDisplay.setItemStack(new ItemStack(Material.AIR));
             return;
         }
 
-        if (!isFormedAndFullyLoaded()) {
+        ItemStack catalyst = event.getItem();
+        if (!isFormedAndFullyLoaded() || catalyst == null || isProcessingRecipe()) {
             return;
         }
 
         // attempt to start recipe
-        ItemStack catalyst = event.getItem();
-        if (catalyst != null && processingRecipe == null) {
-            List<ItemStack> ingredients = new ArrayList<>();
+        List<ItemStack> ingredients = new ArrayList<>();
+        for (Pedestal pedestal : getPedestals()) {
+            ingredients.add(pedestal.getItemDisplay().getItemStack());
+        }
+
+        for (MagicAltarRecipe recipe : MagicAltarRecipe.RECIPE_TYPE.getRecipes()) {
+            if (!recipe.isValidRecipe(ingredients, catalyst)) {
+                continue;
+            }
+
+            itemDisplay.setItemStack(catalyst.asQuantity(1));
+            catalyst.subtract();
             for (Pedestal pedestal : getPedestals()) {
-                ingredients.add(pedestal.getItemDisplay().getItemStack());
+                pedestal.setLocked(true);
             }
-
-            for (MagicAltarRecipe recipe : MagicAltarRecipe.RECIPE_TYPE.getRecipes()) {
-                if (recipe.isValidRecipe(ingredients, catalyst)) {
-                    if (!new PrePylonCraftEvent<>(MagicAltarRecipe.RECIPE_TYPE, recipe, this, event.getPlayer()).callEvent()) {
-                        continue;
-                    }
-
-                    itemDisplay.setItemStack(catalyst.asQuantity(1));
-                    catalyst.subtract();
-                    startRecipe(recipe);
-                    break;
-                }
-            }
+            startRecipe(recipe, recipe.timeSeconds() * 20);
+            break;
         }
     }
 
-    public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded()) {
-            if (getCurrentRecipe() != null) {
-                cancelRecipe();
-            }
+    @Override
+    public void tick() {
+        progressRecipe(tickInterval);
+
+        if (!isProcessingRecipe()) {
             return;
         }
 
-        if (getCurrentRecipe() != null) {
-            if (remainingTimeSeconds <= 0.0) {
-                finishRecipe();
-            } else {
-                tickRecipe(deltaSeconds);
-            }
+        if (!isFormedAndFullyLoaded()) {
+            cancelRecipe();
+            return;
         }
-    }
-
-    public List<Pedestal> getPedestals() {
-        List<Pedestal> pedestals = new ArrayList<>();
-        for (Vector3i vector : getComponents().keySet()) {
-            Block block = getBlock().getRelative(vector.x, vector.y, vector.z);
-            pedestals.add(BlockStorage.getAs(Pedestal.class, block));
-        }
-        return pedestals;
-    }
-
-    public @Nullable MagicAltarRecipe getCurrentRecipe() {
-        if (processingRecipe == null) {
-            return null;
-        }
-        return MagicAltarRecipe.RECIPE_TYPE.getRecipe(processingRecipe);
-    }
-
-    public ItemDisplay getItemDisplay() {
-        return getHeldEntityOrThrow(ItemDisplay.class, "item");
-    }
-
-    public void startRecipe(MagicAltarRecipe recipe) {
-        for (Pedestal pedestal : getPedestals()) {
-            pedestal.setLocked(true);
-        }
-        processingRecipe = recipe.key();
-        remainingTimeSeconds = recipe.timeSeconds();
-    }
-
-    public void tickRecipe(double deltaSeconds) {
-        remainingTimeSeconds -= deltaSeconds;
 
         List<Pedestal> usedPedestals = getPedestals()
                 .stream()
@@ -214,7 +163,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
         }
 
         // end rod line animation
-        assert usedPedestals.size() > 1;
+        Preconditions.checkState(usedPedestals.size() > 1);
         int from = random.nextInt(usedPedestals.size());
         int to = random.nextInt(usedPedestals.size());
         while (to == from) {
@@ -232,18 +181,27 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
         );
     }
 
-    public void finishRecipe() {
-        ItemDisplay itemDisplay = getItemDisplay();
+    public List<Pedestal> getPedestals() {
+        List<Pedestal> pedestals = new ArrayList<>();
+        for (Vector3i vector : getComponents().keySet()) {
+            Block block = getBlock().getRelative(vector.x, vector.y, vector.z);
+            pedestals.add(BlockStorage.getAs(Pedestal.class, block));
+        }
+        return pedestals;
+    }
 
+    public ItemDisplay getItemDisplay() {
+        return getHeldEntityOrThrow(ItemDisplay.class, "item");
+    }
+
+    @Override
+    public void onRecipeFinished(@NotNull MagicAltarRecipe recipe) {
         for (Pedestal pedestal : getPedestals()) {
             pedestal.getItemDisplay().setItemStack(null);
             pedestal.setLocked(false);
         }
 
-        new PylonCraftEvent<>(MagicAltarRecipe.RECIPE_TYPE, getCurrentRecipe(), this).callEvent();
-
-        itemDisplay.setItemStack(getCurrentRecipe().result());
-        processingRecipe = null;
+        getItemDisplay().setItemStack(recipe.result());
 
         new ParticleBuilder(Particle.CAMPFIRE_COSY_SMOKE)
                 .count(20)
@@ -253,13 +211,13 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
     }
 
     public void cancelRecipe() {
+        stopRecipe();
+
         for (Pedestal pedestal : getPedestals()) {
             if (pedestal != null) {
                 pedestal.setLocked(false);
             }
         }
-
-        processingRecipe = null;
 
         new ParticleBuilder(Particle.WHITE_SMOKE)
                 .count(20)
@@ -270,7 +228,7 @@ public class MagicAltar extends PylonBlock implements PylonSimpleMultiblock, Pyl
 
     public static void drawLine(
             Location start,
-            Location end,
+            @NotNull Location end,
             double spacing,
             Consumer<Location> spawnParticle
     ) {

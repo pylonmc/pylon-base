@@ -3,16 +3,17 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.components.FluidInputHatch;
+import io.github.pylonmc.pylon.base.content.components.FluidOutputHatch;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -30,7 +32,12 @@ import java.util.Map;
 
 public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
 
+    public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
+    public final double hydraulicFluidPerCycle = hydraulicFluidUsage * getCycleDuration() / 20.0;
+
     public static class Item extends CoreDrill.Item {
+
+        public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
@@ -39,14 +46,10 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             List<PylonArgument> placeholders = new ArrayList<>(super.getPlaceholders());
-            placeholders.add(PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(HYDRAULIC_FLUID_USAGE)));
+            placeholders.add(PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)));
             return placeholders;
         }
     }
-
-    public static final Config settings = Settings.get(BaseKeys.HYDRAULIC_CORE_DRILL);
-    public static final int HYDRAULIC_FLUID_USAGE = settings.getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
-    public final double hydraulicFluidPerCycle = HYDRAULIC_FLUID_USAGE * getCycleDuration() / 20.0;
 
     @SuppressWarnings("unused")
     public HydraulicCoreDrill(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -88,10 +91,8 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         components.put(new Vector3i(1, -2, 2), new VanillaMultiblockComponent(Material.IRON_BARS));
 
         components.put(new Vector3i(0, -2, 3), new VanillaMultiblockComponent(Material.CAULDRON));
-        components.put(new Vector3i(1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_INPUT_HATCH));
-        components.put(new Vector3i(1, -1, 3), new PylonMultiblockComponent(BaseKeys.FLUID_TANK_CASING_COPPER));
-        components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.HYDRAULIC_CORE_DRILL_OUTPUT_HATCH));
-        components.put(new Vector3i(-1, -1, 3), new PylonMultiblockComponent(BaseKeys.FLUID_TANK_CASING_COPPER));
+        components.put(new Vector3i(1, -2, 3), new PylonMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
+        components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
 
         components.put(new Vector3i(0, -2, 4), new VanillaMultiblockComponent(Material.CHEST));
 
@@ -99,25 +100,13 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     }
 
     @Override
-    public void tick(double deltaSeconds) {
-        if (!isFormedAndFullyLoaded() || isCycling()) {
+    public void tick() {
+        if (!isFormedAndFullyLoaded() || isProcessing()) {
             return;
         }
 
-        HydraulicCoreDrillHatch inputHatch = BlockStorage.getAs(
-                HydraulicCoreDrillInputHatch.class,
-                getBlock().getLocation().add(
-                        Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()))
-                )
-        );
-
-        HydraulicCoreDrillHatch outputHatch = BlockStorage.getAs(
-                HydraulicCoreDrillOutputHatch.class,
-                getBlock().getLocation().add(
-                        Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing()))
-                )
-        );
-
+        FluidInputHatch inputHatch = getInputHatch();
+        FluidOutputHatch outputHatch = getOutputHatch();
         Preconditions.checkState(inputHatch != null && outputHatch != null);
 
         if (inputHatch.fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidPerCycle
@@ -132,9 +121,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     }
 
     @Override
-    protected void finishCycle() {
-        cycling = false;
-
+    public void onProcessFinished() {
         Vector3i chestOffset = PylonUtils.rotateVectorToFace(new Vector3i(0, -2, 4), getFacing());
         if (!(getBlock().getRelative(chestOffset.x, chestOffset.y, chestOffset.z).getState() instanceof Chest chest)) {
             return;
@@ -148,5 +135,40 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
                 getBlock().getRelative(BlockFace.DOWN, 2).getLocation().toCenterLocation(),
                 output
         );
+    }
+
+    @Override
+    public void onMultiblockFormed() {
+        super.onMultiblockFormed();
+        FluidInputHatch inputHatch = getInputHatch();
+        FluidOutputHatch outputHatch = getOutputHatch();
+        Preconditions.checkState(inputHatch != null && outputHatch != null);
+        inputHatch.setFluidType(BaseFluids.HYDRAULIC_FLUID);
+        outputHatch.setFluidType(BaseFluids.DIRTY_HYDRAULIC_FLUID);
+    }
+
+    @Override
+    public void onMultiblockUnformed(boolean partUnloaded) {
+        super.onMultiblockUnformed(partUnloaded);
+        FluidInputHatch inputHatch = getInputHatch();
+        if (inputHatch != null) {
+            inputHatch.setFluidType(null);
+        }
+        FluidOutputHatch outputHatch = getOutputHatch();
+        if (outputHatch != null) {
+            outputHatch.setFluidType(null);
+        }
+    }
+
+    public @Nullable FluidInputHatch getInputHatch() {
+        Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()));
+        Location inputHatchLocation = getBlock().getLocation().add(relativeLocation);
+        return BlockStorage.getAs(FluidInputHatch.class, inputHatchLocation);
+    }
+
+    public @Nullable FluidOutputHatch getOutputHatch() {
+        Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing()));
+        Location inputHatchLocation = getBlock().getLocation().add(relativeLocation);
+        return BlockStorage.getAs(FluidOutputHatch.class, inputHatchLocation);
     }
 }

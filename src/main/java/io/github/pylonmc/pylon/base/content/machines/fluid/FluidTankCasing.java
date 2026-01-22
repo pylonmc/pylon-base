@@ -10,8 +10,6 @@ import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.waila.Waila;
 import kotlin.Pair;
-import lombok.Getter;
-
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import org.bukkit.block.Block;
@@ -25,13 +23,17 @@ import java.util.stream.Collectors;
 
 public class FluidTankCasing extends PylonBlock {
 
+    public final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
+    public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
+            "allowed-temperatures",
+            ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
+    );
+    public Shape shape = Shape.SINGLE;
+
     public static class Item extends PylonItem {
 
-        @Getter
-        private final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
-
-        @Getter
-        private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
+        public final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
+        public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
                 "allowed-temperatures",
                 ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
         );
@@ -53,18 +55,6 @@ public class FluidTankCasing extends PylonBlock {
             );
         }
     }
-
-    @Getter
-    private final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
-
-    @Getter
-    private final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
-            "allowed-temperatures",
-            ConfigAdapter.LIST.from(ConfigAdapter.FLUID_TEMPERATURE)
-    );
-
-    @Getter
-    private Shape shape = Shape.SINGLE;
 
     public FluidTankCasing(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);

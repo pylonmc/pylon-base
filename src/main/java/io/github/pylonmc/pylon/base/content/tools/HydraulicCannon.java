@@ -25,8 +25,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static io.github.pylonmc.pylon.core.util.PylonUtils.isPylonSimilar;
-
 
 public class HydraulicCannon extends PylonItem implements PylonInteractor, HydraulicRefuelable {
 
@@ -82,7 +80,7 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
         boolean projectileFound = false;
         for (ItemStack stack : event.getPlayer().getInventory()) {
-            if (isPylonSimilar(stack, BaseItems.TIN_PROJECTILE)) {
+            if (BaseItems.TIN_PROJECTILE.isSimilar(stack)) {
                 stack.subtract();
                 projectileFound = true;
                 break;

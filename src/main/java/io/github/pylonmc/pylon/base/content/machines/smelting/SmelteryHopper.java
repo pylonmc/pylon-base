@@ -2,14 +2,16 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.event.PrePylonCraftEvent;
-import io.github.pylonmc.pylon.core.event.PylonCraftEvent;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.VanillaInventoryLogisticSlot;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -17,7 +19,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public final class SmelteryHopper extends SmelteryComponent implements PylonTickingBlock, PylonVanillaContainerBlock, PylonBreakHandler {
+public final class SmelteryHopper extends SmelteryComponent implements
+        PylonTickingBlock,
+        PylonVanillaContainerBlock,
+        PylonLogisticBlock,
+        PylonBreakHandler {
 
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -28,6 +34,20 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
+    }
+
+    @Override
+    public void postInitialise() {
+        Hopper hopper = (Hopper) getBlock().getState();
+        createLogisticGroup(
+                "input",
+                LogisticGroupType.INPUT,
+                new VanillaInventoryLogisticSlot(hopper.getInventory(), 0),
+                new VanillaInventoryLogisticSlot(hopper.getInventory(), 1),
+                new VanillaInventoryLogisticSlot(hopper.getInventory(), 2),
+                new VanillaInventoryLogisticSlot(hopper.getInventory(), 3),
+                new VanillaInventoryLogisticSlot(hopper.getInventory(), 4)
+        );
     }
 
     @Override
@@ -47,7 +67,7 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
     }
 
     @Override
-    public void tick(double deltaSeconds) {
+    public void tick() {
         SmelteryController controller = getController();
         if (controller == null) return;
         Hopper hopper = (Hopper) getBlock().getState(false);
@@ -56,9 +76,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             MeltingRecipe recipe = null;
             for (MeltingRecipe meltingRecipe : MeltingRecipe.RECIPE_TYPE) {
                 if (meltingRecipe.input().contains(item)) {
-                    if (!new PrePylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, meltingRecipe, controller).callEvent()) {
-                        continue;
-                    }
                     recipe = meltingRecipe;
                     break;
                 }
@@ -68,7 +85,6 @@ public final class SmelteryHopper extends SmelteryComponent implements PylonTick
             if (controller.getTemperature() >= recipe.temperature() && fluidAmountAfterAdding <= controller.getCapacity()) {
                 controller.addFluid(recipe.result(), recipe.resultAmount());
                 item.subtract();
-                new PylonCraftEvent<>(MeltingRecipe.RECIPE_TYPE, recipe, controller).callEvent();
             }
         }
     }
