@@ -18,6 +18,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
 import io.github.pylonmc.pylon.core.waila.WailaDisplay;
@@ -48,11 +50,13 @@ public class HydraulicHammerHead extends PylonBlock implements
         PylonInteractBlock,
         PylonFluidBufferBlock,
         PylonProcessor,
+        PylonLogisticBlock,
         PylonDirectionalBlock {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
     public final int goDownTimeTicks = getSettings().getOrThrow("go-down-time-ticks", ConfigAdapter.INT);
+    public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
     public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -63,6 +67,7 @@ public class HydraulicHammerHead extends PylonBlock implements
 
     public static class Item extends PylonItem {
 
+        public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
         public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
 
@@ -73,6 +78,7 @@ public class HydraulicHammerHead extends PylonBlock implements
         @Override
         public @NotNull List<PylonArgument> getPlaceholders() {
             return List.of(
+                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
                     PylonArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerCraft)),
                     PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
@@ -117,6 +123,11 @@ public class HydraulicHammerHead extends PylonBlock implements
     }
 
     @Override
+    public void postInitialise() {
+        createLogisticGroup("hammer", LogisticGroupType.INPUT, new HammerLogisticSlot());
+    }
+
+    @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
         PylonUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
@@ -152,6 +163,8 @@ public class HydraulicHammerHead extends PylonBlock implements
     @Override
     public void tick() {
         if (isProcessing()) {
+            removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerCraft * getTickInterval() / getProcessTimeTicks());
+            addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerCraft * getTickInterval() / getProcessTimeTicks());
             progressProcess(getTickInterval());
             return;
         }
@@ -175,31 +188,24 @@ public class HydraulicHammerHead extends PylonBlock implements
             );
         }
 
-        if (fluidAmount(BaseFluids.HYDRAULIC_FLUID) < hydraulicFluidPerCraft
-                || fluidSpaceRemaining(BaseFluids.DIRTY_HYDRAULIC_FLUID) < hydraulicFluidPerCraft
-                || !hammer.tryDoRecipe(baseBlock, null, null, BlockFace.UP)
-        ) {
+        if (!hammer.tryDoRecipe(baseBlock, null, null, BlockFace.UP)) {
             return;
         }
-
-        removeFluid(BaseFluids.HYDRAULIC_FLUID, hydraulicFluidPerCraft);
-        addFluid(BaseFluids.DIRTY_HYDRAULIC_FLUID, hydraulicFluidPerCraft);
 
         BaseUtils.animate(getHammerHead(), goDownTimeTicks, getHeadTransformation(-0.5));
         BaseUtils.animate(getHammerTip(), goDownTimeTicks, getTipTransformation(-1.5));
 
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            BaseUtils.animate(getHammerHead(), hammer.cooldownTicks - goDownTimeTicks, getHeadTransformation(0.7));
-            BaseUtils.animate(getHammerTip(), hammer.cooldownTicks - goDownTimeTicks, getTipTransformation(-0.3));
+            BaseUtils.animate(getHammerHead(), (int)(hammer.cooldownTicks / speed) - goDownTimeTicks, getHeadTransformation(0.7));
+            BaseUtils.animate(getHammerTip(), (int)(hammer.cooldownTicks / speed) - goDownTimeTicks, getTipTransformation(-0.3));
 
             new ParticleBuilder(Particle.BLOCK)
                     .data(baseBlock.getBlockData())
                     .count(20)
                     .location(baseBlock.getLocation().toCenterLocation().add(0, 0.6, 0))
                     .spawn();
+            startProcess((int)(hammer.cooldownTicks / speed));
         }, goDownTimeTicks);
-
-        startProcess(hammer.cooldownTicks);
     }
 
     @Override
@@ -247,5 +253,31 @@ public class HydraulicHammerHead extends PylonBlock implements
                         TextColor.fromHexString("#48459b")
                 ))
         ));
+    }
+
+    private class HammerLogisticSlot implements LogisticSlot {
+        @Override
+        public @Nullable ItemStack getItemStack() {
+            return hammer == null ? null : hammer.getStack();
+        }
+
+        @Override
+        public long getAmount() {
+            return hammer == null ? 0 : hammer.getStack().getAmount();
+        }
+
+        @Override
+        public long getMaxAmount(@NotNull ItemStack stack) {
+            return PylonItem.fromStack(stack) instanceof Hammer ? stack.getMaxStackSize() : 0;
+        }
+
+        @Override
+        public void set(@Nullable ItemStack stack, long amount) {
+            if (stack == null) {
+                hammer = null;
+                return;
+            }
+            hammer = (Hammer) PylonItem.fromStack(stack.asQuantity((int) amount));
+        }
     }
 }

@@ -7,7 +7,6 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class BaseKeys {
     public static final NamespacedKey ROCK_DUST = baseKey("rock_dust");
-    public static final NamespacedKey UNFIRED_BRICK = baseKey("unfired_brick");
 
     public static final NamespacedKey OBSIDIAN_CHIP = baseKey("obsidian_chip");
 
@@ -157,6 +156,7 @@ public class BaseKeys {
     public static final NamespacedKey GRINDSTONE_HANDLE = baseKey("grindstone_handle");
 
     public static final NamespacedKey MIXING_POT = baseKey("mixing_pot");
+    public static final NamespacedKey CRUCIBLE = baseKey("crucible");
 
     public static final NamespacedKey PRESS = baseKey("press");
 
@@ -185,6 +185,11 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_TANK_CASING_BRONZE = baseKey("fluid_tank_casing_bronze");
     public static final NamespacedKey FLUID_TANK_CASING_IGNEOUS_COMPOSITE = baseKey("fluid_tank_casing_igneous_composite");
     public static final NamespacedKey FLUID_TANK_CASING_STEEL = baseKey("fluid_tank_casing_steel");
+
+    public static final NamespacedKey FLUID_INPUT_HATCH = baseKey("fluid_input_hatch");
+    public static final NamespacedKey FLUID_OUTPUT_HATCH = baseKey("fluid_output_hatch");
+    public static final NamespacedKey ITEM_INPUT_HATCH = baseKey("item_input_hatch");
+    public static final NamespacedKey ITEM_OUTPUT_HATCH = baseKey("item_output_hatch");
 
     public static final NamespacedKey WATER_PUMP = baseKey("water_pump");
 
@@ -262,8 +267,6 @@ public class BaseKeys {
     public static final NamespacedKey IMPROVED_MANUAL_CORE_DRILL = baseKey("improved_manual_core_drill");
 
     public static final NamespacedKey HYDRAULIC_CORE_DRILL = baseKey("hydraulic_core_drill");
-    public static final NamespacedKey HYDRAULIC_CORE_DRILL_INPUT_HATCH = baseKey("hydraulic_core_drill_input_hatch");
-    public static final NamespacedKey HYDRAULIC_CORE_DRILL_OUTPUT_HATCH = baseKey("hydraulic_core_drill_output_hatch");
 
     public static final NamespacedKey SHALLOW_CORE_CHUNK = baseKey("shallow_core_chunk");
     public static final NamespacedKey SUBSURFACE_CORE_CHUNK = baseKey("subsurface_core_chunk");
@@ -286,7 +289,8 @@ public class BaseKeys {
     public static final NamespacedKey HYDRAULIC_REFUELING_STATION = baseKey("hydraulic_refueling_station");
 
     public static final NamespacedKey HYDRAULIC_FARMER = baseKey("hydraulic_farmer");
-    public static final NamespacedKey HYDRAULIC_EXCAVATOR = baseKey("hydraulic_excavator");
+    public static final NamespacedKey HYDRAULIC_MINER = baseKey("hydraulic_miner");
+    public static final NamespacedKey HYDRAULIC_BREAKER = baseKey("hydraulic_breaker");
 
     public static final NamespacedKey REACTIVATED_WITHER_SKULL = baseKey("reactivated_wither_skull");
     public static final NamespacedKey HYPER_ACTIVATED_WITHER_SKULL = baseKey("hyper_activated_wither_skull");
@@ -298,9 +302,67 @@ public class BaseKeys {
     public static final NamespacedKey DIESEL_PRESS = baseKey("diesel_press");
     public static final NamespacedKey DIESEL_GRINDSTONE = baseKey("diesel_grindstone");
     public static final NamespacedKey DIESEL_BRICK_MOLDER = baseKey("diesel_brick_molder");
+    public static final NamespacedKey DIESEL_HAMMER_HEAD = baseKey("diesel_hammer_head");
+    public static final NamespacedKey DIESEL_MIXING_ATTACHMENT = baseKey("diesel_mixing_attachment");
+    public static final NamespacedKey DIESEL_SMELTERY_HEATER = baseKey("diesel_smeltery_heater");
+    public static final NamespacedKey DIESEL_FURNACE = baseKey("diesel_furnace");
+    public static final NamespacedKey DIESEL_BREAKER = baseKey("diesel_breaker");
+    public static final NamespacedKey DIESEL_MINER = baseKey("diesel_miner");
+
+    public static final NamespacedKey FERMENTER = baseKey("fermenter");
+    public static final NamespacedKey FERMENTER_CORE = baseKey("fermenter_core");
+    public static final NamespacedKey FERMENTER_CASING = baseKey("fermenter_casing");
+
+    public static final NamespacedKey BIOREFINERY = baseKey("biorefinery");
+    public static final NamespacedKey BIOREFINERY_FOUNDATION = baseKey("biorefinery_foundation");
+    public static final NamespacedKey BIOREFINERY_PLATING = baseKey("biorefinery_plating");
+    public static final NamespacedKey BIOREFINERY_TOWER_RING = baseKey("biorefinery_tower_ring");
+    public static final NamespacedKey BIOREFINERY_SMOKESTACK_RING = baseKey("biorefinery_smokestack_ring");
+    public static final NamespacedKey BIOREFINERY_SMOKESTACK_CAP = baseKey("biorefinery_smokestack_cap");
 
     public static final NamespacedKey CARGO_BUFFER = baseKey("cargo_buffer");
     public static final NamespacedKey CARGO_DUCT = baseKey("cargo_duct");
     public static final NamespacedKey CARGO_EXTRACTOR = baseKey("cargo_extractor");
     public static final NamespacedKey CARGO_INSERTER = baseKey("cargo_inserter");
+    public static final NamespacedKey CARGO_SPLITTER = baseKey("cargo_splitter");
+    public static final NamespacedKey CARGO_MERGER = baseKey("cargo_merger");
+    public static final NamespacedKey CARGO_VALVE = baseKey("cargo_valve");
+    public static final NamespacedKey CARGO_FILTER = baseKey("cargo_filter");
+    public static final NamespacedKey CARGO_MONITOR = baseKey("cargo_monitor");
+    public static final NamespacedKey CARGO_METER = baseKey("cargo_meter");
+    public static final NamespacedKey CARGO_GATE = baseKey("cargo_gate");
+    public static final NamespacedKey CARGO_ACCUMULATOR = baseKey("cargo_accumulator");
+    public static final NamespacedKey CARGO_FLUID_ACCUMULATOR = baseKey("cargo_fluid_accumulator");
+
+    public static final NamespacedKey HUNGER_TALISMAN_SIMPLE = baseKey("hunger_talisman_simple");
+    public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");
+    public static final NamespacedKey HUNGER_TALISMAN_ULTIMATE = baseKey("hunger_talisman_ultimate");
+
+    public static final NamespacedKey FARMER_TALISMAN_SIMPLE = baseKey("farmer_talisman_simple");
+    public static final NamespacedKey FARMER_TALISMAN_ADVANCED = baseKey("farmer_talisman_advanced");
+    public static final NamespacedKey FARMER_TALISMAN_ULTIMATE = baseKey("farmer_talisman_ultimate");
+
+    public static final NamespacedKey BARTERING_TALISMAN_SIMPLE = baseKey("bartering_talisman_simple");
+    public static final NamespacedKey BARTERING_TALISMAN_ADVANCED = baseKey("bartering_talisman_advanced");
+    public static final NamespacedKey BARTERING_TALISMAN_ULTIMATE = baseKey("bartering_talisman_ultimate");
+
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_SIMPLE = baseKey("water_breathing_talisman_simple");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_ADVANCED = baseKey("water_breathing_talisman_advanced");
+    public static final NamespacedKey WATER_BREATHING_TALISMAN_ULTIMATE = baseKey("water_breathing_talisman_ultimate");
+
+    public static final NamespacedKey LUCK_TALISMAN_SIMPLE = baseKey("luck_talisman_simple");
+    public static final NamespacedKey LUCK_TALISMAN_ADVANCED = baseKey("luck_talisman_advanced");
+    public static final NamespacedKey LUCK_TALISMAN_ULTIMATE = baseKey("luck_talisman_ultimate");
+
+    public static final NamespacedKey BREEDING_TALISMAN_SIMPLE = baseKey("breeding_talisman_simple");
+    public static final NamespacedKey BREEDING_TALISMAN_ADVANCED = baseKey("breeding_talisman_advanced");
+    public static final NamespacedKey BREEDING_TALISMAN_ULTIMATE = baseKey("breeding_talisman_ultimate");
+
+    public static final NamespacedKey ENCHANTING_TALISMAN_SIMPLE = baseKey("enchanting_talisman_simple");
+    public static final NamespacedKey ENCHANTING_TALISMAN_ADVANCED = baseKey("enchanting_talisman_advanced");
+    public static final NamespacedKey ENCHANTING_TALISMAN_ULTIMATE = baseKey("enchanting_talisman_ultimate");
+
+    public static final NamespacedKey HUNTING_TALISMAN_SIMPLE = baseKey("hunting_talisman_simple");
+    public static final NamespacedKey HUNTING_TALISMAN_ADVANCED = baseKey("hunting_talisman_advanced");
+    public static final NamespacedKey HUNTING_TALISMAN_ULTIMATE = baseKey("hunting_talisman_ultimate");
 }

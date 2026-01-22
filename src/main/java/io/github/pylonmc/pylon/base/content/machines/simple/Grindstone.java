@@ -8,6 +8,7 @@ import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
 import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonRecipeProcessor;
 import io.github.pylonmc.pylon.core.block.base.PylonSimpleMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -16,12 +17,18 @@ import io.github.pylonmc.pylon.core.config.Settings;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.ItemDisplayLogisticSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Slab;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -36,8 +43,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Grindstone extends PylonBlock
-        implements PylonSimpleMultiblock, PylonInteractBlock, PylonBreakHandler, PylonRecipeProcessor<GrindstoneRecipe> {
+public class Grindstone extends PylonBlock implements
+        PylonSimpleMultiblock,
+        PylonInteractBlock,
+        PylonBreakHandler,
+        PylonLogisticBlock,
+        PylonRecipeProcessor<GrindstoneRecipe> {
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
             .getOrThrow("cycle-duration-ticks",ConfigAdapter.INT);
@@ -66,6 +77,11 @@ public class Grindstone extends PylonBlock
     @SuppressWarnings("unused")
     public Grindstone(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+    }
+
+    @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticGroupType.INPUT, new ItemDisplayLogisticSlot(getItemDisplay()));
     }
 
     @Override
@@ -194,5 +210,21 @@ public class Grindstone extends PylonBlock
                 .translate(0, translation, 0)
                 .rotate(0, rotation, 0)
                 .buildForItemDisplay();
+    }
+
+    public static final class PlaceListener implements Listener {
+        @EventHandler
+        private void onPlace(PrePylonBlockPlaceEvent e) {
+            if (!e.getBlockSchema().getKey().equals(BaseKeys.GRINDSTONE)) return;
+            Slab slab = (Slab) e.getBlock().getBlockData();
+            switch (slab.getType()) {
+                case TOP -> {
+                    slab.setType(Slab.Type.BOTTOM);
+                    e.getBlock().setBlockData(slab);
+                }
+                case BOTTOM -> { /* Allow */ }
+                case DOUBLE -> e.setCancelled(true);
+            }
+        }
     }
 }

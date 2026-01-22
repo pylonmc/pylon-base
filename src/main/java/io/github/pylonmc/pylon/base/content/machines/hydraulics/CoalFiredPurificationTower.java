@@ -1,7 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
+import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
+import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -12,8 +14,8 @@ import io.github.pylonmc.pylon.core.fluid.FluidPointType;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
+import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
 import io.github.pylonmc.pylon.core.registry.PylonRegistry;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
 import io.github.pylonmc.pylon.core.util.gui.ProgressItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
@@ -48,6 +50,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         PylonDirectionalBlock,
         PylonProcessor,
         PylonGuiBlock,
+        PylonLogisticBlock,
         PylonTickingBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
@@ -55,7 +58,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
-    public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
+    public static final NamespacedKey FUELS_KEY = baseKey("coal_fired_purification_tower_fuels");
     public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
 
     // TODO display fuels
@@ -86,6 +89,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
                 baseKey("charcoal"),
                 new ItemStack(Material.CHARCOAL),
                 10
+        ));
+        FUELS.register(new Fuel(
+                baseKey("charcoal_block"),
+                BaseItems.CHARCOAL_BLOCK,
+                90
         ));
     }
 
@@ -134,6 +142,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     }
 
     @Override
+    public void postInitialise() {
+        createLogisticGroup("fuel",  LogisticGroupType.INPUT, inventory);
+    }
+
+    @Override
     public @NotNull Gui createGui() {
         return Gui.normal()
                 .setStructure(
@@ -178,7 +191,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         if (!isProcessing()) {
             ItemStack item = inventory.getUnsafeItem(0);
             for (Fuel fuel : FUELS) {
-                if (item == null || !PylonUtils.isPylonSimilar(item, fuel.stack)) {
+                if (item == null || !item.isSimilar(fuel.stack)) {
                     continue;
                 }
 

@@ -3,13 +3,11 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonMultiblock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
-import io.github.pylonmc.pylon.core.waila.Waila;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -19,7 +17,10 @@ import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.pylon.core.util.position.BlockPosition;
 import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import io.github.pylonmc.pylon.core.waila.Waila;
+import io.github.pylonmc.pylon.core.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.block.Block;
@@ -37,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 public class FluidTank extends PylonBlock
-        implements PylonMultiblock, PylonFluidTank, PylonEntityHolderBlock {
+        implements PylonMultiblock, PylonFluidTank, PylonDirectionalBlock {
 
     private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
@@ -65,6 +66,7 @@ public class FluidTank extends PylonBlock
     @SuppressWarnings("unused")
     public FluidTank(@NotNull Block block, @NotNull BlockCreateContext context) {
         super(block, context);
+        setFacing(context.getFacing());
         addEntity("fluid", new ItemDisplayBuilder()
                 .build(getBlock().getLocation().toCenterLocation().add(0, 1, 0))
         );
@@ -136,6 +138,7 @@ public class FluidTank extends PylonBlock
         allowedTemperatures.clear();
         if (!partUnloaded) {
             setCapacity(0);
+            setFluid(0);
             setFluidType(null);
         }
     }
