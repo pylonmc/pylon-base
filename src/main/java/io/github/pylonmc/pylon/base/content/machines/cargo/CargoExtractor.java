@@ -3,7 +3,9 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
@@ -16,8 +18,8 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroup;
-import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
+import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
 import io.github.pylonmc.pylon.core.util.MachineUpdateReason;
 import io.github.pylonmc.pylon.core.util.PylonUtils;
 import io.github.pylonmc.pylon.core.util.gui.GuiItems;
@@ -29,15 +31,15 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.HashSet;
 import java.util.List;
@@ -93,7 +95,7 @@ public class CargoExtractor extends CargoInteractor implements
     public class WhitelistToggleItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public ItemProvider getItemProvider(@NotNull Player viewer) {
             return ItemStackBuilder.gui(isWhitelist ? Material.WHITE_CONCRETE : Material.BLACK_CONCRETE, "blacklist-whitelist-toggle")
                     .name(Component.translatable("pylon.pylonbase.gui.whitelist-blacklist-toggle."
                             + (isWhitelist ? "whitelist.name" : "blacklist.name")
@@ -104,7 +106,7 @@ public class CargoExtractor extends CargoInteractor implements
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             isWhitelist = !isWhitelist;
             notifyWindows();
         }
@@ -171,7 +173,7 @@ public class CargoExtractor extends CargoInteractor implements
     public void postInitialise() {
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
 
-        filterInventory.setPostUpdateHandler(event -> {
+        filterInventory.addPostUpdateHandler(event -> {
             itemsToFilter.clear();
             for (ItemStack stack : filterInventory.getItems()) {
                 if (stack != null) {
@@ -209,7 +211,7 @@ public class CargoExtractor extends CargoInteractor implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # O # # # #",
                         "# b # # o # # i #",

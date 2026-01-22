@@ -1,7 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -19,7 +21,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -163,7 +164,7 @@ public class CargoValve extends PylonBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)

@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.base.content.machines.diesel.production.Biorefinery;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
@@ -148,7 +147,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # f # # # #",
@@ -196,7 +195,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
                 }
 
                 inventory.setItemAmount(null, 0, item.getAmount() - 1);
-                getProcessProgressItem().setItemStackBuilder(runningProgressItem);
+                getProcessProgressItem().setItem(runningProgressItem);
                 startProcess(fuel.burnTimeSeconds * 20);
                 break;
             }
@@ -223,7 +222,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
 
     @Override
     public void onProcessFinished() {
-        getProcessProgressItem().setItemStackBuilder(idleProgressItem);
+        getProcessProgressItem().setItem(idleProgressItem);
     }
 
     @Override

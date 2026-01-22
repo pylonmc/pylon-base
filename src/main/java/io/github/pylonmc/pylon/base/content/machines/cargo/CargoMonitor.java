@@ -175,7 +175,7 @@ public class CargoMonitor extends PylonBlock
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
         createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        inventory.setPostUpdateHandler(event -> {
+        inventory.addPostUpdateHandler(event -> {
             ItemStack newStack = event.getNewItem();
             if (newStack != null && !newStack.isEmpty()) {
                 getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(event.getNewItem());
@@ -189,7 +189,7 @@ public class CargoMonitor extends PylonBlock
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)

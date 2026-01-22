@@ -1,7 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.base.*;
+import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
@@ -26,7 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 public class CargoInserter extends CargoInteractor implements
@@ -146,7 +148,7 @@ public class CargoInserter extends CargoInteractor implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # i # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('i', new InventoryCycleItem())

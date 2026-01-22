@@ -4,7 +4,6 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.Miner;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -153,12 +152,12 @@ public class DieselMiner extends Miner implements
         super.postInitialise();
         createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
-        toolInventory.setPostUpdateHandler(event -> {
+        outputInventory.addPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        toolInventory.addPostUpdateHandler(event -> {
             stopProcess();
             updateMiner();
         });
-        outputInventory.setPostUpdateHandler(event -> updateMiner());
+        outputInventory.addPostUpdateHandler(event -> updateMiner());
         updateMiner();
     }
 
@@ -195,7 +194,7 @@ public class DieselMiner extends Miner implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # T # O O O # #",
                         "# # t # o o o # #",

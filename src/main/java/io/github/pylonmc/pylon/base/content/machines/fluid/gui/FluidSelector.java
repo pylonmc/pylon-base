@@ -10,12 +10,13 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -30,7 +31,7 @@ public final class FluidSelector {
         AbstractItem currentItem = new CurrentItem(getFluid);
         Function<PylonFluid, AbstractItem> fluidItem = itemFluid -> new FluidItem(itemFluid, setFluid, currentItem);
 
-        Gui gui = Gui.normal()
+        Gui gui = Gui.builder()
                 .setStructure(
                         "x x b x x x c x x",
                         ". . . . . . . . .",
@@ -62,7 +63,7 @@ public final class FluidSelector {
         }
 
         @Override
-        public @NotNull ItemProvider getItemProvider() {
+        public @NotNull ItemProvider getItemProvider(@NotNull Player viewer) {
             PylonFluid fluid = getFluid.get();
             return ItemStackBuilder.of(fluid == null ? new ItemStack(Material.BARRIER) : fluid.getItem())
                     .name(Component.translatable(
@@ -78,7 +79,7 @@ public final class FluidSelector {
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {}
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {}
     }
 
     private static class FluidItem extends AbstractItem {
@@ -94,7 +95,7 @@ public final class FluidSelector {
         }
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             if (itemFluid == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
                         .name(Component.translatable("pylon.pylonbase.message.fluid_selector.clear"));
@@ -104,7 +105,7 @@ public final class FluidSelector {
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             setFluid.accept(itemFluid);
             currentItem.notifyWindows();
         }

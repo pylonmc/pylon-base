@@ -94,7 +94,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # f # # # #",
@@ -134,7 +134,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
                 }
 
                 this.fuel = fuel;
-                progressItem.setItemStackBuilder(burningProgressItem);
+                progressItem.setItem(burningProgressItem);
                 inventory.setItem(null, i, item.subtract());
                 startProcess(Math.round(fuel.burnTimeSeconds * 20));
                 refreshBlockTextureItem();
@@ -145,7 +145,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
 
     @Override
     public void onProcessFinished() {
-        progressItem.setItemStackBuilder(notBurningProgressItem);
+        progressItem.setItem(notBurningProgressItem);
         refreshBlockTextureItem();
         fuel = null;
     }

@@ -75,7 +75,7 @@ public record GrindstoneRecipe(
 
     @Override
     public @NotNull Gui display() {
-        Gui.Builder.Normal gui = Gui.normal()
+        var gui = Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # c # 1 2 3 #",

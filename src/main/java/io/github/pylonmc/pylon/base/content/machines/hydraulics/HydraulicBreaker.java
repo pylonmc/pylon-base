@@ -41,11 +41,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 public class HydraulicBreaker extends PylonBlock implements
@@ -176,7 +172,7 @@ public class HydraulicBreaker extends PylonBlock implements
     @Override
     public @NotNull Gui createGui() {
         // Not actually used, just provided for easy inventory serialization
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', toolInventory)

@@ -40,17 +40,18 @@ import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -128,7 +129,7 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # i # c # # #",
@@ -143,7 +144,7 @@ public final class SmelteryController extends SmelteryComponent
     private class InfoItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             Material material;
             List<Component> lore = new ArrayList<>();
             if (isFormedAndFullyLoaded()) {
@@ -178,7 +179,7 @@ public final class SmelteryController extends SmelteryComponent
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             if (isFormedAndFullyLoaded()) {
                 setRunning(!running);
                 notifyWindows();
@@ -189,7 +190,7 @@ public final class SmelteryController extends SmelteryComponent
     private class ContentsItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             List<Component> lore = new ArrayList<>();
             if (fluids.isEmpty()) {
                 lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.contents.empty"));
@@ -215,7 +216,7 @@ public final class SmelteryController extends SmelteryComponent
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
         }
     }
 

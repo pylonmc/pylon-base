@@ -120,7 +120,7 @@ public class SmelteryRecipe implements PylonRecipe {
     public @NotNull Gui display() {
         Preconditions.checkState(fluidInputs.size() < 6);
         Preconditions.checkState(fluidOutputs.size() < 6);
-        Gui gui = Gui.normal()
+        Gui gui = Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# . . # # # . . #",

@@ -63,7 +63,7 @@ public record StrainingRecipe(
 
     @Override
     public @NotNull Gui display() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # i # # # # #",

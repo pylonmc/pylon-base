@@ -148,8 +148,8 @@ public class DieselHammerHead extends PylonBlock implements
 
     @Override
     public void postInitialise() {
-        hammerInventory.setPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
-        hammerInventory.setPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        hammerInventory.addPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        hammerInventory.addPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
         createLogisticGroup("hammer", LogisticGroupType.INPUT, hammerInventory);
     }
 
@@ -218,7 +218,7 @@ public class DieselHammerHead extends PylonBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # H # # # #",
                         "# # # # x # # # #",

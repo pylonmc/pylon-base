@@ -3,7 +3,6 @@ package io.github.pylonmc.pylon.base.content.machines.diesel.machines;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
@@ -42,11 +41,7 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 public class DieselBreaker extends PylonBlock implements
@@ -156,9 +151,9 @@ public class DieselBreaker extends PylonBlock implements
     public void postInitialise() {
         createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
-        toolInventory.setPostUpdateHandler(event -> tryStartDrilling());
-        outputInventory.setPostUpdateHandler(event -> tryStartDrilling());
+        outputInventory.addPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        toolInventory.addPostUpdateHandler(event -> tryStartDrilling());
+        outputInventory.addPostUpdateHandler(event -> tryStartDrilling());
         tryStartDrilling();
     }
 
@@ -257,7 +252,7 @@ public class DieselBreaker extends PylonBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # T # O # # #",
                         "# # # t # o # # #",
