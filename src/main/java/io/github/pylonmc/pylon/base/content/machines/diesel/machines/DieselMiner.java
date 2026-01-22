@@ -4,7 +4,6 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.content.machines.hydraulics.Miner;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
 import io.github.pylonmc.pylon.core.block.base.*;
 import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
@@ -38,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
@@ -51,6 +49,7 @@ public class DieselMiner extends Miner implements
         PylonDirectionalBlock,
         PylonFluidBufferBlock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonLogisticBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -258,11 +257,11 @@ public class DieselMiner extends Miner implements
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
         PylonFluidBufferBlock.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
+        PylonVirtualInventoryBlock.super.onBreak(drops, context);
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of(
                 "tool", toolInventory,
                 "output", outputInventory
