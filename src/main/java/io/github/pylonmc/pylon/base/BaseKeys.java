@@ -196,6 +196,8 @@ public class BaseKeys {
     public static final NamespacedKey FLUID_VALVE = baseKey("fluid_valve");
     public static final NamespacedKey FLUID_METER = baseKey("fluid_meter");
     public static final NamespacedKey FLUID_FILTER = baseKey("fluid_filter");
+    public static final NamespacedKey FLUID_LIMITER = baseKey("fluid_limiter");
+    public static final NamespacedKey FLUID_ACCUMULATOR = baseKey("fluid_accumulator");
 
     public static final NamespacedKey WATER_PLACER = baseKey("water_placer");
     public static final NamespacedKey LAVA_PLACER = baseKey("lava_placer");
@@ -331,6 +333,9 @@ public class BaseKeys {
     public static final NamespacedKey CARGO_GATE = baseKey("cargo_gate");
     public static final NamespacedKey CARGO_ACCUMULATOR = baseKey("cargo_accumulator");
     public static final NamespacedKey CARGO_FLUID_ACCUMULATOR = baseKey("cargo_fluid_accumulator");
+    public static final NamespacedKey CARGO_OVERFLOW_GATE = baseKey("cargo_overflow_gate");
+    public static final NamespacedKey CREATIVE_ITEM_SOURCE = baseKey("creative_item_source");
+    public static final NamespacedKey CREATIVE_ITEM_VOIDER = baseKey("creative_item_voider");
 
     public static final NamespacedKey HUNGER_TALISMAN_SIMPLE = baseKey("hunger_talisman_simple");
     public static final NamespacedKey HUNGER_TALISMAN_ADVANCED = baseKey("hunger_talisman_advanced");
@@ -363,4 +368,6 @@ public class BaseKeys {
     public static final NamespacedKey HUNTING_TALISMAN_SIMPLE = baseKey("hunting_talisman_simple");
     public static final NamespacedKey HUNTING_TALISMAN_ADVANCED = baseKey("hunting_talisman_advanced");
     public static final NamespacedKey HUNTING_TALISMAN_ULTIMATE = baseKey("hunting_talisman_ultimate");
+
+    public static final NamespacedKey DISPLAY_PROJECTILE = baseKey("display_projectile");
 }

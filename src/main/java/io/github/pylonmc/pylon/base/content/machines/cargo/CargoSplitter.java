@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.core.block.PylonBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -32,7 +33,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.SuppliedItem;
@@ -47,8 +47,11 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 
-public class CargoSplitter extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock {
+public class CargoSplitter extends PylonBlock implements
+        PylonDirectionalBlock,
+        PylonGuiBlock,
+        PylonVirtualInventoryBlock,
+        PylonCargoBlock {
 
     public static final NamespacedKey RATIO_LEFT_KEY = baseKey("ratio_left");
     public static final NamespacedKey RATIO_RIGHT_KEY = baseKey("ratio_right");
@@ -83,14 +86,14 @@ public class CargoSplitter extends PylonBlock
             .name(Component.translatable("pylon.pylonbase.gui.right"));
     public final ItemStackBuilder ratioStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio");
     public final ItemStackBuilder leftButtonStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left_button")
-            .name(Component.translatable("pylon.pylonbase.gui.left_button.name"))
-            .lore(Component.translatable("pylon.pylonbase.gui.left_button.lore"));
+            .name(Component.translatable("pylon.pylonbase.gui.ratio.left_button.name"))
+            .lore(Component.translatable("pylon.pylonbase.gui.ratio.left_button.lore"));
     public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
-            .name(Component.translatable("pylon.pylonbase.gui.right_button.name"))
-            .lore(Component.translatable("pylon.pylonbase.gui.right_button.lore"));
+            .name(Component.translatable("pylon.pylonbase.gui.ratio.right_button.name"))
+            .lore(Component.translatable("pylon.pylonbase.gui.ratio.right_button.lore"));
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("input", inputInventory, "left", leftInventory, "right", rightInventory);
     }
 
@@ -242,7 +245,7 @@ public class CargoSplitter extends PylonBlock
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
                 .addIngredient('a', new SuppliedItem(() -> ratioStack.clone()
-                        .name(Component.translatable("pylon.pylonbase.gui.ratio").arguments(
+                        .name(Component.translatable("pylon.pylonbase.gui.ratio.name").arguments(
                                 PylonArgument.of("left", ratioLeft),
                                 PylonArgument.of("right", ratioRight)
                         )),

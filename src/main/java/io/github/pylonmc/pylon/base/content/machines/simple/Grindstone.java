@@ -176,10 +176,10 @@ public class Grindstone extends PylonBlock implements
                 Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
                     BaseUtils.animate(getStoneDisplay(), CYCLE_DURATION_TICKS / 4, getStoneDisplayMatrix(translation, rotation));
                     new ParticleBuilder(Particle.BLOCK)
-                            .data(nextRecipe.particleBlockData())
-                            .count(10)
-                            .location(getBlock().getLocation().toCenterLocation())
-                            .spawn();
+                        .data(nextRecipe.particleBlockData())
+                        .count(10)
+                        .location(getBlock().getLocation().toCenterLocation())
+                        .spawn();
 
                     progressRecipe(CYCLE_DURATION_TICKS / 4);
                 }, (long) ((i + j/4.0) * CYCLE_DURATION_TICKS));

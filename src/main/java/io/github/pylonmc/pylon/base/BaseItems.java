@@ -35,6 +35,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.*;
 import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import io.papermc.paper.registry.keys.SoundEventKeys;
 import io.papermc.paper.registry.keys.tags.DamageTypeTagKeys;
 import net.kyori.adventure.key.Key;
 import org.bukkit.*;
@@ -1211,6 +1212,22 @@ public final class BaseItems {
         BasePages.FLUID_MACHINES.addItem(FLUID_FILTER);
     }
 
+    public static final ItemStack FLUID_LIMITER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_LIMITER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidLimiter.Item.class, FLUID_LIMITER, BaseKeys.FLUID_LIMITER);
+        BasePages.FLUID_MACHINES.addItem(FLUID_LIMITER);
+    }
+
+    public static final ItemStack FLUID_ACCUMULATOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_ACCUMULATOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidAccumulator.Item.class, FLUID_ACCUMULATOR, BaseKeys.FLUID_ACCUMULATOR);
+        BasePages.FLUID_MACHINES.addItem(FLUID_ACCUMULATOR);
+    }
+
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_METER)
             .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_BLUE_STAINED_GLASS.getKey())
             .build();
@@ -1290,14 +1307,16 @@ public final class BaseItems {
 
     public static final ItemStack LOUPE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.LOUPE)
             .set(DataComponentTypes.ITEM_MODEL, Material.GLASS_PANE.getKey())
-            .set(DataComponentTypes.CONSUMABLE, io.papermc.paper.datacomponent.item.Consumable.consumable()
+            .set(DataComponentTypes.CONSUMABLE, Consumable.consumable()
                     .animation(ItemUseAnimation.SPYGLASS)
                     .hasConsumeParticles(false)
-                    .consumeSeconds(3)
-                    .sound(Registry.SOUNDS.getKey(Sound.BLOCK_AMETHYST_CLUSTER_HIT))
+                    .consumeSeconds(Settings.get(BaseKeys.LOUPE).getOrThrow("use-ticks", ConfigAdapter.INT) / 20.0F)
+                    .sound(SoundEventKeys.INTENTIONALLY_EMPTY)
             )
-            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(1)
-                    .cooldownGroup(BaseKeys.LOUPE.key()))
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
+                    Settings.get(BaseKeys.LOUPE).getOrThrow("cooldown-ticks", ConfigAdapter.INT))
+                    .cooldownGroup(BaseKeys.LOUPE)
+            )
             .build();
     static {
         PylonItem.register(Loupe.class, LOUPE);
@@ -1751,8 +1770,14 @@ public final class BaseItems {
         BasePages.SIMPLE_MACHINES.addItem(VACUUM_HOPPER_4);
     }
 
-    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylon(Material.IRON_HORSE_ARMOR, BaseKeys.HYDRAULIC_CANNON)
-            .useCooldown(Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT), BaseKeys.HYDRAULIC_CANNON)
+    public static final ItemStack HYDRAULIC_CANNON = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HYDRAULIC_CANNON)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_HORSE_ARMOR.getKey())
+            .set(DataComponentTypes.USE_COOLDOWN, UseCooldown
+                    .useCooldown(
+                            Settings.get(BaseKeys.HYDRAULIC_CANNON).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20.0F
+                    )
+                    .cooldownGroup(BaseKeys.HYDRAULIC_CANNON.key())
+                    .build())
             .editPdc(pdc -> {
                 pdc.set(BaseFluids.HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
                 pdc.set(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, 0.0);
@@ -2089,6 +2114,32 @@ public final class BaseItems {
     static {
         PylonItem.register(HealthTalisman.class, HEALTH_TALISMAN_ULTIMATE);
         BasePages.TALISMANS.addItem(HEALTH_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack CARGO_OVERFLOW_GATE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CARGO_OVERFLOW_GATE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.CRIMSON_STEM.getKey())
+            .build();
+    static {
+        PylonItem.register(CargoOverflowGate.Item.class, CARGO_OVERFLOW_GATE, BaseKeys.CARGO_OVERFLOW_GATE);
+        BasePages.CARGO.addItem(CARGO_OVERFLOW_GATE);
+    }
+
+    public static final ItemStack CREATIVE_ITEM_SOURCE = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_SOURCE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_SOURCE, BaseKeys.CREATIVE_ITEM_SOURCE);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_SOURCE);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_SOURCE);
+    }
+
+    public static final ItemStack CREATIVE_ITEM_VOIDER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.CREATIVE_ITEM_VOIDER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.PINK_TERRACOTTA.getKey())
+            .build();
+    static {
+        PylonItem.register(PylonItem.class, CREATIVE_ITEM_VOIDER, BaseKeys.CREATIVE_ITEM_VOIDER);
+        PylonGuide.hideItem(BaseKeys.CREATIVE_ITEM_VOIDER);
+        BasePages.CREATIVE_ITEMS.addItem(CREATIVE_ITEM_VOIDER);
     }
 
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.pylon(Material.CLAY_BALL, BaseKeys.HUNGER_TALISMAN_SIMPLE)

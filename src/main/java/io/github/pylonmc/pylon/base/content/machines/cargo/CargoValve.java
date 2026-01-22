@@ -20,7 +20,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -32,7 +31,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
@@ -44,6 +42,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public class CargoValve extends PylonBlock implements
         PylonDirectionalBlock,
         PylonGuiBlock,
+        PylonVirtualInventoryBlock,
         PylonCargoBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
@@ -187,7 +186,7 @@ public class CargoValve extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("inventory", inventory);
     }
 

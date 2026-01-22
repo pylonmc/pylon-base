@@ -4,6 +4,7 @@ import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.fluid.PylonFluid;
 import io.github.pylonmc.pylon.core.i18n.PylonArgument;
@@ -24,14 +25,17 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.Map;
 
-public final class SmelteryCaster extends SmelteryComponent implements PylonGuiBlock, PylonTickingBlock, PylonLogisticBlock {
+public final class SmelteryCaster extends SmelteryComponent implements
+        PylonGuiBlock,
+        PylonVirtualInventoryBlock,
+        PylonTickingBlock,
+        PylonLogisticBlock {
 
     private @Nullable PylonFluid bottomFluid = null;
 
@@ -138,7 +142,7 @@ public final class SmelteryCaster extends SmelteryComponent implements PylonGuiB
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("output", inventory);
     }
 
