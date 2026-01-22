@@ -10,6 +10,7 @@ import io.github.pylonmc.pylon.core.i18n.PylonArgument;
 import io.github.pylonmc.pylon.core.item.PylonItem;
 import io.papermc.paper.event.block.TargetHitEvent;
 import org.bukkit.GameRule;
+import org.bukkit.GameRules;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -52,7 +53,7 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
         Block hitBlock = event.getHitBlock();
         Preconditions.checkState(hitBlock != null);
 
-        Boolean tntExplodes = hitBlock.getWorld().getGameRuleValue(GameRule.TNT_EXPLODES);
+        Boolean tntExplodes = hitBlock.getWorld().getGameRuleValue(GameRules.TNT_EXPLODES);
         if (tntExplodes != null && !tntExplodes) {
             return;
         }

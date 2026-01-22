@@ -124,7 +124,6 @@ public final class MixingPot extends PylonBlock implements
         }
 
         if (event.getItem() != null && BaseUtils.handleFluidTankRightClick(this, event)) {
-            updateCauldron();
             return;
         }
 

@@ -113,7 +113,6 @@ public final class Crucible extends PylonBlock implements
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // Don't allow fluid to be manually inserted/removed
         if (BaseUtils.handleFluidTankRightClick(this, event)) {
-            updateCauldron();
             return;
         }
 
