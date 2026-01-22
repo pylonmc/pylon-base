@@ -2109,6 +2109,9 @@ gui:
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
   progress_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
+  vacuum_hopper:
+    blacklist: "<white>Blacklist"
+    whitelist: "<white>Whitelist"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
   logistic-group-cycle-item:
