@@ -59,17 +59,17 @@ pylonbase:lumber_axe:
   result: pylonbase:lumber_axe
   time-seconds: 45
 
-pylonbase:item_magnet:
+pylonbase:shimmer_magnet:
   shape:
-    - "DGR"
-    - "DSR"
-    - "DGR"
+    - "SI "
+    - "  R"
+    - "EI "
   key:
-    S: pylonbase:iron_sheet
-    D: pylonbase:shimmer_dust_2
+    I: pylonbase:iron_sheet
     R: minecraft:redstone_block
-    G: pylonbase:gold_sheet
-  result: pylonbase:item_magnet
+    S: pylonbase:shimmer_dust_2
+    E: minecraft:diamond_dust
+  result: pylonbase:shimmer_magnet
   time-seconds: 20
 
 pylonbase:beheading_sword:

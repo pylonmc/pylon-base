@@ -5,6 +5,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
@@ -29,7 +30,7 @@ import java.util.Map;
 
 
 public class CreativeItemSource extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonVirtualInventoryBlock {
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -106,7 +107,7 @@ public class CreativeItemSource extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("inventory", inventory);
     }
 

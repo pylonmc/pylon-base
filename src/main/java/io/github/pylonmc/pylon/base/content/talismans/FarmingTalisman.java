@@ -19,18 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class FarmerTalisman extends Talisman {
+public class FarmingTalisman extends Talisman {
     public float extraCropChance = getSettings().getOrThrow("extra-crop-chance", ConfigAdapter.FLOAT);
-    public static final NamespacedKey FARMER_TALISMAN_KEY = BaseUtils.baseKey("farmer_talisman");
-    public static final NamespacedKey FARMER_TALISMAN_CHANCE_KEY = BaseUtils.baseKey("farmer_talisman_chance");
+    public static final NamespacedKey FARMING_TALISMAN_KEY = BaseUtils.baseKey("farming_talisman");
+    public static final NamespacedKey FARMING_TALISMAN_CHANCE_KEY = BaseUtils.baseKey("farming_talisman_chance");
 
-    public FarmerTalisman(@NotNull ItemStack stack) {
+    public FarmingTalisman(@NotNull ItemStack stack) {
         super(stack);
     }
 
     @Override
     public NamespacedKey getTalismanKey() {
-        return FARMER_TALISMAN_KEY;
+        return FARMING_TALISMAN_KEY;
     }
 
     @Override
@@ -41,19 +41,19 @@ public class FarmerTalisman extends Talisman {
     @Override
     public void applyEffect(@NotNull Player player) {
         super.applyEffect(player);
-        player.getPersistentDataContainer().set(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT, extraCropChance);
+        player.getPersistentDataContainer().set(FARMING_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT, extraCropChance);
     }
 
     @Override
     public void removeEffect(@NotNull Player player) {
         super.removeEffect(player);
-        player.getPersistentDataContainer().remove(FARMER_TALISMAN_CHANCE_KEY);
+        player.getPersistentDataContainer().remove(FARMING_TALISMAN_CHANCE_KEY);
     }
 
-    public static class FarmerTalismanListener implements Listener {
+    public static class FarmingTalismanListener implements Listener {
         @EventHandler
         public void onBlockBreak(BlockDropItemEvent event) {
-            if (!event.getPlayer().getPersistentDataContainer().has(FARMER_TALISMAN_CHANCE_KEY)) {
+            if (!event.getPlayer().getPersistentDataContainer().has(FARMING_TALISMAN_CHANCE_KEY)) {
                 return;
             }
             List<Item> additionalDrops = new ArrayList<>();
@@ -61,7 +61,7 @@ public class FarmerTalisman extends Talisman {
                 if (!Tag.CROPS.isTagged(drop.getItemStack().getType())) {
                     continue;
                 }
-                if (ThreadLocalRandom.current().nextFloat() > event.getPlayer().getPersistentDataContainer().get(FARMER_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT)) {
+                if (ThreadLocalRandom.current().nextFloat() > event.getPlayer().getPersistentDataContainer().get(FARMING_TALISMAN_CHANCE_KEY, PersistentDataType.FLOAT)) {
                     continue;
                 }
                 additionalDrops.add(drop.getWorld().dropItem(drop.getLocation(), drop.getItemStack().clone()));

@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.recipes;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.base.content.machines.simple.MagicAltar;
+import io.github.pylonmc.pylon.base.content.machines.simple.ShimmerAltar;
 import io.github.pylonmc.pylon.core.config.ConfigSection;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.guide.button.ItemButton;
@@ -31,7 +31,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
  *                 itemstack to have an amount that's not 1 will have no effect)
  * @param result the output (respects amount)
  */
-public record MagicAltarRecipe(
+public record ShimmerAltarRecipe(
         @NotNull NamespacedKey key,
         @NotNull List<RecipeInput.@Nullable Item> inputs,
         @NotNull RecipeInput.Item catalyst,
@@ -44,9 +44,9 @@ public record MagicAltarRecipe(
         return key;
     }
 
-    public static final RecipeType<MagicAltarRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("magic_altar")) {
+    public static final RecipeType<ShimmerAltarRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("shimmer_altar")) {
         @Override
-        protected @NotNull MagicAltarRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
+        protected @NotNull ShimmerAltarRecipe loadRecipe(@NotNull NamespacedKey key, @NotNull ConfigSection section) {
             List<String> shape = section.getOrThrow("shape", ConfigAdapter.LIST.from(ConfigAdapter.STRING));
             if (shape.size() != 3) {
                 throw new IllegalArgumentException("Invalid shape size, must be 3");
@@ -83,7 +83,7 @@ public record MagicAltarRecipe(
                 throw new IllegalArgumentException("Catalyst (center item) cannot be empty");
             }
 
-            return new MagicAltarRecipe(
+            return new ShimmerAltarRecipe(
                     key,
                     inputs,
                     catalyst,
@@ -93,22 +93,22 @@ public record MagicAltarRecipe(
         }
     };
 
-    public MagicAltarRecipe {
-        if (inputs.size() != MagicAltar.PEDESTAL_COUNT) {
-            throw new IllegalArgumentException("Invalid number of inputs, must be " + MagicAltar.PEDESTAL_COUNT);
+    public ShimmerAltarRecipe {
+        if (inputs.size() != ShimmerAltar.PEDESTAL_COUNT) {
+            throw new IllegalArgumentException("Invalid number of inputs, must be " + ShimmerAltar.PEDESTAL_COUNT);
         }
     }
 
     public boolean ingredientsMatch(List<ItemStack> ingredients) {
         Preconditions.checkArgument(
-                ingredients.size() == MagicAltar.PEDESTAL_COUNT,
+                ingredients.size() == ShimmerAltar.PEDESTAL_COUNT,
                 "Invalid number of ingredients, must be %d",
-                MagicAltar.PEDESTAL_COUNT
+                ShimmerAltar.PEDESTAL_COUNT
         );
 
-        for (int i = 0; i < MagicAltar.PEDESTAL_COUNT; i++) {
+        for (int i = 0; i < ShimmerAltar.PEDESTAL_COUNT; i++) {
             boolean allIngredientsMatch = true;
-            for (int j = 0; j < MagicAltar.PEDESTAL_COUNT; j++) {
+            for (int j = 0; j < ShimmerAltar.PEDESTAL_COUNT; j++) {
                 RecipeInput.Item input = this.inputs.get(j);
                 if (input != null && !input.matches(ingredients.get(j))) {
                     allIngredientsMatch = false;
@@ -158,7 +158,7 @@ public record MagicAltarRecipe(
                         "# # # # # # # # #"
                 )
                 .addIngredient('#', GuiItems.backgroundBlack())
-                .addIngredient('m', ItemButton.from(BaseItems.MAGIC_ALTAR))
+                .addIngredient('m', ItemButton.from(BaseItems.SHIMMER_ALTAR))
                 .addIngredient('c', ItemButton.from(catalyst))
                 .addIngredient('0', ItemButton.from(inputs.get(0)))
                 .addIngredient('1', ItemButton.from(inputs.get(1)))

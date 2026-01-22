@@ -6,6 +6,7 @@ import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.pylon.core.block.base.PylonVirtualInventoryBlock;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
 import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
@@ -40,6 +41,7 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.CycleItem;
+import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,7 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 public class CargoOverflowGate extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonEntityHolderBlock {
+        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonVirtualInventoryBlock {
 
     private static final NamespacedKey SIDE_PRIORITY_KEY = baseKey("side_priority");
     private static final NamespacedKey IS_LEFT_KEY = baseKey("is_left");
@@ -192,7 +194,7 @@ public class CargoOverflowGate extends PylonBlock
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
+    public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of(
                 "input", inputInventory,
                 "left", leftInventory,
@@ -201,12 +203,12 @@ public class CargoOverflowGate extends PylonBlock
     }
 
     @RequiredArgsConstructor
-    private class PriorityButton extends AbstractItem {
+    private class PriorityButton extends ControlItem<Gui> {
         private final @NotNull SidePriority setPriority;
         private final @NotNull ItemStackBuilder item;
 
         @Override
-        public ItemProvider getItemProvider() {
+        public ItemProvider getItemProvider(Gui gui) {
             return item;
         }
 
