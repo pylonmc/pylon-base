@@ -6,7 +6,6 @@ import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
 import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
 import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
 import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
 import io.github.pylonmc.pylon.core.config.PylonConfig;
 import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
@@ -41,14 +40,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class FluidMeter extends PylonBlock implements
@@ -216,12 +213,6 @@ public class FluidMeter extends PylonBlock implements
     }
 
     @Override
-    public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidTank.super.onBreak(drops, context);
-        PylonGuiBlock.super.onBreak(drops, context);
-    }
-
-    @Override
     public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
         return true;
     }
@@ -271,10 +262,5 @@ public class FluidMeter extends PylonBlock implements
             numberOfMeasurements = Math.clamp(newValue, minNumberOfMeasurements, maxNumberOfMeasurements);
             notifyWindows();
         }
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
     }
 }

@@ -1236,6 +1236,22 @@ public final class BaseItems {
         BasePages.FLUID_MACHINES.addItem(FLUID_FILTER);
     }
 
+    public static final ItemStack FLUID_LIMITER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_LIMITER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidLimiter.Item.class, FLUID_LIMITER, BaseKeys.FLUID_LIMITER);
+        BasePages.FLUID_MACHINES.addItem(FLUID_LIMITER);
+    }
+
+    public static final ItemStack FLUID_ACCUMULATOR = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_ACCUMULATOR)
+            .set(DataComponentTypes.ITEM_MODEL, Material.WHITE_CONCRETE.getKey())
+            .build();
+    static {
+        PylonItem.register(FluidAccumulator.Item.class, FLUID_ACCUMULATOR, BaseKeys.FLUID_ACCUMULATOR);
+        BasePages.FLUID_MACHINES.addItem(FLUID_ACCUMULATOR);
+    }
+
     public static final ItemStack FLUID_METER = ItemStackBuilder.pylon(Material.STRUCTURE_VOID, BaseKeys.FLUID_METER)
             .set(DataComponentTypes.ITEM_MODEL, Material.LIGHT_BLUE_STAINED_GLASS.getKey())
             .build();

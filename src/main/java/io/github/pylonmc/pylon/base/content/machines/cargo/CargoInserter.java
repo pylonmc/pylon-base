@@ -24,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 
 import java.util.*;
 
@@ -166,10 +165,5 @@ public class CargoInserter extends CargoInteractor implements
     @Override
     public boolean isValidGroup(@NotNull LogisticGroup group) {
         return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.INPUT;
-    }
-
-    @Override
-    public @NotNull Map<@NotNull String, @NotNull Inventory> createInventoryMapping() {
-        return Map.of();
     }
 }
