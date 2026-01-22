@@ -239,6 +239,9 @@ public final class BaseFluids {
             baseKey("ethanol"),
             Material.LIGHT_GRAY_CONCRETE_POWDER
     ).addTag(FluidTemperature.NORMAL);
+    static {
+        ETHANOL.register();
+    }
 
     public static final PylonFluid BIODIESEL = new PylonFluid(
             baseKey("biodiesel"),
