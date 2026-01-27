@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.armor;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonArmor;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonArmor;
 import net.kyori.adventure.key.Key;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

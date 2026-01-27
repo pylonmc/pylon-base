@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonWeapon;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonWeapon;
 import io.papermc.paper.tag.EntityTags;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;

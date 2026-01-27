@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

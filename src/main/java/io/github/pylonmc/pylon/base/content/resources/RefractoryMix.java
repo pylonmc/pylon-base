@@ -1,12 +1,12 @@
 package io.github.pylonmc.pylon.base.content.resources;
 
 import io.github.pylonmc.pylon.base.content.tools.Moldable;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.waila.WailaDisplay;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
+import io.github.pylonmc.rebar.waila.WailaDisplay;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.recipes.MoldingRecipe;
-import io.github.pylonmc.pylon.core.registry.PylonRegistry;
+import io.github.pylonmc.rebar.registry.PylonRegistry;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
 

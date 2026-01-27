@@ -1,15 +1,15 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonCargoBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
-import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
-import io.github.pylonmc.pylon.core.logistics.slot.LogisticSlot;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
+import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.PylonEntityHolderBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
+import io.github.pylonmc.rebar.logistics.LogisticGroupType;
+import io.github.pylonmc.rebar.logistics.slot.LogisticSlot;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;

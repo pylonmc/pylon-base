@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.pylon.core.config.Config;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.config.Config;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 
 
 public final class BaseConfig {

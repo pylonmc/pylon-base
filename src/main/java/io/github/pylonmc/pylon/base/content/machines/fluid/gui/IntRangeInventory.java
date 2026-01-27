@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid.gui;
 
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.builder.ItemStackBuilder;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
+import io.github.pylonmc.rebar.util.gui.GuiItems;
 import lombok.Getter;
 import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Material;

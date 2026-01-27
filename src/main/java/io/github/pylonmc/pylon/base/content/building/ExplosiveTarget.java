@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.content.building;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTargetBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.rebar.block.BlockStorage;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.base.PylonTargetBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.item.PylonItem;
 import io.papermc.paper.event.block.TargetHitEvent;
 import org.bukkit.GameRule;
 import org.bukkit.GameRules;

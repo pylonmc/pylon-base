@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.rebar.block.BlockStorage;
+import io.github.pylonmc.rebar.block.context.BlockBreakContext;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonBlockInteractor;
+import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;

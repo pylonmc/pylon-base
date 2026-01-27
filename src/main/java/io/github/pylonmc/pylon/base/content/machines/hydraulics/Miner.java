@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.*;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.datatypes.PylonSerializers;
-import io.github.pylonmc.pylon.core.event.PrePylonBlockPlaceEvent;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
-import io.github.pylonmc.pylon.core.util.position.ChunkPosition;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.base.*;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.rebar.util.position.BlockPosition;
+import io.github.pylonmc.rebar.util.position.ChunkPosition;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.event.Listener;

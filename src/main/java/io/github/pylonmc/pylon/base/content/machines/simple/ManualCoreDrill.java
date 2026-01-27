@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.persistence.PersistentDataContainer;

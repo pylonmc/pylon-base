@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.content.machines.smelting.Slurry;
-import io.github.pylonmc.pylon.core.content.guide.PylonGuide;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
-import io.github.pylonmc.pylon.core.recipe.IngredientCalculator;
+import io.github.pylonmc.rebar.content.guide.PylonGuide;
+import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
+import io.github.pylonmc.rebar.recipe.IngredientCalculator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

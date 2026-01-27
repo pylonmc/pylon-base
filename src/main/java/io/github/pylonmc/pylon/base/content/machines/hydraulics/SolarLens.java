@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.util.PylonUtils;
 import kotlin.Pair;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

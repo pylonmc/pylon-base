@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonInteractor;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MenuType;

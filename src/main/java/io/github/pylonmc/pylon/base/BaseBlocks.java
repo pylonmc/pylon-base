@@ -19,8 +19,8 @@ import io.github.pylonmc.pylon.base.content.machines.hydraulics.*;
 import io.github.pylonmc.pylon.base.content.machines.simple.*;
 import io.github.pylonmc.pylon.base.content.machines.smelting.*;
 import io.github.pylonmc.pylon.base.content.resources.RefractoryMix;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.content.cargo.CargoDuct;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.content.cargo.CargoDuct;
 import org.bukkit.Material;
 
 

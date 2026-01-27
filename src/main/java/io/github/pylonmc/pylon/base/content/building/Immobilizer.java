@@ -1,16 +1,16 @@
 package io.github.pylonmc.pylon.base.content.building;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
-import io.github.pylonmc.pylon.core.block.base.PylonPiston;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
-import io.github.pylonmc.pylon.core.util.position.BlockPosition;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
+import io.github.pylonmc.rebar.block.base.PylonPiston;
+import io.github.pylonmc.rebar.block.context.BlockBreakContext;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
+import io.github.pylonmc.rebar.util.position.BlockPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;

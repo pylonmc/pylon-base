@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.components;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;

@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.core.item.PylonItem;
+import io.github.pylonmc.rebar.item.PylonItem;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 

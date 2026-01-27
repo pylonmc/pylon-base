@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonTool;
-import io.github.pylonmc.pylon.core.util.PylonUtils;
+import io.github.pylonmc.rebar.block.BlockStorage;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonTool;
+import io.github.pylonmc.rebar.util.PylonUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Tool;
 import org.bukkit.Effect;

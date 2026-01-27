@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.recipes;
 
-import io.github.pylonmc.pylon.core.config.ConfigSection;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.recipe.*;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.rebar.config.ConfigSection;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.recipe.*;
+import io.github.pylonmc.rebar.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

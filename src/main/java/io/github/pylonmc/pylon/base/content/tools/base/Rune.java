@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base.content.tools.base;
 
 import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.*;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;

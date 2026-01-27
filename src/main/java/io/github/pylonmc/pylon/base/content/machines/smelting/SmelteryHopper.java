@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
-import io.github.pylonmc.pylon.core.block.base.PylonBreakHandler;
-import io.github.pylonmc.pylon.core.block.base.PylonLogisticBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonTickingBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonVanillaContainerBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockBreakContext;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.logistics.LogisticGroupType;
-import io.github.pylonmc.pylon.core.logistics.slot.VanillaInventoryLogisticSlot;
+import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
+import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
+import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.base.PylonVanillaContainerBlock;
+import io.github.pylonmc.rebar.block.context.BlockBreakContext;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.logistics.LogisticGroupType;
+import io.github.pylonmc.rebar.logistics.slot.VanillaInventoryLogisticSlot;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
 import org.bukkit.block.data.BlockData;

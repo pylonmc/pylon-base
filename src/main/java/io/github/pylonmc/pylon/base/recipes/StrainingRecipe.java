@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.recipes;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.pylon.core.config.ConfigSection;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.guide.button.FluidButton;
-import io.github.pylonmc.pylon.core.guide.button.ItemButton;
-import io.github.pylonmc.pylon.core.recipe.*;
-import io.github.pylonmc.pylon.core.util.gui.GuiItems;
+import io.github.pylonmc.rebar.config.ConfigSection;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.guide.button.FluidButton;
+import io.github.pylonmc.rebar.guide.button.ItemButton;
+import io.github.pylonmc.rebar.recipe.*;
+import io.github.pylonmc.rebar.util.gui.GuiItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

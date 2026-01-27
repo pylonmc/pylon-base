@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
-import io.github.pylonmc.pylon.core.block.BlockStorage;
-import io.github.pylonmc.pylon.core.block.PylonBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonInteractBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.block.BlockStorage;
+import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;

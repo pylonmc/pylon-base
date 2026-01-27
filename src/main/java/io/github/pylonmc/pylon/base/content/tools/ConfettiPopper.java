@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonConsumable;
-import io.github.pylonmc.pylon.core.particles.ConfettiParticle;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonConsumable;
+import io.github.pylonmc.rebar.particles.ConfettiParticle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;

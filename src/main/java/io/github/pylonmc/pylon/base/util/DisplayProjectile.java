@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
-import io.github.pylonmc.pylon.core.entity.base.PylonTickingEntity;
-import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
-import io.github.pylonmc.pylon.core.entity.display.transform.LineBuilder;
+import io.github.pylonmc.rebar.entity.PylonEntity;
+import io.github.pylonmc.rebar.entity.base.PylonTickingEntity;
+import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.rebar.entity.display.transform.LineBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;

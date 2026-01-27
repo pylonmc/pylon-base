@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.core.block.base.PylonFluidTank;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
-import io.github.pylonmc.pylon.core.entity.display.ItemDisplayBuilder;
-import io.github.pylonmc.pylon.core.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
+import io.github.pylonmc.rebar.block.base.PylonFluidTank;
+import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.rebar.fluid.PylonFluid;
 import org.bukkit.entity.ItemDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

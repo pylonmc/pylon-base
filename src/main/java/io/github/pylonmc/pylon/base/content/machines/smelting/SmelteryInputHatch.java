@@ -1,12 +1,12 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.pylon.core.block.base.PylonFluidBlock;
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.config.PylonConfig;
-import io.github.pylonmc.pylon.core.config.adapter.ConfigAdapter;
-import io.github.pylonmc.pylon.core.fluid.FluidPointType;
-import io.github.pylonmc.pylon.core.fluid.PylonFluid;
-import io.github.pylonmc.pylon.core.fluid.tags.FluidTemperature;
+import io.github.pylonmc.rebar.block.base.PylonFluidBlock;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.fluid.FluidPointType;
+import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;

@@ -1,12 +1,12 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.core.i18n.PylonArgument;
-import io.github.pylonmc.pylon.core.item.PylonItem;
-import io.github.pylonmc.pylon.core.item.base.PylonBlockInteractor;
-import io.github.pylonmc.pylon.core.item.base.PylonBucket;
-import io.github.pylonmc.pylon.core.item.base.PylonDispensable;
-import io.github.pylonmc.pylon.core.util.gui.unit.UnitFormat;
+import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.base.PylonBlockInteractor;
+import io.github.pylonmc.rebar.item.base.PylonBucket;
+import io.github.pylonmc.rebar.item.base.PylonDispensable;
+import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Tag;

@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.util.DisplayProjectile;
-import io.github.pylonmc.pylon.core.entity.PylonEntity;
+import io.github.pylonmc.rebar.entity.PylonEntity;
 import org.bukkit.entity.ItemDisplay;
 
 

@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.components;
 
-import io.github.pylonmc.pylon.core.block.context.BlockCreateContext;
-import io.github.pylonmc.pylon.core.fluid.FluidPointType;
+import io.github.pylonmc.rebar.block.context.BlockCreateContext;
+import io.github.pylonmc.rebar.fluid.FluidPointType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.persistence.PersistentDataContainer;
