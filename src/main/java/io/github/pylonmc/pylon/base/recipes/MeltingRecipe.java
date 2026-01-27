@@ -3,10 +3,10 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -28,10 +28,10 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public record MeltingRecipe(
         @NotNull NamespacedKey key,
         @NotNull RecipeInput.Item input,
-        @NotNull PylonFluid result,
+        @NotNull RebarFluid result,
         double resultAmount,
         double temperature
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<MeltingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("melting")) {
         @Override
@@ -76,8 +76,8 @@ public record MeltingRecipe(
                 .addIngredient('i', ItemButton.from(input))
                 .addIngredient('t', ItemStackBuilder.of(Material.BLAZE_POWDER)
                         .name(net.kyori.adventure.text.Component.translatable(
-                                "pylon.pylonbase.guide.recipe.melting",
-                                PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                                "pylon.guide.recipe.melting",
+                                RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         ))
                 )
                 .addIngredient('o', new FluidButton(resultAmount, result))

@@ -1,24 +1,23 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import lombok.Getter;
@@ -36,10 +35,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 import xyz.xenondevs.invui.item.impl.CycleItem;
 import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 
@@ -49,8 +46,8 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoOverflowGate extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonVirtualInventoryBlock {
+public class CargoOverflowGate extends RebarBlock
+        implements RebarDirectionalBlock, RebarGuiBlock, RebarCargoBlock, RebarVirtualInventoryBlock {
 
     private static final NamespacedKey SIDE_PRIORITY_KEY = baseKey("side_priority");
     private static final NamespacedKey IS_LEFT_KEY = baseKey("is_left");
@@ -79,11 +76,11 @@ public class CargoOverflowGate extends PylonBlock
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("pylon.pylonbase.gui.left"));
+            .name(Component.translatable("rebar.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("pylon.pylonbase.gui.right"));
+            .name(Component.translatable("rebar.gui.right"));
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -92,11 +89,11 @@ public class CargoOverflowGate extends PylonBlock
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }
@@ -112,11 +109,11 @@ public class CargoOverflowGate extends PylonBlock
 
         SidePriority(String name) {
             priorityStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, BaseItems.CARGO_OVERFLOW_GATE + ":priority:" + name)
-                    .name(Component.translatable("pylon.pylonbase.gui.side-priority.name", PylonArgument.of("priority", Component.translatable("pylon.pylonbase.gui." + name))))
-                    .lore(Component.translatable("pylon.pylonbase.gui.side-priority.lore"));
+                    .name(Component.translatable("rebar.gui.side-priority.name", RebarArgument.of("priority", Component.translatable("rebar.gui." + name))))
+                    .lore(Component.translatable("rebar.gui.side-priority.lore"));
         }
 
-        public static final PersistentDataType<?, SidePriority> PERSISTENT_DATA_TYPE = PylonSerializers.ENUM.enumTypeFrom(SidePriority.class);
+        public static final PersistentDataType<?, SidePriority> PERSISTENT_DATA_TYPE = RebarSerializers.ENUM.enumTypeFrom(SidePriority.class);
     }
 
     @SuppressWarnings("unused")
@@ -126,8 +123,8 @@ public class CargoOverflowGate extends PylonBlock
         setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing(), "input");
-        addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
-        addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
+        addCargoLogisticGroup(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
+        addCargoLogisticGroup(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
         setCargoTransferRate(transferRate);
 
         addEntity("main", new ItemDisplayBuilder()
@@ -184,13 +181,13 @@ public class CargoOverflowGate extends PylonBlock
     public CargoOverflowGate(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         sidePriority = pdc.get(SIDE_PRIORITY_KEY, SidePriority.PERSISTENT_DATA_TYPE);
-        isLeft = pdc.get(IS_LEFT_KEY, PylonSerializers.BOOLEAN);
+        isLeft = pdc.get(IS_LEFT_KEY, RebarSerializers.BOOLEAN);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(SIDE_PRIORITY_KEY, SidePriority.PERSISTENT_DATA_TYPE, sidePriority);
-        pdc.set(IS_LEFT_KEY, PylonSerializers.BOOLEAN, isLeft);
+        pdc.set(IS_LEFT_KEY, RebarSerializers.BOOLEAN, isLeft);
     }
 
     @Override

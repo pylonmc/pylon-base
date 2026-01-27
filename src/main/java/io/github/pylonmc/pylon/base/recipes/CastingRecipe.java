@@ -3,10 +3,10 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -32,7 +32,7 @@ public record CastingRecipe(
         @NotNull RecipeInput.Fluid input,
         @NotNull ItemStack result,
         double temperature
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<CastingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("casting")) {
         @Override
@@ -46,7 +46,7 @@ public record CastingRecipe(
         }
     };
 
-    public static @Nullable CastingRecipe getCastRecipeFor(@NotNull PylonFluid fluid) {
+    public static @Nullable CastingRecipe getCastRecipeFor(@NotNull RebarFluid fluid) {
         for (CastingRecipe recipe : RECIPE_TYPE) {
             if (recipe.input.contains(fluid)) {
                 return recipe;
@@ -85,8 +85,8 @@ public record CastingRecipe(
                 .addIngredient('i', new FluidButton(input))
                 .addIngredient('t', ItemStackBuilder.of(Material.BLAZE_POWDER)
                         .name(net.kyori.adventure.text.Component.translatable(
-                                "pylon.pylonbase.guide.recipe.melting",
-                                PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                                "pylon.guide.recipe.melting",
+                                RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         ))
                 )
                 .addIngredient('o', ItemButton.from(result))

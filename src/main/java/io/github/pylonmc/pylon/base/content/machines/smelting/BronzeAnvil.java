@@ -6,24 +6,24 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
-import io.github.pylonmc.rebar.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.rebar.block.base.PylonFallingBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
+import io.github.pylonmc.rebar.block.base.RebarEntityHolderBlock;
+import io.github.pylonmc.rebar.block.base.RebarFallingBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.ItemDisplayLogisticSlot;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -46,13 +46,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class BronzeAnvil extends PylonBlock implements
-        PylonBreakHandler,
-        PylonEntityHolderBlock,
-        PylonTickingBlock,
-        PylonLogisticBlock,
-        PylonInteractBlock,
-        PylonFallingBlock {
+public final class BronzeAnvil extends RebarBlock implements
+        RebarBreakHandler,
+        RebarEntityHolderBlock,
+        RebarTickingBlock,
+        RebarLogisticBlock,
+        RebarInteractBlock,
+        RebarFallingBlock {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float COOL_CHANCE = Settings.get(BaseKeys.BRONZE_ANVIL).getOrThrow("cool-chance", ConfigAdapter.FLOAT);
@@ -121,7 +121,7 @@ public final class BronzeAnvil extends PylonBlock implements
                 if (placedItem != null) {
                     itemDisplay.setItemStack(placedItem.asOne());
                     placedItem.subtract();
-                    if (PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
+                    if (RebarItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom) {
                         transformForWorking(bloom.getWorking(), false);
                         bloom.setDisplayGlowOn(itemDisplay);
                     }
@@ -149,7 +149,7 @@ public final class BronzeAnvil extends PylonBlock implements
 
     private void onLeftClick(@NotNull PlayerInteractEvent event) {
         ItemDisplay itemDisplay = getItemDisplay();
-        if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
+        if (!(RebarItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
 
         ItemStack item = event.getItem();
         if (item == null || item.getType().isAir()) return;
@@ -164,7 +164,7 @@ public final class BronzeAnvil extends PylonBlock implements
         } else if (item.isSimilar(BaseItems.TONGS)) {
             workingChange -= temperature;
             getBlock().getWorld().playSound(TONGS_SOUND, player);
-        } else if (PylonItem.fromStack(item) instanceof Hammer hammer) {
+        } else if (RebarItem.fromStack(item) instanceof Hammer hammer) {
             if (!player.hasCooldown(item)) {
                 workingChange += temperature;
                 player.setCooldown(item, hammer.cooldownTicks);
@@ -207,7 +207,7 @@ public final class BronzeAnvil extends PylonBlock implements
         if (ThreadLocalRandom.current().nextFloat() > COOL_CHANCE) return;
         ItemDisplay itemDisplay = getItemDisplay();
         if (itemDisplay == null) return;
-        if (!(PylonItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
+        if (!(RebarItem.fromStack(itemDisplay.getItemStack()) instanceof IronBloom bloom)) return;
         int newTemperature = Math.max(0, bloom.getTemperature() - 1);
         bloom.setTemperature(newTemperature);
         bloom.setDisplayGlowOn(itemDisplay);
@@ -222,20 +222,20 @@ public final class BronzeAnvil extends PylonBlock implements
 
 
     @Override
-    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlock.PylonFallingBlockEntity spawnedEntity) {
+    public void onFallStart(@NotNull EntityChangeBlockEvent event, @NotNull RebarFallingBlock.RebarFallingBlockEntity spawnedEntity) {
         var pdc = spawnedEntity.getEntity().getPersistentDataContainer();
 
         ItemDisplay display = getItemDisplay();
-        PylonUtils.setNullable(pdc, STORED_ITEM, PylonSerializers.ITEM_STACK, display == null ? null : display.getItemStack());
-        pdc.set(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE, getBlockFace());
+        RebarUtils.setNullable(pdc, STORED_ITEM, RebarSerializers.ITEM_STACK, display == null ? null : display.getItemStack());
+        pdc.set(DIRECTION_FALLING, RebarSerializers.BLOCK_FACE, getBlockFace());
     }
 
     @Override
-    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull PylonFallingBlock.PylonFallingBlockEntity entity) {
+    public void onFallStop(@NotNull EntityChangeBlockEvent event, @NotNull RebarFallingBlock.RebarFallingBlockEntity entity) {
         var pdc = entity.getEntity().getPersistentDataContainer();
 
-        ItemStack stack = pdc.get(STORED_ITEM, PylonSerializers.ITEM_STACK);
-        BlockFace face = pdc.get(DIRECTION_FALLING, PylonSerializers.BLOCK_FACE);
+        ItemStack stack = pdc.get(STORED_ITEM, RebarSerializers.ITEM_STACK);
+        BlockFace face = pdc.get(DIRECTION_FALLING, RebarSerializers.BLOCK_FACE);
         addEntity("item", new ItemDisplayBuilder()
                 .itemStack(stack)
                 .transformation(new Matrix4f(BASE_TRANSFORM)

@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.ShimmerAltar;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -37,7 +37,7 @@ public record ShimmerAltarRecipe(
         @NotNull RecipeInput.Item catalyst,
         @NotNull ItemStack result,
         int timeSeconds
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -171,8 +171,8 @@ public record ShimmerAltarRecipe(
                 .addIngredient('t', GuiItems.progressCyclingItem((int) (timeSeconds * 20),
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
-                                        "pylon.pylonbase.guide.recipe.magic-altar",
-                                        PylonArgument.of("time", UnitFormat.SECONDS.format(timeSeconds))
+                                        "pylon.guide.recipe.magic-altar",
+                                        RebarArgument.of("time", UnitFormat.SECONDS.format(timeSeconds))
                                 ))
                 ))
                 .addIngredient('r', ItemButton.from(result))

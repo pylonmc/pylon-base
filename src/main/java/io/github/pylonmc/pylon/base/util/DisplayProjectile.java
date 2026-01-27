@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.util;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.rebar.entity.PylonEntity;
-import io.github.pylonmc.rebar.entity.base.PylonTickingEntity;
+import io.github.pylonmc.rebar.entity.RebarEntity;
+import io.github.pylonmc.rebar.entity.base.RebarTickingEntity;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.LineBuilder;
 import org.bukkit.Location;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public final class DisplayProjectile extends PylonEntity<ItemDisplay> implements PylonTickingEntity {
+public final class DisplayProjectile extends RebarEntity<ItemDisplay> implements RebarTickingEntity {
     private final Player player;
     private final float thickness;
     private final double damage;

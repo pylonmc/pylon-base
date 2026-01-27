@@ -5,33 +5,31 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankCasing;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.PylonItemSchema;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.RebarItemSchema;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.waila.Waila;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,24 +42,24 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public abstract class FluidHatch extends PylonBlock implements
-        PylonFluidBufferBlock,
-        PylonSimpleMultiblock,
-        PylonDirectionalBlock {
+public abstract class FluidHatch extends RebarBlock implements
+        RebarFluidBufferBlock,
+        RebarSimpleMultiblock,
+        RebarDirectionalBlock {
 
     private static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
     private static MixedMultiblockComponent component = null;
 
-    public @Nullable PylonFluid fluid;
+    public @Nullable RebarFluid fluid;
 
     static {
         // run on first tick after all addons registered
         Bukkit.getScheduler().runTaskLater(PylonBase.getInstance(), () -> {
-            List<PylonMultiblockComponent> components = new ArrayList<>();
-            for (PylonItemSchema schema : PylonRegistry.ITEMS) {
-                if (PylonItem.fromStack(schema.getItemStack()) instanceof FluidTankCasing.Item) {
-                    components.add(new PylonMultiblockComponent(schema.getKey()));
+            List<RebarMultiblockComponent> components = new ArrayList<>();
+            for (RebarItemSchema schema : RebarRegistry.ITEMS) {
+                if (RebarItem.fromStack(schema.getItemStack()) instanceof FluidTankCasing.Item) {
+                    components.add(new RebarMultiblockComponent(schema.getKey()));
                 }
             }
             component = new MixedMultiblockComponent(components);
@@ -80,12 +78,12 @@ public abstract class FluidHatch extends PylonBlock implements
 
     public FluidHatch(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+        fluid = pdc.get(FLUID_KEY, RebarSerializers.REBAR_FLUID);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
+        RebarUtils.setNullable(pdc, FLUID_KEY, RebarSerializers.REBAR_FLUID, fluid);
     }
 
     @Override
@@ -97,7 +95,7 @@ public abstract class FluidHatch extends PylonBlock implements
 
     @Override
     public boolean checkFormed() {
-        boolean formed = PylonSimpleMultiblock.super.checkFormed();
+        boolean formed = RebarSimpleMultiblock.super.checkFormed();
         if (formed) {
             FluidTankCasing casing = BlockStorage.getAs(FluidTankCasing.class, getBlock().getRelative(BlockFace.UP));
             Preconditions.checkState(casing != null);
@@ -111,7 +109,7 @@ public abstract class FluidHatch extends PylonBlock implements
 
     @Override
     public void onMultiblockUnformed(boolean partUnloaded) {
-        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
+        RebarSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
         Waila.removeWailaOverride(getBlock().getRelative(BlockFace.UP));
         if (fluid != null) {
             setFluidCapacity(fluid, 0);
@@ -123,8 +121,8 @@ public abstract class FluidHatch extends PylonBlock implements
     }
 
     @Override
-    public boolean setFluid(@NotNull PylonFluid fluid, double amount) {
-        boolean result = PylonFluidBufferBlock.super.setFluid(fluid, amount);
+    public boolean setFluid(@NotNull RebarFluid fluid, double amount) {
+        boolean result = RebarFluidBufferBlock.super.setFluid(fluid, amount);
         float scale = (float) (0.9 * fluidAmount(fluid) / fluidCapacity(fluid));
         if (scale < 1.0e-9) {
             getFluidDisplay().setItemStack(null);
@@ -143,27 +141,27 @@ public abstract class FluidHatch extends PylonBlock implements
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         Component info;
         if (!isFormedAndFullyLoaded()) {
-            info = Component.translatable("pylon.pylonbase.message.fluid_hatch.no_casing");
+            info = Component.translatable("rebar.message.fluid_hatch.no_casing");
         } else if (fluid == null) {
-            info = Component.translatable("pylon.pylonbase.message.fluid_hatch.no_multiblock");
+            info = Component.translatable("rebar.message.fluid_hatch.no_multiblock");
         } else {
-            info = Component.translatable("pylon.pylonbase.message.fluid_hatch.working")
+            info = Component.translatable("rebar.message.fluid_hatch.working")
                     .arguments(
-                            PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                            RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                                     fluidAmount(fluid),
                                     fluidCapacity(fluid),
                                     20,
                                     TextColor.color(200, 255, 255)
                             )),
-                            PylonArgument.of("fluid", fluid.getName())
+                            RebarArgument.of("fluid", fluid.getName())
                     );
         }
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("info", info)
+                RebarArgument.of("info", info)
         ));
     }
 
-    public void setFluidType(PylonFluid fluid) {
+    public void setFluidType(RebarFluid fluid) {
         if (this.fluid == fluid) {
             return;
         }
@@ -192,7 +190,7 @@ public abstract class FluidHatch extends PylonBlock implements
 
     @Override
     public void postBreak(@NotNull BlockBreakContext context) {
-        PylonFluidBufferBlock.super.postBreak(context);
+        RebarFluidBufferBlock.super.postBreak(context);
         Waila.removeWailaOverride(getBlock().getRelative(BlockFace.UP));
     }
 }

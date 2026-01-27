@@ -6,19 +6,19 @@ import io.github.pylonmc.pylon.base.content.tools.WateringCan;
 import io.github.pylonmc.pylon.base.content.tools.WateringSettings;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonFlowerPot;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarFlowerPot;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Config;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.rebar.event.PreRebarBlockPlaceEvent;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent;
@@ -37,8 +37,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public class Sprinkler extends PylonBlock
-        implements PylonFluidBufferBlock, PylonTickingBlock, PylonFlowerPot {
+public class Sprinkler extends RebarBlock
+        implements RebarFluidBufferBlock, RebarTickingBlock, RebarFlowerPot {
 
     private static final Config settings = Settings.get(BaseKeys.SPRINKLER);
     public static final WateringSettings SETTINGS = WateringSettings.fromConfig(settings);
@@ -46,18 +46,18 @@ public class Sprinkler extends PylonBlock
     public static final double WATER_PER_SECOND = settings.getOrThrow("water-per-second", ConfigAdapter.INT);
     public static final double BUFFER = settings.getOrThrow("buffer", ConfigAdapter.INT);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(BUFFER)),
-                    PylonArgument.of("water_consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND))
+                    RebarArgument.of("range", UnitFormat.BLOCKS.format(SETTINGS.horizontalRange())),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(BUFFER)),
+                    RebarArgument.of("water_consumption", UnitFormat.MILLIBUCKETS_PER_SECOND.format(WATER_PER_SECOND))
             );
         }
     }
@@ -82,16 +82,16 @@ public class Sprinkler extends PylonBlock
 
     @Override
     public void tick() {
-        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * PylonConfig.FLUID_TICK_INTERVAL / 20.0) {
+        if (fluidAmount(BaseFluids.WATER) > WATER_PER_SECOND * RebarConfig.FLUID_TICK_INTERVAL / 20.0) {
             WateringCan.water(getBlock(), SETTINGS);
-            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * PylonConfig.FLUID_TICK_INTERVAL / 20.0);
+            removeFluid(BaseFluids.WATER, WATER_PER_SECOND * RebarConfig.FLUID_TICK_INTERVAL / 20.0);
         }
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.WATER),
                         fluidCapacity(BaseFluids.WATER),
                         20,
@@ -102,7 +102,7 @@ public class Sprinkler extends PylonBlock
 
     public static class SprinklerPlaceListener implements Listener {
         @EventHandler
-        private static void handle(@NotNull PrePylonBlockPlaceEvent event) {
+        private static void handle(@NotNull PreRebarBlockPlaceEvent event) {
             if (event.getBlockSchema().getKey() != BaseKeys.SPRINKLER) {
                 return;
             }
@@ -119,8 +119,8 @@ public class Sprinkler extends PylonBlock
                         event.setCancelled(true);
                         if (event.getContext() instanceof BlockCreateContext.PlayerPlace context) {
                             context.getPlayer().sendMessage(Component.translatable(
-                                    "pylon.pylonbase.message.sprinkler_too_close",
-                                    PylonArgument.of("radius", horizontalRadiusToCheck)
+                                    "rebar.message.sprinkler_too_close",
+                                    RebarArgument.of("radius", horizontalRadiusToCheck)
                             ));
                         }
                         return;

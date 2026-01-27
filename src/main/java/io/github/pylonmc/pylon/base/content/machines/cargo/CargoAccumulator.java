@@ -1,19 +1,19 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import com.google.common.base.Preconditions;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
@@ -44,11 +44,11 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoAccumulator extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock {
+public class CargoAccumulator extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock {
 
     public static final NamespacedKey THRESHOLD_KEY = baseKey("threshold");
 
@@ -66,9 +66,9 @@ public class CargoAccumulator extends PylonBlock implements
     public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":output");
     public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
-            .lore(Component.translatable("pylon.pylonbase.gui.threshold_button.lore"));
+            .lore(Component.translatable("rebar.gui.threshold_button.lore"));
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -77,11 +77,11 @@ public class CargoAccumulator extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }
@@ -152,12 +152,12 @@ public class CargoAccumulator extends PylonBlock implements
     @SuppressWarnings("unused")
     public CargoAccumulator(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        threshold = pdc.get(THRESHOLD_KEY, PylonSerializers.INTEGER);
+        threshold = pdc.get(THRESHOLD_KEY, RebarSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(THRESHOLD_KEY, PylonSerializers.INTEGER, threshold);
+        pdc.set(THRESHOLD_KEY, RebarSerializers.INTEGER, threshold);
     }
 
     @Override
@@ -198,7 +198,7 @@ public class CargoAccumulator extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("threshold", threshold)
+                RebarArgument.of("threshold", threshold)
         ));
     }
 
@@ -252,8 +252,8 @@ public class CargoAccumulator extends PylonBlock implements
         @Override
         public ItemProvider getItemProvider() {
             return thresholdButtonStack
-                .name((Component.translatable("pylon.pylonbase.gui.threshold_button.name").arguments(
-                        PylonArgument.of("threshold", threshold)
+                .name((Component.translatable("rebar.gui.threshold_button.name").arguments(
+                        RebarArgument.of("threshold", threshold)
                 )));
         }
 

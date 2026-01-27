@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -32,9 +32,9 @@ public class EnchantingTalisman extends Talisman {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance * 100).decimalPlaces(2))
+                RebarArgument.of("bonus_level_chance", UnitFormat.PERCENT.format(bonusLevelChance * 100).decimalPlaces(2))
         );
     }
 

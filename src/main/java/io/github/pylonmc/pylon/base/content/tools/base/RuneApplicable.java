@@ -11,16 +11,16 @@ import org.jetbrains.annotations.NotNull;
  * <p>Default rune-applicable items are defined in {@link Rune#DEFAULT_APPLICABLES},
  * including but not limited to:
  * <ul>
- *   <li>{@link PylonArrow}</li>
- *   <li>{@link PylonBow}</li>
- *   <li>{@link PylonBucket}</li>
- *   <li>{@link PylonTool}</li>
- *   <li>{@link PylonWeapon}</li>
+ *   <li>{@link RebarArrow}</li>
+ *   <li>{@link RebarBow}</li>
+ *   <li>{@link RebarBucket}</li>
+ *   <li>{@link RebarTool}</li>
+ *   <li>{@link RebarWeapon}</li>
  * </ul>
  *
  * <p><b>Implementation Example:</b></p>
  * <pre>{@code
- * public class MyCustomWeapon extends PylonItem implements RuneApplicable {
+ * public class MyCustomWeapon extends RebarItem implements RuneApplicable {
  *     @Override
  *     public boolean isApplicableToTarget(
  *         @NotNull PlayerDropItemEvent event,

@@ -1,15 +1,15 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class WaterPump extends PylonBlock implements PylonFluidBlock {
+public class WaterPump extends RebarBlock implements RebarFluidBlock {
 
     public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double waterPerSecond = getSettings().getOrThrow("water-per-second", ConfigAdapter.DOUBLE);
 
@@ -35,8 +35,8 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock {
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
+        public @NotNull List<RebarArgument> getPlaceholders() {
+            return List.of(RebarArgument.of(
                     "water_per_second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(waterPerSecond)
             ));
         }
@@ -54,12 +54,12 @@ public class WaterPump extends PylonBlock implements PylonFluidBlock {
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
+    public @NotNull Map<RebarFluid, Double> getSuppliedFluids() {
         return getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER
-                ? Map.of(BaseFluids.WATER, waterPerSecond * PylonConfig.FLUID_TICK_INTERVAL / 20.0)
+                ? Map.of(BaseFluids.WATER, waterPerSecond * RebarConfig.FLUID_TICK_INTERVAL / 20.0)
                 : Map.of();
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {}
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {}
 }

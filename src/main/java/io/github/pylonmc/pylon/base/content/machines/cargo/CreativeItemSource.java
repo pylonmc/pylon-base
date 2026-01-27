@@ -1,11 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
@@ -23,14 +22,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.Map;
 
 
-public class CreativeItemSource extends PylonBlock
-        implements PylonDirectionalBlock, PylonGuiBlock, PylonCargoBlock, PylonVirtualInventoryBlock {
+public class CreativeItemSource extends RebarBlock
+        implements RebarDirectionalBlock, RebarGuiBlock, RebarCargoBlock, RebarVirtualInventoryBlock {
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 

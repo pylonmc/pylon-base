@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
@@ -22,8 +22,8 @@ import java.util.Iterator;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public class SoulboundRune extends Rune {
-    private static final TranslatableComponent SOULBIND_MSG = Component.translatable("pylon.pylonbase.message.soulbound_rune.soulbind-message");
-    private static final TranslatableComponent TOOLTIP = Component.translatable("pylon.pylonbase.message.soulbound_rune.tooltip");
+    private static final TranslatableComponent SOULBIND_MSG = Component.translatable("rebar.message.soulbound_rune.soulbind-message");
+    private static final TranslatableComponent TOOLTIP = Component.translatable("rebar.message.soulbound_rune.tooltip");
     private static final NamespacedKey SOULBOUND_KEY = baseKey("soulbound");
 
     public SoulboundRune(ItemStack stack) {
@@ -32,7 +32,7 @@ public class SoulboundRune extends Rune {
 
     @Override
     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
-        return !(PylonItem.fromStack(target) instanceof SoulboundRune) && !target.getPersistentDataContainer().has(SOULBOUND_KEY);
+        return !(RebarItem.fromStack(target) instanceof SoulboundRune) && !target.getPersistentDataContainer().has(SOULBOUND_KEY);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SoulboundRune extends Rune {
                 .lore(GlobalTranslator.render(TOOLTIP, event.getPlayer().locale()))
                 .build();
         soulboundItem.editPersistentDataContainer(pdc -> {
-            pdc.set(SOULBOUND_KEY, PylonSerializers.UUID, event.getPlayer().getUniqueId());
+            pdc.set(SOULBOUND_KEY, RebarSerializers.UUID, event.getPlayer().getUniqueId());
         });
 
         // (N)Either left runes or targets

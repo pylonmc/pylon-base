@@ -18,7 +18,7 @@ public record DrillingDisplayRecipe(
         NamespacedKey key,
         ItemStack drill,
         ItemStack result
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<DrillingDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("drilling_display")) {
         @Override

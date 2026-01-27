@@ -2,17 +2,17 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import io.papermc.paper.event.block.BlockBreakBlockEvent;
@@ -32,16 +32,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public class FluidDrainer extends PylonBlock
-        implements PylonFluidBufferBlock, PylonDirectionalBlock, PylonTickingBlock, PylonInteractBlock {
+public class FluidDrainer extends RebarBlock
+        implements RebarFluidBufferBlock, RebarDirectionalBlock, RebarTickingBlock, RebarInteractBlock {
 
     public final Material material = getSettings().getOrThrow("material", ConfigAdapter.MATERIAL);
-    public final PylonFluid fluid = getSettings().getOrThrow("fluid", ConfigAdapter.PYLON_FLUID);
+    public final RebarFluid fluid = getSettings().getOrThrow("fluid", ConfigAdapter.PYLON_FLUID);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final Block drainBlock;
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
@@ -51,10 +51,10 @@ public class FluidDrainer extends PylonBlock
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("drain_interval", UnitFormat.SECONDS.format(tickInterval / 20.0).decimalPlaces(1)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("drain_interval", UnitFormat.SECONDS.format(tickInterval / 20.0).decimalPlaces(1)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -82,7 +82,7 @@ public class FluidDrainer extends PylonBlock
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         fluidAmount(fluid),
                         fluidCapacity(fluid),
                         20,

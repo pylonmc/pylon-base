@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
@@ -19,13 +19,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor {
+public class ReactivatedWitherSkull extends RebarItem implements RebarInteractor {
     private final boolean chargedSkulls = getSettings().getOrThrow("charged-skulls", ConfigAdapter.BOOLEAN);
     private final double skullSpeed = getSettings().getOrThrow("skull-speed", ConfigAdapter.DOUBLE);
     private final double playerHeight = getSettings().getOrThrow("player-height", ConfigAdapter.DOUBLE);
     private final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
-    private static final TranslatableComponent trueCharged = Component.translatable("pylon.pylonbase.item.reactivated_wither_skull.charged.true");
-    private static final TranslatableComponent falseCharged = Component.translatable("pylon.pylonbase.item.reactivated_wither_skull.charged.false");
+    private static final TranslatableComponent trueCharged = Component.translatable("pylon.item.reactivated_wither_skull.charged.true");
+    private static final TranslatableComponent falseCharged = Component.translatable("pylon.item.reactivated_wither_skull.charged.false");
 
     public ReactivatedWitherSkull(@NotNull ItemStack stack) {
         super(stack);
@@ -52,10 +52,10 @@ public class ReactivatedWitherSkull extends PylonItem implements PylonInteractor
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("chargedskulls", chargedSkulls ? trueCharged : falseCharged),
-                PylonArgument.of("skullspeed", UnitFormat.BLOCKS_PER_SECOND.format(skullSpeed))
+                RebarArgument.of("chargedskulls", chargedSkulls ? trueCharged : falseCharged),
+                RebarArgument.of("skullspeed", UnitFormat.BLOCKS_PER_SECOND.format(skullSpeed))
         );
     }
 }

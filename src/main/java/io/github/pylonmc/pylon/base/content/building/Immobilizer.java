@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.content.building;
 
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
-import io.github.pylonmc.rebar.block.base.PylonPiston;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
+import io.github.pylonmc.rebar.block.base.RebarPiston;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.util.position.BlockPosition;
 import org.bukkit.Bukkit;
@@ -35,7 +35,7 @@ import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHandler {
+public class Immobilizer extends RebarBlock implements RebarPiston, RebarBreakHandler {
     public static HashMap<BlockPosition, Set<Player>> frozenPlayers = new HashMap<>();
     private final NamespacedKey cooldownKey = baseKey("immobilizer_cooldown_millis");
     private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
@@ -45,7 +45,7 @@ public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHa
     private final double particleRadius = getSettings().getOrThrow("particle.radius", ConfigAdapter.DOUBLE);
     private final int particlePeriod = getSettings().getOrThrow("particle.period", ConfigAdapter.INT);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
         private final double radius = getSettings().getOrThrow("radius", ConfigAdapter.DOUBLE);
         private final int duration = getSettings().getOrThrow("duration", ConfigAdapter.INT);
         private final int cooldown = getSettings().getOrThrow("cooldown", ConfigAdapter.INT);
@@ -55,11 +55,11 @@ public class Immobilizer extends PylonBlock implements PylonPiston, PylonBreakHa
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(duration / 20))),
-                    PylonArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
-                    PylonArgument.of("cooldown", UnitFormat.formatDuration(Duration.ofMillis(cooldown * 50L)))
+                    RebarArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(duration / 20))),
+                    RebarArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
+                    RebarArgument.of("cooldown", UnitFormat.formatDuration(Duration.ofMillis(cooldown * 50L)))
             );
         }
     }

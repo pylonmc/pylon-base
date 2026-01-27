@@ -6,21 +6,21 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.LogisticSlot;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.format.TextColor;
@@ -45,13 +45,13 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class HydraulicHammerHead extends PylonBlock implements
-        PylonTickingBlock,
-        PylonInteractBlock,
-        PylonFluidBufferBlock,
-        PylonProcessor,
-        PylonLogisticBlock,
-        PylonDirectionalBlock {
+public class HydraulicHammerHead extends RebarBlock implements
+        RebarTickingBlock,
+        RebarInteractBlock,
+        RebarFluidBufferBlock,
+        RebarProcessor,
+        RebarLogisticBlock,
+        RebarDirectionalBlock {
 
     public static final NamespacedKey HAMMER_KEY = baseKey("hammer");
 
@@ -65,7 +65,7 @@ public class HydraulicHammerHead extends PylonBlock implements
             .addCustomModelDataString(getKey() + ":hammer_tip:empty")
             .build();
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
         public final double hydraulicFluidPerCraft = getSettings().getOrThrow("hydraulic-fluid-per-craft", ConfigAdapter.INT);
@@ -76,11 +76,11 @@ public class HydraulicHammerHead extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
-                    PylonArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerCraft)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
+                    RebarArgument.of("hydraulic-fluid-per-craft", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerCraft)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -119,7 +119,7 @@ public class HydraulicHammerHead extends PylonBlock implements
     @SuppressWarnings("unused")
     public HydraulicHammerHead(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        hammer = (Hammer) PylonItem.fromStack(pdc.get(HAMMER_KEY, PylonSerializers.ITEM_STACK));
+        hammer = (Hammer) RebarItem.fromStack(pdc.get(HAMMER_KEY, RebarSerializers.ITEM_STACK));
     }
 
     @Override
@@ -130,7 +130,7 @@ public class HydraulicHammerHead extends PylonBlock implements
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
-        PylonUtils.setNullable(pdc, HAMMER_KEY, PylonSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
+        RebarUtils.setNullable(pdc, HAMMER_KEY, RebarSerializers.ITEM_STACK, hammer == null ? null : hammer.getStack());
     }
 
     @Override
@@ -146,7 +146,7 @@ public class HydraulicHammerHead extends PylonBlock implements
             hammer = null;
         } else {
             ItemStack stack = event.getPlayer().getInventory().getItem(EquipmentSlot.HAND);
-            if (PylonItem.fromStack(stack.clone()) instanceof Hammer hammer) {
+            if (RebarItem.fromStack(stack.clone()) instanceof Hammer hammer) {
                 this.hammer = hammer;
                 stack.subtract();
             }
@@ -174,7 +174,7 @@ public class HydraulicHammerHead extends PylonBlock implements
         }
 
         Block baseBlock = getBlock().getRelative(BlockFace.DOWN, 3);
-        if (BlockStorage.isPylonBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
+        if (BlockStorage.isRebarBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
             return;
         }
 
@@ -240,13 +240,13 @@ public class HydraulicHammerHead extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("input-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
                         20,
                         TextColor.fromHexString("#212d99")
                 )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("output-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         20,
@@ -268,7 +268,7 @@ public class HydraulicHammerHead extends PylonBlock implements
 
         @Override
         public long getMaxAmount(@NotNull ItemStack stack) {
-            return PylonItem.fromStack(stack) instanceof Hammer ? stack.getMaxStackSize() : 0;
+            return RebarItem.fromStack(stack) instanceof Hammer ? stack.getMaxStackSize() : 0;
         }
 
         @Override
@@ -277,7 +277,7 @@ public class HydraulicHammerHead extends PylonBlock implements
                 hammer = null;
                 return;
             }
-            hammer = (Hammer) PylonItem.fromStack(stack.asQuantity((int) amount));
+            hammer = (Hammer) RebarItem.fromStack(stack.asQuantity((int) amount));
         }
     }
 }

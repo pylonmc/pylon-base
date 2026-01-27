@@ -6,9 +6,9 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.pylonmc.pylon.base.content.machines.fluid.PortableFluidTank;
 import io.github.pylonmc.pylon.base.content.science.Loupe;
 import io.github.pylonmc.rebar.command.RegistryCommandArgument;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
@@ -28,7 +28,7 @@ public class PylonBaseCommand {
                     .requires(source ->
                             source.getSender().hasPermission("pylonbase.command.fillfluid") && source.getSender() instanceof Player
                     )
-                    .then(Commands.argument("fluid", new RegistryCommandArgument<>(PylonRegistry.FLUIDS))
+                    .then(Commands.argument("fluid", new RegistryCommandArgument<>(RebarRegistry.FLUIDS))
                             .executes(PylonBaseCommand::fillFluid)
                     )
             )
@@ -48,7 +48,7 @@ public class PylonBaseCommand {
             return Command.SINGLE_SUCCESS;
         }
         ItemStack itemStack = player.getInventory().getItemInMainHand();
-        PylonItem item = PylonItem.fromStack(itemStack);
+        RebarItem item = RebarItem.fromStack(itemStack);
         if (
                 itemStack.getAmount() > 1 ||
                 !(item instanceof PortableFluidTank.Item tank && tank.getAmount() == 0)
@@ -57,7 +57,7 @@ public class PylonBaseCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        PylonFluid fluid = ctx.getArgument("fluid", PylonFluid.class);
+        RebarFluid fluid = ctx.getArgument("fluid", RebarFluid.class);
         tank.setFluid(fluid);
         tank.setAmount(tank.getCapacity());
 

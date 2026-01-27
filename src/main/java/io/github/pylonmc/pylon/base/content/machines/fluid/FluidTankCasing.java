@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.util.position.BlockPosition;
 import io.github.pylonmc.rebar.waila.Waila;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FluidTankCasing extends PylonBlock implements PylonInteractBlock {
+public class FluidTankCasing extends RebarBlock implements RebarInteractBlock {
 
     public final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
     public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
@@ -34,7 +34,7 @@ public class FluidTankCasing extends PylonBlock implements PylonInteractBlock {
     public Shape shape = Shape.SINGLE;
     public FluidTank tank;
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double capacity = getSettings().getOrThrow("capacity", ConfigAdapter.DOUBLE);
         public final List<FluidTemperature> allowedTemperatures = getSettings().getOrThrow(
@@ -47,10 +47,10 @@ public class FluidTankCasing extends PylonBlock implements PylonInteractBlock {
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
-                    PylonArgument.of("temperatures", Component.join(
+                    RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
+                    RebarArgument.of("temperatures", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
                             allowedTemperatures.stream()
                                     .map(FluidTemperature::getValueText)

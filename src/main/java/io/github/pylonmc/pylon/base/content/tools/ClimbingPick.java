@@ -3,9 +3,9 @@ package io.github.pylonmc.pylon.base.content.tools;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -25,7 +25,7 @@ import java.util.List;
 
 import static java.lang.Math.pow;
 
-public class ClimbingPick extends PylonItem implements PylonInteractor {
+public class ClimbingPick extends RebarItem implements RebarInteractor {
     private static final NamespacedKey HOOKED_KEY = BaseUtils.baseKey("climbing_pick_hooked");
     private final double jumpSpeed = getSettings().getOrThrow("jump-speed", ConfigAdapter.DOUBLE);
     private final double hookRange = getSettings().getOrThrow("hook-range", ConfigAdapter.DOUBLE);
@@ -48,10 +48,10 @@ public class ClimbingPick extends PylonItem implements PylonInteractor {
     }
 
     @Override
-    public @NotNull List<PylonArgument> getPlaceholders() {
+    public @NotNull List<RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("jump-speed", UnitFormat.BLOCKS_PER_SECOND.format(jumpSpeed)),
-                PylonArgument.of("hook-range", UnitFormat.BLOCKS.format(hookRange))
+                RebarArgument.of("jump-speed", UnitFormat.BLOCKS_PER_SECOND.format(jumpSpeed)),
+                RebarArgument.of("hook-range", UnitFormat.BLOCKS.format(hookRange))
         );
     }
 

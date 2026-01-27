@@ -3,16 +3,16 @@ package io.github.pylonmc.pylon.base.content.machines.simple;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonProcessor;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarProcessor;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -34,10 +34,10 @@ import org.joml.Matrix4f;
 import java.time.Duration;
 import java.util.List;
 
-public abstract class CoreDrill extends PylonBlock
-        implements PylonSimpleMultiblock, PylonDirectionalBlock, PylonProcessor {
+public abstract class CoreDrill extends RebarBlock
+        implements RebarSimpleMultiblock, RebarDirectionalBlock, RebarProcessor {
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         private final int rotationDuration = getSettings().getOrThrow("rotation-duration-ticks", ConfigAdapter.INT);
         private final int rotationsPerCycle = getSettings().getOrThrow("rotations-per-cycle", ConfigAdapter.INT);
@@ -48,10 +48,10 @@ public abstract class CoreDrill extends PylonBlock
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("cycle-time", UnitFormat.SECONDS.format(rotationsPerCycle * rotationDuration / 20)),
-                    PylonArgument.of("cycle-output", output.effectiveName())
+                    RebarArgument.of("cycle-time", UnitFormat.SECONDS.format(rotationsPerCycle * rotationDuration / 20)),
+                    RebarArgument.of("cycle-output", output.effectiveName())
             );
         }
     }
@@ -147,11 +147,11 @@ public abstract class CoreDrill extends PylonBlock
         String wailaFormat = "pylon." + getKey().getNamespace() + ".item." + getKey().getKey() + ".waila_format";
         Integer timeLeft = getProcessTicksRemaining();
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("duration_if_any",
+            RebarArgument.of("duration_if_any",
                 timeLeft == null
                     ? Component.empty()
                     : Component.translatable(wailaFormat).arguments(
-                        PylonArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft / 20), true))
+                        RebarArgument.of("duration", UnitFormat.formatDuration(Duration.ofSeconds(timeLeft / 20), true))
                     )
             )
         ));

@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonTool;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarTool;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Tool;
 import org.bukkit.Effect;
@@ -25,7 +25,7 @@ import java.util.*;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public class LumberAxe extends PylonItem implements PylonTool {
+public class LumberAxe extends RebarItem implements RebarTool {
 
     public LumberAxe( @NotNull ItemStack stack) {
         super(stack);
@@ -35,7 +35,7 @@ public class LumberAxe extends PylonItem implements PylonTool {
 
     @Override
     public void onUsedToBreakBlock(@NotNull BlockBreakEvent event) {
-        if (!Tag.LOGS.isTagged(event.getBlock().getType()) || BlockStorage.isPylonBlock(event.getBlock())) {
+        if (!Tag.LOGS.isTagged(event.getBlock().getType()) || BlockStorage.isRebarBlock(event.getBlock())) {
             return;
         }
         if (eventsToIgnore.contains(event)) {
@@ -48,7 +48,7 @@ public class LumberAxe extends PylonItem implements PylonTool {
 
     private void breakAttachedWood(Block block, Player player, ItemStack tool) {
         // Recursive function, for every adjacent block check if it's a log, if so delete it and give the drop to the player and check all its adjacent blocks
-        if (!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isPylonBlock(block)) {
+        if (!Tag.LOGS.isTagged(block.getType()) || BlockStorage.isRebarBlock(block)) {
             return;
         }
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
@@ -75,10 +75,10 @@ public class LumberAxe extends PylonItem implements PylonTool {
 
         Tool toolComponent = tool.getData(DataComponentTypes.TOOL);
         if (toolComponent != null) {
-            PylonUtils.damageItem(tool, toolComponent.damagePerBlock(), player, EquipmentSlot.HAND);
+            RebarUtils.damageItem(tool, toolComponent.damagePerBlock(), player, EquipmentSlot.HAND);
         }
 
-        for (BlockFace face : PylonUtils.IMMEDIATE_FACES) {
+        for (BlockFace face : RebarUtils.IMMEDIATE_FACES) {
             breakAttachedWood(block.getRelative(face), player, tool);
         }
     }

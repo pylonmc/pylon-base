@@ -6,8 +6,8 @@ import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.format.TextColor;
@@ -23,17 +23,17 @@ import java.util.List;
 
 
 public class DieselSmelteryHeater extends SmelteryComponent implements
-        PylonFluidBufferBlock,
-        PylonDirectionalBlock,
-        PylonTickingBlock,
-        PylonNoVanillaContainerBlock {
+        RebarFluidBufferBlock,
+        RebarDirectionalBlock,
+        RebarTickingBlock,
+        RebarNoVanillaContainerBlock {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double temperature = getSettings().getOrThrow("temperature", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
         public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
@@ -44,11 +44,11 @@ public class DieselSmelteryHeater extends SmelteryComponent implements
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
-                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
-                    PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                    RebarArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    RebarArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
+                    RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
             );
         }
     }
@@ -84,7 +84,7 @@ public class DieselSmelteryHeater extends SmelteryComponent implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,

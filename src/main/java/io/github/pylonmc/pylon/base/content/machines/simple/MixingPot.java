@@ -1,27 +1,24 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankWithDisplayEntity;
 import io.github.pylonmc.pylon.base.recipes.MixingPotRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCauldron;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCauldron;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.recipe.FluidOrItem;
 import io.github.pylonmc.rebar.recipe.RecipeInput;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
-import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.PotionContents;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -36,30 +33,28 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-public final class MixingPot extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonInteractBlock,
+
+public final class MixingPot extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarInteractBlock,
         FluidTankWithDisplayEntity,
-        PylonCauldron {
+        RebarCauldron {
 
-    public static class MixingPotItem extends PylonItem {
+    public static class MixingPotItem extends RebarItem {
 
         public MixingPotItem(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(1000))
+                    RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(1000))
             );
         }
     }
@@ -80,7 +75,7 @@ public final class MixingPot extends PylonBlock implements
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return true;
     }
 
@@ -102,15 +97,15 @@ public final class MixingPot extends PylonBlock implements
     @Override
     public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
                 getFluidType() == null
-                    ? PylonArgument.of("fluid", Component.translatable("pylon.pylonbase.fluid.none"))
-                    : PylonArgument.of("fluid", getFluidType().getName())
+                    ? RebarArgument.of("fluid", Component.translatable("pylon.fluid.none"))
+                    : RebarArgument.of("fluid", getFluidType().getName())
         ));
     }
 
@@ -137,7 +132,7 @@ public final class MixingPot extends PylonBlock implements
         boolean isFire = fireType == Material.FIRE || fireType == Material.SOUL_FIRE;
         if (!isFire) return false;
 
-        PylonBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
+        RebarBlock ignitedBlock = BlockStorage.get(getIgnitedBlock());
         boolean isEnrichedFire = ignitedBlock != null
                 && ignitedBlock.getSchema().getKey().equals(BaseKeys.ENRICHED_SOUL_SOIL);
 

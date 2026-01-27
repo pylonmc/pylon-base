@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.content.machines.simple.Grindstone;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.WeightedSet;
@@ -38,7 +38,7 @@ public record GrindstoneRecipe(
         @NotNull WeightedSet<ItemStack> results,
         int cycles,
         @NotNull BlockData particleBlockData
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -98,8 +98,8 @@ public record GrindstoneRecipe(
                 .addIngredient('c', GuiItems.progressCyclingItem(cycles * Grindstone.CYCLE_DURATION_TICKS,
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
-                                        "pylon.pylonbase.guide.recipe.grindstone.time",
-                                        PylonArgument.of("time", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_DURATION_TICKS / 20))
+                                        "pylon.guide.recipe.grindstone.time",
+                                        RebarArgument.of("time", UnitFormat.SECONDS.format(cycles * Grindstone.CYCLE_DURATION_TICKS / 20))
                                 ))
                 ));
 
@@ -114,8 +114,8 @@ public record GrindstoneRecipe(
             float normalizedWeight = element.weight() / totalWeight;
             lore.add(Component.empty());
             lore.add(Component.translatable(
-                    "pylon.pylonbase.guide.recipe.grindstone.chance",
-                    PylonArgument.of(
+                    "pylon.guide.recipe.grindstone.chance",
+                    RebarArgument.of(
                             "chance",
                             UnitFormat.PERCENT.format(Math.round(normalizedWeight * 100)).decimalPlaces(2))
             ));

@@ -5,19 +5,19 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.GrindstoneRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarRecipeProcessor;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.rebar.event.PreRebarBlockPlaceEvent;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.ItemDisplayLogisticSlot;
@@ -43,12 +43,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Grindstone extends PylonBlock implements
-        PylonSimpleMultiblock,
-        PylonInteractBlock,
-        PylonBreakHandler,
-        PylonLogisticBlock,
-        PylonRecipeProcessor<GrindstoneRecipe> {
+public class Grindstone extends RebarBlock implements
+        RebarSimpleMultiblock,
+        RebarInteractBlock,
+        RebarBreakHandler,
+        RebarLogisticBlock,
+        RebarRecipeProcessor<GrindstoneRecipe> {
 
     public static final int CYCLE_DURATION_TICKS = Settings.get(BaseKeys.GRINDSTONE)
             .getOrThrow("cycle-duration-ticks",ConfigAdapter.INT);
@@ -93,7 +93,7 @@ public class Grindstone extends PylonBlock implements
 
     @Override
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
-        return Map.of(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.GRINDSTONE_HANDLE));
+        return Map.of(new Vector3i(0, 1, 0), new RebarMultiblockComponent(BaseKeys.GRINDSTONE_HANDLE));
     }
 
     @Override
@@ -214,7 +214,7 @@ public class Grindstone extends PylonBlock implements
 
     public static final class PlaceListener implements Listener {
         @EventHandler
-        private void onPlace(PrePylonBlockPlaceEvent e) {
+        private void onPlace(PreRebarBlockPlaceEvent e) {
             if (!e.getBlockSchema().getKey().equals(BaseKeys.GRINDSTONE)) return;
             Slab slab = (Slab) e.getBlock().getBlockData();
             switch (slab.getType()) {

@@ -2,17 +2,17 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonMultiblock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarMultiblock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.util.position.BlockPosition;
 import io.github.pylonmc.rebar.util.position.ChunkPosition;
@@ -33,15 +33,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class FluidTank extends PylonBlock
-        implements PylonMultiblock, FluidTankWithDisplayEntity, PylonDirectionalBlock {
+public class FluidTank extends RebarBlock
+        implements RebarMultiblock, FluidTankWithDisplayEntity, RebarDirectionalBlock {
 
     private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
     private final List<FluidTankCasing> casings = new ArrayList<>();
     private final List<FluidTemperature> allowedTemperatures = new ArrayList<>();
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         private final int maxHeight = getSettings().getOrThrow("max-height", ConfigAdapter.INT);
 
@@ -50,9 +50,9 @@ public class FluidTank extends PylonBlock
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("max-height", UnitFormat.BLOCKS.format(maxHeight))
+                    RebarArgument.of("max-height", UnitFormat.BLOCKS.format(maxHeight))
             );
         }
     }
@@ -148,7 +148,7 @@ public class FluidTank extends PylonBlock
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return fluid.hasTag(FluidTemperature.class) && allowedTemperatures.contains(fluid.getTag(FluidTemperature.class));
     }
 
@@ -160,14 +160,14 @@ public class FluidTank extends PylonBlock
     @Override
     public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", getFluidType() == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.fluid.none")
                         : getFluidType().getName()
                 )
         ));

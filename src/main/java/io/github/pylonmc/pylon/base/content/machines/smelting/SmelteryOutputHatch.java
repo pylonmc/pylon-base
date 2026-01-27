@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.rebar.block.base.PylonFluidBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import kotlin.Pair;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public final class SmelteryOutputHatch extends SmelteryComponent implements PylonFluidBlock {
+public final class SmelteryOutputHatch extends SmelteryComponent implements RebarFluidBlock {
 
     public final double flowRate = getSettings().getOrThrow("flow-rate", ConfigAdapter.DOUBLE);
 
@@ -30,18 +30,18 @@ public final class SmelteryOutputHatch extends SmelteryComponent implements Pylo
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
+    public @NotNull Map<RebarFluid, Double> getSuppliedFluids() {
         SmelteryController controller = getController();
         if (controller == null) return Map.of();
 
-        Pair<PylonFluid, Double> supplied = controller.getBottomFluid();
+        Pair<RebarFluid, Double> supplied = controller.getBottomFluid();
         return supplied == null
                 ? Map.of()
-                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * PylonConfig.FLUID_TICK_INTERVAL / 20.0));
+                : Map.of(supplied.getFirst(), Math.min(supplied.getSecond(), flowRate * RebarConfig.FLUID_TICK_INTERVAL / 20.0));
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {
         SmelteryController controller = getController();
         if (controller == null) return;
         controller.removeFluid(fluid, amount);

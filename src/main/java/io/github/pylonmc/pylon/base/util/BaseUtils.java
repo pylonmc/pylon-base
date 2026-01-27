@@ -1,14 +1,12 @@
 package io.github.pylonmc.pylon.base.util;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonMultiblock;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.ItemTypeWrapper;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
@@ -16,8 +14,6 @@ import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
@@ -125,10 +121,10 @@ public class BaseUtils {
 
     public @NotNull Component createProgressBar(double progress, int bars, TextColor color) {
         int filledBars = (int) Math.round(bars * progress);
-        return Component.translatable("pylon.pylonbase.gui.progress_bar.text").arguments(
-                PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(color)),
-                PylonArgument.of("empty_bars", "|".repeat(bars - filledBars)),
-                PylonArgument.of("progress", UnitFormat.PERCENT.format(progress * 100))
+        return Component.translatable("rebar.gui.progress_bar.text").arguments(
+                RebarArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(color)),
+                RebarArgument.of("empty_bars", "|".repeat(bars - filledBars)),
+                RebarArgument.of("progress", UnitFormat.PERCENT.format(progress * 100))
         );
     }
 
@@ -138,11 +134,11 @@ public class BaseUtils {
 
     public @NotNull Component createFluidAmountBar(double amount, double capacity, int bars, TextColor fluidColor) {
         int filledBars = Math.max(0, (int) Math.round(bars * amount / capacity));
-        return Component.translatable("pylon.pylonbase.gui.fluid_amount_bar.text").arguments(
-                PylonArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(fluidColor)),
-                PylonArgument.of("empty_bars", Component.text("|".repeat(bars - filledBars)).color(NamedTextColor.GRAY)),
-                PylonArgument.of("amount", Math.round(amount)),
-                PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
+        return Component.translatable("rebar.gui.fluid_amount_bar.text").arguments(
+                RebarArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(fluidColor)),
+                RebarArgument.of("empty_bars", Component.text("|".repeat(bars - filledBars)).color(NamedTextColor.GRAY)),
+                RebarArgument.of("amount", Math.round(amount)),
+                RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(Math.round(capacity)))
         );
     }
 
@@ -169,7 +165,7 @@ public class BaseUtils {
     public boolean shouldBreakBlockUsingTool(@NotNull Block block, @NotNull ItemStack tool) {
         return !block.getType().isAir()
                 && !(block.getState() instanceof BlockInventoryHolder)
-                && !BlockStorage.isPylonBlock(block)
+                && !BlockStorage.isRebarBlock(block)
                 && block.getType().getHardness() >= 0
                 && block.isPreferredTool(tool)
                 && tool.hasData(DataComponentTypes.TOOL)
@@ -215,14 +211,14 @@ public class BaseUtils {
      * Handles players right clicking with bottles, water buckets, etc
      * Returns true if the function attempted to process the item used (i.e. if it's a water bucket, bottle, etc)
      */
-    public boolean handleFluidTankRightClick(@NotNull PylonFluidTank tank, @NotNull PlayerInteractEvent event) {
+    public boolean handleFluidTankRightClick(@NotNull RebarFluidTank tank, @NotNull PlayerInteractEvent event) {
         if (!event.getAction().isRightClick()) {
             return false;
         }
 
         ItemStack item = event.getItem();
         EquipmentSlot hand = event.getHand();
-        if (item == null || hand == null || PylonItem.isPylonItem(item)) {
+        if (item == null || hand == null || RebarItem.isRebarItem(item)) {
             return false;
         }
 

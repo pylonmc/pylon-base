@@ -6,19 +6,19 @@ import io.github.pylonmc.pylon.base.recipes.SmelteryRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.pylon.base.util.HslColor;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarMultiblock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Config;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.transform.TransformUtil;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryController extends SmelteryComponent
-        implements PylonGuiBlock, PylonMultiblock, PylonTickingBlock {
+        implements RebarGuiBlock, RebarMultiblock, RebarTickingBlock {
 
     private static final NamespacedKey RUNNING_KEY = baseKey("running");
     private static final NamespacedKey TEMPERATURE_KEY = baseKey("temperature");
@@ -74,8 +74,8 @@ public final class SmelteryController extends SmelteryComponent
     public final int maxHeight = settings.getOrThrow("max-height", ConfigAdapter.INT);
 
     private final Set<SmelteryComponent> components = new HashSet<>();
-    private final Object2DoubleMap<PylonFluid> fluids = new Object2DoubleRBTreeMap<>(
-            Comparator.<PylonFluid, FluidTemperature>comparing(fluid -> fluid.getTag(FluidTemperature.class))
+    private final Object2DoubleMap<RebarFluid> fluids = new Object2DoubleRBTreeMap<>(
+            Comparator.<RebarFluid, FluidTemperature>comparing(fluid -> fluid.getTag(FluidTemperature.class))
                     .reversed()
                     .thenComparing(fluid -> fluid.getKey().toString())
     );
@@ -101,17 +101,17 @@ public final class SmelteryController extends SmelteryComponent
     public SmelteryController(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        running = pdc.get(RUNNING_KEY, PylonSerializers.BOOLEAN);
-        temperature = pdc.get(TEMPERATURE_KEY, PylonSerializers.DOUBLE);
-        fluids.putAll(pdc.get(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE)));
+        running = pdc.get(RUNNING_KEY, RebarSerializers.BOOLEAN);
+        temperature = pdc.get(TEMPERATURE_KEY, RebarSerializers.DOUBLE);
+        fluids.putAll(pdc.get(FLUIDS_KEY, RebarSerializers.MAP.mapTypeFrom(RebarSerializers.REBAR_FLUID, RebarSerializers.DOUBLE)));
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         applyHeat();
-        pdc.set(RUNNING_KEY, PylonSerializers.BOOLEAN, running);
-        pdc.set(TEMPERATURE_KEY, PylonSerializers.DOUBLE, temperature);
-        pdc.set(FLUIDS_KEY, PylonSerializers.MAP.mapTypeFrom(PylonSerializers.PYLON_FLUID, PylonSerializers.DOUBLE), fluids);
+        pdc.set(RUNNING_KEY, RebarSerializers.BOOLEAN, running);
+        pdc.set(TEMPERATURE_KEY, RebarSerializers.DOUBLE, temperature);
+        pdc.set(FLUIDS_KEY, RebarSerializers.MAP.mapTypeFrom(RebarSerializers.REBAR_FLUID, RebarSerializers.DOUBLE), fluids);
     }
 
     @Override
@@ -148,31 +148,31 @@ public final class SmelteryController extends SmelteryComponent
             if (isFormedAndFullyLoaded()) {
                 if (running) {
                     material = Material.GREEN_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("pylon.pylonbase.gui.status.running"));
+                    lore.add(Component.translatable("rebar.gui.status.running"));
                 } else {
                     material = Material.YELLOW_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("pylon.pylonbase.gui.status.not_running"));
+                    lore.add(Component.translatable("rebar.gui.status.not_running"));
                 }
-                lore.add(Component.translatable("pylon.pylonbase.gui.status.toggle"));
+                lore.add(Component.translatable("rebar.gui.status.toggle"));
                 lore.add(Component.empty());
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.height",
-                        PylonArgument.of("height", UnitFormat.BLOCKS.format(height))
+                        "rebar.gui.smeltery.height",
+                        RebarArgument.of("height", UnitFormat.BLOCKS.format(height))
                 ));
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.capacity",
-                        PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity).decimalPlaces(0))
+                        "rebar.gui.smeltery.capacity",
+                        RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity).decimalPlaces(0))
                 ));
                 lore.add(Component.translatable(
-                        "pylon.pylonbase.gui.smeltery.temperature",
-                        PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature).decimalPlaces(1))
+                        "rebar.gui.smeltery.temperature",
+                        RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature).decimalPlaces(1))
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
-                lore.add(Component.translatable("pylon.pylonbase.gui.status.incomplete"));
+                lore.add(Component.translatable("rebar.gui.status.incomplete"));
             }
             return ItemStackBuilder.of(material)
-                    .name(Component.translatable("pylon.pylonbase.gui.status.name"))
+                    .name(Component.translatable("rebar.gui.status.name"))
                     .lore(lore);
         }
 
@@ -191,25 +191,25 @@ public final class SmelteryController extends SmelteryComponent
         public ItemProvider getItemProvider() {
             List<Component> lore = new ArrayList<>();
             if (fluids.isEmpty()) {
-                lore.add(Component.translatable("pylon.pylonbase.gui.smeltery.contents.empty"));
+                lore.add(Component.translatable("rebar.gui.smeltery.contents.empty"));
             } else {
-                for (Object2DoubleMap.Entry<PylonFluid> entry : fluids.object2DoubleEntrySet()) {
-                    PylonFluid fluid = entry.getKey();
+                for (Object2DoubleMap.Entry<RebarFluid> entry : fluids.object2DoubleEntrySet()) {
+                    RebarFluid fluid = entry.getKey();
                     double amount = entry.getDoubleValue();
                     lore.add(Component.text().build().append(Component.translatable(
-                            "pylon.pylonbase.gui.smeltery.contents.fluid",
-                            PylonArgument.of(
+                            "rebar.gui.smeltery.contents.fluid",
+                            RebarArgument.of(
                                     "amount",
                                     UnitFormat.MILLIBUCKETS.format(amount)
                                             .decimalPlaces(1)
                                             .unitStyle(Style.empty())
                             ),
-                            PylonArgument.of("fluid", fluid.getName())
+                            RebarArgument.of("fluid", fluid.getName())
                     )));
                 }
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
-                    .name(Component.translatable("pylon.pylonbase.gui.smeltery.contents.name"))
+                    .name(Component.translatable("rebar.gui.smeltery.contents.name"))
                     .lore(lore);
         }
 
@@ -301,7 +301,7 @@ public final class SmelteryController extends SmelteryComponent
         double totalFluid = getTotalFluid();
         if (totalFluid > capacity) {
             double ratio = capacity / totalFluid;
-            for (PylonFluid fluid : fluids.keySet()) {
+            for (RebarFluid fluid : fluids.keySet()) {
                 fluids.computeDouble(fluid, (key, value) -> value * ratio);
             }
         }
@@ -361,7 +361,7 @@ public final class SmelteryController extends SmelteryComponent
     // </editor-fold>
 
     // <editor-fold desc="Fluid" defaultstate="collapsed">
-    public void addFluid(@NotNull PylonFluid fluid, double amount) {
+    public void addFluid(@NotNull RebarFluid fluid, double amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
@@ -369,7 +369,7 @@ public final class SmelteryController extends SmelteryComponent
         fluids.mergeDouble(fluid, amountToAdd, Double::sum);
     }
 
-    public void removeFluid(@NotNull PylonFluid fluid, double amount) {
+    public void removeFluid(@NotNull RebarFluid fluid, double amount) {
         Preconditions.checkArgument(fluid.hasTag(FluidTemperature.class), "Fluid does not have a temperature tag");
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
 
@@ -379,7 +379,7 @@ public final class SmelteryController extends SmelteryComponent
         }
     }
 
-    public double getFluidAmount(@NotNull PylonFluid fluid) {
+    public double getFluidAmount(@NotNull RebarFluid fluid) {
         return fluids.getDouble(fluid);
     }
 
@@ -392,8 +392,8 @@ public final class SmelteryController extends SmelteryComponent
         return sum;
     }
 
-    public @Nullable Pair<PylonFluid, Double> getBottomFluid() {
-        Object2DoubleMap.Entry<PylonFluid> lastEntry = null;
+    public @Nullable Pair<RebarFluid, Double> getBottomFluid() {
+        Object2DoubleMap.Entry<RebarFluid> lastEntry = null;
         for (var entry : fluids.object2DoubleEntrySet()) {
             lastEntry = entry;
         }
@@ -537,7 +537,7 @@ public final class SmelteryController extends SmelteryComponent
         for (SmelteryRecipe recipe : SmelteryRecipe.RECIPE_TYPE) {
             if (recipe.getTemperature() > temperature) continue;
 
-            for (PylonFluid fluid : recipe.getFluidInputs().keySet()) {
+            for (RebarFluid fluid : recipe.getFluidInputs().keySet()) {
                 if (getFluidAmount(fluid) == 0) continue recipeLoop;
             }
 
@@ -545,12 +545,12 @@ public final class SmelteryController extends SmelteryComponent
             double consumptionRatio = highestFluidAmount / FLUID_REACTION_PER_TICK;
             double currentTemperature = temperature;
             for (var entry : recipe.getFluidInputs().entrySet()) {
-                PylonFluid fluid = entry.getKey();
+                RebarFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
                 removeFluid(fluid, amount);
             }
             for (var entry : recipe.getFluidOutputs().entrySet()) {
-                PylonFluid fluid = entry.getKey();
+                RebarFluid fluid = entry.getKey();
                 double amount = entry.getValue() * consumptionRatio;
                 addFluid(fluid, amount);
             }

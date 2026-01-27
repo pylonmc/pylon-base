@@ -1,16 +1,16 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
@@ -23,9 +23,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class FluidVoider extends PylonBlock implements PylonFluidBlock {
+public class FluidVoider extends RebarBlock implements RebarFluidBlock {
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double voidRate = getSettings().getOrThrow("fluid-voided-per-second", ConfigAdapter.DOUBLE);
 
@@ -34,8 +34,8 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock {
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
+        public @NotNull List<RebarArgument> getPlaceholders() {
+            return List.of(RebarArgument.of(
                     "void_rate", UnitFormat.MILLIBUCKETS_PER_SECOND.format(voidRate).decimalPlaces(0)
             ));
         }
@@ -69,12 +69,12 @@ public class FluidVoider extends PylonBlock implements PylonFluidBlock {
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
-        return voidRate * PylonConfig.FLUID_TICK_INTERVAL / 20;
+    public double fluidAmountRequested(@NotNull RebarFluid fluid) {
+        return voidRate * RebarConfig.FLUID_TICK_INTERVAL / 20;
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
         // do nothing lol
     }
 }

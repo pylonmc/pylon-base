@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VirtualInventoryLogisticSlot;
@@ -39,11 +39,11 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoValve extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock {
+public class CargoValve extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
@@ -62,7 +62,7 @@ public class CargoValve extends PylonBlock implements
     public final ItemStackBuilder stackOn = ItemStackBuilder.of(Material.WHITE_CONCRETE)
             .addCustomModelDataString(getKey() + ":stack_on");
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -71,11 +71,11 @@ public class CargoValve extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }
@@ -127,12 +127,12 @@ public class CargoValve extends PylonBlock implements
     public CargoValve(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
+        enabled = pdc.get(ENABLED_KEY, RebarSerializers.BOOLEAN);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(ENABLED_KEY, PylonSerializers.BOOLEAN, enabled);
+        pdc.set(ENABLED_KEY, RebarSerializers.BOOLEAN, enabled);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class CargoValve extends PylonBlock implements
         }
 
         if (!event.getPlayer().isSneaking()) {
-            PylonGuiBlock.super.onInteract(event);
+            RebarGuiBlock.super.onInteract(event);
             return;
         }
 
@@ -179,8 +179,8 @@ public class CargoValve extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("status", Component.translatable(
-                        "pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled")
+                RebarArgument.of("status", Component.translatable(
+                        "rebar.message.valve." + (enabled ? "enabled" : "disabled")
                 ))
         ));
     }

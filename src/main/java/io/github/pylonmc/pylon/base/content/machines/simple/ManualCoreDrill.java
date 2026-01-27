@@ -25,7 +25,7 @@ public class ManualCoreDrill extends CoreDrill {
     public @NotNull Map<Vector3i, MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 0, -1), new PylonMultiblockComponent(BaseKeys.MANUAL_CORE_DRILL_LEVER));
+        components.put(new Vector3i(0, 0, -1), new RebarMultiblockComponent(BaseKeys.MANUAL_CORE_DRILL_LEVER));
 
         components.put(new Vector3i(1, 0, 0), new VanillaMultiblockComponent(Material.COBBLESTONE_WALL));
         components.put(new Vector3i(1, -1, 0), new VanillaMultiblockComponent(Material.COBBLESTONE_WALL));

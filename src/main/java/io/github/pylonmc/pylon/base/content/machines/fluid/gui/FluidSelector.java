@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid.gui;
 
 
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -26,9 +26,9 @@ public final class FluidSelector {
 
     private FluidSelector() {}
 
-    public static Gui make(@NotNull Supplier<PylonFluid> getFluid, @NotNull Consumer<PylonFluid> setFluid) {
+    public static Gui make(@NotNull Supplier<RebarFluid> getFluid, @NotNull Consumer<RebarFluid> setFluid) {
         AbstractItem currentItem = new CurrentItem(getFluid);
-        Function<PylonFluid, AbstractItem> fluidItem = itemFluid -> new FluidItem(itemFluid, setFluid, currentItem);
+        Function<RebarFluid, AbstractItem> fluidItem = itemFluid -> new FluidItem(itemFluid, setFluid, currentItem);
 
         Gui gui = Gui.normal()
                 .setStructure(
@@ -45,7 +45,7 @@ public final class FluidSelector {
                 .build();
 
         int i = 9;
-        for (PylonFluid itemFluid : PylonRegistry.FLUIDS.getValues()) {
+        for (RebarFluid itemFluid : RebarRegistry.FLUIDS.getValues()) {
             gui.setItem(i, fluidItem.apply(itemFluid));
             i++;
         }
@@ -54,24 +54,24 @@ public final class FluidSelector {
     }
 
     private static class CurrentItem extends AbstractItem {
-        private final @NotNull Supplier<PylonFluid> getFluid;
+        private final @NotNull Supplier<RebarFluid> getFluid;
 
-        public CurrentItem(@NotNull Supplier<PylonFluid> getFluid) {
+        public CurrentItem(@NotNull Supplier<RebarFluid> getFluid) {
             super();
             this.getFluid = getFluid;
         }
 
         @Override
         public @NotNull ItemProvider getItemProvider() {
-            PylonFluid fluid = getFluid.get();
+            RebarFluid fluid = getFluid.get();
             return ItemStackBuilder.of(fluid == null ? new ItemStack(Material.BARRIER) : fluid.getItem())
                     .name(Component.translatable(
-                            "pylon.pylonbase.message.fluid_selector.current_fluid",
-                            PylonArgument.of(
+                            "rebar.message.fluid_selector.current_fluid",
+                            RebarArgument.of(
                                     "fluid",
                                     Component.translatable((fluid == null
-                                            ? "pylon.pylonbase.fluid.none"
-                                            : "pylon.pylonbase.fluid." + fluid.getKey().getKey()
+                                            ? "pylon.fluid.none"
+                                            : "pylon.fluid." + fluid.getKey().getKey()
                                     ))
                             ))
                     );
@@ -82,11 +82,11 @@ public final class FluidSelector {
     }
 
     private static class FluidItem extends AbstractItem {
-        private final PylonFluid itemFluid;
-        private final @NotNull Consumer<PylonFluid> setFluid;
+        private final RebarFluid itemFluid;
+        private final @NotNull Consumer<RebarFluid> setFluid;
         private final AbstractItem currentItem;
 
-        public FluidItem(PylonFluid itemFluid, @NotNull Consumer<PylonFluid> setFluid, AbstractItem currentItem) {
+        public FluidItem(RebarFluid itemFluid, @NotNull Consumer<RebarFluid> setFluid, AbstractItem currentItem) {
             super();
             this.itemFluid = itemFluid;
             this.setFluid = setFluid;
@@ -97,10 +97,10 @@ public final class FluidSelector {
         public ItemProvider getItemProvider() {
             if (itemFluid == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
-                        .name(Component.translatable("pylon.pylonbase.message.fluid_selector.clear"));
+                        .name(Component.translatable("rebar.message.fluid_selector.clear"));
             }
             return ItemStackBuilder.of(itemFluid.getItem())
-                    .name(Component.translatable("pylon.pylonbase.fluid." + itemFluid.getKey().getKey()));
+                    .name(Component.translatable("pylon.fluid." + itemFluid.getKey().getKey()));
         }
 
         @Override

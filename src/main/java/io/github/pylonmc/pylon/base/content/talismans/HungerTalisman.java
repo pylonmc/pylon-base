@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.base.content.talismans;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -35,10 +35,10 @@ public class HungerTalisman extends Talisman {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("period", UnitFormat.SECONDS.format(increasePeriod / 20f)),
-                PylonArgument.of("saturation_increase", Component.text(saturationIncrease)),
-                PylonArgument.of("hunger_increase", Component.text(hungerIncrease)));
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
+        return List.of(RebarArgument.of("period", UnitFormat.SECONDS.format(increasePeriod / 20f)),
+                RebarArgument.of("saturation_increase", Component.text(saturationIncrease)),
+                RebarArgument.of("hunger_increase", Component.text(hungerIncrease)));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class HungerTalisman extends Talisman {
             }
             int talismanLevel = event.getPlayer().getPersistentDataContainer().get(HUNGER_TALISMAN_KEY, PersistentDataType.INTEGER);
             for (ItemStack stack : event.getPlayer().getInventory()) {
-                PylonItem item = PylonItem.fromStack(stack);
+                RebarItem item = RebarItem.fromStack(stack);
                 if (!(item instanceof HungerTalisman talisman)) {
                     continue;
                 }

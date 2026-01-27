@@ -3,21 +3,18 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.content.machines.simple.Crucible;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlockSchema;
+import io.github.pylonmc.rebar.block.RebarBlockSchema;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.item.ItemTypeWrapper;
 import io.github.pylonmc.rebar.recipe.ConfigurableRecipeType;
 import io.github.pylonmc.rebar.recipe.FluidOrItem;
-import io.github.pylonmc.rebar.recipe.PylonRecipe;
+import io.github.pylonmc.rebar.recipe.RebarRecipe;
 import io.github.pylonmc.rebar.recipe.RecipeInput;
 import io.github.pylonmc.rebar.recipe.RecipeType;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
-import io.papermc.paper.datacomponent.DataComponentTypes;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +24,6 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
@@ -36,7 +32,7 @@ public record CrucibleRecipe(
     @NotNull NamespacedKey key,
     @NotNull RecipeInput.Item input,
     @NotNull FluidOrItem.Fluid output
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     private static Set<NamespacedKey> HEATED_BLOCKS = null;
     private static List<ItemStack> HEAT_SOURCES = null;
@@ -74,7 +70,7 @@ public record CrucibleRecipe(
                 HEATED_BLOCKS.add(material.getKey());
             }
 
-            for (PylonBlockSchema schema : PylonRegistry.BLOCKS) {
+            for (RebarBlockSchema schema : RebarRegistry.BLOCKS) {
                 if (Crucible.HeatedBlock.class.isAssignableFrom(schema.getBlockClass())) {
                     HEATED_BLOCKS.add(schema.getKey());
                 }

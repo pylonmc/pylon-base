@@ -1,22 +1,22 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -47,11 +47,11 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 
-public class CargoSplitter extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock {
+public class CargoSplitter extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock {
 
     public static final NamespacedKey RATIO_LEFT_KEY = baseKey("ratio_left");
     public static final NamespacedKey RATIO_RIGHT_KEY = baseKey("ratio_right");
@@ -81,16 +81,16 @@ public class CargoSplitter extends PylonBlock implements
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("pylon.pylonbase.gui.left"));
+            .name(Component.translatable("rebar.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("pylon.pylonbase.gui.right"));
+            .name(Component.translatable("rebar.gui.right"));
     public final ItemStackBuilder ratioStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio");
     public final ItemStackBuilder leftButtonStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left_button")
-            .name(Component.translatable("pylon.pylonbase.gui.ratio.left_button.name"))
-            .lore(Component.translatable("pylon.pylonbase.gui.ratio.left_button.lore"));
+            .name(Component.translatable("rebar.gui.ratio.left_button.name"))
+            .lore(Component.translatable("rebar.gui.ratio.left_button.lore"));
     public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
-            .name(Component.translatable("pylon.pylonbase.gui.ratio.right_button.name"))
-            .lore(Component.translatable("pylon.pylonbase.gui.ratio.right_button.lore"));
+            .name(Component.translatable("rebar.gui.ratio.right_button.name"))
+            .lore(Component.translatable("rebar.gui.ratio.right_button.lore"));
 
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
@@ -129,7 +129,7 @@ public class CargoSplitter extends PylonBlock implements
         }
     }
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -138,11 +138,11 @@ public class CargoSplitter extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }
@@ -155,8 +155,8 @@ public class CargoSplitter extends PylonBlock implements
         setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing(), "input");
-        addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
-        addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
+        addCargoLogisticGroup(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
+        addCargoLogisticGroup(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
         setCargoTransferRate(transferRate);
 
         addEntity("main", new ItemDisplayBuilder()
@@ -212,18 +212,18 @@ public class CargoSplitter extends PylonBlock implements
     @SuppressWarnings("unused")
     public CargoSplitter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        ratioLeft = pdc.get(RATIO_LEFT_KEY, PylonSerializers.INTEGER);
-        ratioRight = pdc.get(RATIO_RIGHT_KEY, PylonSerializers.INTEGER);
-        isLeft = pdc.get(IS_LEFT_KEY, PylonSerializers.BOOLEAN);
-        itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER);
+        ratioLeft = pdc.get(RATIO_LEFT_KEY, RebarSerializers.INTEGER);
+        ratioRight = pdc.get(RATIO_RIGHT_KEY, RebarSerializers.INTEGER);
+        isLeft = pdc.get(IS_LEFT_KEY, RebarSerializers.BOOLEAN);
+        itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, RebarSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(RATIO_LEFT_KEY, PylonSerializers.INTEGER, ratioLeft);
-        pdc.set(RATIO_RIGHT_KEY, PylonSerializers.INTEGER, ratioRight);
-        pdc.set(IS_LEFT_KEY, PylonSerializers.BOOLEAN, isLeft);
-        pdc.set(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER, itemsRemaining);
+        pdc.set(RATIO_LEFT_KEY, RebarSerializers.INTEGER, ratioLeft);
+        pdc.set(RATIO_RIGHT_KEY, RebarSerializers.INTEGER, ratioRight);
+        pdc.set(IS_LEFT_KEY, RebarSerializers.BOOLEAN, isLeft);
+        pdc.set(ITEMS_REMAINING_KEY, RebarSerializers.INTEGER, itemsRemaining);
     }
 
     @Override
@@ -245,9 +245,9 @@ public class CargoSplitter extends PylonBlock implements
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
                 .addIngredient('a', new SuppliedItem(() -> ratioStack.clone()
-                        .name(Component.translatable("pylon.pylonbase.gui.ratio.name").arguments(
-                                PylonArgument.of("left", ratioLeft),
-                                PylonArgument.of("right", ratioRight)
+                        .name(Component.translatable("rebar.gui.ratio.name").arguments(
+                                RebarArgument.of("left", ratioLeft),
+                                RebarArgument.of("right", ratioRight)
                         )),
                         click -> false
                 ))
@@ -281,11 +281,11 @@ public class CargoSplitter extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("left", ratioLeft),
-                PylonArgument.of("right", ratioRight),
-                PylonArgument.of("side", isLeft
-                                ? Component.translatable("pylon.pylonbase.waila.cargo_splitter.left")
-                                : Component.translatable("pylon.pylonbase.waila.cargo_splitter.right")
+                RebarArgument.of("left", ratioLeft),
+                RebarArgument.of("right", ratioRight),
+                RebarArgument.of("side", isLeft
+                                ? Component.translatable("rebar.waila.cargo_splitter.left")
+                                : Component.translatable("rebar.waila.cargo_splitter.right")
                 )
         ));
     }

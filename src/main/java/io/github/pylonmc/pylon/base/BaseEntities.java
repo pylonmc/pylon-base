@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base;
 
 import io.github.pylonmc.pylon.base.util.DisplayProjectile;
-import io.github.pylonmc.rebar.entity.PylonEntity;
+import io.github.pylonmc.rebar.entity.RebarEntity;
 import org.bukkit.entity.ItemDisplay;
 
 
@@ -12,7 +12,7 @@ public class BaseEntities {
     }
 
     static {
-        PylonEntity.register(BaseKeys.DISPLAY_PROJECTILE, ItemDisplay.class, DisplayProjectile.class, false);
+        RebarEntity.register(BaseKeys.DISPLAY_PROJECTILE, ItemDisplay.class, DisplayProjectile.class, false);
     }
 
     // Calling this method forces all the static blocks to run, which initializes our items

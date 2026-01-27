@@ -1,17 +1,17 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseItems;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonProcessor;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarProcessor;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.ProgressItem;
 import kotlin.Pair;
@@ -33,28 +33,28 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 public final class SmelteryBurner extends SmelteryComponent implements
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonTickingBlock,
-        PylonLogisticBlock,
-        PylonProcessor {
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarTickingBlock,
+        RebarLogisticBlock,
+        RebarProcessor {
 
     public static final NamespacedKey FUELS_KEY = baseKey("smeltery_burner_fuels");
-    public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
+    public static final RebarRegistry<Fuel> FUELS = new RebarRegistry<>(FUELS_KEY);
 
     static {
-        PylonRegistry.addRegistry(FUELS);
+        RebarRegistry.addRegistry(FUELS);
     }
 
     private static final NamespacedKey FUEL_KEY = baseKey("fuel");
-    private static final PersistentDataType<?, Fuel> FUEL_TYPE = PylonSerializers.KEYED.keyedTypeFrom(Fuel.class, FUELS::getOrThrow);
+    private static final PersistentDataType<?, Fuel> FUEL_TYPE = RebarSerializers.KEYED.keyedTypeFrom(Fuel.class, FUELS::getOrThrow);
 
     private @Nullable Fuel fuel;
 
     private final ItemStackBuilder notBurningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.not_burning"));
+            .name(Component.translatable("rebar.gui.smeltery_burner.not_burning"));
     private final ItemStackBuilder burningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("pylon.pylonbase.gui.smeltery_burner.burning"));
+            .name(Component.translatable("rebar.gui.smeltery_burner.burning"));
 
     private final VirtualInventory inventory = new VirtualInventory(3);
     private final ProgressItem progressItem = new ProgressItem(notBurningProgressItem);
@@ -77,7 +77,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
+        RebarUtils.setNullable(pdc, FUEL_KEY, FUEL_TYPE, fuel);
     }
 
     @Override

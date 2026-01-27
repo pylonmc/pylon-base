@@ -1,17 +1,16 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.MeltingRecipe;
-import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
-import io.github.pylonmc.rebar.block.base.PylonVanillaContainerBlock;
+import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarVanillaContainerBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VanillaInventoryLogisticSlot;
 import org.bukkit.block.Block;
 import org.bukkit.block.Hopper;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -20,10 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public final class SmelteryHopper extends SmelteryComponent implements
-        PylonTickingBlock,
-        PylonVanillaContainerBlock,
-        PylonLogisticBlock,
-        PylonBreakHandler {
+        RebarTickingBlock,
+        RebarVanillaContainerBlock,
+        RebarLogisticBlock,
+        RebarBreakHandler {
 
     @SuppressWarnings("unused")
     public SmelteryHopper(@NotNull Block block, @NotNull BlockCreateContext context) {

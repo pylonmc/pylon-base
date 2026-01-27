@@ -10,18 +10,18 @@ import io.github.pylonmc.pylon.base.content.components.FluidOutputHatch;
 import io.github.pylonmc.pylon.base.content.components.ItemInputHatch;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonProcessor;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarProcessor;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.Waila;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -44,18 +44,18 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class Biorefinery extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonSimpleMultiblock,
-        PylonProcessor,
-        PylonTickingBlock {
+public class Biorefinery extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarSimpleMultiblock,
+        RebarProcessor,
+        RebarTickingBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double biodieselPerSecond = getSettings().getOrThrow("biodiesel-per-second", ConfigAdapter.DOUBLE);
     public final double ethanolPerMbOfBiodiesel = getSettings().getOrThrow("ethanol-per-mb-of-biodiesel", ConfigAdapter.DOUBLE);
     public final double plantOilPerMbOfBiodiesel = getSettings().getOrThrow("plant-oil-per-mb-of-biodiesel", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double biodieselPerSecond = getSettings().getOrThrow("biodiesel-per-second", ConfigAdapter.DOUBLE);
         public final double ethanolPerMbOfBiodiesel = getSettings().getOrThrow("ethanol-per-mb-of-biodiesel", ConfigAdapter.DOUBLE);
@@ -66,11 +66,11 @@ public class Biorefinery extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("biodiesel-per-second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(biodieselPerSecond)),
-                    PylonArgument.of("ethanol-per-mb-of-biodiesel", UnitFormat.MILLIBUCKETS.format(ethanolPerMbOfBiodiesel)),
-                    PylonArgument.of("plant-oil-per-mb-of-biodiesel", UnitFormat.MILLIBUCKETS.format(plantOilPerMbOfBiodiesel))
+                    RebarArgument.of("biodiesel-per-second", UnitFormat.MILLIBUCKETS_PER_SECOND.format(biodieselPerSecond)),
+                    RebarArgument.of("ethanol-per-mb-of-biodiesel", UnitFormat.MILLIBUCKETS.format(ethanolPerMbOfBiodiesel)),
+                    RebarArgument.of("plant-oil-per-mb-of-biodiesel", UnitFormat.MILLIBUCKETS.format(plantOilPerMbOfBiodiesel))
             );
         }
     }
@@ -91,76 +91,76 @@ public class Biorefinery extends PylonBlock implements
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
         // foundation
-        components.put(new Vector3i(0, 0, -1), new PylonMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
-        components.put(new Vector3i(-1, 0, 0), new PylonMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
-        components.put(new Vector3i(1, 0, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
-        components.put(new Vector3i(2, 0, 0), new PylonMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
-        components.put(new Vector3i(0, 0, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
-        components.put(new Vector3i(0, 0, 2), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
-        components.put(new Vector3i(0, 0, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
-        components.put(new Vector3i(-1, 0, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
-        components.put(new Vector3i(1, 0, 3), new PylonMultiblockComponent(BaseKeys.ITEM_INPUT_HATCH));
-        components.put(new Vector3i(0, 0, 4), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
+        components.put(new Vector3i(0, 0, -1), new RebarMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
+        components.put(new Vector3i(-1, 0, 0), new RebarMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
+        components.put(new Vector3i(1, 0, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
+        components.put(new Vector3i(2, 0, 0), new RebarMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
+        components.put(new Vector3i(0, 0, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
+        components.put(new Vector3i(0, 0, 2), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
+        components.put(new Vector3i(0, 0, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
+        components.put(new Vector3i(-1, 0, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
+        components.put(new Vector3i(1, 0, 3), new RebarMultiblockComponent(BaseKeys.ITEM_INPUT_HATCH));
+        components.put(new Vector3i(0, 0, 4), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_FOUNDATION));
 
         // tower
-        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
-        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
-        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
-        components.put(new Vector3i(1, 1, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(1, 2, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(1, 3, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(1, 4, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(1, 5, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_CAP));
+        components.put(new Vector3i(0, 1, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
+        components.put(new Vector3i(0, 2, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
+        components.put(new Vector3i(0, 3, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
+        components.put(new Vector3i(0, 4, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_TOWER_RING));
+        components.put(new Vector3i(1, 1, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(1, 2, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(1, 3, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(1, 4, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(1, 5, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_CAP));
 
         // burner smokestack
-        components.put(new Vector3i(0, 1, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(0, 2, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(0, 3, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
-        components.put(new Vector3i(0, 4, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_CAP));
+        components.put(new Vector3i(0, 1, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(0, 2, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(0, 3, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_RING));
+        components.put(new Vector3i(0, 4, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_SMOKESTACK_CAP));
 
         // casing
-        components.put(new Vector3i(-1, 0, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(-1, 1, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(-1, 0, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(-1, 1, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 0, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 1, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 0, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 1, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
 
-        components.put(new Vector3i(1, 0, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(1, 1, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(1, 0, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(1, 1, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 0, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 1, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 0, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 1, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
 
-        components.put(new Vector3i(2, 0, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(2, 1, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(2, 0, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(2, 1, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(2, 0, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(2, 1, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(2, 0, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(2, 1, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
 
-        components.put(new Vector3i(0, 1, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(0, 1, 2), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(1, 1, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(-1, 1, 3), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(0, 1, 4), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(0, 1, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(0, 1, 2), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 1, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 1, 3), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(0, 1, 4), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
 
-        components.put(new Vector3i(-1, 3, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(-1, 3, 0), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(-1, 3, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(0, 3, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(1, 3, 1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(1, 3, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
-        components.put(new Vector3i(0, 3, -1), new PylonMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 3, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 3, 0), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(-1, 3, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(0, 3, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 3, 1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(1, 3, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
+        components.put(new Vector3i(0, 3, -1), new RebarMultiblockComponent(BaseKeys.BIOREFINERY_PLATING));
 
         return components;
     }
 
     @Override
     public boolean checkFormed() {
-        boolean formed = PylonSimpleMultiblock.super.checkFormed();
+        boolean formed = RebarSimpleMultiblock.super.checkFormed();
         if (formed) {
             getEthanolInputHatch().setFluidType(BaseFluids.ETHANOL);
             getPlantOilInputHatch().setFluidType(BaseFluids.PLANT_OIL);
             getBiodieselOutputHatch().setFluidType(BaseFluids.BIODIESEL);
             for (Vector3i position : getComponents().keySet()) {
-                Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(position, getFacing()));
+                Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(position, getFacing()));
                 Location location = getBlock().getLocation().add(relative);
                 Waila.addWailaOverride(location.getBlock(), this::getWaila);
             }
@@ -170,7 +170,7 @@ public class Biorefinery extends PylonBlock implements
 
     @Override
     public void onMultiblockUnformed(boolean partUnloaded) {
-        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
+        RebarSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
         FluidInputHatch ethanolInputHatch = getEthanolInputHatch();
         if (ethanolInputHatch != null) {
             ethanolInputHatch.setFluidType(null);
@@ -184,7 +184,7 @@ public class Biorefinery extends PylonBlock implements
             biodieselOutputHatch.setFluidType(null);
         }
         for (Vector3i position : getComponents().keySet()) {
-            Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(position, getFacing()));
+            Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(position, getFacing()));
             Location location = getBlock().getLocation().add(relative);
             Waila.removeWailaOverride(location.getBlock());
         }
@@ -224,7 +224,7 @@ public class Biorefinery extends PylonBlock implements
                 biodieselOutputHatch.addFluid(BaseFluids.BIODIESEL, biodieselToProduce);
             }
 
-            Vector smokePosition1 = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+            Vector smokePosition1 = Vector.fromJOML(RebarUtils.rotateVectorToFace(
                     new Vector3d(1, 5, 0),
                     getFacing()
             ));
@@ -235,7 +235,7 @@ public class Biorefinery extends PylonBlock implements
                     .extra(0.05)
                     .spawn();
 
-            Vector smokePosition2 = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+            Vector smokePosition2 = Vector.fromJOML(RebarUtils.rotateVectorToFace(
                     new Vector3d(0, 4, 3),
                     getFacing()
             ));
@@ -269,42 +269,42 @@ public class Biorefinery extends PylonBlock implements
         if (isProcessing()) {
             double percent = (double) getProcessTicksRemaining() / getProcessTimeTicks();
             return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                    PylonArgument.of("info", Component.translatable("pylon.pylonbase.message.biorefinery.has_fuel").arguments(
-                            PylonArgument.of("fuel-bar", BaseUtils.createBar(
+                    RebarArgument.of("info", Component.translatable("rebar.message.biorefinery.has_fuel").arguments(
+                            RebarArgument.of("fuel-bar", BaseUtils.createBar(
                                     percent,
                                     20,
                                     TextColor.color(255, 200, 50)
                             )),
-                            PylonArgument.of("remaining-time", UnitFormat.SECONDS.format(getProcessTicksRemaining() / 20))
+                            RebarArgument.of("remaining-time", UnitFormat.SECONDS.format(getProcessTicksRemaining() / 20))
                     ))
             ));
         } else {
             return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                    PylonArgument.of("info", Component.translatable("pylon.pylonbase.message.biorefinery.no_fuel"))
+                    RebarArgument.of("info", Component.translatable("rebar.message.biorefinery.no_fuel"))
             ));
         }
     }
 
     public @Nullable ItemInputHatch getFuelInputHatch() {
-        Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, 0, 3), getFacing()));
+        Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(1, 0, 3), getFacing()));
         Location location = getBlock().getLocation().add(relative);
         return BlockStorage.getAs(ItemInputHatch.class, location);
     }
 
     public @Nullable FluidOutputHatch getBiodieselOutputHatch() {
-        Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(0, 0, -1), getFacing()));
+        Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(0, 0, -1), getFacing()));
         Location location = getBlock().getLocation().add(relative);
         return BlockStorage.getAs(FluidOutputHatch.class, location);
     }
 
     public @Nullable FluidInputHatch getEthanolInputHatch() {
-        Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, 0, 0), getFacing()));
+        Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(-1, 0, 0), getFacing()));
         Location location = getBlock().getLocation().add(relative);
         return BlockStorage.getAs(FluidInputHatch.class, location);
     }
 
     public @Nullable FluidInputHatch getPlantOilInputHatch() {
-        Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(2, 0, 0), getFacing()));
+        Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(2, 0, 0), getFacing()));
         Location location = getBlock().getLocation().add(relative);
         return BlockStorage.getAs(FluidInputHatch.class, location);
     }
@@ -321,10 +321,10 @@ public class Biorefinery extends PylonBlock implements
     }
 
     public static final NamespacedKey FUELS_KEY = baseKey("biorefinery_fuels");
-    public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
+    public static final RebarRegistry<Fuel> FUELS = new RebarRegistry<>(FUELS_KEY);
 
     static {
-        PylonRegistry.addRegistry(FUELS);
+        RebarRegistry.addRegistry(FUELS);
         FUELS.register(new Fuel(
                 baseKey("coal"),
                 new ItemStack(Material.COAL),

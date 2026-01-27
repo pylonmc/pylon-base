@@ -6,9 +6,9 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInventoryTicker;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInventoryTicker;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
 import org.bukkit.NamespacedKey;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class IronBloom extends PylonItem implements PylonInventoryTicker {
+public class IronBloom extends RebarItem implements RebarInventoryTicker {
 
     public static final long DAMAGE_INTERVAL = Settings.get(BaseKeys.IRON_BLOOM).getOrThrow("damage-interval", ConfigAdapter.LONG);
     public static final int UNPROTECTED_DAMAGE = Settings.get(BaseKeys.IRON_BLOOM).getOrThrow("unprotected-damage", ConfigAdapter.INT);
@@ -41,7 +41,7 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
      * Returns a temperature between 0 and 12 inclusive.
      */
     public int getTemperature() {
-        return getStack().getPersistentDataContainer().getOrDefault(TEMPERATURE_KEY, PylonSerializers.INTEGER, 0);
+        return getStack().getPersistentDataContainer().getOrDefault(TEMPERATURE_KEY, RebarSerializers.INTEGER, 0);
     }
 
     /**
@@ -51,7 +51,7 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
     public void setTemperature(int temperature) {
         Preconditions.checkArgument(temperature >= 0 && temperature <= MAX_TEMPERATURE, "Temperature must be between 0 and 12 inclusive.");
         ItemStack stack = getStack();
-        stack.editPersistentDataContainer((pdc) -> pdc.set(TEMPERATURE_KEY, PylonSerializers.INTEGER, temperature));
+        stack.editPersistentDataContainer((pdc) -> pdc.set(TEMPERATURE_KEY, RebarSerializers.INTEGER, temperature));
         CustomModelData data = stack.getDataOrDefault(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().build());
         CustomModelData newData = CustomModelData.customModelData()
                 .addStrings(data.strings())
@@ -66,7 +66,7 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
      * Returns a working between -15 and 15 inclusive.
      */
     public int getWorking() {
-        return getStack().getPersistentDataContainer().getOrDefault(WORKING_KEY, PylonSerializers.INTEGER, 0);
+        return getStack().getPersistentDataContainer().getOrDefault(WORKING_KEY, RebarSerializers.INTEGER, 0);
     }
 
     /**
@@ -74,7 +74,7 @@ public class IronBloom extends PylonItem implements PylonInventoryTicker {
      */
     public void setWorking(int working) {
         Preconditions.checkArgument(working >= MIN_WORKING && working <= MAX_WORKING, "Working must be between 0 and 15 inclusive.");
-        getStack().editPersistentDataContainer((pdc) -> pdc.set(WORKING_KEY, PylonSerializers.INTEGER, working));
+        getStack().editPersistentDataContainer((pdc) -> pdc.set(WORKING_KEY, RebarSerializers.INTEGER, working));
     }
 
     public void setDisplayGlowOn(@NotNull ItemDisplay display) {

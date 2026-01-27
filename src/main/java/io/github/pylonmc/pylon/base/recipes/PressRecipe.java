@@ -7,7 +7,7 @@ import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -28,7 +28,7 @@ public record PressRecipe(
         @NotNull NamespacedKey key,
         @NotNull RecipeInput.Item input,
         double oilAmount
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<PressRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("press")) {
         @Override
@@ -72,8 +72,8 @@ public record PressRecipe(
                 .addIngredient('c', GuiItems.progressCyclingItem(Press.TIME_PER_ITEM_TICKS,
                         ItemStackBuilder.of(Material.CLOCK)
                                 .name(net.kyori.adventure.text.Component.translatable(
-                                        "pylon.pylonbase.guide.recipe.press",
-                                        PylonArgument.of("time", UnitFormat.SECONDS.format(Press.TIME_PER_ITEM_TICKS / 20.0))
+                                        "pylon.guide.recipe.press",
+                                        RebarArgument.of("time", UnitFormat.SECONDS.format(Press.TIME_PER_ITEM_TICKS / 20.0))
                                 ))
                 ))
                 .addIngredient('o', new FluidButton(oilAmount, BaseFluids.PLANT_OIL))

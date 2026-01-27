@@ -9,11 +9,11 @@ import io.github.pylonmc.pylon.base.util.DisplayProjectile;
 import io.github.pylonmc.rebar.config.Config;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.EntityStorage;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class HydraulicCannon extends PylonItem implements PylonInteractor, HydraulicRefuelable {
+public class HydraulicCannon extends RebarItem implements RebarInteractor, HydraulicRefuelable {
 
     public static final double HYDRAULIC_FLUID_CAPACITY = Settings.get(BaseKeys.PORTABLE_FLUID_TANK_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
     public static final double DIRTY_HYDRAULIC_FLUID_CAPACITY = Settings.get(BaseKeys.PORTABLE_FLUID_TANK_COPPER).getOrThrow("capacity", ConfigAdapter.DOUBLE);
@@ -51,20 +51,20 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("damage", UnitFormat.HEARTS.format(projectileDamage)),
-                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),
-                PylonArgument.of("range", UnitFormat.BLOCKS.format(Math.round(projectileSpeedBlocksPerSecond * projectileLifetimeTicks / 20.0))),
-                PylonArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(projectileSpeedBlocksPerSecond)),
-                PylonArgument.of("hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerShot)),
-                PylonArgument.of("hydraulic-fluid", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("damage", UnitFormat.HEARTS.format(projectileDamage)),
+                RebarArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0)),
+                RebarArgument.of("range", UnitFormat.BLOCKS.format(Math.round(projectileSpeedBlocksPerSecond * projectileLifetimeTicks / 20.0))),
+                RebarArgument.of("speed", UnitFormat.BLOCKS_PER_SECOND.format(projectileSpeedBlocksPerSecond)),
+                RebarArgument.of("hydraulic-fluid-per-shot", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerShot)),
+                RebarArgument.of("hydraulic-fluid", BaseUtils.createFluidAmountBar(
                         getHydraulicFluid(),
                         HYDRAULIC_FLUID_CAPACITY,
                         20,
                         TextColor.fromHexString("#212d99")
                 )),
-                PylonArgument.of("dirty-hydraulic-fluid", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("dirty-hydraulic-fluid", BaseUtils.createFluidAmountBar(
                         getDirtyHydraulicFluid(),
                         DIRTY_HYDRAULIC_FLUID_CAPACITY,
                         20,
@@ -116,25 +116,25 @@ public class HydraulicCannon extends PylonItem implements PylonInteractor, Hydra
 
     @Override
     public double getHydraulicFluid() {
-        return getStack().getPersistentDataContainer().get(BaseFluids.HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE);
+        return getStack().getPersistentDataContainer().get(BaseFluids.HYDRAULIC_FLUID.getKey(), RebarSerializers.DOUBLE);
     }
 
     @Override
     public double getDirtyHydraulicFluid() {
-        return getStack().getPersistentDataContainer().get(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE);
+        return getStack().getPersistentDataContainer().get(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), RebarSerializers.DOUBLE);
     }
 
     @Override
     public void setHydraulicFluid(double amount) {
         getStack().editPersistentDataContainer(pdc -> {
-            pdc.set(BaseFluids.HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, amount);
+            pdc.set(BaseFluids.HYDRAULIC_FLUID.getKey(), RebarSerializers.DOUBLE, amount);
         });
     }
 
     @Override
     public void setDirtyHydraulicFluid(double amount) {
         getStack().editPersistentDataContainer(pdc -> {
-            pdc.set(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), PylonSerializers.DOUBLE, amount);
+            pdc.set(BaseFluids.DIRTY_HYDRAULIC_FLUID.getKey(), RebarSerializers.DOUBLE, amount);
         });
     }
 

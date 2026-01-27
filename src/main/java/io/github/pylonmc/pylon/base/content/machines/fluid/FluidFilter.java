@@ -2,21 +2,21 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
@@ -38,12 +38,12 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidFilter extends PylonBlock
-        implements PylonFluidTank, PylonDirectionalBlock, PylonGuiBlock {
+public class FluidFilter extends RebarBlock
+        implements RebarFluidTank, RebarDirectionalBlock, RebarGuiBlock {
 
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
@@ -52,9 +52,9 @@ public class FluidFilter extends PylonBlock
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -67,7 +67,7 @@ public class FluidFilter extends PylonBlock
             .addCustomModelDataString(getKey() + ":fluid:none")
             .build();
 
-    protected @Nullable PylonFluid fluid;
+    protected @Nullable RebarFluid fluid;
 
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -109,37 +109,37 @@ public class FluidFilter extends PylonBlock
     @SuppressWarnings("unused")
     public FluidFilter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+        fluid = pdc.get(FLUID_KEY, RebarSerializers.REBAR_FLUID);
         setDisableBlockTextureEntity(true);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
+        RebarUtils.setNullable(pdc, FLUID_KEY, RebarSerializers.REBAR_FLUID, fluid);
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", fluid == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", fluid == null
+                        ? Component.translatable("pylon.fluid.none")
                         : fluid.getName()
                 )
         ));
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return fluid.equals(this.fluid);
     }
 
-    public void setFluid(PylonFluid fluid) {
+    public void setFluid(RebarFluid fluid) {
         this.fluid = fluid;
         ItemStack stack = fluid == null ? noFluidStack : fluid.getItem();
         getHeldEntityOrThrow(ItemDisplay.class, "fluid1").setItemStack(stack);
@@ -153,6 +153,6 @@ public class FluidFilter extends PylonBlock
 
     @Override
     public @NotNull Component getGuiTitle() {
-        return Component.translatable("pylon.pylonbase.item.fluid_filter.gui");
+        return Component.translatable("pylon.item.fluid_filter.gui");
     }
 }

@@ -1,14 +1,13 @@
 package io.github.pylonmc.pylon.base.content.building;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
-import io.github.pylonmc.rebar.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
+import io.github.pylonmc.rebar.block.base.RebarEntityHolderBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.entity.EntityStorage;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
@@ -30,11 +29,11 @@ import java.util.List;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 import static java.lang.Math.PI;
 
-public class Pedestal extends PylonBlock implements
-        PylonEntityHolderBlock,
-        PylonInteractBlock,
-        PylonBreakHandler,
-        PylonLogisticBlock {
+public class Pedestal extends RebarBlock implements
+        RebarEntityHolderBlock,
+        RebarInteractBlock,
+        RebarBreakHandler,
+        RebarLogisticBlock {
 
     private static final NamespacedKey ROTATION_KEY = baseKey("rotation");
     private static final NamespacedKey LOCKED_KEY = baseKey("locked");
@@ -59,8 +58,8 @@ public class Pedestal extends PylonBlock implements
     public Pedestal(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
         
-        rotation = pdc.get(ROTATION_KEY, PylonSerializers.DOUBLE);
-        locked = pdc.get(LOCKED_KEY, PylonSerializers.BOOLEAN);
+        rotation = pdc.get(ROTATION_KEY, RebarSerializers.DOUBLE);
+        locked = pdc.get(LOCKED_KEY, RebarSerializers.BOOLEAN);
     }
 
     @Override
@@ -70,8 +69,8 @@ public class Pedestal extends PylonBlock implements
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(ROTATION_KEY, PylonSerializers.DOUBLE, rotation);
-        pdc.set(LOCKED_KEY, PylonSerializers.BOOLEAN, locked);
+        pdc.set(ROTATION_KEY, RebarSerializers.DOUBLE, rotation);
+        pdc.set(LOCKED_KEY, RebarSerializers.BOOLEAN, locked);
     }
 
     @Override

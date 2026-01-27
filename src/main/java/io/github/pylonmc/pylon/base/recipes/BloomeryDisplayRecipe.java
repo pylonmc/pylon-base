@@ -20,7 +20,7 @@ public record BloomeryDisplayRecipe(
         NamespacedKey key,
         ItemStack input,
         ItemStack result
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<BloomeryDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("bloomery_display")) {
         @Override

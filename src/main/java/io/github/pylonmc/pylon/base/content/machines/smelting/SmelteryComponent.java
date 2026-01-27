@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SmelteryComponent extends PylonBlock {
+public class SmelteryComponent extends RebarBlock {
 
     @Getter
     @Setter(AccessLevel.PACKAGE)

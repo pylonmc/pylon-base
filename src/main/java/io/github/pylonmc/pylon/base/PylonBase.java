@@ -10,7 +10,7 @@ import io.github.pylonmc.pylon.base.content.talismans.*;
 import io.github.pylonmc.pylon.base.content.tools.ShimmerMagnet;
 import io.github.pylonmc.pylon.base.content.tools.SoulboundRune;
 import io.github.pylonmc.pylon.base.content.tools.base.Rune;
-import io.github.pylonmc.rebar.addon.PylonAddon;
+import io.github.pylonmc.rebar.addon.RebarAddon;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 import java.util.Set;
 
-public class PylonBase extends JavaPlugin implements PylonAddon {
+public class PylonBase extends JavaPlugin implements RebarAddon {
 
     private static final int BSTATS_ID = 27323;
     private static Metrics metrics;
@@ -37,7 +37,7 @@ public class PylonBase extends JavaPlugin implements PylonAddon {
 
         metrics = new Metrics(this, BSTATS_ID);
 
-        registerWithPylon();
+        registerWithRebar();
 
         saveDefaultConfig();
 

@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.recipes;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
 import io.github.pylonmc.rebar.recipe.*;
@@ -21,9 +21,9 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 public record StrainingRecipe(
         @NotNull NamespacedKey key,
         @NotNull RecipeInput.Fluid input,
-        @NotNull PylonFluid outputFluid,
+        @NotNull RebarFluid outputFluid,
         @NotNull ItemStack outputItem
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<StrainingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("fluid_strainer")) {
         @Override
@@ -37,7 +37,7 @@ public record StrainingRecipe(
         }
     };
 
-    public static @Nullable StrainingRecipe getRecipeForFluid(PylonFluid fluid) {
+    public static @Nullable StrainingRecipe getRecipeForFluid(RebarFluid fluid) {
         for (StrainingRecipe recipe : StrainingRecipe.RECIPE_TYPE) {
             if (recipe.input().fluids().contains(fluid)) {
                 return recipe;

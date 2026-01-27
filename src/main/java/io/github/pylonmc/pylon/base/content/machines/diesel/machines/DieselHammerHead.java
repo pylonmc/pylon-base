@@ -6,7 +6,7 @@ import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
@@ -14,11 +14,11 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -45,14 +45,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DieselHammerHead extends PylonBlock implements
-        PylonTickingBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonFluidBufferBlock,
-        PylonProcessor,
-        PylonDirectionalBlock,
-        PylonLogisticBlock {
+public class DieselHammerHead extends RebarBlock implements
+        RebarTickingBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarFluidBufferBlock,
+        RebarProcessor,
+        RebarDirectionalBlock,
+        RebarLogisticBlock {
 
     public final int goDownTimeTicks = getSettings().getOrThrow("go-down-time-ticks", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
@@ -66,7 +66,7 @@ public class DieselHammerHead extends PylonBlock implements
             .addCustomModelDataString(getKey() + ":hammer_tip:empty")
             .build();
     public final ItemStackBuilder hammerStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":hammer")
-            .name(Component.translatable("pylon.pylonbase.gui.hammer"));
+            .name(Component.translatable("rebar.gui.hammer"));
     public final ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
     public final ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
@@ -74,7 +74,7 @@ public class DieselHammerHead extends PylonBlock implements
     public final ItemStackBuilder chimneyStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":chimney");
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
         public final double dieselPerCraft = getSettings().getOrThrow("diesel-per-craft", ConfigAdapter.INT);
@@ -85,11 +85,11 @@ public class DieselHammerHead extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
-                    PylonArgument.of("diesel-per-craft", UnitFormat.MILLIBUCKETS.format(dieselPerCraft)),
-                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
+                    RebarArgument.of("speed", UnitFormat.PERCENT.format(speed * 100)),
+                    RebarArgument.of("diesel-per-craft", UnitFormat.MILLIBUCKETS.format(dieselPerCraft)),
+                    RebarArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
             );
         }
     }
@@ -154,7 +154,7 @@ public class DieselHammerHead extends PylonBlock implements
     }
 
     public void updateHammerTip(ItemStack newItem) {
-        if (!(PylonItem.fromStack(newItem) instanceof Hammer hammer)) {
+        if (!(RebarItem.fromStack(newItem) instanceof Hammer hammer)) {
             getHammerTip().setItemStack(null);
             return;
         }
@@ -173,7 +173,7 @@ public class DieselHammerHead extends PylonBlock implements
             }
 
             removeFluid(BaseFluids.BIODIESEL, dieselToConsume);
-            Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+            Vector smokePosition = Vector.fromJOML(RebarUtils.rotateVectorToFace(
                     new Vector3d(0.4, 0.7, -0.4),
                     getFacing().getOppositeFace()
             ));
@@ -187,12 +187,12 @@ public class DieselHammerHead extends PylonBlock implements
             return;
         }
 
-        if (!(PylonItem.fromStack(hammerInventory.getItem(0)) instanceof Hammer hammer)) {
+        if (!(RebarItem.fromStack(hammerInventory.getItem(0)) instanceof Hammer hammer)) {
             return;
         }
 
         Block baseBlock = getBlock().getRelative(BlockFace.DOWN, 3);
-        if (BlockStorage.isPylonBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
+        if (BlockStorage.isRebarBlock(baseBlock) || baseBlock.getType() != hammer.baseBlock) {
             return;
         }
 
@@ -232,8 +232,8 @@ public class DieselHammerHead extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
-        PylonFluidBufferBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBufferBlock.super.onBreak(drops, context);
     }
 
     public @NotNull ItemDisplay getHammerHead() {
@@ -261,7 +261,7 @@ public class DieselHammerHead extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,

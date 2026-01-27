@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.recipes.MoldingRecipe;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,7 +11,7 @@ public interface Moldable extends Keyed {
     boolean isMoldingFinished();
 
     default ItemStack moldingInputStack() {
-        return PylonRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
+        return RebarRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
     }
 
     default ItemStack moldingResult() {

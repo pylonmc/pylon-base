@@ -2,13 +2,13 @@ package io.github.pylonmc.pylon.base.content.building;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonJumpBlock;
-import io.github.pylonmc.rebar.block.base.PylonSneakableBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarJumpBlock;
+import io.github.pylonmc.rebar.block.base.RebarSneakableBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.RandomizedSound;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
@@ -24,17 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJumpBlock {
+public class Elevator extends RebarBlock implements RebarSneakableBlock, RebarJumpBlock {
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of(
+        public @NotNull List<RebarArgument> getPlaceholders() {
+            return List.of(RebarArgument.of(
                     "elevator_range",
                     UnitFormat.BLOCKS.format(getSettings().getOrThrow("range", ConfigAdapter.INT))
             ));
@@ -53,16 +53,16 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
         super(block);
     }
 
-    private @NotNull List<PylonBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
+    private @NotNull List<RebarBlock> getElevatorsInRange(boolean under, @NotNull Location location) {
         int range = getSettings().getOrThrow("range", ConfigAdapter.INT);
         int checkingLevel = 1;
-        List<PylonBlock> blocks = new ArrayList<>();
+        List<RebarBlock> blocks = new ArrayList<>();
 
         while (checkingLevel <= range) {
             location.add(0.0, under ? -1.0 : 1.0, 0.0);
-            PylonBlock pylonBlock = BlockStorage.get(location.getBlock());
-            if (pylonBlock instanceof Elevator) {
-                blocks.add(pylonBlock);
+            RebarBlock rebarBlock = BlockStorage.get(location.getBlock());
+            if (rebarBlock instanceof Elevator) {
+                blocks.add(rebarBlock);
             }
             checkingLevel++;
         }
@@ -75,14 +75,14 @@ public class Elevator extends PylonBlock implements PylonSneakableBlock, PylonJu
     }
 
     private void teleportPlayer(@NotNull Player player, @NotNull Location location, boolean under) {
-        List<PylonBlock> elevators = getElevatorsInRange(under, location);
+        List<RebarBlock> elevators = getElevatorsInRange(under, location);
 
         if (elevators.isEmpty()) {
-            player.sendActionBar(Component.translatable("pylon.pylonbase.message.elevator.none_within_range." + (under ? "below" : "above")));
+            player.sendActionBar(Component.translatable("rebar.message.elevator.none_within_range." + (under ? "below" : "above")));
             return;
         }
 
-        PylonBlock elevator = elevators.getFirst();
+        RebarBlock elevator = elevators.getFirst();
         Location elevatorLocation = elevator.getBlock().getLocation();
         double distance = getDistance(player.getLocation(), elevatorLocation);
 

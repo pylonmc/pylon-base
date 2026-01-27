@@ -1,17 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
-import io.github.pylonmc.pylon.base.BaseKeys;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.event.PrePylonBlockPlaceEvent;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.util.position.BlockPosition;
 import io.github.pylonmc.rebar.util.position.ChunkPosition;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +22,7 @@ import java.util.Set;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public abstract class Miner extends PylonBlock implements PylonMultiblock, PylonProcessor {
+public abstract class Miner extends RebarBlock implements RebarMultiblock, RebarProcessor {
 
     public static final NamespacedKey INDEX_KEY = baseKey("index");
     public static final NamespacedKey BLOCK_POSITIONS_KEY = baseKey("block_positions");
@@ -57,16 +54,16 @@ public abstract class Miner extends PylonBlock implements PylonMultiblock, Pylon
     @SuppressWarnings({"DataFlowIssue", "unused"})
     public Miner(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        index = pdc.get(INDEX_KEY, PylonSerializers.INTEGER);
-        blockPositions = pdc.get(BLOCK_POSITIONS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.BLOCK_POSITION));
-        chunkPositions = pdc.get(CHUNK_POSITIONS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.CHUNK_POSITION));
+        index = pdc.get(INDEX_KEY, RebarSerializers.INTEGER);
+        blockPositions = pdc.get(BLOCK_POSITIONS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.BLOCK_POSITION));
+        chunkPositions = pdc.get(CHUNK_POSITIONS_KEY, RebarSerializers.SET.setTypeFrom(RebarSerializers.CHUNK_POSITION));
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(INDEX_KEY, PylonSerializers.INTEGER, index);
-        pdc.set(BLOCK_POSITIONS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.BLOCK_POSITION), blockPositions);
-        pdc.set(CHUNK_POSITIONS_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.CHUNK_POSITION), chunkPositions);
+        pdc.set(INDEX_KEY, RebarSerializers.INTEGER, index);
+        pdc.set(BLOCK_POSITIONS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.BLOCK_POSITION), blockPositions);
+        pdc.set(CHUNK_POSITIONS_KEY, RebarSerializers.SET.setTypeFrom(RebarSerializers.CHUNK_POSITION), chunkPositions);
     }
 
     private boolean checkBlocks() {

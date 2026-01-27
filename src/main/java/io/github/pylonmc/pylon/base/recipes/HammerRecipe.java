@@ -5,11 +5,11 @@ import io.github.pylonmc.pylon.base.content.tools.Hammer;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.PylonItemSchema;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.RebarItemSchema;
 import io.github.pylonmc.rebar.recipe.*;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import io.github.pylonmc.rebar.util.MiningLevel;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -36,7 +36,7 @@ public record HammerRecipe(
         @NotNull ItemStack result,
         @NotNull MiningLevel level,
         float chance
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -96,17 +96,17 @@ public record HammerRecipe(
 
     private List<ItemStack> getHammers() {
         List<ItemStack> hammers = new ArrayList<>();
-        for (PylonItemSchema itemSchema : PylonRegistry.ITEMS.getValues()) {
+        for (RebarItemSchema itemSchema : RebarRegistry.ITEMS.getValues()) {
             ItemStack stack = itemSchema.getItemStack();
-            PylonItem item = PylonItem.fromStack(stack);
+            RebarItem item = RebarItem.fromStack(stack);
             if (item instanceof Hammer hammer) {
                 float chance = Math.min(1, getChanceFor(hammer.miningLevel));
                 if (chance <= 0f) continue;
                 List<Component> lore = stack.lore();
                 Preconditions.checkNotNull(lore);
                 lore.add(Component.empty());
-                lore.add(Component.translatable("pylon.pylonbase.guide.recipe.hammer",
-                        PylonArgument.of("chance", UnitFormat.PERCENT.format(chance * 100f).significantFigures(3))
+                lore.add(Component.translatable("pylon.guide.recipe.hammer",
+                        RebarArgument.of("chance", UnitFormat.PERCENT.format(chance * 100f).significantFigures(3))
                 ));
                 stack.lore(lore);
                 hammers.add(stack);

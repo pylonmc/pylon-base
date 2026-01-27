@@ -6,18 +6,18 @@ import io.github.pylonmc.pylon.base.content.machines.fluid.FluidTankWithDisplayE
 import io.github.pylonmc.pylon.base.recipes.CrucibleRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.recipe.FluidOrItem;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.text.Component;
@@ -43,12 +43,12 @@ import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class Crucible extends PylonBlock implements
-        PylonInteractBlock,
+public final class Crucible extends RebarBlock implements
+        RebarInteractBlock,
         FluidTankWithDisplayEntity,
-        PylonDirectionalBlock,
-        PylonCauldron,
-        PylonTickingBlock {
+        RebarDirectionalBlock,
+        RebarCauldron,
+        RebarTickingBlock {
 
     public final int capacity = getSettings().getOrThrow("capacity", ConfigAdapter.INT);
     public final int smeltTime = getSettings().getOrThrow("smelt-time", ConfigAdapter.INT);
@@ -73,8 +73,8 @@ public final class Crucible extends PylonBlock implements
     @SuppressWarnings("unused")
     public Crucible(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
-        processingType = pdc.get(PROCESSING_KEY, PylonSerializers.ITEM_STACK);
-        amount = pdc.get(AMOUNT_KEY, PylonSerializers.INTEGER);
+        processingType = pdc.get(PROCESSING_KEY, RebarSerializers.ITEM_STACK);
+        amount = pdc.get(AMOUNT_KEY, RebarSerializers.INTEGER);
     }
 
     //region Inventory handling
@@ -100,12 +100,12 @@ public final class Crucible extends PylonBlock implements
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, PROCESSING_KEY, PylonSerializers.ITEM_STACK, processingType);
-        pdc.set(AMOUNT_KEY, PylonSerializers.INTEGER, amount);
+        RebarUtils.setNullable(pdc, PROCESSING_KEY, RebarSerializers.ITEM_STACK, processingType);
+        pdc.set(AMOUNT_KEY, RebarSerializers.INTEGER, amount);
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return true;
     }
 
@@ -215,18 +215,18 @@ public final class Crucible extends PylonBlock implements
     @Override
     public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-            PylonArgument.of("item_info", processingType == null ?
-                Component.translatable("pylon.pylonbase.waila.crucible.item.empty") :
-                Component.translatable("pylon.pylonbase.waila.crucible.item.stored",
-                    PylonArgument.of("type", processingType.getData(DataComponentTypes.ITEM_NAME)),
-                    PylonArgument.of("amount", amount)
+            RebarArgument.of("item_info", processingType == null ?
+                Component.translatable("rebar.waila.crucible.item.empty") :
+                Component.translatable("rebar.waila.crucible.item.stored",
+                    RebarArgument.of("type", processingType.getData(DataComponentTypes.ITEM_NAME)),
+                    RebarArgument.of("amount", amount)
                 )),
 
-            PylonArgument.of("liquid_info", getFluidType() == null ?
-                Component.translatable("pylon.pylonbase.waila.crucible.liquid.empty") :
-                Component.translatable("pylon.pylonbase.waila.crucible.liquid.filled",
-                    PylonArgument.of("fluid", getFluidType().getName()),
-                    PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+            RebarArgument.of("liquid_info", getFluidType() == null ?
+                Component.translatable("rebar.waila.crucible.liquid.empty") :
+                Component.translatable("rebar.waila.crucible.liquid.filled",
+                    RebarArgument.of("fluid", getFluidType().getName()),
+                    RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,

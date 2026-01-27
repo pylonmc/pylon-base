@@ -1,13 +1,13 @@
 package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.recipes.CastingRecipe;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -32,12 +32,12 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 import java.util.Map;
 
 public final class SmelteryCaster extends SmelteryComponent implements
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonTickingBlock,
-        PylonLogisticBlock {
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarTickingBlock,
+        RebarLogisticBlock {
 
-    private @Nullable PylonFluid bottomFluid = null;
+    private @Nullable RebarFluid bottomFluid = null;
 
     @SuppressWarnings("unused")
     public SmelteryCaster(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -91,8 +91,8 @@ public final class SmelteryCaster extends SmelteryComponent implements
                         .name(casterKey("cannot_cast"))
                         .lore(casterKey(
                                 "too_cold",
-                                PylonArgument.of("item", name),
-                                PylonArgument.of("temperature", temperature)
+                                RebarArgument.of("item", name),
+                                RebarArgument.of("temperature", temperature)
                         ));
             }
             double bottomAmount = controller.getFluidAmount(bottomFluid);
@@ -101,9 +101,9 @@ public final class SmelteryCaster extends SmelteryComponent implements
                         .name(casterKey("cannot_cast"))
                         .lore(casterKey(
                                 "not_enough",
-                                PylonArgument.of("fluid", bottomFluid.getName()),
-                                PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().amountMillibuckets())),
-                                PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)
+                                RebarArgument.of("fluid", bottomFluid.getName()),
+                                RebarArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().amountMillibuckets())),
+                                RebarArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)
                                         .decimalPlaces(1))
                         ));
             }
@@ -111,9 +111,9 @@ public final class SmelteryCaster extends SmelteryComponent implements
                     .name(casterKey("cast"))
                     .lore(casterKey(
                             "click_to_cast",
-                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)),
-                            PylonArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().amountMillibuckets())),
-                            PylonArgument.of("fluid", bottomFluid.getName())
+                            RebarArgument.of("amount", UnitFormat.MILLIBUCKETS.format(bottomAmount)),
+                            RebarArgument.of("needed", UnitFormat.MILLIBUCKETS.format(recipe.input().amountMillibuckets())),
+                            RebarArgument.of("fluid", bottomFluid.getName())
                     ));
         }
 
@@ -136,8 +136,8 @@ public final class SmelteryCaster extends SmelteryComponent implements
             controller.removeFluid(bottomFluid, recipe.input().amountMillibuckets());
         }
 
-        private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull PylonArgument @NotNull ... args) {
-            return Component.translatable("pylon.pylonbase.gui.smeltery_caster." + subkey, args);
+        private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull RebarArgument @NotNull ... args) {
+            return Component.translatable("rebar.gui.smeltery_caster." + subkey, args);
         }
     }
 
@@ -152,7 +152,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
         if (controller == null) {
             bottomFluid = null;
         } else {
-            Pair<PylonFluid, Double> bottomFluid = controller.getBottomFluid();
+            Pair<RebarFluid, Double> bottomFluid = controller.getBottomFluid();
             if (bottomFluid == null) {
                 this.bottomFluid = null;
             } else {

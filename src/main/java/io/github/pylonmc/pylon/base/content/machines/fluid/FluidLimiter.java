@@ -1,19 +1,19 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -39,7 +39,7 @@ import java.util.List;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, PylonFluidTank, PylonGuiBlock {
+public class FluidLimiter extends RebarBlock implements RebarDirectionalBlock, RebarFluidTank, RebarGuiBlock {
 
     private static final NamespacedKey MAX_FLOW_RATE_KEY = baseKey("amount");
 
@@ -94,10 +94,10 @@ public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, P
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(MAX_FLOW_RATE_KEY, PylonSerializers.INTEGER, maxFlowRate);
+        pdc.set(MAX_FLOW_RATE_KEY, RebarSerializers.INTEGER, maxFlowRate);
     }
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int minAmount = getSettings().getOrThrow("min-amount", ConfigAdapter.INT);
         public final int maxAmount = getSettings().getOrThrow("max-amount", ConfigAdapter.INT);
@@ -107,13 +107,13 @@ public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, P
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "min-amount",
                             UnitFormat.MILLIBUCKETS.format(minAmount)
                     ),
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "max-amount",
                             UnitFormat.MILLIBUCKETS.format(maxAmount)
                     )
@@ -124,27 +124,27 @@ public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, P
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", getFluidType() == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.fluid.none")
                         : getFluidType().getName()
                 )
         ));
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return true;
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
-        return Math.min(maxFlowRate, PylonFluidTank.super.fluidAmountRequested(fluid));
+    public double fluidAmountRequested(@NotNull RebarFluid fluid) {
+        return Math.min(maxFlowRate, RebarFluidTank.super.fluidAmountRequested(fluid));
     }
 
     @Override
@@ -161,10 +161,10 @@ public class FluidLimiter extends PylonBlock implements PylonDirectionalBlock, P
         @Override
         public ItemProvider getItemProvider() {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
-                    .name(Component.translatable("pylon.pylonbase.gui.fluid_accumulator.name").arguments(
-                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS_PER_SECOND.format(maxFlowRate))
+                    .name(Component.translatable("rebar.gui.fluid_accumulator.name").arguments(
+                            RebarArgument.of("amount", UnitFormat.MILLIBUCKETS_PER_SECOND.format(maxFlowRate))
                     ))
-                    .lore(Component.translatable("pylon.pylonbase.gui.fluid_accumulator.lore"));
+                    .lore(Component.translatable("rebar.gui.fluid_accumulator.lore"));
         }
 
         @Override

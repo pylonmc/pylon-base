@@ -5,7 +5,7 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Config;
@@ -14,8 +14,8 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -39,29 +39,29 @@ import org.joml.Matrix4f;
 import java.util.List;
 
 
-public class Press extends PylonBlock implements
-        PylonInteractBlock,
-        PylonFluidBufferBlock,
-        PylonComposter,
-        PylonDirectionalBlock,
-        PylonRecipeProcessor<PressRecipe> {
+public class Press extends RebarBlock implements
+        RebarInteractBlock,
+        RebarFluidBufferBlock,
+        RebarComposter,
+        RebarDirectionalBlock,
+        RebarRecipeProcessor<PressRecipe> {
 
     private static final Config settings = Settings.get(BaseKeys.PRESS);
     public static final int TIME_PER_ITEM_TICKS = settings.getOrThrow("time-per-item-ticks", ConfigAdapter.INT);
     public static final int RETURN_TO_START_TIME_TICKS = settings.getOrThrow("return-to-start-time-ticks", ConfigAdapter.INT);
     public static final int CAPACITY_MB = settings.getOrThrow("capacity-mb", ConfigAdapter.INT);
 
-    public static class PressItem extends PylonItem {
+    public static class PressItem extends RebarItem {
 
         public PressItem(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("time-per-item", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0)),
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB))
+                    RebarArgument.of("time-per-item", UnitFormat.SECONDS.format(TIME_PER_ITEM_TICKS / 20.0)),
+                    RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(CAPACITY_MB))
             );
         }
     }
@@ -96,7 +96,7 @@ public class Press extends PylonBlock implements
     @Override
     public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.PLANT_OIL),
                         fluidCapacity(BaseFluids.PLANT_OIL),
                         20,

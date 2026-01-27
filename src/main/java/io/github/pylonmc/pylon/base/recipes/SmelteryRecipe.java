@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class SmelteryRecipe implements PylonRecipe {
+public class SmelteryRecipe implements RebarRecipe {
 
     public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("smeltery")) {
 
-        private static final ConfigAdapter<Map<PylonFluid, Double>> FLUID_MAP_ADAPTER = ConfigAdapter.MAP.from(
+        private static final ConfigAdapter<Map<RebarFluid, Double>> FLUID_MAP_ADAPTER = ConfigAdapter.MAP.from(
                 ConfigAdapter.PYLON_FLUID,
                 ConfigAdapter.DOUBLE
         );
@@ -64,15 +64,15 @@ public class SmelteryRecipe implements PylonRecipe {
     };
 
     @Getter(onMethod_ = @Override) private final NamespacedKey key;
-    @Getter private final Map<PylonFluid, Double> fluidInputs;
-    @Getter private final Map<PylonFluid, Double> fluidOutputs;
-    @Getter private final PylonFluid highestFluid;
+    @Getter private final Map<RebarFluid, Double> fluidInputs;
+    @Getter private final Map<RebarFluid, Double> fluidOutputs;
+    @Getter private final RebarFluid highestFluid;
     @Getter private final double temperature;
 
     public SmelteryRecipe(
             @NotNull NamespacedKey key,
-            @NotNull Map<PylonFluid, Double> inputFluids,
-            @NotNull Map<PylonFluid, Double> outputFluids,
+            @NotNull Map<RebarFluid, Double> inputFluids,
+            @NotNull Map<RebarFluid, Double> outputFluids,
             double temperature
     ) {
         Preconditions.checkArgument(!inputFluids.isEmpty(), "Input fluids cannot be empty");
@@ -132,19 +132,19 @@ public class SmelteryRecipe implements PylonRecipe {
                 .addIngredient('s', ItemButton.from(BaseItems.SMELTERY_CONTROLLER))
                 .addIngredient('t', ItemStackBuilder.of(Material.COAL)
                         .name(Component.translatable(
-                                "pylon.pylonbase.gui.smeltery.temperature",
-                                PylonArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
+                                "rebar.gui.smeltery.temperature",
+                                RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         )))
                 .build();
 
         int i = 0;
-        for (Map.Entry<PylonFluid, Double> entry : fluidInputs.entrySet()) {
+        for (Map.Entry<RebarFluid, Double> entry : fluidInputs.entrySet()) {
             gui.setItem(10 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getValue(), entry.getKey()));
             i++;
         }
 
         i = 0;
-        for (Map.Entry<PylonFluid, Double> entry : fluidOutputs.entrySet()) {
+        for (Map.Entry<RebarFluid, Double> entry : fluidOutputs.entrySet()) {
             gui.setItem(15 + (i / 2) * 9 + (i % 2), new FluidButton(entry.getValue(), entry.getKey()));
             i++;
         }

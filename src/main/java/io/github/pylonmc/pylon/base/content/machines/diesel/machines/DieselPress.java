@@ -4,7 +4,7 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.recipes.PressRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
@@ -12,12 +12,12 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.ProgressItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -41,14 +41,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DieselPress extends PylonBlock implements
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonDirectionalBlock,
-        PylonFluidBufferBlock,
-        PylonTickingBlock,
-        PylonLogisticBlock,
-        PylonRecipeProcessor<PressRecipe> {
+public class DieselPress extends RebarBlock implements
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarDirectionalBlock,
+        RebarFluidBufferBlock,
+        RebarTickingBlock,
+        RebarLogisticBlock,
+        RebarRecipeProcessor<PressRecipe> {
 
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
@@ -58,7 +58,7 @@ public class DieselPress extends PylonBlock implements
 
     private final VirtualInventory inputInventory = new VirtualInventory(1);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
         public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
@@ -69,11 +69,11 @@ public class DieselPress extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
-                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
-                    PylonArgument.of("time-per-item", UnitFormat.SECONDS.format(timePerItem))
+                    RebarArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    RebarArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
+                    RebarArgument.of("time-per-item", UnitFormat.SECONDS.format(timePerItem))
             );
         }
     }
@@ -162,7 +162,7 @@ public class DieselPress extends PylonBlock implements
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
         progressRecipe(tickInterval);
-        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+        Vector smokePosition = Vector.fromJOML(RebarUtils.rotateVectorToFace(
                 new Vector3d(0.375, 1.5, 0),
                 getFacing().getOppositeFace()
         ));
@@ -222,13 +222,13 @@ public class DieselPress extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("diesel-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("diesel-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,
                         TextColor.fromHexString("#eaa627")
                 )),
-                PylonArgument.of("plant-oil-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("plant-oil-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.PLANT_OIL),
                         fluidCapacity(BaseFluids.PLANT_OIL),
                         20,
@@ -239,8 +239,8 @@ public class DieselPress extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
-        PylonFluidBufferBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBufferBlock.super.onBreak(drops, context);
     }
 
     @Override

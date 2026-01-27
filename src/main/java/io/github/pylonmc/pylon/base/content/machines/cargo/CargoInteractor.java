@@ -3,17 +3,16 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonMultiblock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarMultiblock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroup;
-import io.github.pylonmc.rebar.util.PylonUtils;
-import io.github.pylonmc.rebar.util.position.BlockPosition;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.position.ChunkPosition;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class CargoInteractor extends PylonBlock implements PylonDirectionalBlock, PylonMultiblock {
+public abstract class CargoInteractor extends RebarBlock implements RebarDirectionalBlock, RebarMultiblock {
 
     public static final NamespacedKey TARGET_LOGISTIC_GROUP_KEY = BaseUtils.baseKey("target_logistic_group");
     public static final List<Material> GROUP_MATERIALS = List.of(
@@ -68,7 +67,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, TARGET_LOGISTIC_GROUP_KEY, PylonSerializers.STRING, targetLogisticGroup);
+        RebarUtils.setNullable(pdc, TARGET_LOGISTIC_GROUP_KEY, RebarSerializers.STRING, targetLogisticGroup);
     }
 
     public @NotNull Block getTargetBlock() {
@@ -85,7 +84,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
 
         // Refresh list of target groups
         targetGroups.clear();
-        PylonLogisticBlock targetLogisticBlock = BlockStorage.getAs(PylonLogisticBlock.class, targetBlock);
+        RebarLogisticBlock targetLogisticBlock = BlockStorage.getAs(RebarLogisticBlock.class, targetBlock);
         if (targetLogisticBlock != null) {
             targetGroups.putAll(targetLogisticBlock.getLogisticGroups());
         } else {
@@ -114,7 +113,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
         Set<ChunkPosition> chunks = new HashSet<>();
         chunks.add(new ChunkPosition(getTargetBlock()));
         // FUCK DOUBLE CHESTS
-        for (BlockFace face : PylonUtils.CARDINAL_FACES) {
+        for (BlockFace face : RebarUtils.CARDINAL_FACES) {
             chunks.add(new ChunkPosition(getTargetBlock().getRelative(face)));
         }
         return chunks;
@@ -131,7 +130,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
         Set<Block> blocks = new HashSet<>();
         blocks.add(getTargetBlock());
         // FUCK DOUBLE CHESTS
-        for (BlockFace face : PylonUtils.CARDINAL_FACES) {
+        for (BlockFace face : RebarUtils.CARDINAL_FACES) {
             blocks.add(getTargetBlock().getRelative(face));
         }
         return blocks.contains(otherBlock);
@@ -146,7 +145,7 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
             Block block = getTargetBlock();
             if (targetLogisticGroup == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
-                        .name(Component.translatable("pylon.pylonbase.gui.no-target-logistic-group"));
+                        .name(Component.translatable("rebar.gui.no-target-logistic-group"));
             }
 
             // Find index of current group
@@ -161,23 +160,23 @@ public abstract class CargoInteractor extends PylonBlock implements PylonDirecti
 
             // Find display name of current group
             Component displayName;
-            PylonBlock pylonBlock = BlockStorage.get(block);
-            if (pylonBlock instanceof PylonLogisticBlock) {
+            RebarBlock rebarBlock = BlockStorage.get(block);
+            if (rebarBlock instanceof RebarLogisticBlock) {
                 displayName = Component.translatable(
-                        "pylon." + pylonBlock.getKey().getNamespace() + ".inventory." + targetLogisticGroup
+                        "pylon." + rebarBlock.getKey().getNamespace() + ".inventory." + targetLogisticGroup
                 );
             } else {
-                displayName = Component.translatable("pylon.pylonbase.inventory." + targetLogisticGroup);
+                displayName = Component.translatable("pylon.inventory." + targetLogisticGroup);
             }
 
             // Construct display item
             Material material = GROUP_MATERIALS.get(index % GROUP_MATERIALS.size());
             ItemStackBuilder builder = ItemStackBuilder.gui(material, "logistic-group:" + index)
-                    .name(Component.translatable("pylon.pylonbase.gui.logistic-group-cycle-item.name")
-                            .arguments(PylonArgument.of("inventory", displayName))
+                    .name(Component.translatable("rebar.gui.logistic-group-cycle-item.name")
+                            .arguments(RebarArgument.of("inventory", displayName))
                     );
             if (availableGroups.size() > 1) {
-                builder.lore(Component.translatable("pylon.pylonbase.gui.logistic-group-cycle-item.lore"));
+                builder.lore(Component.translatable("rebar.gui.logistic-group-cycle-item.lore"));
             }
             return builder;
         }

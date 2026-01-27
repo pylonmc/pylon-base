@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -39,13 +39,13 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class VacuumHopper extends PylonBlock implements
-        PylonTickingBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonLogisticBlock {
+public class VacuumHopper extends RebarBlock implements
+        RebarTickingBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarLogisticBlock {
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
         public final int radius = getSettings().getOrThrow("radius-blocks", ConfigAdapter.INT);
         public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
@@ -54,10 +54,10 @@ public class VacuumHopper extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
-                    PylonArgument.of("tick_interval", UnitFormat.SECONDS.format(tickInterval / 20.0))
+                    RebarArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
+                    RebarArgument.of("tick_interval", UnitFormat.SECONDS.format(tickInterval / 20.0))
             );
         }
     }
@@ -76,7 +76,7 @@ public class VacuumHopper extends PylonBlock implements
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("pylon.pylonbase.gui.filter"));
+            .name(Component.translatable("rebar.gui.filter"));
 
     @SuppressWarnings("unused")
     public VacuumHopper(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -89,7 +89,7 @@ public class VacuumHopper extends PylonBlock implements
     @SuppressWarnings("unused")
     public VacuumHopper(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        this.whitelist = pdc.get(WHITELIST_KEY, PylonSerializers.BOOLEAN);
+        this.whitelist = pdc.get(WHITELIST_KEY, RebarSerializers.BOOLEAN);
     }
 
     {
@@ -99,7 +99,7 @@ public class VacuumHopper extends PylonBlock implements
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(WHITELIST_KEY, PylonSerializers.BOOLEAN, whitelist);
+        pdc.set(WHITELIST_KEY, RebarSerializers.BOOLEAN, whitelist);
     }
 
     @Override
@@ -195,7 +195,7 @@ public class VacuumHopper extends PylonBlock implements
         @Override
         public @NotNull ItemProvider getItemProvider(Gui gui) {
             return ItemStackBuilder.of(whitelist ? Material.WHITE_CONCRETE : Material.BLACK_CONCRETE)
-                    .name(Component.translatable("pylon.pylonbase.gui.vacuum_hopper." + (whitelist ? "whitelist" : "blacklist")));
+                    .name(Component.translatable("rebar.gui.vacuum_hopper." + (whitelist ? "whitelist" : "blacklist")));
         }
     }
 }

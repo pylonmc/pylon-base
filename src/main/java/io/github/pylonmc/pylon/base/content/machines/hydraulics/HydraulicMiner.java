@@ -2,25 +2,23 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -44,18 +42,18 @@ import java.util.Objects;
 
 
 public class HydraulicMiner extends Miner implements
-        PylonTickingBlock,
-        PylonDirectionalBlock,
-        PylonInteractBlock,
-        PylonLogisticBlock,
-        PylonFluidBufferBlock {
+        RebarTickingBlock,
+        RebarDirectionalBlock,
+        RebarInteractBlock,
+        RebarLogisticBlock,
+        RebarFluidBufferBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
     public final int hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.INT);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
         public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
@@ -67,13 +65,13 @@ public class HydraulicMiner extends Miner implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             int diameter = 2 * radius + 1;
             return List.of(
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
-                    PylonArgument.of("mining-area", diameter + "x" + diameter + "x" + diameter),
-                    PylonArgument.of("hydraulic-fluid-per-block", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerBlock)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
+                    RebarArgument.of("mining-area", diameter + "x" + diameter + "x" + diameter),
+                    RebarArgument.of("hydraulic-fluid-per-block", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerBlock)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -165,13 +163,13 @@ public class HydraulicMiner extends Miner implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("input-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
                         20,
                         TextColor.fromHexString("#212d99")
                 )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("output-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         20,
@@ -213,18 +211,18 @@ public class HydraulicMiner extends Miner implements
         ) {
             return null;
         }
-        return (int) Math.round(PylonUtils.getBlockBreakTicks(tool, block) / speed);
+        return (int) Math.round(RebarUtils.getBlockBreakTicks(tool, block) / speed);
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidBufferBlock.super.onFluidAdded(fluid, amount);
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidBufferBlock.super.onFluidAdded(fluid, amount);
         updateMiner();
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidBufferBlock.super.onFluidRemoved(fluid, amount);
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidBufferBlock.super.onFluidRemoved(fluid, amount);
         updateMiner();
     }
 }

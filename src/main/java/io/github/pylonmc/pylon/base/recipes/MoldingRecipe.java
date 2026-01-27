@@ -4,7 +4,7 @@ import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.recipe.*;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -24,7 +24,7 @@ public record MoldingRecipe(
         ItemStack input,
         ItemStack result,
         int moldingCycles
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<MoldingRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("molding")) {
         @Override
@@ -68,8 +68,8 @@ public record MoldingRecipe(
                 .addIngredient('i', new ItemButton(input))
                 .addIngredient('m', new ItemButton(ItemStackBuilder.of(BaseItems.BRICK_MOLD)
                         .clearLore()
-                        .lore(Component.translatable("pylon.pylonbase.guide.recipe.molding")
-                                .arguments(PylonArgument.of("molding-cycles", moldingCycles)))
+                        .lore(Component.translatable("pylon.guide.recipe.molding")
+                                .arguments(RebarArgument.of("molding-cycles", moldingCycles)))
                         .build()
                 ))
                 .addIngredient('o', new ItemButton(result))

@@ -1,22 +1,22 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -48,11 +48,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FluidMeter extends PylonBlock implements
-        PylonFluidTank,
-        PylonDirectionalBlock,
-        PylonTickingBlock,
-        PylonGuiBlock {
+public class FluidMeter extends RebarBlock implements
+        RebarFluidTank,
+        RebarDirectionalBlock,
+        RebarTickingBlock,
+        RebarGuiBlock {
 
     public static final NamespacedKey MEASUREMENTS_KEY = BaseUtils.baseKey("measurements");
     public static final NamespacedKey NUMBER_OF_MEASUREMENTS_KEY = BaseUtils.baseKey("number_of_measurements");
@@ -65,7 +65,7 @@ public class FluidMeter extends PylonBlock implements
     private final List<Double> measurements;
     private int numberOfMeasurements;
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
         public final int minNumberOfMeasurements = getSettings().getOrThrow("min-number-of-measurements", ConfigAdapter.INT);
@@ -76,14 +76,14 @@ public class FluidMeter extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer)),
-                    PylonArgument.of(
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer)),
+                    RebarArgument.of(
                             "min-measurement-time",
                             UnitFormat.formatDuration(getDuration(minNumberOfMeasurements), true, true)
                     ),
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "max-measurement-time",
                             UnitFormat.formatDuration(getDuration(maxNumberOfMeasurements), true, true)
                     )
@@ -104,7 +104,7 @@ public class FluidMeter extends PylonBlock implements
 
         setFacing(context.getFacing());
         setCapacity(buffer);
-        setTickInterval(PylonConfig.FLUID_TICK_INTERVAL);
+        setTickInterval(RebarConfig.FLUID_TICK_INTERVAL);
 
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
@@ -169,14 +169,14 @@ public class FluidMeter extends PylonBlock implements
 
         setDisableBlockTextureEntity(true);
 
-        measurements = new ArrayList<>(pdc.get(MEASUREMENTS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.DOUBLE)));
-        numberOfMeasurements = pdc.get(NUMBER_OF_MEASUREMENTS_KEY, PylonSerializers.INTEGER);
+        measurements = new ArrayList<>(pdc.get(MEASUREMENTS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.DOUBLE)));
+        numberOfMeasurements = pdc.get(NUMBER_OF_MEASUREMENTS_KEY, RebarSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(MEASUREMENTS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.DOUBLE), measurements);
-        pdc.set(NUMBER_OF_MEASUREMENTS_KEY, PylonSerializers.INTEGER, numberOfMeasurements);
+        pdc.set(MEASUREMENTS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.DOUBLE), measurements);
+        pdc.set(NUMBER_OF_MEASUREMENTS_KEY, RebarSerializers.INTEGER, numberOfMeasurements);
     }
 
     @Override
@@ -189,8 +189,8 @@ public class FluidMeter extends PylonBlock implements
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidAdded(fluid, amount);
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidTank.super.onFluidAdded(fluid, amount);
         fluidAddedLastUpdate = amount;
         getHeldEntityOrThrow(ItemDisplay.class, "fluid").setItemStack(fluid.getItem());
     }
@@ -213,29 +213,29 @@ public class FluidMeter extends PylonBlock implements
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return true;
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", getFluidType() == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.fluid.none")
                         : getFluidType().getName()
                 ),
-                PylonArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
+                RebarArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
         ));
     }
 
     public static Duration getDuration(int numberOfMeasurements) {
-        return Duration.ofMillis((long) numberOfMeasurements * PylonConfig.FLUID_TICK_INTERVAL * 50);
+        return Duration.ofMillis((long) numberOfMeasurements * RebarConfig.FLUID_TICK_INTERVAL * 50);
     }
 
     public class MeasurementDurationItem extends AbstractItem {
@@ -243,10 +243,10 @@ public class FluidMeter extends PylonBlock implements
         @Override
         public ItemProvider getItemProvider() {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
-                    .name(Component.translatable("pylon.pylonbase.gui.fluid_meter.name").arguments(
-                            PylonArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
+                    .name(Component.translatable("rebar.gui.fluid_meter.name").arguments(
+                            RebarArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
                     ))
-                    .lore(Component.translatable("pylon.pylonbase.gui.fluid_meter.lore"));
+                    .lore(Component.translatable("rebar.gui.fluid_meter.lore"));
         }
 
         @Override

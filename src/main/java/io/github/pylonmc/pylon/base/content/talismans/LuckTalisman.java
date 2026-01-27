@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -23,8 +23,8 @@ public class LuckTalisman extends AttributeTalisman {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("bonus_luck", Component.text(attrBonus)));
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
+        return List.of(RebarArgument.of("bonus_luck", Component.text(attrBonus)));
     }
 
     @Override

@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonWeapon;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarWeapon;
 import io.papermc.paper.tag.EntityTags;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class BeheadingSword extends PylonItem implements PylonWeapon {
+public class BeheadingSword extends RebarItem implements RebarWeapon {
 
     private final double normalEntityHeadChance = getSettings().getOrThrow("head-chance.normal-entity", ConfigAdapter.DOUBLE);
     private final double witherSkeletonHeadChance = getSettings().getOrThrow("head-chance.wither-skeleton", ConfigAdapter.DOUBLE);
@@ -51,7 +51,7 @@ public class BeheadingSword extends PylonItem implements PylonWeapon {
         }
         ItemStack head;
         if (event.getEntity().getType() == EntityType.PLAYER) {
-            // This cast is safe because PylonItemListener only calls this listener when the killer is a player
+            // This cast is safe because RebarItemListener only calls this listener when the killer is a player
             head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) head.getItemMeta();
             meta.setOwningPlayer((Player) event.getEntity());
@@ -66,10 +66,10 @@ public class BeheadingSword extends PylonItem implements PylonWeapon {
     }
 
     @Override
-    public @NotNull List<PylonArgument> getPlaceholders() {
+    public @NotNull List<RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("default-chance", normalEntityHeadChance * 100),
-                PylonArgument.of("wither-skeleton-chance", witherSkeletonHeadChance * 100)
+                RebarArgument.of("default-chance", normalEntityHeadChance * 100),
+                RebarArgument.of("wither-skeleton-chance", witherSkeletonHeadChance * 100)
         );
     }
 }

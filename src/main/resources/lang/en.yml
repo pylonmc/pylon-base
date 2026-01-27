@@ -161,8 +161,8 @@ item:
       <arrow> <insn>Right click with tongs</insn> to retrieve items safely
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.bloomery.name/></yellow>
-      <diamond> 4x <yellow><lang:pylon.pylonbase.item.refractory_bricks.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.bloomery.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.item.refractory_bricks.name/></yellow>
 
   bronze_anvil:
     name: "Bronze Anvil"
@@ -171,9 +171,9 @@ item:
       <arrow> The aim is to hammer the bloom into a "normal" shape
       <arrow> <insn>Right click</insn> to place items on the anvil
       <arrow> <insn>Left click</insn> with a hammer to make the bloom shorter/wider
-      <arrow> <insn>Left click</insn> with a <lang:pylon.pylonbase.item.tongs.name/> to make the bloom taller/narrower
+      <arrow> <insn>Left click</insn> with a <lang:pylon.item.tongs.name/> to make the bloom taller/narrower
       <arrow> The amount of shape change is determined by the temperature
-      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron.name/> will pop off
+      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.item.wrought_iron.name/> will pop off
 
   bronze_axe:
     name: "Bronze Axe"
@@ -506,8 +506,8 @@ item:
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.grindstone.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.grindstone_handle.name/></yellow>
 
   grindstone_handle:
     name: "Grindstone Handle"
@@ -568,8 +568,8 @@ item:
       <arrow> Add items on the pedestals, then right click the altar with the catalyst to begin the ritual
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.shimmer_altar.name/></yellow>
-      <diamond> 8x <yellow><lang:pylon.pylonbase.item.shimmer_pedestal.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.shimmer_altar.name/></yellow>
+      <diamond> 8x <yellow><lang:pylon.item.shimmer_pedestal.name/></yellow>
 
   shimmer_pedestal:
     name: "Shimmer Pedestal"
@@ -645,7 +645,7 @@ item:
       <arrow> <attr>Smelting time:</attr> %smelting_time%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.pit_kiln.name/></yellow>
       <diamond> 8x <yellow>Block of Coal</yellow>
       <diamond> 20x <yellow>Coarse Dirt</yellow>
       <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
@@ -783,13 +783,13 @@ item:
       <arrow> <insn>Right click</insn> to open the smeltery GUI
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_output_hatch.name/> Hatch</yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_hopper.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_caster.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_burner.name/></yellow>
-      <diamond> 25 or more <yellow><lang:pylon.pylonbase.item.refractory_bricks.name/></yellow> (depending on size and components)
+      <diamond> 1x <yellow><lang:pylon.item.smeltery_controller.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_input_hatch.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_output_hatch.name/> Hatch</yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_hopper.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_caster.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_burner.name/></yellow>
+      <diamond> 25 or more <yellow><lang:pylon.item.refractory_bricks.name/></yellow> (depending on size and components)
 
   smeltery_hopper:
     name: "Smeltery Hopper"
@@ -1030,10 +1030,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 16x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_1.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 16x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower I | %input-bar% | %output-bar%"
 
   solar_purification_tower_2:
@@ -1048,10 +1048,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 48x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_2.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 48x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower II | %input-bar% | %output-bar%"
 
   solar_purification_tower_3:
@@ -1066,10 +1066,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 96x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_3.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 96x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower III | %input-bar% | %output-bar%"
 
   solar_purification_tower_4:
@@ -1084,10 +1084,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 160x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_4.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 160x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower IV | %input-bar% | %output-bar%"
 
   solar_purification_tower_5:
@@ -1102,10 +1102,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 240x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_5.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 240x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower V | %input-bar% | %output-bar%"
 
   coal_fired_purification_tower:
@@ -1119,9 +1119,9 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.coal_fired_purification_tower.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 5x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
     waila: "Coal-fired Purification Tower | %input-bar% | %output-bar%"
     progress_item:
       running: "<green>Running"
@@ -1142,7 +1142,7 @@ item:
       <arrow> <attr>Max height:</attr> %max-height%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_tank.name/></yellow>
       <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
     waila: "Fluid Tank | %bars% (%fluid%)"
 
@@ -1210,8 +1210,8 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.manual_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Cobblestone Wall</yellow>
     waila: "Manual Core Drill %duration_if_any%"
     waila_format: "| %duration%"
@@ -1225,8 +1225,8 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.improved_manual_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
     waila: "Improved Manual Core Drill %duration_if_any%"
     waila_format: "| %duration%"
@@ -1242,11 +1242,11 @@ item:
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.hydraulic_core_drill.name/></yellow>
       <diamond> 1x <yellow>Cauldron</yellow>
       <diamond> 1x <yellow>Chest</yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_output_hatch.name/></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
     waila: "Hydraulic Core Drill %duration_if_any%"
@@ -1539,13 +1539,13 @@ item:
       <arrow> <attr>Maximum ethanol output rate:</attr> %max-ethanol-output-rate%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fermenter.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fermenter.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_output_hatch.name/></yellow>
       <diamond> 2x <yellow>Block of Iron</yellow>
       <diamond> 4x <yellow>Polished Deepslate Wall</yellow>
-      <diamond> 4x <yellow><lang:pylon.pylonbase.item.fermenter_core.name/></yellow>
-      <diamond> 31x <yellow><lang:pylon.pylonbase.item.fermenter_casing.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.item.fermenter_core.name/></yellow>
+      <diamond> 31x <yellow><lang:pylon.item.fermenter_casing.name/></yellow>
     waila: "Fermenter | %sugarcane-bar% %sugarcane-amount% sugarcane"
 
   fermenter_core:
@@ -1570,14 +1570,14 @@ item:
       <arrow> <attr>Plant oil per mb of biodiesel:</attr> %plant-oil-per-mb-of-biodiesel%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
-      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
-      <diamond> 6x <yellow><lang:pylon.pylonbase.item.biorefinery_foundation.name/></yellow>
-      <diamond> 4x <yellow><lang:pylon.pylonbase.item.biorefinery_tower_ring.name/></yellow>
-      <diamond> 9x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_ring.name/></yellow>
-      <diamond> 2x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_cap.name/></yellow>
-      <diamond> 24x <yellow><lang:pylon.pylonbase.item.biorefinery_plating.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_output_hatch.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.item.fluid_input_hatch.name/></yellow>
+      <diamond> 6x <yellow><lang:pylon.item.biorefinery_foundation.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.item.biorefinery_tower_ring.name/></yellow>
+      <diamond> 9x <yellow><lang:pylon.item.biorefinery_smokestack_ring.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.item.biorefinery_smokestack_cap.name/></yellow>
+      <diamond> 24x <yellow><lang:pylon.item.biorefinery_plating.name/></yellow>
     waila: "Biorefinery | %info%"
 
   biorefinery_foundation:
@@ -2101,7 +2101,7 @@ gui:
   side-priority:
     name: "Priority: <light_purple>%priority%"
     lore: |-
-      <arrow> The <lang:pylon.pylonbase.item.cargo_overflow_gate.name/> will always send items to this side unless it's full
+      <arrow> The <lang:pylon.item.cargo_overflow_gate.name/> will always send items to this side unless it's full
       <arrow> <insn>Left click</insn> to cycle priority
   threshold_button:
     name: "Threshold: <light_purple>%threshold%"

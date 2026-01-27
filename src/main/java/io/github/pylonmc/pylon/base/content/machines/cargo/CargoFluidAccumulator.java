@@ -2,22 +2,22 @@ package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
@@ -49,12 +49,12 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoFluidAccumulator extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock,
-        PylonFluidTank {
+public class CargoFluidAccumulator extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock,
+        RebarFluidTank {
 
     public static final NamespacedKey ITEM_THRESHOLD_KEY = baseKey("item_threshold");
     public static final NamespacedKey FLUID_THRESHOLD_KEY = baseKey("fluid_threshold");
@@ -79,11 +79,11 @@ public class CargoFluidAccumulator extends PylonBlock implements
     public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":output");
     public final ItemStackBuilder itemThresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "item_threshold_button")
-            .lore(Component.translatable("pylon.pylonbase.gui.item_threshold_button.lore"));
+            .lore(Component.translatable("rebar.gui.item_threshold_button.lore"));
     public final ItemStackBuilder fluidThresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "fluid_threshold_button")
-            .lore(Component.translatable("pylon.pylonbase.gui.fluid_threshold_button.lore"));
+            .lore(Component.translatable("rebar.gui.fluid_threshold_button.lore"));
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int fluidBuffer = getSettings().getOrThrow("fluid-buffer", ConfigAdapter.INT);
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
@@ -93,13 +93,13 @@ public class CargoFluidAccumulator extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     ),
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "fluid-buffer",
                             UnitFormat.MILLIBUCKETS_PER_SECOND.format(fluidBuffer)
                     )
@@ -167,54 +167,54 @@ public class CargoFluidAccumulator extends PylonBlock implements
     @SuppressWarnings("unused")
     public CargoFluidAccumulator(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        itemThreshold = pdc.get(ITEM_THRESHOLD_KEY, PylonSerializers.INTEGER);
-        fluidThreshold = pdc.get(FLUID_THRESHOLD_KEY, PylonSerializers.INTEGER);
-        allowFluidInputs = pdc.get(ALLOW_FLUID_INPUTS_KEY, PylonSerializers.BOOLEAN);
+        itemThreshold = pdc.get(ITEM_THRESHOLD_KEY, RebarSerializers.INTEGER);
+        fluidThreshold = pdc.get(FLUID_THRESHOLD_KEY, RebarSerializers.INTEGER);
+        allowFluidInputs = pdc.get(ALLOW_FLUID_INPUTS_KEY, RebarSerializers.BOOLEAN);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(ITEM_THRESHOLD_KEY, PylonSerializers.INTEGER, itemThreshold);
-        pdc.set(FLUID_THRESHOLD_KEY, PylonSerializers.INTEGER, fluidThreshold);
-        pdc.set(ALLOW_FLUID_INPUTS_KEY, PylonSerializers.BOOLEAN, allowFluidInputs);
+        pdc.set(ITEM_THRESHOLD_KEY, RebarSerializers.INTEGER, itemThreshold);
+        pdc.set(FLUID_THRESHOLD_KEY, RebarSerializers.INTEGER, fluidThreshold);
+        pdc.set(ALLOW_FLUID_INPUTS_KEY, RebarSerializers.BOOLEAN, allowFluidInputs);
     }
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
-        PylonFluidTank.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidTank.super.onBreak(drops, context);
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
+    public double fluidAmountRequested(@NotNull RebarFluid fluid) {
         return Math.max(
                 0,
                 Math.min(
                         fluidThreshold - getFluidAmount(),
-                        PylonFluidTank.super.fluidAmountRequested(fluid)
+                        RebarFluidTank.super.fluidAmountRequested(fluid)
                 )
         );
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
-        return allowFluidInputs ? Map.of() : PylonFluidTank.super.getSuppliedFluids();
+    public @NotNull Map<@NotNull RebarFluid, @NotNull Double> getSuppliedFluids() {
+        return allowFluidInputs ? Map.of() : RebarFluidTank.super.getSuppliedFluids();
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidRemoved(fluid, amount);
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidTank.super.onFluidRemoved(fluid, amount);
         doTransfer();
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidTank.super.onFluidAdded(fluid, amount);
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidTank.super.onFluidAdded(fluid, amount);
         doTransfer();
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return allowFluidInputs;
     }
 
@@ -257,9 +257,9 @@ public class CargoFluidAccumulator extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("item-threshold", UnitFormat.ITEMS.format(itemThreshold)),
-                PylonArgument.of("fluid-threshold", UnitFormat.MILLIBUCKETS.format(fluidThreshold)),
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("item-threshold", UnitFormat.ITEMS.format(itemThreshold)),
+                RebarArgument.of("fluid-threshold", UnitFormat.MILLIBUCKETS.format(fluidThreshold)),
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
@@ -315,8 +315,8 @@ public class CargoFluidAccumulator extends PylonBlock implements
         @Override
         public ItemProvider getItemProvider() {
             return itemThresholdButtonStack
-                .name((Component.translatable("pylon.pylonbase.gui.item_threshold_button.name").arguments(
-                        PylonArgument.of("threshold", itemThreshold)
+                .name((Component.translatable("rebar.gui.item_threshold_button.name").arguments(
+                        RebarArgument.of("threshold", itemThreshold)
                 )));
         }
 
@@ -341,8 +341,8 @@ public class CargoFluidAccumulator extends PylonBlock implements
         @Override
         public ItemProvider getItemProvider() {
             return fluidThresholdButtonStack
-                .name((Component.translatable("pylon.pylonbase.gui.fluid_threshold_button.name").arguments(
-                        PylonArgument.of("threshold", fluidThreshold)
+                .name((Component.translatable("rebar.gui.fluid_threshold_button.name").arguments(
+                        RebarArgument.of("threshold", fluidThreshold)
                 )));
         }
 

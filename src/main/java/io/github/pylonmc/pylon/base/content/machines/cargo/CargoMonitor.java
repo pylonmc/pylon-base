@@ -1,17 +1,17 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VirtualInventoryLogisticSlot;
@@ -35,11 +35,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CargoMonitor extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock {
+public class CargoMonitor extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock {
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -58,7 +58,7 @@ public class CargoMonitor extends PylonBlock implements
     public final ItemStackBuilder projectorStack = ItemStackBuilder.of(Material.PINK_STAINED_GLASS)
             .addCustomModelDataString(getKey() + ":projector");
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -67,11 +67,11 @@ public class CargoMonitor extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }

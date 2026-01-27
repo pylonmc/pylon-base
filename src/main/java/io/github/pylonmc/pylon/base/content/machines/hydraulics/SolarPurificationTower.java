@@ -3,16 +3,16 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.format.TextColor;
@@ -30,11 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SolarPurificationTower extends PylonBlock implements
-        PylonSimpleMultiblock,
-        PylonTickingBlock,
-        PylonDirectionalBlock,
-        PylonFluidBufferBlock {
+public class SolarPurificationTower extends RebarBlock implements
+        RebarSimpleMultiblock,
+        RebarTickingBlock,
+        RebarDirectionalBlock,
+        RebarFluidBufferBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
     public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
@@ -43,7 +43,7 @@ public class SolarPurificationTower extends PylonBlock implements
     public final int lensLayers = getSettings().getOrThrow("lens-layers", ConfigAdapter.INT);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.DOUBLE);
         public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
@@ -55,12 +55,12 @@ public class SolarPurificationTower extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100)),
-                    PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
-                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("rain_speed_percentage", UnitFormat.PERCENT.format(rainSpeedFraction * 100)),
+                    RebarArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
+                    RebarArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -85,17 +85,17 @@ public class SolarPurificationTower extends PylonBlock implements
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 1, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 2, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 3, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 4, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
 
         for (int j = 1; j < lensLayers + 1; j++) {
             for (int i = 0; i < 1 + 4*j; i++) {
-                components.put(new Vector3i(2*j, 1, i - 2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
-                components.put(new Vector3i(-2*j, 1, i - 2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
-                components.put(new Vector3i(i - 2*j, 1, 2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
-                components.put(new Vector3i(i - 2*j, 1, -2*j), new PylonMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(2*j, 1, i - 2*j), new RebarMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(-2*j, 1, i - 2*j), new RebarMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(i - 2*j, 1, 2*j), new RebarMultiblockComponent(BaseKeys.SOLAR_LENS));
+                components.put(new Vector3i(i - 2*j, 1, -2*j), new RebarMultiblockComponent(BaseKeys.SOLAR_LENS));
             }
         }
 
@@ -127,13 +127,13 @@ public class SolarPurificationTower extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("input-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         20,
                         TextColor.fromHexString("#48459b")
                 )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("output-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
                         20,

@@ -4,9 +4,9 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonBlockInteractor;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class BrickMold extends PylonItem implements PylonBlockInteractor {
+public class BrickMold extends RebarItem implements RebarBlockInteractor {
 
     public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
 
@@ -56,9 +56,9 @@ public class BrickMold extends PylonItem implements PylonBlockInteractor {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0))
+                RebarArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0))
         );
     }
 }

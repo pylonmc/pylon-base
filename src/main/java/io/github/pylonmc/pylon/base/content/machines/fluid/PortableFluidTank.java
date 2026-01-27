@@ -1,38 +1,30 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.pylon.base.BaseFluids;
-import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -44,9 +36,9 @@ import java.util.stream.Collectors;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class PortableFluidTank extends PylonBlock implements FluidTankWithDisplayEntity, PylonInteractBlock {
+public class PortableFluidTank extends RebarBlock implements FluidTankWithDisplayEntity, RebarInteractBlock {
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
         public static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
         public static final NamespacedKey FLUID_TYPE_KEY = baseKey("fluid_type");
 
@@ -63,24 +55,24 @@ public class PortableFluidTank extends PylonBlock implements FluidTankWithDispla
             super(stack);
         }
 
-        public @Nullable PylonFluid getFluid() {
-            return getStack().getPersistentDataContainer().get(FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID);
+        public @Nullable RebarFluid getFluid() {
+            return getStack().getPersistentDataContainer().get(FLUID_TYPE_KEY, RebarSerializers.REBAR_FLUID);
         }
 
         public double getAmount() {
-            return getStack().getPersistentDataContainer().getOrDefault(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, 0.0);
+            return getStack().getPersistentDataContainer().getOrDefault(FLUID_AMOUNT_KEY, RebarSerializers.DOUBLE, 0.0);
         }
 
-        public void setFluid(@Nullable PylonFluid fluid) {
-            getStack().editPersistentDataContainer(pdc -> PylonUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluid));
+        public void setFluid(@Nullable RebarFluid fluid) {
+            getStack().editPersistentDataContainer(pdc -> RebarUtils.setNullable(pdc, FLUID_TYPE_KEY, RebarSerializers.REBAR_FLUID, fluid));
         }
 
         public void setAmount(double amount) {
-            getStack().editPersistentDataContainer(pdc -> pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, amount));
+            getStack().editPersistentDataContainer(pdc -> pdc.set(FLUID_AMOUNT_KEY, RebarSerializers.DOUBLE, amount));
         }
 
         @Override
-        public @Nullable PylonBlock place(@NotNull BlockCreateContext context) {
+        public @Nullable RebarBlock place(@NotNull BlockCreateContext context) {
             PortableFluidTank tank = (PortableFluidTank) getSchema().place(context);
             if (tank != null) {
                 tank.setFluidType(getFluid());
@@ -90,15 +82,15 @@ public class PortableFluidTank extends PylonBlock implements FluidTankWithDispla
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("fluid", getFluid() == null
-                            ? Component.translatable("pylon.pylonbase.fluid.none")
+                    RebarArgument.of("fluid", getFluid() == null
+                            ? Component.translatable("pylon.fluid.none")
                             : getFluid().getName()
                     ),
-                    PylonArgument.of("amount", Math.round(getAmount())),
-                    PylonArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
-                    PylonArgument.of("temperatures", Component.join(
+                    RebarArgument.of("amount", Math.round(getAmount())),
+                    RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity)),
+                    RebarArgument.of("temperatures", Component.join(
                             JoinConfiguration.separator(Component.text(", ")),
                             allowedTemperatures.stream()
                                     .map(FluidTemperature::getValueText)
@@ -130,7 +122,7 @@ public class PortableFluidTank extends PylonBlock implements FluidTankWithDispla
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return fluid.hasTag(FluidTemperature.class)
                 && allowedTemperatures.contains(fluid.getTag(FluidTemperature.class));
     }
@@ -138,14 +130,14 @@ public class PortableFluidTank extends PylonBlock implements FluidTankWithDispla
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", getFluidType() == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.fluid.none")
                         : getFluidType().getName()
                 )
         ));
@@ -158,8 +150,8 @@ public class PortableFluidTank extends PylonBlock implements FluidTankWithDispla
 
     @Override
     public @Nullable ItemStack getPickItem() {
-        // TODO implement clone for PylonItem and just clone it
-        ItemStack stack = PylonRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
+        // TODO implement clone for RebarItem and just clone it
+        ItemStack stack = RebarRegistry.ITEMS.getOrThrow(getKey()).getItemStack();
 
         Item item = new Item(stack);
         item.setFluid(getFluidType());

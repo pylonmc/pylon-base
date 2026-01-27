@@ -20,7 +20,7 @@ public record ForgingDisplayRecipe(
         NamespacedKey key,
         ItemStack input,
         ItemStack result
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<ForgingDisplayRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("forging_display")) {
         @Override

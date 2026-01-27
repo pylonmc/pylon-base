@@ -6,10 +6,10 @@ import io.github.pylonmc.pylon.base.content.machines.smelting.BronzeAnvil;
 import io.github.pylonmc.pylon.base.recipes.HammerRecipe;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonBlockInteractor;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
 import io.github.pylonmc.rebar.util.MiningLevel;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.RandomizedSound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class Hammer extends PylonItem implements PylonBlockInteractor {
+public class Hammer extends RebarItem implements RebarBlockInteractor {
     public final Material baseBlock = getBaseBlock(getKey());
     public final MiningLevel miningLevel = getMiningLevel(getKey());
     public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
@@ -47,7 +47,7 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
     public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot, @NotNull BlockFace clickedFace) {
         if (baseBlock != block.getType()) {
             if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
-                player.sendMessage(Component.translatable("pylon.pylonbase.message.hammer_cant_use"));
+                player.sendMessage(Component.translatable("rebar.message.hammer_cant_use"));
             }
             return false;
         }
@@ -75,9 +75,9 @@ public class Hammer extends PylonItem implements PylonBlockInteractor {
 
                 if (player != null) {
                     player.setCooldown(getStack(), cooldownTicks);
-                    PylonUtils.damageItem(getStack(), 1, player, slot);
+                    RebarUtils.damageItem(getStack(), 1, player, slot);
                 } else {
-                    PylonUtils.damageItem(getStack(), 1, block.getWorld());
+                    RebarUtils.damageItem(getStack(), 1, block.getWorld());
                 }
 
                 if (ThreadLocalRandom.current().nextFloat() > recipe.getChanceFor(miningLevel)) {

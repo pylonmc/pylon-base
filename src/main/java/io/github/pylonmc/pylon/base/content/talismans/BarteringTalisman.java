@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
@@ -31,8 +31,8 @@ public class BarteringTalisman extends Talisman {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("chance_to_not_consume_input", UnitFormat.PERCENT.format(chanceToNotConsumeInput * 100).decimalPlaces(2)));
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
+        return List.of(RebarArgument.of("chance_to_not_consume_input", UnitFormat.PERCENT.format(chanceToNotConsumeInput * 100).decimalPlaces(2)));
     }
 
     @Override

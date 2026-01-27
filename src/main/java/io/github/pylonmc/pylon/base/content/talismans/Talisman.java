@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInventoryEffectItem;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInventoryEffectItem;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class Talisman extends PylonItem implements PylonInventoryEffectItem {
+public abstract class Talisman extends RebarItem implements RebarInventoryEffectItem {
     public final int level = getSettings().getOrThrow("level", ConfigAdapter.INT);
 
     public Talisman(@NotNull ItemStack stack) {
@@ -20,7 +20,7 @@ public abstract class Talisman extends PylonItem implements PylonInventoryEffect
 
     @Override
     public void onAddedToInventory(@NotNull Player player) {
-        PylonInventoryEffectItem.super.onAddedToInventory(player);
+        RebarInventoryEffectItem.super.onAddedToInventory(player);
         Integer currentTalismanLevel = player.getPersistentDataContainer().get(getTalismanKey(), PersistentDataType.INTEGER);
         if (currentTalismanLevel == null) {
             applyEffect(player);
@@ -32,7 +32,7 @@ public abstract class Talisman extends PylonItem implements PylonInventoryEffect
 
     @Override
     public void onRemovedFromInventory(@NotNull Player player) {
-        PylonInventoryEffectItem.super.onRemovedFromInventory(player);
+        RebarInventoryEffectItem.super.onRemovedFromInventory(player);
         Integer currentTalismanLevel = player.getPersistentDataContainer().get(getTalismanKey(), PersistentDataType.INTEGER);
         if (currentTalismanLevel == null)
             return; // really shouldn't happen, but in this case less likely to crash by not calling removeEffect

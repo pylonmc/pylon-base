@@ -2,9 +2,9 @@ package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-public class ShimmerMagnet extends PylonItem implements PylonInteractor {
+public class ShimmerMagnet extends RebarItem implements RebarInteractor {
     @Getter
     private final double pickupDistance = getSettings().getOrThrow("pickup-distance", ConfigAdapter.DOUBLE);
     @Getter
@@ -38,8 +38,8 @@ public class ShimmerMagnet extends PylonItem implements PylonInteractor {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("pickup-distance", UnitFormat.BLOCKS.format(pickupDistance)));
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
+        return List.of(RebarArgument.of("pickup-distance", UnitFormat.BLOCKS.format(pickupDistance)));
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -59,7 +59,7 @@ public class ShimmerMagnet extends PylonItem implements PylonInteractor {
             }
 
             String targetKey = enabled ? "enabled" : "disabled";
-            player.sendMessage(Component.translatable("pylon.pylonbase.message.shimmer_magnet." + targetKey));
+            player.sendMessage(Component.translatable("rebar.message.shimmer_magnet." + targetKey));
 
             pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
         });
@@ -96,8 +96,8 @@ public class ShimmerMagnet extends PylonItem implements PylonInteractor {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Vector playerPosition = player.getLocation().toVector();
                 for (var stack : player.getInventory()) {
-                    PylonItem pylonItem = fromStack(stack);
-                    if (!(pylonItem instanceof ShimmerMagnet shimmerMagnet)) continue;
+                    RebarItem rebarItem = fromStack(stack);
+                    if (!(rebarItem instanceof ShimmerMagnet shimmerMagnet)) continue;
 
                     if (!shimmerMagnet.isEnabled()) continue;
 

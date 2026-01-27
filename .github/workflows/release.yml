@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Download Pylon
+    - name: Download Rebar
       uses: actions/download-artifact@v4.1.8
       with:
         name: pylon-base-${{ github.ref_name }}

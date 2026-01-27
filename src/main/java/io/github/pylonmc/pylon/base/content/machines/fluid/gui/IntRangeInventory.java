@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid.gui;
 
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import lombok.Getter;
@@ -69,18 +69,18 @@ public class IntRangeInventory {
             ItemStackBuilder increment = baseIncrement
                 .name(
                     incrementComponent.arguments(
-                        PylonArgument.of("amount", var)
+                        RebarArgument.of("amount", var)
                     )
                 )
-                .editPdc(pdc -> pdc.set(VARIATION_KEY, PylonSerializers.INTEGER, var));
+                .editPdc(pdc -> pdc.set(VARIATION_KEY, RebarSerializers.INTEGER, var));
 
             ItemStackBuilder decrement = baseDecrement
                 .name(
                     decrementComponent.arguments(
-                        PylonArgument.of("amount", var)
+                        RebarArgument.of("amount", var)
                     )
                 )
-                .editPdc(pdc -> pdc.set(VARIATION_KEY, PylonSerializers.INTEGER, -var));
+                .editPdc(pdc -> pdc.set(VARIATION_KEY, RebarSerializers.INTEGER, -var));
 
             inventoryIncrease.addItem(UpdateReason.SUPPRESSED, increment.build());
             inventoryDecrease.addItem(UpdateReason.SUPPRESSED, decrement.build());
@@ -123,7 +123,7 @@ public class IntRangeInventory {
             .lore("")
             .lore(
                 amountComponent.arguments(
-                    PylonArgument.of("amount", amount)
+                    RebarArgument.of("amount", amount)
                 )
             )
             .build();
@@ -134,7 +134,7 @@ public class IntRangeInventory {
         ItemStack old = event.getPreviousItem();
         if (old == null) return;
 
-        Integer variation = old.getPersistentDataContainer().get(VARIATION_KEY, PylonSerializers.INTEGER);
+        Integer variation = old.getPersistentDataContainer().get(VARIATION_KEY, RebarSerializers.INTEGER);
         if (variation == null) return;
 
         this.add(variation);

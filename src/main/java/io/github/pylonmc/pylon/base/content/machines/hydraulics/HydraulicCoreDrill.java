@@ -7,11 +7,11 @@ import io.github.pylonmc.pylon.base.content.components.FluidInputHatch;
 import io.github.pylonmc.pylon.base.content.components.FluidOutputHatch;
 import io.github.pylonmc.pylon.base.content.machines.simple.CoreDrill;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
+public class HydraulicCoreDrill extends CoreDrill implements RebarTickingBlock {
 
     public final int hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.INT);
     public final double hydraulicFluidPerCycle = hydraulicFluidUsage * getCycleDuration() / 20.0;
@@ -44,9 +44,9 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            List<PylonArgument> placeholders = new ArrayList<>(super.getPlaceholders());
-            placeholders.add(PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)));
+        public @NotNull List<RebarArgument> getPlaceholders() {
+            List<RebarArgument> placeholders = new ArrayList<>(super.getPlaceholders());
+            placeholders.add(RebarArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)));
             return placeholders;
         }
     }
@@ -91,8 +91,8 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
         components.put(new Vector3i(1, -2, 2), new VanillaMultiblockComponent(Material.IRON_BARS));
 
         components.put(new Vector3i(0, -2, 3), new VanillaMultiblockComponent(Material.CAULDRON));
-        components.put(new Vector3i(1, -2, 3), new PylonMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
-        components.put(new Vector3i(-1, -2, 3), new PylonMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
+        components.put(new Vector3i(1, -2, 3), new RebarMultiblockComponent(BaseKeys.FLUID_INPUT_HATCH));
+        components.put(new Vector3i(-1, -2, 3), new RebarMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
 
         components.put(new Vector3i(0, -2, 4), new VanillaMultiblockComponent(Material.CHEST));
 
@@ -122,7 +122,7 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
 
     @Override
     public void onProcessFinished() {
-        Vector3i chestOffset = PylonUtils.rotateVectorToFace(new Vector3i(0, -2, 4), getFacing());
+        Vector3i chestOffset = RebarUtils.rotateVectorToFace(new Vector3i(0, -2, 4), getFacing());
         if (!(getBlock().getRelative(chestOffset.x, chestOffset.y, chestOffset.z).getState() instanceof Chest chest)) {
             return;
         }
@@ -161,13 +161,13 @@ public class HydraulicCoreDrill extends CoreDrill implements PylonTickingBlock {
     }
 
     public @Nullable FluidInputHatch getInputHatch() {
-        Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()));
+        Vector relativeLocation = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(1, -2, 3), getFacing()));
         Location inputHatchLocation = getBlock().getLocation().add(relativeLocation);
         return BlockStorage.getAs(FluidInputHatch.class, inputHatchLocation);
     }
 
     public @Nullable FluidOutputHatch getOutputHatch() {
-        Vector relativeLocation = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing()));
+        Vector relativeLocation = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(-1, -2, 3), getFacing()));
         Location inputHatchLocation = getBlock().getLocation().add(relativeLocation);
         return BlockStorage.getAs(FluidOutputHatch.class, inputHatchLocation);
     }

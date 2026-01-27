@@ -22,7 +22,7 @@ public record PitKilnRecipe(
         @NotNull NamespacedKey key,
         @NotNull List<RecipeInput.Item> input,
         @NotNull List<ItemStack> output
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     public static final RecipeType<PitKilnRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(baseKey("pit_kiln")) {
         @Override

@@ -1,20 +1,20 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -26,7 +26,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.BlockDisplay;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -43,10 +42,10 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidAccumulator extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonFluidTank,
-        PylonGuiBlock {
+public class FluidAccumulator extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarFluidTank,
+        RebarGuiBlock {
 
     public static final NamespacedKey IS_DISCHARGING_KEY = baseKey("is_discharging");
 
@@ -60,7 +59,7 @@ public class FluidAccumulator extends PylonBlock implements
 
     private boolean isDischarging;
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int minAmount = getSettings().getOrThrow("min-amount", ConfigAdapter.INT);
         public final int maxAmount = getSettings().getOrThrow("max-amount", ConfigAdapter.INT);
@@ -70,13 +69,13 @@ public class FluidAccumulator extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "min-amount",
                             UnitFormat.MILLIBUCKETS.format(minAmount)
                     ),
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "max-amount",
                             UnitFormat.MILLIBUCKETS.format(maxAmount)
                     )
@@ -119,34 +118,34 @@ public class FluidAccumulator extends PylonBlock implements
     public FluidAccumulator(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        this.isDischarging = pdc.get(IS_DISCHARGING_KEY, PylonSerializers.BOOLEAN);
+        this.isDischarging = pdc.get(IS_DISCHARGING_KEY, RebarSerializers.BOOLEAN);
 
         setDisableBlockTextureEntity(true);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(IS_DISCHARGING_KEY, PylonSerializers.BOOLEAN, isDischarging);
+        pdc.set(IS_DISCHARGING_KEY, RebarSerializers.BOOLEAN, isDischarging);
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", getFluidType() == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.fluid.none")
                         : getFluidType().getName()
                 )
         ));
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return true;
     }
 
@@ -160,7 +159,7 @@ public class FluidAccumulator extends PylonBlock implements
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
+    public double fluidAmountRequested(@NotNull RebarFluid fluid) {
         if (getBlock().isBlockIndirectlyPowered()) {
             return 0.0;
         }
@@ -175,13 +174,13 @@ public class FluidAccumulator extends PylonBlock implements
             return 0.0;
         }
 
-        return PylonFluidTank.super.fluidAmountRequested(fluid);
+        return RebarFluidTank.super.fluidAmountRequested(fluid);
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
+    public @NotNull Map<@NotNull RebarFluid, @NotNull Double> getSuppliedFluids() {
         if (getBlock().isBlockIndirectlyPowered()) {
-            return PylonFluidTank.super.getSuppliedFluids();
+            return RebarFluidTank.super.getSuppliedFluids();
         }
 
         if (getFluidSpaceRemaining() < 1.0e-6) {
@@ -191,7 +190,7 @@ public class FluidAccumulator extends PylonBlock implements
         }
 
         if (isDischarging) {
-            return PylonFluidTank.super.getSuppliedFluids();
+            return RebarFluidTank.super.getSuppliedFluids();
         }
 
         return Map.of();
@@ -202,10 +201,10 @@ public class FluidAccumulator extends PylonBlock implements
         @Override
         public ItemProvider getItemProvider() {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
-                    .name(Component.translatable("pylon.pylonbase.gui.fluid_accumulator.name").arguments(
-                            PylonArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidCapacity()))
+                    .name(Component.translatable("rebar.gui.fluid_accumulator.name").arguments(
+                            RebarArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidCapacity()))
                     ))
-                    .lore(Component.translatable("pylon.pylonbase.gui.fluid_accumulator.lore"));
+                    .lore(Component.translatable("rebar.gui.fluid_accumulator.lore"));
         }
 
         @Override

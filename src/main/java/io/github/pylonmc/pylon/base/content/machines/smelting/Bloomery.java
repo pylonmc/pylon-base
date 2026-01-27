@@ -6,19 +6,19 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.pylon.base.content.resources.IronBloom;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonBreakHandler;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.ItemDisplayLogisticSlot;
 import org.bukkit.Bukkit;
@@ -45,12 +45,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class Bloomery extends PylonBlock implements
-        PylonSimpleMultiblock,
-        PylonInteractBlock,
-        PylonTickingBlock,
-        PylonLogisticBlock,
-        PylonBreakHandler {
+public final class Bloomery extends RebarBlock implements
+        RebarSimpleMultiblock,
+        RebarInteractBlock,
+        RebarTickingBlock,
+        RebarLogisticBlock,
+        RebarBreakHandler {
 
     public static final int TICK_INTERVAL = Settings.get(BaseKeys.BLOOMERY).getOrThrow("tick-interval", ConfigAdapter.INT);
     public static final float HEAT_CHANCE = Settings.get(BaseKeys.BLOOMERY).getOrThrow("heat-chance", ConfigAdapter.FLOAT);
@@ -101,7 +101,7 @@ public final class Bloomery extends PylonBlock implements
         ItemStack oldStack = itemDisplay.getItemStack();
         if (oldStack.getType().isAir()) {
             if (placedItem != null) {
-                if (PylonItem.fromStack(placedItem) instanceof IronBloom bloom) {
+                if (RebarItem.fromStack(placedItem) instanceof IronBloom bloom) {
                     bloom.setDisplayGlowOn(itemDisplay);
                 }
                 itemDisplay.setItemStack(placedItem.asOne());
@@ -130,7 +130,7 @@ public final class Bloomery extends PylonBlock implements
             return;
         }
 
-        if (!(PylonItem.fromStack(stack) instanceof IronBloom bloom)) return;
+        if (!(RebarItem.fromStack(stack) instanceof IronBloom bloom)) return;
 
         Runnable particleSpawner = () -> {
             Location pos = getBlock().getLocation().add(
@@ -174,10 +174,10 @@ public final class Bloomery extends PylonBlock implements
     @Override
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         return Map.of(
-                new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
-                new Vector3i(1, 1, 0), new PylonMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
-                new Vector3i(-1, 1, 0), new PylonMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
-                new Vector3i(0, 1, 1), new PylonMultiblockComponent(BaseKeys.REFRACTORY_BRICKS)
+                new Vector3i(0, 2, 0), new RebarMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
+                new Vector3i(1, 1, 0), new RebarMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
+                new Vector3i(-1, 1, 0), new RebarMultiblockComponent(BaseKeys.REFRACTORY_BRICKS),
+                new Vector3i(0, 1, 1), new RebarMultiblockComponent(BaseKeys.REFRACTORY_BRICKS)
         );
     }
 

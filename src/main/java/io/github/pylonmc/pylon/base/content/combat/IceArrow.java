@@ -2,9 +2,9 @@ package io.github.pylonmc.pylon.base.content.combat;
 
 import io.github.pylonmc.pylon.base.PylonBase;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonArrow;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarArrow;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class IceArrow extends PylonItem implements PylonArrow {
+public class IceArrow extends RebarItem implements RebarArrow {
     private final int freezeDuration = getSettings().getOrThrow("freeze-duration", ConfigAdapter.INT);
     private final double freezeSpeed = getSettings().getOrThrow("freeze-speed", ConfigAdapter.DOUBLE);
 
@@ -32,8 +32,8 @@ public class IceArrow extends PylonItem implements PylonArrow {
     }
 
     @Override
-    public @NotNull List<PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("freeze-duration", freezeDuration));
+    public @NotNull List<RebarArgument> getPlaceholders() {
+        return List.of(RebarArgument.of("freeze-duration", freezeDuration));
     }
 
     private static class DamageOverTimeRunnable extends BukkitRunnable {

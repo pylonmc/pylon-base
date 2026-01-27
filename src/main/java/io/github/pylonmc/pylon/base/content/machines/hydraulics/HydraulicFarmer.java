@@ -2,16 +2,15 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonEntityHolderBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import lombok.Getter;
@@ -33,10 +32,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 
-public class HydraulicFarmer extends PylonBlock implements
-        PylonTickingBlock,
-        PylonFluidBufferBlock,
-        PylonDirectionalBlock {
+public class HydraulicFarmer extends RebarBlock implements
+        RebarTickingBlock,
+        RebarFluidBufferBlock,
+        RebarDirectionalBlock {
 
     private static final Set<Material> CROPS_TO_BREAK = EnumSet.of(
             Material.PUMPKIN,
@@ -67,7 +66,7 @@ public class HydraulicFarmer extends PylonBlock implements
     public final double hydraulicFluidUsage = getSettings().getOrThrow("hydraulic-fluid-usage", ConfigAdapter.DOUBLE);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
         public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
@@ -79,12 +78,12 @@ public class HydraulicFarmer extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
-                    PylonArgument.of("tick-interval", UnitFormat.SECONDS.format(tickInterval / 20.0)),
-                    PylonArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("radius", UnitFormat.BLOCKS.format(radius)),
+                    RebarArgument.of("tick-interval", UnitFormat.SECONDS.format(tickInterval / 20.0)),
+                    RebarArgument.of("hydraulic-fluid-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(hydraulicFluidUsage)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -279,13 +278,13 @@ public class HydraulicFarmer extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("input-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
                         20,
                         TextColor.fromHexString("#212d99")
                 )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("output-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         20,

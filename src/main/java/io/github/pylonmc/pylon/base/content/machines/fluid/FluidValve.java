@@ -1,21 +1,21 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
@@ -24,7 +24,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -42,8 +41,8 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class FluidValve extends PylonBlock
-        implements PylonFluidTank, PylonInteractBlock, PylonDirectionalBlock {
+public class FluidValve extends RebarBlock
+        implements RebarFluidTank, RebarInteractBlock, RebarDirectionalBlock {
 
     public static final NamespacedKey ENABLED_KEY = baseKey("enabled");
 
@@ -51,7 +50,7 @@ public class FluidValve extends PylonBlock
 
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
@@ -60,9 +59,9 @@ public class FluidValve extends PylonBlock
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -83,7 +82,7 @@ public class FluidValve extends PylonBlock
         addEntity("main", new ItemDisplayBuilder()
                 .itemStack(stackOff)
                 .transformation(new TransformBuilder()
-                        .lookAlong(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.NORTH).getDirection().toVector3d())
+                        .lookAlong(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.NORTH).getDirection().toVector3d())
                         .scale(0.2, 0.2, 0.5)
                 )
                 .build(getBlock().getLocation().toCenterLocation())
@@ -99,12 +98,12 @@ public class FluidValve extends PylonBlock
 
         setDisableBlockTextureEntity(true);
 
-        enabled = pdc.get(ENABLED_KEY, PylonSerializers.BOOLEAN);
+        enabled = pdc.get(ENABLED_KEY, RebarSerializers.BOOLEAN);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(ENABLED_KEY, PylonSerializers.BOOLEAN, enabled);
+        pdc.set(ENABLED_KEY, RebarSerializers.BOOLEAN, enabled);
     }
 
     @Override
@@ -124,40 +123,40 @@ public class FluidValve extends PylonBlock
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("status", Component.translatable(
-                        "pylon.pylonbase.message.valve." + (enabled ? "enabled" : "disabled")
+                RebarArgument.of("status", Component.translatable(
+                        "rebar.message.valve." + (enabled ? "enabled" : "disabled")
                 )),
-                PylonArgument.of("bars", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bars", BaseUtils.createFluidAmountBar(
                         getFluidAmount(),
                         getFluidCapacity(),
                         20,
                         TextColor.color(200, 255, 255)
                 )),
-                PylonArgument.of("fluid", getFluidType() == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", getFluidType() == null
+                        ? Component.translatable("pylon.fluid.none")
                         : getFluidType().getName()
                 )
         ));
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
+    public double fluidAmountRequested(@NotNull RebarFluid fluid) {
         if (!enabled) {
             return 0.0;
         }
-        return PylonFluidTank.super.fluidAmountRequested(fluid);
+        return RebarFluidTank.super.fluidAmountRequested(fluid);
     }
 
     @Override
-    public @NotNull Map<@NotNull PylonFluid, @NotNull Double> getSuppliedFluids() {
+    public @NotNull Map<@NotNull RebarFluid, @NotNull Double> getSuppliedFluids() {
         if (!enabled) {
             return Map.of();
         }
-        return PylonFluidTank.super.getSuppliedFluids();
+        return RebarFluidTank.super.getSuppliedFluids();
     }
 
     @Override
-    public boolean isAllowedFluid(@NotNull PylonFluid fluid) {
+    public boolean isAllowedFluid(@NotNull RebarFluid fluid) {
         return true;
     }
 }

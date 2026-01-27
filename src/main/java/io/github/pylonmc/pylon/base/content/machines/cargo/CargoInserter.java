@@ -7,14 +7,14 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.content.cargo.CargoDuct;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.event.PylonCargoConnectEvent;
-import io.github.pylonmc.rebar.event.PylonCargoDisconnectEvent;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.event.RebarCargoConnectEvent;
+import io.github.pylonmc.rebar.event.RebarCargoDisconnectEvent;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroup;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
@@ -29,8 +29,8 @@ import java.util.*;
 
 
 public class CargoInserter extends CargoInteractor implements
-        PylonCargoBlock,
-        PylonGuiBlock {
+        RebarCargoBlock,
+        RebarGuiBlock {
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -41,7 +41,7 @@ public class CargoInserter extends CargoInteractor implements
     public final ItemStackBuilder ductStack = ItemStackBuilder.of(Material.GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":duct");
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -50,11 +50,11 @@ public class CargoInserter extends CargoInteractor implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }
@@ -67,7 +67,7 @@ public class CargoInserter extends CargoInteractor implements
         setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing(), "input");
-        for (BlockFace face : PylonUtils.perpendicularImmediateFaces(getFacing())) {
+        for (BlockFace face : RebarUtils.perpendicularImmediateFaces(getFacing())) {
             addCargoLogisticGroup(face, "input");
         }
         setCargoTransferRate(transferRate);
@@ -109,7 +109,7 @@ public class CargoInserter extends CargoInteractor implements
     }
 
     @Override
-    public void onDuctConnected(@NotNull PylonCargoConnectEvent event) {
+    public void onDuctConnected(@NotNull RebarCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
         for (BlockFace face : getCargoLogisticGroups().keySet()) {
@@ -120,9 +120,9 @@ public class CargoInserter extends CargoInteractor implements
     }
 
     @Override
-    public void onDuctDisconnected(@NotNull PylonCargoDisconnectEvent event) {
+    public void onDuctDisconnected(@NotNull RebarCargoDisconnectEvent event) {
         // Allow connecting to all faces now that there are zero connections
-        List<BlockFace> faces = PylonUtils.perpendicularImmediateFaces(getFacing());
+        List<BlockFace> faces = RebarUtils.perpendicularImmediateFaces(getFacing());
         faces.add(getFacing());
         for (BlockFace face : faces) {
             if (targetLogisticGroup != null) {

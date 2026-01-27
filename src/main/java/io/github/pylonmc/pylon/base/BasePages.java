@@ -1,6 +1,6 @@
 package io.github.pylonmc.pylon.base;
 
-import io.github.pylonmc.rebar.content.guide.PylonGuide;
+import io.github.pylonmc.rebar.content.guide.RebarGuide;
 import io.github.pylonmc.rebar.guide.pages.base.SimpleStaticGuidePage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -41,25 +41,25 @@ public class BasePages {
     public static final SimpleStaticGuidePage CREATIVE_ITEMS = new SimpleStaticGuidePage(baseKey("creative_items")) {
         @Override
         public boolean shouldDisplay(@NotNull Player player) {
-            return player.hasPermission("pylon.guide.view_admin_pages");
+            return player.hasPermission("rebar.guide.view_admin_pages");
         }
     };
 
     public static void initialise() {
-        PylonGuide.getRootPage().addPage(BaseItems.LOUPE, SCIENCE);
+        RebarGuide.getRootPage().addPage(BaseItems.LOUPE, SCIENCE);
 
         RESOURCES.addPage(BaseItems.BRONZE_INGOT, METALS);
         RESOURCES.addPage(BaseItems.SHALLOW_CORE_CHUNK, CORE_CHUNKS);
         RESOURCES.addPage(BaseItems.COVALENT_BINDER, MAGIC);
         RESOURCES.addPage(BaseItems.UNFIRED_REFRACTORY_BRICK, MISCELLANEOUS);
-        PylonGuide.getRootPage().addPage(BaseItems.COPPER_DUST, RESOURCES);
+        RebarGuide.getRootPage().addPage(BaseItems.COPPER_DUST, RESOURCES);
 
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_DRILL_BIT, COMPONENTS);
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_PICKAXE, TOOLS);
-        PylonGuide.getRootPage().addPage(BaseItems.BEHEADING_SWORD, COMBAT);
-        PylonGuide.getRootPage().addPage(BaseItems.HEALTH_TALISMAN_SIMPLE, TALISMANS);
-        PylonGuide.getRootPage().addPage(BaseItems.BRONZE_CHESTPLATE, ARMOUR);
-        PylonGuide.getRootPage().addPage(Material.APPLE, FOOD);
+        RebarGuide.getRootPage().addPage(BaseItems.BRONZE_DRILL_BIT, COMPONENTS);
+        RebarGuide.getRootPage().addPage(BaseItems.BRONZE_PICKAXE, TOOLS);
+        RebarGuide.getRootPage().addPage(BaseItems.BEHEADING_SWORD, COMBAT);
+        RebarGuide.getRootPage().addPage(BaseItems.HEALTH_TALISMAN_SIMPLE, TALISMANS);
+        RebarGuide.getRootPage().addPage(BaseItems.BRONZE_CHESTPLATE, ARMOUR);
+        RebarGuide.getRootPage().addPage(Material.APPLE, FOOD);
 
         MACHINES.addPage(BaseItems.PRESS, SIMPLE_MACHINES);
         MACHINES.addPage(BaseItems.SMELTERY_CONTROLLER, SMELTING);
@@ -70,9 +70,9 @@ public class BasePages {
         MACHINES.addPage(BaseItems.CARGO_BUFFER, CARGO);
         MACHINES.addPage(BaseItems.DIESEL_PIPE_BENDER, DIESEL_MACHINES);
         MACHINES.addPage(BaseItems.BIOREFINERY, DIESEL_PRODUCTION);
-        PylonGuide.getRootPage().addPage(BaseItems.MIXING_POT, MACHINES);
+        RebarGuide.getRootPage().addPage(BaseItems.MIXING_POT, MACHINES);
 
-        PylonGuide.getRootPage().addPage(BaseItems.ELEVATOR_1, BUILDING);
-        PylonGuide.getRootPage().addPage(BaseItems.FLUID_PIPE_CREATIVE, CREATIVE_ITEMS);
+        RebarGuide.getRootPage().addPage(BaseItems.ELEVATOR_1, BUILDING);
+        RebarGuide.getRootPage().addPage(BaseItems.FLUID_PIPE_CREATIVE, CREATIVE_ITEMS);
     }
 }

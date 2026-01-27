@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonBlockInteractor;
-import io.github.pylonmc.rebar.item.base.PylonBucket;
-import io.github.pylonmc.rebar.item.base.PylonDispensable;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
+import io.github.pylonmc.rebar.item.base.RebarBucket;
+import io.github.pylonmc.rebar.item.base.RebarDispensable;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class WateringCan extends PylonItem implements PylonBlockInteractor, PylonBucket, PylonDispensable {
+public class WateringCan extends RebarItem implements RebarBlockInteractor, RebarBucket, RebarDispensable {
 
     public final WateringSettings settings = WateringSettings.fromConfig(getSettings());
 
@@ -34,8 +34,8 @@ public class WateringCan extends PylonItem implements PylonBlockInteractor, Pylo
     }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("range", UnitFormat.BLOCKS.format(settings.horizontalRange())));
+        public @NotNull List<RebarArgument> getPlaceholders() {
+            return List.of(RebarArgument.of("range", UnitFormat.BLOCKS.format(settings.horizontalRange())));
         }
 
     @Override

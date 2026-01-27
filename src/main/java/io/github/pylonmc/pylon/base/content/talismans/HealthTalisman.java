@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.talismans;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -30,7 +30,7 @@ public class HealthTalisman extends AttributeTalisman {
     }
 
     @Override
-    public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
-        return List.of(PylonArgument.of("health-boost", UnitFormat.HEARTS.format(attrBonus)));
+    public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
+        return List.of(RebarArgument.of("health-boost", UnitFormat.HEARTS.format(attrBonus)));
     }
 }

@@ -4,17 +4,17 @@ import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
-import io.github.pylonmc.rebar.registry.PylonRegistry;
+import io.github.pylonmc.rebar.registry.RebarRegistry;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.ProgressItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -42,15 +42,15 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CoalFiredPurificationTower extends PylonBlock implements
-        PylonFluidBufferBlock,
-        PylonSimpleMultiblock,
-        PylonDirectionalBlock,
-        PylonProcessor,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonLogisticBlock,
-        PylonTickingBlock {
+public class CoalFiredPurificationTower extends RebarBlock implements
+        RebarFluidBufferBlock,
+        RebarSimpleMultiblock,
+        RebarDirectionalBlock,
+        RebarProcessor,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarLogisticBlock,
+        RebarTickingBlock {
 
     public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
     public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
@@ -58,7 +58,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public static final NamespacedKey FUELS_KEY = baseKey("coal_fired_purification_tower_fuels");
-    public static final PylonRegistry<Fuel> FUELS = new PylonRegistry<>(FUELS_KEY);
+    public static final RebarRegistry<Fuel> FUELS = new RebarRegistry<>(FUELS_KEY);
 
     // TODO display fuels
     public record Fuel(
@@ -73,7 +73,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     }
 
     static {
-        PylonRegistry.addRegistry(FUELS);
+        RebarRegistry.addRegistry(FUELS);
         FUELS.register(new Fuel(
                 baseKey("coal"),
                 new ItemStack(Material.COAL),
@@ -97,13 +97,13 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     }
 
     private final ItemStackBuilder idleProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.idle"));
+            .name(Component.translatable("pylon.item.coal_fired_purification_tower.progress_item.idle"));
     private final ItemStackBuilder runningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("pylon.pylonbase.item.coal_fired_purification_tower.progress_item.running"));
+            .name(Component.translatable("pylon.item.coal_fired_purification_tower.progress_item.running"));
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double purificationSpeed = getSettings().getOrThrow("purification-speed", ConfigAdapter.INT);
         public final double purificationEfficiency = getSettings().getOrThrow("purification-efficiency", ConfigAdapter.DOUBLE);
@@ -114,11 +114,11 @@ public class CoalFiredPurificationTower extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
-                    PylonArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("purification_speed", UnitFormat.MILLIBUCKETS_PER_SECOND.format(purificationSpeed)),
+                    RebarArgument.of("purification_efficiency", UnitFormat.PERCENT.format(purificationEfficiency * 100)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -169,12 +169,12 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     public @NotNull Map<@NotNull Vector3i, @NotNull MultiblockComponent> getComponents() {
         Map<Vector3i, MultiblockComponent> components = new HashMap<>();
 
-        components.put(new Vector3i(0, 1, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 2, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 3, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 4, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 5, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
-        components.put(new Vector3i(0, 6, 0), new PylonMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
+        components.put(new Vector3i(0, 1, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 2, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 3, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 4, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 5, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_GLASS));
+        components.put(new Vector3i(0, 6, 0), new RebarMultiblockComponent(BaseKeys.PURIFICATION_TOWER_CAP));
 
         return components;
     }
@@ -228,13 +228,13 @@ public class CoalFiredPurificationTower extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("input-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         20,
                         TextColor.fromHexString("#48459b")
                 )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("output-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
                         20,
@@ -253,7 +253,7 @@ public class CoalFiredPurificationTower extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidBufferBlock.super.onBreak(drops, context);
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBufferBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
     }
 }

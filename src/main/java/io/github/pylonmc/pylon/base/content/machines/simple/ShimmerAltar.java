@@ -6,11 +6,11 @@ import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.content.building.Pedestal;
 import io.github.pylonmc.pylon.base.recipes.ShimmerAltarRecipe;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonInteractBlock;
-import io.github.pylonmc.rebar.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
+import io.github.pylonmc.rebar.block.base.RebarRecipeProcessor;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
@@ -33,14 +33,14 @@ import org.joml.Vector3i;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class ShimmerAltar extends PylonBlock
-        implements PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonRecipeProcessor<ShimmerAltarRecipe> {
+public class ShimmerAltar extends RebarBlock
+        implements RebarSimpleMultiblock, RebarInteractBlock, RebarTickingBlock, RebarRecipeProcessor<ShimmerAltarRecipe> {
 
     public static final int PEDESTAL_COUNT = 8;
 
     private static final Random random = new Random();
 
-    private static final MultiblockComponent SHIMMER_PEDESTAL_COMPONENT = new PylonSimpleMultiblock.PylonMultiblockComponent(BaseKeys.SHIMMER_PEDESTAL);
+    private static final MultiblockComponent SHIMMER_PEDESTAL_COMPONENT = new RebarSimpleMultiblock.RebarMultiblockComponent(BaseKeys.SHIMMER_PEDESTAL);
 
     private final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 

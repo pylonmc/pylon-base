@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.BaseItems;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.guide.button.FluidButton;
 import io.github.pylonmc.rebar.guide.button.ItemButton;
 import io.github.pylonmc.rebar.recipe.*;
@@ -31,7 +31,7 @@ public record MixingPotRecipe(
         @NotNull RecipeInput.Fluid inputFluid,
         @NotNull FluidOrItem output,
         boolean requiresEnrichedFire
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     @Override
     public @NotNull NamespacedKey getKey() {
@@ -54,7 +54,7 @@ public record MixingPotRecipe(
     public boolean matches(
             List<ItemStack> inputItems,
             boolean isEnrichedFire,
-            PylonFluid fluid,
+            RebarFluid fluid,
             double fluidAmount
     ) {
         if (requiresEnrichedFire && !isEnrichedFire || !this.inputFluid.matches(fluid, fluidAmount)) {

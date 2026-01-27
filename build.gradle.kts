@@ -32,12 +32,12 @@ repositories {
     }
 }
 
-val coreVersion = project.properties["pylon-core.version"] as String
+val rebarVersion = project.properties["rebar.version"] as String
 val minecraftVersion = project.properties["minecraft.version"] as String
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
-    compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
+    compileOnly("io.github.pylonmc:rebar:$rebarVersion")
 
     implementation("org.bstats:bstats-bukkit:2.2.1")
 }
@@ -69,13 +69,13 @@ bukkit {
     main = "io.github.pylonmc.pylon.base.PylonBase"
     version = project.version.toString()
     apiVersion = minecraftVersion
-    depend = listOf("PylonCore")
+    depend = listOf("Rebar")
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 }
 
 tasks.runServer {
     downloadPlugins {
-        github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
+        github("pylonmc", "rebar", rebarVersion, "rebar-$rebarVersion.jar")
     }
     maxHeapSize = "4G"
     minecraftVersion(minecraftVersion)
@@ -94,7 +94,7 @@ publishing {
 
             pom {
                 name = project.name
-                description = "The base addon for Pylon."
+                description = "The base addon for Rebar."
                 url = "https://github.com/pylonmc/pylon-base"
                 licenses {
                     license {

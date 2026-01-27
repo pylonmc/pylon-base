@@ -11,13 +11,13 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -45,19 +45,19 @@ import java.util.Objects;
 
 
 public class DieselMiner extends Miner implements
-        PylonTickingBlock,
-        PylonDirectionalBlock,
-        PylonFluidBufferBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonLogisticBlock {
+        RebarTickingBlock,
+        RebarDirectionalBlock,
+        RebarFluidBufferBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarLogisticBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
     public final int dieselPerBlock = getSettings().getOrThrow("diesel-per-block", ConfigAdapter.INT);
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int radius = getSettings().getOrThrow("radius", ConfigAdapter.INT);
         public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
@@ -69,19 +69,19 @@ public class DieselMiner extends Miner implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             int diameter = 2 * radius + 1;
             return List.of(
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
-                    PylonArgument.of("mining-area", diameter + "x" + diameter + "x" + diameter),
-                    PylonArgument.of("diesel-per-block", UnitFormat.MILLIBUCKETS.format(dieselPerBlock)),
-                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
+                    RebarArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
+                    RebarArgument.of("mining-area", diameter + "x" + diameter + "x" + diameter),
+                    RebarArgument.of("diesel-per-block", UnitFormat.MILLIBUCKETS.format(dieselPerBlock)),
+                    RebarArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer))
             );
         }
     }
 
     public final ItemStackBuilder toolStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":tool")
-            .name(Component.translatable("pylon.pylonbase.gui.tool"));
+            .name(Component.translatable("rebar.gui.tool"));
     public ItemStackBuilder topStack = ItemStackBuilder.of(Material.YELLOW_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":top");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
@@ -152,7 +152,7 @@ public class DieselMiner extends Miner implements
         super.postInitialise();
         createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        outputInventory.setPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
         toolInventory.setPostUpdateHandler(event -> {
             stopProcess();
             updateMiner();
@@ -168,7 +168,7 @@ public class DieselMiner extends Miner implements
         }
 
         progressProcess(tickInterval);
-        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+        Vector smokePosition = Vector.fromJOML(RebarUtils.rotateVectorToFace(
                 new Vector3d(0.4, 0.7, -0.4),
                 getFacing().getOppositeFace()
         ));
@@ -183,7 +183,7 @@ public class DieselMiner extends Miner implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,
@@ -245,19 +245,19 @@ public class DieselMiner extends Miner implements
         ) {
             return null;
         }
-        return (int) Math.round(PylonUtils.getBlockBreakTicks(tool, block) / speed);
+        return (int) Math.round(RebarUtils.getBlockBreakTicks(tool, block) / speed);
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidBufferBlock.super.onFluidAdded(fluid, amount);
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidBufferBlock.super.onFluidAdded(fluid, amount);
         updateMiner();
     }
 
     @Override
     public void onBreak(@NotNull List<ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidBufferBlock.super.onBreak(drops, context);
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBufferBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
     }
 
     @Override

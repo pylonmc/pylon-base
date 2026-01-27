@@ -3,24 +3,24 @@ package io.github.pylonmc.pylon.base.content.machines.fluid;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.base.recipes.StrainingRecipe;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonLogisticBlock;
-import io.github.pylonmc.rebar.block.base.PylonRecipeProcessor;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarRecipeProcessor;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -42,23 +42,23 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class FluidStrainer extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonFluidBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonLogisticBlock,
-        PylonRecipeProcessor<StrainingRecipe> {
+public class FluidStrainer extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarFluidBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarLogisticBlock,
+        RebarRecipeProcessor<StrainingRecipe> {
 
     private static final NamespacedKey FLUID_AMOUNT_KEY = baseKey("fluid_amount");
     private static final NamespacedKey FLUID_TYPE_KEY = baseKey("fluid_type");
 
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
-    public @Nullable PylonFluid fluidType;
+    public @Nullable RebarFluid fluidType;
     public double fluidAmount;
     private final VirtualInventory inventory = new VirtualInventory(9 * 3);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
@@ -67,9 +67,9 @@ public class FluidStrainer extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -92,7 +92,7 @@ public class FluidStrainer extends PylonBlock implements
         super(block, pdc);
 
         fluidType = null;
-        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE);
+        fluidAmount = pdc.get(FLUID_AMOUNT_KEY, RebarSerializers.DOUBLE);
     }
 
     @Override
@@ -102,12 +102,12 @@ public class FluidStrainer extends PylonBlock implements
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, FLUID_TYPE_KEY, PylonSerializers.PYLON_FLUID, fluidType);
-        pdc.set(FLUID_AMOUNT_KEY, PylonSerializers.DOUBLE, fluidAmount);
+        RebarUtils.setNullable(pdc, FLUID_TYPE_KEY, RebarSerializers.REBAR_FLUID, fluidType);
+        pdc.set(FLUID_AMOUNT_KEY, RebarSerializers.DOUBLE, fluidAmount);
     }
 
     @Override
-    public double fluidAmountRequested(@NotNull PylonFluid fluid) {
+    public double fluidAmountRequested(@NotNull RebarFluid fluid) {
         if (getCurrentRecipe() == null) {
             if (StrainingRecipe.getRecipeForFluid(fluid) == null) {
                 return 0.0;
@@ -122,7 +122,7 @@ public class FluidStrainer extends PylonBlock implements
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
         if (!isProcessingRecipe()) {
             StrainingRecipe recipe = StrainingRecipe.getRecipeForFluid(fluid);
             Preconditions.checkState(recipe != null);
@@ -136,14 +136,14 @@ public class FluidStrainer extends PylonBlock implements
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
+    public @NotNull Map<RebarFluid, Double> getSuppliedFluids() {
         return fluidType != null
                 ? Map.of(fluidType, fluidAmount)
                 : Map.of();
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {
         fluidAmount -= amount;
         if (fluidAmount < 1.0e-6) {
             fluidType = null;
@@ -153,17 +153,17 @@ public class FluidStrainer extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("info", getCurrentRecipe() == null
+                RebarArgument.of("info", getCurrentRecipe() == null
                         ? Component.empty()
-                        : Component.translatable("pylon.pylonbase.waila.fluid_strainer.straining",
-                                PylonArgument.of("item", getCurrentRecipe().outputItem().effectiveName()),
-                                PylonArgument.of("bars", BaseUtils.createProgressBar(
+                        : Component.translatable("rebar.waila.fluid_strainer.straining",
+                                RebarArgument.of("item", getCurrentRecipe().outputItem().effectiveName()),
+                                RebarArgument.of("bars", BaseUtils.createProgressBar(
                                         getCurrentRecipe().input().amountMillibuckets() - getRecipeTicksRemaining(),
                                         getCurrentRecipe().input().amountMillibuckets(),
                                         20,
                                         TextColor.color(100, 255, 100)
                                 )),
-                                PylonArgument.of("progress", 100.0 * getRecipeTicksRemaining() / getCurrentRecipe().input().amountMillibuckets())
+                                RebarArgument.of("progress", 100.0 * getRecipeTicksRemaining() / getCurrentRecipe().input().amountMillibuckets())
                         )
                 )
         ));
@@ -190,7 +190,7 @@ public class FluidStrainer extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidBlock.super.onBreak(drops, context);
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
     }
 }

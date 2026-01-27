@@ -1,10 +1,10 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
-import io.github.pylonmc.rebar.block.base.PylonFluidTank;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.block.base.RebarFluidTank;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
 import org.bukkit.entity.ItemDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ import org.joml.Vector3d;
  *
  * `createFluidDisplay` must be called in your constructor.
  */
-public interface FluidTankWithDisplayEntity extends PylonFluidTank {
+public interface FluidTankWithDisplayEntity extends RebarFluidTank {
 
     default void createFluidDisplay() {
         addEntity("fluid", new ItemDisplayBuilder()
@@ -31,15 +31,15 @@ public interface FluidTankWithDisplayEntity extends PylonFluidTank {
     }
 
     @Override
-    default void setFluidType(@Nullable PylonFluid fluid) {
-        PylonFluidTank.super.setFluidType(fluid);
+    default void setFluidType(@Nullable RebarFluid fluid) {
+        RebarFluidTank.super.setFluidType(fluid);
         getFluidDisplay().setItemStack(fluid == null ? null : fluid.getItem());
     }
 
     @Override
     default boolean setFluid(double amount) {
         double oldAmount = getFluidAmount();
-        boolean wasFluidSet = PylonFluidTank.super.setFluid(amount);
+        boolean wasFluidSet = RebarFluidTank.super.setFluid(amount);
         if (!wasFluidSet || Math.abs(oldAmount - amount) < 1.0e-6) {
             return false;
         }
@@ -51,7 +51,7 @@ public interface FluidTankWithDisplayEntity extends PylonFluidTank {
         float proportion = (float) (amount / getFluidCapacity());
 
         fluidDisplay.setInterpolationDelay(0);
-        fluidDisplay.setInterpolationDuration(PylonConfig.FLUID_TICK_INTERVAL);
+        fluidDisplay.setInterpolationDuration(RebarConfig.FLUID_TICK_INTERVAL);
         fluidDisplay.setTransformationMatrix(new TransformBuilder()
                 .translate(translation.x, translation.y + scale.y * proportion / 2, translation.z)
                 .scale(scale.x, scale.y * proportion, scale.z)

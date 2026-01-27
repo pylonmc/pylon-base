@@ -27,12 +27,12 @@ jobs:
         run: |
           prefixrm=$(echo "${{github.event.pull_request.title}}" | cut -c6-)
           BRANCHNAME=$(echo "$prefixrm" | cut -d']' -f1)
-          git clone https://github.com/pylonmc/pylon-core
-          cd pylon-core
+          git clone https://github.com/pylonmc/rebar
+          cd rebar
           git fetch --all
           echo "CORECOMMIT=$(git rev-parse $(echo "$BRANCHNAME"))" >> $GITHUB_ENV
           cd ..
-          rm -rf pylon-core
+          rm -rf rebar
 
       - name: Parse [commit title
         id: parsecommit
@@ -44,12 +44,12 @@ jobs:
       - name: Get latest commit of core master
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
         run: |
-          git clone https://github.com/pylonmc/pylon-core
-          cd pylon-core
+          git clone https://github.com/pylonmc/rebar
+          cd rebar
           git fetch --all
           echo "CORECOMMIT=$(git rev-parse master)" >> $GITHUB_ENV
           cd ..
-          rm -rf pylon-core
+          rm -rf rebar
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4.6.0
@@ -65,7 +65,7 @@ jobs:
           git clone https://github.com/pylonmc/pylon
           cd pylon
           ./gradlew
-          cd pylon-core
+          cd rebar
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
           cd ../pylon-base

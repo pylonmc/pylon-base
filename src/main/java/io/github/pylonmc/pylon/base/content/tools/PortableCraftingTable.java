@@ -1,14 +1,14 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MenuType;
 import org.jetbrains.annotations.NotNull;
 
 
-public class PortableCraftingTable extends PylonItem implements PylonInteractor {
+public class PortableCraftingTable extends RebarItem implements RebarInteractor {
 
     public PortableCraftingTable(@NotNull ItemStack stack) {
         super(stack);

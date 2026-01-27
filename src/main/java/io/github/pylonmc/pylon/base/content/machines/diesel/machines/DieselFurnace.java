@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.diesel.machines;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
@@ -11,14 +11,14 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.recipe.vanilla.FurnaceRecipeType;
 import io.github.pylonmc.rebar.recipe.vanilla.FurnaceRecipeWrapper;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.ProgressItem;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
@@ -44,15 +44,15 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DieselFurnace extends PylonBlock implements
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonFluidBufferBlock,
-        PylonDirectionalBlock,
-        PylonTickingBlock,
-        PylonLogisticBlock,
-        PylonFurnace,
-        PylonRecipeProcessor<FurnaceRecipeWrapper> {
+public class DieselFurnace extends RebarBlock implements
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarFluidBufferBlock,
+        RebarDirectionalBlock,
+        RebarTickingBlock,
+        RebarLogisticBlock,
+        RebarFurnace,
+        RebarRecipeProcessor<FurnaceRecipeWrapper> {
 
     public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
     public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
@@ -70,7 +70,7 @@ public class DieselFurnace extends PylonBlock implements
     private final VirtualInventory inputInventory = new VirtualInventory(1);
     private final VirtualInventory outputInventory = new VirtualInventory(1);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double dieselPerSecond = getSettings().getOrThrow("diesel-per-second", ConfigAdapter.DOUBLE);
         public final double dieselBuffer = getSettings().getOrThrow("diesel-buffer", ConfigAdapter.DOUBLE);
@@ -81,11 +81,11 @@ public class DieselFurnace extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
-                    PylonArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100))
+                    RebarArgument.of("diesel-usage", UnitFormat.MILLIBUCKETS_PER_SECOND.format(dieselPerSecond)),
+                    RebarArgument.of("diesel-buffer", UnitFormat.MILLIBUCKETS.format(dieselBuffer)),
+                    RebarArgument.of("speed", UnitFormat.PERCENT.format(speed * 100))
             );
         }
     }
@@ -134,7 +134,7 @@ public class DieselFurnace extends PylonBlock implements
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(PylonUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        outputInventory.setPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
         outputInventory.setPostUpdateHandler(event -> tryStartRecipe());
         inputInventory.setPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
@@ -145,8 +145,8 @@ public class DieselFurnace extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
-        PylonFluidBufferBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBufferBlock.super.onBreak(drops, context);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class DieselFurnace extends PylonBlock implements
         }
 
         removeFluid(BaseFluids.BIODIESEL, dieselPerSecond * tickInterval / 20);
-        Vector smokePosition = Vector.fromJOML(PylonUtils.rotateVectorToFace(
+        Vector smokePosition = Vector.fromJOML(RebarUtils.rotateVectorToFace(
                 new Vector3d(0.4, 0.7, -0.4),
                 getFacing().getOppositeFace()
         ));
@@ -211,7 +211,7 @@ public class DieselFurnace extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.BIODIESEL),
                         fluidCapacity(BaseFluids.BIODIESEL),
                         20,

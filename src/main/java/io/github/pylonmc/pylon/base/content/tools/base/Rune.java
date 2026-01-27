@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.base.content.tools.base;
 
 import io.github.pylonmc.pylon.base.BaseConfig;
 import io.github.pylonmc.pylon.base.PylonBase;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
@@ -19,14 +19,14 @@ import java.util.List;
 /**
  * @author balugaq
  */
-public abstract class Rune extends PylonItem {
+public abstract class Rune extends RebarItem {
     // These can be applied with runes
     public static final List<Class<?>> DEFAULT_APPLICABLES = List.of(
-            PylonArrow.class,
-            PylonBow.class,
-            PylonBucket.class,
-            PylonTool.class,
-            PylonWeapon.class
+            RebarArrow.class,
+            RebarBow.class,
+            RebarBucket.class,
+            RebarTool.class,
+            RebarWeapon.class
     );
 
     public Rune(@NotNull ItemStack stack) {
@@ -42,9 +42,9 @@ public abstract class Rune extends PylonItem {
      * @return true if applicable, false otherwise
      */
     public boolean isApplicableToTarget(@NotNull PlayerDropItemEvent event, @NotNull ItemStack rune, @NotNull ItemStack target) {
-        PylonItem instance = PylonItem.fromStack(target);
+        RebarItem instance = RebarItem.fromStack(target);
         if (instance == null) {
-            // Non-Pylon items are always applicable
+            // Non-Rebar items are always applicable
             return true;
         }
 
@@ -70,7 +70,7 @@ public abstract class Rune extends PylonItem {
             Player player = event.getPlayer();
             Item runeEntity = event.getItemDrop();
             ItemStack runeStack = runeEntity.getItemStack();
-            PylonItem runeInstance = PylonItem.fromStack(runeStack);
+            RebarItem runeInstance = RebarItem.fromStack(runeStack);
             if (!(runeInstance instanceof Rune rune)) {
                 return;
             }

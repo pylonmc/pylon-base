@@ -1,18 +1,18 @@
 package io.github.pylonmc.pylon.base.content.machines.fluid;
 
 import io.github.pylonmc.pylon.base.content.machines.fluid.gui.FluidSelector;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -31,14 +31,14 @@ import java.util.Map;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public class CreativeFluidSource extends PylonBlock implements
-        PylonFluidBlock,
-        PylonDirectionalBlock,
-        PylonGuiBlock {
+public class CreativeFluidSource extends RebarBlock implements
+        RebarFluidBlock,
+        RebarDirectionalBlock,
+        RebarGuiBlock {
 
     public static final NamespacedKey FLUID_KEY = baseKey("fluid");
 
-    @Nullable public PylonFluid fluid;
+    @Nullable public RebarFluid fluid;
 
     @SuppressWarnings("unused")
     public CreativeFluidSource(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -75,21 +75,21 @@ public class CreativeFluidSource extends PylonBlock implements
     @SuppressWarnings("unused")
     public CreativeFluidSource(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        fluid = pdc.get(FLUID_KEY, PylonSerializers.PYLON_FLUID);
+        fluid = pdc.get(FLUID_KEY, RebarSerializers.REBAR_FLUID);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        PylonUtils.setNullable(pdc, FLUID_KEY, PylonSerializers.PYLON_FLUID, fluid);
+        RebarUtils.setNullable(pdc, FLUID_KEY, RebarSerializers.REBAR_FLUID, fluid);
     }
 
     @Override
-    public @NotNull Map<PylonFluid, Double> getSuppliedFluids() {
+    public @NotNull Map<RebarFluid, Double> getSuppliedFluids() {
         return fluid == null ? Map.of() : Map.of(fluid, 1.0e9);
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {}
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {}
 
     @Override
     public @NotNull Gui createGui() {
@@ -105,8 +105,8 @@ public class CreativeFluidSource extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("fluid", fluid == null
-                        ? Component.translatable("pylon.pylonbase.fluid.none")
+                RebarArgument.of("fluid", fluid == null
+                        ? Component.translatable("pylon.fluid.none")
                         : fluid.getName()
                 )
         ));

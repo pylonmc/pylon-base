@@ -1,21 +1,21 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.config.PylonConfig;
+import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.TextDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VirtualInventoryLogisticSlot;
@@ -49,12 +49,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CargoMeter extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock,
-        PylonTickingBlock {
+public class CargoMeter extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock,
+        RebarTickingBlock {
 
     public static final NamespacedKey MEASUREMENTS_KEY = BaseUtils.baseKey("measurements");
     public static final NamespacedKey NUMBER_OF_MEASUREMENTS_KEY = BaseUtils.baseKey("number_of_measurements");
@@ -82,7 +82,7 @@ public class CargoMeter extends PylonBlock implements
     public final ItemStackBuilder projectorStack = ItemStackBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS)
             .addCustomModelDataString(getKey() + ":projector");
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
         public final int minNumberOfMeasurements = getSettings().getOrThrow("min-number-of-measurements", ConfigAdapter.INT);
@@ -93,17 +93,17 @@ public class CargoMeter extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     ),
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "min-measurement-time",
                             UnitFormat.formatDuration(getDuration(minNumberOfMeasurements), true, true)
                     ),
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "max-measurement-time",
                             UnitFormat.formatDuration(getDuration(maxNumberOfMeasurements), true, true)
                     )
@@ -116,7 +116,7 @@ public class CargoMeter extends PylonBlock implements
         super(block, context);
 
         setFacing(context.getFacing());
-        setTickInterval(PylonConfig.CARGO_TICK_INTERVAL);
+        setTickInterval(RebarConfig.CARGO_TICK_INTERVAL);
 
         addCargoLogisticGroup(getFacing(), "input");
         addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
@@ -215,14 +215,14 @@ public class CargoMeter extends PylonBlock implements
 
         setDisableBlockTextureEntity(true);
 
-        measurements = new ArrayList<>(pdc.get(MEASUREMENTS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.INTEGER)));
-        numberOfMeasurements = pdc.get(NUMBER_OF_MEASUREMENTS_KEY, PylonSerializers.INTEGER);
+        measurements = new ArrayList<>(pdc.get(MEASUREMENTS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.INTEGER)));
+        numberOfMeasurements = pdc.get(NUMBER_OF_MEASUREMENTS_KEY, RebarSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(MEASUREMENTS_KEY, PylonSerializers.LIST.listTypeFrom(PylonSerializers.INTEGER), measurements);
-        pdc.set(NUMBER_OF_MEASUREMENTS_KEY, PylonSerializers.INTEGER, numberOfMeasurements);
+        pdc.set(MEASUREMENTS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.INTEGER), measurements);
+        pdc.set(NUMBER_OF_MEASUREMENTS_KEY, RebarSerializers.INTEGER, numberOfMeasurements);
     }
 
     @Override
@@ -272,7 +272,7 @@ public class CargoMeter extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
+                RebarArgument.of("duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
         ));
     }
 
@@ -282,7 +282,7 @@ public class CargoMeter extends PylonBlock implements
     }
 
     public static Duration getDuration(int numberOfMeasurements) {
-        return Duration.ofMillis((long) numberOfMeasurements * PylonConfig.CARGO_TICK_INTERVAL * 50);
+        return Duration.ofMillis((long) numberOfMeasurements * RebarConfig.CARGO_TICK_INTERVAL * 50);
     }
 
     public class MeasurementDurationItem extends AbstractItem {
@@ -290,10 +290,10 @@ public class CargoMeter extends PylonBlock implements
         @Override
         public ItemProvider getItemProvider() {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
-                    .name(Component.translatable("pylon.pylonbase.gui.fluid_meter.name").arguments(
-                            PylonArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
+                    .name(Component.translatable("rebar.gui.fluid_meter.name").arguments(
+                            RebarArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
                     ))
-                    .lore(Component.translatable("pylon.pylonbase.gui.fluid_meter.lore"));
+                    .lore(Component.translatable("rebar.gui.fluid_meter.lore"));
         }
 
         @Override

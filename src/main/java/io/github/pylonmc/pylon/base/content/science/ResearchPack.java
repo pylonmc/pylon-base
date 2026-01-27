@@ -1,9 +1,9 @@
 package io.github.pylonmc.pylon.base.content.science;
 
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import io.github.pylonmc.rebar.item.research.Research;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class ResearchPack extends PylonItem implements PylonInteractor {
+public class ResearchPack extends RebarItem implements RebarInteractor {
 
     public final int points = getSettings().getOrThrow("points", ConfigAdapter.INT);
     public final int cooldownTicks = getSettings().getOrThrow("cooldown-ticks", ConfigAdapter.INT);
@@ -35,16 +35,16 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
 
         int happeningNum = ThreadLocalRandom.current().nextInt(4);
         Component happening = Component.translatable(
-                "pylon.pylonbase.message.research_pack.happening." + happeningNum
+                "rebar.message.research_pack.happening." + happeningNum
         );
         player.sendMessage(Component.translatable(
-                "pylon.pylonbase.message.research_pack.message",
-                PylonArgument.of("happening", happening)
+                "rebar.message.research_pack.message",
+                RebarArgument.of("happening", happening)
         ));
         player.sendMessage(Component.translatable(
-                "pylon.pylonbase.message.gained_research_points",
-                PylonArgument.of("points", points),
-                PylonArgument.of("total", Research.getResearchPoints(player))
+                "rebar.message.gained_research_points",
+                RebarArgument.of("points", points),
+                RebarArgument.of("total", Research.getResearchPoints(player))
         ));
 
         event.getPlayer().setCooldown(getStack(), cooldownTicks);
@@ -52,10 +52,10 @@ public class ResearchPack extends PylonItem implements PylonInteractor {
     }
 
     @Override
-    public @NotNull List<PylonArgument> getPlaceholders() {
+    public @NotNull List<RebarArgument> getPlaceholders() {
         return List.of(
-                PylonArgument.of("points", UnitFormat.RESEARCH_POINTS.format(points)),
-                PylonArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0))
+                RebarArgument.of("points", UnitFormat.RESEARCH_POINTS.format(points)),
+                RebarArgument.of("cooldown", UnitFormat.SECONDS.format(cooldownTicks / 20.0))
         );
     }
 }

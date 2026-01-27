@@ -10,11 +10,11 @@ import io.github.pylonmc.rebar.config.Config;
 import io.github.pylonmc.rebar.config.ConfigSection;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonConsumable;
-import io.github.pylonmc.rebar.item.base.PylonInteractor;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarConsumable;
+import io.github.pylonmc.rebar.item.base.RebarInteractor;
 import io.github.pylonmc.rebar.item.research.Research;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.registry.RegistryKey;
@@ -64,21 +64,21 @@ import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
 @SuppressWarnings("UnstableApiUsage")
-public final class Loupe extends PylonItem implements PylonInteractor, PylonConsumable {
+public final class Loupe extends RebarItem implements RebarInteractor, RebarConsumable {
 
     public static final NamespacedKey CONSUMED_KEY = baseKey("consumed");
     public static final PersistentDataType<PersistentDataContainer, Map<NamespacedKey, Integer>> CONSUMED_TYPE =
-            PylonSerializers.MAP.mapTypeFrom(
-                    PylonSerializers.NAMESPACED_KEY,
-                    PylonSerializers.INTEGER
+            RebarSerializers.MAP.mapTypeFrom(
+                    RebarSerializers.NAMESPACED_KEY,
+                    RebarSerializers.INTEGER
             );
 
     public static final NamespacedKey EXAMINED_KEY = baseKey("examined");
     public static final ListPersistentDataType<long[], UUID> EXAMINED_TYPE =
-            PylonSerializers.LIST.listTypeFrom(PylonSerializers.UUID);
+            RebarSerializers.LIST.listTypeFrom(RebarSerializers.UUID);
     public static final PersistentDataType<PersistentDataContainer, Map<Long, List<UUID>>> CHUNK_EXAMINED_TYPE =
-            PylonSerializers.MAP.mapTypeFrom(
-                    PylonSerializers.LONG,
+            RebarSerializers.MAP.mapTypeFrom(
+                    RebarSerializers.LONG,
                     EXAMINED_TYPE
             );
 
@@ -181,7 +181,7 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
             SCANNING.put(player.getUniqueId(), scan);
         } else if (scan.getHitEntity() instanceof Item hit) {
             ItemStack stack = hit.getItemStack();
-            if (PylonItem.fromStack(stack) != null) {
+            if (RebarItem.fromStack(stack) != null) {
                 player.sendActionBar(message("is_pylon"));
             } else if (!stack.getPersistentDataContainer().isEmpty()) {
                 player.sendActionBar(message("is_other_plugin"));
@@ -189,7 +189,7 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
                 player.sendActionBar(message("max_uses"));
             } else {
                 player.playSound(Sound.sound(SoundEventKeys.BLOCK_BELL_RESONATE, Sound.Source.PLAYER, 1f, 0.7f));
-                player.sendActionBar(message("examining", PylonArgument.of("object", stack.effectiveName())));
+                player.sendActionBar(message("examining", RebarArgument.of("object", stack.effectiveName())));
                 SCANNING.put(player.getUniqueId(), scan);
             }
         } else if (scan.getHitEntity() instanceof LivingEntity entity) {
@@ -197,7 +197,7 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
                 return;
             }
 
-            PylonArgument entityArg = PylonArgument.of("object", Component.translatable(entity.getType().translationKey()));
+            RebarArgument entityArg = RebarArgument.of("object", Component.translatable(entity.getType().translationKey()));
             if (entity instanceof Player) {
                 player.sendActionBar(message("is_player"));
             } else if (alreadyExamined(player, entity)) {
@@ -219,10 +219,10 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
             } else if (!hasUses(player, type)) {
                 player.sendActionBar(message("max_uses"));
             } else if (alreadyExamined(player, hit)) {
-                player.sendActionBar(message("already_examined", PylonArgument.of("object", Component.translatable(type))));
+                player.sendActionBar(message("already_examined", RebarArgument.of("object", Component.translatable(type))));
             } else {
                 player.playSound(Sound.sound(SoundEventKeys.BLOCK_BELL_RESONATE, Sound.Source.PLAYER, 1f, 0.7f));
-                player.sendActionBar(message("examining", PylonArgument.of("object", Component.translatable(type))));
+                player.sendActionBar(message("examining", RebarArgument.of("object", Component.translatable(type))));
                 SCANNING.put(player.getUniqueId(), scan);
             }
         }
@@ -254,14 +254,14 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
         } else if (scan.getHitEntity() instanceof Item hit) {
             ItemStack stack = hit.getItemStack();
             Material type = stack.getType();
-            if (PylonItem.fromStack(stack) != null || !stack.getPersistentDataContainer().isEmpty() || !hasUses(player, type)) {
-                player.sendMessage(message("examine_failed", PylonArgument.of("object", stack.effectiveName())));
+            if (RebarItem.fromStack(stack) != null || !stack.getPersistentDataContainer().isEmpty() || !hasUses(player, type)) {
+                player.sendMessage(message("examine_failed", RebarArgument.of("object", stack.effectiveName())));
                 return;
             }
 
             PlayerAttemptPickupItemEvent pickupEvent = new PlayerAttemptPickupItemEvent(player, hit, stack.getAmount() - 1);
             if (!pickupEvent.callEvent()) {
-                player.sendMessage(message("examine_failed", PylonArgument.of("object", stack.effectiveName())));
+                player.sendMessage(message("examine_failed", RebarArgument.of("object", stack.effectiveName())));
                 return;
             }
 
@@ -276,7 +276,7 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
             addEntry(player, stack.effectiveName(), type.getKey(), getEntryConfig(type));
             //player.setCooldown(getStack(), cooldownTicks);
         } else if (scan.getHitEntity() instanceof LivingEntity entity) {
-            PylonArgument entityArg = PylonArgument.of("object", Component.translatable(entity.getType().translationKey()));
+            RebarArgument entityArg = RebarArgument.of("object", Component.translatable(entity.getType().translationKey()));
             if (!player.canSee(entity) || entity.isInvisible() || entity.hasPotionEffect(PotionEffectType.INVISIBILITY) || entity instanceof Player || alreadyExamined(player, entity) || !hasUses(player, entity.getType())
                     || (!entity.getPersistentDataContainer().isEmpty() && (!entity.getPersistentDataContainer().has(EXAMINED_KEY) || entity.getPersistentDataContainer().getKeys().size() > 1))) {
                 player.sendMessage(message("examine_failed", entityArg));
@@ -290,7 +290,7 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
             Block hit = scan.getHitBlock();
             Material type = hit.getType();
             if (BlockStorage.get(hit) != null || !hasUses(player, type)) {
-                player.sendMessage(message("examine_failed", PylonArgument.of("object", Component.translatable(type))));
+                player.sendMessage(message("examine_failed", RebarArgument.of("object", Component.translatable(type))));
                 return;
             }
 
@@ -300,7 +300,7 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
                 breakEvent.setDropItems(false);
                 breakEvent.setExpToDrop(0);
                 if (!breakEvent.callEvent()) {
-                    player.sendMessage(message("examine_failed", PylonArgument.of("object", Component.translatable(type))));
+                    player.sendMessage(message("examine_failed", RebarArgument.of("object", Component.translatable(type))));
                     return;
                 }
 
@@ -316,8 +316,8 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
         }
     }
 
-    private Component message(String key, PylonArgument... arguments) {
-        return Component.translatable("pylon.pylonbase.message.loupe." + key, arguments);
+    private Component message(String key, RebarArgument... arguments) {
+        return Component.translatable("rebar.message.loupe." + key, arguments);
     }
 
     private static long localChunkPosition(Block block) {
@@ -386,13 +386,13 @@ public final class Loupe extends PylonItem implements PylonInteractor, PylonCons
         Research.setResearchPoints(player, totalPoints);
 
         player.sendMessage(Component.translatable(
-                "pylon.pylonbase.message.loupe.examined",
-                PylonArgument.of("object", name)
+                "rebar.message.loupe.examined",
+                RebarArgument.of("object", name)
         ));
         player.sendMessage(Component.translatable(
-                "pylon.pylonbase.message.gained_research_points",
-                PylonArgument.of("points", config.points),
-                PylonArgument.of("total", totalPoints)
+                "rebar.message.gained_research_points",
+                RebarArgument.of("points", config.points),
+                RebarArgument.of("total", totalPoints)
         ));
     }
 

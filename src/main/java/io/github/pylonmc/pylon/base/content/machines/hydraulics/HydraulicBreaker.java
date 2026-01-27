@@ -3,7 +3,7 @@ package io.github.pylonmc.pylon.base.content.machines.hydraulics;
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.pylon.base.BaseFluids;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
@@ -11,13 +11,13 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.util.position.ChunkPosition;
@@ -47,22 +47,22 @@ import java.util.Objects;
 import java.util.Set;
 
 
-public class HydraulicBreaker extends PylonBlock implements
-        PylonFluidBufferBlock,
-        PylonDirectionalBlock,
-        PylonTickingBlock,
-        PylonMultiblock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonLogisticBlock,
-        PylonProcessor {
+public class HydraulicBreaker extends RebarBlock implements
+        RebarFluidBufferBlock,
+        RebarDirectionalBlock,
+        RebarTickingBlock,
+        RebarMultiblock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarLogisticBlock,
+        RebarProcessor {
 
     public final double hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.DOUBLE);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double speed = getSettings().getOrThrow("speed", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double hydraulicFluidPerBlock = getSettings().getOrThrow("hydraulic-fluid-per-block", ConfigAdapter.DOUBLE);
         public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
@@ -73,11 +73,11 @@ public class HydraulicBreaker extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
-                    PylonArgument.of("hydraulic-fluid-per-block", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerBlock)),
-                    PylonArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
+                    RebarArgument.of("speed", UnitFormat.PERCENT.format(speed * 100.0)),
+                    RebarArgument.of("hydraulic-fluid-per-block", UnitFormat.MILLIBUCKETS.format(hydraulicFluidPerBlock)),
+                    RebarArgument.of("buffer", UnitFormat.MILLIBUCKETS.format(buffer))
             );
         }
     }
@@ -198,7 +198,7 @@ public class HydraulicBreaker extends PylonBlock implements
             return;
         }
 
-        startProcess((int) Math.round(PylonUtils.getBlockBreakTicks(tool, toDrill) / speed));
+        startProcess((int) Math.round(RebarUtils.getBlockBreakTicks(tool, toDrill) / speed));
     }
 
     @Override
@@ -247,27 +247,27 @@ public class HydraulicBreaker extends PylonBlock implements
     }
 
     @Override
-    public void onFluidAdded(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidBufferBlock.super.onFluidAdded(fluid, amount);
+    public void onFluidAdded(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidBufferBlock.super.onFluidAdded(fluid, amount);
         tryStartDrilling();
     }
 
     @Override
-    public void onFluidRemoved(@NotNull PylonFluid fluid, double amount) {
-        PylonFluidBufferBlock.super.onFluidRemoved(fluid, amount);
+    public void onFluidRemoved(@NotNull RebarFluid fluid, double amount) {
+        RebarFluidBufferBlock.super.onFluidRemoved(fluid, amount);
         tryStartDrilling();
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("input-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("input-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.HYDRAULIC_FLUID),
                         20,
                         TextColor.fromHexString("#212d99")
                 )),
-                PylonArgument.of("output-bar", BaseUtils.createFluidAmountBar(
+                RebarArgument.of("output-bar", BaseUtils.createFluidAmountBar(
                         fluidAmount(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         fluidCapacity(BaseFluids.DIRTY_HYDRAULIC_FLUID),
                         20,
@@ -278,8 +278,8 @@ public class HydraulicBreaker extends PylonBlock implements
 
     @Override
     public void onBreak(@NotNull List<@NotNull ItemStack> drops, @NotNull BlockBreakContext context) {
-        PylonFluidBufferBlock.super.onBreak(drops, context);
-        PylonVirtualInventoryBlock.super.onBreak(drops, context);
+        RebarFluidBufferBlock.super.onBreak(drops, context);
+        RebarVirtualInventoryBlock.super.onBreak(drops, context);
     }
 
     @Override

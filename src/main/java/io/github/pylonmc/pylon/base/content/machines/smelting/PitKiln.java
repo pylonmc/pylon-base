@@ -2,17 +2,17 @@ package io.github.pylonmc.pylon.base.content.machines.smelting;
 
 import io.github.pylonmc.pylon.base.BaseKeys;
 import io.github.pylonmc.pylon.base.recipes.PitKilnRecipe;
-import io.github.pylonmc.rebar.block.PylonBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.recipe.RecipeInput;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.util.position.BlockPosition;
 import io.github.pylonmc.rebar.waila.Waila;
@@ -37,8 +37,8 @@ import java.util.*;
 
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
-public final class PitKiln extends PylonBlock implements
-        PylonSimpleMultiblock, PylonInteractBlock, PylonTickingBlock, PylonBreakHandler, PylonVanillaContainerBlock {
+public final class PitKiln extends RebarBlock implements
+        RebarSimpleMultiblock, RebarInteractBlock, RebarTickingBlock, RebarBreakHandler, RebarVanillaContainerBlock {
 
     public static final int CAPACITY = Settings.get(BaseKeys.PIT_KILN).getOrThrow("capacity", ConfigAdapter.INT);
     public static final int PROCESSING_TIME_SECONDS =
@@ -52,30 +52,30 @@ public final class PitKiln extends PylonBlock implements
     private static final double MULTIPLIER_DIRT = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.coarse-dirt", ConfigAdapter.DOUBLE);
     private static final double MULTIPLIER_PODZOL = Settings.get(BaseKeys.PIT_KILN).getOrThrow("item-multipliers.podzol", ConfigAdapter.DOUBLE);
 
-    public static final class Item extends PylonItem {
+    public static final class Item extends RebarItem {
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("capacity", CAPACITY),
-                    PylonArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS), false)),
-                    PylonArgument.of("campfire", MULTIPLIER_CAMPFIRE),
-                    PylonArgument.of("soul_campfire", MULTIPLIER_SOUL_CAMPFIRE),
-                    PylonArgument.of("fire", MULTIPLIER_FIRE),
-                    PylonArgument.of("soul_fire", MULTIPLIER_SOUL_FIRE),
-                    PylonArgument.of("coarse_dirt", MULTIPLIER_DIRT),
-                    PylonArgument.of("podzol", MULTIPLIER_PODZOL)
+                    RebarArgument.of("capacity", CAPACITY),
+                    RebarArgument.of("smelting_time", UnitFormat.formatDuration(Duration.ofSeconds(PROCESSING_TIME_SECONDS), false)),
+                    RebarArgument.of("campfire", MULTIPLIER_CAMPFIRE),
+                    RebarArgument.of("soul_campfire", MULTIPLIER_SOUL_CAMPFIRE),
+                    RebarArgument.of("fire", MULTIPLIER_FIRE),
+                    RebarArgument.of("soul_fire", MULTIPLIER_SOUL_FIRE),
+                    RebarArgument.of("coarse_dirt", MULTIPLIER_DIRT),
+                    RebarArgument.of("podzol", MULTIPLIER_PODZOL)
             );
         }
     }
 
     private static final NamespacedKey CONTENTS_KEY = baseKey("contents");
     private static final PersistentDataType<?, Set<ItemStack>> CONTENTS_TYPE =
-            PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK);
+            RebarSerializers.SET.setTypeFrom(RebarSerializers.ITEM_STACK);
     private static final NamespacedKey PROCESSING_KEY = baseKey("processing");
     private static final NamespacedKey PROCESSING_TIME_KEY = baseKey("processing_time");
 
@@ -95,15 +95,15 @@ public final class PitKiln extends PylonBlock implements
     public PitKiln(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         contents = pdc.get(CONTENTS_KEY, CONTENTS_TYPE);
-        processing = pdc.get(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK));
-        processingTime = pdc.get(PROCESSING_TIME_KEY, PylonSerializers.DOUBLE);
+        processing = pdc.get(PROCESSING_KEY, RebarSerializers.SET.setTypeFrom(RebarSerializers.ITEM_STACK));
+        processingTime = pdc.get(PROCESSING_TIME_KEY, RebarSerializers.DOUBLE);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         pdc.set(CONTENTS_KEY, CONTENTS_TYPE, contents);
-        pdc.set(PROCESSING_KEY, PylonSerializers.SET.setTypeFrom(PylonSerializers.ITEM_STACK), processing);
-        PylonUtils.setNullable(pdc, PROCESSING_TIME_KEY, PylonSerializers.DOUBLE, processingTime);
+        pdc.set(PROCESSING_KEY, RebarSerializers.SET.setTypeFrom(RebarSerializers.ITEM_STACK), processing);
+        RebarUtils.setNullable(pdc, PROCESSING_TIME_KEY, RebarSerializers.DOUBLE, processingTime);
     }
 
     @Override
@@ -212,22 +212,22 @@ public final class PitKiln extends PylonBlock implements
     private WailaDisplay getComponentWaila(@NotNull Player player) {
         Component status = processingTime != null
                 ? Component.translatable(
-                        "pylon.pylonbase.waila.pit_kiln.smelting",
-                        PylonArgument.of(
+                        "rebar.waila.pit_kiln.smelting",
+                        RebarArgument.of(
                                 "time",
                                 UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()), false)
                         )
                 )
-                : Component.translatable("pylon.pylonbase.waila.pit_kiln.invalid_recipe");
+                : Component.translatable("rebar.waila.pit_kiln.invalid_recipe");
         return new WailaDisplay(Component.translatable(
-                "pylon.pylonbase.item.pit_kiln.waila",
-                PylonArgument.of("info", status)
+                "pylon.item.pit_kiln.waila",
+                RebarArgument.of("info", status)
         ));
     }
 
     @Override
     public void onMultiblockFormed() {
-        PylonSimpleMultiblock.super.onMultiblockFormed();
+        RebarSimpleMultiblock.super.onMultiblockFormed();
         for (Vector3i relative : getComponents().keySet()) {
             BlockPosition block = new BlockPosition(getBlock()).addScalar(relative.x(), relative.y(), relative.z());
             Waila.addWailaOverride(block, this::getComponentWaila);
@@ -236,7 +236,7 @@ public final class PitKiln extends PylonBlock implements
 
     @Override
     public void onMultiblockUnformed(boolean partUnloaded) {
-        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
+        RebarSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
         removeWailas();
     }
 
@@ -340,7 +340,7 @@ public final class PitKiln extends PylonBlock implements
         for (Vector3i coalPosition : COAL_POSITIONS) {
             components.put(coalPosition, new MixedMultiblockComponent(
                     new VanillaMultiblockComponent(Material.COAL_BLOCK),
-                    new PylonMultiblockComponent(BaseKeys.CHARCOAL_BLOCK)
+                    new RebarMultiblockComponent(BaseKeys.CHARCOAL_BLOCK)
                 )
             );
         }

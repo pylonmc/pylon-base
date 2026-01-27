@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonConsumable;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarConsumable;
 import io.github.pylonmc.rebar.particles.ConfettiParticle;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class ConfettiPopper extends PylonItem implements PylonConsumable {
+public class ConfettiPopper extends RebarItem implements RebarConsumable {
     private static final Random RANDOM = new Random();
 
     public final double length = getSettings().getOrThrow("length", ConfigAdapter.DOUBLE);

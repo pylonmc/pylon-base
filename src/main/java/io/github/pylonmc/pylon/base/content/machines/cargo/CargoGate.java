@@ -1,23 +1,23 @@
 package io.github.pylonmc.pylon.base.content.machines.cargo;
 
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonGuiBlock;
-import io.github.pylonmc.rebar.block.base.PylonVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.datatypes.PylonSerializers;
+import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.entity.display.BlockDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
 import io.github.pylonmc.rebar.logistics.slot.VirtualInventoryLogisticSlot;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -45,11 +45,11 @@ import java.util.Map;
 import static io.github.pylonmc.pylon.base.util.BaseUtils.baseKey;
 
 
-public class CargoGate extends PylonBlock implements
-        PylonDirectionalBlock,
-        PylonGuiBlock,
-        PylonVirtualInventoryBlock,
-        PylonCargoBlock {
+public class CargoGate extends RebarBlock implements
+        RebarDirectionalBlock,
+        RebarGuiBlock,
+        RebarVirtualInventoryBlock,
+        RebarCargoBlock {
 
     public static final NamespacedKey THRESHOLD_KEY = baseKey("threshold");
     public static final NamespacedKey ITEMS_REMAINING_KEY = baseKey("items_remaining");
@@ -73,19 +73,19 @@ public class CargoGate extends PylonBlock implements
             .addCustomModelDataString(getKey() + ":input_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("pylon.pylonbase.gui.left"));
+            .name(Component.translatable("rebar.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("pylon.pylonbase.gui.right"));
+            .name(Component.translatable("rebar.gui.right"));
     public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
-            .lore(Component.translatable("pylon.pylonbase.gui.threshold_button.lore"));
+            .lore(Component.translatable("rebar.gui.threshold_button.lore"));
 
     public class ThresholdButton extends AbstractItem {
 
         @Override
         public ItemProvider getItemProvider() {
             return thresholdButtonStack
-                .name((Component.translatable("pylon.pylonbase.gui.threshold_button.name").arguments(
-                        PylonArgument.of("threshold", threshold)
+                .name((Component.translatable("rebar.gui.threshold_button.name").arguments(
+                        RebarArgument.of("threshold", threshold)
                 )));
         }
 
@@ -105,7 +105,7 @@ public class CargoGate extends PylonBlock implements
         }
     }
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -114,11 +114,11 @@ public class CargoGate extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
+        public @NotNull List<RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of(
+                    RebarArgument.of(
                             "transfer-rate",
-                            UnitFormat.ITEMS_PER_SECOND.format(PylonCargoBlock.cargoItemsTransferredPerSecond(transferRate))
+                            UnitFormat.ITEMS_PER_SECOND.format(RebarCargoBlock.cargoItemsTransferredPerSecond(transferRate))
                     )
             );
         }
@@ -131,8 +131,8 @@ public class CargoGate extends PylonBlock implements
         setFacing(context.getFacing());
 
         addCargoLogisticGroup(getFacing().getOppositeFace(), "output");
-        addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
-        addCargoLogisticGroup(PylonUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
+        addCargoLogisticGroup(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.EAST), "left");
+        addCargoLogisticGroup(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.WEST), "right");
         setCargoTransferRate(transferRate);
 
         addEntity("main", new ItemDisplayBuilder()
@@ -188,14 +188,14 @@ public class CargoGate extends PylonBlock implements
     @SuppressWarnings("unused")
     public CargoGate(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-        threshold = pdc.get(THRESHOLD_KEY, PylonSerializers.INTEGER);
-        itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER);
+        threshold = pdc.get(THRESHOLD_KEY, RebarSerializers.INTEGER);
+        itemsRemaining = pdc.get(ITEMS_REMAINING_KEY, RebarSerializers.INTEGER);
     }
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(THRESHOLD_KEY, PylonSerializers.INTEGER, threshold);
-        pdc.set(ITEMS_REMAINING_KEY, PylonSerializers.INTEGER, itemsRemaining);
+        pdc.set(THRESHOLD_KEY, RebarSerializers.INTEGER, threshold);
+        pdc.set(ITEMS_REMAINING_KEY, RebarSerializers.INTEGER, itemsRemaining);
     }
 
     @Override
@@ -245,10 +245,10 @@ public class CargoGate extends PylonBlock implements
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("threshold", threshold),
-                PylonArgument.of("side", itemsRemaining == 0
-                                ? Component.translatable("pylon.pylonbase.waila.cargo_splitter.left")
-                                : Component.translatable("pylon.pylonbase.waila.cargo_splitter.right")
+                RebarArgument.of("threshold", threshold),
+                RebarArgument.of("side", itemsRemaining == 0
+                                ? Component.translatable("rebar.waila.cargo_splitter.left")
+                                : Component.translatable("rebar.waila.cargo_splitter.right")
                 )
         ));
     }

@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.base.content.tools;
 
-import io.github.pylonmc.rebar.item.PylonItem;
-import io.github.pylonmc.rebar.item.base.PylonSplashPotion;
+import io.github.pylonmc.rebar.item.RebarItem;
+import io.github.pylonmc.rebar.item.base.RebarSplashPotion;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.ZombieVillager;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.requireNonNull;
 
-public class CleansingPotion extends PylonItem implements PylonSplashPotion {
+public class CleansingPotion extends RebarItem implements RebarSplashPotion {
 
     public CleansingPotion(@NotNull ItemStack stack) {
         super(stack);

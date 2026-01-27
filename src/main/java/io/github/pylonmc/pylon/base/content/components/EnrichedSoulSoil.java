@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.base.content.components;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import org.bukkit.Material;
@@ -13,7 +13,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 
-public final class EnrichedSoulSoil extends PylonBlock implements PylonTickingBlock {
+public final class EnrichedSoulSoil extends RebarBlock implements RebarTickingBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 

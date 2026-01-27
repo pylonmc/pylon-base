@@ -2,14 +2,13 @@ package io.github.pylonmc.pylon.base.content.building;
 
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonTargetBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarTargetBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.papermc.paper.event.block.TargetHitEvent;
-import org.bukkit.GameRule;
 import org.bukkit.GameRules;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -17,12 +16,11 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 
-public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
+public class ExplosiveTarget extends RebarBlock implements RebarTargetBlock {
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
         private final Double explosivePower = getSettings().getOrThrow("explosive-power", ConfigAdapter.DOUBLE);
 
         public Item(@NotNull ItemStack stack) {
@@ -30,8 +28,8 @@ public class ExplosiveTarget extends PylonBlock implements PylonTargetBlock {
         }
 
         @Override
-        public @NotNull List<PylonArgument> getPlaceholders() {
-            return List.of(PylonArgument.of("explosive-power", explosivePower));
+        public @NotNull List<RebarArgument> getPlaceholders() {
+            return List.of(RebarArgument.of("explosive-power", explosivePower));
         }
     }
 

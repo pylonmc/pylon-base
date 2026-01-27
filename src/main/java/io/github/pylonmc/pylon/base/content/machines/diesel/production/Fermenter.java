@@ -7,20 +7,20 @@ import io.github.pylonmc.pylon.base.content.components.FluidOutputHatch;
 import io.github.pylonmc.pylon.base.content.components.ItemInputHatch;
 import io.github.pylonmc.pylon.base.util.BaseUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.PylonBlock;
-import io.github.pylonmc.rebar.block.base.PylonDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.PylonFluidBufferBlock;
-import io.github.pylonmc.rebar.block.base.PylonSimpleMultiblock;
-import io.github.pylonmc.rebar.block.base.PylonTickingBlock;
+import io.github.pylonmc.rebar.block.RebarBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarFluidBufferBlock;
+import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
-import io.github.pylonmc.rebar.fluid.PylonFluid;
-import io.github.pylonmc.rebar.i18n.PylonArgument;
-import io.github.pylonmc.rebar.item.PylonItem;
+import io.github.pylonmc.rebar.fluid.RebarFluid;
+import io.github.pylonmc.rebar.i18n.RebarArgument;
+import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
-import io.github.pylonmc.rebar.util.PylonUtils;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import io.github.pylonmc.rebar.waila.Waila;
 import io.github.pylonmc.rebar.waila.WailaDisplay;
@@ -41,18 +41,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Fermenter extends PylonBlock implements
-        PylonSimpleMultiblock,
-        PylonDirectionalBlock,
-        PylonTickingBlock,
-        PylonFluidBufferBlock {
+public class Fermenter extends RebarBlock implements
+        RebarSimpleMultiblock,
+        RebarDirectionalBlock,
+        RebarTickingBlock,
+        RebarFluidBufferBlock {
 
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final double ethanolPerSugarcane = getSettings().getOrThrow("ethanol-per-sugarcane", ConfigAdapter.DOUBLE);
     public final int sugarcaneCapacity = getSettings().getOrThrow("sugarcane-capacity", ConfigAdapter.INT);
     public final double maxEthanolOutputRate = getSettings().getOrThrow("max-ethanol-output-rate", ConfigAdapter.DOUBLE);
 
-    public static class Item extends PylonItem {
+    public static class Item extends RebarItem {
 
         public final double ethanolPerSugarcane = getSettings().getOrThrow("ethanol-per-sugarcane", ConfigAdapter.DOUBLE);
         public final int sugarcaneCapacity = getSettings().getOrThrow("sugarcane-capacity", ConfigAdapter.INT);
@@ -63,11 +63,11 @@ public class Fermenter extends PylonBlock implements
         }
 
         @Override
-        public @NotNull List<@NotNull PylonArgument> getPlaceholders() {
+        public @NotNull List<@NotNull RebarArgument> getPlaceholders() {
             return List.of(
-                    PylonArgument.of("ethanol-per-sugarcane", UnitFormat.MILLIBUCKETS.format(ethanolPerSugarcane)),
-                    PylonArgument.of("sugarcane-capacity", UnitFormat.ITEMS.format(sugarcaneCapacity)),
-                    PylonArgument.of("max-ethanol-output-rate", UnitFormat.MILLIBUCKETS_PER_SECOND.format(maxEthanolOutputRate))
+                    RebarArgument.of("ethanol-per-sugarcane", UnitFormat.MILLIBUCKETS.format(ethanolPerSugarcane)),
+                    RebarArgument.of("sugarcane-capacity", UnitFormat.ITEMS.format(sugarcaneCapacity)),
+                    RebarArgument.of("max-ethanol-output-rate", UnitFormat.MILLIBUCKETS_PER_SECOND.format(maxEthanolOutputRate))
             );
         }
     }
@@ -98,8 +98,8 @@ public class Fermenter extends PylonBlock implements
 
         components.put(new Vector3i(-1, 0, 0), new VanillaMultiblockComponent(Material.IRON_BLOCK));
         components.put(new Vector3i(1, 0, 0), new VanillaMultiblockComponent(Material.IRON_BLOCK));
-        components.put(new Vector3i(0, 0, -1), new PylonMultiblockComponent(BaseKeys.ITEM_INPUT_HATCH));
-        components.put(new Vector3i(0, 0, 1), new PylonMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
+        components.put(new Vector3i(0, 0, -1), new RebarMultiblockComponent(BaseKeys.ITEM_INPUT_HATCH));
+        components.put(new Vector3i(0, 0, 1), new RebarMultiblockComponent(BaseKeys.FLUID_OUTPUT_HATCH));
         components.put(new Vector3i(-1, 0, -1), new VanillaMultiblockComponent(Material.POLISHED_DEEPSLATE_WALL));
         components.put(new Vector3i(-1, 0, 1), new VanillaMultiblockComponent(Material.POLISHED_DEEPSLATE_WALL));
         components.put(new Vector3i(1, 0, -1), new VanillaMultiblockComponent(Material.POLISHED_DEEPSLATE_WALL));
@@ -110,9 +110,9 @@ public class Fermenter extends PylonBlock implements
                 for (int z = -1; z <= 1; z++) {
                     Vector3i position = new Vector3i(x, y, z);
                     if (x == 0 && z == 0) {
-                        components.put(position, new PylonMultiblockComponent(BaseKeys.FERMENTER_CORE));
+                        components.put(position, new RebarMultiblockComponent(BaseKeys.FERMENTER_CORE));
                     } else {
-                        components.put(position, new PylonMultiblockComponent(BaseKeys.FERMENTER_CASING));
+                        components.put(position, new RebarMultiblockComponent(BaseKeys.FERMENTER_CASING));
                     }
                 }
             }
@@ -125,11 +125,11 @@ public class Fermenter extends PylonBlock implements
 
     @Override
     public boolean checkFormed() {
-        boolean formed = PylonSimpleMultiblock.super.checkFormed();
+        boolean formed = RebarSimpleMultiblock.super.checkFormed();
         if (formed) {
             getOutputHatch().setFluidType(BaseFluids.ETHANOL);
             for (Vector3i position : getComponents().keySet()) {
-                Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(position, getFacing()));
+                Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(position, getFacing()));
                 Location location = getBlock().getLocation().add(relative);
                 Waila.addWailaOverride(location.getBlock(), this::getWaila);
             }
@@ -140,13 +140,13 @@ public class Fermenter extends PylonBlock implements
 
     @Override
     public void onMultiblockUnformed(boolean partUnloaded) {
-        PylonSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
+        RebarSimpleMultiblock.super.onMultiblockUnformed(partUnloaded);
         FluidOutputHatch outputHatch = getOutputHatch();
         if (outputHatch != null) {
             outputHatch.setFluidType(null);
         }
         for (Vector3i position : getComponents().keySet()) {
-            Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(position, getFacing()));
+            Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(position, getFacing()));
             Location location = getBlock().getLocation().add(relative);
             Waila.removeWailaOverride(location.getBlock());
         }
@@ -165,7 +165,7 @@ public class Fermenter extends PylonBlock implements
 
         ItemStack sugarcane = inputHatch.inventory.getItem(0);
         if (sugarcane != null
-                && PylonItem.fromStack(sugarcane) == null
+                && RebarItem.fromStack(sugarcane) == null
                 && sugarcane.getType().equals(Material.SUGAR_CANE)
                 && fluidSpaceRemaining(BaseFluids.SUGARCANE) > ethanolPerSugarcane
         ) {
@@ -185,8 +185,8 @@ public class Fermenter extends PylonBlock implements
     }
 
     @Override
-    public boolean setFluid(@NotNull PylonFluid fluid, double amount) {
-        boolean wasSet = PylonFluidBufferBlock.super.setFluid(fluid, amount);
+    public boolean setFluid(@NotNull RebarFluid fluid, double amount) {
+        boolean wasSet = RebarFluidBufferBlock.super.setFluid(fluid, amount);
         if (wasSet) {
             double sugarcaneProportion = fluidAmount(BaseFluids.SUGARCANE) / fluidCapacity(BaseFluids.SUGARCANE);
             getHeldEntityOrThrow(ItemDisplay.class, "sugarcane").setTransformationMatrix(
@@ -206,22 +206,22 @@ public class Fermenter extends PylonBlock implements
                 ? 0
                 : Math.min(sugarcaneCapacity, (int) (sugarcaneProportion * sugarcaneCapacity) + 1);
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                PylonArgument.of("sugarcane-bar", BaseUtils.createBar(
+                RebarArgument.of("sugarcane-bar", BaseUtils.createBar(
                         sugarcaneProportion,
                         20, TextColor.color(163, 237, 45)
                 )),
-                PylonArgument.of("sugarcane-amount", sugarcaneAmount)
+                RebarArgument.of("sugarcane-amount", sugarcaneAmount)
         ));
     }
 
     public @Nullable ItemInputHatch getInputHatch() {
-        Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(0, 0, -1), getFacing()));
+        Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(0, 0, -1), getFacing()));
         Location location = getBlock().getLocation().add(relative);
         return BlockStorage.getAs(ItemInputHatch.class, location);
     }
 
     public @Nullable FluidOutputHatch getOutputHatch() {
-        Vector relative = Vector.fromJOML(PylonUtils.rotateVectorToFace(new Vector3i(0, 0, 1), getFacing()));
+        Vector relative = Vector.fromJOML(RebarUtils.rotateVectorToFace(new Vector3i(0, 0, 1), getFacing()));
         Location location = getBlock().getLocation().add(relative);
         return BlockStorage.getAs(FluidOutputHatch.class, location);
     }

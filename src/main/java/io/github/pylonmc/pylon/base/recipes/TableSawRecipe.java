@@ -29,7 +29,7 @@ public record TableSawRecipe(
         @NotNull ItemStack result,
         @NotNull BlockData particleData,
         int timeTicks
-) implements PylonRecipe {
+) implements RebarRecipe {
 
     @Override
     public @NotNull NamespacedKey getKey() {
