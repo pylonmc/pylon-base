@@ -63,7 +63,7 @@ jobs:
       - name: Clone master project
         run: |
           git clone https://github.com/pylonmc/parallel-dev-repo
-          cd pylon
+          cd parallel-dev-repo
           ./gradlew
           cd rebar
           git fetch origin $(echo "$CORECOMMIT")
