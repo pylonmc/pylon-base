@@ -27,12 +27,12 @@ jobs:
         run: |
           prefixrm=$(echo "${{github.event.pull_request.title}}" | cut -c6-)
           BRANCHNAME=$(echo "$prefixrm" | cut -d']' -f1)
-          git clone https://github.com/pylonmc/pylon-core
-          cd pylon-core
+          git clone https://github.com/pylonmc/rebar
+          cd rebar
           git fetch --all
           echo "CORECOMMIT=$(git rev-parse $(echo "$BRANCHNAME"))" >> $GITHUB_ENV
           cd ..
-          rm -rf pylon-core
+          rm -rf rebar
 
       - name: Parse [commit title
         id: parsecommit
@@ -44,12 +44,12 @@ jobs:
       - name: Get latest commit of core master
         if: steps.parseref.outcome == 'skipped' && steps.parsecommit.outcome == 'skipped'
         run: |
-          git clone https://github.com/pylonmc/pylon-core
-          cd pylon-core
+          git clone https://github.com/pylonmc/rebar
+          cd rebar
           git fetch --all
           echo "CORECOMMIT=$(git rev-parse master)" >> $GITHUB_ENV
           cd ..
-          rm -rf pylon-core
+          rm -rf rebar
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4.6.0
@@ -65,23 +65,23 @@ jobs:
           git clone https://github.com/pylonmc/pylon
           cd pylon
           ./gradlew
-          cd pylon-core
+          cd rebar
           git fetch origin $(echo "$CORECOMMIT")
           git checkout $(echo "$CORECOMMIT")
-          cd ../pylon-base
+          cd ../pylon
           git fetch origin ${{ github.sha }}
           git checkout ${{ github.sha }}
 
       - name: Build with Gradle Wrapper
         run: |
           cd pylon
-          ./gradlew :pylon-base:shadowJar -Pversion=${{ inputs.version || github.run_number }}
+          ./gradlew :pylon:shadowJar -Pversion=${{ inputs.version || github.run_number }}
 
       - name: Upload the artifact
         uses: actions/upload-artifact@v4.6.0
         with:
-          name: pylon-base-${{ inputs.version || github.run_number }}
-          path: 'pylon/pylon-base/build/libs/pylon-base-${{ inputs.version || github.run_number }}.jar'
+          name: pylon-${{ inputs.version || github.run_number }}
+          path: 'pylon/pylon/build/libs/pylon-${{ inputs.version || github.run_number }}.jar'
 
   dependency-submission:
     needs: [build]

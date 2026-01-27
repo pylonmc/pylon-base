@@ -1,4 +1,4 @@
-# The speed at which the bloom damages the player, in multiples of Pylon Core's inventory-ticker-base-rate
+# The speed at which the bloom damages the player, in multiples of Rebar Core's inventory-ticker-base-rate
 damage-interval: 1
 
 unprotected-damage: 2

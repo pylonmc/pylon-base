@@ -1,5 +1,5 @@
-pylonbase:unfired_refractory_brick:
-  input: pylonbase:refractory_mix
-  result: pylonbase:unfired_refractory_brick
+pylon:unfired_refractory_brick:
+  input: pylon:refractory_mix
+  result: pylon:unfired_refractory_brick
   resultAmount: 1
   cycles: 6
