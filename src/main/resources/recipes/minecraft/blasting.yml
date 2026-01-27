@@ -1,11 +1,11 @@
-pylonbase:tin_ingot_blasting:
-  ingredient: pylonbase:raw_tin
-  result: pylonbase:tin_ingot
+pylon:tin_ingot_blasting:
+  ingredient: pylon:raw_tin
+  result: pylon:tin_ingot
   experience: 0.5
   category: misc
 
-pylonbase:steel_blasting:
-  ingredient: pylonbase:wrought_iron
-  result: pylonbase:steel_ingot
+pylon:steel_blasting:
+  ingredient: pylon:wrought_iron
+  result: pylon:steel_ingot
   experience: 0.7
   category: misc

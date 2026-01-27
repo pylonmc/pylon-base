@@ -2,6 +2,6 @@
 # Modifying this file does not change the actual underlying recipes.
 # The recipes in this file are only displayed in the guide.
 
-pylonbase:iron_bloom:
-  input: pylonbase:sponge_iron
-  result: pylonbase:iron_bloom
+pylon:iron_bloom:
+  input: pylon:sponge_iron
+  result: pylon:iron_bloom

@@ -18,7 +18,7 @@ jobs:
     - name: Download Rebar
       uses: actions/download-artifact@v4.1.8
       with:
-        name: pylon-base-${{ github.ref_name }}
+        name: pylon-${{ github.ref_name }}
 
     - name: Create Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -28,4 +28,4 @@ jobs:
         prerelease: false
         automatic_release_tag: ${{ github.ref_name }}
         title: Release ${{ github.ref_name }}
-        files: pylon-base-*.jar
+        files: pylon-*.jar

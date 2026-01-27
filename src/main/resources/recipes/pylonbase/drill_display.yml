@@ -2,14 +2,14 @@
 # Modifying this file does not change the actual underlying recipes.
 # The recipes in this file are only displayed in the guide.
 
-pylonbase:shallow_core_chunk:
-  drill: pylonbase:manual_core_drill
-  result: pylonbase:shallow_core_chunk
+pylon:shallow_core_chunk:
+  drill: pylon:manual_core_drill
+  result: pylon:shallow_core_chunk
 
-pylonbase:subsurface_core_chunk:
-  drill: pylonbase:improved_manual_core_drill
-  result: pylonbase:subsurface_core_chunk
+pylon:subsurface_core_chunk:
+  drill: pylon:improved_manual_core_drill
+  result: pylon:subsurface_core_chunk
 
-pylonbase:intermediate_core_chunk:
-  drill: pylonbase:hydraulic_core_drill
-  result: pylonbase:intermediate_core_chunk
+pylon:intermediate_core_chunk:
+  drill: pylon:hydraulic_core_drill
+  result: pylon:intermediate_core_chunk

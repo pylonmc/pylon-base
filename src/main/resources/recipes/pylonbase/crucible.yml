@@ -1,29 +1,29 @@
-pylonbase:cobblestone_to_lava:
+pylon:cobblestone_to_lava:
   input-item:
     minecraft:cobblestone: 1
   output:
-    pylonbase:lava: 100
+    pylon:lava: 100
 
-pylonbase:cobbled_deepslate_to_lava:
+pylon:cobbled_deepslate_to_lava:
   input-item:
     minecraft:cobbled_deepslate: 1
   output:
-    pylonbase:lava: 200
+    pylon:lava: 200
 
-pylonbase:nether_blocks_to_lava:
+pylon:nether_blocks_to_lava:
   input-item:
     "#minecraft:base_stone_nether": 1
   output:
-    pylonbase:lava: 250
+    pylon:lava: 250
 
-pylonbase:obsidian_to_lava:
+pylon:obsidian_to_lava:
   input-item:
     minecraft:obsidian: 1
   output:
-    pylonbase:lava: 1000
+    pylon:lava: 1000
 
-pylonbase:leaves_to_water:
+pylon:leaves_to_water:
   input-item:
     "#minecraft:leaves": 1
   output:
-    pylonbase:water: 50
+    pylon:water: 50

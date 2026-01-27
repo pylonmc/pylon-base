@@ -1,4 +1,4 @@
 material: water
-fluid: pylonbase:water
+fluid: pylon:water
 buffer: 2000.0
 tick-interval: 40

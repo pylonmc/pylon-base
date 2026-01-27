@@ -1,197 +1,197 @@
-pylonbase:sulfur:
-  input: pylonbase:sulfur
-  result: pylonbase:sulfur
+pylon:sulfur:
+  input: pylon:sulfur
+  result: pylon:sulfur
   amount: 144
   temperature: 112.8
 
-pylonbase:copper_from_ingot:
+pylon:copper_from_ingot:
   input: minecraft:copper_ingot
-  result: pylonbase:copper
+  result: pylon:copper
   amount: 144
   temperature: 1083
 
-pylonbase:copper_from_dust:
-  input: pylonbase:copper_dust
-  result: pylonbase:copper
+pylon:copper_from_dust:
+  input: pylon:copper_dust
+  result: pylon:copper
   amount: 144
   temperature: 1083
 
-pylonbase:copper_from_nugget:
+pylon:copper_from_nugget:
   input: minecraft:copper_nugget
-  result: pylonbase:copper
+  result: pylon:copper
   amount: 16
   temperature: 1083
 
-pylonbase:copper_from_block:
+pylon:copper_from_block:
   input: "#minecraft:copper"
-  result: pylonbase:copper
+  result: pylon:copper
   amount: 1296
   temperature: 1083
 
-pylonbase:gold_from_ingot:
+pylon:gold_from_ingot:
   input: minecraft:gold_ingot
-  result: pylonbase:gold
+  result: pylon:gold
   amount: 144
   temperature: 1064
 
-pylonbase:gold_from_dust:
-  input: pylonbase:gold_dust
-  result: pylonbase:gold
+pylon:gold_from_dust:
+  input: pylon:gold_dust
+  result: pylon:gold
   amount: 144
   temperature: 1064
 
-pylonbase:gold_from_nugget:
+pylon:gold_from_nugget:
   input: minecraft:gold_nugget
-  result: pylonbase:gold
+  result: pylon:gold
   amount: 16
   temperature: 1064
 
-pylonbase:gold_from_block:
+pylon:gold_from_block:
   input: minecraft:gold_block
-  result: pylonbase:gold
+  result: pylon:gold
   amount: 1296
   temperature: 1064
 
-pylonbase:iron_from_ingot:
+pylon:iron_from_ingot:
   input: minecraft:iron_ingot
-  result: pylonbase:iron
+  result: pylon:iron
   amount: 144
   temperature: 1064
 
-pylonbase:iron_from_dust:
-  input: pylonbase:iron_dust
-  result: pylonbase:iron
+pylon:iron_from_dust:
+  input: pylon:iron_dust
+  result: pylon:iron
   amount: 144
   temperature: 1064
 
-pylonbase:iron_from_nugget:
+pylon:iron_from_nugget:
   input: minecraft:iron_nugget
-  result: pylonbase:iron
+  result: pylon:iron
   amount: 16
   temperature: 1064
 
-pylonbase:iron_from_block:
+pylon:iron_from_block:
   input: minecraft:iron_block
-  result: pylonbase:iron
+  result: pylon:iron
   amount: 1296
   temperature: 1064
 
-pylonbase:tin_from_ingot:
-  input: pylonbase:tin_ingot
-  result: pylonbase:tin
+pylon:tin_from_ingot:
+  input: pylon:tin_ingot
+  result: pylon:tin
   amount: 144
   temperature: 231.9
 
-pylonbase:tin_from_dust:
-  input: pylonbase:tin_dust
-  result: pylonbase:tin
+pylon:tin_from_dust:
+  input: pylon:tin_dust
+  result: pylon:tin
   amount: 144
   temperature: 231.9
 
-pylonbase:tin_from_nugget:
-  input: pylonbase:tin_nugget
-  result: pylonbase:tin
+pylon:tin_from_nugget:
+  input: pylon:tin_nugget
+  result: pylon:tin
   amount: 16
   temperature: 231.9
 
-pylonbase:tin_from_block:
-  input: pylonbase:tin_block
-  result: pylonbase:tin
+pylon:tin_from_block:
+  input: pylon:tin_block
+  result: pylon:tin
   amount: 1296
   temperature: 231.9
 
-pylonbase:cobalt_from_ingot:
-  input: pylonbase:cobalt_ingot
-  result: pylonbase:cobalt
+pylon:cobalt_from_ingot:
+  input: pylon:cobalt_ingot
+  result: pylon:cobalt
   amount: 144
   temperature: 1495
 
-pylonbase:cobalt_from_dust:
-  input: pylonbase:cobalt_dust
-  result: pylonbase:cobalt
+pylon:cobalt_from_dust:
+  input: pylon:cobalt_dust
+  result: pylon:cobalt
   amount: 144
   temperature: 1495
 
-pylonbase:cobalt_from_nugget:
-  input: pylonbase:cobalt_nugget
-  result: pylonbase:cobalt
+pylon:cobalt_from_nugget:
+  input: pylon:cobalt_nugget
+  result: pylon:cobalt
   amount: 16
   temperature: 1495
 
-pylonbase:cobalt_from_block:
-  input: pylonbase:cobalt_block
-  result: pylonbase:cobalt
+pylon:cobalt_from_block:
+  input: pylon:cobalt_block
+  result: pylon:cobalt
   amount: 1296
   temperature: 1495
 
-pylonbase:nickel_from_ingot:
-  input: pylonbase:nickel_ingot
-  result: pylonbase:nickel
+pylon:nickel_from_ingot:
+  input: pylon:nickel_ingot
+  result: pylon:nickel
   amount: 144
   temperature: 1455
 
-pylonbase:nickel_from_dust:
-  input: pylonbase:nickel_dust
-  result: pylonbase:nickel
+pylon:nickel_from_dust:
+  input: pylon:nickel_dust
+  result: pylon:nickel
   amount: 144
   temperature: 1455
 
-pylonbase:nickel_from_nugget:
-  input: pylonbase:nickel_nugget
-  result: pylonbase:nickel
+pylon:nickel_from_nugget:
+  input: pylon:nickel_nugget
+  result: pylon:nickel
   amount: 16
   temperature: 1455
 
-pylonbase:nickel_from_block:
-  input: pylonbase:nickel_block
-  result: pylonbase:nickel
+pylon:nickel_from_block:
+  input: pylon:nickel_block
+  result: pylon:nickel
   amount: 1296
   temperature: 1455
 
-pylonbase:bronze_from_ingot:
-  input: pylonbase:bronze_ingot
-  result: pylonbase:bronze
+pylon:bronze_from_ingot:
+  input: pylon:bronze_ingot
+  result: pylon:bronze
   amount: 144
   temperature: 950
 
-pylonbase:bronze_from_dust:
-  input: pylonbase:bronze_dust
-  result: pylonbase:bronze
+pylon:bronze_from_dust:
+  input: pylon:bronze_dust
+  result: pylon:bronze
   amount: 144
   temperature: 950
 
-pylonbase:bronze_from_nugget:
-  input: pylonbase:bronze_nugget
-  result: pylonbase:bronze
+pylon:bronze_from_nugget:
+  input: pylon:bronze_nugget
+  result: pylon:bronze
   amount: 16
   temperature: 950
 
-pylonbase:bronze_from_block:
-  input: pylonbase:bronze_block
-  result: pylonbase:bronze
+pylon:bronze_from_block:
+  input: pylon:bronze_block
+  result: pylon:bronze
   amount: 1296
   temperature: 950
 
-pylonbase:steel_from_ingot:
-  input: pylonbase:steel_ingot
-  result: pylonbase:steel
+pylon:steel_from_ingot:
+  input: pylon:steel_ingot
+  result: pylon:steel
   amount: 144
   temperature: 1410
 
-pylonbase:steel_from_dust:
-  input: pylonbase:steel_dust
-  result: pylonbase:steel
+pylon:steel_from_dust:
+  input: pylon:steel_dust
+  result: pylon:steel
   amount: 144
   temperature: 1410
 
-pylonbase:steel_from_nugget:
-  input: pylonbase:steel_nugget
-  result: pylonbase:steel
+pylon:steel_from_nugget:
+  input: pylon:steel_nugget
+  result: pylon:steel
   amount: 16
   temperature: 1410
 
-pylonbase:steel_from_block:
-  input: pylonbase:steel_block
-  result: pylonbase:steel
+pylon:steel_from_block:
+  input: pylon:steel_block
+  result: pylon:steel
   amount: 1296
   temperature: 1410

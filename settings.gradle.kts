@@ -1,2 +1,2 @@
-rootProject.name = "pylon-base"
+rootProject.name = "pylon"
 

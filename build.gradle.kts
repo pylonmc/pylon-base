@@ -61,12 +61,12 @@ tasks.shadowJar {
     archiveBaseName = project.name
     archiveClassifier = null
 
-    relocate("org.bstats", "io.github.pylonmc.pylon.base.bstats")
+    relocate("org.bstats", "io.github.pylonmc.pylon.bstats")
 }
 
 bukkit {
-    name = "PylonBase"
-    main = "io.github.pylonmc.pylon.base.PylonBase"
+    name = "Pylon"
+    main = "io.github.pylonmc.pylon.Pylon"
     version = project.version.toString()
     apiVersion = minecraftVersion
     depend = listOf("Rebar")
@@ -95,7 +95,7 @@ publishing {
             pom {
                 name = project.name
                 description = "The base addon for Rebar."
-                url = "https://github.com/pylonmc/pylon-base"
+                url = "https://github.com/pylonmc/pylon"
                 licenses {
                     license {
                         name = "GNU Lesser General Public License Version 3"
@@ -110,9 +110,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = "scm:git:git://github.com/pylonmc/pylon-base.git"
-                    developerConnection = "scm:git:ssh://github.com:pylonmc/pylon-base.git"
-                    url = "https://github.com/pylonmc/pylon-base"
+                    connection = "scm:git:git://github.com/pylonmc/pylon.git"
+                    developerConnection = "scm:git:ssh://github.com:pylonmc/pylon.git"
+                    url = "https://github.com/pylonmc/pylon"
                 }
             }
         }
