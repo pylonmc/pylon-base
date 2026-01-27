@@ -1,7 +1,7 @@
-## What is Rebar?
+## What is Pylon?
 Pylon is an upcoming Minecraft Java technology plugin that will hugely expand vanilla gameplay with new content: electricity, diesel machines, new fluids and fluid pipes, logistics, and much, much more!
 
-Rebar uses an addon system, meaning anyone can add content to Rebar by writing an addon for it! It also comes with a number of really useful features, such as
+Pylon comes with a number of really useful features, such as:
 - First-class translation support, meaning each player can select their own language.
 - Extensive configuration options, including per-machine configuration.
 - An intuitive and user-friendly guide to help players figure out the plugin.
