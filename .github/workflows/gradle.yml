@@ -74,7 +74,7 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: |
-          cd pylon
+          cd parallel-dev-repo
           ./gradlew :pylon:shadowJar -Pversion=${{ inputs.version || github.run_number }}
 
       - name: Upload the artifact
