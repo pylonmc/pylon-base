@@ -81,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.0
         with:
           name: pylon-${{ inputs.version || github.run_number }}
-          path: 'pylon/pylon/build/libs/pylon-${{ inputs.version || github.run_number }}.jar'
+          path: 'parallel-dev-repo/pylon/build/libs/pylon-${{ inputs.version || github.run_number }}.jar'
 
   dependency-submission:
     needs: [build]
