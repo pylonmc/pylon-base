@@ -35,14 +35,14 @@ public class ResearchPack extends RebarItem implements RebarInteractor {
 
         int happeningNum = ThreadLocalRandom.current().nextInt(4);
         Component happening = Component.translatable(
-                "rebar.message.research_pack.happening." + happeningNum
+                "pylon.message.research_pack.happening." + happeningNum
         );
         player.sendMessage(Component.translatable(
-                "rebar.message.research_pack.message",
+                "pylon.message.research_pack.message",
                 RebarArgument.of("happening", happening)
         ));
         player.sendMessage(Component.translatable(
-                "rebar.message.gained_research_points",
+                "pylon.message.gained_research_points",
                 RebarArgument.of("points", points),
                 RebarArgument.of("total", Research.getResearchPoints(player))
         ));

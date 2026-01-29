@@ -67,7 +67,7 @@ public final class FluidSelector {
             RebarFluid fluid = getFluid.get();
             return ItemStackBuilder.of(fluid == null ? new ItemStack(Material.BARRIER) : fluid.getItem())
                     .name(Component.translatable(
-                            "rebar.message.fluid_selector.current_fluid",
+                            "pylon.message.fluid_selector.current_fluid",
                             RebarArgument.of(
                                     "fluid",
                                     Component.translatable((fluid == null
@@ -98,7 +98,7 @@ public final class FluidSelector {
         public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             if (itemFluid == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
-                        .name(Component.translatable("rebar.message.fluid_selector.clear"));
+                        .name(Component.translatable("pylon.message.fluid_selector.clear"));
             }
             return ItemStackBuilder.of(itemFluid.getItem())
                     .name(Component.translatable("pylon.fluid." + itemFluid.getKey().getKey()));

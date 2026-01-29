@@ -39,7 +39,7 @@ public record MeltingRecipe(
             return new MeltingRecipe(
                     key,
                     section.getOrThrow("input", ConfigAdapter.RECIPE_INPUT_ITEM),
-                    section.getOrThrow("result", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("result", ConfigAdapter.REBAR_FLUID),
                     section.getOrThrow("amount", ConfigAdapter.DOUBLE),
                     section.getOrThrow("temperature", ConfigAdapter.DOUBLE)
             );

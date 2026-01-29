@@ -150,7 +150,7 @@ public class FluidStrainer extends RebarBlock implements
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("info", getCurrentRecipe() == null
                         ? Component.empty()
-                        : Component.translatable("rebar.waila.fluid_strainer.straining",
+                        : Component.translatable("pylon.waila.fluid_strainer.straining",
                                 RebarArgument.of("item", getCurrentRecipe().outputItem().effectiveName()),
                                 RebarArgument.of("bars", PylonUtils.createProgressBar(
                                         getCurrentRecipe().input().amountMillibuckets() - getRecipeTicksRemaining(),

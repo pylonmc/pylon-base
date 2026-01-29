@@ -22,8 +22,8 @@ import java.util.Iterator;
 import static io.github.pylonmc.pylon.util.PylonUtils.pylonKey;
 
 public class SoulboundRune extends Rune {
-    private static final TranslatableComponent SOULBIND_MSG = Component.translatable("rebar.message.soulbound_rune.soulbind-message");
-    private static final TranslatableComponent TOOLTIP = Component.translatable("rebar.message.soulbound_rune.tooltip");
+    private static final TranslatableComponent SOULBIND_MSG = Component.translatable("pylon.message.soulbound_rune.soulbind-message");
+    private static final TranslatableComponent TOOLTIP = Component.translatable("pylon.message.soulbound_rune.tooltip");
     private static final NamespacedKey SOULBOUND_KEY = pylonKey("soulbound");
 
     public SoulboundRune(ItemStack stack) {

@@ -82,7 +82,7 @@ public class DieselBreaker extends RebarBlock implements
     }
 
     public final ItemStackBuilder toolStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":tool")
-            .name(Component.translatable("rebar.gui.tool"));
+            .name(Component.translatable("pylon.gui.tool"));
     public ItemStackBuilder drillStack = ItemStackBuilder.of(Material.YELLOW_CONCRETE)
             .addCustomModelDataString(getKey() + ":drill");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)

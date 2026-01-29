@@ -67,7 +67,7 @@ public class CargoAccumulator extends RebarBlock implements
     public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":output");
     public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
-            .lore(Component.translatable("rebar.gui.threshold_button.lore"));
+            .lore(Component.translatable("pylon.gui.threshold_button.lore"));
 
     public static class Item extends RebarItem {
 
@@ -253,7 +253,7 @@ public class CargoAccumulator extends RebarBlock implements
         @Override
         public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             return thresholdButtonStack
-                .name((Component.translatable("rebar.gui.threshold_button.name").arguments(
+                .name((Component.translatable("pylon.gui.threshold_button.name").arguments(
                         RebarArgument.of("threshold", threshold)
                 )));
         }

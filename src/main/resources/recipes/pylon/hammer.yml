@@ -70,7 +70,7 @@ pylon:steel_sheet:
   chance: 0.25
 
 pylon:gravel_from_rocks:
-  input: "#pyloncore:rocks"
+  input: "#rebar:rocks"
   result: minecraft:gravel
   mining-level: stone
   chance: 0.5

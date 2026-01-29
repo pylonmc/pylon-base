@@ -59,12 +59,12 @@ public class CargoFilter extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("rebar.gui.filter"));
+            .name(Component.translatable("pylon.gui.filter"));
 
     public final ItemStackBuilder leftGuiStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightGuiStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
 
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {

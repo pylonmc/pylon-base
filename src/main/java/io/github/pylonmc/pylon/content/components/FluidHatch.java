@@ -141,11 +141,11 @@ public abstract class FluidHatch extends RebarBlock implements
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         Component info;
         if (!isFormedAndFullyLoaded()) {
-            info = Component.translatable("rebar.message.fluid_hatch.no_casing");
+            info = Component.translatable("pylon.message.fluid_hatch.no_casing");
         } else if (fluid == null) {
-            info = Component.translatable("rebar.message.fluid_hatch.no_multiblock");
+            info = Component.translatable("pylon.message.fluid_hatch.no_multiblock");
         } else {
-            info = Component.translatable("rebar.message.fluid_hatch.working")
+            info = Component.translatable("pylon.message.fluid_hatch.working")
                     .arguments(
                             RebarArgument.of("bars", PylonUtils.createFluidAmountBar(
                                     fluidAmount(fluid),

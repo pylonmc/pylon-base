@@ -312,7 +312,7 @@ public class CargoFluidAccumulator extends RebarBlock implements
         @Override
         public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return itemThresholdButtonStack
-                .name((Component.translatable("rebar.gui.item_threshold_button.name").arguments(
+                .name((Component.translatable("pylon.gui.item_threshold_button.name").arguments(
                         RebarArgument.of("threshold", itemThreshold)
                 )));
         }

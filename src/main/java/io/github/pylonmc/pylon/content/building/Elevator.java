@@ -78,7 +78,7 @@ public class Elevator extends RebarBlock implements RebarSneakableBlock, RebarJu
         List<RebarBlock> elevators = getElevatorsInRange(under, location);
 
         if (elevators.isEmpty()) {
-            player.sendActionBar(Component.translatable("rebar.message.elevator.none_within_range." + (under ? "below" : "above")));
+            player.sendActionBar(Component.translatable("pylon.message.elevator.none_within_range." + (under ? "below" : "above")));
             return;
         }
 

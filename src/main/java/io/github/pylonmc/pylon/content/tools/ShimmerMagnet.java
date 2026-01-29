@@ -59,7 +59,7 @@ public class ShimmerMagnet extends RebarItem implements RebarInteractor {
             }
 
             String targetKey = enabled ? "enabled" : "disabled";
-            player.sendMessage(Component.translatable("rebar.message.shimmer_magnet." + targetKey));
+            player.sendMessage(Component.translatable("pylon.message.shimmer_magnet." + targetKey));
 
             pdc.set(ENABLED_KEY, PersistentDataType.BOOLEAN, enabled);
         });

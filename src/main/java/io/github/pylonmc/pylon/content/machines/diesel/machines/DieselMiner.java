@@ -81,7 +81,7 @@ public class DieselMiner extends Miner implements
     }
 
     public final ItemStackBuilder toolStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":tool")
-            .name(Component.translatable("rebar.gui.tool"));
+            .name(Component.translatable("pylon.gui.tool"));
     public ItemStackBuilder topStack = ItemStackBuilder.of(Material.YELLOW_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":top");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)

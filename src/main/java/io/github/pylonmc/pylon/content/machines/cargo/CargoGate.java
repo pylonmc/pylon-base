@@ -74,18 +74,18 @@ public class CargoGate extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":input_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
     public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
-            .lore(Component.translatable("rebar.gui.threshold_button.lore"));
+            .lore(Component.translatable("pylon.gui.threshold_button.lore"));
 
     public class ThresholdButton extends AbstractItem {
 
         @Override
         public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return thresholdButtonStack
-                .name((Component.translatable("rebar.gui.threshold_button.name").arguments(
+                .name((Component.translatable("pylon.gui.threshold_button.name").arguments(
                         RebarArgument.of("threshold", threshold)
                 )));
         }
@@ -244,8 +244,8 @@ public class CargoGate extends RebarBlock implements
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("threshold", threshold),
                 RebarArgument.of("side", itemsRemaining == 0
-                                ? Component.translatable("rebar.waila.cargo_splitter.left")
-                                : Component.translatable("rebar.waila.cargo_splitter.right")
+                                ? Component.translatable("pylon.waila.cargo_splitter.left")
+                                : Component.translatable("pylon.waila.cargo_splitter.right")
                 )
         ));
     }

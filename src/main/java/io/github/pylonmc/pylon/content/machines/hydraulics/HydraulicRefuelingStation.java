@@ -138,7 +138,7 @@ public class HydraulicRefuelingStation extends RebarBlock implements
                 getDefaultWailaTranslationKey().arguments(
                         RebarArgument.of(
                                 "extra",
-                                Component.translatable("rebar.message.hydraulic_refueling_station.extra").arguments(
+                                Component.translatable("pylon.message.hydraulic_refueling_station.extra").arguments(
                                         RebarArgument.of("hydraulic-fluid-bar", hydraulicFluidBar),
                                         RebarArgument.of("dirty-hydraulic-fluid-bar", dirtyHydraulicFluidBar)
                                 )

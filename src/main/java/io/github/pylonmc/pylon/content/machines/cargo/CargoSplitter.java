@@ -80,16 +80,16 @@ public class CargoSplitter extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
     public final ItemStackBuilder ratioStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio");
     public final ItemStackBuilder leftButtonStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left_button")
-            .name(Component.translatable("rebar.gui.ratio.left_button.name"))
-            .lore(Component.translatable("rebar.gui.ratio.left_button.lore"));
+            .name(Component.translatable("pylon.gui.ratio.left_button.name"))
+            .lore(Component.translatable("pylon.gui.ratio.left_button.lore"));
     public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
-            .name(Component.translatable("rebar.gui.ratio.right_button.name"))
-            .lore(Component.translatable("rebar.gui.ratio.right_button.lore"));
+            .name(Component.translatable("pylon.gui.ratio.right_button.name"))
+            .lore(Component.translatable("pylon.gui.ratio.right_button.lore"));
 
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
@@ -240,7 +240,7 @@ public class CargoSplitter extends RebarBlock implements
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
                 .addIngredient('a', xyz.xenondevs.invui.item.Item.simple(p -> ratioStack.clone()
-                        .name(Component.translatable("rebar.gui.ratio.name").arguments(
+                        .name(Component.translatable("pylon.gui.ratio.name").arguments(
                                 RebarArgument.of("left", ratioLeft),
                                 RebarArgument.of("right", ratioRight)
                         ))))
@@ -277,8 +277,8 @@ public class CargoSplitter extends RebarBlock implements
                 RebarArgument.of("left", ratioLeft),
                 RebarArgument.of("right", ratioRight),
                 RebarArgument.of("side", isLeft
-                        ? Component.translatable("rebar.waila.cargo_splitter.left")
-                        : Component.translatable("rebar.waila.cargo_splitter.right")
+                        ? Component.translatable("pylon.waila.cargo_splitter.left")
+                        : Component.translatable("pylon.waila.cargo_splitter.right")
                 )
         ));
     }

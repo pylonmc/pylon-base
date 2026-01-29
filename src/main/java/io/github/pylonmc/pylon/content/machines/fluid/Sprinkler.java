@@ -119,7 +119,7 @@ public class Sprinkler extends RebarBlock
                         event.setCancelled(true);
                         if (event.getContext() instanceof BlockCreateContext.PlayerPlace context) {
                             context.getPlayer().sendMessage(Component.translatable(
-                                    "rebar.message.sprinkler_too_close",
+                                    "pylon.message.sprinkler_too_close",
                                     RebarArgument.of("radius", horizontalRadiusToCheck)
                             ));
                         }

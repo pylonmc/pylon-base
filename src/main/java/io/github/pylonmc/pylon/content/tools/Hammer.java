@@ -47,7 +47,7 @@ public class Hammer extends RebarItem implements RebarBlockInteractor {
     public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot, @NotNull BlockFace clickedFace) {
         if (baseBlock != block.getType()) {
             if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
-                player.sendMessage(Component.translatable("rebar.message.hammer_cant_use"));
+                player.sendMessage(Component.translatable("pylon.message.hammer_cant_use"));
             }
             return false;
         }

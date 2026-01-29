@@ -67,7 +67,7 @@ public class CargoExtractor extends CargoInteractor implements
             .addCustomModelDataString(getKey() + ":duct");
 
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("rebar.gui.filter"));
+            .name(Component.translatable("pylon.gui.filter"));
 
     private final VirtualInventory outputInventory = new VirtualInventory(1);
     private final VirtualInventory filterInventory = new VirtualInventory(5);
@@ -99,10 +99,10 @@ public class CargoExtractor extends CargoInteractor implements
         @Override
         public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return ItemStackBuilder.gui(isWhitelist ? Material.WHITE_CONCRETE : Material.BLACK_CONCRETE, "blacklist-whitelist-toggle")
-                    .name(Component.translatable("rebar.gui.whitelist-blacklist-toggle."
+                    .name(Component.translatable("pylon.gui.whitelist-blacklist-toggle."
                             + (isWhitelist ? "whitelist.name" : "blacklist.name")
                     ))
-                    .lore(Component.translatable("rebar.gui.whitelist-blacklist-toggle."
+                    .lore(Component.translatable("pylon.gui.whitelist-blacklist-toggle."
                             + (isWhitelist ? "whitelist.lore" : "blacklist.lore")
                     ));
         }

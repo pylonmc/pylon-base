@@ -138,7 +138,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull RebarArgument @NotNull ... args) {
-            return Component.translatable("rebar.gui.smeltery_caster." + subkey, args);
+            return Component.translatable("pylon.gui.smeltery_caster." + subkey, args);
         }
     }
 

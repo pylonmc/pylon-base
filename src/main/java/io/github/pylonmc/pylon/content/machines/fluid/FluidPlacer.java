@@ -54,7 +54,7 @@ public class FluidPlacer extends RebarBlock implements RebarFluidBufferBlock, Re
     }
 
     public final Material material = getSettings().getOrThrow("material", ConfigAdapter.MATERIAL);
-    public final RebarFluid fluid = getSettings().getOrThrow("fluid", ConfigAdapter.PYLON_FLUID);
+    public final RebarFluid fluid = getSettings().getOrThrow("fluid", ConfigAdapter.REBAR_FLUID);
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
     public final Block placeBlock;

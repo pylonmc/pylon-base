@@ -220,15 +220,15 @@ public final class Crucible extends RebarBlock implements
     public @NotNull WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
             RebarArgument.of("item_info", processingType == null ?
-                Component.translatable("rebar.waila.crucible.item.empty") :
-                Component.translatable("rebar.waila.crucible.item.stored",
+                Component.translatable("pylon.waila.crucible.item.empty") :
+                Component.translatable("pylon.waila.crucible.item.stored",
                     RebarArgument.of("type", processingType.getData(DataComponentTypes.ITEM_NAME)),
                     RebarArgument.of("amount", amount)
                 )),
 
             RebarArgument.of("liquid_info", getFluidType() == null ?
-                Component.translatable("rebar.waila.crucible.liquid.empty") :
-                Component.translatable("rebar.waila.crucible.liquid.filled",
+                Component.translatable("pylon.waila.crucible.liquid.empty") :
+                Component.translatable("pylon.waila.crucible.liquid.filled",
                     RebarArgument.of("fluid", getFluidType().getName()),
                     RebarArgument.of("bar", PylonUtils.createFluidAmountBar(
                         getFluidAmount(),

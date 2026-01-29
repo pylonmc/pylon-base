@@ -304,7 +304,7 @@ public final class Loupe extends RebarItem implements RebarInteractor, RebarCons
     }
 
     private Component message(String key, RebarArgument... arguments) {
-        return Component.translatable("rebar.message.loupe." + key, arguments);
+        return Component.translatable("pylon.message.loupe." + key, arguments);
     }
 
     private static long localChunkPosition(Block block) {
@@ -373,11 +373,11 @@ public final class Loupe extends RebarItem implements RebarInteractor, RebarCons
         Research.setResearchPoints(player, totalPoints);
 
         player.sendMessage(Component.translatable(
-                "rebar.message.loupe.examined",
+                "pylon.message.loupe.examined",
                 RebarArgument.of("object", name)
         ));
         player.sendMessage(Component.translatable(
-                "rebar.message.gained_research_points",
+                "pylon.message.gained_research_points",
                 RebarArgument.of("points", config.points),
                 RebarArgument.of("total", totalPoints)
         ));

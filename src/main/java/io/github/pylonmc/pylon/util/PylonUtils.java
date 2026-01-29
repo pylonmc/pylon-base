@@ -116,7 +116,7 @@ public class PylonUtils {
 
     public @NotNull Component createProgressBar(double progress, int bars, TextColor color) {
         int filledBars = (int) Math.round(bars * progress);
-        return Component.translatable("rebar.gui.progress_bar.text").arguments(
+        return Component.translatable("pylon.gui.progress_bar.text").arguments(
                 RebarArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(color)),
                 RebarArgument.of("empty_bars", "|".repeat(bars - filledBars)),
                 RebarArgument.of("progress", UnitFormat.PERCENT.format(progress * 100))

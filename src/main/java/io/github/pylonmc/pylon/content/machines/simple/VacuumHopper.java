@@ -79,7 +79,7 @@ public class VacuumHopper extends RebarBlock implements
     public final int tickInterval = getSettings().getOrThrow("tick-interval", ConfigAdapter.INT);
 
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("rebar.gui.filter"));
+            .name(Component.translatable("pylon.gui.filter"));
 
     @SuppressWarnings("unused")
     public VacuumHopper(@NotNull Block block, @NotNull BlockCreateContext context) {

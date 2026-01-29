@@ -17,7 +17,7 @@ public class PortableDustbin extends RebarItem implements RebarInteractor {
 
     @Override
     public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
-        var menu = MenuType.GENERIC_9X6.create(event.getPlayer(), Component.translatable("rebar.gui.portable-dustbin"));
+        var menu = MenuType.GENERIC_9X6.create(event.getPlayer(), Component.translatable("pylon.gui.portable-dustbin"));
         event.getPlayer().openInventory(menu);
     }
 }

@@ -149,31 +149,31 @@ public final class SmelteryController extends SmelteryComponent
             if (isFormedAndFullyLoaded()) {
                 if (running) {
                     material = Material.GREEN_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("rebar.gui.status.running"));
+                    lore.add(Component.translatable("pylon.gui.status.running"));
                 } else {
                     material = Material.YELLOW_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("rebar.gui.status.not_running"));
+                    lore.add(Component.translatable("pylon.gui.status.not_running"));
                 }
-                lore.add(Component.translatable("rebar.gui.status.toggle"));
+                lore.add(Component.translatable("pylon.gui.status.toggle"));
                 lore.add(Component.empty());
                 lore.add(Component.translatable(
-                        "rebar.gui.smeltery.height",
+                        "pylon.gui.smeltery.height",
                         RebarArgument.of("height", UnitFormat.BLOCKS.format(height))
                 ));
                 lore.add(Component.translatable(
-                        "rebar.gui.smeltery.capacity",
+                        "pylon.gui.smeltery.capacity",
                         RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity).decimalPlaces(0))
                 ));
                 lore.add(Component.translatable(
-                        "rebar.gui.smeltery.temperature",
+                        "pylon.gui.smeltery.temperature",
                         RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature).decimalPlaces(1))
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
-                lore.add(Component.translatable("rebar.gui.status.incomplete"));
+                lore.add(Component.translatable("pylon.gui.status.incomplete"));
             }
             return ItemStackBuilder.of(material)
-                    .name(Component.translatable("rebar.gui.status.name"))
+                    .name(Component.translatable("pylon.gui.status.name"))
                     .lore(lore);
         }
 
@@ -192,13 +192,13 @@ public final class SmelteryController extends SmelteryComponent
         public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             List<Component> lore = new ArrayList<>();
             if (fluids.isEmpty()) {
-                lore.add(Component.translatable("rebar.gui.smeltery.contents.empty"));
+                lore.add(Component.translatable("pylon.gui.smeltery.contents.empty"));
             } else {
                 for (Object2DoubleMap.Entry<RebarFluid> entry : fluids.object2DoubleEntrySet()) {
                     RebarFluid fluid = entry.getKey();
                     double amount = entry.getDoubleValue();
                     lore.add(Component.text().build().append(Component.translatable(
-                            "rebar.gui.smeltery.contents.fluid",
+                            "pylon.gui.smeltery.contents.fluid",
                             RebarArgument.of(
                                     "amount",
                                     UnitFormat.MILLIBUCKETS.format(amount)
@@ -210,7 +210,7 @@ public final class SmelteryController extends SmelteryComponent
                 }
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
-                    .name(Component.translatable("rebar.gui.smeltery.contents.name"))
+                    .name(Component.translatable("pylon.gui.smeltery.contents.name"))
                     .lore(lore);
         }
 

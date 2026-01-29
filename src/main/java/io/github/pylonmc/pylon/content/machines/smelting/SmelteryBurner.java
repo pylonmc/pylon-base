@@ -48,9 +48,9 @@ public final class SmelteryBurner extends SmelteryComponent implements
     private @Nullable Fuel fuel;
 
     private final ItemStackBuilder notBurningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("rebar.gui.smeltery_burner.not_burning"));
+            .name(Component.translatable("pylon.gui.smeltery_burner.not_burning"));
     private final ItemStackBuilder burningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("rebar.gui.smeltery_burner.burning"));
+            .name(Component.translatable("pylon.gui.smeltery_burner.burning"));
 
     private final VirtualInventory inventory = new VirtualInventory(3);
     private final ProgressItem progressItem = new ProgressItem(notBurningProgressItem);

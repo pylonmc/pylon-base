@@ -69,9 +69,9 @@ public class CargoOverflowGate extends RebarBlock
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
 
     public static class Item extends RebarItem {
 
@@ -102,8 +102,8 @@ public class CargoOverflowGate extends RebarBlock
 
         SidePriority(String name) {
             priorityStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, PylonItems.CARGO_OVERFLOW_GATE + ":priority:" + name)
-                    .name(Component.translatable("rebar.gui.side-priority.name", RebarArgument.of("priority", Component.translatable("rebar.gui." + name))))
-                    .lore(Component.translatable("rebar.gui.side-priority.lore"));
+                    .name(Component.translatable("pylon.gui.side-priority.name", RebarArgument.of("priority", Component.translatable("pylon.gui." + name))))
+                    .lore(Component.translatable("pylon.gui.side-priority.lore"));
         }
 
         public static final PersistentDataType<?, SidePriority> PERSISTENT_DATA_TYPE = RebarSerializers.ENUM.enumTypeFrom(SidePriority.class);

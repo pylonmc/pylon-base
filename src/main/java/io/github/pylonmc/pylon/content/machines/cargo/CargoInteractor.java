@@ -142,7 +142,7 @@ public abstract class CargoInteractor extends RebarBlock implements RebarDirecti
             Block block = getTargetBlock();
             if (targetLogisticGroup == null) {
                 return ItemStackBuilder.of(Material.BARRIER)
-                        .name(Component.translatable("rebar.gui.no-target-logistic-group"));
+                        .name(Component.translatable("pylon.gui.no-target-logistic-group"));
             }
 
             // Find index of current group
@@ -169,11 +169,11 @@ public abstract class CargoInteractor extends RebarBlock implements RebarDirecti
             // Construct display item
             Material material = GROUP_MATERIALS.get(index % GROUP_MATERIALS.size());
             ItemStackBuilder builder = ItemStackBuilder.gui(material, "logistic-group:" + index)
-                    .name(Component.translatable("rebar.gui.logistic-group-cycle-item.name")
+                    .name(Component.translatable("pylon.gui.logistic-group-cycle-item.name")
                             .arguments(RebarArgument.of("inventory", displayName))
                     );
             if (availableGroups.size() > 1) {
-                builder.lore(Component.translatable("rebar.gui.logistic-group-cycle-item.lore"));
+                builder.lore(Component.translatable("pylon.gui.logistic-group-cycle-item.lore"));
             }
             return builder;
         }

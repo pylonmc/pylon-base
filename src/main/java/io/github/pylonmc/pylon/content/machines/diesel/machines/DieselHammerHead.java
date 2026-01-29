@@ -66,7 +66,7 @@ public class DieselHammerHead extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":hammer_tip:empty")
             .build();
     public final ItemStackBuilder hammerStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":hammer")
-            .name(Component.translatable("rebar.gui.hammer"));
+            .name(Component.translatable("pylon.gui.hammer"));
     public final ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
     public final ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)

@@ -183,7 +183,7 @@ public class CargoValve extends RebarBlock implements
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("status", Component.translatable(
-                        "rebar.message.valve." + (enabled ? "enabled" : "disabled")
+                        "pylon.message.valve." + (enabled ? "enabled" : "disabled")
                 ))
         ));
     }

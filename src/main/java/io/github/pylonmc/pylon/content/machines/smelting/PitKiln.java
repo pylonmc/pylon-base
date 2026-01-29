@@ -212,13 +212,13 @@ public final class PitKiln extends RebarBlock implements
     private WailaDisplay getComponentWaila(@NotNull Player player) {
         Component status = processingTime != null
                 ? Component.translatable(
-                        "rebar.waila.pit_kiln.smelting",
+                        "pylon.waila.pit_kiln.smelting",
                         RebarArgument.of(
                                 "time",
                                 UnitFormat.formatDuration(Duration.ofSeconds(processingTime.longValue()), false)
                         )
                 )
-                : Component.translatable("rebar.waila.pit_kiln.invalid_recipe");
+                : Component.translatable("pylon.waila.pit_kiln.invalid_recipe");
         return new WailaDisplay(Component.translatable(
                 "pylon.item.pit_kiln.waila",
                 RebarArgument.of("info", status)

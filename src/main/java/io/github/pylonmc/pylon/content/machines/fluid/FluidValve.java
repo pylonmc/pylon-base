@@ -124,7 +124,7 @@ public class FluidValve extends RebarBlock
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("status", Component.translatable(
-                        "rebar.message.valve." + (enabled ? "enabled" : "disabled")
+                        "pylon.message.valve." + (enabled ? "enabled" : "disabled")
                 )),
                 RebarArgument.of("bars", PylonUtils.createFluidAmountBar(
                         getFluidAmount(),
