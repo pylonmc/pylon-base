@@ -41,7 +41,6 @@ import org.joml.Vector3d;
 import org.jspecify.annotations.NonNull;
 import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
-import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
 

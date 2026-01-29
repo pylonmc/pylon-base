@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.content.tools.base;
 
-import io.github.pylonmc.pylon.PylonConfig;
 import io.github.pylonmc.pylon.Pylon;
+import io.github.pylonmc.pylon.PylonConfig;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.*;
 import org.bukkit.Bukkit;

@@ -2,7 +2,10 @@ package io.github.pylonmc.pylon.content.machines.simple;
 
 import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.rebar.block.RebarBlock;
-import io.github.pylonmc.rebar.block.base.*;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
@@ -23,16 +26,16 @@ import org.bukkit.block.data.type.Hopper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.Inventory;
 import xyz.xenondevs.invui.inventory.ReferencingInventory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractBoundItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 
 import java.util.List;
 import java.util.Map;
@@ -118,7 +121,7 @@ public class VacuumHopper extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # x x x x x # #",
                         "# # # # # # # # #",
@@ -184,18 +187,18 @@ public class VacuumHopper extends RebarBlock implements
         return !whitelist;
     }
 
-    public final class WhitelistItem extends ControlItem<Gui> {
+    public final class WhitelistItem extends AbstractBoundItem {
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            whitelist = !whitelist;
-            notifyWindows();
+        public @NotNull ItemProvider getItemProvider(@NotNull Player player) {
+            return ItemStackBuilder.of(whitelist ? Material.WHITE_CONCRETE : Material.BLACK_CONCRETE)
+                    .name(Component.translatable("pylon.gui.vacuum_hopper." + (whitelist ? "whitelist" : "blacklist")));
         }
 
         @Override
-        public @NotNull ItemProvider getItemProvider(Gui gui) {
-            return ItemStackBuilder.of(whitelist ? Material.WHITE_CONCRETE : Material.BLACK_CONCRETE)
-                    .name(Component.translatable("rebar.gui.vacuum_hopper." + (whitelist ? "whitelist" : "blacklist")));
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
+            whitelist = !whitelist;
+            notifyWindows();
         }
     }
 }

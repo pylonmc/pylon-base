@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.content.science;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.PylonKeys;
 import io.github.pylonmc.pylon.Pylon;
+import io.github.pylonmc.pylon.PylonKeys;
 import io.github.pylonmc.pylon.event.LoupeCompleteScanningEvent;
 import io.github.pylonmc.pylon.event.LoupeStartScanningEvent;
 import io.github.pylonmc.rebar.block.BlockStorage;
@@ -26,13 +26,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import org.bukkit.Chunk;
-import org.bukkit.Effect;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
-import org.bukkit.Registry;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -51,14 +45,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static io.github.pylonmc.pylon.util.PylonUtils.pylonKey;
 

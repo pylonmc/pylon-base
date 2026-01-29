@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.base.PylonCargoBlock;
-import io.github.pylonmc.pylon.core.block.base.PylonGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.content.cargo.CargoDuct;
@@ -28,6 +28,7 @@ import xyz.xenondevs.invui.gui.Gui;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class CargoInserter extends CargoInteractor implements
@@ -127,11 +128,7 @@ public class CargoInserter extends CargoInteractor implements
         List<BlockFace> faces = RebarUtils.perpendicularImmediateFaces(getFacing());
         faces.add(getFacing());
         for (BlockFace face : faces) {
-            if (targetLogisticGroup != null) {
-                addCargoLogisticGroup(face, targetLogisticGroup);
-            } else {
-                addCargoLogisticGroup(face, "placeholder_unused_kind_of_a_hack");
-            }
+            addCargoLogisticGroup(face, Objects.requireNonNullElse(targetLogisticGroup, "placeholder_unused_kind_of_a_hack"));
         }
         for (BlockFace face : faces) {
             if (BlockStorage.get(getBlock().getRelative(face)) instanceof CargoDuct duct) {
