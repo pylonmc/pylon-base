@@ -2,6 +2,6 @@
 # Modifying this file does not change the actual underlying recipes.
 # The recipes in this file are only displayed in the guide.
 
-pylonbase:wrought_iron:
-  input: pylonbase:iron_bloom
-  result: pylonbase:wrought_iron
+pylon:wrought_iron:
+  input: pylon:iron_bloom
+  result: pylon:wrought_iron

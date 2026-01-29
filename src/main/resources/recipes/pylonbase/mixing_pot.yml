@@ -1,336 +1,336 @@
-pylonbase:obscyra:
+pylon:obscyra:
   input-items:
-    - pylonbase:obsidian_chip: 5
+    - pylon:obsidian_chip: 5
     - minecraft:blaze_powder: 2
   input-fluid:
-    pylonbase:water: 1000
+    pylon:water: 1000
   output:
-    pylonbase:obscyra: 1000
+    pylon:obscyra: 1000
   requires-enriched-fire: true
 
-pylonbase:slurry:
+pylon:slurry:
   input-items:
-    - pylonbase:rock_dust
+    - pylon:rock_dust
   input-fluid:
-    pylonbase:water: 1000
+    pylon:water: 1000
   output:
-    pylonbase:slurry: 1000
+    pylon:slurry: 1000
 
-pylonbase:slurry_sponge_iron_from_iron:
+pylon:slurry_sponge_iron_from_iron:
   input-items:
-    - pylonbase:carbon
+    - pylon:carbon
   input-fluid:
-    pylonbase:slurry_raw_iron: 1000
+    pylon:slurry_raw_iron: 1000
   output:
-    pylonbase:slurry_sponge_iron: 1000
+    pylon:slurry_sponge_iron: 1000
 
-pylonbase:slurry_sponge_iron_from_carbon:
+pylon:slurry_sponge_iron_from_carbon:
   input-items:
-    - pylonbase:crushed_raw_iron
+    - pylon:crushed_raw_iron
   input-fluid:
-    pylonbase:slurry_carbon: 1000
+    pylon:slurry_carbon: 1000
   output:
-    pylonbase:slurry_sponge_iron: 1000
+    pylon:slurry_sponge_iron: 1000
 
-pylonbase:hydraulic_fluid:
+pylon:hydraulic_fluid:
   input-items:
-    - pylonbase:shimmer_dust_1
+    - pylon:shimmer_dust_1
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:hydraulic_fluid: 1000
+    pylon:hydraulic_fluid: 1000
 
-pylonbase:reflector_fluid:
+pylon:reflector_fluid:
   input-items:
-    - pylonbase:quartz_dust: 4
+    - pylon:quartz_dust: 4
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:reflector_fluid: 1000
+    pylon:reflector_fluid: 1000
 
-pylonbase:covalent_binder:
+pylon:covalent_binder:
   input-items:
     - minecraft:gunpowder: 4
     - minecraft:shroomlight
-    - pylonbase:shimmer_dust_1
+    - pylon:shimmer_dust_1
   input-fluid:
-    pylonbase:water: 1000
+    pylon:water: 1000
   output:
-    pylonbase:covalent_binder: 6
+    pylon:covalent_binder: 6
   requires-enriched-fire: true
 
-pylonbase:shimmer_dust_2:
+pylon:shimmer_dust_2:
   input-items:
-    - pylonbase:shimmer_dust_1
-    - pylonbase:gold_dust
+    - pylon:shimmer_dust_1
+    - pylon:gold_dust
     - minecraft:redstone
   input-fluid:
-    pylonbase:water: 333
+    pylon:water: 333
   output:
-    pylonbase:shimmer_dust_2: 1
+    pylon:shimmer_dust_2: 1
 
-pylonbase:disinfectant:
+pylon:disinfectant:
   input-items:
     - minecraft:glass_bottle
     - minecraft:nether_wart: 3
     - minecraft:dandelion
   input-fluid:
-    pylonbase:plant_oil: 100
+    pylon:plant_oil: 100
   output:
-    pylonbase:disinfectant: 1
+    pylon:disinfectant: 1
 
-pylonbase:dough:
+pylon:dough:
   input-items:
-    - pylonbase:flour: 2
+    - pylon:flour: 2
   input-fluid:
-    pylonbase:water: 250
+    pylon:water: 250
   output:
-    pylonbase:dough: 1
+    pylon:dough: 1
 
-pylonbase:igneous_composite:
+pylon:igneous_composite:
   input-items:
     - minecraft:nether_brick: 4
-    - pylonbase:covalent_binder
+    - pylon:covalent_binder
   input-fluid:
-    pylonbase:obscyra: 1000
+    pylon:obscyra: 1000
   output:
-    pylonbase:igneous_composite: 1
+    pylon:igneous_composite: 1
   requires-enriched-fire: true
 
-pylonbase:abyssal_catalyst:
+pylon:abyssal_catalyst:
   input-items:
     - minecraft:soul_soil: 4
   input-fluid:
-    pylonbase:obscyra: 250
+    pylon:obscyra: 250
   output:
-    pylonbase:abyssal_catalyst: 1
+    pylon:abyssal_catalyst: 1
   requires-enriched-fire: true
 
-pylonbase:fluid_voider_2:
+pylon:fluid_voider_2:
   input-items:
-    - pylonbase:fluid_voider_1
+    - pylon:fluid_voider_1
   input-fluid:
-    pylonbase:obscyra: 500
+    pylon:obscyra: 500
   output:
-    pylonbase:fluid_voider_2: 1
+    pylon:fluid_voider_2: 1
   requires-enriched-fire: true
 
-pylonbase:fluid_voider_3:
+pylon:fluid_voider_3:
   input-items:
-    - pylonbase:fluid_voider_2
+    - pylon:fluid_voider_2
   input-fluid:
-    pylonbase:obscyra: 500
+    pylon:obscyra: 500
   output:
-    pylonbase:fluid_voider_3: 1
+    pylon:fluid_voider_3: 1
   requires-enriched-fire: true
 
-pylonbase:research_pack_2:
+pylon:research_pack_2:
   input-items:
-    - pylonbase:hydraulic_motor
-    - pylonbase:carbon
-    - pylonbase:loupe
+    - pylon:hydraulic_motor
+    - pylon:carbon
+    - pylon:loupe
   input-fluid:
-    pylonbase:obscyra: 500
+    pylon:obscyra: 500
   output:
-    pylonbase:research_pack_2: 1
+    pylon:research_pack_2: 1
   requires-enriched-fire: true
 
-pylonbase:refractory_mix:
+pylon:refractory_mix:
   input-items:
-    - pylonbase:iron_dust
+    - pylon:iron_dust
     - minecraft:red_nether_bricks
     - minecraft:sand: 2
     - minecraft:gravel: 2
-    - pylonbase:gypsum_dust: 3
+    - pylon:gypsum_dust: 3
     - minecraft:clay_ball: 6
   input-fluid:
-    pylonbase:obscyra: 1000
+    pylon:obscyra: 1000
   output:
-    pylonbase:refractory_mix: 4
+    pylon:refractory_mix: 4
   requires-enriched-fire: true
 
-pylonbase:explosive_target_fiery:
+pylon:explosive_target_fiery:
   input-items:
-    - pylonbase:explosive_target
+    - pylon:explosive_target
     - minecraft:fire_charge: 2
   input-fluid:
-    pylonbase:plant_oil: 500
+    pylon:plant_oil: 500
   output:
-    pylonbase:explosive_target_fiery: 1
+    pylon:explosive_target_fiery: 1
 
-pylonbase:explosive_target_super_fiery:
+pylon:explosive_target_super_fiery:
   input-items:
-    - pylonbase:explosive_target
+    - pylon:explosive_target
     - minecraft:fire_charge: 4
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:explosive_target_super_fiery: 1
+    pylon:explosive_target_super_fiery: 1
 
-pylonbase:solar_lens:
+pylon:solar_lens:
   input-items:
     - minecraft:glass_pane: 4
   input-fluid:
-    pylonbase:reflector_fluid: 250
+    pylon:reflector_fluid: 250
   output:
-    pylonbase:solar_lens: 1
+    pylon:solar_lens: 1
 
-pylonbase:breeding_talisman_advanced:
+pylon:breeding_talisman_advanced:
   input-items:
-    - pylonbase:breeding_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:breeding_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:breeding_talisman_advanced: 1
+    pylon:breeding_talisman_advanced: 1
 
-pylonbase:hunger_talisman_advanced:
+pylon:hunger_talisman_advanced:
   input-items:
-    - pylonbase:hunger_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:hunger_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:hunger_talisman_advanced: 1
+    pylon:hunger_talisman_advanced: 1
 
-pylonbase:luck_talisman_advanced:
+pylon:luck_talisman_advanced:
   input-items:
-    - pylonbase:luck_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:luck_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:luck_talisman_advanced: 1
+    pylon:luck_talisman_advanced: 1
 
-pylonbase:hunting_talisman_advanced:
+pylon:hunting_talisman_advanced:
   input-items:
-    - pylonbase:hunting_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:hunting_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:hunting_talisman_advanced: 1
+    pylon:hunting_talisman_advanced: 1
 
-pylonbase:enchanting_talisman_advanced:
+pylon:enchanting_talisman_advanced:
   input-items:
-    - pylonbase:enchanting_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:enchanting_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:enchanting_talisman_advanced: 1
+    pylon:enchanting_talisman_advanced: 1
 
-pylonbase:bartering_talisman_advanced:
+pylon:bartering_talisman_advanced:
   input-items:
-    - pylonbase:bartering_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:bartering_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:bartering_talisman_advanced: 1
+    pylon:bartering_talisman_advanced: 1
 
-pylonbase:water_breathing_talisman_advanced:
+pylon:water_breathing_talisman_advanced:
   input-items:
-    - pylonbase:water_breathing_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:water_breathing_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:water_breathing_talisman_advanced: 1
+    pylon:water_breathing_talisman_advanced: 1
 
-pylonbase:farmer_talisman_advanced:
+pylon:farming_talisman_advanced:
   input-items:
-    - pylonbase:farmer_talisman_simple: 1
-    - pylonbase:shimmer_dust_2: 2
+    - pylon:farming_talisman_simple: 1
+    - pylon:shimmer_dust_2: 2
   input-fluid:
-    pylonbase:plant_oil: 1000
+    pylon:plant_oil: 1000
   output:
-    pylonbase:farmer_talisman_advanced: 1
+    pylon:farming_talisman_advanced: 1
 
-pylonbase:breeding_talisman_ultimate:
+pylon:breeding_talisman_ultimate:
   input-items:
-    - pylonbase:breeding_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:breeding_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:breeding_talisman_ultimate: 1
+    pylon:breeding_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:hunger_talisman_ultimate:
+pylon:hunger_talisman_ultimate:
   input-items:
-    - pylonbase:hunger_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:hunger_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:hunger_talisman_ultimate: 1
+    pylon:hunger_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:luck_talisman_ultimate:
+pylon:luck_talisman_ultimate:
   input-items:
-    - pylonbase:luck_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:luck_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:luck_talisman_ultimate: 1
+    pylon:luck_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:hunting_talisman_ultimate:
+pylon:hunting_talisman_ultimate:
   input-items:
-    - pylonbase:hunting_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:hunting_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:hunting_talisman_ultimate: 1
+    pylon:hunting_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:enchanting_talisman_ultimate:
+pylon:enchanting_talisman_ultimate:
   input-items:
-    - pylonbase:enchanting_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:enchanting_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:enchanting_talisman_ultimate: 1
+    pylon:enchanting_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:bartering_talisman_ultimate:
+pylon:bartering_talisman_ultimate:
   input-items:
-    - pylonbase:bartering_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:bartering_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:bartering_talisman_ultimate: 1
+    pylon:bartering_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:water_breathing_talisman_ultimate:
+pylon:water_breathing_talisman_ultimate:
   input-items:
-    - pylonbase:water_breathing_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:water_breathing_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:water_breathing_talisman_ultimate: 1
+    pylon:water_breathing_talisman_ultimate: 1
   requires-enriched-fire: true
 
-pylonbase:farmer_talisman_ultimate:
+pylon:farming_talisman_ultimate:
   input-items:
-    - pylonbase:farmer_talisman_advanced: 1
-    - pylonbase:shimmer_skull: 1
-    - pylonbase:shimmer_dust_3: 4
+    - pylon:farming_talisman_advanced: 1
+    - pylon:shimmer_skull: 1
+    - pylon:shimmer_dust_3: 4
   input-fluid:
-    pylonbase:gold: 500
+    pylon:gold: 500
   output:
-    pylonbase:farmer_talisman_ultimate: 1
+    pylon:farming_talisman_ultimate: 1
   requires-enriched-fire: true

@@ -1,4 +1,4 @@
-addon: "Base"
+addon: "Pylon"
 
 item:
   bandage:
@@ -113,7 +113,7 @@ item:
   enriched_soul_soil:
     name: "Enriched Soul Soil"
     lore: |-
-      <arrow> Burns hotter and brighter than netherrack
+      <arrow> Burns hotter and brighter than normal soul soil
 
   explosive_target:
     name: "Explosive Target"
@@ -161,8 +161,8 @@ item:
       <arrow> <insn>Right click with tongs</insn> to retrieve items safely
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.bloomery.name/></yellow>
-      <diamond> 4x <yellow><lang:pylon.pylonbase.item.refractory_bricks.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.bloomery.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.item.refractory_bricks.name/></yellow>
 
   bronze_anvil:
     name: "Bronze Anvil"
@@ -171,9 +171,9 @@ item:
       <arrow> The aim is to hammer the bloom into a "normal" shape
       <arrow> <insn>Right click</insn> to place items on the anvil
       <arrow> <insn>Left click</insn> with a hammer to make the bloom shorter/wider
-      <arrow> <insn>Left click</insn> with a <lang:pylon.pylonbase.item.tongs.name/> to make the bloom taller/narrower
+      <arrow> <insn>Left click</insn> with a <lang:pylon.item.tongs.name/> to make the bloom taller/narrower
       <arrow> The amount of shape change is determined by the temperature
-      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.pylonbase.item.wrought_iron.name/> will pop off
+      <arrow> Once the temperature is 0 and the bloom is sufficiently shaped, a <lang:pylon.item.wrought_iron.name/> will pop off
 
   bronze_axe:
     name: "Bronze Axe"
@@ -365,6 +365,29 @@ item:
     waila: "Fluid Filter | %bars% (%fluid%)"
     gui: "Fluid Filter"
 
+  fluid_limiter:
+    name: "<white>Fluid Limiter"
+    lore: |-
+      <arrow> Limits the speed of fluid transfer
+      <arrow> <insn>Right click</insn> to change the fluid transfer limit
+      <arrow> <attr>Min amount:</attr> %min-amount%
+      <arrow> <attr>Max amount:</attr> %max-amount%
+    gui:
+      add: "<green>+ %amount% ml/s"
+      dec: "<red>- %amount% ml/s"
+      amount: "<white>Amount: %amount% ml/s"
+    waila: "Fluid Limiter | %bars% (%fluid%)"
+
+  fluid_accumulator:
+    name: "<white>Fluid Accumulator"
+    lore: |-
+      <arrow> Accumulates the specified amount of fluid before releasing it all at once
+      <arrow> Power with redstone to flush all fluid to the output and prevent more fluid from being inputted
+      <arrow> <insn>Right click</insn> to change the accumulation amount
+      <arrow> <attr>Min amount:</attr> %min-amount%
+      <arrow> <attr>Max amount:</attr> %max-amount%
+    waila: "Fluid Accumulator | %bars% (%fluid%)"
+
   fluid_meter:
     name: "<white>Fluid Meter"
     lore: |-
@@ -383,19 +406,19 @@ item:
     waila: "Fluid Strainer%info%"
 
   fluid_voider_1:
-    name: "Fluid Voider <light_purple>I"
+    name: "<white>Fluid Voider <light_purple>I"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
   fluid_voider_2:
-    name: "Fluid Voider <light_purple>II"
+    name: "<white>Fluid Voider <light_purple>II"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
 
   fluid_voider_3:
-    name: "Fluid Voider <light_purple>III"
+    name: "<white>Fluid Voider <light_purple>III"
     lore: |-
       <arrow> Destroys all fluids piped into it
       <arrow> <attr>Void rate:</attr> %void_rate%
@@ -483,8 +506,8 @@ item:
       <arrow> <insn>Right click</insn> the grindstone handle to grind the item
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.grindstone_handle.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.grindstone.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.grindstone_handle.name/></yellow>
 
   grindstone_handle:
     name: "Grindstone Handle"
@@ -537,21 +560,21 @@ item:
     lore: |-
       <arrow> Cuts down entire trees at once
 
-  magic_altar:
-    name: "Magic Altar"
+  shimmer_altar:
+    name: "Shimmer Altar"
     lore: |- 
       <star> Multiblock
       <arrow> A self-contained structure for performing shimmer rituals
-      <arrow> Add items on the pedestals, then right click the magic altar with the catalyst to begin the ritual
+      <arrow> Add items on the pedestals, then right click the altar with the catalyst to begin the ritual
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.magic_altar.name/></yellow>
-      <diamond> 8x <yellow><lang:pylon.pylonbase.item.magic_pedestal.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.shimmer_altar.name/></yellow>
+      <diamond> 8x <yellow><lang:pylon.item.shimmer_pedestal.name/></yellow>
 
-  magic_pedestal:
-    name: "Magic Pedestal"
+  shimmer_pedestal:
+    name: "Shimmer Pedestal"
     lore: |-
-      <star> Magic Altar multiblock component
+      <star> Shimmer Altar multiblock component
       <arrow> <insn>Right click</insn> to set the displayed item
       <arrow> <insn>Shift right click</insn> to rotate the item
 
@@ -622,7 +645,7 @@ item:
       <arrow> <attr>Smelting time:</attr> %smelting_time%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.pit_kiln.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.pit_kiln.name/></yellow>
       <diamond> 8x <yellow>Block of Coal</yellow>
       <diamond> 20x <yellow>Coarse Dirt</yellow>
       <diamond> 1x <yellow>Campfire</yellow> (%campfire%x <attr>speed</attr>) 
@@ -760,13 +783,13 @@ item:
       <arrow> <insn>Right click</insn> to open the smeltery GUI
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.smeltery_controller.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_input_hatch.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_output_hatch.name/> Hatch</yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_hopper.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_caster.name/></yellow>
-      <diamond> 1 or more <yellow><lang:pylon.pylonbase.item.smeltery_burner.name/></yellow>
-      <diamond> 25 or more <yellow><lang:pylon.pylonbase.item.refractory_bricks.name/></yellow> (depending on size and components)
+      <diamond> 1x <yellow><lang:pylon.item.smeltery_controller.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_input_hatch.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_output_hatch.name/> Hatch</yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_hopper.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_caster.name/></yellow>
+      <diamond> 1 or more <yellow><lang:pylon.item.smeltery_burner.name/></yellow>
+      <diamond> 25 or more <yellow><lang:pylon.item.refractory_bricks.name/></yellow> (depending on size and components)
 
   smeltery_hopper:
     name: "Smeltery Hopper"
@@ -877,10 +900,10 @@ item:
       <arrow> Only works while in your inventory
       <arrow> <attr>Max health increase:</attr> %health-boost%
 
-  item_magnet:
-    name: "Item Magnet"
+  shimmer_magnet:
+    name: "Shimmer Magnet"
     lore: |-
-      <arrow> Pulls items towards you in a range
+      <arrow> Uses the shimmer field to pull items towards you in a range
       <arrow> <insn>Right click</insn> to toggle
       <arrow> Does not stack
       <arrow> <attr>Pull distance:</attr> %pickup-distance%
@@ -1007,10 +1030,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_1.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 16x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_1.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 16x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower I | %input-bar% | %output-bar%"
 
   solar_purification_tower_2:
@@ -1025,10 +1048,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_2.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 48x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_2.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 48x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower II | %input-bar% | %output-bar%"
 
   solar_purification_tower_3:
@@ -1043,10 +1066,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_3.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 96x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_3.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 96x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower III | %input-bar% | %output-bar%"
 
   solar_purification_tower_4:
@@ -1061,10 +1084,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_4.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 160x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_4.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 160x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower IV | %input-bar% | %output-bar%"
 
   solar_purification_tower_5:
@@ -1079,10 +1102,10 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.solar_purification_tower_5.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 3x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
-      <diamond> 240x <yellow><lang:pylon.pylonbase.item.solar_lens.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.solar_purification_tower_5.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 3x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
+      <diamond> 240x <yellow><lang:pylon.item.solar_lens.name/></yellow>
     waila: "Solar Purification Tower V | %input-bar% | %output-bar%"
 
   coal_fired_purification_tower:
@@ -1096,9 +1119,9 @@ item:
       <arrow> <attr>Buffer:</attr> %buffer%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.coal_fired_purification_tower.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.purification_tower_cap.name/></yellow>
-      <diamond> 5x <yellow><lang:pylon.pylonbase.item.purification_tower_glass.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.coal_fired_purification_tower.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.purification_tower_cap.name/></yellow>
+      <diamond> 5x <yellow><lang:pylon.item.purification_tower_glass.name/></yellow>
     waila: "Coal-fired Purification Tower | %input-bar% | %output-bar%"
     progress_item:
       running: "<green>Running"
@@ -1107,7 +1130,7 @@ item:
   fireproof_rune:
     name: "Fireproof Rune"
     lore: |-
-      <arrow> The same fields that make <lang:pylon.pylonbase.item.enriched_soul_soil.name> burn so hot can be inverted to protect items from burning
+      <arrow> The same fields that make Enriched Soul Soil burn so hot can be inverted to protect items from burning
       <arrow> <insn>Drop your rune and item together</insn> to apply the rune to the item
 
   fluid_tank:
@@ -1119,7 +1142,7 @@ item:
       <arrow> <attr>Max height:</attr> %max-height%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_tank.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_tank.name/></yellow>
       <diamond> 1 or more <yellow>Fluid Tank Casing</yellow>
     waila: "Fluid Tank | %bars% (%fluid%)"
 
@@ -1187,9 +1210,11 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.manual_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Cobblestone Wall</yellow>
+    waila: "Manual Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   improved_manual_core_drill:
     name: "Improved Manual Core Drill"
@@ -1200,9 +1225,11 @@ item:
       <arrow> <attr>Output:</attr> %cycle-output%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.improved_manual_core_drill.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.manual_core_drill_lever.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.improved_manual_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.manual_core_drill_lever.name/></yellow>
       <diamond> 9x <yellow>Polished Deepslate Wall</yellow>
+    waila: "Improved Manual Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   hydraulic_core_drill:
     name: "Hydraulic Core Drill"
@@ -1215,13 +1242,15 @@ item:
       <arrow> <attr>Hydraulic fluid usage:</attr> %hydraulic-fluid-usage%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.hydraulic_core_drill.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.hydraulic_core_drill.name/></yellow>
       <diamond> 1x <yellow>Cauldron</yellow>
       <diamond> 1x <yellow>Chest</yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_output_hatch.name/></yellow>
       <diamond> 6x <yellow>Iron Bars</yellow>
       <diamond> 12x <yellow>Polished Deepslate Wall</yellow>
+    waila: "Hydraulic Core Drill %duration_if_any%"
+    waila_format: "| %duration%"
 
   fluid_input_hatch:
     name: "Fluid Input Hatch"
@@ -1510,13 +1539,13 @@ item:
       <arrow> <attr>Maximum ethanol output rate:</attr> %max-ethanol-output-rate%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fermenter.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fermenter.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_output_hatch.name/></yellow>
       <diamond> 2x <yellow>Block of Iron</yellow>
       <diamond> 4x <yellow>Polished Deepslate Wall</yellow>
-      <diamond> 4x <yellow><lang:pylon.pylonbase.item.fermenter_core.name/></yellow>
-      <diamond> 31x <yellow><lang:pylon.pylonbase.item.fermenter_casing.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.item.fermenter_core.name/></yellow>
+      <diamond> 31x <yellow><lang:pylon.item.fermenter_casing.name/></yellow>
     waila: "Fermenter | %sugarcane-bar% %sugarcane-amount% sugarcane"
 
   fermenter_core:
@@ -1541,14 +1570,14 @@ item:
       <arrow> <attr>Plant oil per mb of biodiesel:</attr> %plant-oil-per-mb-of-biodiesel%
       
       <u>Components</u>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.item_input_hatch.name/></yellow>
-      <diamond> 1x <yellow><lang:pylon.pylonbase.item.fluid_output_hatch.name/></yellow>
-      <diamond> 2x <yellow><lang:pylon.pylonbase.item.fluid_input_hatch.name/></yellow>
-      <diamond> 6x <yellow><lang:pylon.pylonbase.item.biorefinery_foundation.name/></yellow>
-      <diamond> 4x <yellow><lang:pylon.pylonbase.item.biorefinery_tower_ring.name/></yellow>
-      <diamond> 9x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_ring.name/></yellow>
-      <diamond> 2x <yellow><lang:pylon.pylonbase.item.biorefinery_smokestack_cap.name/></yellow>
-      <diamond> 24x <yellow><lang:pylon.pylonbase.item.biorefinery_plating.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.item_input_hatch.name/></yellow>
+      <diamond> 1x <yellow><lang:pylon.item.fluid_output_hatch.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.item.fluid_input_hatch.name/></yellow>
+      <diamond> 6x <yellow><lang:pylon.item.biorefinery_foundation.name/></yellow>
+      <diamond> 4x <yellow><lang:pylon.item.biorefinery_tower_ring.name/></yellow>
+      <diamond> 9x <yellow><lang:pylon.item.biorefinery_smokestack_ring.name/></yellow>
+      <diamond> 2x <yellow><lang:pylon.item.biorefinery_smokestack_cap.name/></yellow>
+      <diamond> 24x <yellow><lang:pylon.item.biorefinery_plating.name/></yellow>
     waila: "Biorefinery | %info%"
 
   biorefinery_foundation:
@@ -1665,6 +1694,24 @@ item:
       <arrow> <attr>Fluid buffer:</attr> %fluid-buffer%
     waila: "Cargo Fluid Accumulator | <light_purple>%item-threshold%</light_purple> <white>| <light_purple>%fluid-threshold%</light_purple> <white>| %bars%"
 
+  cargo_overflow_gate:
+    name: "<white>Cargo Overflow Gate"
+    lore: |-
+      <arrow> Splits items evenly between two outputs
+      <arrow> If one side is full, all items go to the other side
+      <arrow> Optionally allows prioritization of one side
+      <arrow> <attr>Transfer rate:</attr> %transfer-rate%
+
+  creative_item_source:
+    name: "<#ff00ff>Creative Item Source"
+    lore: |-
+      <arrow> Provides an infinite supply of the item placed inside
+
+  creative_item_voider:
+    name: "<#ff00ff>Creative Item Voider"
+    lore: |-
+      <arrow> Destroys any items piped into it
+
   hunger_talisman_simple:
     name: "Simple Hunger Talisman"
     lore: |-
@@ -1689,21 +1736,21 @@ item:
       <arrow> <attr>Saturation increase:</attr> %saturation_increase%
       <arrow> <attr>Hunger increase:</attr> %hunger_increase%
 
-  farmer_talisman_simple:
+  farming_talisman_simple:
     name: "Simple Farming Talisman"
     lore: |-
       <arrow> Get an extra drop when breaking a crop
       <arrow> Only works while in your inventory
       <arrow> <attr>Success rate:</attr> %extra_crop_chance%
 
-  farmer_talisman_advanced:
+  farming_talisman_advanced:
     name: "Advanced Farming Talisman"
     lore: |-
       <arrow> Get an extra drop when breaking a crop
       <arrow> Only works while in your inventory
       <arrow> <attr>Success rate:</attr> %extra_crop_chance%
 
-  farmer_talisman_ultimate:
+  farming_talisman_ultimate:
     name: "Ultimate Farming Talisman"
     lore: |-
       <arrow> Get an extra drop when breaking a crop
@@ -1857,9 +1904,9 @@ fluid:
   slurry_raw_gold: "<gold>Raw Gold Slurry"
   slurry_raw_iron: "<gray>Raw Iron Slurry"
   slurry_raw_tin: "<gray>Raw Tin Slurry"
-  steel: "<gray>Steel"
+  steel: "<gray>Liquid Steel"
   sulfur: "<yellow>Sulfur"
-  tin: "<gray>Tin"
+  tin: "<gray>Liquid Tin"
   water: "<blue>Water"
   plant_oil: "<#c4b352>Plant Oil"
   hydraulic_fluid: "<#212d99>Hydraulic Fluid"
@@ -1894,86 +1941,91 @@ research:
   baking: "<#e2b42b>Baking"
   vitality_1: "<#87dd87>Vitality I"
   vitality_2: "<#6ae26a>Vitality II"
-  first_aid: "<#ef524a>First aid"
-  food_preservation: "<#483b29>Food preservation"
+  medicine_1: "<#ef524a>Medicine I"
+  medicine_2: "<#cc2e2e>Medicine II"
+  medicine_3: "<#cc2e2e>Medicine III"
   french_revolution: "<gradient:#0055a4:white:#ef4135>The French Revolution"
-  shimmer_manipulation: "<#efd44a>Shimmer manipulation"
+  shimmer_magic_1: "<#efd44a>Shimmer magic I"
+  shimmer_magic_2: "<#efd44a>Shimmer magic II"
+  shimmer_magic_3: "<#efd44a>Shimmer magic III"
   deforestation: "<#d67d2a>Deforestation"
-  rituals: "<#5b0baa>Rituals"
-  elevation: "<#db79e0>Elevation"
-  medicine: "<#cc2e2e>Medicine"
-  better_hammers: "<#77d17e>Better hammers"
+  elevators: "<#db79e0>Elevators"
+  improved_hammers: "<#77d17e>Better hammers"
   fletching: "<#d66db8>Fletching"
   irrigation: "<#77a7d1>Irrigation"
   portable_workstations: "<#9b816c>Portable workstations"
-  primitive_alloying: "<#d93802>Primitive alloying"
   showing_off: "<rainbow>Showing off"
-  explosive_targets: "<#ef8c4a>Explosive archery"
+  combat_engineering: "<#ef8c4a>Combat engineering"
   igneous_magic: "<#45336d>Igneous magic"
-  forbidden_medicine: "<#cc2e2e>Forbidden Medicine"
-  scientific_revolution_1: "<#fc0505>The Scientific Revolution I"
+  scientific_revolution_1: "<#5bfc05>The Scientific Revolution I"
   scientific_revolution_2: "<#5bfc05>The Scientific Revolution II"
-  high_temperature_materials: "<#ce6625>High temperature materials"
-  high_temperature_smelting: "<#ff6b0f>High temperature smelting"
-  molding: "<#7a5742>Molding"
-  improved_drilling_techniques: "<#4f4641>Improved drilling techniques"
+  talismans_1: "<#ce6625>Talismans I"
+  talismans_2: "<#ce6625>Talismans II"
+  talismans_3: "<#ce6625>Talismans III"
+  smelting_1: "<#ff6b0f>Smelting I"
+  smelting_2: "<#ff6b0f>Smelting II"
+  smelting_3: "<#ff6b0f>Smelting III"
+  drilling_1: "<#4f4641>Drilling I"
+  drilling_2: "<#4f4641>Drilling II"
+  drilling_3: "<#4f4641>Drilling III"
   pressing: "<#dbe047>Pressing"
   bronze_equipment: "<#bc7f4d>Bronze equipment"
-  fireproofing: "<#ad2e2e>Fireproofing"
-  hydraulic_automation: "<#446be2>Hydraulic automation"
+  runes: "<#ad2e2e>Runes"
+  hydraulic_machines: "<#446be2>Hydraulic Machines"
   hydraulic_combat: "<#5297ff>Hydraulic combat"
-  hydraulic_purification: "<#2e7df4>Hydraulic purification"
-  large_scale_hydraulic_purification: "<#77a9f4>Large scale hydraulic purification"
-  hydraulic_drilling: "<#96d4e0>Hydraulic drilling"
-  steel: "<#444444>Steel"
+  hydraulic_purification_1: "<#2e7df4>Hydraulic purification I"
+  hydraulic_purification_2: "<#2e7df4>Hydraulic purification II"
+  hydraulic_purification_3: "<#2e7df4>Hydraulic purification III"
   magnetism: "<#144cbc>Magnetism"
-  immobilization: "<#b75984>Immobilization"
   fluid_voiding_1: "<#2a3360>Fluid voiding I"
   fluid_voiding_2: "<#2a3360>Fluid voiding II"
-  flow_control: "<#2a47d6>Flow control"
+  fluid_machines_1: "<#2a47d6>Fluid Machines I"
+  fluid_machines_2: "<#2a47d6>Fluid Machines II"
+  fluid_machines_3: "<#2a47d6>Fluid Machines III"
   pumps: "<#54abbc>Pumps"
   fluid_handling_1: "<#58e2d2>Fluid handling I"
   fluid_handling_2: "<#58e2d2>Fluid handling II"
   fluid_handling_3: "<#58e2d2>Fluid handling III"
-  fluid_storage: "<#88ccbb>Fluid storage"
+  fluid_handling_4: "<#58e2d2>Fluid handling IV"
   simple_components: "<#c1c1c1>Simple components"
   straining: "<#c99fa1>Straining"
   climbing_equipment: "<#a6b579>Climbing equipment"
-  vacuum_hoppers: "<#54536d>Vacuum hoppers"
-  advanced_vacuum_hoppers: "<#54536d>Advanced vacuum hoppers"
-  reactivated_skulls: "<gray>Reactivated wither skulls"
-  soul_attachment: "<dark_purple>Soul attachment"
-  diet: "<green>Strong diet"
-  farming_aids: "<green>Farming upgrades"
-  negotiation_tactics: "<#ffde59>Negotiation tactics"
-  optimal_breathing: "<#5f26b6>Optimized breathing"
-  lucky_ducky: "<#ffde59>Lucky ducky"
-  advanced_breeding: "<#e4080a>Advanced breeding"
-  portable_enchanting_books: "<#060270>Portable enchanting books"
-  lucky_hunting_charms: "<#bfd641>Lucky hunting charms"
+  vacuum_hoppers_1: "<#54536d>Vacuum hoppers I"
+  vacuum_hoppers_2: "<#54536d>Vacuum hoppers II"
+  wither_reactivation: "<gray>Wither reactivation"
+  cargo_1: "<#e89888>Cargo I"
+  cargo_2: "<#e89888>Cargo II"
+  cargo_3: "<#e89888>Cargo III"
+  diesel_machines: "<#e8c888>Diesel machines"
+  diesel_production: "<#ce8c77>Diesel production"
 
 guide:
   page:
-    science: "Science"
-    resources: "Resources"
-    components: "Components"
-    tools: "Tools"
-    food: "Food"
-    combat: "Combat"
-    talismans: "Talismans"
-    armour: "Armour"
-    simple_machines: "Simple machines"
-    fluid_pipes_and_tanks: "Fluid pipes and tanks"
-    fluid_machines: "Fluid machines"
-    hydraulics: "Hydraulic Machines"
-    cargo: "Cargo"
-    diesel_machines: "Diesel Machines"
-    diesel_production: "Diesel Production"
-    smelting: "Smelting"
-    machines: "Machines"
-    building: "Building"
-    creative_items: "Creative Items <#ff0000>(admin only)</#ff0000>"
-    magic: "Magic"
+    science: "<white>Science"
+    resources_metals: "<white>Metals"
+    resources_core_chunks: "<white>Core Chunks"
+    resources_magic: "<white>Magic"
+    resources_miscellaneous: "<white>Miscellaneous"
+    resources: "<white>Resources"
+    components: "<white>Components"
+    tools: "<white>Tools"
+    food: "<white>Food"
+    combat: "<white>Combat"
+    talismans: "<white>Talismans"
+    armour: "<white>Armour"
+    machines_simple_machines: "<white>Simple machines"
+    machines_fluid_pipes_and_tanks: "<white>Fluid Pipes and Tanks"
+    machines_fluid_machines: "<white>Fluid Machines"
+    machines_hydraulic_machines: "<white>Hydraulic Machines"
+    machines_hydraulic_purification: "<white>Hydraulic Purification"
+    machines_cargo: "<white>Cargo"
+    machines_diesel_machines: "<white>Diesel Machines"
+    machines_diesel_production: "<white>Diesel Production"
+    machines_smelting: "<white>Smelting"
+    machines: "<white>Machines"
+    building: "<white>Building"
+    creative_items: "<light_purple>Creative Items <#ff0000>(admin only)</#ff0000>"
+    magic: "<white>Magic"
   recipe:
     grindstone:
       time: "<attr>Grinding time:</attr> %time%"
@@ -2001,12 +2053,14 @@ message:
   sprinkler_too_close: "<red>You cannot place sprinklers within %radius% blocks of each other"
   gained_research_points: "<green>+%points% research points (%total% points total)"
   loupe:
-    nothing: "<red>You look at your hand. It is not very interesting"
-    invalid_block: "<red>Try as you may, you cannot glean any information from this block"
-    already_examined: "<red>You cannot find any more interesting things about this item"
     is_pylon: "<red>Having built this, you can't think of anything interesting you might find out about it"
-    examined: "<green>As you examine the %item%, you get a sudden flash of insight"
-    is_other_plugin: "<red>You smug little knave, use vanilla items not plugin ones"
+    is_other_plugin: "<red>You smug little knave, examine vanilla objects not plugin ones"
+    is_player: "<red>Examining other players provides no useful information"
+    already_examined: "<red>You've already examined this specific %object%, examine a different one"
+    max_uses: "<red>You cannot find any more interesting things about this object"
+    examining: "<green>You examine the %object% closely...."
+    examine_failed: "<red>Failed to examine the %object%. <gray>(Do you have permission?)"
+    examined: "<green>After examining the %object%, you get a sudden flash of insight!"
   research_pack:
     message: "As you open the research pack, %happening%"
     happening:
@@ -2014,9 +2068,9 @@ message:
       1: "you find that a seemingly living gelatinous substance has formed in the pack"
       2: "a strange, glowing liquid spills out"
       3: "full of anticipation, you are disappointed to find that nothing happens"
-  item_magnet:
-    enabled: "Item Magnet <gray>has been</gray> <green>enabled"
-    disabled: "Item Magnet <gray>has been</gray> <red>disabled"
+  shimmer_magnet:
+    enabled: "Shimmer Magnet <gray>has been</gray> <green>enabled"
+    disabled: "Shimmer Magnet <gray>has been</gray> <red>disabled"
   valve:
     enabled: "<green>enabled"
     disabled: "<red>disabled"
@@ -2043,16 +2097,12 @@ gui:
   filter: "Items to filter"
   left: "Left"
   right: "Right"
-  left_button:
-    name: "Change ratio left"
+  none: "None"
+  side-priority:
+    name: "Priority: <light_purple>%priority%"
     lore: |-
-      <arrow> <insn>Left click</insn> to increase
-      <arrow> <insn>Right click</insn> to decrease
-  right_button:
-    name: "Change ratio right"
-    lore: |-
-      <arrow> <insn>Left click</insn> to increase
-      <arrow> <insn>Right click</insn> to decrease
+      <arrow> The <lang:pylon.item.cargo_overflow_gate.name/> will always send items to this side unless it's full
+      <arrow> <insn>Left click</insn> to cycle priority
   threshold_button:
     name: "Threshold: <light_purple>%threshold%"
     lore: |-
@@ -2080,7 +2130,18 @@ gui:
       lore: |-
         <arrow> <insn>Click</insn> to toggle
   no-target-logistic-group: "No inventories available"
-  ratio: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+  ratio:
+    name: "Ratio: <#efae15>%left%<white>-<#2386c4>%right% <white>(<#efae15>left<white>-<#2386c4>right<white>)"
+    left_button:
+      name: "Change ratio left"
+      lore: |-
+        <arrow> <insn>Left click</insn> to increase
+        <arrow> <insn>Right click</insn> to decrease
+    right_button:
+      name: "Change ratio right"
+      lore: |-
+        <arrow> <insn>Left click</insn> to increase
+        <arrow> <insn>Right click</insn> to decrease
   portable-dustbin: "Portable Dustbin"
   status:
     name: "Status"
@@ -2109,6 +2170,9 @@ gui:
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
   progress_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
+  vacuum_hopper:
+    blacklist: "<white>Blacklist"
+    whitelist: "<white>Whitelist"
   fluid_amount_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%amount%/%capacity%"
   logistic-group-cycle-item:
@@ -2117,6 +2181,20 @@ gui:
       <arrow> <insn>Click</insn> to cycle
   fluid_meter:
     name: "<attr>Measurement duration:</attr> %measurement-duration%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
+  fluid_accumulator:
+    name: "<attr>Amount:</attr> %amount%"
+    lore: |-
+      <arrow> <insn>Left click</insn> to increase
+      <arrow> <insn>Right click</insn> to decrease
+      <arrow> <insn>Shift left click</insn> to increase <yellow>(10x)</yellow>
+      <arrow> <insn>Shift right click</insn> to decrease <yellow>(10x)</yellow>
+  fluid_limiter:
+    name: "<attr>Max flow rate:</attr> %max-flow-rate%"
     lore: |-
       <arrow> <insn>Left click</insn> to increase
       <arrow> <insn>Right click</insn> to decrease

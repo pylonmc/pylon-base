@@ -32,12 +32,12 @@ repositories {
     }
 }
 
-val coreVersion = project.properties["pylon-core.version"] as String
+val rebarVersion = project.properties["rebar.version"] as String
 val minecraftVersion = project.properties["minecraft.version"] as String
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
-    compileOnly("io.github.pylonmc:pylon-core:$coreVersion")
+    compileOnly("io.github.pylonmc:rebar:$rebarVersion")
 
     implementation("org.bstats:bstats-bukkit:2.2.1")
 }
@@ -61,21 +61,21 @@ tasks.shadowJar {
     archiveBaseName = project.name
     archiveClassifier = null
 
-    relocate("org.bstats", "io.github.pylonmc.pylon.base.bstats")
+    relocate("org.bstats", "io.github.pylonmc.pylon.bstats")
 }
 
 bukkit {
-    name = "PylonBase"
-    main = "io.github.pylonmc.pylon.base.PylonBase"
+    name = "Pylon"
+    main = "io.github.pylonmc.pylon.Pylon"
     version = project.version.toString()
     apiVersion = minecraftVersion
-    depend = listOf("PylonCore")
+    depend = listOf("Rebar")
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 }
 
 tasks.runServer {
     downloadPlugins {
-        github("pylonmc", "pylon-core", coreVersion, "pylon-core-$coreVersion.jar")
+        github("pylonmc", "rebar", rebarVersion, "rebar-$rebarVersion.jar")
     }
     maxHeapSize = "4G"
     minecraftVersion(minecraftVersion)
@@ -94,8 +94,8 @@ publishing {
 
             pom {
                 name = project.name
-                description = "The base addon for Pylon."
-                url = "https://github.com/pylonmc/pylon-base"
+                description = "The base addon for Rebar."
+                url = "https://github.com/pylonmc/pylon"
                 licenses {
                     license {
                         name = "GNU Lesser General Public License Version 3"
@@ -110,9 +110,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = "scm:git:git://github.com/pylonmc/pylon-base.git"
-                    developerConnection = "scm:git:ssh://github.com:pylonmc/pylon-base.git"
-                    url = "https://github.com/pylonmc/pylon-base"
+                    connection = "scm:git:git://github.com/pylonmc/pylon.git"
+                    developerConnection = "scm:git:ssh://github.com:pylonmc/pylon.git"
+                    url = "https://github.com/pylonmc/pylon"
                 }
             }
         }

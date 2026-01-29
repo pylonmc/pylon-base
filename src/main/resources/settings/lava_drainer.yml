@@ -1,4 +1,4 @@
 material: lava
-fluid: pylonbase:lava
+fluid: pylon:lava
 buffer: 2000.0
 tick-interval: 40
