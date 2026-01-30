@@ -1,22 +1,6 @@
 package io.github.pylonmc.pylon;
 
-import io.github.pylonmc.pylon.recipes.BloomeryDisplayRecipe;
-import io.github.pylonmc.pylon.recipes.CastingRecipe;
-import io.github.pylonmc.pylon.recipes.CrucibleRecipe;
-import io.github.pylonmc.pylon.recipes.DrillingDisplayRecipe;
-import io.github.pylonmc.pylon.recipes.ForgingDisplayRecipe;
-import io.github.pylonmc.pylon.recipes.GrindstoneRecipe;
-import io.github.pylonmc.pylon.recipes.HammerRecipe;
-import io.github.pylonmc.pylon.recipes.MeltingRecipe;
-import io.github.pylonmc.pylon.recipes.MixingPotRecipe;
-import io.github.pylonmc.pylon.recipes.MoldingRecipe;
-import io.github.pylonmc.pylon.recipes.PipeBendingRecipe;
-import io.github.pylonmc.pylon.recipes.PitKilnRecipe;
-import io.github.pylonmc.pylon.recipes.PressRecipe;
-import io.github.pylonmc.pylon.recipes.ShimmerAltarRecipe;
-import io.github.pylonmc.pylon.recipes.SmelteryRecipe;
-import io.github.pylonmc.pylon.recipes.StrainingRecipe;
-import io.github.pylonmc.pylon.recipes.TableSawRecipe;
+import io.github.pylonmc.pylon.recipes.*;
 
 
 public class PylonRecipes {

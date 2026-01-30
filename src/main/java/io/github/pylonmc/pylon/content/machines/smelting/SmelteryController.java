@@ -3,8 +3,8 @@ package io.github.pylonmc.pylon.content.machines.smelting;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.PylonKeys;
 import io.github.pylonmc.pylon.recipes.SmelteryRecipe;
-import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.pylon.util.HslColor;
+import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.base.RebarMultiblock;
@@ -40,16 +40,17 @@ import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -127,7 +128,7 @@ public final class SmelteryController extends SmelteryComponent
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # i # c # # #",
@@ -142,42 +143,42 @@ public final class SmelteryController extends SmelteryComponent
     private class InfoItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             Material material;
             List<Component> lore = new ArrayList<>();
             if (isFormedAndFullyLoaded()) {
                 if (running) {
                     material = Material.GREEN_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("rebar.gui.status.running"));
+                    lore.add(Component.translatable("pylon.gui.status.running"));
                 } else {
                     material = Material.YELLOW_STAINED_GLASS_PANE;
-                    lore.add(Component.translatable("rebar.gui.status.not_running"));
+                    lore.add(Component.translatable("pylon.gui.status.not_running"));
                 }
-                lore.add(Component.translatable("rebar.gui.status.toggle"));
+                lore.add(Component.translatable("pylon.gui.status.toggle"));
                 lore.add(Component.empty());
                 lore.add(Component.translatable(
-                        "rebar.gui.smeltery.height",
+                        "pylon.gui.smeltery.height",
                         RebarArgument.of("height", UnitFormat.BLOCKS.format(height))
                 ));
                 lore.add(Component.translatable(
-                        "rebar.gui.smeltery.capacity",
+                        "pylon.gui.smeltery.capacity",
                         RebarArgument.of("capacity", UnitFormat.MILLIBUCKETS.format(capacity).decimalPlaces(0))
                 ));
                 lore.add(Component.translatable(
-                        "rebar.gui.smeltery.temperature",
+                        "pylon.gui.smeltery.temperature",
                         RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature).decimalPlaces(1))
                 ));
             } else {
                 material = Material.RED_STAINED_GLASS_PANE;
-                lore.add(Component.translatable("rebar.gui.status.incomplete"));
+                lore.add(Component.translatable("pylon.gui.status.incomplete"));
             }
             return ItemStackBuilder.of(material)
-                    .name(Component.translatable("rebar.gui.status.name"))
+                    .name(Component.translatable("pylon.gui.status.name"))
                     .lore(lore);
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             if (isFormedAndFullyLoaded()) {
                 setRunning(!running);
                 notifyWindows();
@@ -188,16 +189,16 @@ public final class SmelteryController extends SmelteryComponent
     private class ContentsItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             List<Component> lore = new ArrayList<>();
             if (fluids.isEmpty()) {
-                lore.add(Component.translatable("rebar.gui.smeltery.contents.empty"));
+                lore.add(Component.translatable("pylon.gui.smeltery.contents.empty"));
             } else {
                 for (Object2DoubleMap.Entry<RebarFluid> entry : fluids.object2DoubleEntrySet()) {
                     RebarFluid fluid = entry.getKey();
                     double amount = entry.getDoubleValue();
                     lore.add(Component.text().build().append(Component.translatable(
-                            "rebar.gui.smeltery.contents.fluid",
+                            "pylon.gui.smeltery.contents.fluid",
                             RebarArgument.of(
                                     "amount",
                                     UnitFormat.MILLIBUCKETS.format(amount)
@@ -209,12 +210,12 @@ public final class SmelteryController extends SmelteryComponent
                 }
             }
             return ItemStackBuilder.of(Material.LAVA_BUCKET)
-                    .name(Component.translatable("rebar.gui.smeltery.contents.name"))
+                    .name(Component.translatable("pylon.gui.smeltery.contents.name"))
                     .lore(lore);
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
         }
     }
 

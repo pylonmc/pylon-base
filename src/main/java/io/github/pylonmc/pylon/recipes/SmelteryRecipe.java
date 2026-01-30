@@ -29,7 +29,7 @@ public class SmelteryRecipe implements RebarRecipe {
     public static final RecipeType<SmelteryRecipe> RECIPE_TYPE = new ConfigurableRecipeType<>(pylonKey("smeltery")) {
 
         private static final ConfigAdapter<Map<RebarFluid, Double>> FLUID_MAP_ADAPTER = ConfigAdapter.MAP.from(
-                ConfigAdapter.PYLON_FLUID,
+                ConfigAdapter.REBAR_FLUID,
                 ConfigAdapter.DOUBLE
         );
 
@@ -120,7 +120,7 @@ public class SmelteryRecipe implements RebarRecipe {
     public @NotNull Gui display() {
         Preconditions.checkState(fluidInputs.size() < 6);
         Preconditions.checkState(fluidOutputs.size() < 6);
-        Gui gui = Gui.normal()
+        Gui gui = Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# . . # # # . . #",
@@ -132,7 +132,7 @@ public class SmelteryRecipe implements RebarRecipe {
                 .addIngredient('s', ItemButton.from(PylonItems.SMELTERY_CONTROLLER))
                 .addIngredient('t', ItemStackBuilder.of(Material.COAL)
                         .name(Component.translatable(
-                                "rebar.gui.smeltery.temperature",
+                                "pylon.gui.smeltery.temperature",
                                 RebarArgument.of("temperature", UnitFormat.CELSIUS.format(temperature))
                         )))
                 .build();

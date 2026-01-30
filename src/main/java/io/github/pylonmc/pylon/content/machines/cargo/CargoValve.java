@@ -1,7 +1,10 @@
 package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.rebar.block.RebarBlock;
-import io.github.pylonmc.rebar.block.base.*;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.datatypes.RebarSerializers;
@@ -123,7 +126,7 @@ public class CargoValve extends RebarBlock implements
         setCargoTransferRate(0);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public CargoValve(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
@@ -163,7 +166,7 @@ public class CargoValve extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)
@@ -180,7 +183,7 @@ public class CargoValve extends RebarBlock implements
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("status", Component.translatable(
-                        "rebar.message.valve." + (enabled ? "enabled" : "disabled")
+                        "pylon.message.valve." + (enabled ? "enabled" : "disabled")
                 ))
         ));
     }

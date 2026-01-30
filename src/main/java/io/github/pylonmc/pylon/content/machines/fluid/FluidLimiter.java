@@ -26,14 +26,15 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.List;
 
@@ -149,7 +150,7 @@ public class FluidLimiter extends RebarBlock implements RebarDirectionalBlock, R
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # m # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('m', new MaxFlowRateItem())
@@ -159,7 +160,7 @@ public class FluidLimiter extends RebarBlock implements RebarDirectionalBlock, R
     public class MaxFlowRateItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player player) {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
                     .name(Component.translatable("pylon.gui.fluid_accumulator.name").arguments(
                             RebarArgument.of("amount", UnitFormat.MILLIBUCKETS_PER_SECOND.format(maxFlowRate))
@@ -168,7 +169,7 @@ public class FluidLimiter extends RebarBlock implements RebarDirectionalBlock, R
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             int delta = clickType.isShiftClick() ? 100 : 10;
             if (clickType.isLeftClick()) {
                 maxFlowRate += delta;

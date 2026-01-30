@@ -149,7 +149,7 @@ public record ShimmerAltarRecipe(
 
     @Override
     public @NotNull Gui display() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # 0 1 2 # # # #",

@@ -4,12 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.recipes.StrainingRecipe;
 import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.RebarBlock;
-import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.RebarFluidBlock;
-import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
-import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
-import io.github.pylonmc.rebar.block.base.RebarRecipeProcessor;
-import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
@@ -155,7 +150,7 @@ public class FluidStrainer extends RebarBlock implements
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("info", getCurrentRecipe() == null
                         ? Component.empty()
-                        : Component.translatable("rebar.waila.fluid_strainer.straining",
+                        : Component.translatable("pylon.waila.fluid_strainer.straining",
                                 RebarArgument.of("item", getCurrentRecipe().outputItem().effectiveName()),
                                 RebarArgument.of("bars", PylonUtils.createProgressBar(
                                         getCurrentRecipe().input().amountMillibuckets() - getRecipeTicksRemaining(),
@@ -171,7 +166,7 @@ public class FluidStrainer extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # . . . . . # #")
                 .addIngredient('.', inventory)
                 .addIngredient('#', GuiItems.background())

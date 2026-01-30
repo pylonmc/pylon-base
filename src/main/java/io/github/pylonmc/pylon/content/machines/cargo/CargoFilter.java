@@ -59,12 +59,12 @@ public class CargoFilter extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("rebar.gui.filter"));
+            .name(Component.translatable("pylon.gui.filter"));
 
     public final ItemStackBuilder leftGuiStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightGuiStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
 
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
@@ -163,7 +163,7 @@ public class CargoFilter extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# L # # I # # R #",
                         "# l # # i # # r #",
@@ -189,22 +189,22 @@ public class CargoFilter extends RebarBlock implements
         createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
         createLogisticGroup("left", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(leftInventory, 0));
         createLogisticGroup("right", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(rightInventory, 0));
-        inputInventory.setPostUpdateHandler(event -> {
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        leftInventory.setPostUpdateHandler(event -> {
+        leftInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        rightInventory.setPostUpdateHandler(event -> {
+        rightInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        filterInventory.setPostUpdateHandler(event -> {
+        filterInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }

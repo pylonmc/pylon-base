@@ -3,7 +3,10 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
-import io.github.pylonmc.rebar.block.base.*;
+import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
+import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.content.cargo.CargoDuct;
@@ -16,8 +19,8 @@ import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
 import io.github.pylonmc.rebar.logistics.LogisticGroup;
-import io.github.pylonmc.rebar.logistics.slot.LogisticSlot;
 import io.github.pylonmc.rebar.logistics.LogisticGroupType;
+import io.github.pylonmc.rebar.logistics.slot.LogisticSlot;
 import io.github.pylonmc.rebar.util.MachineUpdateReason;
 import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
@@ -29,14 +32,15 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +67,7 @@ public class CargoExtractor extends CargoInteractor implements
             .addCustomModelDataString(getKey() + ":duct");
 
     public final ItemStackBuilder filterGuiStack = ItemStackBuilder.gui(Material.PINK_STAINED_GLASS_PANE, getKey() + "filter")
-            .name(Component.translatable("rebar.gui.filter"));
+            .name(Component.translatable("pylon.gui.filter"));
 
     private final VirtualInventory outputInventory = new VirtualInventory(1);
     private final VirtualInventory filterInventory = new VirtualInventory(5);
@@ -93,18 +97,18 @@ public class CargoExtractor extends CargoInteractor implements
     public class WhitelistToggleItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return ItemStackBuilder.gui(isWhitelist ? Material.WHITE_CONCRETE : Material.BLACK_CONCRETE, "blacklist-whitelist-toggle")
-                    .name(Component.translatable("rebar.gui.whitelist-blacklist-toggle."
+                    .name(Component.translatable("pylon.gui.whitelist-blacklist-toggle."
                             + (isWhitelist ? "whitelist.name" : "blacklist.name")
                     ))
-                    .lore(Component.translatable("rebar.gui.whitelist-blacklist-toggle."
+                    .lore(Component.translatable("pylon.gui.whitelist-blacklist-toggle."
                             + (isWhitelist ? "whitelist.lore" : "blacklist.lore")
                     ));
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             isWhitelist = !isWhitelist;
             notifyWindows();
         }
@@ -153,7 +157,7 @@ public class CargoExtractor extends CargoInteractor implements
         );
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "DataFlowIssue"})
     public CargoExtractor(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
         itemsToFilter = pdc.get(ITEMS_TO_FILTER_KEY, RebarSerializers.SET.setTypeFrom(RebarSerializers.ITEM_STACK));
@@ -171,7 +175,7 @@ public class CargoExtractor extends CargoInteractor implements
     public void postInitialise() {
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
 
-        filterInventory.setPostUpdateHandler(event -> {
+        filterInventory.addPostUpdateHandler(event -> {
             itemsToFilter.clear();
             for (ItemStack stack : filterInventory.getItems()) {
                 if (stack != null) {
@@ -209,7 +213,7 @@ public class CargoExtractor extends CargoInteractor implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # O # # # #",
                         "# b # # o # # i #",

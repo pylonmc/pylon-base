@@ -147,7 +147,7 @@ public class DieselPress extends RebarBlock implements
     @Override
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
-        inputInventory.setPostUpdateHandler(event -> {
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 tryStartRecipe();
             }
@@ -191,7 +191,7 @@ public class DieselPress extends RebarBlock implements
             }
 
             startRecipe(recipe, (int) (timePerItem * 20));
-            getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
+            getRecipeProgressItem().setItem(ItemStackBuilder.of(stack.asOne()).clearLore());
             inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
             break;
         }
@@ -200,13 +200,13 @@ public class DieselPress extends RebarBlock implements
     @Override
     public void onRecipeFinished(@NotNull PressRecipe recipe) {
         addFluid(PylonFluids.PLANT_OIL, recipe.oilAmount());
-        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+        getRecipeProgressItem().setItem(GuiItems.background());
         tryStartRecipe();
     }
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # I # # # #",
                         "# # # # i # # # #",

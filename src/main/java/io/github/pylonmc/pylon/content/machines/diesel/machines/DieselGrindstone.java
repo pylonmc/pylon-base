@@ -148,9 +148,9 @@ public class DieselGrindstone extends RebarBlock implements
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
-        outputInventory.setPostUpdateHandler(event -> tryStartRecipe());
-        inputInventory.setPostUpdateHandler(event -> {
+        outputInventory.addPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        outputInventory.addPostUpdateHandler(event -> tryStartRecipe());
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 tryStartRecipe();
             }
@@ -209,7 +209,7 @@ public class DieselGrindstone extends RebarBlock implements
             }
 
             startRecipe(recipe, recipe.cycles() * Grindstone.CYCLE_DURATION_TICKS);
-            getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(stack.asOne()).clearLore());
+            getRecipeProgressItem().setItem(ItemStackBuilder.of(stack.asOne()).clearLore());
             inputInventory.setItem(new MachineUpdateReason(), 0, stack.subtract(recipe.input().getAmount()));
             break;
         }
@@ -217,13 +217,13 @@ public class DieselGrindstone extends RebarBlock implements
 
     @Override
     public void onRecipeFinished(@NotNull GrindstoneRecipe recipe) {
-        getRecipeProgressItem().setItemStackBuilder(ItemStackBuilder.of(GuiItems.background()));
+        getRecipeProgressItem().setItem(GuiItems.background());
         outputInventory.addItem(null, recipe.results().getRandom());
     }
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# I # # # O O O #",
                         "# i # p # o o o #",

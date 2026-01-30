@@ -269,7 +269,7 @@ public class Biorefinery extends RebarBlock implements
         if (isProcessing()) {
             double percent = (double) getProcessTicksRemaining() / getProcessTimeTicks();
             return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                    RebarArgument.of("info", Component.translatable("rebar.message.biorefinery.has_fuel").arguments(
+                    RebarArgument.of("info", Component.translatable("pylon.message.biorefinery.has_fuel").arguments(
                             RebarArgument.of("fuel-bar", PylonUtils.createBar(
                                     percent,
                                     20,
@@ -280,7 +280,7 @@ public class Biorefinery extends RebarBlock implements
             ));
         } else {
             return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
-                    RebarArgument.of("info", Component.translatable("rebar.message.biorefinery.no_fuel"))
+                    RebarArgument.of("info", Component.translatable("pylon.message.biorefinery.no_fuel"))
             ));
         }
     }

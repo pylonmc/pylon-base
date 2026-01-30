@@ -9,8 +9,8 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
 import io.github.pylonmc.rebar.util.MiningLevel;
-import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.RandomizedSound;
+import io.github.pylonmc.rebar.util.RebarUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -47,7 +47,7 @@ public class Hammer extends RebarItem implements RebarBlockInteractor {
     public boolean tryDoRecipe(@NotNull Block block, @Nullable Player player, @Nullable EquipmentSlot slot, @NotNull BlockFace clickedFace) {
         if (baseBlock != block.getType()) {
             if (player != null && !(BlockStorage.get(block) instanceof BronzeAnvil)) {
-                player.sendMessage(Component.translatable("rebar.message.hammer_cant_use"));
+                player.sendMessage(Component.translatable("pylon.message.hammer_cant_use"));
             }
             return false;
         }

@@ -21,24 +21,17 @@ import io.github.pylonmc.rebar.util.RebarUtils;
 import io.github.pylonmc.rebar.util.gui.GuiItems;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
-import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.CycleItem;
-import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 
 import java.util.List;
 import java.util.Map;
@@ -76,9 +69,9 @@ public class CargoOverflowGate extends RebarBlock
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
 
     public static class Item extends RebarItem {
 
@@ -109,8 +102,8 @@ public class CargoOverflowGate extends RebarBlock
 
         SidePriority(String name) {
             priorityStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, PylonItems.CARGO_OVERFLOW_GATE + ":priority:" + name)
-                    .name(Component.translatable("rebar.gui.side-priority.name", RebarArgument.of("priority", Component.translatable("rebar.gui." + name))))
-                    .lore(Component.translatable("rebar.gui.side-priority.lore"));
+                    .name(Component.translatable("pylon.gui.side-priority.name", RebarArgument.of("priority", Component.translatable("pylon.gui." + name))))
+                    .lore(Component.translatable("pylon.gui.side-priority.lore"));
         }
 
         public static final PersistentDataType<?, SidePriority> PERSISTENT_DATA_TYPE = RebarSerializers.ENUM.enumTypeFrom(SidePriority.class);
@@ -199,26 +192,9 @@ public class CargoOverflowGate extends RebarBlock
         );
     }
 
-    @RequiredArgsConstructor
-    private class PriorityButton extends ControlItem<Gui> {
-        private final @NotNull SidePriority setPriority;
-        private final @NotNull ItemStackBuilder item;
-
-        @Override
-        public ItemProvider getItemProvider(Gui gui) {
-            return item;
-        }
-
-        @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-            sidePriority = setPriority;
-            getGui().getItem(4, 4).notifyWindows();
-        }
-    }
-
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# L # # I # # R #",
                         "# l # # i # # r #",
@@ -234,10 +210,17 @@ public class CargoOverflowGate extends RebarBlock
                 .addIngredient('i', inputInventory)
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
-                .addIngredient('p', CycleItem.withStateChangeHandler(
-                        (unused, state) -> sidePriority = SidePriority.values()[state],
-                        SidePriority.NONE.getPriorityStack(), SidePriority.LEFT.getPriorityStack(), SidePriority.RIGHT.getPriorityStack()
-                ))
+                .addIngredient('p', xyz.xenondevs.invui.item.Item.builder()
+                        .setItemProvider(unused -> sidePriority.getPriorityStack())
+                        .addClickHandler((item, click) -> {
+                            sidePriority = switch (sidePriority) {
+                                case NONE -> SidePriority.LEFT;
+                                case LEFT -> SidePriority.RIGHT;
+                                case RIGHT -> SidePriority.NONE;
+                            };
+                            item.notifyWindows();
+                        })
+                )
                 .build();
     }
 
@@ -246,17 +229,17 @@ public class CargoOverflowGate extends RebarBlock
         createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
         createLogisticGroup("left", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(leftInventory, 0));
         createLogisticGroup("right", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(rightInventory, 0));
-        inputInventory.setPostUpdateHandler(event -> {
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        leftInventory.setPostUpdateHandler(event -> {
+        leftInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        rightInventory.setPostUpdateHandler(event -> {
+        rightInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }

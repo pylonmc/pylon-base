@@ -81,7 +81,7 @@ public class DieselMiner extends Miner implements
     }
 
     public final ItemStackBuilder toolStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":tool")
-            .name(Component.translatable("rebar.gui.tool"));
+            .name(Component.translatable("pylon.gui.tool"));
     public ItemStackBuilder topStack = ItemStackBuilder.of(Material.YELLOW_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":top");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
@@ -152,12 +152,12 @@ public class DieselMiner extends Miner implements
         super.postInitialise();
         createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
-        toolInventory.setPostUpdateHandler(event -> {
+        outputInventory.addPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        toolInventory.addPostUpdateHandler(event -> {
             stopProcess();
             updateMiner();
         });
-        outputInventory.setPostUpdateHandler(event -> updateMiner());
+        outputInventory.addPostUpdateHandler(event -> updateMiner());
         updateMiner();
     }
 
@@ -194,7 +194,7 @@ public class DieselMiner extends Miner implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # T # O O O # #",
                         "# # t # o o o # #",

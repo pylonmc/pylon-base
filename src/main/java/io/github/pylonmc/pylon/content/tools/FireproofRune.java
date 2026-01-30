@@ -23,8 +23,8 @@ import org.jetbrains.annotations.NotNull;
  */
 @SuppressWarnings("UnstableApiUsage")
 public class FireproofRune extends Rune {
-    public static final Component SUCCESS = Component.translatable("rebar.message.fireproof_result.success");
-    public static final Component TOOLTIP = Component.translatable("rebar.message.fireproof_result.tooltip");
+    public static final Component SUCCESS = Component.translatable("pylon.message.fireproof_result.success");
+    public static final Component TOOLTIP = Component.translatable("pylon.message.fireproof_result.tooltip");
 
     private final RandomizedSound applySound = getSettings().getOrThrow("apply-sound", ConfigAdapter.RANDOMIZED_SOUND);
 

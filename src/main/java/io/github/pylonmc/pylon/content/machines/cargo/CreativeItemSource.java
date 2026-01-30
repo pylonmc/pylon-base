@@ -135,7 +135,7 @@ public class CreativeItemSource extends RebarBlock
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)
@@ -145,6 +145,6 @@ public class CreativeItemSource extends RebarBlock
     @Override
     public void postInitialise() {
         createLogisticGroup("output", LogisticGroupType.OUTPUT, new InfiniteLogisticSlot());
-        inventory.setPostUpdateHandler(event -> getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(inventory.getItem(0)));
+        inventory.addPostUpdateHandler(event -> getHeldEntityOrThrow(ItemDisplay.class, "item").setItemStack(inventory.getItem(0)));
     }
 }

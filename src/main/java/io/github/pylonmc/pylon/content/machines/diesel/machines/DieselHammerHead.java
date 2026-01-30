@@ -1,8 +1,8 @@
 package io.github.pylonmc.pylon.content.machines.diesel.machines;
 
 import com.destroystokyo.paper.ParticleBuilder;
-import io.github.pylonmc.pylon.PylonFluids;
 import io.github.pylonmc.pylon.Pylon;
+import io.github.pylonmc.pylon.PylonFluids;
 import io.github.pylonmc.pylon.content.tools.Hammer;
 import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
@@ -66,7 +66,7 @@ public class DieselHammerHead extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":hammer_tip:empty")
             .build();
     public final ItemStackBuilder hammerStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":hammer")
-            .name(Component.translatable("rebar.gui.hammer"));
+            .name(Component.translatable("pylon.gui.hammer"));
     public final ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
             .addCustomModelDataString(getKey() + ":side1");
     public final ItemStackBuilder sideStack2 = ItemStackBuilder.of(Material.BRICKS)
@@ -148,8 +148,8 @@ public class DieselHammerHead extends RebarBlock implements
 
     @Override
     public void postInitialise() {
-        hammerInventory.setPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
-        hammerInventory.setPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        hammerInventory.addPreUpdateHandler(event -> updateHammerTip(event.getNewItem()));
+        hammerInventory.addPostUpdateHandler(event -> updateHammerTip(event.getNewItem()));
         createLogisticGroup("hammer", LogisticGroupType.INPUT, hammerInventory);
     }
 
@@ -218,7 +218,7 @@ public class DieselHammerHead extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # H # # # #",
                         "# # # # x # # # #",

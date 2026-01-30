@@ -3,11 +3,7 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.RebarBlock;
-import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
-import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.RebarFluidTank;
-import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
-import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
@@ -32,15 +28,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -220,7 +217,7 @@ public class CargoFluidAccumulator extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# I i i i i i I #",
                         "# # # # # # # # #",
@@ -242,12 +239,12 @@ public class CargoFluidAccumulator extends RebarBlock implements
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        inputInventory.setPostUpdateHandler(event -> {
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doTransfer();
             }
         });
-        outputInventory.setPostUpdateHandler(event -> {
+        outputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doTransfer();
             }
@@ -313,19 +310,15 @@ public class CargoFluidAccumulator extends RebarBlock implements
     public class ItemThresholdButton extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return itemThresholdButtonStack
-                .name((Component.translatable("rebar.gui.item_threshold_button.name").arguments(
+                .name((Component.translatable("pylon.gui.item_threshold_button.name").arguments(
                         RebarArgument.of("threshold", itemThreshold)
                 )));
         }
 
         @Override
-        public void handleClick(
-                @NotNull ClickType clickType,
-                @NotNull Player player,
-                @NotNull InventoryClickEvent event
-        ) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             if (clickType.isLeftClick()) {
                 itemThreshold += 1;
             } else {
@@ -339,7 +332,7 @@ public class CargoFluidAccumulator extends RebarBlock implements
     public class FluidThresholdButton extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return fluidThresholdButtonStack
                 .name((Component.translatable("pylon.gui.fluid_threshold_button.name").arguments(
                         RebarArgument.of("threshold", fluidThreshold)
@@ -347,11 +340,7 @@ public class CargoFluidAccumulator extends RebarBlock implements
         }
 
         @Override
-        public void handleClick(
-                @NotNull ClickType clickType,
-                @NotNull Player player,
-                @NotNull InventoryClickEvent event
-        ) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             int amount = clickType.isShiftClick() ? 100 : 10;
             if (clickType.isLeftClick()) {
                 fluidThreshold = Math.min(fluidBuffer, fluidThreshold + amount);

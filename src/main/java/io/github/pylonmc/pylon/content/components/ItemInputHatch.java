@@ -35,7 +35,7 @@ public class ItemInputHatch extends RebarBlock implements RebarGuiBlock, RebarLo
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # x # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('x', inventory)

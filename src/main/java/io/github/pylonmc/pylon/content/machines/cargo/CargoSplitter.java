@@ -27,16 +27,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractBoundItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.SuppliedItem;
-import xyz.xenondevs.invui.item.impl.controlitem.ControlItem;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static io.github.pylonmc.pylon.util.PylonUtils.pylonKey;
-
 
 
 public class CargoSplitter extends RebarBlock implements
@@ -81,23 +80,23 @@ public class CargoSplitter extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":output_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
     public final ItemStackBuilder ratioStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "ratio");
     public final ItemStackBuilder leftButtonStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left_button")
-            .name(Component.translatable("rebar.gui.ratio.left_button.name"))
-            .lore(Component.translatable("rebar.gui.ratio.left_button.lore"));
+            .name(Component.translatable("pylon.gui.ratio.left_button.name"))
+            .lore(Component.translatable("pylon.gui.ratio.left_button.lore"));
     public final ItemStackBuilder rightButtonStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right_button")
-            .name(Component.translatable("rebar.gui.ratio.right_button.name"))
-            .lore(Component.translatable("rebar.gui.ratio.right_button.lore"));
+            .name(Component.translatable("pylon.gui.ratio.right_button.name"))
+            .lore(Component.translatable("pylon.gui.ratio.right_button.lore"));
 
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("input", inputInventory, "left", leftInventory, "right", rightInventory);
     }
 
-    public static class RatioButton extends ControlItem<Gui> {
+    public static class RatioButton extends AbstractBoundItem {
 
         private final ItemStackBuilder stack;
         private final Supplier<Integer> getRatio;
@@ -110,21 +109,17 @@ public class CargoSplitter extends RebarBlock implements
         }
 
         @Override
-        public void handleClick(
-                @NotNull ClickType clickType,
-                @NotNull Player player,
-                @NotNull InventoryClickEvent event
-        ) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             if (clickType.isLeftClick()) {
                 setRatio.accept(getRatio.get() + 1);
             } else {
                 setRatio.accept(Math.max(1, getRatio.get() - 1));
             }
-            getGui().getItem(4, 4).notifyWindows();
+            getGui().notifyWindows('a');
         }
 
         @Override
-        public ItemProvider getItemProvider(Gui gui) {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return stack;
         }
     }
@@ -228,7 +223,7 @@ public class CargoSplitter extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# L # # I # # R #",
                         "# l # # i # # r #",
@@ -244,13 +239,11 @@ public class CargoSplitter extends RebarBlock implements
                 .addIngredient('i', inputInventory)
                 .addIngredient('R', rightStack)
                 .addIngredient('r', rightInventory)
-                .addIngredient('a', new SuppliedItem(() -> ratioStack.clone()
-                        .name(Component.translatable("rebar.gui.ratio.name").arguments(
+                .addIngredient('a', xyz.xenondevs.invui.item.Item.simple(p -> ratioStack.clone()
+                        .name(Component.translatable("pylon.gui.ratio.name").arguments(
                                 RebarArgument.of("left", ratioLeft),
                                 RebarArgument.of("right", ratioRight)
-                        )),
-                        click -> false
-                ))
+                        ))))
                 .addIngredient('<', new RatioButton(leftButtonStack, () -> ratioLeft, amount -> ratioLeft = amount))
                 .addIngredient('>', new RatioButton(rightButtonStack, () -> ratioRight, amount -> ratioRight = amount))
                 .build();
@@ -261,17 +254,17 @@ public class CargoSplitter extends RebarBlock implements
         createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inputInventory, 0));
         createLogisticGroup("left", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(leftInventory, 0));
         createLogisticGroup("right", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(rightInventory, 0));
-        inputInventory.setPostUpdateHandler(event -> {
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        leftInventory.setPostUpdateHandler(event -> {
+        leftInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        rightInventory.setPostUpdateHandler(event -> {
+        rightInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
@@ -284,8 +277,8 @@ public class CargoSplitter extends RebarBlock implements
                 RebarArgument.of("left", ratioLeft),
                 RebarArgument.of("right", ratioRight),
                 RebarArgument.of("side", isLeft
-                                ? Component.translatable("rebar.waila.cargo_splitter.left")
-                                : Component.translatable("rebar.waila.cargo_splitter.right")
+                        ? Component.translatable("pylon.waila.cargo_splitter.left")
+                        : Component.translatable("pylon.waila.cargo_splitter.right")
                 )
         ));
     }

@@ -28,14 +28,15 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.List;
 import java.util.Map;
@@ -51,8 +52,6 @@ public class FluidAccumulator extends RebarBlock implements
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
-    public final ItemStackBuilder lampStack = ItemStackBuilder.of(Material.REDSTONE_LAMP)
-            .addCustomModelDataString(getKey() + ":lamp");
 
     public final int minAmount = getSettings().getOrThrow("min-amount", ConfigAdapter.INT);
     public final int maxAmount = getSettings().getOrThrow("max-amount", ConfigAdapter.INT);
@@ -151,7 +150,7 @@ public class FluidAccumulator extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure("# # # # m # # # #")
                 .addIngredient('#', GuiItems.background())
                 .addIngredient('m', new AmountItem())
@@ -199,7 +198,7 @@ public class FluidAccumulator extends RebarBlock implements
     public class AmountItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NonNull Player player) {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
                     .name(Component.translatable("pylon.gui.fluid_accumulator.name").arguments(
                             RebarArgument.of("amount", UnitFormat.MILLIBUCKETS.format(getFluidCapacity()))
@@ -208,7 +207,7 @@ public class FluidAccumulator extends RebarBlock implements
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             double delta = clickType.isShiftClick() ? 100 : 10;
             double newAmount;
             if (clickType.isLeftClick()) {

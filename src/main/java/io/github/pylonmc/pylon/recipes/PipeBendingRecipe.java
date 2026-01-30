@@ -61,7 +61,7 @@ public record PipeBendingRecipe(
 
     @Override
     public @NotNull Gui display() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # # # # # #",

@@ -29,15 +29,16 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.List;
 import java.util.Map;
@@ -73,28 +74,24 @@ public class CargoGate extends RebarBlock implements
             .addCustomModelDataString(getKey() + ":input_right");
 
     public final ItemStackBuilder leftStack = ItemStackBuilder.gui(Material.YELLOW_STAINED_GLASS_PANE, getKey() + "left")
-            .name(Component.translatable("rebar.gui.left"));
+            .name(Component.translatable("pylon.gui.left"));
     public final ItemStackBuilder rightStack = ItemStackBuilder.gui(Material.LIGHT_BLUE_STAINED_GLASS_PANE, getKey() + "right")
-            .name(Component.translatable("rebar.gui.right"));
+            .name(Component.translatable("pylon.gui.right"));
     public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
-            .lore(Component.translatable("rebar.gui.threshold_button.lore"));
+            .lore(Component.translatable("pylon.gui.threshold_button.lore"));
 
     public class ThresholdButton extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return thresholdButtonStack
-                .name((Component.translatable("rebar.gui.threshold_button.name").arguments(
+                .name((Component.translatable("pylon.gui.threshold_button.name").arguments(
                         RebarArgument.of("threshold", threshold)
                 )));
         }
 
         @Override
-        public void handleClick(
-                @NotNull ClickType clickType,
-                @NotNull Player player,
-                @NotNull InventoryClickEvent event
-        ) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             if (clickType.isLeftClick()) {
                 threshold += 1;
             } else {
@@ -200,7 +197,7 @@ public class CargoGate extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# L # # O # # R #",
                         "# l # # o # # r #",
@@ -225,17 +222,17 @@ public class CargoGate extends RebarBlock implements
         createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(outputInventory, 0));
         createLogisticGroup("left", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(leftInventory, 0));
         createLogisticGroup("right", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(rightInventory, 0));
-        outputInventory.setPostUpdateHandler(event -> {
+        outputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        leftInventory.setPostUpdateHandler(event -> {
+        leftInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
         });
-        rightInventory.setPostUpdateHandler(event -> {
+        rightInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doSplit();
             }
@@ -247,8 +244,8 @@ public class CargoGate extends RebarBlock implements
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("threshold", threshold),
                 RebarArgument.of("side", itemsRemaining == 0
-                                ? Component.translatable("rebar.waila.cargo_splitter.left")
-                                : Component.translatable("rebar.waila.cargo_splitter.right")
+                                ? Component.translatable("pylon.waila.cargo_splitter.left")
+                                : Component.translatable("pylon.waila.cargo_splitter.right")
                 )
         ));
     }

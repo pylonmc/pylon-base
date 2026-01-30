@@ -147,7 +147,7 @@ public class CoalFiredPurificationTower extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # f # # # #",
@@ -195,7 +195,7 @@ public class CoalFiredPurificationTower extends RebarBlock implements
                 }
 
                 inventory.setItemAmount(null, 0, item.getAmount() - 1);
-                getProcessProgressItem().setItemStackBuilder(runningProgressItem);
+                getProcessProgressItem().setItem(runningProgressItem);
                 startProcess(fuel.burnTimeSeconds * 20);
                 break;
             }
@@ -222,7 +222,7 @@ public class CoalFiredPurificationTower extends RebarBlock implements
 
     @Override
     public void onProcessFinished() {
-        getProcessProgressItem().setItemStackBuilder(idleProgressItem);
+        getProcessProgressItem().setItem(idleProgressItem);
     }
 
     @Override

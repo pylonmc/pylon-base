@@ -40,11 +40,7 @@ import org.joml.Vector3d;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 public class DieselBreaker extends RebarBlock implements
@@ -86,7 +82,7 @@ public class DieselBreaker extends RebarBlock implements
     }
 
     public final ItemStackBuilder toolStack = ItemStackBuilder.gui(Material.LIME_STAINED_GLASS_PANE, getKey() + ":tool")
-            .name(Component.translatable("rebar.gui.tool"));
+            .name(Component.translatable("pylon.gui.tool"));
     public ItemStackBuilder drillStack = ItemStackBuilder.of(Material.YELLOW_CONCRETE)
             .addCustomModelDataString(getKey() + ":drill");
     public ItemStackBuilder sideStack1 = ItemStackBuilder.of(Material.BRICKS)
@@ -155,9 +151,9 @@ public class DieselBreaker extends RebarBlock implements
     public void postInitialise() {
         createLogisticGroup("tool", LogisticGroupType.INPUT, toolInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        outputInventory.setPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
-        toolInventory.setPostUpdateHandler(event -> tryStartDrilling());
-        outputInventory.setPostUpdateHandler(event -> tryStartDrilling());
+        outputInventory.addPreUpdateHandler(RebarUtils.DISALLOW_PLAYERS_FROM_ADDING_ITEMS_HANDLER);
+        toolInventory.addPostUpdateHandler(event -> tryStartDrilling());
+        outputInventory.addPostUpdateHandler(event -> tryStartDrilling());
         tryStartDrilling();
     }
 
@@ -256,7 +252,7 @@ public class DieselBreaker extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # T # O # # #",
                         "# # # t # o # # #",

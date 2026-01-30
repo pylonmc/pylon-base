@@ -1,11 +1,7 @@
 package io.github.pylonmc.pylon.content.machines.smelting;
 
 import io.github.pylonmc.pylon.PylonItems;
-import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
-import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
-import io.github.pylonmc.rebar.block.base.RebarProcessor;
-import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
-import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.datatypes.RebarSerializers;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
@@ -52,9 +48,9 @@ public final class SmelteryBurner extends SmelteryComponent implements
     private @Nullable Fuel fuel;
 
     private final ItemStackBuilder notBurningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("rebar.gui.smeltery_burner.not_burning"));
+            .name(Component.translatable("pylon.gui.smeltery_burner.not_burning"));
     private final ItemStackBuilder burningProgressItem = ItemStackBuilder.of(Material.BLAZE_POWDER)
-            .name(Component.translatable("rebar.gui.smeltery_burner.burning"));
+            .name(Component.translatable("pylon.gui.smeltery_burner.burning"));
 
     private final VirtualInventory inventory = new VirtualInventory(3);
     private final ProgressItem progressItem = new ProgressItem(notBurningProgressItem);
@@ -95,7 +91,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # f # # # #",
@@ -135,7 +131,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
                 }
 
                 this.fuel = fuel;
-                progressItem.setItemStackBuilder(burningProgressItem);
+                progressItem.setItem(burningProgressItem);
                 inventory.setItem(null, i, item.subtract());
                 startProcess(Math.round(fuel.burnTimeSeconds * 20));
                 refreshBlockTextureItem();
@@ -146,7 +142,7 @@ public final class SmelteryBurner extends SmelteryComponent implements
 
     @Override
     public void onProcessFinished() {
-        progressItem.setItemStackBuilder(notBurningProgressItem);
+        progressItem.setItem(notBurningProgressItem);
         refreshBlockTextureItem();
         fuel = null;
     }

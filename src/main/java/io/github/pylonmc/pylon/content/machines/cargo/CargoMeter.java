@@ -2,11 +2,7 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.RebarBlock;
-import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
-import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
-import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
-import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
-import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
+import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.RebarConfig;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
@@ -32,16 +28,17 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -229,7 +226,7 @@ public class CargoMeter extends RebarBlock implements
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
         createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        inventory.setPostUpdateHandler(event -> {
+        inventory.addPostUpdateHandler(event -> {
             ItemStack newStack = event.getNewItem();
             getHeldEntityOrThrow(ItemDisplay.class, "item")
                     .setItemStack(newStack == null ? new ItemStack(Material.BARRIER) : newStack);
@@ -241,7 +238,7 @@ public class CargoMeter extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # x # # # #",
                         "# # # # m # # # #"
@@ -288,7 +285,7 @@ public class CargoMeter extends RebarBlock implements
     public class MeasurementDurationItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             return ItemStackBuilder.of(Material.WHITE_CONCRETE)
                     .name(Component.translatable("pylon.gui.fluid_meter.name").arguments(
                             RebarArgument.of("measurement-duration", UnitFormat.formatDuration(getDuration(numberOfMeasurements), true, true))
@@ -297,7 +294,7 @@ public class CargoMeter extends RebarBlock implements
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             int newValue;
             if (clickType.isLeftClick()) {
                 newValue = numberOfMeasurements + (clickType.isShiftClick() ? 10 : 1);

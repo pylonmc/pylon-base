@@ -9,9 +9,6 @@ import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
 import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
-import io.github.pylonmc.rebar.logistics.LogisticGroupType;
-import io.github.pylonmc.rebar.logistics.slot.ItemDisplayLogisticSlot;
-import io.github.pylonmc.rebar.waila.WailaDisplay;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
@@ -19,6 +16,9 @@ import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
+import io.github.pylonmc.rebar.logistics.LogisticGroupType;
+import io.github.pylonmc.rebar.logistics.slot.ItemDisplayLogisticSlot;
+import io.github.pylonmc.rebar.waila.WailaDisplay;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -138,7 +138,7 @@ public class HydraulicRefuelingStation extends RebarBlock implements
                 getDefaultWailaTranslationKey().arguments(
                         RebarArgument.of(
                                 "extra",
-                                Component.translatable("rebar.message.hydraulic_refueling_station.extra").arguments(
+                                Component.translatable("pylon.message.hydraulic_refueling_station.extra").arguments(
                                         RebarArgument.of("hydraulic-fluid-bar", hydraulicFluidBar),
                                         RebarArgument.of("dirty-hydraulic-fluid-bar", dirtyHydraulicFluidBar)
                                 )

@@ -1,17 +1,13 @@
 package io.github.pylonmc.pylon.content.machines.smelting;
 
 import com.destroystokyo.paper.ParticleBuilder;
+import io.github.pylonmc.pylon.Pylon;
 import io.github.pylonmc.pylon.PylonItems;
 import io.github.pylonmc.pylon.PylonKeys;
-import io.github.pylonmc.pylon.Pylon;
 import io.github.pylonmc.pylon.content.resources.IronBloom;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.RebarBlock;
-import io.github.pylonmc.rebar.block.base.RebarBreakHandler;
-import io.github.pylonmc.rebar.block.base.RebarInteractBlock;
-import io.github.pylonmc.rebar.block.base.RebarLogisticBlock;
-import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock;
-import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
+import io.github.pylonmc.rebar.block.base.*;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.Settings;

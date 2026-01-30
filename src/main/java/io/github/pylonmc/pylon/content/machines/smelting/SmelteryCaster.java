@@ -19,15 +19,16 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # # c # # # #",
@@ -76,7 +77,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
     private class CastItem extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NotNull Player viewer) {
             SmelteryController controller = getController();
             CastingRecipe recipe = (bottomFluid == null) ? null : CastingRecipe.getCastRecipeFor(bottomFluid);
             if (controller == null || bottomFluid == null || recipe == null) {
@@ -118,7 +119,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
         }
 
         @Override
-        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             SmelteryController controller = getController();
             if (controller == null || bottomFluid == null) return;
 
@@ -137,7 +138,7 @@ public final class SmelteryCaster extends SmelteryComponent implements
         }
 
         private static TranslatableComponent casterKey(@NotNull String subkey, @NotNull RebarArgument @NotNull ... args) {
-            return Component.translatable("rebar.gui.smeltery_caster." + subkey, args);
+            return Component.translatable("pylon.gui.smeltery_caster." + subkey, args);
         }
     }
 

@@ -92,7 +92,7 @@ public record MixingPotRecipe(
     @Override
     public @NotNull Gui display() {
         Preconditions.checkState(inputItems.size() <= 7);
-        Gui.Builder.Normal builder = Gui.normal()
+        var builder = Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# . . . # f # # #",

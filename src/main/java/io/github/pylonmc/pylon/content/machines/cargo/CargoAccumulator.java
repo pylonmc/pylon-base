@@ -27,15 +27,16 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import xyz.xenondevs.invui.Click;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
+import xyz.xenondevs.invui.item.AbstractItem;
 import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +67,7 @@ public class CargoAccumulator extends RebarBlock implements
     public final ItemStackBuilder outputStack = ItemStackBuilder.of(Material.RED_TERRACOTTA)
             .addCustomModelDataString(getKey() + ":output");
     public final ItemStackBuilder thresholdButtonStack = ItemStackBuilder.gui(Material.WHITE_CONCRETE, getKey() + "threshold_button")
-            .lore(Component.translatable("rebar.gui.threshold_button.lore"));
+            .lore(Component.translatable("pylon.gui.threshold_button.lore"));
 
     public static class Item extends RebarItem {
 
@@ -162,7 +163,7 @@ public class CargoAccumulator extends RebarBlock implements
 
     @Override
     public @NotNull Gui createGui() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# I i i i i i I #",
                         "# # # # # # # # #",
@@ -183,12 +184,12 @@ public class CargoAccumulator extends RebarBlock implements
     public void postInitialise() {
         createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
-        inputInventory.setPostUpdateHandler(event -> {
+        inputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doTransfer();
             }
         });
-        outputInventory.setPostUpdateHandler(event -> {
+        outputInventory.addPostUpdateHandler(event -> {
             if (!(event.getUpdateReason() instanceof MachineUpdateReason)) {
                 doTransfer();
             }
@@ -250,19 +251,15 @@ public class CargoAccumulator extends RebarBlock implements
     public class ThresholdButton extends AbstractItem {
 
         @Override
-        public ItemProvider getItemProvider() {
+        public @NonNull ItemProvider getItemProvider(@NonNull Player viewer) {
             return thresholdButtonStack
-                .name((Component.translatable("rebar.gui.threshold_button.name").arguments(
+                .name((Component.translatable("pylon.gui.threshold_button.name").arguments(
                         RebarArgument.of("threshold", threshold)
                 )));
         }
 
         @Override
-        public void handleClick(
-                @NotNull ClickType clickType,
-                @NotNull Player player,
-                @NotNull InventoryClickEvent event
-        ) {
+        public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull Click click) {
             if (clickType.isLeftClick()) {
                 threshold += 1;
             } else {

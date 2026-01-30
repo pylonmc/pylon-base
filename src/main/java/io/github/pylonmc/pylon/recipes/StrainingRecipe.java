@@ -31,7 +31,7 @@ public record StrainingRecipe(
             return new StrainingRecipe(
                     key,
                     section.getOrThrow("input-fluid", ConfigAdapter.RECIPE_INPUT_FLUID),
-                    section.getOrThrow("output-fluid", ConfigAdapter.PYLON_FLUID),
+                    section.getOrThrow("output-fluid", ConfigAdapter.REBAR_FLUID),
                     section.getOrThrow("output-item", ConfigAdapter.ITEM_STACK)
             );
         }
@@ -63,7 +63,7 @@ public record StrainingRecipe(
 
     @Override
     public @NotNull Gui display() {
-        return Gui.normal()
+        return Gui.builder()
                 .setStructure(
                         "# # # # # # # # #",
                         "# # # i # # # # #",

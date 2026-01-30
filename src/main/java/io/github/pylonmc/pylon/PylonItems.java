@@ -8,90 +8,20 @@ import io.github.pylonmc.pylon.content.combat.BeheadingSword;
 import io.github.pylonmc.pylon.content.combat.IceArrow;
 import io.github.pylonmc.pylon.content.combat.ReactivatedWitherSkull;
 import io.github.pylonmc.pylon.content.combat.RecoilArrow;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoAccumulator;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoBuffer;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoExtractor;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoFluidAccumulator;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoGate;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoInserter;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoMeter;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoMonitor;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoOverflowGate;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoSplitter;
-import io.github.pylonmc.pylon.content.machines.cargo.CargoValve;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselBreaker;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselBrickMolder;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselFurnace;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselGrindstone;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselHammerHead;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselMiner;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselMixingAttachment;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselPipeBender;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselPress;
-import io.github.pylonmc.pylon.content.machines.diesel.machines.DieselTableSaw;
+import io.github.pylonmc.pylon.content.machines.cargo.*;
+import io.github.pylonmc.pylon.content.machines.diesel.machines.*;
 import io.github.pylonmc.pylon.content.machines.diesel.production.Biorefinery;
 import io.github.pylonmc.pylon.content.machines.diesel.production.Fermenter;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidAccumulator;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidDrainer;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidFilter;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidLimiter;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidMeter;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidPlacer;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidStrainer;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidTank;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidTankCasing;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidValve;
-import io.github.pylonmc.pylon.content.machines.fluid.FluidVoider;
-import io.github.pylonmc.pylon.content.machines.fluid.PortableFluidTank;
-import io.github.pylonmc.pylon.content.machines.fluid.Sprinkler;
-import io.github.pylonmc.pylon.content.machines.fluid.WaterPump;
-import io.github.pylonmc.pylon.content.machines.hydraulics.CoalFiredPurificationTower;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicBreaker;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicCoreDrill;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicFarmer;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicGrindstoneTurner;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicHammerHead;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicMiner;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicMixingAttachment;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicPipeBender;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicPressPiston;
-import io.github.pylonmc.pylon.content.machines.hydraulics.HydraulicTableSaw;
-import io.github.pylonmc.pylon.content.machines.hydraulics.SolarPurificationTower;
-import io.github.pylonmc.pylon.content.machines.simple.CoreDrill;
-import io.github.pylonmc.pylon.content.machines.simple.ImprovedManualCoreDrill;
-import io.github.pylonmc.pylon.content.machines.simple.MixingPot;
-import io.github.pylonmc.pylon.content.machines.simple.Press;
-import io.github.pylonmc.pylon.content.machines.simple.VacuumHopper;
+import io.github.pylonmc.pylon.content.machines.fluid.*;
+import io.github.pylonmc.pylon.content.machines.hydraulics.*;
+import io.github.pylonmc.pylon.content.machines.simple.*;
 import io.github.pylonmc.pylon.content.machines.smelting.DieselSmelteryHeater;
 import io.github.pylonmc.pylon.content.machines.smelting.PitKiln;
 import io.github.pylonmc.pylon.content.resources.IronBloom;
 import io.github.pylonmc.pylon.content.science.Loupe;
 import io.github.pylonmc.pylon.content.science.ResearchPack;
-import io.github.pylonmc.pylon.content.talismans.BarteringTalisman;
-import io.github.pylonmc.pylon.content.talismans.BreedingTalisman;
-import io.github.pylonmc.pylon.content.talismans.EnchantingTalisman;
-import io.github.pylonmc.pylon.content.talismans.FarmingTalisman;
-import io.github.pylonmc.pylon.content.talismans.HealthTalisman;
-import io.github.pylonmc.pylon.content.talismans.HungerTalisman;
-import io.github.pylonmc.pylon.content.talismans.HuntingTalisman;
-import io.github.pylonmc.pylon.content.talismans.LuckTalisman;
-import io.github.pylonmc.pylon.content.talismans.WaterBreathingTalisman;
-import io.github.pylonmc.pylon.content.tools.BrickMold;
-import io.github.pylonmc.pylon.content.tools.CleansingPotion;
-import io.github.pylonmc.pylon.content.tools.ClimbingPick;
-import io.github.pylonmc.pylon.content.tools.ConfettiPopper;
-import io.github.pylonmc.pylon.content.tools.FireproofRune;
-import io.github.pylonmc.pylon.content.tools.Hammer;
-import io.github.pylonmc.pylon.content.tools.HealingConsumable;
-import io.github.pylonmc.pylon.content.tools.HydraulicCannon;
-import io.github.pylonmc.pylon.content.tools.LumberAxe;
-import io.github.pylonmc.pylon.content.tools.PortableCraftingTable;
-import io.github.pylonmc.pylon.content.tools.PortableDustbin;
-import io.github.pylonmc.pylon.content.tools.PortableEnderChest;
-import io.github.pylonmc.pylon.content.tools.ShimmerMagnet;
-import io.github.pylonmc.pylon.content.tools.SoulboundRune;
-import io.github.pylonmc.pylon.content.tools.Tongs;
-import io.github.pylonmc.pylon.content.tools.WateringCan;
+import io.github.pylonmc.pylon.content.talismans.*;
+import io.github.pylonmc.pylon.content.tools.*;
 import io.github.pylonmc.rebar.config.Settings;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.content.fluid.FluidPipe;
@@ -786,28 +716,28 @@ public final class PylonItems {
     //</editor-fold>
 
     //<editor-fold desc="Tools" defaultstate=collapsed>
-    public static final ItemStack STONE_HAMMER = ItemStackBuilder.pylonWeapon(Material.STONE_PICKAXE, PylonKeys.STONE_HAMMER, true, true, false)
+    public static final ItemStack STONE_HAMMER = ItemStackBuilder.rebarWeapon(Material.STONE_PICKAXE, PylonKeys.STONE_HAMMER, true, true, false)
             .noTool().build();
     static {
         RebarItem.register(Hammer.class, STONE_HAMMER);
         PylonPages.TOOLS.addItem(STONE_HAMMER);
     }
 
-    public static final ItemStack IRON_HAMMER = ItemStackBuilder.pylonWeapon(Material.IRON_PICKAXE, PylonKeys.IRON_HAMMER, true, true, false)
+    public static final ItemStack IRON_HAMMER = ItemStackBuilder.rebarWeapon(Material.IRON_PICKAXE, PylonKeys.IRON_HAMMER, true, true, false)
             .noTool().build();
     static {
         RebarItem.register(Hammer.class, IRON_HAMMER);
         PylonPages.TOOLS.addItem(IRON_HAMMER);
     }
 
-    public static final ItemStack DIAMOND_HAMMER = ItemStackBuilder.pylonWeapon(Material.DIAMOND_PICKAXE, PylonKeys.DIAMOND_HAMMER, true, true, false)
+    public static final ItemStack DIAMOND_HAMMER = ItemStackBuilder.rebarWeapon(Material.DIAMOND_PICKAXE, PylonKeys.DIAMOND_HAMMER, true, true, false)
             .noTool().build();
     static {
         RebarItem.register(Hammer.class, DIAMOND_HAMMER);
         PylonPages.TOOLS.addItem(DIAMOND_HAMMER);
     }
 
-    public static final ItemStack BRONZE_AXE = ItemStackBuilder.pylonToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_AXE, RebarUtils.axeMineable(), true, false, true)
+    public static final ItemStack BRONZE_AXE = ItemStackBuilder.rebarToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_AXE, RebarUtils.axeMineable(), true, false, true)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_AXE.getKey())
             .build();
     static {
@@ -815,7 +745,7 @@ public final class PylonItems {
         PylonPages.TOOLS.addItem(BRONZE_AXE);
     }
 
-    public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.pylonToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_PICKAXE, RebarUtils.pickaxeMineable(), true, false, false)
+    public static final ItemStack BRONZE_PICKAXE = ItemStackBuilder.rebarToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_PICKAXE, RebarUtils.pickaxeMineable(), true, false, false)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_PICKAXE.getKey())
             .build();
     static {
@@ -823,7 +753,7 @@ public final class PylonItems {
         PylonPages.TOOLS.addItem(BRONZE_PICKAXE);
     }
 
-    public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.pylonToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_SHOVEL, RebarUtils.shovelMineable(), true, false, false)
+    public static final ItemStack BRONZE_SHOVEL = ItemStackBuilder.rebarToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_SHOVEL, RebarUtils.shovelMineable(), true, false, false)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_SHOVEL.getKey())
             .build();
     static {
@@ -831,7 +761,7 @@ public final class PylonItems {
         PylonPages.TOOLS.addItem(BRONZE_SHOVEL);
     }
 
-    public static final ItemStack BRONZE_HOE = ItemStackBuilder.pylonToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_HOE, RebarUtils.hoeMineable(), true, false, false)
+    public static final ItemStack BRONZE_HOE = ItemStackBuilder.rebarToolWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_HOE, RebarUtils.hoeMineable(), true, false, false)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_HOE.getKey())
             .build();
     static {
@@ -957,7 +887,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Combat" defaultstate=collapsed>
 
-    public static final ItemStack BRONZE_SWORD = ItemStackBuilder.pylonWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_SWORD, true, false, false)
+    public static final ItemStack BRONZE_SWORD = ItemStackBuilder.rebarWeapon(Material.CLAY_BALL, PylonKeys.BRONZE_SWORD, true, false, false)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_SWORD.getKey())
             .build();
     static {
@@ -1288,7 +1218,7 @@ public final class PylonItems {
 
     //<editor-fold desc="Armour" defaultstate=collapsed>
 
-    public static final ItemStack BRONZE_HELMET = ItemStackBuilder.pylonHelmet(Material.CLAY_BALL, PylonKeys.BRONZE_HELMET, true)
+    public static final ItemStack BRONZE_HELMET = ItemStackBuilder.rebarHelmet(Material.CLAY_BALL, PylonKeys.BRONZE_HELMET, true)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_HELMET.getKey())
             .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.HEAD)
                     .assetId(Key.key("gold"))
@@ -1299,7 +1229,7 @@ public final class PylonItems {
         PylonPages.ARMOUR.addItem(BRONZE_HELMET);
     }
 
-    public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.pylonChestplate(Material.CLAY_BALL, PylonKeys.BRONZE_CHESTPLATE, true)
+    public static final ItemStack BRONZE_CHESTPLATE = ItemStackBuilder.rebarChestplate(Material.CLAY_BALL, PylonKeys.BRONZE_CHESTPLATE, true)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_CHESTPLATE.getKey())
             .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.CHEST)
                     .assetId(Key.key("gold"))
@@ -1310,7 +1240,7 @@ public final class PylonItems {
         PylonPages.ARMOUR.addItem(BRONZE_CHESTPLATE);
     }
 
-    public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.pylonLeggings(Material.CLAY_BALL, PylonKeys.BRONZE_LEGGINGS, true)
+    public static final ItemStack BRONZE_LEGGINGS = ItemStackBuilder.rebarLeggings(Material.CLAY_BALL, PylonKeys.BRONZE_LEGGINGS, true)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_LEGGINGS.getKey())
             .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.LEGS)
                     .assetId(Key.key("gold"))
@@ -1321,7 +1251,7 @@ public final class PylonItems {
         PylonPages.ARMOUR.addItem(BRONZE_LEGGINGS);
     }
 
-    public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.pylonBoots(Material.GOLDEN_BOOTS, PylonKeys.BRONZE_BOOTS, true)
+    public static final ItemStack BRONZE_BOOTS = ItemStackBuilder.rebarBoots(Material.GOLDEN_BOOTS, PylonKeys.BRONZE_BOOTS, true)
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_BOOTS.getKey())
             .set(DataComponentTypes.EQUIPPABLE, Equippable.equippable(EquipmentSlot.FEET)
                     .assetId(Key.key("gold"))

@@ -51,7 +51,7 @@ pylon:intermediate_core_chunk:
   particle-data: minecraft:stone
 
 pylon:rock_dust:
-  input: "#pyloncore:rocks"
+  input: "#rebar:rocks"
   results: pylon:rock_dust
   cycles: 2
   particle-data: minecraft:cobblestone

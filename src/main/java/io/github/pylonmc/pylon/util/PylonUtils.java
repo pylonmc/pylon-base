@@ -1,7 +1,7 @@
 package io.github.pylonmc.pylon.util;
 
-import io.github.pylonmc.pylon.PylonFluids;
 import io.github.pylonmc.pylon.Pylon;
+import io.github.pylonmc.pylon.PylonFluids;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.base.RebarFluidTank;
 import io.github.pylonmc.rebar.i18n.RebarArgument;
@@ -14,12 +14,7 @@ import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
@@ -121,7 +116,7 @@ public class PylonUtils {
 
     public @NotNull Component createProgressBar(double progress, int bars, TextColor color) {
         int filledBars = (int) Math.round(bars * progress);
-        return Component.translatable("rebar.gui.progress_bar.text").arguments(
+        return Component.translatable("pylon.gui.progress_bar.text").arguments(
                 RebarArgument.of("filled_bars", Component.text("|".repeat(filledBars)).color(color)),
                 RebarArgument.of("empty_bars", "|".repeat(bars - filledBars)),
                 RebarArgument.of("progress", UnitFormat.PERCENT.format(progress * 100))
