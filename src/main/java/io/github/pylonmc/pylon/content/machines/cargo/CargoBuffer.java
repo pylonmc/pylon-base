@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarCulledBlock;
 import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
 import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
@@ -26,13 +27,16 @@ import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class CargoBuffer extends RebarBlock implements
         RebarDirectionalBlock,
         RebarGuiBlock,
         RebarVirtualInventoryBlock,
-        RebarCargoBlock {
+        RebarCargoBlock,
+        RebarCulledBlock
+{
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -134,6 +138,13 @@ public class CargoBuffer extends RebarBlock implements
     }
 
     @Override
+    public void postInitialise() {
+        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+        setDisableBlockTextureEntity(true);
+    }
+
+    @Override
     public @NotNull Gui createGui() {
         return Gui.builder()
                 .setStructure("# # # # x # # # #")
@@ -148,8 +159,7 @@ public class CargoBuffer extends RebarBlock implements
     }
 
     @Override
-    public void postInitialise() {
-        createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
-        createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
+    public @NotNull Iterable<UUID> getCulledEntityIds() {
+        return getHeldEntities().values();
     }
 }

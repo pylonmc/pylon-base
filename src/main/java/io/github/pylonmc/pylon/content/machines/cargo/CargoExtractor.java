@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.util.PylonUtils;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarCulledBlock;
 import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.base.RebarTickingBlock;
 import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
@@ -46,13 +47,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 
 public class CargoExtractor extends CargoInteractor implements
         RebarCargoBlock,
         RebarTickingBlock,
         RebarGuiBlock,
-        RebarVirtualInventoryBlock {
+        RebarVirtualInventoryBlock,
+        RebarCulledBlock
+{
 
     public static final NamespacedKey ITEMS_TO_FILTER_KEY = PylonUtils.pylonKey("items_to_filter");
     public static final NamespacedKey IS_WHITELIST_KEY = PylonUtils.pylonKey("is_whitelist");
@@ -164,6 +168,8 @@ public class CargoExtractor extends CargoInteractor implements
         isWhitelist = pdc.get(IS_WHITELIST_KEY, RebarSerializers.BOOLEAN);
     }
 
+
+
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
         super.write(pdc);
@@ -183,6 +189,8 @@ public class CargoExtractor extends CargoInteractor implements
                 }
             }
         });
+
+        setDisableBlockTextureEntity(true);
     }
 
     @Override
@@ -273,5 +281,10 @@ public class CargoExtractor extends CargoInteractor implements
     @Override
     public @NotNull Map<String, VirtualInventory> getVirtualInventories() {
         return Map.of("output", outputInventory, "filter", filterInventory);
+    }
+
+    @Override
+    public @NotNull Iterable<UUID> getCulledEntityIds() {
+        return getHeldEntities().values();
     }
 }

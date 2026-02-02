@@ -87,7 +87,6 @@ public class FluidValve extends RebarBlock
                 )
                 .build(getBlock().getLocation().toCenterLocation())
         );
-        setDisableBlockTextureEntity(true);
 
         enabled = false;
     }
@@ -96,9 +95,12 @@ public class FluidValve extends RebarBlock
     public FluidValve(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        setDisableBlockTextureEntity(true);
-
         enabled = pdc.get(ENABLED_KEY, RebarSerializers.BOOLEAN);
+    }
+
+    @Override
+    public void postInitialise() {
+        setDisableBlockTextureEntity(true);
     }
 
     @Override

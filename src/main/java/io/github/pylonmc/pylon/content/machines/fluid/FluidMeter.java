@@ -158,8 +158,6 @@ public class FluidMeter extends RebarBlock implements
                 .build(block.getLocation().toCenterLocation())
         );
 
-        setDisableBlockTextureEntity(true);
-
         measurements = new ArrayList<>();
         numberOfMeasurements = minNumberOfMeasurements;
     }
@@ -168,10 +166,13 @@ public class FluidMeter extends RebarBlock implements
     public FluidMeter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
 
-        setDisableBlockTextureEntity(true);
-
         measurements = new ArrayList<>(pdc.get(MEASUREMENTS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.DOUBLE)));
         numberOfMeasurements = pdc.get(NUMBER_OF_MEASUREMENTS_KEY, RebarSerializers.INTEGER);
+    }
+
+    @Override
+    public void postInitialise() {
+        setDisableBlockTextureEntity(true);
     }
 
     @Override

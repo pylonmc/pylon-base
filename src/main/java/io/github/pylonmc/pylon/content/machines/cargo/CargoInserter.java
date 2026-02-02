@@ -2,6 +2,7 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
+import io.github.pylonmc.rebar.block.base.RebarCulledBlock;
 import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
@@ -29,11 +30,14 @@ import xyz.xenondevs.invui.gui.Gui;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class CargoInserter extends CargoInteractor implements
         RebarCargoBlock,
-        RebarGuiBlock {
+        RebarGuiBlock,
+        RebarCulledBlock
+{
 
     public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
 
@@ -112,6 +116,11 @@ public class CargoInserter extends CargoInteractor implements
     }
 
     @Override
+    public void postInitialise() {
+        setDisableBlockTextureEntity(true);
+    }
+
+    @Override
     public void onDuctConnected(@NotNull RebarCargoConnectEvent event) {
         // Remove all faces that aren't to the connected block - this will make sure only
         // one duct is connected at a time
@@ -164,5 +173,10 @@ public class CargoInserter extends CargoInteractor implements
     @Override
     public boolean isValidGroup(@NotNull LogisticGroup group) {
         return group.getSlotType() == LogisticGroupType.BOTH || group.getSlotType() == LogisticGroupType.INPUT;
+    }
+
+    @Override
+    public @NotNull Iterable<UUID> getCulledEntityIds() {
+        return getHeldEntities().values();
     }
 }
