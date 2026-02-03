@@ -7,6 +7,7 @@ import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
 import io.github.pylonmc.rebar.datatypes.RebarSerializers;
+import io.github.pylonmc.rebar.event.api.annotation.MultiHandler;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
 import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.fluid.tags.FluidTemperature;
@@ -24,6 +25,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -160,8 +162,8 @@ public class PortableFluidTank extends RebarBlock implements FluidTankWithDispla
         return stack;
     }
 
-    @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        PylonUtils.handleFluidTankRightClick(this, event);
+    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR }, ignoreCancelled = true)
+    public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
+        PylonUtils.handleFluidTankRightClick(this, event, priority);
     }
 }
