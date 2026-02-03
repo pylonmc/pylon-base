@@ -66,12 +66,18 @@ public class PylonKeys {
     public static final NamespacedKey STEEL_NUGGET = pylonKey("steel_nugget");
     public static final NamespacedKey STEEL_BLOCK = pylonKey("steel_block");
 
+    public static final NamespacedKey PALLADIUM_DUST = pylonKey("palladium_dust");
+    public static final NamespacedKey PALLADIUM_INGOT = pylonKey("palladium_ingot");
+    public static final NamespacedKey PALLADIUM_NUGGET = pylonKey("palladium_nugget");
+    public static final NamespacedKey PALLADIUM_BLOCK = pylonKey("palladium_block");
+
     public static final NamespacedKey COPPER_SHEET = pylonKey("copper_sheet");
     public static final NamespacedKey IRON_SHEET = pylonKey("iron_sheet");
     public static final NamespacedKey GOLD_SHEET = pylonKey("gold_sheet");
     public static final NamespacedKey TIN_SHEET = pylonKey("tin_sheet");
     public static final NamespacedKey BRONZE_SHEET = pylonKey("bronze_sheet");
     public static final NamespacedKey STEEL_SHEET = pylonKey("steel_sheet");
+    public static final NamespacedKey PALLADIUM_SHEET = pylonKey("palladium_sheet");
 
     public static final NamespacedKey ROTOR = pylonKey("rotor");
     public static final NamespacedKey BACKFLOW_VALVE = pylonKey("backflow_valve");

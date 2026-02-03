@@ -848,6 +848,21 @@ item:
   steel_sheet:
     name: "Steel Sheet"
 
+  palladium_dust:
+    name: "Palladium Dust"
+
+  palladium_ingot:
+    name: "Palladium Ingot"
+
+  palladium_nugget:
+    name: "Palladium Nugget"
+
+  palladium_block:
+    name: "Block of Palladium"
+
+  palladium_sheet:
+    name: "Palladium Sheet"
+
   charcoal_block:
     name: "Block of Charcoal"
 

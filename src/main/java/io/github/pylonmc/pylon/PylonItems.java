@@ -329,6 +329,36 @@ public final class PylonItems {
         PylonPages.METALS.addItem(COBALT_DUST);
     }
 
+    public static final ItemStack PALLADIUM_INGOT = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.PALLADIUM_INGOT)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, PALLADIUM_INGOT);
+        PylonPages.METALS.addItem(PALLADIUM_INGOT);
+    }
+
+    public static final ItemStack PALLADIUM_DUST = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.PALLADIUM_DUST)
+            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, PALLADIUM_DUST);
+        PylonPages.METALS.addItem(PALLADIUM_DUST);
+    }
+
+    public static final ItemStack PALLADIUM_NUGGET = ItemStackBuilder.rebar(Material.IRON_NUGGET, PylonKeys.PALLADIUM_NUGGET)
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, PALLADIUM_NUGGET);
+        PylonPages.METALS.addItem(PALLADIUM_NUGGET);
+    }
+
+    public static final ItemStack PALLADIUM_BLOCK = ItemStackBuilder.rebar(Material.IRON_BLOCK, PylonKeys.PALLADIUM_BLOCK)
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, PALLADIUM_BLOCK, PylonKeys.PALLADIUM_BLOCK);
+        PylonPages.METALS.addItem(PALLADIUM_BLOCK);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Resources - Core Chunks" defaultstate=collapsed>
@@ -564,8 +594,6 @@ public final class PylonItems {
     static {
         RebarItem.register(RebarItem.class, TIN_SHEET);
         PylonPages.COMPONENTS.addItem(TIN_SHEET);
-
-
     }
 
     public static final ItemStack BRONZE_SHEET = ItemStackBuilder.rebar(Material.PAPER, PylonKeys.BRONZE_SHEET)
@@ -573,8 +601,6 @@ public final class PylonItems {
     static {
         RebarItem.register(RebarItem.class, BRONZE_SHEET);
         PylonPages.COMPONENTS.addItem(BRONZE_SHEET);
-
-
     }
 
     public static final ItemStack STEEL_SHEET = ItemStackBuilder.rebar(Material.PAPER, PylonKeys.STEEL_SHEET)
@@ -582,6 +608,13 @@ public final class PylonItems {
     static {
         RebarItem.register(RebarItem.class, STEEL_SHEET);
         PylonPages.COMPONENTS.addItem(STEEL_SHEET);
+    }
+
+    public static final ItemStack PALLADIUM_SHEET = ItemStackBuilder.rebar(Material.PAPER, PylonKeys.PALLADIUM_SHEET)
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, PALLADIUM_SHEET);
+        PylonPages.COMPONENTS.addItem(PALLADIUM_SHEET);
     }
 
 
