@@ -165,22 +165,6 @@ public final class PylonFluids {
         STEEL.register();
     }
 
-    public static final RebarFluid COBALT = new RebarFluid(
-            pylonKey("cobalt"),
-            Material.BLUE_TERRACOTTA
-    ).addTag(FluidTemperature.HOT);
-    static {
-        COBALT.register();
-    }
-
-    public static final RebarFluid NICKEL = new RebarFluid(
-            pylonKey("nickel"),
-            Material.WHITE_TERRACOTTA
-    ).addTag(FluidTemperature.HOT);
-    static {
-        NICKEL.register();
-    }
-
     public static final RebarFluid SLURRY = new RebarFluid(
             pylonKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE

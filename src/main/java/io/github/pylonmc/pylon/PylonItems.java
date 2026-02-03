@@ -269,66 +269,6 @@ public final class PylonItems {
         PylonPages.METALS.addItem(STEEL_DUST);
     }
 
-    public static final ItemStack NICKEL_INGOT = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.NICKEL_INGOT)
-            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, NICKEL_INGOT);
-        PylonPages.METALS.addItem(NICKEL_INGOT);
-    }
-
-    public static final ItemStack NICKEL_NUGGET = ItemStackBuilder.rebar(Material.IRON_NUGGET, PylonKeys.NICKEL_NUGGET)
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, NICKEL_NUGGET);
-        PylonPages.METALS.addItem(NICKEL_NUGGET);
-    }
-
-    public static final ItemStack NICKEL_BLOCK = ItemStackBuilder.rebar(Material.IRON_BLOCK, PylonKeys.NICKEL_BLOCK)
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, NICKEL_BLOCK, PylonKeys.NICKEL_BLOCK);
-        PylonPages.METALS.addItem(NICKEL_BLOCK);
-    }
-
-    public static final ItemStack NICKEL_DUST = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.NICKEL_DUST)
-            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, NICKEL_DUST);
-        PylonPages.METALS.addItem(NICKEL_DUST);
-    }
-
-    public static final ItemStack COBALT_INGOT = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.COBALT_INGOT)
-            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, COBALT_INGOT);
-        PylonPages.METALS.addItem(COBALT_INGOT);
-    }
-
-    public static final ItemStack COBALT_NUGGET = ItemStackBuilder.rebar(Material.IRON_NUGGET, PylonKeys.COBALT_NUGGET)
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, COBALT_NUGGET);
-        PylonPages.METALS.addItem(COBALT_NUGGET);
-    }
-
-    public static final ItemStack COBALT_BLOCK = ItemStackBuilder.rebar(Material.IRON_BLOCK, PylonKeys.COBALT_BLOCK)
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, COBALT_BLOCK, PylonKeys.COBALT_BLOCK);
-        PylonPages.METALS.addItem(COBALT_BLOCK);
-    }
-
-    public static final ItemStack COBALT_DUST = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.COBALT_DUST)
-            .set(DataComponentTypes.ITEM_MODEL, Material.SUGAR.getKey())
-            .build();
-    static {
-        RebarItem.register(RebarItem.class, COBALT_DUST);
-        PylonPages.METALS.addItem(COBALT_DUST);
-    }
-
     public static final ItemStack PALLADIUM_INGOT = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.PALLADIUM_INGOT)
             .set(DataComponentTypes.ITEM_MODEL, Material.IRON_INGOT.getKey())
             .build();

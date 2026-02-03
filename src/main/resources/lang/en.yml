@@ -49,18 +49,6 @@ item:
   coal_dust:
     name: "Coal Dust"
 
-  cobalt_dust:
-    name: "Cobalt Dust"
-
-  cobalt_ingot:
-    name: "Cobalt Ingot"
-
-  cobalt_nugget:
-    name: "Cobalt Nugget"
-
-  cobalt_block:
-    name: "Block of Cobalt"
-
   carbon:
     name: "Carbon"
 
@@ -610,18 +598,6 @@ item:
     lore: |-
       <arrow> Slightly tastier than rotten flesh - but only slightly...
       <arrow> Can be crafted into leather
-
-  nickel_dust:
-    name: "Nickel Dust"
-
-  nickel_ingot:
-    name: "Nickel Ingot"
-
-  nickel_nugget:
-    name: "Nickel Nugget"
-
-  nickel_block:
-    name: "Block of Nickel"
 
   obsidian_chip:
     name: "Obsidian Chip"
@@ -1902,13 +1878,11 @@ fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
   bronze: "<#8d6f64>Liquid Bronze"
-  cobalt: "<gray>Liquid Cobalt"
   copper: "<#b5591b>Liquid Copper"
   gold: "<gold>Liquid Gold"
   iron: "<gray>Liquid Iron"
   lava: "<#fc4e03>Lava"
   mercury: "<#dedede>Mercury"
-  nickel: "<gray>Liquid Nickel"
   none: "None"
   slurry: "<gray>Slurry"
   slurry_coal: "<gray>Coal Slurry"

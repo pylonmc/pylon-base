@@ -41,16 +41,6 @@ public class PylonKeys {
     public static final NamespacedKey TIN_NUGGET = pylonKey("tin_nugget");
     public static final NamespacedKey TIN_BLOCK = pylonKey("tin_block");
 
-    public static final NamespacedKey COBALT_DUST = pylonKey("cobalt_dust");
-    public static final NamespacedKey COBALT_INGOT = pylonKey("cobalt_ingot");
-    public static final NamespacedKey COBALT_NUGGET = pylonKey("cobalt_nugget");
-    public static final NamespacedKey COBALT_BLOCK = pylonKey("cobalt_block");
-
-    public static final NamespacedKey NICKEL_DUST = pylonKey("nickel_dust");
-    public static final NamespacedKey NICKEL_INGOT = pylonKey("nickel_ingot");
-    public static final NamespacedKey NICKEL_NUGGET = pylonKey("nickel_nugget");
-    public static final NamespacedKey NICKEL_BLOCK = pylonKey("nickel_block");
-
     public static final NamespacedKey BRONZE_DUST = pylonKey("bronze_dust");
     public static final NamespacedKey BRONZE_INGOT = pylonKey("bronze_ingot");
     public static final NamespacedKey BRONZE_NUGGET = pylonKey("bronze_nugget");
