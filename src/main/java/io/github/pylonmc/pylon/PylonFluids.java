@@ -165,6 +165,14 @@ public final class PylonFluids {
         STEEL.register();
     }
 
+    public static final RebarFluid PALLADIUM = new RebarFluid(
+            pylonKey("palladium"),
+            Material.LIGHT_BLUE_TERRACOTTA
+    ).addTag(FluidTemperature.HOT);
+    static {
+        PALLADIUM.register();
+    }
+
     public static final RebarFluid SLURRY = new RebarFluid(
             pylonKey("slurry"),
             Material.LIGHT_GRAY_CONCRETE

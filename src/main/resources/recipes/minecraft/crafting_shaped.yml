@@ -58,6 +58,26 @@ pylon:steel_block_from_steel_ingots:
   result: pylon:steel_block
   category: misc
 
+pylon:palladium_ingot_from_palladium_nuggets:
+  pattern:
+    - "NNN"
+    - "NNN"
+    - "NNN"
+  key:
+    N: pylon:palladium_nugget
+  result: pylon:palladium_ingot
+  category: misc
+
+pylon:palladium_block_from_palladium_ingots:
+  pattern:
+    - "NNN"
+    - "NNN"
+    - "NNN"
+  key:
+    N: pylon:palladium_ingot
+  result: pylon:palladium_block
+  category: misc
+
 pylon:charcoal_block_from_charcoal:
   pattern:
     - "NNN"
