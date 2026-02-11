@@ -1013,6 +1013,15 @@ public final class PylonItems {
         RebarItem.register(HealthTalisman.class, HEALTH_TALISMAN_ULTIMATE);
         PylonPages.TALISMANS.addItem(HEALTH_TALISMAN_ULTIMATE);
     }
+
+    public static final ItemStack HEALTH_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.AMETHYST_SHARD, PylonKeys.HEALTH_TALISMAN_PALLADIUM)
+            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
+            .build();
+    static {
+        RebarItem.register(HealthTalisman.class, HEALTH_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(HEALTH_TALISMAN_PALLADIUM);
+    }
+
     public static final ItemStack HUNGER_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.HUNGER_TALISMAN_SIMPLE)
             .set(DataComponentTypes.ITEM_MODEL, Objects.requireNonNull(Material.GOLDEN_APPLE.getDefaultData(DataComponentTypes.ITEM_MODEL)))
             .build();
@@ -1037,6 +1046,14 @@ public final class PylonItems {
         PylonPages.TALISMANS.addItem(HUNGER_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack HUNGER_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.HUNGER_TALISMAN_PALLADIUM)
+            .set(DataComponentTypes.ITEM_MODEL, Objects.requireNonNull(Material.GOLDEN_APPLE.getDefaultData(DataComponentTypes.ITEM_MODEL)))
+            .build();
+    static {
+        RebarItem.register(HungerTalisman.class, HUNGER_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(HUNGER_TALISMAN_PALLADIUM);
+    }
+
     public static final ItemStack FARMING_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.BOWL, PylonKeys.FARMING_TALISMAN_SIMPLE)
             .build();
     static {
@@ -1056,6 +1073,13 @@ public final class PylonItems {
     static {
         RebarItem.register(FarmingTalisman.class, FARMING_TALISMAN_ULTIMATE);
         PylonPages.TALISMANS.addItem(FARMING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack FARMING_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.BOWL, PylonKeys.FARMING_TALISMAN_PALLADIUM)
+            .build();
+    static {
+        RebarItem.register(FarmingTalisman.class, FARMING_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(FARMING_TALISMAN_PALLADIUM);
     }
 
     public static final ItemStack BARTERING_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.GOLD_INGOT, PylonKeys.BARTERING_TALISMAN_SIMPLE)
@@ -1079,6 +1103,13 @@ public final class PylonItems {
         PylonPages.TALISMANS.addItem(BARTERING_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack BARTERING_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.GOLD_INGOT, PylonKeys.BARTERING_TALISMAN_PALLADIUM)
+            .build();
+    static {
+        RebarItem.register(BarteringTalisman.class, BARTERING_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(BARTERING_TALISMAN_PALLADIUM);
+    }
+
     public static final ItemStack WATER_BREATHING_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.NAUTILUS_SHELL, PylonKeys.WATER_BREATHING_TALISMAN_SIMPLE)
             .build();
     static {
@@ -1098,6 +1129,13 @@ public final class PylonItems {
     static {
         RebarItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_ULTIMATE);
         PylonPages.TALISMANS.addItem(WATER_BREATHING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack WATER_BREATHING_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.NAUTILUS_SHELL, PylonKeys.WATER_BREATHING_TALISMAN_PALLADIUM)
+            .build();
+    static {
+        RebarItem.register(WaterBreathingTalisman.class, WATER_BREATHING_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(WATER_BREATHING_TALISMAN_PALLADIUM);
     }
 
     public static final ItemStack LUCK_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.RABBIT_FOOT, PylonKeys.LUCK_TALISMAN_SIMPLE)
@@ -1121,6 +1159,13 @@ public final class PylonItems {
         PylonPages.TALISMANS.addItem(LUCK_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack LUCK_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.RABBIT_FOOT, PylonKeys.LUCK_TALISMAN_PALLADIUM)
+            .build();
+    static {
+        RebarItem.register(LuckTalisman.class, LUCK_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(LUCK_TALISMAN_PALLADIUM);
+    }
+
     public static final ItemStack BREEDING_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.APPLE, PylonKeys.BREEDING_TALISMAN_SIMPLE)
             .build();
     static {
@@ -1140,6 +1185,13 @@ public final class PylonItems {
     static {
         RebarItem.register(BreedingTalisman.class, BREEDING_TALISMAN_ULTIMATE);
         PylonPages.TALISMANS.addItem(BREEDING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack BREEDING_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.APPLE, PylonKeys.BREEDING_TALISMAN_PALLADIUM)
+            .build();
+    static {
+        RebarItem.register(BreedingTalisman.class, BREEDING_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(BREEDING_TALISMAN_PALLADIUM);
     }
 
     public static final ItemStack ENCHANTING_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.ENCHANTED_BOOK, PylonKeys.ENCHANTING_TALISMAN_SIMPLE)
@@ -1166,6 +1218,14 @@ public final class PylonItems {
         PylonPages.TALISMANS.addItem(ENCHANTING_TALISMAN_ULTIMATE);
     }
 
+    public static final ItemStack ENCHANTING_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.ENCHANTED_BOOK, PylonKeys.ENCHANTING_TALISMAN_PALLADIUM)
+            .set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
+            .build();
+    static {
+        RebarItem.register(EnchantingTalisman.class, ENCHANTING_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(ENCHANTING_TALISMAN_PALLADIUM);
+    }
+
     public static final ItemStack HUNTING_TALISMAN_SIMPLE = ItemStackBuilder.rebar(Material.SKELETON_SKULL, PylonKeys.HUNTING_TALISMAN_SIMPLE)
             .build();
     static {
@@ -1185,6 +1245,13 @@ public final class PylonItems {
     static {
         RebarItem.register(HuntingTalisman.class, HUNTING_TALISMAN_ULTIMATE);
         PylonPages.TALISMANS.addItem(HUNTING_TALISMAN_ULTIMATE);
+    }
+
+    public static final ItemStack HUNTING_TALISMAN_PALLADIUM = ItemStackBuilder.rebar(Material.SKELETON_SKULL, PylonKeys.HUNTING_TALISMAN_PALLADIUM)
+            .build();
+    static {
+        RebarItem.register(HuntingTalisman.class, HUNTING_TALISMAN_PALLADIUM);
+        PylonPages.TALISMANS.addItem(HUNTING_TALISMAN_PALLADIUM);
     }
 
     //</editor-fold>
