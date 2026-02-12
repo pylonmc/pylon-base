@@ -74,12 +74,10 @@ public class PortableFluidTank extends RebarBlock implements FluidTankWithDispla
         }
 
         @Override
-        public @Nullable RebarBlock place(@NotNull BlockCreateContext context) {
+        public @NotNull RebarBlock place(@NotNull BlockCreateContext context) {
             PortableFluidTank tank = (PortableFluidTank) getSchema().place(context);
-            if (tank != null) {
-                tank.setFluidType(getFluid());
-                tank.setFluid(getAmount());
-            }
+            tank.setFluidType(getFluid());
+            tank.setFluid(getAmount());
             return tank;
         }
 
