@@ -1,6 +1,7 @@
 package io.github.pylonmc.pylon;
 
 import io.github.pylonmc.pylon.content.armor.BronzeArmor;
+import io.github.pylonmc.pylon.content.assembling.AssemblyTool;
 import io.github.pylonmc.pylon.content.building.Elevator;
 import io.github.pylonmc.pylon.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.content.building.Immobilizer;
@@ -2308,6 +2309,58 @@ public final class PylonItems {
     static {
         RebarItem.register(RebarItem.class, BIOREFINERY_SMOKESTACK_CAP, PylonKeys.BIOREFINERY_SMOKESTACK_CAP);
         PylonPages.DIESEL_PRODUCTION.addItem(BIOREFINERY_SMOKESTACK_CAP);
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Assembling" defaultstate=collapsed>
+
+    public static final ItemStack ASSEMBLY_TABLE = ItemStackBuilder.rebar(Material.ANVIL, PylonKeys.ASSEMBLY_TABLE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.CRAFTING_TABLE.getKey())
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, ASSEMBLY_TABLE, PylonKeys.ASSEMBLY_TABLE);
+        PylonPages.ASSEMBLING.addItem(ASSEMBLY_TABLE);
+    }
+
+    public static final ItemStack COPPER_SCREWDRIVER = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.COPPER_SCREWDRIVER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.COPPER_SHOVEL.getKey())
+            .build();
+    static {
+        RebarItem.register(AssemblyTool.class, COPPER_SCREWDRIVER, PylonKeys.COPPER_SCREWDRIVER);
+        PylonPages.ASSEMBLING.addItem(COPPER_SCREWDRIVER);
+    }
+
+    public static final ItemStack IRON_SCREWDRIVER = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.IRON_SCREWDRIVER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.IRON_SHOVEL.getKey())
+            .build();
+    static {
+        RebarItem.register(AssemblyTool.class, IRON_SCREWDRIVER, PylonKeys.IRON_SCREWDRIVER);
+        PylonPages.ASSEMBLING.addItem(IRON_SCREWDRIVER);
+    }
+
+    public static final ItemStack BRONZE_SCREWDRIVER = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.BRONZE_SCREWDRIVER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_SHOVEL.getKey())
+            .build();
+    static {
+        RebarItem.register(AssemblyTool.class, BRONZE_SCREWDRIVER, PylonKeys.BRONZE_SCREWDRIVER);
+        PylonPages.ASSEMBLING.addItem(BRONZE_SCREWDRIVER);
+    }
+
+    public static final ItemStack STEEL_SCREWDRIVER = ItemStackBuilder.rebar(Material.STRUCTURE_VOID, PylonKeys.STEEL_SCREWDRIVER)
+            .set(DataComponentTypes.ITEM_MODEL, Material.NETHERITE_SHOVEL.getKey())
+            .build();
+    static {
+        RebarItem.register(AssemblyTool.class, STEEL_SCREWDRIVER, PylonKeys.STEEL_SCREWDRIVER);
+        PylonPages.ASSEMBLING.addItem(STEEL_SCREWDRIVER);
+    }
+
+    public static final ItemStack REDSTONE_SOLDERING_IRON = ItemStackBuilder.rebar(Material.STRUCTURE_VOID, PylonKeys.REDSTONE_SOLDERING_IRON)
+            .set(DataComponentTypes.ITEM_MODEL, Material.COMPASS.getKey())
+            .build();
+    static {
+        RebarItem.register(AssemblyTool.class, REDSTONE_SOLDERING_IRON, PylonKeys.REDSTONE_SOLDERING_IRON);
+        PylonPages.ASSEMBLING.addItem(REDSTONE_SOLDERING_IRON);
     }
 
     //</editor-fold>

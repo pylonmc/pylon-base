@@ -1883,6 +1883,33 @@ item:
       <arrow> Only works while in your inventory
       <arrow> <attr>Success rate:</attr> %bonus_item_chance%
 
+  assembly_table:
+    name: "<white>Assembly Table"
+    lore: |-
+      <arrow> A table for assembling complex components
+      <arrow> <insn>Insert items</insn> to start a recipe
+      <arrow> <insn>Use tools</insn> to progress the recipe
+
+  iron_screwdriver:
+    name: "Iron Screwdriver"
+    lore: |-
+      <arrow> <insn>Right click</insn> on an assembly table to use
+
+  bronze_screwdriver:
+    name: "Bronze Screwdriver"
+    lore: |-
+      <arrow> <insn>Right click</insn> on an assembly table to use
+
+  diamond_screwdriver:
+    name: "Diamond Screwdriver"
+    lore: |-
+      <arrow> <insn>Right click</insn> on an assembly table to use
+
+  redstone_soldering_iron:
+    name: "<white>Redstone Soldering Iron"
+    lore: |-
+      <arrow> <insn>Right click</insn> on an assembly table to use
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -2039,6 +2066,8 @@ guide:
     hammer: "<attr>Chance:</attr> %chance%"
 
 message:
+  assembly_table:
+    full: "<red>Output full!"
   fluid_selector:
     current_fluid: "<white>Current fluid: %fluid%"
     clear: "<white>Clear"

@@ -369,5 +369,12 @@ public class PylonKeys {
     public static final NamespacedKey HUNTING_TALISMAN_ADVANCED = pylonKey("hunting_talisman_advanced");
     public static final NamespacedKey HUNTING_TALISMAN_ULTIMATE = pylonKey("hunting_talisman_ultimate");
 
+    public static final NamespacedKey ASSEMBLY_TABLE = pylonKey("assembly_table");
+    public static final NamespacedKey COPPER_SCREWDRIVER = pylonKey("copper_screwdriver");
+    public static final NamespacedKey IRON_SCREWDRIVER = pylonKey("iron_screwdriver");
+    public static final NamespacedKey BRONZE_SCREWDRIVER = pylonKey("bronze_screwdriver");
+    public static final NamespacedKey STEEL_SCREWDRIVER = pylonKey("steel_screwdriver");
+    public static final NamespacedKey REDSTONE_SOLDERING_IRON = pylonKey("redstone_soldering_iron");
+
     public static final NamespacedKey DISPLAY_PROJECTILE = pylonKey("display_projectile");
 }
