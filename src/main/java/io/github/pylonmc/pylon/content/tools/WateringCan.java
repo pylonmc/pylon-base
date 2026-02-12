@@ -13,6 +13,7 @@ import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -39,7 +40,7 @@ public class WateringCan extends RebarItem implements RebarBlockInteractor, Reba
         }
 
     @Override
-    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (!event.getAction().isRightClick()) {
             return;
         }
@@ -55,7 +56,7 @@ public class WateringCan extends RebarItem implements RebarBlockInteractor, Reba
     }
 
     @Override
-    public void onBucketFilled(@NotNull PlayerBucketFillEvent event) {
+    public void onBucketFilled(@NotNull PlayerBucketFillEvent event, @NotNull EventPriority priority) {
         event.setCancelled(true);
     }
 
@@ -194,7 +195,7 @@ public class WateringCan extends RebarItem implements RebarBlockInteractor, Reba
     }
 
     @Override
-    public void onDispense(@NotNull BlockDispenseEvent event) {
+    public void onDispense(@NotNull BlockDispenseEvent event, @NotNull EventPriority priority) {
         event.setCancelled(true);
     }
 }

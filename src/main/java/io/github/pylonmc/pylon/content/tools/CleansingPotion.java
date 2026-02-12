@@ -5,6 +5,7 @@ import io.github.pylonmc.rebar.item.base.RebarSplashPotion;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.ZombieVillager;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ public class CleansingPotion extends RebarItem implements RebarSplashPotion {
     }
 
     @Override
-    public void onSplash(@NotNull PotionSplashEvent event) {
+    public void onSplash(@NotNull PotionSplashEvent event, @NotNull EventPriority priority) {
         for (LivingEntity entity : event.getAffectedEntities()) {
             if (entity instanceof ZombieVillager villager) {
                 // Convert to regular villager

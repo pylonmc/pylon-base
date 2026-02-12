@@ -20,6 +20,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -98,7 +99,7 @@ public class Hammer extends RebarItem implements RebarBlockInteractor {
     }
 
     @Override
-    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         event.setUseInteractedBlock(Event.Result.DENY);
 
         Player player = event.getPlayer();

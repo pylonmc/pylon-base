@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -44,7 +45,7 @@ public class ShimmerMagnet extends RebarItem implements RebarInteractor {
 
     @SuppressWarnings("UnstableApiUsage")
     @Override
-    public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClick(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (!event.getAction().isRightClick()) return;
         ItemStack stack = event.getItem();
         if (stack == null) return; // should never happen

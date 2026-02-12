@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -28,7 +29,7 @@ public class ConfettiPopper extends RebarItem implements RebarConsumable {
     }
 
     @Override
-    public void onConsumed(@NotNull PlayerItemConsumeEvent event) {
+    public void onConsumed(@NotNull PlayerItemConsumeEvent event, @NotNull EventPriority priority) {
         Player player = event.getPlayer();
         Location eyeLocation = player.getEyeLocation();
         Vector direction = eyeLocation.getDirection().normalize();

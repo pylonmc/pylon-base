@@ -8,6 +8,7 @@ import io.github.pylonmc.rebar.item.research.Research;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,7 @@ public class ResearchPack extends RebarItem implements RebarInteractor {
     }
 
     @Override
-    public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClick(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         Player player = event.getPlayer();
         if (!event.getAction().isRightClick()) return;
 

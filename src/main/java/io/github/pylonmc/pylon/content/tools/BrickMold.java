@@ -9,6 +9,7 @@ import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,7 @@ public class BrickMold extends RebarItem implements RebarBlockInteractor {
     }
 
     @Override
-    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (event.getClickedBlock() == null || !event.getAction().isRightClick()) {
             return;
         }

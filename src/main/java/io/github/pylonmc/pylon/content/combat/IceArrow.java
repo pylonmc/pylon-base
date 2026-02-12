@@ -7,6 +7,7 @@ import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.RebarArrow;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,7 +25,7 @@ public class IceArrow extends RebarItem implements RebarArrow {
     }
 
     @Override
-    public void onArrowDamage(@NotNull EntityDamageByEntityEvent event) {
+    public void onArrowDamage(@NotNull EntityDamageByEntityEvent event, @NotNull EventPriority priority) {
         if (event.getEntity() instanceof LivingEntity) {
             // Has to be run every tick or effect will flicker in and out from game resetting it since the player isn't in a powdered snow block
             new DamageOverTimeRunnable((LivingEntity) event.getEntity(), freezeDuration, Bukkit.getCurrentTick(), (float) freezeSpeed).runTaskTimer(Pylon.getInstance(), 0, 1);

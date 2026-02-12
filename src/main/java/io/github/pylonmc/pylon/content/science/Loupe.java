@@ -32,6 +32,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -142,7 +143,7 @@ public final class Loupe extends RebarItem implements RebarInteractor, RebarCons
     }
 
     @Override
-    public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClick(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         Player player = event.getPlayer();
         if (!event.getAction().isRightClick()) {
             return;
@@ -216,7 +217,7 @@ public final class Loupe extends RebarItem implements RebarInteractor, RebarCons
     }
 
     @Override
-    public void onConsumed(@NotNull PlayerItemConsumeEvent event) {
+    public void onConsumed(@NotNull PlayerItemConsumeEvent event, @NotNull EventPriority priority) {
         event.setCancelled(true);
 
         Player player = event.getPlayer();

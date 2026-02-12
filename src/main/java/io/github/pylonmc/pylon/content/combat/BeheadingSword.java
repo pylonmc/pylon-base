@@ -8,6 +8,7 @@ import io.papermc.paper.tag.EntityTags;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -36,7 +37,7 @@ public class BeheadingSword extends RebarItem implements RebarWeapon {
     );
 
     @Override
-    public void onUsedToKillEntity(@NotNull EntityDeathEvent event) {
+    public void onUsedToKillEntity(@NotNull EntityDeathEvent event, @NotNull EventPriority priority) {
         if (EntityTags.MINECARTS.isTagged(event.getEntityType())) {
             return;
         }

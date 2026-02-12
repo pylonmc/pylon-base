@@ -19,6 +19,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -74,7 +75,8 @@ public class HydraulicCannon extends RebarItem implements RebarInteractor, Hydra
     }
 
     @Override
-    public void onUsedToRightClick(@NotNull PlayerInteractEvent event) {
+    public void onUsedToClick(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
+        // todo: check against right click
         if (getHydraulicFluid() < hydraulicFluidPerShot || getDirtyHydraulicFluidSpace() < hydraulicFluidPerShot) {
             return;
         }
