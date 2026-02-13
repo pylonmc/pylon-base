@@ -1,50 +1,85 @@
 pylonbase:kinetic_control_mechanism:
   inputs:
-    - minecraft:comparator: 3
+    - minecraft:comparator: 2
     - minecraft:piston: 2
     - minecraft:clock: 1
-    - minecraft:redstone: 6
-    - pylonbase:steel_ingot: 2
+    - minecraft:redstone: 3
+    - pylon:steel_sheet: 1
   results:
-    - pylonbase:kinetic_control_mechanism: 4
+    - pylon:kinetic_control_mechanism
   steps:
-    - tool: "Hammer"
-      icon: pylonbase:stone_hammer
+    - tool: "hammer"
+      icon: pylon:stone_hammer
       clicks: 3
-      add_displays:
-        - name: "co1"
-          item: minecraft:comparator
+      add-displays:
+        - name: "sh"
+          item: minecraft:gray_concrete
+          position: [0.5, 0.5]
+          scale: [1.0, 0.03, 1.0]
+    - tool: "hammer"
+      icon: pylon:stone_hammer
+      clicks: 2
+      add-displays:
+        - name: "rb1"
+          item: minecraft:redstone_block
           position: [0.3, 0.2]
-          scale: [0.2, 0.1, 0.2]
-        - name: "co2"
-          item: minecraft:comparator
+          scale: [0.15, 0.15, 0.15]
+        - name: "rb2"
+          item: minecraft:redstone_block
           position: [0.7, 0.3]
-          scale: [0.2, 0.1, 0.2]
-    - tool: "Hammer"
-      icon: pylonbase:stone_hammer
-      clicks: 3
-      add_displays:
+          scale: [0.15, 0.15, 0.15]
+    - tool: "hammer"
+      icon: pylon:stone_hammer
+      clicks: 2
+      add-displays:
         - name: "pi1"
           item: minecraft:piston
           position: [0.7, 0.8]
-          scale: [0.2, 0.1, 0.2]
+          scale: [0.15, 0.15, 0.15]
         - name: "pi2"
           item: minecraft:piston
           position: [0.4, 0.8]
-          scale: [0.2, 0.1, 0.2]
-    - tool: "Screwdriver"
-      icon: pylonbase:iron_screwdriver
+          scale: [0.15, 0.15, 0.15]
+    - tool: "screwdriver"
+      icon: pylon:iron_screwdriver
       clicks: 4
-      add_displays:
+      add-displays:
         - name: "cl1"
           item: minecraft:gold_block
           position: [0.5, 0.5]
-          scale: [0.2, 0.075, 0.2]
-    - tool: "Redstone Soldering Iron"
-      icon: pylonbase:redstone_soldering_iron
-      clicks: 4
-      add_displays:
+          scale: [0.2, 0.2, 0.2]
+    - tool: "redstone_soldering_iron"
+      icon: pylon:redstone_soldering_iron
+      clicks: 2
+      add-displays:
         - name: "rw1"
           item: minecraft:red_concrete
           position: [0.55, 0.8]
-          scale: [0.3, 0.05, 0.05]
+          scale: [0.3, 0.08, 0.08]
+    - tool: "redstone_soldering_iron"
+      icon: pylon:redstone_soldering_iron
+      clicks: 3
+      add-displays:
+        - name: "rw2"
+          item: minecraft:red_concrete
+          position: [0.7, 0.55]
+          scale: [0.08, 0.08, 0.6]
+        - name: "rw3"
+          item: minecraft:red_concrete
+          position: [0.6, 0.5]
+          scale: [0.2, 0.08, 0.08]
+    - tool: "redstone_soldering_iron"
+      icon: pylon:redstone_soldering_iron
+      clicks: 2
+      add-displays:
+        - name: "rw4"
+          item: minecraft:red_concrete
+          position: [0.4, 0.5]
+          scale: [0.28, 0.08, 0.08]
+        - name: "rw5"
+          item: minecraft:red_concrete
+          position: [0.3, 0.35]
+          scale: [0.08, 0.08, 0.38]
+    - tool: "hammer"
+      icon: pylon:stone_hammer
+      clicks: 3

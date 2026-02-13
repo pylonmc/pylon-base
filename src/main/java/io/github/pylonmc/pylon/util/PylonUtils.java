@@ -24,6 +24,7 @@ import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionType;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -40,6 +41,25 @@ public class PylonUtils {
     }
 
     public final Color METAL_GRAY = Color.fromRGB(0xaaaaaa);
+
+    public void drawParticleLine(
+            Location start,
+            @NotNull Location end,
+            double spacing,
+            Consumer<Location> spawnParticle
+    ) {
+        double currentPoint = 0;
+        Vector startToEnd = end.clone().subtract(start).toVector();
+        Vector step = startToEnd.clone().normalize().multiply(spacing);
+        double length = startToEnd.length();
+        Location current = start.clone();
+
+        while (currentPoint < length) {
+            spawnParticle.accept(current);
+            currentPoint += spacing;
+            current.add(step);
+        }
+    }
 
     public @NotNull Color colorFromTemperature(double celsius) {
         double temp = (celsius + 273.15) / 100.0;

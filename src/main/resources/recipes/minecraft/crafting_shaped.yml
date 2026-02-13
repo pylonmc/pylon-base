@@ -1707,3 +1707,26 @@ pylon:redstone_soldering_iron:
     S: minecraft:stick
   result: pylon:redstone_soldering_iron
   category: equipment
+
+pylon:steel_cylinder:
+  pattern:
+    - " S "
+    - "S S"
+    - " S "
+  key:
+    S: pylon:steel_sheet
+  result:
+    pylon:steel_cylinder: 4
+  category: equipment
+
+pylon:steel_crankshaft:
+  pattern:
+    - "   "
+    - "NIN"
+    - "   "
+  key:
+    N: pylon:steel_nugget
+    I: pylon:steel_ingot
+  result:
+    pylon:steel_crankshaft: 1
+  category: equipment

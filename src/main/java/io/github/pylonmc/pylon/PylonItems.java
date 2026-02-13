@@ -1,7 +1,8 @@
 package io.github.pylonmc.pylon;
 
 import io.github.pylonmc.pylon.content.armor.BronzeArmor;
-import io.github.pylonmc.pylon.content.assembling.AssemblyTool;
+import io.github.pylonmc.pylon.content.assembling.RedstoneSolderingIron;
+import io.github.pylonmc.pylon.content.assembling.Screwdriver;
 import io.github.pylonmc.pylon.content.building.Elevator;
 import io.github.pylonmc.pylon.content.building.ExplosiveTarget;
 import io.github.pylonmc.pylon.content.building.Immobilizer;
@@ -712,6 +713,27 @@ public final class PylonItems {
     static {
         RebarItem.register(RebarItem.class, ITEM_OUTPUT_HATCH, PylonKeys.ITEM_OUTPUT_HATCH);
         PylonPages.COMPONENTS.addItem(ITEM_OUTPUT_HATCH);
+    }
+
+    public static final ItemStack STEEL_CYLINDER = ItemStackBuilder.rebar(Material.FLOWER_POT, PylonKeys.STEEL_CYLINDER)
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, STEEL_CYLINDER, PylonKeys.STEEL_CYLINDER);
+        PylonPages.COMPONENTS.addItem(STEEL_CYLINDER);
+    }
+
+    public static final ItemStack STEEL_CRANKSHAFT = ItemStackBuilder.rebar(Material.GRAY_CANDLE, PylonKeys.STEEL_CRANKSHAFT)
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, STEEL_CRANKSHAFT, PylonKeys.STEEL_CRANKSHAFT);
+        PylonPages.COMPONENTS.addItem(STEEL_CRANKSHAFT);
+    }
+
+    public static final ItemStack KINETIC_CONTROL_MECHANISM = ItemStackBuilder.rebar(Material.CLOCK, PylonKeys.KINETIC_CONTROL_MECHANISM)
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, KINETIC_CONTROL_MECHANISM, PylonKeys.KINETIC_CONTROL_MECHANISM);
+        PylonPages.COMPONENTS.addItem(KINETIC_CONTROL_MECHANISM);
     }
 
     //</editor-fold>
@@ -2327,7 +2349,7 @@ public final class PylonItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.COPPER_SHOVEL.getKey())
             .build();
     static {
-        RebarItem.register(AssemblyTool.class, COPPER_SCREWDRIVER, PylonKeys.COPPER_SCREWDRIVER);
+        RebarItem.register(Screwdriver.class, COPPER_SCREWDRIVER, PylonKeys.COPPER_SCREWDRIVER);
         PylonPages.ASSEMBLING.addItem(COPPER_SCREWDRIVER);
     }
 
@@ -2335,7 +2357,7 @@ public final class PylonItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.IRON_SHOVEL.getKey())
             .build();
     static {
-        RebarItem.register(AssemblyTool.class, IRON_SCREWDRIVER, PylonKeys.IRON_SCREWDRIVER);
+        RebarItem.register(Screwdriver.class, IRON_SCREWDRIVER, PylonKeys.IRON_SCREWDRIVER);
         PylonPages.ASSEMBLING.addItem(IRON_SCREWDRIVER);
     }
 
@@ -2343,23 +2365,23 @@ public final class PylonItems {
             .set(DataComponentTypes.ITEM_MODEL, Material.GOLDEN_SHOVEL.getKey())
             .build();
     static {
-        RebarItem.register(AssemblyTool.class, BRONZE_SCREWDRIVER, PylonKeys.BRONZE_SCREWDRIVER);
+        RebarItem.register(Screwdriver.class, BRONZE_SCREWDRIVER, PylonKeys.BRONZE_SCREWDRIVER);
         PylonPages.ASSEMBLING.addItem(BRONZE_SCREWDRIVER);
     }
 
-    public static final ItemStack STEEL_SCREWDRIVER = ItemStackBuilder.rebar(Material.STRUCTURE_VOID, PylonKeys.STEEL_SCREWDRIVER)
+    public static final ItemStack STEEL_SCREWDRIVER = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.STEEL_SCREWDRIVER)
             .set(DataComponentTypes.ITEM_MODEL, Material.NETHERITE_SHOVEL.getKey())
             .build();
     static {
-        RebarItem.register(AssemblyTool.class, STEEL_SCREWDRIVER, PylonKeys.STEEL_SCREWDRIVER);
+        RebarItem.register(Screwdriver.class, STEEL_SCREWDRIVER, PylonKeys.STEEL_SCREWDRIVER);
         PylonPages.ASSEMBLING.addItem(STEEL_SCREWDRIVER);
     }
 
-    public static final ItemStack REDSTONE_SOLDERING_IRON = ItemStackBuilder.rebar(Material.STRUCTURE_VOID, PylonKeys.REDSTONE_SOLDERING_IRON)
+    public static final ItemStack REDSTONE_SOLDERING_IRON = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.REDSTONE_SOLDERING_IRON)
             .set(DataComponentTypes.ITEM_MODEL, Material.COMPASS.getKey())
             .build();
     static {
-        RebarItem.register(AssemblyTool.class, REDSTONE_SOLDERING_IRON, PylonKeys.REDSTONE_SOLDERING_IRON);
+        RebarItem.register(RedstoneSolderingIron.class, REDSTONE_SOLDERING_IRON, PylonKeys.REDSTONE_SOLDERING_IRON);
         PylonPages.ASSEMBLING.addItem(REDSTONE_SOLDERING_IRON);
     }
 
