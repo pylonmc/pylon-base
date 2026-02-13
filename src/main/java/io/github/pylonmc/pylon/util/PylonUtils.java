@@ -143,6 +143,15 @@ public class PylonUtils {
         );
     }
 
+    public @NotNull Component createDiscreteProgressBar(int stage, int maxStage, TextColor color) {
+        return Component.translatable("pylon.gui.discrete_progress_bar.text").arguments(
+                RebarArgument.of("filled_bars", Component.text("|".repeat(stage)).color(color)),
+                RebarArgument.of("empty_bars", "|".repeat(maxStage - stage)),
+                RebarArgument.of("stage", stage),
+                RebarArgument.of("max_stage", maxStage)
+        );
+    }
+
     public @NotNull Component createProgressBar(double amount, double max, int bars, TextColor color) {
         return createProgressBar(amount / max, bars, color);
     }

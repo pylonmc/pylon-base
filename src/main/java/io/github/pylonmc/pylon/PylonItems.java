@@ -736,6 +736,14 @@ public final class PylonItems {
         PylonPages.COMPONENTS.addItem(KINETIC_CONTROL_MECHANISM);
     }
 
+    public static final ItemStack INTERNAL_COMBUSTION_ENGINE = ItemStackBuilder.rebar(Material.CLAY_BALL, PylonKeys.INTERNAL_COMBUSTION_ENGINE)
+            .set(DataComponentTypes.ITEM_MODEL, Material.DROPPER.getKey())
+            .build();
+    static {
+        RebarItem.register(RebarItem.class, INTERNAL_COMBUSTION_ENGINE, PylonKeys.INTERNAL_COMBUSTION_ENGINE);
+        PylonPages.COMPONENTS.addItem(INTERNAL_COMBUSTION_ENGINE);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Tools" defaultstate=collapsed>

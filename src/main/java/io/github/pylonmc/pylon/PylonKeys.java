@@ -194,6 +194,7 @@ public class PylonKeys {
     public static final NamespacedKey STEEL_CYLINDER = pylonKey("steel_cylinder");
     public static final NamespacedKey STEEL_CRANKSHAFT = pylonKey("steel_crankshaft");
     public static final NamespacedKey KINETIC_CONTROL_MECHANISM = pylonKey("kinetic_control_mechanism");
+    public static final NamespacedKey INTERNAL_COMBUSTION_ENGINE = pylonKey("internal_combustion_engine");
 
     public static final NamespacedKey WATER_PUMP = pylonKey("water_pump");
 

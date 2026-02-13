@@ -1932,6 +1932,9 @@ item:
   kinetic_control_mechanism:
     name: "<white>Kinetic Control Mechanism"
 
+  internal_combustion_engine:
+    name: "<white>Internal Combustion Engine"
+
 fluid:
   castable:
     display-text: "<arrow> <gray>Casts into <white>%result%"
@@ -2222,6 +2225,8 @@ gui:
     click_to_cast: "<insn>Click</insn> to cast (%amount%/%needed%)"
   progress_bar:
     text: "%filled_bars%<dark_gray>%empty_bars% <gray>%progress%"
+  discrete_progress_bar:
+    text: "%filled_bars%<dark_gray>%empty_bars% <gray>%stage%/%max_stage%"
   vacuum_hopper:
     blacklist: "<white>Blacklist"
     whitelist: "<white>Whitelist"

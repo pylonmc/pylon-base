@@ -41,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 import xyz.xenondevs.invui.gui.Gui;
+import xyz.xenondevs.invui.inventory.OperationCategory;
 import xyz.xenondevs.invui.inventory.VirtualInventory;
 
 import java.util.HashSet;
@@ -176,6 +177,12 @@ public class AssemblyTable extends RebarBlock implements
         addEntity("progress", new TextDisplayBuilder()
                 .billboard(Display.Billboard.VERTICAL)
                 .backgroundColor(Color.fromARGB(0, 0, 0, 0))
+                .transformation(new TransformBuilder().scale(0.3))
+                .build(getWorkspaceCenter().add(0, 0.8, 0))
+        );
+        addEntity("tool_name", new TextDisplayBuilder()
+                .billboard(Display.Billboard.VERTICAL)
+                .backgroundColor(Color.fromARGB(0, 0, 0, 0))
                 .transformation(new TransformBuilder().scale(0.4))
                 .build(getWorkspaceCenter().add(0, 0.7, 0))
         );
@@ -215,6 +222,8 @@ public class AssemblyTable extends RebarBlock implements
                 checkForNewRecipe();
             }
         });
+        inputInventory.setGuiPriority(OperationCategory.ADD, 1);
+        outputInventory.setGuiPriority(OperationCategory.COLLECT, 1);
     }
 
     @Override
@@ -278,12 +287,15 @@ public class AssemblyTable extends RebarBlock implements
     }
 
     private void updateInfoDisplays() {
+        AssemblingRecipe.Step step = recipe.steps().get(stepIndex);
         getHeldEntityOrThrow(ItemDisplay.class, "tool_item")
-                .setItemStack(recipe.steps().get(stepIndex).icon());
+                .setItemStack(step.icon());
+        getHeldEntityOrThrow(TextDisplay.class, "tool_name")
+                .text(Component.translatable("pylon.gui.assembly_table.tools." + step.tool()));
         getHeldEntityOrThrow(TextDisplay.class, "progress").text(
-                PylonUtils.createProgressBar(
-                        stepIndex / (double) recipe.steps().size(),
-                        20,
+                PylonUtils.createDiscreteProgressBar(
+                        stepIndex,
+                        recipe.steps().size(),
                         TextColor.color(120, 150, 255)
                 )
         );
@@ -315,7 +327,8 @@ public class AssemblyTable extends RebarBlock implements
         } else {
             stepIndex = -1;
             remainingClicks = -1;
-            getHeldEntityOrThrow(TextDisplay.class, "progress").text(
+            getHeldEntityOrThrow(TextDisplay.class, "progress").text(null);
+            getHeldEntityOrThrow(TextDisplay.class, "tool_name").text(
                     Component.translatable("pylon.gui.assembly_table.no_recipe")
             );
             getHeldEntityOrThrow(ItemDisplay.class, "tool_item")
