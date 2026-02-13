@@ -6,11 +6,13 @@ import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.RebarTargetBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.event.api.annotation.MultiHandler;
 import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.papermc.paper.event.block.TargetHitEvent;
 import org.bukkit.GameRules;
 import org.bukkit.block.Block;
+import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
@@ -46,8 +48,8 @@ public class ExplosiveTarget extends RebarBlock implements RebarTargetBlock {
         super(block);
     }
 
-    @Override
-    public void onHit(@NotNull TargetHitEvent event) {
+    @Override @MultiHandler(priorities = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onHit(@NotNull TargetHitEvent event, @NotNull EventPriority priority) {
         Block hitBlock = event.getHitBlock();
         Preconditions.checkState(hitBlock != null);
 
@@ -55,8 +57,6 @@ public class ExplosiveTarget extends RebarBlock implements RebarTargetBlock {
         if (tntExplodes != null && !tntExplodes) {
             return;
         }
-
-        event.setCancelled(true);
 
         if (!hitBlock.getWorld().createExplosion(hitBlock.getLocation(), (float) explosivePower, createsFire)) {
             return;

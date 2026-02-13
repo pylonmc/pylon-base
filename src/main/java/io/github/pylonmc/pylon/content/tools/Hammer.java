@@ -1,11 +1,11 @@
 package io.github.pylonmc.pylon.content.tools;
 
-import com.google.common.base.Preconditions;
 import io.github.pylonmc.pylon.PylonKeys;
 import io.github.pylonmc.pylon.content.machines.smelting.BronzeAnvil;
 import io.github.pylonmc.pylon.recipes.HammerRecipe;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.event.api.annotation.MultiHandler;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
 import io.github.pylonmc.rebar.util.MiningLevel;
@@ -20,6 +20,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
-
 
 public class Hammer extends RebarItem implements RebarBlockInteractor {
     public final Material baseBlock = getBaseBlock(getKey());
@@ -97,17 +97,21 @@ public class Hammer extends RebarItem implements RebarBlockInteractor {
         return false;
     }
 
-    @Override
-    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event) {
-        event.setUseInteractedBlock(Event.Result.DENY);
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
+    public void onUsedToClickBlock(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
+        if (!event.getAction().isRightClick()
+                || event.getHand() != EquipmentSlot.HAND
+                || event.getPlayer().isSneaking()
+                || event.useItemInHand() == Event.Result.DENY) {
+            return;
+        }
 
-        Player player = event.getPlayer();
-        if (player.hasCooldown(getStack())) return;
+        if (priority == EventPriority.NORMAL) {
+            event.setUseInteractedBlock(Event.Result.DENY);
+            return;
+        }
 
-        Block clickedBlock = event.getClickedBlock();
-        Preconditions.checkState(clickedBlock != null);
-
-        tryDoRecipe(clickedBlock, player, event.getHand(), event.getBlockFace());
+        tryDoRecipe(event.getClickedBlock(), event.getPlayer(), event.getHand(), event.getBlockFace());
     }
 
     private static Material getBaseBlock(@NotNull NamespacedKey key) {
