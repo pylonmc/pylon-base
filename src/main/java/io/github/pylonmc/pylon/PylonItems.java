@@ -65,7 +65,7 @@ public final class PylonItems {
                     .sound(SoundEventKeys.INTENTIONALLY_EMPTY)
             )
             .set(DataComponentTypes.USE_COOLDOWN, UseCooldown.useCooldown(
-                            Settings.get(PylonKeys.LOUPE).getOrThrow("cooldown-ticks", ConfigAdapter.INT))
+                            Settings.get(PylonKeys.LOUPE).getOrThrow("cooldown-ticks", ConfigAdapter.INT) / 20.0F)
                     .cooldownGroup(PylonKeys.LOUPE)
             )
             .build();
