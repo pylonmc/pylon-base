@@ -11,6 +11,7 @@ import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.entity.display.ItemDisplayBuilder;
 import io.github.pylonmc.rebar.entity.display.transform.TransformBuilder;
+import io.github.pylonmc.rebar.event.api.annotation.MultiHandler;
 import io.github.pylonmc.rebar.fluid.FluidPointType;
 import io.github.pylonmc.rebar.fluid.RebarFluid;
 import io.github.pylonmc.rebar.i18n.RebarArgument;
@@ -26,6 +27,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -84,9 +86,18 @@ public class HydraulicRefuelingStation extends RebarBlock implements
         );
     }
 
-    @Override
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR }, ignoreCancelled = true)
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
-        if (event.getHand() != EquipmentSlot.HAND || !event.getAction().isRightClick()) {
+        if (event.getHand() != EquipmentSlot.HAND
+                || !event.getAction().isRightClick()
+                || event.getPlayer().isSneaking()
+                || event.useInteractedBlock() == Event.Result.DENY
+        ) {
+            return;
+        }
+
+        if (priority == EventPriority.NORMAL) {
+            event.setUseInteractedBlock(Event.Result.DENY);
             return;
         }
 

@@ -116,7 +116,7 @@ public final class Crucible extends RebarBlock implements
         return true;
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         // Don't allow fluid to be manually inserted/removed
         if (event.useInteractedBlock() == Event.Result.DENY || PylonUtils.handleFluidTankRightClick(this, event, priority)) {
@@ -140,7 +140,7 @@ public final class Crucible extends RebarBlock implements
             return;
         }
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             return;
         }

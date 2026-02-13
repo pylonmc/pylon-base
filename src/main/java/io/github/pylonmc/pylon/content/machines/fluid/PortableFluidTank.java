@@ -160,7 +160,7 @@ public class PortableFluidTank extends RebarBlock implements FluidTankWithDispla
         return stack;
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR }, ignoreCancelled = true)
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR }, ignoreCancelled = true)
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         PylonUtils.handleFluidTankRightClick(this, event, priority);
     }

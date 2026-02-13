@@ -30,7 +30,7 @@ public class ManualCoreDrillLever extends RebarBlock implements RebarInteractBlo
         super(block, pdc);
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (!event.getAction().isRightClick() || event.getPlayer().isSneaking() || event.useInteractedBlock() == Event.Result.DENY) {
             return;
@@ -48,7 +48,7 @@ public class ManualCoreDrillLever extends RebarBlock implements RebarInteractBlo
             return;
         }
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             if (blockData.isPowered()) {
                 event.setUseInteractedBlock(Event.Result.DENY);

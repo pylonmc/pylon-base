@@ -119,11 +119,11 @@ public final class PitKiln extends RebarBlock implements
         removeWailas();
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.useInteractedBlock() == Event.Result.DENY || !event.getHand().isHand()) return;
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             return;
         }

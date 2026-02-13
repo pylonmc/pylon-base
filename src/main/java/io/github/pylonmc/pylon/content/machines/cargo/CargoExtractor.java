@@ -198,7 +198,7 @@ public class CargoExtractor extends CargoInteractor implements
         }
     }
 
-    @Override
+    @Override @MultiHandler(priorities = EventPriority.MONITOR)
     public void onDuctDisconnected(@NotNull RebarCargoDisconnectEvent event, @NotNull EventPriority priority) {
         // Allow connecting to all faces now that there are zero connections
         List<BlockFace> faces = RebarUtils.perpendicularImmediateFaces(getFacing());

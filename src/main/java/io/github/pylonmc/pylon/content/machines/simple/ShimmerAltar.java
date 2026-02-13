@@ -85,7 +85,7 @@ public class ShimmerAltar extends RebarBlock
         return map;
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (event.getPlayer().isSneaking()
                 || event.getHand() != EquipmentSlot.HAND
@@ -95,7 +95,7 @@ public class ShimmerAltar extends RebarBlock
             return;
         }
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             return;
         }

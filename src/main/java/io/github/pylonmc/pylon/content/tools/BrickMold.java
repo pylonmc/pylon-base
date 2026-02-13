@@ -4,11 +4,13 @@ import com.destroystokyo.paper.ParticleBuilder;
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.context.BlockBreakContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
+import io.github.pylonmc.rebar.event.api.annotation.MultiHandler;
 import io.github.pylonmc.rebar.i18n.RebarArgument;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.base.RebarBlockInteractor;
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat;
 import org.bukkit.Particle;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,13 +28,17 @@ public class BrickMold extends RebarItem implements RebarBlockInteractor {
         super(stack);
     }
 
-    @Override
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onUsedToClickBlock(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
-        if (event.getClickedBlock() == null || !event.getAction().isRightClick()) {
+        if (!event.getAction().isRightClick()
+                || event.useItemInHand() == Event.Result.DENY
+                || event.getPlayer().isSneaking()
+                || !(BlockStorage.get(event.getClickedBlock()) instanceof Moldable moldable)) {
             return;
         }
 
-        if (!(BlockStorage.get(event.getClickedBlock()) instanceof Moldable moldable)) {
+        if (priority == EventPriority.NORMAL) {
+            event.setUseInteractedBlock(Event.Result.DENY);
             return;
         }
 
@@ -49,11 +55,6 @@ public class BrickMold extends RebarItem implements RebarBlockInteractor {
             BlockStorage.breakBlock(event.getClickedBlock(), new BlockBreakContext.PluginBreak(event.getClickedBlock(), false));
             event.getClickedBlock().getWorld().dropItemNaturally(event.getClickedBlock().getLocation(), moldable.moldingResult());
         }
-    }
-
-    @Override
-    public boolean respectCooldown() {
-        return true;
     }
 
     @Override

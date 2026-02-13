@@ -108,14 +108,14 @@ public class Press extends RebarBlock implements
         ));
     }
 
-    @Override  @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override  @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (!event.getAction().isRightClick() || event.getHand() != EquipmentSlot.HAND || event.getPlayer().isSneaking()
                 || event.useInteractedBlock() == Event.Result.DENY) {
             return;
         }
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             return;
         }

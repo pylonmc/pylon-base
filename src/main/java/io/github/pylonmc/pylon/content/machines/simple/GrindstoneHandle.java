@@ -29,7 +29,7 @@ public class GrindstoneHandle extends RebarBlock implements RebarInteractBlock {
         super(block);
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (event.getPlayer().isSneaking()
                 || event.getHand() != EquipmentSlot.HAND
@@ -39,7 +39,7 @@ public class GrindstoneHandle extends RebarBlock implements RebarInteractBlock {
             return;
         }
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             return;
         }

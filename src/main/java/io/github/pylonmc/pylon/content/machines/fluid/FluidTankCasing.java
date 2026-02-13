@@ -78,7 +78,7 @@ public class FluidTankCasing extends RebarBlock implements RebarInteractBlock {
         return properties;
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (event.useInteractedBlock() != Event.Result.DENY && tank != null) {
             PylonUtils.handleFluidTankRightClick(tank, event, priority);

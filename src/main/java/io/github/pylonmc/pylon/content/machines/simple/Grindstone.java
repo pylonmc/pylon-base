@@ -95,7 +95,7 @@ public class Grindstone extends RebarBlock implements
         return Map.of(new Vector3i(0, 1, 0), new RebarMultiblockComponent(PylonKeys.GRINDSTONE_HANDLE));
     }
 
-    @Override @MultiHandler(priorities = { EventPriority.HIGHEST, EventPriority.MONITOR })
+    @Override @MultiHandler(priorities = { EventPriority.NORMAL, EventPriority.MONITOR })
     public void onInteract(@NotNull PlayerInteractEvent event, @NotNull EventPriority priority) {
         if (event.getPlayer().isSneaking()
                 || event.getHand() != EquipmentSlot.HAND
@@ -105,7 +105,7 @@ public class Grindstone extends RebarBlock implements
             return;
         }
 
-        if (priority == EventPriority.HIGHEST) {
+        if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY);
             return;
         }

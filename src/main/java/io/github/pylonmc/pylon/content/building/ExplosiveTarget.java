@@ -48,7 +48,7 @@ public class ExplosiveTarget extends RebarBlock implements RebarTargetBlock {
         super(block);
     }
 
-    @Override @MultiHandler(priorities = EventPriority.HIGHEST, ignoreCancelled = true)
+    @Override @MultiHandler(priorities = EventPriority.MONITOR, ignoreCancelled = true)
     public void onHit(@NotNull TargetHitEvent event, @NotNull EventPriority priority) {
         Block hitBlock = event.getHitBlock();
         Preconditions.checkState(hitBlock != null);
@@ -57,8 +57,6 @@ public class ExplosiveTarget extends RebarBlock implements RebarTargetBlock {
         if (tntExplodes != null && !tntExplodes) {
             return;
         }
-
-        event.setCancelled(true);
 
         if (!hitBlock.getWorld().createExplosion(hitBlock.getLocation(), (float) explosivePower, createsFire)) {
             return;

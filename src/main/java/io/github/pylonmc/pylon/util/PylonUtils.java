@@ -224,7 +224,7 @@ public class PylonUtils {
 
         // Inserting water
         if (type == Material.WATER_BUCKET && tank.canAddFluid(PylonFluids.WATER, 1000.0)) {
-            if (priority == EventPriority.HIGHEST) {
+            if (priority == EventPriority.NORMAL) {
                 event.setUseItemInHand(Event.Result.DENY);
             } else {
                 tank.setFluidType(PylonFluids.WATER);
@@ -240,7 +240,7 @@ public class PylonUtils {
                 && tank.canAddFluid(PylonFluids.WATER, 333.333)
 
         ) {
-            if (priority == EventPriority.HIGHEST) {
+            if (priority == EventPriority.NORMAL) {
                 event.setUseItemInHand(Event.Result.DENY);
             } else {
                 tank.setFluidType(PylonFluids.WATER);
@@ -252,7 +252,7 @@ public class PylonUtils {
 
         // Inserting lava
         if (type == Material.LAVA_BUCKET && tank.canAddFluid(PylonFluids.LAVA, 1000.0)) {
-            if (priority == EventPriority.HIGHEST) {
+            if (priority == EventPriority.NORMAL) {
                 event.setUseItemInHand(Event.Result.DENY);
             } else if (tank.canAddFluid(PylonFluids.LAVA, 1000.0)) {
                 tank.setFluidType(PylonFluids.LAVA);
@@ -262,7 +262,7 @@ public class PylonUtils {
         }
 
         if (type == Material.BUCKET && tank.getFluidAmount() >= 1000.0 && (tank.getFluidType() == PylonFluids.WATER || tank.getFluidType() == PylonFluids.LAVA)) {
-            if (priority == EventPriority.HIGHEST) {
+            if (priority == EventPriority.NORMAL) {
                 event.setUseItemInHand(Event.Result.DENY);
             } else {
                 tank.removeFluid(1000.0);
@@ -272,7 +272,7 @@ public class PylonUtils {
         }
 
         if (item.getType() == Material.GLASS_BOTTLE && tank.getFluidAmount() >= 333.333 && PylonFluids.WATER.equals(tank.getFluidType())) {
-            if (priority == EventPriority.HIGHEST) {
+            if (priority == EventPriority.NORMAL) {
                 event.setUseItemInHand(Event.Result.DENY);
             } else {
                 tank.setFluid(Math.max(0.0, tank.getFluidAmount() - 333.333));
