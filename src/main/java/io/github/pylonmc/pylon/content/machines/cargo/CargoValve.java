@@ -50,7 +50,7 @@ public class CargoValve extends RebarBlock implements
 
     public static final NamespacedKey ENABLED_KEY = pylonKey("enabled");
 
-    public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
+    public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INTEGER);
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
@@ -67,7 +67,7 @@ public class CargoValve extends RebarBlock implements
 
     public static class Item extends RebarItem {
 
-        public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
+        public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INTEGER);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);

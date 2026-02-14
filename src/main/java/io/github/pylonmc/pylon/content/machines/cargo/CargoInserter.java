@@ -2,7 +2,7 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.rebar.block.BlockStorage;
 import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
-import io.github.pylonmc.rebar.block.base.RebarCulledBlock;
+import io.github.pylonmc.rebar.block.base.RebarEntityCulledBlock;
 import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter;
@@ -36,10 +36,10 @@ import java.util.UUID;
 public class CargoInserter extends CargoInteractor implements
         RebarCargoBlock,
         RebarGuiBlock,
-        RebarCulledBlock
+        RebarEntityCulledBlock
 {
 
-    public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
+    public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INTEGER);
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
@@ -50,7 +50,7 @@ public class CargoInserter extends CargoInteractor implements
 
     public static class Item extends RebarItem {
 
-        public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
+        public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INTEGER);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);

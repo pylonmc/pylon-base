@@ -2,8 +2,8 @@ package io.github.pylonmc.pylon.content.machines.cargo;
 
 import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.block.base.RebarCargoBlock;
-import io.github.pylonmc.rebar.block.base.RebarCulledBlock;
 import io.github.pylonmc.rebar.block.base.RebarDirectionalBlock;
+import io.github.pylonmc.rebar.block.base.RebarEntityCulledBlock;
 import io.github.pylonmc.rebar.block.base.RebarGuiBlock;
 import io.github.pylonmc.rebar.block.base.RebarVirtualInventoryBlock;
 import io.github.pylonmc.rebar.block.context.BlockCreateContext;
@@ -35,12 +35,12 @@ public class CargoBuffer extends RebarBlock implements
         RebarGuiBlock,
         RebarVirtualInventoryBlock,
         RebarCargoBlock,
-        RebarCulledBlock
+        RebarEntityCulledBlock
 {
 
     private final VirtualInventory inventory = new VirtualInventory(1);
 
-    public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
+    public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INTEGER);
 
     public final ItemStackBuilder mainStack = ItemStackBuilder.of(Material.LIGHT_GRAY_CONCRETE)
             .addCustomModelDataString(getKey() + ":main");
@@ -55,7 +55,7 @@ public class CargoBuffer extends RebarBlock implements
 
     public static class Item extends RebarItem {
 
-        public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INT);
+        public final int transferRate = getSettings().getOrThrow("transfer-rate", ConfigAdapter.INTEGER);
 
         public Item(@NotNull ItemStack stack) {
             super(stack);
