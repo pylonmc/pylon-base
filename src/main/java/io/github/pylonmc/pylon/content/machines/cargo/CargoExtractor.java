@@ -145,7 +145,7 @@ public class CargoExtractor extends CargoInteractor implements
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
                         .translate(0, 0, -0.3)
-                        .scale(0.4, 0.4, 0.05)
+                        .scale(0.45, 0.45, 0.05)
                 )
                 .build(block.getLocation().toCenterLocation())
         );
@@ -179,6 +179,7 @@ public class CargoExtractor extends CargoInteractor implements
 
     @Override
     public void postInitialise() {
+        setDisableBlockTextureEntity(true);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
 
         filterInventory.addPostUpdateHandler(event -> {
@@ -189,8 +190,6 @@ public class CargoExtractor extends CargoInteractor implements
                 }
             }
         });
-
-        setDisableBlockTextureEntity(true);
     }
 
     @Override

@@ -94,7 +94,7 @@ public class CargoInserter extends CargoInteractor implements
                 .transformation(new TransformBuilder()
                         .lookAlong(getFacing())
                         .translate(0, 0, -0.3)
-                        .scale(0.4, 0.4, 0.05)
+                        .scale(0.45, 0.45, 0.05)
                 )
                 .build(block.getLocation().toCenterLocation())
         );

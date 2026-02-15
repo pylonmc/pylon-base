@@ -46,7 +46,7 @@ public class FluidValve extends RebarBlock
 
     public static final NamespacedKey ENABLED_KEY = pylonKey("enabled");
 
-    private boolean enabled;
+    private boolean open;
 
     public final double buffer = getSettings().getOrThrow("buffer", ConfigAdapter.DOUBLE);
 
@@ -66,10 +66,10 @@ public class FluidValve extends RebarBlock
         }
     }
 
-    public final ItemStackBuilder stackOff = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
-            .addCustomModelDataString(getKey() + ":stack_off");
-    public final ItemStackBuilder stackOn = ItemStackBuilder.of(Material.WHITE_CONCRETE)
-            .addCustomModelDataString(getKey() + ":stack_on");
+    public final ItemStackBuilder closedStack = ItemStackBuilder.of(Material.CYAN_TERRACOTTA)
+            .addCustomModelDataString(getKey() + ":closed");
+    public final ItemStackBuilder openStack = ItemStackBuilder.of(Material.WHITE_CONCRETE)
+            .addCustomModelDataString(getKey() + ":open");
 
     @SuppressWarnings("unused")
     public FluidValve(@NotNull Block block, @NotNull BlockCreateContext context) {
@@ -80,7 +80,7 @@ public class FluidValve extends RebarBlock
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
         addEntity("main", new ItemDisplayBuilder()
-                .itemStack(stackOff)
+                .itemStack(closedStack)
                 .transformation(new TransformBuilder()
                         .lookAlong(RebarUtils.rotateFaceToReference(getFacing(), BlockFace.NORTH).getDirection().toVector3d())
                         .scale(0.2, 0.2, 0.5)
@@ -88,14 +88,14 @@ public class FluidValve extends RebarBlock
                 .build(getBlock().getLocation().toCenterLocation())
         );
 
-        enabled = false;
+        open = false;
     }
 
     @SuppressWarnings({"unused", "DataFlowIssue"})
     public FluidValve(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
 
-        enabled = pdc.get(ENABLED_KEY, RebarSerializers.BOOLEAN);
+        open = pdc.get(ENABLED_KEY, RebarSerializers.BOOLEAN);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class FluidValve extends RebarBlock
 
     @Override
     public void write(@NotNull PersistentDataContainer pdc) {
-        pdc.set(ENABLED_KEY, RebarSerializers.BOOLEAN, enabled);
+        pdc.set(ENABLED_KEY, RebarSerializers.BOOLEAN, open);
     }
 
     @Override
@@ -116,17 +116,17 @@ public class FluidValve extends RebarBlock
 
         event.setUseItemInHand(Event.Result.DENY);
 
-        enabled = !enabled;
+        open = !open;
 
         getHeldEntityOrThrow(ItemDisplay.class, "main")
-                .setItemStack((enabled ? stackOn : stackOff).build());
+                .setItemStack((open ? openStack : closedStack).build());
     }
 
     @Override
     public @Nullable WailaDisplay getWaila(@NotNull Player player) {
         return new WailaDisplay(getDefaultWailaTranslationKey().arguments(
                 RebarArgument.of("status", Component.translatable(
-                        "pylon.message.valve." + (enabled ? "enabled" : "disabled")
+                        "pylon.message.valve." + (open ? "open" : "closed")
                 )),
                 RebarArgument.of("bars", PylonUtils.createFluidAmountBar(
                         getFluidAmount(),
@@ -143,7 +143,7 @@ public class FluidValve extends RebarBlock
 
     @Override
     public double fluidAmountRequested(@NotNull RebarFluid fluid) {
-        if (!enabled) {
+        if (!open) {
             return 0.0;
         }
         return RebarFluidTank.super.fluidAmountRequested(fluid);
@@ -151,7 +151,7 @@ public class FluidValve extends RebarBlock
 
     @Override
     public @NotNull Map<@NotNull RebarFluid, @NotNull Double> getSuppliedFluids() {
-        if (!enabled) {
+        if (!open) {
             return Map.of();
         }
         return RebarFluidTank.super.getSuppliedFluids();

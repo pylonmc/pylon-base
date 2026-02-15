@@ -81,7 +81,6 @@ public class FluidLimiter extends RebarBlock implements RebarDirectionalBlock, R
 
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
-        setDisableBlockTextureEntity(true);
 
         maxFlowRate = minAmount;
     }
@@ -89,7 +88,10 @@ public class FluidLimiter extends RebarBlock implements RebarDirectionalBlock, R
     @SuppressWarnings("unused")
     public FluidLimiter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block);
+    }
 
+    @Override
+    public void postInitialise() {
         setDisableBlockTextureEntity(true);
     }
 

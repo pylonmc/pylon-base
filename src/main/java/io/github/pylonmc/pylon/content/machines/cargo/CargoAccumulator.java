@@ -182,6 +182,7 @@ public class CargoAccumulator extends RebarBlock implements
 
     @Override
     public void postInitialise() {
+        setDisableBlockTextureEntity(true);
         createLogisticGroup("input", LogisticGroupType.INPUT, inputInventory);
         createLogisticGroup("output", LogisticGroupType.OUTPUT, outputInventory);
         inputInventory.addPostUpdateHandler(event -> {

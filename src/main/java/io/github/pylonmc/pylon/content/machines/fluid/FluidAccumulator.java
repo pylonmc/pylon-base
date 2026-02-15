@@ -110,7 +110,6 @@ public class FluidAccumulator extends RebarBlock implements
 
         createFluidPoint(FluidPointType.INPUT, BlockFace.NORTH, context, false, 0.25F);
         createFluidPoint(FluidPointType.OUTPUT, BlockFace.SOUTH, context, false, 0.25F);
-        setDisableBlockTextureEntity(true);
     }
 
     @SuppressWarnings("unused")
@@ -118,7 +117,10 @@ public class FluidAccumulator extends RebarBlock implements
         super(block);
 
         this.isDischarging = pdc.get(IS_DISCHARGING_KEY, RebarSerializers.BOOLEAN);
+    }
 
+    @Override
+    public void postInitialise() {
         setDisableBlockTextureEntity(true);
     }
 

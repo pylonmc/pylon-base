@@ -200,8 +200,6 @@ public class CargoMeter extends RebarBlock implements
                 .build(block.getLocation().toCenterLocation())
         );
 
-        setDisableBlockTextureEntity(true);
-
         measurements = new ArrayList<>();
         numberOfMeasurements = minNumberOfMeasurements;
     }
@@ -209,8 +207,6 @@ public class CargoMeter extends RebarBlock implements
     @SuppressWarnings("unused")
     public CargoMeter(@NotNull Block block, @NotNull PersistentDataContainer pdc) {
         super(block, pdc);
-
-        setDisableBlockTextureEntity(true);
 
         measurements = new ArrayList<>(pdc.get(MEASUREMENTS_KEY, RebarSerializers.LIST.listTypeFrom(RebarSerializers.INTEGER)));
         numberOfMeasurements = pdc.get(NUMBER_OF_MEASUREMENTS_KEY, RebarSerializers.INTEGER);
@@ -224,6 +220,7 @@ public class CargoMeter extends RebarBlock implements
 
     @Override
     public void postInitialise() {
+        setDisableBlockTextureEntity(true);
         createLogisticGroup("input", LogisticGroupType.INPUT, new VirtualInventoryLogisticSlot(inventory, 0));
         createLogisticGroup("output", LogisticGroupType.OUTPUT, new VirtualInventoryLogisticSlot(inventory, 0));
         inventory.addPostUpdateHandler(event -> {
